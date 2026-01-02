@@ -1,2 +1,52 @@
-# Quiz for SRT-004: Minimum Inversions After One Swap
-# YAML content to be added
+problem_id: SRT_MIN_INVERSIONS_ONE_SWAP_004
+display_id: SRT-004
+slug: min-inversions-one-swap
+questions:
+  - question: When swapping two elements `a[i]` and `a[j]` (where `i < j` and `a[i] > a[j]`), how is the total inversion count affected by elements outside the index range `(i, j)`?
+    difficulty: medium
+    points: 15
+    options:
+      - It is not affected at all.
+      - It changes depending on the values of the swapped elements.
+      - It increases by `j - i`.
+      - It decreases by `2`.
+    correct_answer: 0
+    explanation: Swapping `a[i]` and `a[j]` only changes the relative order of the pair `(a[i], a[j])` itself and their relative order with respect to elements strictly between `i` and `j`. Relationships with elements outside `[i, j]` remain invariant.
+    type: single_choice
+    id: prq_1
+  - question: For a swap of `a[i]` and `a[j]` (`i < j`, `a[i] > a[j]`), if there are `k` elements between indices `i` and `j` that lie numerically strictly between `a[j]` and `a[i]`, what is the total reduction in inversion count?
+    difficulty: hard
+    points: 15
+    options:
+      - "`1 + 2k`"
+      - "`1 + k`"
+      - "`2k`"
+      - "`2 + k`"
+    correct_answer: 0
+    explanation: The swap itself fixes the inversion between `a[i]` and `a[j]` (reduction 1). For each of the `k` intermediate elements `z` such that `a[j] < z < a[i]`, the original inversions `(a[i], z)` and `(z, a[j])` are both removed (reduction 2 for each `z`).
+    type: single_choice
+    id: edq_1
+  - question: Which data structure is most commonly used to efficiently count inversions in `O(N log N)` time?
+    difficulty: medium
+    points: 10
+    options:
+      - Fenwick Tree (Binary Indexed Tree) or Merge Sort.
+      - Hash Table.
+      - Disjoint Set Union (DSU).
+      - Stack.
+    correct_answer: 0
+    explanation: A Fenwick Tree or a Merge Sort modification allows counting elements greater/smaller to the left/right efficiently.
+    type: single_choice
+    id: edq_2
+  - question: The maximum possible number of inversions in an array of size `N=200,000` is approximately `2 * 10^10`. What data type is required to store the answer?
+    difficulty: easy
+    points: 10
+    options:
+      - 64-bit signed integer (long long / long).
+      - 32-bit signed integer (int).
+      - 16-bit signed integer (short).
+      - 32-bit floating point (float).
+    correct_answer: 0
+    explanation: The max inversions is `N*(N-1)/2`. For `2*10^5`, this is `~2*10^10`, which exceeds the range of a 32-bit signed integer (`~2*10^9`).
+    type: single_choice
+    id: edq_3

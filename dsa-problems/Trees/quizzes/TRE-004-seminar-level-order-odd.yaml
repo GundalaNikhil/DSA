@@ -1,0 +1,52 @@
+problem_id: TRE_SEMINAR_LEVEL_ORDER_ODD_004
+display_id: TRE-004
+slug: seminar-level-order-odd
+questions:
+  - question: Which depths are included in the output?
+    difficulty: easy
+    points: 10
+    options:
+      - Even depths only
+      - Odd depths only
+      - All depths
+      - Leaves only
+    correct_answer: 1
+    explanation: Only nodes at odd depths are output.
+    type: single_choice
+    id: prq_1
+  - question: If the tree has no odd-depth nodes, what should be printed?
+    difficulty: easy
+    points: 10
+    options:
+      - "-1"
+      - Nothing
+      - An empty line
+      - "0"
+    correct_answer: 2
+    explanation: The output should be an empty line.
+    type: single_choice
+    id: edq_1
+  - question: For the sample input, what is the output line?
+    difficulty: easy
+    points: 10
+    options:
+      - 10 5 12
+      - 5 12
+      - "7"
+      - 10 12
+    correct_answer: 1
+    explanation: Only depth 1 nodes (5 and 12) are printed.
+    type: single_choice
+    id: edq_2
+  - question: Which traversal naturally processes nodes level by level?
+    difficulty: medium
+    points: 15
+    options:
+      - DFS
+      - BFS
+      - Inorder
+      - Postorder
+    correct_answer: 1
+    explanation: Level order is done with BFS.
+    type: single_choice
+    id: edq_3

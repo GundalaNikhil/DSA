@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRP-006: Dependency Checker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d1117;
+            --primary: #58a6ff;
+            --secondary: #161b22;
+            --accent: #f0883e;
+            --danger: #f85149;
+            --success: #56d364;
+            --text: #c9d1d9;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+        }
+
+        header {
+            background: var(--secondary);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .graph-container {
+            position: relative;
+            width: 600px;
+            height: 350px;
+            background: var(--secondary);
+            border-radius: 10px;
+            border: 1px solid #30363d;
+        }
+
+        .node {
+            position: absolute;
+            width: 60px;
+            height: 40px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid #30363d;
+            background: var(--secondary);
+        }
+
+        .node:hover { border-color: var(--primary); }
+        .node.visiting { background: var(--accent); border-color: var(--accent); color: #000; }
+        .node.visited { background: var(--success); border-color: var(--success); color: #000; }
+        .node.cycle { background: var(--danger); border-color: var(--danger); animation: shake 0.3s infinite; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-3px); }
+            75% { transform: translateX(3px); }
+        }
+
+        .arrow {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .arrow line {
+            stroke: #484f58;
+            stroke-width: 2;
+        }
+
+        .arrow polygon {
+            fill: #484f58;
+        }
+
+        .arrow.cycle line { stroke: var(--danger); stroke-width: 3; }
+        .arrow.cycle polygon { fill: var(--danger); }
+
+        .legend-panel {
+            display: flex;
+            gap: 20px;
+            padding: 10px 20px;
+            background: var(--secondary);
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+        }
+
+        .legend-dot.visiting { background: var(--accent); }
+        .legend-dot.visited { background: var(--success); }
+        .legend-dot.cycle { background: var(--danger); }
+
+        .info-panel {
+            padding: 15px 30px;
+            background: var(--secondary);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .info-label { color: #8b949e; font-size: 0.9rem; }
+        .info-value { font-size: 1.2rem; margin-top: 5px; }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 1px solid #30363d;
+            padding: 10px 25px;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 6px;
+        }
+
+        .btn:hover { background: rgba(88, 166, 255, 0.1); border-color: var(--primary); }
+        .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+            padding: 12px 25px;
+            border-radius: 8px;
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(13, 17, 23, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: var(--secondary); padding: 40px; border: 1px solid #30363d;
+            max-width: 550px; text-align: center; color: var(--text);
+            border-radius: 12px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🔬 Dependency Checker</h1>
+    <div style="color: #8b949e;">GRP-006: DIRECTED CYCLE DETECTION</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div style="color: #8b949e;">Lab pipeline: Check if task dependencies form a cycle (deadlock!)</div>
+
+        <div class="graph-container" id="graphContainer">
+            <svg id="arrowsSvg" style="position:absolute;width:100%;height:100%;"></svg>
+        </div>
+
+        <div class="legend-panel">
+            <div class="legend-item"><div class="legend-dot visiting"></div>Currently Visiting (in stack)</div>
+            <div class="legend-item"><div class="legend-dot visited"></div>Completed</div>
+            <div class="legend-item"><div class="legend-dot cycle"></div>Cycle Found</div>
+        </div>
+
+        <div class="info-panel">
+            <div class="info-label">Detection Progress</div>
+            <div class="info-value" id="progress">Click START to begin</div>
+        </div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" onclick="game.step()">STEP</button>
+            <button class="btn" onclick="game.autoDetect()">AUTO</button>
+            <button class="btn" onclick="game.reset()">RESET</button>
+            <button class="btn" onclick="game.newGraph()">NEW PIPELINE</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔬 DEPENDENCY CHECKER</h2>
+        <div style="text-align:left; font-size:0.95rem; margin:1.5rem 0; line-height:1.7; color:#8b949e;">
+            <p><b>Scenario:</b> Lab experiments have dependencies. Task A must run before Task B. A cycle means DEADLOCK!</p>
+            <p><b>Directed Cycle Detection (DFS):</b></p>
+            <ul style="margin-left: 15px;">
+                <li><b>White (unvisited):</b> Haven't processed yet</li>
+                <li><b>Gray (visiting):</b> Currently in DFS stack</li>
+                <li><b>Black (visited):</b> Fully processed</li>
+                <li>If we reach a Gray node → CYCLE!</li>
+            </ul>
+        </div>
+        <button class="btn" style="background: var(--primary); color: #000;" onclick="game.start()">START CHECK</button>
+    </div>
+</div>
+
+<script>
+const TASK_NAMES = ['Init', 'Load', 'Parse', 'Analyze', 'Compute', 'Store', 'Export', 'Cleanup'];
+
+class Game {
+    constructor() {
+        this.nodes = [];
+        this.edges = [];
+        this.adj = [];
+        this.state = []; // 0 = white, 1 = gray, 2 = black
+        this.stack = [];
+        this.parent = {};
+        this.hasCycle = false;
+        this.cycleNodes = new Set();
+        this.cycleEdge = null;
+        this.complete = false;
+        this.autoInterval = null;
+        
+        this.ui = {
+            container: document.getElementById('graphContainer'),
+            svg: document.getElementById('arrowsSvg'),
+            progress: document.getElementById('progress'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newGraph();
+    }
+
+    newGraph() {
+        const n = Math.floor(Math.random() * 3) + 5;
+        const hasCycle = Math.random() > 0.4;
+        
+        this.nodes = [];
+        this.adj = Array.from({length: n}, () => []);
+        this.edges = [];
+        
+        // Layered layout
+        const layers = 3;
+        const nodesPerLayer = Math.ceil(n / layers);
+        
+        for (let i = 0; i < n; i++) {
+            const layer = Math.floor(i / nodesPerLayer);
+            const posInLayer = i % nodesPerLayer;
+            const layerSize = Math.min(nodesPerLayer, n - layer * nodesPerLayer);
+            
+            this.nodes.push({
+                id: i,
+                x: 100 + layer * 200,
+                y: 80 + posInLayer * (250 / layerSize) + 50,
+                name: TASK_NAMES[i % TASK_NAMES.length]
+            });
+        }
+        
+        // Create DAG structure
+        for (let i = 1; i < n; i++) {
+            const j = Math.floor(Math.random() * i);
+            this.addEdge(j, i);
+        }
+        
+        // Add extra edges (forward)
+        const extra = Math.floor(Math.random() * 2) + 1;
+        for (let k = 0; k < extra; k++) {
+            const i = Math.floor(Math.random() * (n - 1));
+            const j = Math.floor(Math.random() * (n - i - 1)) + i + 1;
+            if (!this.adj[i].includes(j)) {
+                this.addEdge(i, j);
+            }
+        }
+        
+        // Create back edge for cycle
+        if (hasCycle && n >= 3) {
+            const i = Math.floor(Math.random() * (n - 2)) + 2;
+            const j = Math.floor(Math.random() * i);
+            this.addEdge(i, j);
+        }
+        
+        this.reset();
+    }
+
+    addEdge(u, v) {
+        this.edges.push([u, v]);
+        this.adj[u].push(v);
+    }
+
+    reset() {
+        if (this.autoInterval) {
+            clearInterval(this.autoInterval);
+            this.autoInterval = null;
+        }
+        
+        this.state = new Array(this.nodes.length).fill(0);
+        this.stack = [[0, 0]]; // [node, neighbor index]
+        this.state[0] = 1;
+        this.parent = {};
+        this.hasCycle = false;
+        this.cycleNodes = new Set();
+        this.cycleEdge = null;
+        this.complete = false;
+        
+        this.ui.progress.textContent = 'Ready to scan pipeline...';
+        this.ui.status.textContent = '';
+        this.ui.status.style.background = '';
+        this.render();
+    }
+
+    step() {
+        if (this.complete || this.hasCycle) return false;
+        
+        // Find next unvisited if stack empty
+        if (this.stack.length === 0) {
+            for (let i = 0; i < this.nodes.length; i++) {
+                if (this.state[i] === 0) {
+                    this.stack.push([i, 0]);
+                    this.state[i] = 1;
+                    break;
+                }
+            }
+        }
+        
+        if (this.stack.length === 0) {
+            this.complete = true;
+            this.ui.progress.textContent = 'All tasks verified - No cycles!';
+            this.ui.status.innerHTML = '✅ NO CYCLE - Pipeline is valid (DAG)';
+            this.ui.status.style.background = 'rgba(86, 211, 100, 0.15)';
+            this.render();
+            return false;
+        }
+        
+        const [current, idx] = this.stack[this.stack.length - 1];
+        
+        if (idx >= this.adj[current].length) {
+            // Done with this node
+            this.state[current] = 2;
+            this.stack.pop();
+            this.ui.progress.textContent = `Completed task ${current} (${this.nodes[current].name})`;
+            this.render();
+            return true;
+        }
+        
+        const neighbor = this.adj[current][idx];
+        this.stack[this.stack.length - 1][1]++;
+        
+        if (this.state[neighbor] === 1) {
+            // Found cycle! (back edge to gray node)
+            this.hasCycle = true;
+            this.cycleEdge = [current, neighbor];
+            this.cycleNodes.add(current);
+            this.cycleNodes.add(neighbor);
+            
+            // Trace cycle
+            for (let i = this.stack.length - 1; i >= 0; i--) {
+                this.cycleNodes.add(this.stack[i][0]);
+                if (this.stack[i][0] === neighbor) break;
+            }
+            
+            this.ui.progress.textContent = `CYCLE: ${current} → ${neighbor} (back edge to gray)`;
+            this.ui.status.innerHTML = '🔴 CYCLE DETECTED - Deadlock in pipeline!';
+            this.ui.status.style.background = 'rgba(248, 81, 73, 0.15)';
+            this.render();
+            return false;
+        } else if (this.state[neighbor] === 0) {
+            // Visit white node
+            this.state[neighbor] = 1;
+            this.parent[neighbor] = current;
+            this.stack.push([neighbor, 0]);
+            this.ui.progress.textContent = `Visiting task ${neighbor} (${this.nodes[neighbor].name})`;
+        }
+        
+        this.render();
+        return true;
+    }
+
+    autoDetect() {
+        if (this.autoInterval) return;
+        
+        this.autoInterval = setInterval(() => {
+            if (!this.step()) {
+                clearInterval(this.autoInterval);
+                this.autoInterval = null;
+            }
+        }, 400);
+    }
+
+    render() {
+        // Clear nodes (keep SVG)
+        const children = Array.from(this.ui.container.children);
+        children.forEach(child => {
+            if (child !== this.ui.svg) child.remove();
+        });
+        
+        // Draw arrows
+        this.ui.svg.innerHTML = '';
+        
+        for (const [u, v] of this.edges) {
+            const x1 = this.nodes[u].x + 30;
+            const y1 = this.nodes[u].y;
+            const x2 = this.nodes[v].x - 30;
+            const y2 = this.nodes[v].y;
+            
+            const isCycle = this.cycleEdge && this.cycleEdge[0] === u && this.cycleEdge[1] === v;
+            
+            const angle = Math.atan2(y2 - y1, x2 - x1);
+            const arrowLen = 10;
+            const ax = x2 - arrowLen * Math.cos(angle - 0.3);
+            const ay = y2 - arrowLen * Math.sin(angle - 0.3);
+            const bx = x2 - arrowLen * Math.cos(angle + 0.3);
+            const by = y2 - arrowLen * Math.sin(angle + 0.3);
+            
+            const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            g.className.baseVal = 'arrow' + (isCycle ? ' cycle' : '');
+            
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', x1);
+            line.setAttribute('y1', y1);
+            line.setAttribute('x2', x2);
+            line.setAttribute('y2', y2);
+            
+            const poly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+            poly.setAttribute('points', `${x2},${y2} ${ax},${ay} ${bx},${by}`);
+            
+            if (isCycle) {
+                line.style.stroke = '#f85149';
+                poly.style.fill = '#f85149';
+            }
+            
+            g.appendChild(line);
+            g.appendChild(poly);
+            this.ui.svg.appendChild(g);
+        }
+        
+        // Draw nodes
+        for (const node of this.nodes) {
+            const el = document.createElement('div');
+            el.className = 'node';
+            
+            if (this.cycleNodes.has(node.id)) {
+                el.classList.add('cycle');
+            } else if (this.state[node.id] === 1) {
+                el.classList.add('visiting');
+            } else if (this.state[node.id] === 2) {
+                el.classList.add('visited');
+            }
+            
+            el.style.left = (node.x - 30) + 'px';
+            el.style.top = (node.y - 20) + 'px';
+            el.textContent = node.id;
+            el.title = node.name;
+            
+            this.ui.container.appendChild(el);
+        }
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

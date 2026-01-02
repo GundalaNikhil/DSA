@@ -189,6 +189,19 @@ Result: "011" (first missing in lexicographic order)
 3. **Early Termination**:
    - If input size = 2^L, immediately return "" (all slots filled)
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Build binary trie]
+    B --> C[Check if all strings present]
+    C --> D[DFS in lexicographic order]
+    D --> E[Try zero branch first]
+    E --> F[Return missing path when child absent]
+    F --> G[Otherwise try one branch]
+    G --> H[Return first missing string]
+    H --> I[End]
+```
+
 **Time Complexity:** O(n × L + L)
 
 - Building trie: O(n × L) where n = number of strings

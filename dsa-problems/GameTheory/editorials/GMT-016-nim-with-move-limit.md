@@ -51,6 +51,7 @@ Consider a single heap of size `S` with limit `L`.
 - `G(L+2) = mex(G(2), ..., G(L+1)) = mex(2, ..., L, 0) = 1`.
 - The pattern repeats every `L+1`.
 - `G(S) = S % (L + 1)`.
+The limit makes the heap wrap around, so the Grundy value cycles on schedule.
 
 ### Optimal Strategy
 
@@ -62,6 +63,19 @@ Consider a single heap of size `S` with limit `L`.
 
 - **Time:** `O(N)`.
 - **Space:** `O(1)`.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with heaps and limits] --> B[Set xor_sum to 0]
+    B --> C[For each heap]
+    C --> D[Compute grundy as heap mod limit plus one]
+    D --> E[Update xor_sum with grundy]
+    E --> C
+    C --> F{xor_sum is zero?}
+    F -- Yes --> G[Return Second]
+    F -- No --> H[Return First]
+```
 
 ![Algorithm Visualization](../images/GMT-016/algorithm-visualization.png)
 

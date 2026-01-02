@@ -1,2 +1,52 @@
-# Quiz for SRT-007: Search Rotated With Duplicates Parity Count
-# YAML content to be added
+problem_id: SRT_SEARCH_ROTATED_DUPLICATES_PARITY_007
+display_id: SRT-007
+slug: search-rotated-duplicates-parity
+questions:
+  - question: When searching for a pivot (minimum element) or a target value in a rotated sorted array with duplicates, what is the worst-case time complexity?
+    difficulty: medium
+    points: 10
+    options:
+      - "`O(N)`"
+      - "`O(log N)`"
+      - "`O(N log N)`"
+      - "`O(1)`"
+    correct_answer: 0
+    explanation: If the array contains many identical elements (e.g., `[2, 2, 2, 1, 2]`), we cannot decide which half is sorted in `O(1)`, forcing a linear scan in the worst case.
+    type: single_choice
+    id: prq_1
+  - question: Given a contiguous range of indices `[L, R]` (inclusive) where the target value `x` is found, what is the formula to count the number of *even* indices in this range?
+    difficulty: medium
+    points: 15
+    options:
+      - "`floor(R/2) - floor((L-1)/2)`"
+      - "`(R - L) / 2`"
+      - "`floor(R/2) - floor(L/2)`"
+      - "`floor(R/2) + floor((L+1)/2)`"
+    correct_answer: 0
+    explanation: The number of even integers in `[0, K]` is `floor(K/2) + 1`. The count in `[L, R]` is `count([0, R]) - count([0, L-1])`, which simplifies to the given formula (or variations involving +1 depending on definitions).
+    type: single_choice
+    id: edq_1
+  - question: What is a general strategy to search for a range of values in a rotated sorted array?
+    difficulty: easy
+    points: 10
+    options:
+      - Find the pivot (rotation point) to split the array into two sorted subarrays, then perform standard binary search for the first and last occurrences in each subarray.
+      - Sort the array first.
+      - Use a hash map.
+      - Check every even index.
+    correct_answer: 0
+    explanation: Finding the pivot effectively 'unrotates' the problem, allowing the use of standard binary search algorithms on the two resulting monotonic segments.
+    type: single_choice
+    id: edq_2
+  - question: In the context of this problem, finding the 'first' and 'last' occurrence of `x` corresponds to which standard C++ STL functions (or their equivalents)?
+    difficulty: easy
+    points: 10
+    options:
+      - "`lower_bound` and `upper_bound`"
+      - "`find` and `search`"
+      - "`min_element` and `max_element`"
+      - "`sort` and `unique`"
+    correct_answer: 0
+    explanation: "`lower_bound` finds the first position `>= x`, and `upper_bound` finds the first position `> x` (so the last `x` is at `upper_bound - 1`)."
+    type: single_choice
+    id: edq_3

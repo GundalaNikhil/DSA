@@ -73,6 +73,17 @@ Path `(0,0) -> (0,1) -> (1,1) -> (1,2)` counts as a hit at step 2.
 We need "at least once".
 Equivalent to: Walk stops upon hitting `(a,b)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Initialize dp at origin]
+    B --> C[Advance one step in four directions]
+    C --> D[Accumulate probability]
+    D --> E{Reached target}
+    E -- Yes --> F[Absorb at target]
+    E -- No --> C
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Absorbing State:** Treat the target `(a,b)` as absorbing. Once reached, the walk stays there (or we just count it as a success and stop tracking).

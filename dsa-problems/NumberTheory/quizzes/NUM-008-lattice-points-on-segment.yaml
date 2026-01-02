@@ -1,2 +1,52 @@
-# Quiz for NUM-008: Counting Lattice Points On Segment
-# YAML content to be added
+problem_id: NUM_LATTICE_POINTS_ON_SEGMENT_008
+display_id: NUM-008
+slug: lattice-points-on-segment
+questions:
+  - question: How many integer points lie on the segment between (0,0) and (4,4)?
+    difficulty: easy
+    points: 10
+    options:
+      - "5"
+      - "4"
+      - "3"
+      - "2"
+    correct_answer: 0
+    explanation: Points are (0,0), (1,1), (2,2), (3,3), (4,4). Count is 5.
+    type: single_choice
+    id: prq_1
+  - question: "The number of integer points on segment from (x1,y1) to (x2,y2) is given by:"
+    difficulty: medium
+    points: 15
+    options:
+      - GCD(|x1-x2|, |y1-y2|) + 1
+      - GCD(x1, y1) + GCD(x2, y2)
+      - "|x1-x2| + |y1-y2|"
+      - Sqrt(|x1-x2|^2 + |y1-y2|^2)
+    correct_answer: 0
+    explanation: If slope reduces to dy/dx, we step GCD times. (+1 for end point).
+    type: single_choice
+    id: edq_1
+  - question: If two points have no integer points between them (e.g., (0,0) to (2,3)), what is the GCD of their differences?
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "0"
+      - "2"
+      - "3"
+    correct_answer: 0
+    explanation: GCD(2, 3) is 1. Formula gives 1+1=2 points (the endpoints themselves). So 0 points *between*.
+    type: single_choice
+    id: edq_2
+  - question: Which theorem uses boundary lattice points to calculate polygon area?
+    difficulty: easy
+    points: 10
+    options:
+      - Pick's Theorem
+      - Euler's Formula
+      - Shoelace Formula
+      - Heron's Formula
+    correct_answer: 0
+    explanation: Area = Interior + Boundary/2 - 1.
+    type: single_choice
+    id: edq_3

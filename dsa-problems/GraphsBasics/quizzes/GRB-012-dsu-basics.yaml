@@ -1,0 +1,52 @@
+problem_id: GRB_DSU_BASICS_012
+display_id: GRB-012
+slug: dsu-basics
+questions:
+  - question: What is the main benefit of Path Compression?
+    difficulty: easy
+    points: 10
+    options:
+      - Reduces memory usage
+      - Flattens the tree structure, making future finds faster
+      - Eliminates recursion
+      - Sorts the elements
+    correct_answer: 1
+    explanation: Path compression attaches nodes directly to the root, making tree height small.
+    type: single_choice
+    id: prq_1
+  - question: What is the amortized time complexity of DSU operations with path compression and union by rank?
+    difficulty: medium
+    points: 15
+    options:
+      - O(log N)
+      - O(N)
+      - O(alpha(N))
+      - O(1)
+    correct_answer: 2
+    explanation: Alpha(N) is the inverse Ackermann function, which is nearly constant (< 5 for all practical N).
+    type: single_choice
+    id: edq_1
+  - question: Initially, what is the parent of each node in DSU?
+    difficulty: easy
+    points: 10
+    options:
+      - "-1"
+      - "0"
+      - The node itself
+      - "Null"
+    correct_answer: 2
+    explanation: Each node starts in its own set, so parent[i] = i.
+    type: single_choice
+    id: edq_2
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: What is the amortized complexity of DSU operations with path compression and union by rank?
+    options:
+      - O(1)
+      - O(log N)
+      - O(alpha(N))
+      - O(N)
+    correct_answer: 2
+    explanation: Alpha(N) is the inverse Ackermann function, which grows extremely slowly (nearly O(1)).

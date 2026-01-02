@@ -1,0 +1,52 @@
+problem_id: AGR_K_EDGE_DISJOINT_PATHS_013
+display_id: AGR-013
+slug: k-edge-disjoint-paths
+questions:
+  - question: What are K edge-disjoint paths?
+    difficulty: easy
+    points: 10
+    options:
+      - K paths that don't share edges
+      - K paths that don't share vertices
+      - K shortest paths
+      - K paths of equal length
+    correct_answer: 0
+    explanation: "Edge-disjoint paths share no common edges but may share vertices. Example: s→a→t and s→b→t are edge-disjoint (different edges, same vertices a and b)."
+    type: single_choice
+    id: prq_1
+  - question: How is maximum edge-disjoint paths solved?
+    difficulty: easy
+    points: 10
+    options:
+      - Greedy path finding
+      - Max flow where all edges have capacity 1
+      - Dynamic programming
+      - DFS enumeration
+    correct_answer: 1
+    explanation: "Menger's Theorem: max edge-disjoint paths = max flow with unit edge capacities. Run Dinic's Algorithm on the unit-capacity network."
+    type: single_choice
+    id: edq_1
+  - question: For an undirected graph, how should edges be represented in the flow network?
+    difficulty: medium
+    points: 15
+    options:
+      - Single directed edge in both directions
+      - One undirected edge (capacity 2)
+      - Two directed edges with capacity 1 each
+      - Capacity depends on edge weight
+    correct_answer: 2
+    explanation: "Undirected edge u-v becomes two directed edges: u→v (cap 1) and v→u (cap 1). This allows flow in both directions while enforcing 1 edge use."
+    type: single_choice
+    id: edq_2
+  - question: What is Menger's Theorem for edge-disjoint paths?
+    difficulty: medium
+    points: 15
+    options:
+      - Always K paths exist
+      - Max edge-disjoint paths = max flow value (unit capacity network)
+      - Depends on graph density
+      - Applies only to bipartite graphs
+    correct_answer: 1
+    explanation: "Menger: the maximum number of edge-disjoint s-t paths equals the maximum flow from s to t in a unit-capacity network."
+    type: single_choice
+    id: edq_3

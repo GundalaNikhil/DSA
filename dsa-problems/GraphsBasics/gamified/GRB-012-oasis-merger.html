@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRB-012: Oasis Merger</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #2d1b0e; --sand: #d4a574; --oasis: #2e8b57; --water: #4682b4; --text: #f5deb3; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Share Tech Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: #1a0f08; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 4px solid var(--sand); }
+        h1 { margin: 0; font-family: 'Amatic SC', cursive; color: var(--sand); font-size: 2.5rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: rgba(0,0,0,0.3); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--sand); }
+        .instructions b { color: var(--oasis); }
+        .game-container { display: flex; gap: 20px; align-items: flex-start; }
+        .desert-map { position: relative; width: 500px; height: 380px; background: linear-gradient(180deg, #c2956e 0%, #8b6914 100%); border-radius: 15px; border: 4px solid #5c3d2e; overflow: hidden; }
+        .oasis { position: absolute; width: 55px; height: 55px; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; z-index: 10; border: 3px solid var(--oasis); background: radial-gradient(circle, var(--water), var(--oasis)); transition: all 0.2s; font-size: 0.8rem; color: #fff; }
+        .oasis:hover { transform: scale(1.15); }
+        .oasis.selected { box-shadow: 0 0 20px var(--water); transform: scale(1.1); }
+        .oasis .cluster-id { position: absolute; top: -15px; background: var(--sand); color: #000; padding: 1px 6px; border-radius: 10px; font-size: 0.65rem; }
+        .route-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        .route-svg line { stroke: rgba(0,0,0,0.2); stroke-width: 2; stroke-dasharray: 5,5; }
+        .route-svg line.connected { stroke: var(--oasis); stroke-width: 4; stroke-dasharray: none; }
+        .side-panel { width: 200px; display: flex; flex-direction: column; gap: 15px; }
+        .panel-box { background: rgba(0,0,0,0.3); border: 2px solid var(--sand); padding: 15px; border-radius: 10px; }
+        .panel-title { font-family: 'Amatic SC'; font-size: 1.5rem; color: var(--sand); margin-bottom: 10px; text-align: center; }
+        .cluster-list { display: flex; flex-direction: column; gap: 8px; max-height: 150px; overflow-y: auto; }
+        .cluster-item { padding: 8px; background: rgba(46,139,87,0.3); border-radius: 8px; font-size: 0.8rem; border-left: 3px solid var(--oasis); }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { color: var(--sand); font-weight: bold; }
+        .btn { background: var(--oasis); color: #fff; border: none; padding: 12px 25px; font-family: 'Amatic SC'; font-size: 1.3rem; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: var(--water); }
+        .btn.secondary { background: transparent; border: 2px solid var(--sand); color: var(--sand); }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; font-family: 'Amatic SC'; font-size: 1.3rem; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--bg); padding: 30px; border: 3px solid var(--sand); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--sand); font-family: 'Amatic SC'; font-size: 2.5rem; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🏜️ OASIS MERGER</h1>
+    <div style="color:#888">DSU / UNION-FIND</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 UNITE THE OASES:</b> Click two oases to connect them! 
+        Use <b>Union-Find</b> to merge clusters. Query if two oases share water sources!
+    </div>
+    <div class="game-container">
+        <div class="desert-map" id="desert">
+            <svg class="route-svg" id="routeSvg"></svg>
+        </div>
+        <div class="side-panel">
+            <div class="panel-box">
+                <div class="panel-title">CLUSTERS</div>
+                <div class="cluster-list" id="clusterList"></div>
+            </div>
+            <div class="panel-box">
+                <div class="stat-row"><span class="stat-label">Total Oases</span><span class="stat-value" id="totalOases">0</span></div>
+                <div class="stat-row"><span class="stat-label">Clusters</span><span class="stat-value" id="clusterCount">0</span></div>
+                <div class="stat-row"><span class="stat-label">Connections</span><span class="stat-value" id="connCount">0</span></div>
+            </div>
+            <button class="btn" onclick="game.queryMode()">🔍 QUERY MODE</button>
+        </div>
+    </div>
+    <div id="status">Click two oases to connect them!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW DESERT</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🏜️ OASIS MERGER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--oasis)">GOAL:</b> Connect oases across the desert!</p>
+            <ul>
+                <li>Click <b>two oases</b> to connect them</li>
+                <li>Connected oases share water (same cluster)</li>
+                <li>Use <b>QUERY MODE</b> to check if two oases are connected</li>
+                <li>Watch the clusters merge in real-time!</li>
+            </ul>
+            <p style="color:#888">This teaches Union-Find (DSU) - efficient set merging!</p>
+        </div>
+        <button class="btn" onclick="game.start()">EXPLORE DESERT</button>
+    </div>
+</div>
+<script>
+class DSU {
+    constructor(n) { this.parent = Array.from({length:n}, (_,i)=>i); this.rank = new Array(n).fill(0); }
+    find(x) { if(this.parent[x]!==x) this.parent[x]=this.find(this.parent[x]); return this.parent[x]; }
+    union(x,y) { let px=this.find(x), py=this.find(y); if(px===py) return false; if(this.rank[px]<this.rank[py]) [px,py]=[py,px]; this.parent[py]=px; if(this.rank[px]===this.rank[py]) this.rank[px]++; return true; }
+    connected(x,y) { return this.find(x)===this.find(y); }
+    getClusters() { const clusters={}; for(let i=0;i<this.parent.length;i++) { const root=this.find(i); if(!clusters[root]) clusters[root]=[]; clusters[root].push(i); } return clusters; }
+}
+class Game {
+    constructor() {
+        this.nodes=[]; this.edges=[]; this.dsu=null; this.selected=null; this.isQueryMode=false;
+        this.ui = { desert:document.getElementById('desert'), svg:document.getElementById('routeSvg'), clusterList:document.getElementById('clusterList'), totalOases:document.getElementById('totalOases'), clusterCount:document.getElementById('clusterCount'), connCount:document.getElementById('connCount'), status:document.getElementById('status'), modal:document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const n = Math.floor(Math.random()*4)+7;
+        this.nodes=[]; this.edges=[];
+        for(let i=0;i<n;i++) { this.nodes.push({id:i, x:50+Math.random()*400, y:40+Math.random()*300}); }
+        this.reset();
+    }
+    reset() { this.dsu=new DSU(this.nodes.length); this.edges=[]; this.selected=null; this.isQueryMode=false; this.ui.status.textContent='Click two oases to connect them!'; this.render(); }
+    queryMode() { this.isQueryMode=!this.isQueryMode; this.selected=null; this.ui.status.textContent=this.isQueryMode?'🔍 QUERY MODE: Click two oases to check connection':'Click two oases to connect them!'; this.render(); }
+    clickOasis(id) {
+        if(this.selected===null) { this.selected=id; }
+        else if(this.selected===id) { this.selected=null; }
+        else {
+            if(this.isQueryMode) {
+                if(this.dsu.connected(this.selected, id)) { this.ui.status.innerHTML=`✅ Oasis ${this.selected} and ${id} are CONNECTED!`; }
+                else { this.ui.status.innerHTML=`❌ Oasis ${this.selected} and ${id} are NOT connected.`; }
+            } else {
+                if(this.dsu.union(this.selected, id)) { this.edges.push([this.selected, id]); this.ui.status.innerHTML=`🔗 Connected oasis ${this.selected} and ${id}!`; }
+                else { this.ui.status.innerHTML=`Already connected!`; }
+            }
+            this.selected=null;
+        }
+        this.render();
+    }
+    render() {
+        this.ui.desert.querySelectorAll('.oasis').forEach(n=>n.remove());
+        this.ui.svg.innerHTML='';
+        const clusters=this.dsu.getClusters();
+        // Draw routes
+        for(const [u,v] of this.edges) {
+            const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+            line.setAttribute('x1',this.nodes[u].x); line.setAttribute('y1',this.nodes[u].y);
+            line.setAttribute('x2',this.nodes[v].x); line.setAttribute('y2',this.nodes[v].y);
+            line.classList.add('connected');
+            this.ui.svg.appendChild(line);
+        }
+        // Draw oases
+        for(const node of this.nodes) {
+            const el=document.createElement('div');
+            el.className='oasis';
+            if(this.selected===node.id) el.classList.add('selected');
+            el.style.left=(node.x-27)+'px'; el.style.top=(node.y-27)+'px';
+            const clusterId=this.dsu.find(node.id);
+            el.innerHTML=`<div class="cluster-id">C${clusterId}</div>🌴`;
+            el.onclick=()=>this.clickOasis(node.id);
+            this.ui.desert.appendChild(el);
+        }
+        // Update cluster list
+        this.ui.clusterList.innerHTML='';
+        Object.entries(clusters).forEach(([root, members])=>{
+            const item=document.createElement('div');
+            item.className='cluster-item';
+            item.innerHTML=`<b>C${root}:</b> {${members.join(', ')}}`;
+            this.ui.clusterList.appendChild(item);
+        });
+        this.ui.totalOases.textContent=this.nodes.length;
+        this.ui.clusterCount.textContent=Object.keys(clusters).length;
+        this.ui.connCount.textContent=this.edges.length;
+    }
+}
+const game=new Game();
+</script>
+</body>
+</html>

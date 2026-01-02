@@ -40,8 +40,26 @@ You want to find the fastest route to every other location. Unlike the "Six Degr
 
 ## Detailed Explanation
 
-### ASCII Diagram: Concept Visualization
+### Flow Diagram: Concept Visualization
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Initialize dist as infinite]
+    B --> C[Set source distance to zero]
+    C --> D[Push source into min heap]
+    D --> E{Heap has nodes}
+    E -- Yes --> F[Extract node with smallest distance]
+    F --> G{Entry is outdated}
+    G -- Yes --> E
+    G -- No --> H[Check each outgoing edge]
+    H --> I[Compute candidate distance]
+    I --> J{Candidate is less than dist}
+    J -- Yes --> K[Update dist and push to heap]
+    K --> H
+    J -- No --> H
+    E -- No --> L[Return dist array]
+```
 **Graph:**
 ```
       (1)
@@ -68,7 +86,6 @@ You want to find the fastest route to every other location. Unlike the "Six Degr
 6.  **Pop (5, 2):** Old entry for node 2. `5 > 4` (current best). Ignore.
 
 **Result:** `0:0, 1:1, 2:4, 3:3`
-
 ### Algorithm Steps
 
 1.  **Initialization:**
@@ -103,7 +120,7 @@ We could use a simple array to find the minimum distance node at each step inste
 
 ## Optimal Approach (Binary Heap)
 
-Using a Min-Heap allows us to extract the closest node in O(log N) time.
+Using a Min-Heap allows us to extract the closest node in O(log N) time. It is the toll booth that always opens for the cheapest car first.
 
 ### Algorithm
 

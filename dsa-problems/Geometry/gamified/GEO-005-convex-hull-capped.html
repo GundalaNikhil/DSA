@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEO-005: Convex Hull Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #059669 0%, #34d399 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 32px; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #059669; margin-bottom: 12px; }
+        .tutorial p { font-size: 14px; color: #555; line-height: 1.6; }
+
+        .visual-hint {
+            margin-top: 15px;
+            padding: 15px;
+            background: #ecfdf5;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .hint-text { font-size: 13px; color: #047857; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .info-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 18px;
+            background: linear-gradient(90deg, #059669, #34d399);
+            border-radius: 10px;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .canvas-container {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-check { background: #059669; color: #fff; }
+        .btn-reveal { background: #f59e0b; color: #fff; }
+        .btn-reset { background: #64748b; color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .message.correct { background: #d1fae5; color: #059669; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #f0f4f8; color: #666; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🔷 Convex Hull Builder</h1>
+        <div style="opacity:0.9">Click points to build the convex hull!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 What is a Convex Hull?</h2>
+        <p>The convex hull is the smallest convex polygon that contains all points. Imagine stretching a rubber band around all the points - the shape it makes is the convex hull!</p>
+        <div class="visual-hint">
+            <div class="hint-text">💡 Click only the OUTER points that form the hull boundary. Don't click interior points!</div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="info-bar">
+            <span>Points: <strong id="totalPoints">0</strong></span>
+            <span>Selected: <strong id="selectedCount">0</strong></span>
+            <span>Hull Size: <strong id="hullSize">?</strong></span>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvas" width="500" height="400"></canvas>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-check" onclick="checkHull()">✓ Check Hull</button>
+            <button class="btn btn-reveal" onclick="revealHull()">👁 Reveal Answer</button>
+            <button class="btn btn-reset" onclick="newRound()">🔄 New Points</button>
+        </div>
+
+        <div class="message neutral" id="message">Click the points that form the convex hull boundary!</div>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    let points = [];
+    let selected = [];
+    let correctHull = [];
+    let revealed = false;
+
+    function generatePoints() {
+        points = [];
+        selected = [];
+        revealed = false;
+        const numPoints = 10 + Math.floor(Math.random() * 6);
+        const margin = 50;
+
+        for (let i = 0; i < numPoints; i++) {
+            points.push({
+                x: margin + Math.random() * (canvas.width - margin * 2),
+                y: margin + Math.random() * (canvas.height - margin * 2)
+            });
+        }
+
+        correctHull = computeConvexHull(points);
+    }
+
+    function cross(O, A, B) {
+        return (A.x - O.x) * (B.y - O.y) - (A.y - O.y) * (B.x - O.x);
+    }
+
+    function computeConvexHull(pts) {
+        const sorted = pts.slice().sort((a, b) => a.x - b.x || a.y - b.y);
+        const lower = [];
+        for (const p of sorted) {
+            while (lower.length >= 2 && cross(lower[lower.length - 2], lower[lower.length - 1], p) <= 0) {
+                lower.pop();
+            }
+            lower.push(p);
+        }
+        const upper = [];
+        for (let i = sorted.length - 1; i >= 0; i--) {
+            const p = sorted[i];
+            while (upper.length >= 2 && cross(upper[upper.length - 2], upper[upper.length - 1], p) <= 0) {
+                upper.pop();
+            }
+            upper.push(p);
+        }
+        lower.pop();
+        upper.pop();
+        return lower.concat(upper);
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Grid
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 1;
+        for (let x = 0; x < canvas.width; x += 50) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, canvas.height);
+            ctx.stroke();
+        }
+        for (let y = 0; y < canvas.height; y += 50) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+        }
+
+        // Draw selection polygon
+        if (selected.length >= 3) {
+            ctx.beginPath();
+            ctx.moveTo(points[selected[0]].x, points[selected[0]].y);
+            for (let i = 1; i < selected.length; i++) {
+                ctx.lineTo(points[selected[i]].x, points[selected[i]].y);
+            }
+            ctx.closePath();
+            ctx.fillStyle = 'rgba(5, 150, 105, 0.15)';
+            ctx.fill();
+            ctx.strokeStyle = '#059669';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        // Draw revealed hull
+        if (revealed && correctHull.length >= 3) {
+            ctx.beginPath();
+            ctx.moveTo(correctHull[0].x, correctHull[0].y);
+            for (let i = 1; i < correctHull.length; i++) {
+                ctx.lineTo(correctHull[i].x, correctHull[i].y);
+            }
+            ctx.closePath();
+            ctx.strokeStyle = '#f59e0b';
+            ctx.lineWidth = 4;
+            ctx.stroke();
+        }
+
+        // Draw points
+        points.forEach((p, i) => {
+            const isSelected = selected.includes(i);
+            const isOnHull = correctHull.some(hp => hp.x === p.x && hp.y === p.y);
+            
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, isSelected ? 12 : 8, 0, Math.PI * 2);
+            
+            if (revealed) {
+                ctx.fillStyle = isOnHull ? '#f59e0b' : '#94a3b8';
+            } else {
+                ctx.fillStyle = isSelected ? '#059669' : '#64748b';
+            }
+            ctx.fill();
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        });
+
+        updateInfo();
+    }
+
+    function updateInfo() {
+        document.getElementById('totalPoints').textContent = points.length;
+        document.getElementById('selectedCount').textContent = selected.length;
+        document.getElementById('hullSize').textContent = revealed ? correctHull.length : '?';
+    }
+
+    canvas.onclick = function(e) {
+        if (revealed) return;
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        for (let i = 0; i < points.length; i++) {
+            const dx = x - points[i].x;
+            const dy = y - points[i].y;
+            if (dx*dx + dy*dy < 400) {
+                if (selected.includes(i)) {
+                    selected = selected.filter(s => s !== i);
+                } else {
+                    selected.push(i);
+                }
+                break;
+            }
+        }
+        draw();
+    };
+
+    function checkHull() {
+        const msg = document.getElementById('message');
+
+        // Check if selection matches hull
+        const selectedPoints = selected.map(i => points[i]);
+        const hullPoints = correctHull;
+
+        // Check same size and same points (order doesn't matter)
+        if (selectedPoints.length !== hullPoints.length) {
+            msg.className = 'message wrong';
+            msg.textContent = `❌ Wrong number of points! Hull has ${hullPoints.length} points, you selected ${selectedPoints.length}.`;
+            return;
+        }
+
+        const allMatch = selectedPoints.every(sp => 
+            hullPoints.some(hp => Math.abs(hp.x - sp.x) < 1 && Math.abs(hp.y - sp.y) < 1)
+        );
+
+        if (allMatch) {
+            msg.className = 'message correct';
+            msg.textContent = `✅ Perfect! You correctly identified all ${hullPoints.length} hull points!`;
+        } else {
+            msg.className = 'message wrong';
+            msg.textContent = '❌ Some selected points are not on the hull. Try again!';
+        }
+    }
+
+    function revealHull() {
+        revealed = true;
+        draw();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = `The orange boundary shows the correct convex hull with ${correctHull.length} points.`;
+    }
+
+    function newRound() {
+        generatePoints();
+        draw();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Click the points that form the convex hull boundary!';
+    }
+
+    window.onload = newRound;
+</script>
+</body>
+</html>

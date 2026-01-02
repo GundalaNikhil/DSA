@@ -1,2 +1,52 @@
-# Quiz for NUM-002: Coprime Pair Count Up To N
-# YAML content to be added
+problem_id: NUM_COPRIME_PAIR_COUNT_002
+display_id: NUM-002
+slug: coprime-pair-count
+questions:
+  - question: "Two numbers A and B are coprime if their GCD is:"
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "0"
+      - Their product
+      - The smaller of the two
+    correct_answer: 0
+    explanation: Coprime means they share no common factors other than 1.
+    type: single_choice
+    id: prq_1
+  - question: Euler's Totient Function phi(N) counts what?
+    difficulty: medium
+    points: 15
+    options:
+      - Numbers <= N coprime to N
+      - Divisors of N
+      - Prime factors of N
+      - Multiples of N
+    correct_answer: 0
+    explanation: Phi(N) is the count of positive integers less than or equal to n that are relatively prime to n.
+    type: single_choice
+    id: edq_1
+  - question: For a prime number P, what is phi(P)?
+    difficulty: easy
+    points: 10
+    options:
+      - P - 1
+      - P
+      - "1"
+      - P/2
+    correct_answer: 0
+    explanation: Since P is prime, all numbers from 1 to P-1 are coprime to P.
+    type: single_choice
+    id: edq_2
+  - question: "If we need to count coprime pairs (i, j) where 1 <= i, j <= N, we can sum:"
+    difficulty: easy
+    points: 10
+    options:
+      - 2 * (Sum of phi(i) for i=1 to N) - 1
+      - Sum of phi(i) for i=1 to N
+      - N * N
+      - N!
+    correct_answer: 0
+    explanation: This formula accounts for symmetry (a,b) and (b,a) and the unique case (1,1).
+    type: single_choice
+    id: edq_3

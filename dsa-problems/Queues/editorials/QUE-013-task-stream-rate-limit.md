@@ -79,6 +79,17 @@ We can optimize the counting process. We don't need to iterate through the entir
             -   Do not push anything to `Q`.
             -   Output `false`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read next request time] --> B[Remove timestamps outside window]
+B --> C{Queue size below limit}
+C -->|Yes| D[Allow request and enqueue time]
+C -->|No| E[Reject request]
+D --> F[Output decision]
+E --> F
+```
+
 -   **Visual Execution**:
     `t = 4`, `k = 1`
     Requests: `[2, 4, 6, 9]`

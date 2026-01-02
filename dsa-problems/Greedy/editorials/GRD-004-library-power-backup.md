@@ -42,7 +42,21 @@ Switching canisters requires a brief manual intervention or "swap." To minimize 
 
 ## Detailed Explanation
 
-### ASCII Diagram: Stacking Capacities
+### Flow Diagram: Stacking Capacities
+
+Start with the biggest battery so you swap less often and sleep more.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Sum all capacities]
+    B --> C{Total capacity at least target}
+    C -- No --> D[Return minus one]
+    C -- Yes --> E[Sort capacities in descending order]
+    E --> F[Take batteries until target reached]
+    F --> G[Count batteries used]
+    G --> H[Return swaps as count minus one]
+```
 
 Target `T = 10`
 

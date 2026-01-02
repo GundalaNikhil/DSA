@@ -1,2 +1,52 @@
-# Quiz for MTH-012: Convolution Under Multiple Mods with CRT
-# YAML content to be added
+problem_id: MTH_CONVOLUTION_MULTI_MOD_CRT_012
+display_id: MTH-012
+slug: convolution-multi-mod-crt
+questions:
+  - question: Why is CRT used in this problem?
+    difficulty: easy
+    points: 10
+    options:
+      - To avoid padding
+      - Because MOD may not be NTT-friendly
+      - To reduce output length
+      - Because inputs are negative
+    correct_answer: 1
+    explanation: CRT combines results from NTT-friendly primes to match an arbitrary MOD.
+    type: single_choice
+    id: prq_1
+  - question: For A=[1,2], B=[3,4], what is the convolution output mod 1e9+7?
+    difficulty: easy
+    points: 10
+    options:
+      - 3 10 8
+      - 3 8 10
+      - 4 11 8
+      - 1 2 3
+    correct_answer: 0
+    explanation: The standard convolution is [3,10,8].
+    type: single_choice
+    id: edq_1
+  - question: How many NTT-friendly primes are typically used?
+    difficulty: medium
+    points: 15
+    options:
+      - "1"
+      - 2-3
+      - 5-6
+      - "10"
+    correct_answer: 1
+    explanation: Using 2-3 primes is common to cover 64-bit ranges safely.
+    type: single_choice
+    id: edq_2
+  - question: What is the output length of the convolution?
+    difficulty: medium
+    points: 15
+    options:
+      - n + m - 1
+      - max(n, m)
+      - n * m
+      - next power of two
+    correct_answer: 0
+    explanation: Convolution of lengths n and m has length n+m-1.
+    type: single_choice
+    id: edq_3

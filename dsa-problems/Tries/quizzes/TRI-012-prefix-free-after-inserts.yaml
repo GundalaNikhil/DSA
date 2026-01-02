@@ -1,0 +1,52 @@
+problem_id: TRI_PREFIX_FREE_AFTER_INSERTS_012
+display_id: TRI-012
+slug: prefix-free-after-inserts
+questions:
+  - question: "A set of strings is 'Prefix-Free' if:"
+    difficulty: easy
+    points: 10
+    options:
+      - No string is a prefix of another string in the set
+      - All strings have different prefixes
+      - No string starts with a vowel
+      - All strings are unique
+    correct_answer: 0
+    explanation: "Example: {911, 91123} is NOT prefix-free because 911 is a prefix of 91123."
+    type: single_choice
+    id: prq_1
+  - question: "When inserting a new number 'S' into the Trie, two conditions cause a failure:"
+    difficulty: medium
+    points: 15
+    options:
+      - We pass through an existing 'isEnd' node (Existing is prefix of New) OR We end at a node that already has children (New is prefix of Existing)
+      - We find the exact same number
+      - The Trie is full
+      - We pass through the root
+    correct_answer: 0
+    explanation: "Case 1: '911' exists, inserting '91125'. Case 2: '91125' exists, inserting '911'."
+    type: single_choice
+    id: edq_1
+  - question: Why is the Trie optimal here compared to comparing with all existing strings?
+    difficulty: easy
+    points: 10
+    options:
+      - Insertion is O(L) vs O(N*L) comparison
+      - Trie uses less memory
+      - Comparison is impossible
+      - It sorts the strings
+    correct_answer: 0
+    explanation: We only traverse the length of the new string, checking conflicts along the path.
+    type: single_choice
+    id: edq_2
+  - question: "This problem is commonly associated with:"
+    difficulty: easy
+    points: 10
+    options:
+      - Phone number routing / Emergency codes
+      - Spelling bees
+      - DNA sequencing
+      - Cryptography
+    correct_answer: 0
+    explanation: Phone systems must know immediately when a dialed number is complete and valid.
+    type: single_choice
+    id: edq_3

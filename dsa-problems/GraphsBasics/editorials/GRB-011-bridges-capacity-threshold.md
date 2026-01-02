@@ -44,31 +44,26 @@ Imagine a logistics network where trucks deliver goods between warehouses.
 
 ## Detailed Explanation
 
-### ASCII Diagram: Concept Visualization
+### Flow Diagram: Concept Visualization
 
-**Graph:**
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Initialize disc and low arrays]
+    B --> C[Run DFS from each unvisited node]
+    C --> D[Visit edge to neighbor]
+    D --> E{Neighbor unvisited}
+    E -- Yes --> F[DFS to neighbor and update low]
+    F --> G{Child low greater than disc}
+    G -- Yes --> H{Capacity below threshold}
+    H -- Yes --> I[Record edge as critical]
+    H -- No --> D
+    G -- No --> D
+    E -- No --> J[Update low with neighbor disc]
+    J --> D
+    C --> K[Sort recorded edges by input order]
+    K --> L[Return critical edges]
 ```
-      (5)
-  0 ------- 1
-  | \       |
-  |  \ (2)  | (5)
-  |   \     |
- (5)   \    |
-  |     \   |
-  3 ------- 2
-      (1)
-```
-**Threshold T = 3**
-
-**Bridges:**
--   Edges in cycle `0-1-2-0` are NOT bridges.
--   Edge `(2,3)` connects the cycle to node 3. It IS a bridge.
-
-**Capacities:**
--   Edges `(0,1), (0,2), (1,2), (0,3)` have capacities >= 3. Not critical.
--   Edge `(2,3)` has capacity 1. `1 < 3`.
-
-**Result:** Edge `(2,3)` is critical.
 
 ### Algorithm Steps
 
@@ -105,7 +100,7 @@ For every edge:
 
 ## Optimal Approach (Tarjan's Bridge Algorithm)
 
-We find all bridges in a single DFS pass.
+We find all bridges in a single DFS pass. It is the weak link detector that flags the brittle crossings.
 
 ### Algorithm Details
 

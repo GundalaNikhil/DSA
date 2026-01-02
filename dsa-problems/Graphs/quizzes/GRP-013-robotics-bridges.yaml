@@ -1,0 +1,52 @@
+problem_id: GRP_ROBOTICS_BRIDGES_013
+display_id: GRP-013
+slug: robotics-bridges
+questions:
+  - question: What is a bridge in an undirected graph?
+    difficulty: easy
+    points: 10
+    options:
+      - An edge whose removal increases connected components
+      - A node connected to all others
+      - A cycle of length 2
+      - An edge inside a triangle
+    correct_answer: 0
+    explanation: Removing a bridge disconnects the graph or a component.
+    type: single_choice
+    id: prq_1
+  - question: In Tarjan's algorithm, when is an edge (u, v) a bridge (v is a DFS child of u)?
+    difficulty: medium
+    points: 15
+    options:
+      - low[v] >= disc[u]
+      - low[v] > disc[u]
+      - low[v] == disc[v]
+      - low[v] <= disc[u]
+    correct_answer: 1
+    explanation: The strict inequality low[v] > disc[u] indicates no back edge from v's subtree.
+    type: single_choice
+    id: edq_1
+  - question: How many bridges exist in a simple cycle graph?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - "1"
+      - "2"
+      - All edges
+    correct_answer: 0
+    explanation: Every edge is part of a cycle, so none are bridges.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of finding bridges with Tarjan's algorithm?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n + m)
+      - O(m log n)
+      - O(n^2)
+    correct_answer: 1
+    explanation: DFS visits each node and edge once.
+    type: single_choice
+    id: edq_3

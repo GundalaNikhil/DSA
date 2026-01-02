@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STK-014: Timeline Validator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #2d3436;
+            --time: #636e72;
+            --valid: #00cec9;
+            --invalid: #d63031;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--bg);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+
+        h1 { margin-top: 2rem; }
+
+        .timeline-container {
+            width: 800px;
+            margin-top: 3rem;
+            position: relative;
+        }
+
+        .track {
+            height: 60px;
+            background: rgba(255,255,255,0.05);
+            margin-bottom: 20px;
+            position: relative;
+            border-radius: 5px;
+        }
+
+        .time-block {
+            position: absolute;
+            height: 40px;
+            top: 10px;
+            background: var(--valid);
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.2);
+            transition: background 0.2s;
+        }
+        
+        .time-block:hover { brightness: 1.1; }
+        .time-block.conflict { background: var(--invalid); animation: shake 0.5s; }
+
+        @keyframes shake { 0%, 100% {transform:translateX(0);} 25% {transform:translateX(-2px);} 75% {transform:translateX(2px);} }
+
+        .time-axis {
+            display: flex;
+            justify-content: space-between;
+            color: #b2bec3;
+            font-size: 0.8rem;
+            padding: 0 10px;
+        }
+    </style>
+</head>
+<body>
+
+<h1>TIMELINE VALIDATOR</h1>
+<div style="color:#b2bec3">Check schedules. If overlap > 1 (Problem constraints vary, simplified here to overlap detection).</div>
+
+<div class="timeline-container" id="container">
+    <div class="time-axis">
+        <span>00:00</span><span>06:00</span><span>12:00</span><span>18:00</span><span>24:00</span>
+    </div>
+    <!-- Tracks injected -->
+</div>
+
+<div class="controls" style="text-align:center; margin-top:20px">
+    <div id="status">System Status: OK</div>
+    <button onclick="init()" style="margin-top:10px; padding:10px 20px; cursor:pointer">New Schedule</button>
+</div>
+
+<script>
+    // Bus schedule validation.
+    // Display multiple tracks (busses).
+    // Identify conflicts.
+    
+    const BUSSES = 3;
+    let schedules = [];
+
+    function init() {
+        const c = document.getElementById('container');
+        // Clear old tracks (keep axis)
+        const old = c.querySelectorAll('.track');
+        old.forEach(e => e.remove());
+        
+        schedules = [];
+        
+        for(let i=0; i<BUSSES; i++) {
+            const track = document.createElement('div');
+            track.className = 'track';
+            
+            // Generate segments
+            let t = 0;
+            while(t < 24) {
+                 const start = t + Math.random()*2;
+                 const dur = 1 + Math.random()*3;
+                 if (start + dur > 24) break;
+                 
+                 const seg = {
+                     s: start,
+                     e: start + dur,
+                     bus: i,
+                     el: null
+                 };
+                 
+                 const block = document.createElement('div');
+                 block.className = 'time-block';
+                 // Map 0-24 to 0-100%
+                 block.style.left = (start / 24 * 100) + '%';
+                 block.style.width = (dur / 24 * 100) + '%';
+                 block.textContent = `BUS ${i+1}`;
+                 
+                 // Interactive: Click to toggle "Validated"
+                 block.onclick = () => { block.style.opacity = '0.5'; };
+                 
+                 track.appendChild(block);
+                 seg.el = block;
+                 schedules.push(seg);
+                 
+                 t = start + dur + 1; // gap
+            }
+            c.appendChild(track);
+        }
+        
+        checkConflicts();
+    }
+
+    function checkConflicts() {
+        // Simple O(N^2) check for visualization
+        // In real problem, use Sort + Sweep Line.
+        
+        let conflict = false;
+        
+        // Wait, problem STK-014 is "Shuttle Validation Time Windows".
+        // Likely checking if intervals are valid (start < end) or strictly non-overlapping?
+        // Let's assume non-overlapping is required for SAME bus.
+        // My gen logic ensures non-overlap per bus.
+        // What if problem Is "Minimum Platforms"?
+        
+        // Let's gamify "Identify overlap across busses".
+        // If 2 busses at same time? Not conflict.
+        
+        // Maybe "Find Max Overlap"?
+        // Okay, let's visualize "Active Busses" count at mouse hover?
+        
+        const cont = document.getElementById('container');
+        cont.onmousemove = (e) => {
+             const rect = cont.getBoundingClientRect();
+             const x = e.clientX - rect.left;
+             const pct = x / rect.width;
+             const time = pct * 24;
+             
+             // Count active
+             let active = 0;
+             schedules.forEach(s => {
+                 if(time >= s.s && time <= s.e) {
+                     active++;
+                     s.el.style.background = '#e17055'; 
+                 } else {
+                     s.el.style.background = '#00cec9';
+                 }
+             });
+             
+             document.getElementById('status').textContent = `Time: ${Math.floor(time)}:${Math.floor((time%1)*60)} | Active Busses: ${active}`;
+        };
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

@@ -71,6 +71,15 @@ Level 0: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10 -> NULL
 - Height is the number of levels.
 - Expected Max Level ≈ \log_2(10) \approx 3.32$.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute log of n]
+    B --> C[Compute log of one over p]
+    C --> D[Divide for expected height]
+    D --> E[Output height]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Formula:** H = \frac{\ln(n)}{\ln(1/p)}$.

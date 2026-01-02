@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIT-014: Mirror Signal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #100b20;
+            --panel: #1e1635;
+            --signal: #d63384;
+            --mirror: #6610f2;
+            --border: #4d2d85;
+            --text: #e0dbf0;
+        }
+
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            padding: 20px;
+            background: var(--panel);
+            border-bottom: 2px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        h1 { margin:0; font-family: 'Audiowide'; color: var(--signal); letter-spacing: 2px; }
+
+        .game-canvas {
+            flex: 1;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            gap: 50px;
+            background: radial-gradient(circle at center, #1b1233 0%, #100b20 70%);
+        }
+
+        /* CONSTRUCTOR */
+        .constructor-panel {
+            background: var(--panel);
+            padding: 40px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            display: flex; flex-direction: column; align-items: center;
+            gap: 20px;
+            box-shadow: 0 0 30px rgba(214, 51, 132, 0.2);
+        }
+
+        .bits-row {
+            display: flex; gap: 10px;
+        }
+
+        .bit-cell {
+            width: 50px; height: 60px;
+            background: #000;
+            border: 2px solid #555;
+            border-radius: 4px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .bit-cell.prefix { border-color: var(--mirror); color: var(--mirror); }
+        .bit-cell.prefix:hover { background: rgba(102, 16, 242, 0.2); }
+        .bit-cell.prefix.on { background: var(--mirror); color: #fff; box-shadow: 0 0 15px var(--mirror); }
+        
+        .bit-cell.reflected { border-color: var(--signal); color: var(--signal); pointer-events: none; opacity: 0.8; }
+        .bit-cell.reflected.on { background: var(--signal); color: #fff; box-shadow: 0 0 15px var(--signal); }
+
+        .length-control {
+            display: flex; align-items: center; gap: 20px;
+            font-size: 1.2rem;
+        }
+        .btn-mini {
+            width: 30px; height: 30px; background: #fff; color: #000; border: none; font-weight: bold; cursor: pointer;
+        }
+
+        .value-display {
+            font-size: 2rem;
+            margin-top: 10px;
+            color: #fff;
+        }
+        
+        .counter-info {
+            font-size: 0.9rem; color: #aaa; text-align: center;
+            max-width: 400px;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            display: flex; align-items: center; justify-content: center; z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        .dialog {
+            background: var(--panel); border: 2px solid var(--signal); padding: 40px;
+            max-width: 500px; text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>MIRROR SIGNAL</h1>
+    <div>BIT-014</div>
+</header>
+
+<div class="game-canvas">
+    
+    <div class="constructor-panel">
+        <div class="length-control">
+            <span>BIT LENGTH:</span>
+            <button class="btn-mini" onclick="game.changeLen(-1)">-</button>
+            <span id="lenDisp" style="font-weight:bold; color:var(--signal)">5</span>
+            <button class="btn-mini" onclick="game.changeLen(1)">+</button>
+        </div>
+
+        <div style="display:flex; justify-content:center; gap:20px; width:100%;">
+            <div style="color:var(--mirror); font-size:0.8rem">PREFIX (CONTROL)</div>
+            <div style="color:var(--signal); font-size:0.8rem">REFLECTION (LOCKED)</div>
+        </div>
+
+        <div class="bits-row" id="bitsContainer">
+            <!-- Rendered JS -->
+        </div>
+        
+        <div class="value-display">
+            DECIMAL: <span id="valDisp">--</span>
+        </div>
+        
+        <div class="counter-info">
+            <p>
+                Changing Prefix bits automatically updates Reflection.<br>
+                For Length L, you only control the first Ceil(L/2) bits.
+            </p>
+            <div style="margin-top:20px; padding:10px; background:rgba(255,255,255,0.05);">
+                Palindromes of this Length: <span id="countDisp" style="color:#fff; font-weight:bold">--</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="color:var(--signal); font-family:'Audiowide'; margin-top:0;">SYMMETRY CONSTRUCTOR</h2>
+        <p>
+            Bitwise Palindromes read the same forwards and backwards in binary.<br><br>
+            <b>Concept:</b> To build a palindrome of length L, you only need to choose the first half of the bits. The rest must be their reflection.<br><br>
+            
+            Use the constructor to visualize how `101` becomes `21` (10101) or `17` (10001).
+        </p>
+        <button onclick="game.start()" style="padding:15px 30px; background:var(--signal); border:none; color:#fff; font-weight:bold; font-size:1.2rem; cursor:pointer;">ENTER LAB</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.state = {
+                len: 5,
+                prefixBits: [] // 0 or 1
+            };
+            
+            this.ui = {
+                bits: document.getElementById('bitsContainer'),
+                len: document.getElementById('lenDisp'),
+                val: document.getElementById('valDisp'),
+                count: document.getElementById('countDisp'),
+                modal: document.getElementById('modal')
+            };
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.updateLen(5);
+        }
+        
+        changeLen(delta) {
+            let newLen = this.state.len + delta;
+            if(newLen < 1) newLen = 1;
+            if(newLen > 12) newLen = 12; // Cap for visual
+            this.updateLen(newLen);
+        }
+        
+        updateLen(l) {
+            this.state.len = l;
+            const prefixLen = Math.ceil(l / 2);
+            
+            // Reset prefix (or keep if possible, but easier to reset for clean UI)
+            this.state.prefixBits = new Array(prefixLen).fill(0);
+            this.state.prefixBits[0] = 1; // Palindromes must start with 1 (no leading zeros) 
+            
+            this.ui.len.innerText = l;
+            this.renderBits();
+        }
+
+        renderBits() {
+            this.ui.bits.innerHTML = '';
+            
+            const l = this.state.len;
+            const prefixLen = Math.ceil(l / 2);
+            
+            // Generate full bit array based on prefix
+            const fullBits = new Array(l).fill(0);
+            
+            // Fill prefix
+            for(let i=0; i<prefixLen; i++) {
+                fullBits[i] = this.state.prefixBits[i];
+            }
+            
+            // Mirror
+            for(let i=0; i<l; i++) {
+                // Determine source index
+                // e.g. Len 5. i=0->0, 1->1, 2->2, 3->1, 4->0
+                // simple: reflect
+                if (i >= prefixLen) {
+                    fullBits[i] = fullBits[l - 1 - i];
+                }
+            }
+            
+            // Calculate Value
+            let val = 0;
+            for(let i=0; i<l; i++) {
+                if(fullBits[i]) val += Math.pow(2, (l-1-i));
+            }
+            this.ui.val.innerText = val;
+            
+            // Calculate Count (2^(ceil(L/2)-1))
+            // MSB fixed to 1. Remaining prefix bits free.
+            const freeBits = Math.max(0, prefixLen - 1);
+            this.ui.count.innerText = Math.pow(2, freeBits);
+
+            // Render DOM
+            for(let i=0; i<l; i++) {
+                const el = document.createElement('div');
+                const isPrefix = i < prefixLen;
+                const bitVal = fullBits[i];
+                
+                let cls = `bit-cell ${isPrefix ? 'prefix' : 'reflected'} ${bitVal ? 'on' : ''}`;
+                
+                el.className = cls;
+                el.innerText = bitVal;
+                
+                if (isPrefix) {
+                    if (i === 0) {
+                        // MSB usually locked to 1 for valid number representation
+                        el.title = "MSB Locked to 1";
+                        el.style.opacity = "0.5";
+                        el.style.cursor = "not-allowed";
+                    } else {
+                        el.onclick = () => this.toggleBit(i);
+                    }
+                }
+                
+                this.ui.bits.appendChild(el);
+            }
+        }
+        
+        toggleBit(idx) {
+            this.state.prefixBits[idx] ^= 1;
+            this.renderBits();
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

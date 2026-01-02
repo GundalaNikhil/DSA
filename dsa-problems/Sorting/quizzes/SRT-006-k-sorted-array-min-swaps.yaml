@@ -1,2 +1,52 @@
-# Quiz for SRT-006: K-Sorted Array Minimum Swaps
-# YAML content to be added
+problem_id: SRT_K_SORTED_ARRAY_MIN_SWAPS_006
+display_id: SRT-006
+slug: k-sorted-array-min-swaps
+questions:
+  - question: What is the standard graph-theoretic approach to find the minimum number of swaps required to sort an array?
+    difficulty: medium
+    points: 10
+    options:
+      - Decompose the permutation into disjoint cycles and sum `(cycle_length - 1)` for all cycles.
+      - Count the number of inversions.
+      - Perform Bubble Sort and count swaps.
+      - Find the Longest Increasing Subsequence.
+    correct_answer: 0
+    explanation: The minimum number of swaps is given by `N - C`, where `N` is the number of elements and `C` is the number of disjoint cycles in the permutation.
+    type: single_choice
+    id: prq_1
+  - question: How many swaps are needed to resolve a single cycle of `L` elements into their correct sorted positions?
+    difficulty: easy
+    points: 10
+    options:
+      - "`L - 1`"
+      - "`L`"
+      - "`L / 2`"
+      - "`L + 1`"
+    correct_answer: 0
+    explanation: For a cycle like `A -> B -> C -> A` (length 3), we can place A correctly (swapping with B), which leaves `B -> C -> B` (length 2), and so on. It takes `L-1` swaps.
+    type: single_choice
+    id: edq_1
+  - question: What is the overall time complexity to calculate the minimum swaps for an array of size `N`, assuming we first need to identify the sorted positions?
+    difficulty: medium
+    points: 10
+    options:
+      - "`O(N log N)` because we must sort the array (or a copy) to determine target positions."
+      - "`O(N)` because cycle decomposition is linear."
+      - "`O(N^2)` because we might traverse the array many times."
+      - "`O(1)` as there is a closed-form formula."
+    correct_answer: 0
+    explanation: We need to know where each element *should* go. Sorting the array to build this mapping takes `O(N log N)`. The subsequent cycle counting takes `O(N)`.
+    type: single_choice
+    id: edq_2
+  - question: Does the fact that the array is `k`-sorted change the *algorithm* for finding the minimum absolute number of swaps to sort it?
+    difficulty: hard
+    points: 15
+    options:
+      - No, the cycle decomposition method applies to any permutation regardless of `k`.
+      - Yes, we can just swap adjacent elements.
+      - Yes, the answer is always `k`.
+      - No, but it forces the answer to be `0`.
+    correct_answer: 0
+    explanation: While `k`-sortedness restricts how far elements are from their targets, the fundamental problem of 'minimum swaps to sort' is structurally the same. The maximum cycle length might be constrained, but the algorithm remains the same.
+    type: single_choice
+    id: edq_3

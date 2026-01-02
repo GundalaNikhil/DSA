@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRT-001: Selection Sort Mastery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-grad-start: #0f172a;
+            --bg-grad-end: #1e293b;
+            --primary: #6366f1;
+            --primary-glow: rgba(99, 102, 241, 0.5);
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --card-border: rgba(148, 163, 184, 0.1);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: radial-gradient(circle at top left, var(--bg-grad-start), var(--bg-grad-end));
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--card-border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand { display: flex; align-items: center; gap: 12px; }
+        .brand-icon {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            width: 40px; height: 40px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; font-size: 1.2rem;
+            box-shadow: 0 0 15px var(--primary-glow);
+        }
+        h1 { margin: 0; font-size: 1.2rem; font-weight: 600; }
+
+        .stats {
+            display: flex; gap: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(255,255,255,0.05);
+            padding: 8px 16px; border-radius: 8px;
+            border: 1px solid var(--card-border);
+        }
+        .stat-item span { color: var(--accent); font-weight: bold; }
+
+        main { display: flex; flex: 1; height: calc(100vh - 80px); }
+
+        aside {
+            width: 350px;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid var(--card-border);
+            padding: 2rem;
+            display: flex; flex-direction: column; gap: 1.5rem;
+            overflow-y: auto;
+        }
+
+        .panel { display: flex; flex-direction: column; gap: 1rem; }
+        .panel-header {
+            font-size: 0.85rem; text-transform: uppercase;
+            letter-spacing: 1.5px; color: var(--text-muted);
+            font-weight: 700;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 0.5rem;
+        }
+
+        .mission-card {
+            background: linear-gradient(135deg, rgba(236,72,153,0.1), rgba(99,102,241,0.1));
+            border: 1px solid rgba(236,72,153,0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .mission-text {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.1rem; font-weight: 700;
+            color: #fbcfe8;
+        }
+
+        .hint-text {
+            font-size: 0.9rem; line-height: 1.6;
+            color: var(--text-muted);
+            background: rgba(0,0,0,0.2);
+            padding: 1rem; border-radius: 8px;
+            border-left: 3px solid var(--primary);
+        }
+
+        .btn-group { display: flex; flex-direction: column; gap: 10px; }
+
+        button.code-btn {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid var(--card-border);
+            color: var(--text-muted);
+            padding: 1rem; border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem; text-align: left;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+        button.code-btn:before {
+            content: '';
+            position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+            background: var(--primary); opacity: 0;
+            transition: opacity 0.2s;
+        }
+        button.code-btn:hover:not(:disabled) {
+            background: rgba(99, 102, 241, 0.1);
+            color: white;
+            transform: translateX(5px);
+            border-color: var(--primary);
+        }
+        button.code-btn:hover:not(:disabled):before { opacity: 1; }
+        button.code-btn.active-glow {
+            border-color: var(--accent);
+            color: white;
+            box-shadow: 0 0 15px rgba(236, 72, 153, 0.2);
+            animation: pulse-border 2s infinite;
+        }
+        @keyframes pulse-border {
+            0% { border-color: var(--accent); }
+            50% { border-color: var(--primary); }
+            100% { border-color: var(--accent); }
+        }
+        button.code-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        #game-area {
+            flex: 1;
+            position: relative;
+            background-image:
+                radial-gradient(rgba(148, 163, 184, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .array-container {
+            display: flex; gap: 15px;
+            padding: 30px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 16px;
+            border: 1px solid var(--card-border);
+        }
+
+        .element {
+            width: 70px; height: 70px;
+            background: linear-gradient(145deg, #1e293b, #0f172a);
+            border: 2px solid var(--primary);
+            border-radius: 12px;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            font-weight: 700; font-size: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            cursor: pointer;
+        }
+        .element .idx {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            position: absolute;
+            bottom: 5px;
+        }
+        .element.sorted {
+            background: linear-gradient(145deg, #064e3b, #022c22);
+            border-color: var(--success);
+            opacity: 0.7;
+        }
+        .element.current {
+            border-color: var(--warning);
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.5);
+            transform: scale(1.1);
+        }
+        .element.scanning {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(236, 72, 153, 0.4);
+        }
+        .element.min-found {
+            background: linear-gradient(145deg, #4c1d95, #2e1065);
+            border-color: #a855f7;
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.6);
+        }
+        .element.swapping {
+            animation: swap-bounce 0.5s ease-in-out;
+        }
+        @keyframes swap-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+        }
+
+        .pointer {
+            position: absolute;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 4px;
+            top: -30px;
+        }
+        .pointer.i { background: var(--warning); color: #000; }
+        .pointer.min { background: #a855f7; color: #fff; }
+
+        .console {
+            position: absolute;
+            bottom: 2rem; right: 2rem;
+            width: 350px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+        .console-header {
+            color: var(--text-muted);
+            border-bottom: 1px solid #334155;
+            padding-bottom: 0.5rem;
+            margin-bottom: 0.5rem;
+            display: flex; justify-content: space-between;
+        }
+        .log-entry {
+            margin-bottom: 4px;
+            color: #a5f3fc;
+            opacity: 0;
+            animation: slideIn 0.3s forwards;
+        }
+        .log-entry.highlight { color: var(--success); font-weight: bold; }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .backdrop {
+            position: fixed; inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            z-index: 100;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.4s;
+        }
+        .backdrop.active { opacity: 1; pointer-events: all; }
+
+        .modal {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border: 1px solid var(--card-border);
+            padding: 3rem; border-radius: 24px;
+            max-width: 500px; text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            transform: scale(0.9);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .backdrop.active .modal { transform: scale(1); }
+        .modal h2 {
+            font-size: 2rem; margin-bottom: 1rem;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border: none; color: white;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem; font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+            transition: all 0.3s;
+            margin-top: 1.5rem;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(99, 102, 241, 0.6);
+        }
+
+        .toast {
+            position: fixed; top: 20px; left: 50%;
+            transform: translateX(-50%) translateY(-100px);
+            background: rgba(16, 185, 129, 0.9);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 200;
+        }
+        .toast.error { background: rgba(239, 68, 68, 0.9); }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="brand">
+        <div class="brand-icon">S</div>
+        <h1>SRT-001 <span style="font-weight:300; opacity:0.7">Selection Sort</span></h1>
+    </div>
+    <div class="stats">
+        <div class="stat-item">XP: <span id="score">0</span></div>
+        <div class="stat-item" style="border-left:1px solid #334155; margin-left:10px; padding-left:10px;">PASS: <span id="pass">0</span>/<span id="k-val">3</span></div>
+    </div>
+</header>
+
+<main>
+    <aside>
+        <div class="panel">
+            <div class="panel-header">Objective</div>
+            <div class="mission-card">
+                <div id="task-display" class="mission-text">PERFORM K PASSES</div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">Algorithm Steps</div>
+            <div class="btn-group">
+                <button id="btn-scan" class="code-btn active-glow" onclick="game.startScan()">
+                    <span style="color:var(--accent)">1.</span> Scan for minimum in [i..n-1]
+                </button>
+                <button id="btn-select" class="code-btn" onclick="game.selectMin()" disabled>
+                    <span style="color:var(--warning)">2.</span> Select minimum element
+                </button>
+                <button id="btn-swap" class="code-btn" onclick="game.performSwap()" disabled>
+                    <span style="color:var(--success)">3.</span> Swap with arr[i]
+                </button>
+                <button id="btn-next" class="code-btn" onclick="game.nextPass()" disabled>
+                    <span style="color:var(--primary)">4.</span> Advance to next pass
+                </button>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">AI Assistant</div>
+            <div id="hint-box" class="hint-text">
+                Welcome! Selection Sort finds the minimum in the unsorted portion and swaps it to its correct position. Click "Scan" to begin.
+            </div>
+        </div>
+    </aside>
+
+    <div id="game-area">
+        <div class="array-container" id="array-container">
+            <!-- Elements rendered here -->
+        </div>
+
+        <div class="console">
+            <div class="console-header">
+                <span>SYSTEM LOG</span>
+                <span style="color: var(--success);">● LIVE</span>
+            </div>
+            <div id="log-content"></div>
+        </div>
+    </div>
+</main>
+
+<div id="start-modal" class="backdrop active">
+    <div class="modal">
+        <h2>Selection Sort</h2>
+        <p style="color:#cbd5e1; line-height:1.6; margin-bottom:1rem;">
+            Learn the classic Selection Sort algorithm by performing it step-by-step!
+        </p>
+        <div style="text-align:left; color:#94a3b8; font-size:0.9rem; margin:1rem 0; padding: 1rem; background: rgba(0,0,0,0.3); border-radius: 8px;">
+            <b>Algorithm:</b>
+            <ol style="margin: 0.5rem 0; padding-left: 1.5rem;">
+                <li><b>Scan</b> the unsorted portion for the minimum</li>
+                <li><b>Select</b> the minimum element found</li>
+                <li><b>Swap</b> it with the first unsorted position</li>
+                <li><b>Repeat</b> for K passes</li>
+            </ol>
+        </div>
+        <button class="btn-primary" onclick="game.start()">START TRAINING</button>
+    </div>
+</div>
+
+<div id="victory-modal" class="backdrop">
+    <div class="modal">
+        <h2>Sort Complete!</h2>
+        <p style="color:#cbd5e1;">You've successfully performed K passes of Selection Sort!</p>
+        <p style="font-size:1.5rem; font-weight:bold; color:var(--primary); margin:1rem 0;">
+            Final Score: <span id="final-score">0</span>
+        </p>
+        <button class="btn-primary" onclick="this.loadLevel()">TRY AGAIN</button>
+    </div>
+</div>
+
+<div id="toast" class="toast">Message</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.array = [];
+            this.n = 8;
+            this.k = 4;
+            this.currentPass = 0;
+            this.scanIndex = -1;
+            this.minIndex = -1;
+            this.score = 0;
+            this.state = 'IDLE';
+
+            this.ui = {
+                container: document.getElementById('array-container'),
+                log: document.getElementById('log-content'),
+                score: document.getElementById('score'),
+                pass: document.getElementById('pass'),
+                kVal: document.getElementById('k-val'),
+                task: document.getElementById('task-display'),
+                hint: document.getElementById('hint-box')
+            };
+        }
+
+        start() {
+            document.getElementById('start-modal').classList.remove('active');
+            this.generateArray();
+            this.ui.kVal.textContent = this.k;
+            this.ui.task.textContent = `PASS ${this.currentPass + 1}: Find & Place Min`;
+            this.log('Array initialized. Begin Selection Sort!');
+            this.updateButtons('SCAN');
+        }
+
+        generateArray() {
+            this.array = [];
+            for (let i = 0; i < this.n; i++) {
+                this.array.push(Math.floor(Math.random() * 90) + 10);
+            }
+            this.render();
+        }
+
+        render() {
+            this.ui.container.innerHTML = '';
+            this.array.forEach((val, idx) => {
+                const el = document.createElement('div');
+                el.className = 'element';
+                el.innerHTML = `${val}<span class="idx">[${idx}]</span>`;
+
+                if (idx < this.currentPass) {
+                    el.classList.add('sorted');
+                } else if (idx === this.currentPass) {
+                    el.classList.add('current');
+                }
+                if (idx === this.scanIndex && this.state === 'SCANNING') {
+                    el.classList.add('scanning');
+                }
+                if (idx === this.minIndex && this.state !== 'IDLE') {
+                    el.classList.add('min-found');
+                }
+
+                this.ui.container.appendChild(el);
+            });
+
+            this.ui.score.textContent = this.score;
+            this.ui.pass.textContent = this.currentPass;
+        }
+
+        startScan() {
+            this.state = 'SCANNING';
+            this.scanIndex = this.currentPass;
+            this.minIndex = this.currentPass;
+            this.ui.hint.textContent = `Scanning from index ${this.currentPass}... Watch for smaller values!`;
+            this.log(`Starting scan from index ${this.currentPass}`);
+            this.animateScan();
+        }
+
+        async animateScan() {
+            for (let i = this.currentPass; i < this.n; i++) {
+                this.scanIndex = i;
+                this.render();
+                await this.sleep(300);
+
+                if (this.array[i] < this.array[this.minIndex]) {
+                    this.minIndex = i;
+                    this.log(`New minimum found: ${this.array[i]} at index ${i}`);
+                    this.render();
+                }
+            }
+
+            this.scanIndex = -1;
+            this.state = 'SCANNED';
+            this.log(`Scan complete. Minimum is ${this.array[this.minIndex]} at index ${this.minIndex}`);
+            this.ui.hint.textContent = `Found minimum: ${this.array[this.minIndex]} at index ${this.minIndex}. Click "Select" to confirm.`;
+            this.updateButtons('SELECT');
+            this.render();
+        }
+
+        selectMin() {
+            this.state = 'SELECTED';
+            this.score += 20;
+            this.log(`Selected: ${this.array[this.minIndex]}`);
+            this.ui.hint.textContent = `Minimum selected! Now swap it with position ${this.currentPass}.`;
+            this.showToast(`+20 XP - Minimum Selected!`);
+            this.updateButtons('SWAP');
+            this.render();
+        }
+
+        async performSwap() {
+            const i = this.currentPass;
+            const j = this.minIndex;
+
+            if (i !== j) {
+                // Animate swap
+                const elements = this.ui.container.children;
+                elements[i].classList.add('swapping');
+                elements[j].classList.add('swapping');
+
+                await this.sleep(500);
+
+                // Actual swap
+                [this.array[i], this.array[j]] = [this.array[j], this.array[i]];
+                this.log(`Swapped arr[${i}] and arr[${j}]`);
+            } else {
+                this.log(`Element already in correct position!`);
+            }
+
+            this.state = 'SWAPPED';
+            this.score += 30;
+            this.showToast(`+30 XP - Swap Complete!`);
+            this.ui.hint.textContent = `Pass ${this.currentPass + 1} complete! Click "Next Pass" to continue.`;
+            this.updateButtons('NEXT');
+            this.render();
+        }
+
+        nextPass() {
+            this.currentPass++;
+            this.minIndex = -1;
+            this.state = 'IDLE';
+            this.score += 10;
+
+            if (this.currentPass >= this.k) {
+                this.log('All K passes complete!');
+                document.getElementById('final-score').textContent = this.score;
+                document.getElementById('victory-modal').classList.add('active');
+                return;
+            }
+
+            this.ui.task.textContent = `PASS ${this.currentPass + 1}: Find & Place Min`;
+            this.log(`--- Starting Pass ${this.currentPass + 1} ---`);
+            this.ui.hint.textContent = `Pass ${this.currentPass + 1}: Scan the remaining unsorted portion starting at index ${this.currentPass}.`;
+            this.updateButtons('SCAN');
+            this.render();
+        }
+
+        updateButtons(state) {
+            const btns = {
+                scan: document.getElementById('btn-scan'),
+                select: document.getElementById('btn-select'),
+                swap: document.getElementById('btn-swap'),
+                next: document.getElementById('btn-next')
+            };
+
+            Object.values(btns).forEach(b => {
+                b.disabled = true;
+                b.classList.remove('active-glow');
+            });
+
+            if (state === 'SCAN') {
+                btns.scan.disabled = false;
+                btns.scan.classList.add('active-glow');
+            } else if (state === 'SELECT') {
+                btns.select.disabled = false;
+                btns.select.classList.add('active-glow');
+            } else if (state === 'SWAP') {
+                btns.swap.disabled = false;
+                btns.swap.classList.add('active-glow');
+            } else if (state === 'NEXT') {
+                btns.next.disabled = false;
+                btns.next.classList.add('active-glow');
+            }
+        }
+
+        log(msg) {
+            const d = document.createElement('div');
+            d.className = 'log-entry';
+            d.textContent = `> ${msg}`;
+            this.ui.log.appendChild(d);
+            this.ui.log.scrollTop = this.ui.log.scrollHeight;
+        }
+
+        showToast(msg, type = 'success') {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = `toast ${type} show`;
+            setTimeout(() => t.className = 'toast', 2500);
+        }
+
+        sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

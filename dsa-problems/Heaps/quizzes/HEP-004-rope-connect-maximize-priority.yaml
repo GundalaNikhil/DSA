@@ -1,2 +1,52 @@
-# Quiz for HEP-004: Rope Connection Maximize Strength with Priority Classes
-# YAML content to be added
+problem_id: HEP_ROPE_CONNECT_MAXIMIZE_PRIORITY_004
+display_id: HEP-004
+slug: rope-connect-maximize-priority
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: What is the penalty for connecting a Class 1 (critical) rope with a Class 3 (spare) rope?
+    options:
+      - "0"
+      - "1"
+      - "2"
+      - "3"
+    correct_answer: 2
+    explanation: The penalty rule states that if classes are 1 and 3, the penalty is 2.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: If you connect a Class 2 rope with a Class 3 rope, what is the priority class of the resulting rope?
+    options:
+      - Class 2
+      - Class 3
+      - Class 1
+      - Class 5
+    correct_answer: 0
+    explanation: The resulting rope inherits the higher priority (smaller class number), which is Class 2.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: To maximize total strength, which strategy is generally best regarding penalties?
+    options:
+      - Merge ropes from different classes first
+      - Prefer same-class merges to minimize penalties
+      - Always merge the smallest ropes regardless of class
+      - Always merge Class 1 ropes last
+    correct_answer: 1
+    explanation: Same-class merges haben 0 penalty, preserving more strength for the final rope.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: What is the time complexity of the optimal merging solution using max-heaps per class?
+    options:
+      - O(N)
+      - O(N log N)
+      - O(N^2)
+      - O(log N)
+    correct_answer: 1
+    explanation: Heap operations (push/pop) take O(log N). Performing them for N ropes results in O(N log N).

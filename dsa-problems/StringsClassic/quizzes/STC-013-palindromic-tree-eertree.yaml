@@ -1,2 +1,52 @@
-# Quiz for STC-013: Palindromic Tree (Eertree) Construction
-# YAML content to be added
+problem_id: STC_PALINDROMIC_TREE_EERTREE_013
+display_id: STC-013
+slug: palindromic-tree-eertree
+questions:
+  - question: The Palindromic Tree (Eertree) is initialized with two special root nodes. What are their lengths?
+    difficulty: easy
+    points: 10
+    options:
+      - 0 and 1
+      - -1 and 0
+      - 0 and 0
+      - 1 and 2
+    correct_answer: 1
+    explanation: The Eertree has an odd root with length -1 (to handle odd-length palindromes like 'a' from empty string) and an even root with length 0 (to handle even-length palindromes like 'aa').
+    type: single_choice
+    id: prq_1
+  - question: In an Eertree, what does the suffix link of a node `u` point to?
+    difficulty: medium
+    points: 10
+    options:
+      - The longest palindromic prefix of the palindrome represented by `u`.
+      - The longest proper palindromic suffix of the palindrome represented by `u`.
+      - The shortest palindromic suffix of `u`.
+      - The parent node of `u`.
+    correct_answer: 1
+    explanation: Similar to AC automata or KMP, the suffix link points to the longest proper suffix that is also a palindrome. This is crucial for efficient construction.
+    type: single_choice
+    id: edq_1
+  - question: If node `u` in an Eertree represents the palindrome `P`, what palindrome does the child node connected by edge `c` (character) represent?
+    difficulty: medium
+    points: 10
+    options:
+      - "`P + c`"
+      - "`c + P`"
+      - "`c + P + c`"
+      - "`P + c + P`"
+    correct_answer: 2
+    explanation: Edges in an Eertree represent adding the character `c` to *both* sides of the current palindrome. Thus, the new palindrome is `c` + `P` + `c`.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity to construct the Eertree for a string of length `N`?
+    difficulty: medium
+    points: 10
+    options:
+      - "`O(N^2)`"
+      - "`O(N log N)`"
+      - "`O(N)`"
+      - "`O(N * |Sigma|)` where `|Sigma|` is the alphabet size."
+    correct_answer: 2
+    explanation: The construction is linear `O(N)` because the `last` pointer moves 'deep' into the tree at most `N` times, and the suffix link traversals amortize to `O(N)` overall.
+    type: single_choice
+    id: edq_3

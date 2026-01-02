@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARR-003: Rotate Train</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 850px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .header h1 { font-size: 36px; text-shadow: 0 0 20px #8b5cf6; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #7c3aed; margin-bottom: 15px; }
+
+        .goal-box {
+            background: #f5f3ff;
+            border: 2px solid #8b5cf6;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .example {
+            background: #faf5ff;
+            border-radius: 10px;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        .example-title { font-weight: 600; color: #7c3aed; margin-bottom: 8px; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .info-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 18px;
+            background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+            border-radius: 10px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .train-track {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 25px 15px;
+            margin-bottom: 20px;
+        }
+
+        .train-row {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .car {
+            width: 60px;
+            height: 70px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 600;
+            transition: all 0.4s;
+            position: relative;
+        }
+        .car.movable {
+            background: linear-gradient(145deg, #8b5cf6, #7c3aed);
+            color: #fff;
+        }
+        .car.locked {
+            background: linear-gradient(145deg, #64748b, #475569);
+            color: #e2e8f0;
+        }
+        .car.locked::after {
+            content: "🔒";
+            font-size: 10px;
+            position: absolute;
+            top: 3px;
+            right: 5px;
+        }
+
+        .car-idx {
+            font-size: 10px;
+            opacity: 0.7;
+            margin-top: 5px;
+        }
+
+        .control-panel {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: #f5f3ff;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 10px 20px;
+            background: #fff;
+            border-radius: 10px;
+            border: 2px solid #8b5cf6;
+        }
+        .stat-label { font-size: 12px; color: #666; }
+        .stat-value { font-size: 24px; font-weight: 600; color: #7c3aed; }
+
+        .answer-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+        }
+        .answer-row label { font-weight: 600; color: #7c3aed; }
+        .answer-row input {
+            width: 80px;
+            padding: 12px;
+            font-size: 20px;
+            text-align: center;
+            border: 3px solid #8b5cf6;
+            border-radius: 10px;
+            font-family: inherit;
+        }
+        .check-btn {
+            padding: 12px 30px;
+            background: #8b5cf6;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .check-btn:hover { background: #7c3aed; }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .message.correct { background: #dcfce7; color: #16a34a; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #f5f3ff; color: #7c3aed; }
+
+        .new-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #0f172a;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🚂 Rotate Train</h1>
+        <div style="opacity:0.9; color:#e2e8f0">Rotate movable train cars by K positions!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="goal-box">
+            <strong>🎯 Goal:</strong> Calculate how many EFFECTIVE rotations are needed.
+            <br>Purple cars rotate. Gray cars (🔒) are LOCKED and stay in place.
+            <br><br>
+            <strong>Formula:</strong> Effective Rotations = K % (number of movable cars)
+        </div>
+        <div class="example">
+            <div class="example-title">Example:</div>
+            K = 10, Movable Cars = 4<br>
+            Effective Rotations = 10 % 4 = <b>2</b>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="info-bar">
+            <span>Score: <strong id="score">0</strong></span>
+            <span>Round: <strong id="round">1</strong></span>
+        </div>
+
+        <div class="train-track">
+            <div class="train-row" id="trainRow"></div>
+        </div>
+
+        <div class="control-panel">
+            <div class="stat-box">
+                <div class="stat-label">Rotation Amount (K)</div>
+                <div class="stat-value" id="kValue">--</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Movable Cars</div>
+                <div class="stat-value" id="movableCount">--</div>
+            </div>
+        </div>
+
+        <div class="answer-row">
+            <label>Effective Rotations:</label>
+            <input type="number" id="answerInput" placeholder="?">
+            <button class="check-btn" onclick="checkAnswer()">✓ Check</button>
+        </div>
+
+        <div class="message neutral" id="message" style="margin-top:15px">Calculate K % MovableCount and enter your answer!</div>
+
+        <button class="new-btn" onclick="newRound()">🔄 New Train</button>
+    </div>
+</div>
+
+<script>
+    let cars = [];
+    let locked = [];
+    let K = 0;
+    let movableCount = 0;
+    let score = 0;
+    let round = 1;
+
+    function generateTrain() {
+        const n = 6 + Math.floor(Math.random() * 4); // 6-9 cars
+        cars = [];
+        locked = [];
+        movableCount = 0;
+
+        for (let i = 0; i < n; i++) {
+            cars.push(Math.floor(Math.random() * 90) + 10);
+            // 25% chance of being locked
+            const isLocked = Math.random() < 0.25;
+            locked.push(isLocked);
+            if (!isLocked) movableCount++;
+        }
+
+        // Ensure at least 2 movable
+        if (movableCount < 2) {
+            generateTrain();
+            return;
+        }
+
+        // Generate K (sometimes larger than movableCount to test modulo)
+        if (Math.random() > 0.5) {
+            K = movableCount + Math.floor(Math.random() * movableCount * 2) + 1;
+        } else {
+            K = Math.floor(Math.random() * (movableCount * 2)) + 1;
+        }
+    }
+
+    function render() {
+        const row = document.getElementById('trainRow');
+        row.innerHTML = '';
+
+        cars.forEach((val, i) => {
+            const car = document.createElement('div');
+            car.className = 'car ' + (locked[i] ? 'locked' : 'movable');
+            car.innerHTML = `${val}<span class="car-idx">[${i}]</span>`;
+            row.appendChild(car);
+        });
+
+        document.getElementById('kValue').textContent = K;
+        document.getElementById('movableCount').textContent = movableCount;
+        document.getElementById('answerInput').value = '';
+    }
+
+    function checkAnswer() {
+        const userAnswer = parseInt(document.getElementById('answerInput').value);
+        const correctAnswer = K % movableCount;
+        const msg = document.getElementById('message');
+
+        if (isNaN(userAnswer)) {
+            msg.className = 'message wrong';
+            msg.textContent = 'Please enter a number!';
+            return;
+        }
+
+        if (userAnswer === correctAnswer) {
+            score += 10;
+            msg.className = 'message correct';
+            msg.textContent = `✅ Correct! ${K} % ${movableCount} = ${correctAnswer}`;
+
+            // Animate the rotation
+            animateRotation(correctAnswer);
+        } else {
+            msg.className = 'message wrong';
+            msg.textContent = `❌ Wrong! ${K} % ${movableCount} = ${correctAnswer} (not ${userAnswer})`;
+        }
+
+        document.getElementById('score').textContent = score;
+    }
+
+    function animateRotation(rotations) {
+        if (rotations === 0) return;
+
+        // Get movable indices and values
+        const movableIdx = [];
+        const movableVals = [];
+        for (let i = 0; i < cars.length; i++) {
+            if (!locked[i]) {
+                movableIdx.push(i);
+                movableVals.push(cars[i]);
+            }
+        }
+
+        // Rotate values by 'rotations' positions (left rotation)
+        const rotated = [];
+        for (let i = 0; i < movableVals.length; i++) {
+            rotated.push(movableVals[(i + rotations) % movableVals.length]);
+        }
+
+        // Apply back
+        for (let i = 0; i < movableIdx.length; i++) {
+            cars[movableIdx[i]] = rotated[i];
+        }
+
+        // Animate
+        const row = document.getElementById('trainRow');
+        movableIdx.forEach(i => {
+            row.children[i].style.transform = 'scale(0.8)';
+            row.children[i].style.opacity = '0.5';
+        });
+
+        setTimeout(() => {
+            render();
+            movableIdx.forEach(i => {
+                row.children[i].style.transition = 'all 0.3s';
+                row.children[i].style.transform = 'scale(1.1)';
+                row.children[i].style.boxShadow = '0 0 15px #22c55e';
+            });
+
+            setTimeout(() => {
+                movableIdx.forEach(i => {
+                    row.children[i].style.transform = 'scale(1)';
+                    row.children[i].style.boxShadow = '';
+                });
+            }, 400);
+        }, 300);
+    }
+
+    function newRound() {
+        round++;
+        generateTrain();
+        render();
+        document.getElementById('round').textContent = round;
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Calculate K % MovableCount and enter your answer!';
+    }
+
+    window.onload = () => { generateTrain(); render(); };
+</script>
+</body>
+</html>

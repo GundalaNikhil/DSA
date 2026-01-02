@@ -1,0 +1,52 @@
+problem_id: TRE_CAMPUS_DIRECTORY_MULTI_TREE_001
+display_id: TRE-001
+slug: campus-directory-multi-tree
+questions:
+  - question: Which traversals are required for each tree?
+    difficulty: easy
+    points: 10
+    options:
+      - Preorder only
+      - Inorder only
+      - Preorder, inorder, and postorder
+      - Level order only
+    correct_answer: 2
+    explanation: The output includes preorder, inorder, and postorder for both trees.
+    type: single_choice
+    id: prq_1
+  - question: If the tree is empty (n=0), how should its traversal be output?
+    difficulty: easy
+    points: 10
+    options:
+      - Skip the line
+      - Print -1
+      - Print a blank line
+      - Print 0
+    correct_answer: 2
+    explanation: An empty traversal is printed as a blank line.
+    type: single_choice
+    id: edq_1
+  - question: What does structural identity ignore?
+    difficulty: medium
+    points: 15
+    options:
+      - Node positions
+      - Node values
+      - Left/right child existence
+      - Tree size
+    correct_answer: 1
+    explanation: Structural identity checks shape only, ignoring values.
+    type: single_choice
+    id: edq_2
+  - question: If only inorder traversals match but structure differs, what should be output for identity?
+    difficulty: medium
+    points: 15
+    options:
+      - "true"
+      - "false"
+      - depends on values
+      - inorder
+    correct_answer: 1
+    explanation: Traversal match does not imply structural identity.
+    type: single_choice
+    id: edq_3

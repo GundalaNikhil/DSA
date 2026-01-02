@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRE-017: Sunset Watch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --sun: #f39c12; --sky: #3498db; --dusk: #e74c3c; --horizon: #8e44ad; --cloud: #ecf0f1; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background: linear-gradient(180deg, var(--sky) 0%, var(--dusk) 50%, var(--horizon) 100%); min-height: 100vh; }
+        header { background: rgba(0,0,0,0.2); padding: 15px; text-align: center; color: #fff; }
+        h1 { font-family: 'Pacifico', cursive; color: var(--sun); font-size: 2rem; }
+        main { padding: 20px; max-width: 900px; margin: 0 auto; }
+        .sunset-scene { position: relative; min-height: 350px; padding: 30px; }
+        .sun { position: absolute; top: 20px; right: 50px; width: 80px; height: 80px; background: radial-gradient(circle, #fff 0%, var(--sun) 50%); border-radius: 50%; box-shadow: 0 0 50px var(--sun); animation: glow 3s ease-in-out infinite alternate; }
+        @keyframes glow { from { box-shadow: 0 0 50px var(--sun); } to { box-shadow: 0 0 80px var(--dusk); } }
+        .tree-container { display: flex; flex-direction: column; align-items: center; gap: 25px; }
+        .tree-level { display: flex; gap: 20px; }
+        .tree-node { width: 55px; height: 55px; background: var(--cloud); border: 3px solid #bdc3c7; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: bold; color: #333; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .tree-node:hover { transform: scale(1.1); }
+        .tree-node.visible { background: var(--sun); border-color: #e67e22; color: #fff; box-shadow: 0 0 20px var(--sun); animation: reveal 0.5s ease; }
+        @keyframes reveal { 0% { transform: scale(0.5); opacity: 0; } 50% { transform: scale(1.2); } 100% { transform: scale(1); opacity: 1; } }
+        .observer { position: absolute; right: 30px; bottom: 30px; font-size: 3rem; }
+        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
+        .btn { padding: 15px 25px; border: none; border-radius: 20px; font-family: 'Pacifico', cursive; font-size: 1rem; cursor: pointer; }
+        .btn-watch { background: var(--sun); color: #333; }
+        .btn-reset { background: var(--horizon); color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+        .view-display { background: rgba(255,255,255,0.9); border-radius: 15px; padding: 20px; margin-top: 20px; text-align: center; }
+        .view-title { color: var(--horizon); font-weight: 600; margin-bottom: 15px; }
+        .view-nodes { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .view-node { background: var(--sun); color: #fff; padding: 10px 20px; border-radius: 20px; font-weight: bold; }
+        #message { text-align: center; color: #fff; padding: 10px; font-size: 1.1rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.5); }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🌅 SUNSET WATCH</h1>
+</header>
+<main>
+    <div id="message">Watch the sunset and see which nodes are visible from the right!</div>
+    <div class="sunset-scene">
+        <div class="sun"></div>
+        <div class="tree-container" id="tree"></div>
+        <div class="observer">👀</div>
+    </div>
+    <div class="controls">
+        <button class="btn btn-watch" onclick="game.watch()">🌅 VIEW FROM RIGHT</button>
+        <button class="btn btn-reset" onclick="game.reset()">🔄 RESET</button>
+    </div>
+    <div class="view-display">
+        <div class="view-title">👁️ VISIBLE FROM RIGHT</div>
+        <div class="view-nodes" id="view"></div>
+    </div>
+</main>
+<script>
+class SunsetWatch {
+    constructor() {
+        this.tree = { val: 1, left: { val: 2, right: { val: 5 } }, right: { val: 3, right: { val: 4 } } };
+        this.render();
+    }
+    render() {
+        const container = document.getElementById('tree');
+        container.innerHTML = '';
+        const levels = [[this.tree]];
+        let queue = [this.tree];
+        while (queue.length) {
+            const next = [];
+            queue.forEach(n => { if (n.left) next.push(n.left); if (n.right) next.push(n.right); });
+            if (next.length) levels.push(next);
+            queue = next;
+        }
+        levels.forEach(level => {
+            const row = document.createElement('div');
+            row.className = 'tree-level';
+            level.forEach(node => {
+                const el = document.createElement('div');
+                el.className = 'tree-node';
+                el.id = `node-${node.val}`;
+                el.textContent = node.val;
+                row.appendChild(el);
+            });
+            container.appendChild(row);
+        });
+    }
+    getRightView() {
+        const result = [];
+        const queue = [{ node: this.tree, level: 0 }];
+        const levelMap = {};
+        while (queue.length) {
+            const { node, level } = queue.shift();
+            levelMap[level] = node.val; // Rightmost at each level
+            if (node.left) queue.push({ node: node.left, level: level + 1 });
+            if (node.right) queue.push({ node: node.right, level: level + 1 });
+        }
+        return Object.values(levelMap);
+    }
+    async watch() {
+        document.querySelectorAll('.tree-node').forEach(n => n.classList.remove('visible'));
+        document.getElementById('view').innerHTML = '';
+        const rightView = this.getRightView();
+        document.getElementById('message').textContent = '👀 Looking from the right side...';
+        for (const val of rightView) {
+            const el = document.getElementById(`node-${val}`);
+            el.classList.add('visible');
+            const viewNode = document.createElement('span');
+            viewNode.className = 'view-node';
+            viewNode.textContent = val;
+            document.getElementById('view').appendChild(viewNode);
+            await this.delay(500);
+        }
+        document.getElementById('message').innerHTML = `<span style="color:var(--sun)">🎉 Right view: ${rightView.join(' → ')}</span>`;
+    }
+    reset() {
+        document.querySelectorAll('.tree-node').forEach(n => n.classList.remove('visible'));
+        document.getElementById('view').innerHTML = '';
+        document.getElementById('message').textContent = 'Click to view from right!';
+    }
+    delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+}
+const game = new SunsetWatch();
+</script>
+</body>
+</html>

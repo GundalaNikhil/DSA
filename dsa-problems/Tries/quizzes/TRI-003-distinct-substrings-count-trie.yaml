@@ -1,0 +1,52 @@
+problem_id: TRI_DISTINCT_SUBSTRINGS_COUNT_TRIE_003
+display_id: TRI-003
+slug: distinct-substrings-count-trie
+questions:
+  - question: For the string 'aba', what are the distinct substrings?
+    difficulty: easy
+    points: 10
+    options:
+      - "a, b, ab, ba, aba (Count: 5)"
+      - a, b, ab, ba, aa, bb
+      - aba, ba, a
+      - "3"
+    correct_answer: 0
+    explanation: "Substrings: a, ab, aba, b, ba, a (duplicate). Unique: a, b, ab, ba, aba."
+    type: single_choice
+    id: prq_1
+  - question: "Using a Suffix Trie, the number of distinct substrings corresponds to:"
+    difficulty: medium
+    points: 15
+    options:
+      - Total number of nodes in the Trie (excluding root)
+      - Number of leaf nodes
+      - Height of the Trie
+      - Number of edges
+    correct_answer: 0
+    explanation: Every node represents a unique path from the root, i.e., a unique substring.
+    type: single_choice
+    id: edq_1
+  - question: What is the worst-case space complexity of a Suffix Trie for string length N?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N^2)
+      - O(N)
+      - O(2^N)
+      - O(log N)
+    correct_answer: 0
+    explanation: In worst case (e.g., 'abcdef'), every suffix creates a distinct branch, total nodes ~ N(N+1)/2.
+    type: single_choice
+    id: edq_2
+  - question: To optimize space for very large strings (e.g., N=10^5), which structure is preferred over a standard Suffix Trie?
+    difficulty: easy
+    points: 10
+    options:
+      - Suffix Array + LCP Array
+      - Binary Search Tree
+      - Hash Set
+      - Heap
+    correct_answer: 0
+    explanation: Suffix Automaton or Suffix Array takes O(N) space, avoiding the O(N^2) explosion.
+    type: single_choice
+    id: edq_3

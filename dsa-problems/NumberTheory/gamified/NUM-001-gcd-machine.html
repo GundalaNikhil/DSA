@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NUM-001: GCD Machine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a1628; --gcd: #00ff88; --number: #00d4ff; --panel: #0f2540; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--gcd); }
+        h1 { margin: 0; font-family: 'Orbitron', sans-serif; color: var(--gcd); font-size: 1.5rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--gcd); }
+        .instructions b { color: var(--gcd); }
+        .machine { display: flex; gap: 20px; align-items: center; padding: 30px; background: var(--panel); border-radius: 20px; }
+        .input-slot { width: 100px; height: 80px; background: #000; border: 3px solid var(--number); border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .slot-label { font-size: 0.7rem; color: #888; }
+        .slot-value { font-size: 2rem; font-family: 'Orbitron'; color: var(--number); }
+        .gear { font-size: 4rem; animation: spin 2s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .output-slot { width: 120px; height: 100px; background: rgba(0,255,136,0.1); border: 3px solid var(--gcd); border-radius: 15px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .output-value { font-size: 2.5rem; font-family: 'Orbitron'; color: var(--gcd); }
+        .number-input { display: flex; gap: 15px; align-items: center; padding: 15px; background: var(--panel); border-radius: 10px; }
+        .number-input input { width: 100px; height: 50px; font-size: 1.5rem; text-align: center; background: #000; border: 2px solid var(--number); color: var(--number); border-radius: 8px; }
+        .steps-visual { padding: 20px; background: #000; border-radius: 10px; min-width: 400px; max-height: 200px; overflow-y: auto; }
+        .step { display: flex; gap: 10px; padding: 8px; border-bottom: 1px solid #222; font-size: 0.9rem; }
+        .step-num { color: var(--gcd); }
+        .step-calc { color: var(--number); }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #1a3a5c; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1a3a5c; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--gcd); }
+        .btn { background: var(--gcd); color: #000; border: none; padding: 12px 25px; font-family: 'Orbitron'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #33ff99; }
+        .btn.secondary { background: transparent; border: 2px solid #1a3a5c; color: #888; font-family: 'Space Mono'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--gcd); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--gcd); font-family: 'Orbitron'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>⚙️ GCD MACHINE</h1>
+    <div style="color:#888">EUCLIDEAN ALGORITHM</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 COMPUTE GCD:</b> Enter two numbers and watch the Euclidean algorithm find their Greatest Common Divisor step by step!
+    </div>
+    <div class="number-input">
+        <span>A =</span>
+        <input type="number" id="numA" value="48" min="1" max="9999">
+        <span>B =</span>
+        <input type="number" id="numB" value="18" min="1" max="9999">
+        <button class="btn" onclick="game.compute()">COMPUTE GCD</button>
+    </div>
+    <div class="machine">
+        <div class="input-slot"><div class="slot-label">INPUT A</div><div class="slot-value" id="dispA">48</div></div>
+        <div class="input-slot"><div class="slot-label">INPUT B</div><div class="slot-value" id="dispB">18</div></div>
+        <div class="gear">⚙️</div>
+        <div class="output-slot"><div class="slot-label">GCD</div><div class="output-value" id="gcdResult">?</div></div>
+    </div>
+    <div style="color:var(--gcd);">EUCLIDEAN STEPS:</div>
+    <div class="steps-visual" id="steps"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Steps</span><span class="stat-value" id="stepCount">0</span></div>
+            <div class="stat-row"><span class="stat-label">GCD</span><span class="stat-value" id="gcdFinal">?</span></div>
+        </div>
+    </div>
+    <div id="status">Enter numbers and compute GCD!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.random()">RANDOM</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>⚙️ GCD MACHINE</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--gcd)">CONCEPT:</b> Euclidean Algorithm!</p>
+            <ul>
+                <li><b>GCD(a, b) = GCD(b, a mod b)</b></li>
+                <li>Repeat until remainder is 0</li>
+                <li>Last non-zero value is the GCD</li>
+                <li>O(log(min(a,b))) time complexity!</li>
+            </ul>
+            <p style="color:#888">Foundation of number theory!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START COMPUTING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.a = 48; this.b = 18; this.steps = [];
+        this.ui = { numA: document.getElementById('numA'), numB: document.getElementById('numB'), dispA: document.getElementById('dispA'), dispB: document.getElementById('dispB'), gcdResult: document.getElementById('gcdResult'), steps: document.getElementById('steps'), stepCount: document.getElementById('stepCount'), gcdFinal: document.getElementById('gcdFinal'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); }
+    random() {
+        this.ui.numA.value = Math.floor(Math.random() * 200) + 10;
+        this.ui.numB.value = Math.floor(Math.random() * 200) + 10;
+        this.compute();
+    }
+    compute() {
+        this.a = parseInt(this.ui.numA.value);
+        this.b = parseInt(this.ui.numB.value);
+        if (this.a <= 0 || this.b <= 0) return;
+        this.ui.dispA.textContent = this.a;
+        this.ui.dispB.textContent = this.b;
+        // Euclidean algorithm with steps
+        this.steps = [];
+        let a = this.a, b = this.b;
+        while (b !== 0) {
+            const q = Math.floor(a / b);
+            const r = a % b;
+            this.steps.push({ a, b, q, r });
+            a = b;
+            b = r;
+        }
+        const gcd = a;
+        this.animateSteps(gcd);
+    }
+    animateSteps(gcd) {
+        this.ui.steps.innerHTML = '';
+        this.ui.gcdResult.textContent = '...';
+        let i = 0;
+        const interval = setInterval(() => {
+            if (i < this.steps.length) {
+                const s = this.steps[i];
+                const step = document.createElement('div');
+                step.className = 'step';
+                step.innerHTML = `<span class="step-num">Step ${i + 1}:</span><span class="step-calc">${s.a} = ${s.q} × ${s.b} + ${s.r}</span>`;
+                this.ui.steps.appendChild(step);
+                i++;
+            } else {
+                clearInterval(interval);
+                const final = document.createElement('div');
+                final.className = 'step';
+                final.innerHTML = `<span class="step-num">✓ RESULT:</span><span class="step-calc">GCD = ${gcd}</span>`;
+                final.style.color = 'var(--gcd)';
+                this.ui.steps.appendChild(final);
+                this.ui.gcdResult.textContent = gcd;
+                this.ui.gcdFinal.textContent = gcd;
+                this.ui.stepCount.textContent = this.steps.length;
+                this.ui.status.textContent = `GCD(${this.a}, ${this.b}) = ${gcd} in ${this.steps.length} steps!`;
+            }
+        }, 500);
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

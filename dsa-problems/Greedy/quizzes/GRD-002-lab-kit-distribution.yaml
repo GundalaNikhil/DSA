@@ -1,0 +1,52 @@
+problem_id: GRD_LAB_KIT_DISTRIBUTION_002
+display_id: GRD-002
+slug: lab-kit-distribution
+questions:
+  - question: Which data structure is most suitable for efficiently retrieving and updating the largest available kit quantity?
+    difficulty: easy
+    points: 10
+    options:
+      - Max-Heap (Priority Queue)
+      - Sorted Array
+      - Stack
+      - Hash Map
+    correct_answer: 0
+    explanation: We constantly need to access and decrement the maximum element. A Max-Heap allows extraction and re-insertion in O(log k) time.
+    type: single_choice
+    id: prq_1
+  - question: Why is sorting the array of quantities only once at the beginning insufficient?
+    difficulty: medium
+    points: 15
+    options:
+      - Decrementing a value changes its relative order, effectively invalidating the sort
+      - The initial sort takes too long
+      - Sorting works, but it's harder to implement
+      - The values don't change enough to matter
+    correct_answer: 0
+    explanation: After taking a kit from the largest pile, that pile might become smaller than others. To maintain the greedy property, we need dynamic re-ordering (or a heap).
+    type: single_choice
+    id: edq_1
+  - question: What is the time complexity of the optimal Max-Heap solution?
+    difficulty: easy
+    points: 10
+    options:
+      - O(m log k)
+      - O(m * k)
+      - O(k log k)
+      - O(1)
+    correct_answer: 0
+    explanation: We perform `m` distribution steps. In each step, we extract from and potentially insert into a heap of size `k`, taking O(log k).
+    type: single_choice
+    id: edq_2
+  - question: How is the number of 'zeroed types' calculated in the optimal approach?
+    difficulty: easy
+    points: 10
+    options:
+      - Total types (k) minus the number of types remaining in the heap
+      - The current size of the heap
+      - The number of students left unserved
+      - The sum of remaining kits
+    correct_answer: 0
+    explanation: Types are removed from the heap only when they reach 0. Therefore, the difference between the initial count `k` and the final heap size is the number of zeroed types.
+    type: single_choice
+    id: edq_3

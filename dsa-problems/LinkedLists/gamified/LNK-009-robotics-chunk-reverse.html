@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNK-009: Robotics Chunk Reversal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Matte Sci-Fi Palette */
+            --bg: #282c34;
+            --panel: #21252b;
+            --text-main: #abb2bf;
+            --border: #3d434f;
+            
+            --accent-1: #98c379; /* Greenish */
+            --accent-2: #e06c75; /* Reddish */
+            --accent-3: #61afef; /* Blueish */
+            --accent-4: #c678dd; /* Purple */
+            
+            --selection: rgba(97, 175, 239, 0.2);
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text-main);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            background: var(--panel);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 { margin: 0; font-size: 1.4rem; color: var(--accent-3); display: flex; align-items: center; gap: 10px; }
+        
+        .param-chip {
+            background: #3e4451;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            color: white;
+            border: 1px solid var(--border);
+        }
+
+        main { flex: 1; display: flex; }
+
+        aside {
+            width: 340px;
+            background: var(--panel);
+            border-right: 1px solid var(--border);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            z-index: 10;
+        }
+
+        .data-display {
+            background: #282c34;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 1rem;
+        }
+
+        .data-label { font-size: 0.8rem; color: #5c6370; text-transform: uppercase; margin-bottom: 5px; }
+        .data-val { font-size: 1.6rem; color: var(--accent-1); }
+
+        .btn-group { display: flex; gap: 10px; flex-direction: column; }
+        
+        button {
+            background: #3e4451;
+            border: 1px solid var(--border);
+            color: white;
+            padding: 1rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        button:hover:not(:disabled) { background: #4b5263; border-color: var(--accent-3); }
+        button:disabled { opacity: 0.4; cursor: not-allowed; }
+        
+        button::after {
+            content:''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: transparent; transition: background 0.2s;
+        }
+        button:hover:not(:disabled)::after { background: var(--accent-3); }
+
+        #viz-window {
+            flex: 1;
+            position: relative;
+            background-color: var(--bg);
+            background-image: linear-gradient(0deg, transparent 24%, rgba(255, 255, 255, 0.03) 25%, rgba(255, 255, 255, 0.03) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.03) 75%, rgba(255, 255, 255, 0.03) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(255, 255, 255, 0.03) 25%, rgba(255, 255, 255, 0.03) 26%, transparent 27%, transparent 74%, rgba(255, 255, 255, 0.03) 75%, rgba(255, 255, 255, 0.03) 76%, transparent 77%, transparent);
+            background-size: 50px 50px;
+            overflow-x: auto;
+            display: flex;
+            align-items: center;
+            padding-left: 60px;
+        }
+
+        .node {
+            position: absolute;
+            width: 70px; height: 70px;
+            background: #282c34;
+            border: 2px solid var(--text-main);
+            color: var(--text-main);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem;
+            z-index: 5;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
+        }
+        
+        .node.selected { border-color: var(--accent-4); background: rgba(198, 120, 221, 0.1); color: var(--accent-4); }
+
+        .idx-marker {
+            position: absolute; top: -25px; font-size: 0.8rem; color: #5c6370;
+        }
+
+        /* Selection Box */
+        .selector {
+            position: absolute;
+            height: 100px;
+            border: 2px dashed var(--accent-3);
+            background: var(--selection);
+            pointer-events: none;
+            transition: all 0.3s;
+            opacity: 0;
+            z-index: 1;
+        }
+        
+        /* SVG Lines */
+        svg { position: absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:0; }
+        line { stroke: #4b5263; stroke-width: 2; transition: all 0.5s; }
+
+        /* Modal */
+        .modal {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            background: var(--panel); border: 1px solid var(--accent-3);
+            padding: 2rem; width: 450px; text-align: center;
+            box-shadow: 0 0 50px rgba(0,0,0,0.5);
+            z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .modal.active { opacity: 1; pointer-events: all; }
+
+        .start-btn {
+            background: var(--accent-3);
+            color: #282c34; border: none; padding: 0.8rem 2rem;
+            font-family: inherit; font-weight: bold; cursor: pointer;
+            margin-top: 1.5rem;
+        }
+        .start-btn:hover { background: #fff; }
+
+    
+        .alert-modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .alert-modal {
+            background: white; padding: 2rem; border-radius: 8px;
+            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+        .alert-modal button {
+            background: #4b5563; color: white; padding: 0.8rem 2rem;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .alert-modal button:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>
+        <span>[ REVERSAL PROTOCOL ]</span>
+    </h1>
+    <div style="display:flex; gap:10px;">
+        <span class="param-chip">Start S: <span id="val-s">--</span></span>
+        <span class="param-chip">Chunk K: <span id="val-k">--</span></span>
+    </div>
+</header>
+
+<main>
+    <aside>
+        <div class="data-display">
+            <div class="data-label">Full Reversals</div>
+            <div id="stat-count" class="data-val">0</div>
+        </div>
+
+        <div class="data-display">
+            <div class="data-label">Sum of Reversed</div>
+            <div id="stat-sum" class="data-val" style="color:var(--accent-4)">0</div>
+        </div>
+
+        <div style="flex:1"></div> <!-- Spacer -->
+
+        <div class="data-label">Operator Controls</div>
+        <div class="btn-group">
+            <button id="btn-select" onclick="game.selectChunk()">
+                ENGAGE CHUNK
+                <span style="display:block; font-size:0.7rem; margin-top:5px; color:#5c6370;">Select next K nodes</span>
+            </button>
+            <button id="btn-reverse" onclick="game.performReverse()" disabled>
+                EXECUTE REVERSE
+                <span style="display:block; font-size:0.7rem; margin-top:5px; color:#5c6370;">Rotate selection</span>
+            </button>
+            <button id="btn-skip" onclick="game.skipChunk()" disabled>
+                SKIP (INCOMPLETE)
+                <span style="display:block; font-size:0.7rem; margin-top:5px; color:#5c6370;">Leave unchanged</span>
+            </button>
+        </div>
+    </aside>
+
+    <div id="viz-window">
+        <svg id="svg-lines"></svg>
+        <div id="selector" class="selector"></div>
+        <!-- Nodes -->
+    </div>
+</main>
+
+<div id="start-modal" class="modal active">
+    <h2 style="color:var(--accent-3)">SYSTEM INITIALIZED</h2>
+    <p style="color:var(--text-main); font-size:0.9rem; line-height:1.6;">
+        <b>Protocol:</b>
+        <ul style="text-align:left; color:var(--text-main); font-size:0.9rem; margin:1rem 0;">
+            <li>1. <b>Engage Chunk</b>: Click to select next K nodes.</li>
+            <li>2. <b>Condition Check</b>:
+                <ul style="margin-left:15px; margin-top:5px; color:#5c6370;">
+                    <li>If <b>Full Chunk</b> (Size == K): <b>REVERSE</b>.</li>
+                    <li>If <b>Partial Chunk</b> (Size < K): <b>SKIP</b>.</li>
+                </ul>
+            </li>
+            <li>3. <b>Repeat</b> until end of stream.</li>
+        </ul>
+    </p>
+    <button class="start-btn" onclick="game.start()">BOOTSTRAP</button>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.nodes = [];
+            this.s = 0;
+            this.k = 0;
+            
+            this.currIdx = 0; // 0-based
+            this.revCount = 0;
+            this.revSum = 0;
+            
+            this.ui = {
+                viz: document.getElementById('viz-window'),
+                svg: document.getElementById('svg-lines'),
+                selector: document.getElementById('selector'),
+                valS: document.getElementById('val-s'),
+                valK: document.getElementById('val-k'),
+                count: document.getElementById('stat-count'),
+                sum: document.getElementById('stat-sum'),
+                btnSelect: document.getElementById('btn-select'),
+                btnRev: document.getElementById('btn-reverse'),
+                btnSkip: document.getElementById('btn-skip')
+            };
+        }
+
+        start() {
+            document.getElementById('start-modal').classList.remove('active');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.ui.viz.querySelectorAll('.node').forEach(n => n.remove());
+            this.ui.viz.querySelectorAll('.idx-marker').forEach(n => n.remove());
+            this.ui.svg.innerHTML = '';
+            
+            // Params
+            const n = 10;
+            this.s = 2 + Math.floor(Math.random()*2); // 2 or 3 (1-based)
+            this.k = 2 + Math.floor(Math.random()*2); // 2 or 3
+            
+            this.ui.valS.innerText = this.s;
+            this.ui.valK.innerText = this.k;
+            
+            this.nodes = [];
+            const vals = Array.from({length:n}, (_,i) => i*2 + Math.floor(Math.random()*9));
+            
+            const startX = 60;
+            const gap = 90;
+            const y = window.innerHeight / 2 - 35;
+            
+            vals.forEach((v, i) => {
+                const node = document.createElement('div');
+                node.className = 'node';
+                node.innerText = v;
+                node.style.left = startX + i*gap + 'px';
+                node.style.top = y + 'px';
+                
+                const idx = document.createElement('div');
+                idx.className = 'idx-marker';
+                idx.innerText = i+1;
+                idx.style.left = startX + i*gap + 'px';
+                idx.style.top = (y - 25) + 'px';
+                
+                this.ui.viz.appendChild(node);
+                this.ui.viz.appendChild(idx);
+                
+                this.nodes.push({
+                    val: v,
+                    x: startX + i*gap,
+                    y: y,
+                    el: node
+                });
+            });
+
+            this.drawLines();
+
+            // Init State
+            this.currIdx = 0;
+            // Advance implicitly to S-1 (0-based)
+            if (this.s > 1) {
+                this.currIdx = this.s - 1; 
+                // Color prefix nodes dimmed?
+                for(let i=0; i<this.currIdx; i++) {
+                    this.nodes[i].el.style.opacity = 0.3;
+                }
+            }
+            
+            this.revCount = 0;
+            this.revSum = 0;
+            this.updateStats();
+            
+            this.ui.btnSelect.disabled = false;
+            this.ui.btnRev.disabled = true;
+            this.ui.btnSkip.disabled = true;
+        }
+
+        drawLines() {
+            this.ui.svg.innerHTML = '';
+            for(let i=0; i<this.nodes.length-1; i++) {
+                const n1 = this.nodes[i];
+                const n2 = this.nodes[i+1];
+                const l = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                l.setAttribute('x1', n1.x + 35);
+                l.setAttribute('y1', n1.y + 35);
+                l.setAttribute('x2', n2.x + 35);
+                l.setAttribute('y2', n2.y + 35);
+                this.ui.svg.appendChild(l);
+            }
+        }
+
+        selectChunk() {
+            if (this.currIdx >= this.nodes.length) {
+                this.finish();
+                return;
+            }
+
+            // Determine chunk end
+            // Start is this.currIdx
+            // End is currIdx + k - 1
+            const end = Math.min(this.currIdx + this.k - 1, this.nodes.length - 1);
+            const size = end - this.currIdx + 1;
+            const full = (size === this.k);
+            
+            // Visual Selector
+            const nStart = this.nodes[this.currIdx];
+            const nEnd = this.nodes[end];
+            
+            const x = nStart.x - 10;
+            const w = (nEnd.x + 70 + 10) - x;
+            
+            this.ui.selector.style.opacity = 1;
+            this.ui.selector.style.left = x + 'px';
+            this.ui.selector.style.top = (nStart.y - 15) + 'px';
+            this.ui.selector.style.width = w + 'px';
+            
+            // Highlight nodes
+            for(let i=this.currIdx; i<=end; i++) {
+                this.nodes[i].el.classList.add('selected');
+            }
+            
+            this.ui.btnSelect.disabled = true;
+            if (full) {
+                this.ui.btnRev.disabled = false;
+                this.ui.btnSkip.disabled = true;
+            } else {
+                this.ui.btnRev.disabled = true;
+                this.ui.btnSkip.disabled = false;
+            }
+        }
+
+        performReverse() {
+             const start = this.currIdx;
+             const end = start + this.k - 1;
+             
+             // Extract subset values for stats
+             let chunkSum = 0;
+             for(let i=start; i<=end; i++) chunkSum += this.nodes[i].val;
+             
+             this.revSum += chunkSum;
+             this.revCount++;
+             this.updateStats();
+             
+             // Logical Reverse
+             // Swap positions of nodes visually (without changing array order yet?) 
+             // Logic: Reverse sub-array of nodes.
+             // Then re-assign X positions.
+             
+             const sub = this.nodes.slice(start, end+1).reverse();
+             // Update array
+             for(let i=0; i<sub.length; i++) {
+                 this.nodes[start+i] = sub[i];
+             }
+             
+             // Update Visuals
+             this.recalcPositions();
+             
+             // Advance
+             this.endStep(end + 1);
+        }
+
+        skipChunk() {
+            // Just advance
+            const end = this.nodes.length; // Remaining
+            this.endStep(end); // Jump to end basically
+        }
+        
+        recalcPositions() {
+            const startX = 60;
+            const gap = 90;
+            this.nodes.forEach((n, i) => {
+                 n.x = startX + i*gap;
+                 n.el.style.left = n.x + 'px';
+            });
+            setTimeout(() => this.drawLines(), 500);
+        }
+
+        endStep(nextIdx) {
+            // Clear selection
+            this.ui.selector.style.opacity = 0;
+            this.nodes.forEach(n => n.el.classList.remove('selected'));
+            
+            this.currIdx = nextIdx;
+            
+            this.ui.btnSelect.disabled = false;
+            this.ui.btnRev.disabled = true;
+            this.ui.btnSkip.disabled = true;
+            
+            if (this.currIdx >= this.nodes.length) {
+                setTimeout(() => this.finish(), 1000);
+            } else {
+                // Auto trigger select next? Better wait user.
+            }
+        }
+
+        updateStats() {
+            this.ui.count.innerText = this.revCount;
+            this.ui.sum.innerText = this.revSum;
+        }
+
+        finish() {
+            this.showGameAlert(`SEQUENCE COMPLETE.\nReversals: ${this.revCount}\nChecksum: ${this.revSum}`);
+            this.loadLevel();
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

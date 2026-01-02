@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEP-004: Rope Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #2c1810; --rope: #d4a574; --knot: #8b4513; --cost: #ff6b6b; --panel: #3c2410; --text: #ffe4c4; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--rope); }
+        h1 { margin: 0; font-family: 'Permanent Marker', cursive; color: var(--rope); font-size: 1.8rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--rope); }
+        .instructions b { color: var(--rope); }
+        .ropes-area { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; padding: 25px; background: var(--panel); border-radius: 15px; }
+        .rope { display: flex; align-items: center; gap: 5px; padding: 12px 20px; background: var(--rope); border-radius: 25px; cursor: pointer; transition: all 0.2s; color: #000; font-weight: bold; }
+        .rope:hover { transform: scale(1.05); }
+        .rope.selected { outline: 4px solid var(--cost); }
+        .rope.merged { opacity: 0.3; pointer-events: none; }
+        .rope-icon { font-size: 1.3rem; }
+        .connect-zone { padding: 20px 30px; background: rgba(139,69,19,0.3); border: 3px dashed var(--knot); border-radius: 15px; display: flex; gap: 20px; align-items: center; }
+        .connect-slot { width: 70px; height: 50px; background: rgba(212,165,116,0.2); border: 2px solid var(--rope); border-radius: 25px; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+        .connect-slot.filled { background: var(--rope); color: #000; }
+        .cost-display { background: var(--cost); color: #fff; padding: 15px 25px; border-radius: 10px; font-size: 1.3rem; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #5c3420; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #5c3420; }
+        .stat-label { color: #b8a090; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--rope); }
+        .btn { background: var(--rope); color: #000; border: none; padding: 12px 25px; font-family: 'Permanent Marker'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #e4b584; }
+        .btn.knot { background: var(--knot); color: #fff; }
+        .btn.secondary { background: transparent; border: 2px solid #5c3420; color: #b8a090; font-family: 'Nunito'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--rope); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--rope); font-family: 'Permanent Marker'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🪢 ROPE BUILDER</h1>
+    <div style="color:#b8a090">MINIMIZE CONNECT COST</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 TIE THE ROPES:</b> Connect all ropes into one! Cost = sum of lengths being connected. Choose wisely - always connect the two shortest ropes first!
+    </div>
+    <div style="color:var(--rope);">ROPE PIECES (click to select):</div>
+    <div class="ropes-area" id="ropes"></div>
+    <div class="connect-zone">
+        <span>CONNECT:</span>
+        <div class="connect-slot" id="slot1">?</div>
+        <span style="font-size:2rem">🪢</span>
+        <div class="connect-slot" id="slot2">?</div>
+        <button class="btn knot" onclick="game.connect()">TIE!</button>
+    </div>
+    <div class="cost-display">Total Cost: <span id="totalCost">0</span></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Ropes Left</span><span class="stat-value" id="left">0</span></div>
+            <div class="stat-row"><span class="stat-label">Optimal Cost</span><span class="stat-value" id="optimal">?</span></div>
+        </div>
+    </div>
+    <div id="status">Select two ropes to tie together!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.checkOptimal()">CHECK OPTIMAL</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW ROPES</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🪢 ROPE BUILDER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--rope)">CONCEPT:</b> Huffman-style Minimum Cost!</p>
+            <ul>
+                <li>Cost to connect = <b>sum of both lengths</b></li>
+                <li>Total cost = all connection costs added</li>
+                <li><b>Greedy:</b> always connect smallest first</li>
+                <li>Min-heap picks smallest in O(log n)</li>
+            </ul>
+            <p style="color:#888">Same as Huffman coding!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START TYING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.ropes = []; this.selected = []; this.totalCost = 0; this.optimal = 0;
+        this.ui = { ropes: document.getElementById('ropes'), slot1: document.getElementById('slot1'), slot2: document.getElementById('slot2'), totalCost: document.getElementById('totalCost'), left: document.getElementById('left'), optimal: document.getElementById('optimal'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const n = 5 + Math.floor(Math.random() * 3);
+        this.ropes = Array.from({length: n}, (_, i) => ({ id: i, len: Math.floor(Math.random() * 20) + 5, merged: false }));
+        this.computeOptimal();
+        this.selected = []; this.totalCost = 0;
+        this.ui.optimal.textContent = '?';
+        this.render();
+    }
+    computeOptimal() {
+        const heap = [...this.ropes.map(r => r.len)].sort((a, b) => a - b);
+        let cost = 0;
+        while (heap.length > 1) {
+            const a = heap.shift(), b = heap.shift();
+            cost += a + b;
+            heap.push(a + b);
+            heap.sort((a, b) => a - b);
+        }
+        this.optimal = cost;
+    }
+    selectRope(id) {
+        const rope = this.ropes.find(r => r.id === id);
+        if (!rope || rope.merged) return;
+        if (this.selected.includes(id)) this.selected = this.selected.filter(s => s !== id);
+        else if (this.selected.length < 2) this.selected.push(id);
+        this.render();
+    }
+    connect() {
+        if (this.selected.length !== 2) { this.ui.status.textContent = 'Select exactly 2 ropes!'; return; }
+        const r1 = this.ropes.find(r => r.id === this.selected[0]);
+        const r2 = this.ropes.find(r => r.id === this.selected[1]);
+        const cost = r1.len + r2.len;
+        this.totalCost += cost;
+        r1.merged = true; r2.merged = true;
+        const newRope = { id: this.ropes.length, len: cost, merged: false };
+        this.ropes.push(newRope);
+        this.selected = [];
+        const active = this.ropes.filter(r => !r.merged);
+        if (active.length === 1) {
+            this.ui.status.innerHTML = `🎉 DONE! Total cost: ${this.totalCost}`;
+            this.ui.optimal.textContent = this.optimal;
+            if (this.totalCost === this.optimal) {
+                this.ui.status.innerHTML += ' (OPTIMAL!)';
+                this.ui.status.style.color = '#4ecdc4';
+            } else {
+                this.ui.status.innerHTML += ` (Optimal was ${this.optimal})`;
+                this.ui.status.style.color = 'var(--cost)';
+            }
+        } else {
+            this.ui.status.textContent = `Connected! Cost: ${cost}`;
+        }
+        this.render();
+    }
+    checkOptimal() { this.ui.optimal.textContent = this.optimal; }
+    render() {
+        const active = this.ropes.filter(r => !r.merged);
+        this.ui.ropes.innerHTML = '';
+        this.ropes.forEach(r => {
+            const el = document.createElement('div');
+            el.className = 'rope';
+            if (r.merged) el.classList.add('merged');
+            if (this.selected.includes(r.id)) el.classList.add('selected');
+            el.innerHTML = `<span class="rope-icon">🪢</span><span>${r.len}</span>`;
+            el.onclick = () => this.selectRope(r.id);
+            this.ui.ropes.appendChild(el);
+        });
+        this.ui.slot1.textContent = this.selected[0] !== undefined ? this.ropes.find(r => r.id === this.selected[0]).len : '?';
+        this.ui.slot1.className = 'connect-slot' + (this.selected[0] !== undefined ? ' filled' : '');
+        this.ui.slot2.textContent = this.selected[1] !== undefined ? this.ropes.find(r => r.id === this.selected[1]).len : '?';
+        this.ui.slot2.className = 'connect-slot' + (this.selected[1] !== undefined ? ' filled' : '');
+        this.ui.totalCost.textContent = this.totalCost;
+        this.ui.left.textContent = active.length;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

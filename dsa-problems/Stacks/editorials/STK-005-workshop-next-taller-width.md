@@ -64,6 +64,20 @@ Imagine you are in a **Workshop** arranging tools on a wall rack.
 -   `stack.push(i)`
 -   Complexity: `O(N)` time, `O(N)` space.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Scan from right to left] --> B[Pop smaller or equal]
+B --> C{Stack has candidate}
+C -->|Yes| D{Distance within limit}
+D -->|Yes| E[Set answer to candidate]
+D -->|No| F[Set answer to minus one]
+C -->|No| F
+E --> G[Push current index]
+F --> G
+G --> A
+```
+
 ## Implementations
 
 ### Java

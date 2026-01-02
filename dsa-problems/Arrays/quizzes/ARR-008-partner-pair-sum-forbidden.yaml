@@ -1,0 +1,52 @@
+problem_id: ARR_PARTNER_PAIR_SUM_FORBIDDEN_008
+display_id: ARR-008
+slug: partner-pair-sum-forbidden
+questions:
+  - question: What is the key extra constraint on the pair?
+    difficulty: easy
+    points: 10
+    options:
+      - Values must be distinct
+      - Indices must not be in the forbidden set
+      - Both values must be even
+      - Indices must be adjacent
+    correct_answer: 1
+    explanation: A valid pair cannot use any forbidden index.
+    type: single_choice
+    id: prq_1
+  - question: For arr = [1, 4, 6, 7], target=11, forbidden indices {0}, what is the answer?
+    difficulty: easy
+    points: 10
+    options:
+      - "true"
+      - "false"
+      - depends on sorting
+      - not enough data
+    correct_answer: 0
+    explanation: Indices 1 and 3 are allowed, and 4 + 7 = 11.
+    type: single_choice
+    id: edq_1
+  - question: When a pointer lands on a forbidden index, what should the algorithm do?
+    difficulty: medium
+    points: 15
+    options:
+      - Use the value anyway
+      - Move the pointer past forbidden indices before checking sums
+      - Restart from the beginning
+      - Sort the array again
+    correct_answer: 1
+    explanation: Forbidden indices must be skipped before evaluating the pair sum.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of the two-pointer solution with a hash set for forbidden indices?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n log n)
+      - O(n^2)
+      - O(log n)
+    correct_answer: 0
+    explanation: Each pointer advances at most n times; forbidden checks are O(1).
+    type: single_choice
+    id: edq_3

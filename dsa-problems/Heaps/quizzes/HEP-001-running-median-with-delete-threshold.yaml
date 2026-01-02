@@ -1,2 +1,52 @@
-# Quiz for HEP-001: Running Median with Delete and Threshold
-# YAML content to be added
+problem_id: HEP_RUNNING_MEDIAN_DELETE_THRESHOLD_001
+display_id: HEP-001
+slug: running-median-with-delete-threshold
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: If q=3 and T=2, with operations ADD 10, ADD 20, MEDIAN, what is the output?
+    options:
+      - "10"
+      - "15"
+      - NA
+      - EMPTY
+    correct_answer: 0
+    explanation: Size is 2, which is not less than T(2). The lower median of {10, 20} is 10.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: Which combination of data structures is most efficient for tracking the median with deletions?
+    options:
+      - Sorted array
+      - Min-heap and Max-heap with hash maps for lazy deletion
+      - Single Max-heap and a frequency array
+      - Balanced Binary Search Tree without frequency counts
+    correct_answer: 1
+    explanation: Two heaps (max-heap for lower half, min-heap for upper half) allow O(log N) median access. Hash maps enable O(log N) lazy deletions.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: In lazy deletion, when should an element actually be popped from the heap top?
+    options:
+      - Immediately when DEL is called
+      - When the heap top is the element marked for deletion
+      - Only when the heap size reaches a certain threshold
+      - After every ADD operation
+    correct_answer: 1
+    explanation: Lazy deletion marks elements as 'to be deleted'. They are only popped when they bubble up to the top of the heap.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: If a multiset is {10, 20, 30} and T=4, what does a MEDIAN operation return?
+    options:
+      - "20"
+      - "10"
+      - NA
+      - EMPTY
+    correct_answer: 2
+    explanation: The size (3) is strictly less than the threshold T (4), so the output must be NA.

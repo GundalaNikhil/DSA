@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-008: Substring Counter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1abc9c;
+            --text: #2c3e50;
+            --card: #fff;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 { color: #fff; margin-top: 2rem; text-shadow: 2px 2px 0 rgba(0,0,0,0.1); }
+
+        .game-card {
+            background: var(--card);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .string-display {
+            font-size: 2.5rem;
+            font-weight: bold;
+            letter-spacing: 5px;
+            margin-bottom: 20px;
+            color: #16a085;
+        }
+
+        .question { font-size: 1.2rem; margin: 20px 0; }
+
+        .answer-input {
+            font-size: 2rem;
+            width: 120px;
+            text-align: center;
+            padding: 10px;
+            border: 3px solid #bdc3c7;
+            border-radius: 10px;
+        }
+        .answer-input:focus { outline: none; border-color: #16a085; }
+
+        .btn {
+            margin-top: 20px;
+            padding: 10px 30px;
+            background: #16a085;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+
+        .result { margin-top: 20px; font-size: 1.5rem; min-height: 2em; }
+
+        .substring-list {
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+            text-align: left;
+            font-size: 0.9rem;
+            background: #ecf0f1;
+            padding: 10px;
+            border-radius: 10px;
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>DISTINCT SUBSTRINGS</h1>
+
+<div class="game-card">
+    <div class="string-display" id="strDisplay">abc</div>
+    <div class="question">How many DISTINCT substrings does this string have?</div>
+    <input type="number" class="answer-input" id="answer" min="0">
+    <br>
+    <button class="btn" onclick="check()">CHECK</button>
+    <div class="result" id="result"></div>
+    <div class="substring-list" id="subList"></div>
+</div>
+
+<button style="margin-top:20px; padding:10px 20px; background:#fff; border:none; cursor:pointer; border-radius:5px" onclick="init()">New String</button>
+
+<script>
+    const STRINGS = ["abc", "aab", "aba", "abab", "aaa"];
+    let str = "";
+    let distinctCount = 0;
+
+    function countDistinct(s) {
+        const set = new Set();
+        for (let i = 0; i < s.length; i++) {
+            for (let j = i + 1; j <= s.length; j++) {
+                set.add(s.substring(i, j));
+            }
+        }
+        return set;
+    }
+
+    function init() {
+        str = STRINGS[Math.floor(Math.random() * STRINGS.length)];
+        const set = countDistinct(str);
+        distinctCount = set.size;
+        
+        document.getElementById('strDisplay').textContent = str;
+        document.getElementById('answer').value = '';
+        document.getElementById('result').textContent = '';
+        document.getElementById('subList').style.display = 'none';
+    }
+
+    function check() {
+        const userAns = parseInt(document.getElementById('answer').value);
+        const result = document.getElementById('result');
+        const list = document.getElementById('subList');
+
+        if (userAns === distinctCount) {
+            result.textContent = `CORRECT! There are ${distinctCount} distinct substrings.`;
+            result.style.color = "#27ae60";
+        } else {
+            result.textContent = `Incorrect. The answer is ${distinctCount}.`;
+            result.style.color = "#e74c3c";
+        }
+
+        // Show all substrings
+        const set = countDistinct(str);
+        list.innerHTML = '<strong>All substrings:</strong><br>' + Array.from(set).sort().map(s => `"${s}"`).join(', ');
+        list.style.display = 'block';
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

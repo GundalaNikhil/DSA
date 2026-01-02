@@ -65,6 +65,25 @@ Candidate 2: Peak at index 1 (Value 1)
 - Result: [4, 4, 4, 4, 5] (right side value 5 forces the peak to be 5)
 ```
 
+### 🔄 Algorithm Flow Diagram
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute L and SumL forward]
+    B --> C[Compute R and SumR backward]
+    C --> D[totalOriginalSum = sum of arr]
+    D --> E[Set minTotal = +inf, k = 0]
+    E --> F{k < n?}
+    F -- No --> J[Return minTotal - totalOriginalSum]
+    F -- Yes --> G[totalH = SumL at k + SumR at k - min of L at k and R at k]
+    G --> H[minTotal = min of minTotal and totalH]
+    H --> I[k++]
+    I --> F
+```
+
+> A pyramid stands tallest when the base is steady.
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Non-decreasing**: `x <= y`. Equal values are allowed (flat spots).

@@ -1,0 +1,52 @@
+problem_id: ARR_LEAKY_ROOF_REINFORCEMENT_011
+display_id: ARR-011
+slug: leaky-roof-reinforcement
+questions:
+  - question: What shape must the final height profile satisfy?
+    difficulty: easy
+    points: 10
+    options:
+      - Strictly increasing
+      - Non-decreasing up to a peak, then non-increasing
+      - Alternating high-low pattern
+      - Strictly decreasing
+    correct_answer: 1
+    explanation: The profile must be unimodal with a single peak.
+    type: single_choice
+    id: prq_1
+  - question: Which operation is allowed on heights?
+    difficulty: easy
+    points: 10
+    options:
+      - Only decrease heights
+      - Only increase heights
+      - Both increase and decrease heights
+      - Swap heights
+    correct_answer: 1
+    explanation: You can add planks to increase heights, never decrease them.
+    type: single_choice
+    id: edq_1
+  - question: For heights [4, 1, 3, 1, 5], what is the minimum total added height?
+    difficulty: medium
+    points: 15
+    options:
+      - "5"
+      - "6"
+      - "7"
+      - "8"
+    correct_answer: 2
+    explanation: One optimal profile is [4, 4, 4, 4, 5], adding 7 total.
+    type: single_choice
+    id: edq_2
+  - question: Which precomputations are used in the optimal solution?
+    difficulty: medium
+    points: 15
+    options:
+      - Prefix max L[i] and suffix max R[i] with their cumulative sums
+      - Prefix min and suffix min
+      - Only a global max
+      - Sorting the array
+    correct_answer: 0
+    explanation: L and R capture minimal feasible heights for non-decreasing and non-increasing sides.
+    type: single_choice
+    id: edq_3

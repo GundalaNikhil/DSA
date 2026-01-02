@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARR-013: Top K Frequent</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 850px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .header h1 { font-size: 36px; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #8b5cf6; margin-bottom: 15px; }
+
+        .goal-box {
+            background: #f5f3ff;
+            border: 2px solid #c4b5fd;
+            border-radius: 12px;
+            padding: 15px;
+            line-height: 1.6;
+        }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .k-display {
+            text-align: center;
+            padding: 15px;
+            background: linear-gradient(135deg, #8b5cf6, #a855f7);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .k-label { font-size: 14px; opacity: 0.9; }
+        .k-value { font-size: 40px; font-weight: 700; }
+
+        .items-grid {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px;
+            background: #f5f3ff;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .item {
+            padding: 12px 20px;
+            border-radius: 20px;
+            background: #fff;
+            border: 3px solid #e5e7eb;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+        .item:hover { border-color: #a855f7; transform: scale(1.05); }
+        .item.selected {
+            background: linear-gradient(135deg, #8b5cf6, #a855f7);
+            color: #fff;
+            border-color: #7c3aed;
+        }
+
+        .item-val { font-weight: 600; font-size: 18px; }
+        .item-freq {
+            background: rgba(0,0,0,0.1);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 12px;
+        }
+        .item.selected .item-freq { background: rgba(255,255,255,0.3); }
+
+        .selection-panel {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding: 15px;
+            background: #faf5ff;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            min-height: 60px;
+        }
+
+        .selected-chip {
+            padding: 8px 15px;
+            background: #8b5cf6;
+            color: #fff;
+            border-radius: 15px;
+            font-weight: 600;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-check { background: #22c55e; color: #fff; }
+        .btn-clear { background: #64748b; color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .message.correct { background: #dcfce7; color: #16a34a; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #f5f3ff; color: #8b5cf6; }
+
+        .new-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #8b5cf6;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>📊 Top K Frequent</h1>
+        <div style="opacity:0.9">Select the K most frequent elements!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="goal-box">
+            <strong>🎯 Goal:</strong> Click on the K elements that appear most frequently.
+            <br>Each item shows its value and frequency count (×N).
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="k-display">
+            <div class="k-label">Select Top</div>
+            <div class="k-value">K = <span id="kValue">3</span></div>
+        </div>
+
+        <div class="items-grid" id="itemsGrid"></div>
+
+        <div class="selection-panel" id="selectionPanel">
+            <span style="color:#999">Your selections appear here...</span>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-check" onclick="checkAnswer()">✓ Check</button>
+            <button class="btn btn-clear" onclick="clearSelection()">↺ Clear</button>
+        </div>
+
+        <div class="message neutral" id="message">Click on the items with the highest frequencies!</div>
+
+        <button class="new-btn" onclick="newGame()">🔄 New Items</button>
+    </div>
+</div>
+
+<script>
+    let items = []; // { value, freq }
+    let K = 3;
+    let selected = new Set();
+
+    function generateItems() {
+        // Generate array with varying frequencies
+        const values = ['🍎', '🍊', '🍋', '🍇', '🍉', '🍓', '🫐', '🥝'];
+        const n = 5 + Math.floor(Math.random() * 3); // 5-7 unique items
+        
+        K = 2 + Math.floor(Math.random() * 2); // K = 2-3
+
+        items = [];
+        const usedValues = new Set();
+
+        for (let i = 0; i < n; i++) {
+            let val;
+            do {
+                val = values[Math.floor(Math.random() * values.length)];
+            } while (usedValues.has(val));
+            usedValues.add(val);
+
+            items.push({
+                value: val,
+                freq: Math.floor(Math.random() * 8) + 1
+            });
+        }
+
+        // Shuffle for display
+        items.sort(() => Math.random() - 0.5);
+        selected = new Set();
+    }
+
+    function render() {
+        const grid = document.getElementById('itemsGrid');
+        grid.innerHTML = '';
+
+        items.forEach((item, i) => {
+            const el = document.createElement('div');
+            el.className = 'item' + (selected.has(i) ? ' selected' : '');
+            el.innerHTML = `
+                <span class="item-val">${item.value}</span>
+                <span class="item-freq">×${item.freq}</span>
+            `;
+            el.onclick = () => toggleItem(i);
+            grid.appendChild(el);
+        });
+
+        // Update selection panel
+        const panel = document.getElementById('selectionPanel');
+        if (selected.size === 0) {
+            panel.innerHTML = '<span style="color:#999">Your selections appear here...</span>';
+        } else {
+            panel.innerHTML = '';
+            selected.forEach(i => {
+                const chip = document.createElement('div');
+                chip.className = 'selected-chip';
+                chip.textContent = `${items[i].value} (×${items[i].freq})`;
+                panel.appendChild(chip);
+            });
+        }
+
+        document.getElementById('kValue').textContent = K;
+    }
+
+    function toggleItem(idx) {
+        if (selected.has(idx)) {
+            selected.delete(idx);
+        } else if (selected.size < K) {
+            selected.add(idx);
+        }
+        render();
+    }
+
+    function clearSelection() {
+        selected = new Set();
+        render();
+    }
+
+    function checkAnswer() {
+        if (selected.size !== K) {
+            document.getElementById('message').className = 'message wrong';
+            document.getElementById('message').textContent = `Select exactly ${K} items!`;
+            return;
+        }
+
+        // Get correct top K
+        const sorted = items.map((item, i) => ({ ...item, idx: i }))
+            .sort((a, b) => b.freq - a.freq)
+            .slice(0, K);
+
+        const correctSet = new Set(sorted.map(s => s.idx));
+
+        // Check if selected matches
+        let correct = true;
+        selected.forEach(i => {
+            if (!correctSet.has(i)) correct = false;
+        });
+
+        const msg = document.getElementById('message');
+        if (correct) {
+            msg.className = 'message correct';
+            msg.textContent = '✅ Correct! Those are the top K most frequent!';
+        } else {
+            const correctText = sorted.map(s => `${s.value}(×${s.freq})`).join(', ');
+            msg.className = 'message wrong';
+            msg.textContent = `❌ Wrong! Top ${K} are: ${correctText}`;
+        }
+    }
+
+    function newGame() {
+        generateItems();
+        render();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Click on the items with the highest frequencies!';
+    }
+
+    window.onload = newGame;
+</script>
+</body>
+</html>

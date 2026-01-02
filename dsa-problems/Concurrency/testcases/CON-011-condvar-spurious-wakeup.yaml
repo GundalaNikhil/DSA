@@ -1,18 +1,14 @@
 problem_id: CON_CONDVAR_WAIT_LOOP__3A0D
 samples:
-  - input: |-
-      shared flag=false
-      waiter starts waiting
-      signaler sets flag=true and signals
-    output: |-
-      Wait must be in a while-loop rechecking predicate; lost wakeups avoided by holding lock during update+signal.
+- input: 'shared flag=false
+
+    waiter starts waiting
+
+    signaler sets flag=true and signals'
+  output: Wait must be in a while-loop rechecking predicate; lost wakeups avoided by holding lock during update+signal.
 public:
-  - input: |-
-      spurious wakeup occurs
-    output: |-
-      Waiter must not proceed unless predicate is true; loop is mandatory.
+- input: spurious wakeup occurs
+  output: Waiter must not proceed unless predicate is true; loop is mandatory.
 hidden:
-  - input: |-
-      signal sent before waiter sleeps (race)
-    output: |-
-      Correct wait(cv, mutex) is atomic release+sleep; prevents missing the signal.
+- input: signal sent before waiter sleeps (race)
+  output: Correct wait(cv, mutex) is atomic release+sleep; prevents missing the signal.

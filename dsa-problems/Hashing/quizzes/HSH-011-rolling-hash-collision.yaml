@@ -1,2 +1,52 @@
-# Quiz for HSH-011: Rolling Hash Collision Finder
-# YAML content to be added
+problem_id: HSH_ROLLING_HASH_COLLISION_011
+display_id: HSH-011
+slug: rolling-hash-collision
+questions:
+  - question: What is the birthday paradox, and how does it apply to hash collisions?
+    difficulty: easy
+    points: 10
+    options:
+      - Birthdays are less likely to collide than hashes
+      - In a room of ~23 people, 2 share a birthday; similarly, after ~√M iterations, a hash collision is likely
+      - All hash collisions occur on birthdays
+      - Collisions are random and unpredictable
+    correct_answer: 1
+    explanation: The birthday paradox shows that with √M trials, a collision is expected with ~50% probability. For M=10⁹, √M ≈ 31,623 is much smaller than M.
+    type: single_choice
+    id: prq_1
+  - question: For a modulus M=10^9+7, approximately how many hash values must be generated before a collision is expected?
+    difficulty: easy
+    points: 10
+    options:
+      - 10^9+7
+      - ~31,623
+      - ~1000
+      - "2"
+    correct_answer: 1
+    explanation: √(10⁹+7) ≈ 31,623. The birthday paradox predicts a collision after ~√M iterations, not M iterations.
+    type: single_choice
+    id: edq_1
+  - question: Why does the pigeon hole principle guarantee a collision exists?
+    difficulty: medium
+    points: 15
+    options:
+      - Every string has a unique hash
+      - With 26^L possible strings of length L and only M possible hashes, if 26^L > M, a collision must exist
+      - Hashes are randomly distributed
+      - Collisions never actually occur
+    correct_answer: 1
+    explanation: If there are more strings (26^L, where L≤8) than possible hash values (M), by pigeonhole principle, some strings must share a hash.
+    type: single_choice
+    id: edq_2
+  - question: For the problem HSH-011 with L≤8 and M≤10^9, why is DFS generation effective?
+    difficulty: medium
+    points: 15
+    options:
+      - DFS is always faster than BFS
+      - 26^8 ≈ 2×10^11 is much larger than M ≈ 10^9, guaranteeing collision by pigeonhole
+      - DFS prevents hash collisions
+      - Only DFS can find collisions
+    correct_answer: 1
+    explanation: 26^8 ≈ 2×10^11 >> 10^9, so collisions are guaranteed. On average, √M ≈ 31,623 strings are needed before finding one.
+    type: single_choice
+    id: edq_3

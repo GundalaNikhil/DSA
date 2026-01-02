@@ -206,6 +206,20 @@ Output: [1, 3, 3, 3]
        isEnd: boolean
    ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Insert words into trie]
+    B --> C[Store count at each node]
+    C --> D[For each word traverse trie]
+    D --> E{Count is one}
+    E -->|Yes| F[Record length and stop]
+    E -->|No| G[Move to next character]
+    G --> D
+    F --> H[Collect all lengths]
+    H --> I[End]
+```
+
 **Time Complexity:**
 
 - Trie construction: O(N × L) where N = total words, L = average length

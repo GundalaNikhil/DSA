@@ -1,2 +1,52 @@
-# Quiz for STK-006: Assembly Previous Greater with Parity
-# YAML content to be added
+problem_id: STK_ASSEMBLY_PREVIOUS_GREATER_PARITY_006
+display_id: STK-006
+slug: assembly-previous-greater-parity
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: For the input [2, 9, 5, 7, 3], what is the result for the element 5?
+    options:
+      - "2"
+      - "9"
+      - "-1"
+      - "7"
+    correct_answer: 2
+    explanation: 5 is odd. We need the nearest element to its left that is greater and even. 2 is even and to the left, but 9 is greater and closer (but odd). 2 is the ONLY even number to the left.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: Why is it beneficial to maintain two separate monotonic stacks (one for odd, one for even) for this problem?
+    options:
+      - To reduce memory usage
+      - To simplify searching for opposite parity without checking every element
+      - Because the problem requires sorted input
+      - To avoid using an array
+    correct_answer: 1
+    explanation: When processing an even number, we can look at the 'odd' stack to find the nearest greater element without being blocked by other even numbers.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: When should an element be popped from the parity-specific monotonic stack?
+    options:
+      - When the current element is smaller than the stack top
+      - When the current element is strictly greater than the stack top
+      - When the parity matches the current element's parity
+      - After every 10 indices
+    correct_answer: 1
+    explanation: In a monotonic decreasing stack, we pop smaller elements because the current taller element is a 'better' previous greater candidate for future elements.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: What is the total space complexity if we store two monotonic stacks?
+    options:
+      - O(1)
+      - O(N)
+      - O(N^2)
+      - O(log N)
+    correct_answer: 1
+    explanation: The total number of elements across both stacks can never exceed N, so the space complexity is O(N).

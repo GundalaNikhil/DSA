@@ -66,6 +66,16 @@ Total = 3 * 2205 = 6615.
 Formula: C(3, 1) * 5^1 * 21^2 = 3 * 5 * 441 = 6615.
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Choose k vowel positions]
+    B --> C[Compute vowel choices]
+    C --> D[Compute consonant choices]
+    D --> E[Multiply and reduce modulo]
+    E --> F[Output count]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Constraints:** `n <= 10^6`. We need `O(n)` or `O(1)` if precomputed.

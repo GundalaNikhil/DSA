@@ -1,0 +1,52 @@
+problem_id: TRE_CAMPUS_VERTICAL_ORDER_WEIGHT_009
+display_id: TRE-009
+slug: campus-vertical-order-weight
+questions:
+  - question: What determines the order within a column?
+    difficulty: easy
+    points: 10
+    options:
+      - Value descending, then depth
+      - Depth ascending, weight descending, value ascending
+      - Weight ascending only
+      - Insertion order
+    correct_answer: 1
+    explanation: The problem specifies depth asc, weight desc, value asc.
+    type: single_choice
+    id: prq_1
+  - question: Which columns are printed?
+    difficulty: easy
+    points: 10
+    options:
+      - All columns
+      - Only columns whose total weight >= W
+      - Only columns with depth >= W
+      - Only the root column
+    correct_answer: 1
+    explanation: Columns must meet the weight threshold W.
+    type: single_choice
+    id: edq_1
+  - question: For the sample input, which columns are output?
+    difficulty: medium
+    points: 15
+    options:
+      - All columns
+      - Columns with weights at least 3
+      - Only column 0
+      - Only the rightmost column
+    correct_answer: 1
+    explanation: Columns with weight sums >= 3 are printed, as in the example.
+    type: single_choice
+    id: edq_2
+  - question: Which traversal helps assign column and depth to each node?
+    difficulty: medium
+    points: 15
+    options:
+      - BFS
+      - Postorder
+      - Inorder
+      - Morris traversal
+    correct_answer: 0
+    explanation: BFS naturally tracks depth and horizontal distance.
+    type: single_choice
+    id: edq_3

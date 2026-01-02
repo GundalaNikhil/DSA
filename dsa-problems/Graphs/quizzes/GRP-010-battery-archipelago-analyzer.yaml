@@ -1,0 +1,52 @@
+problem_id: GRP_BATTERY_ARCHIPELAGO_ANALYZER_010
+display_id: GRP-010
+slug: battery-archipelago-analyzer
+questions:
+  - question: Which edges are allowed in a valid path?
+    difficulty: easy
+    points: 10
+    options:
+      - Only edges with weight < B
+      - Only edges with weight <= B
+      - Only edges with weight >= B
+      - All edges
+    correct_answer: 1
+    explanation: An edge can be traversed only if its weight is <= B.
+    type: single_choice
+    id: prq_1
+  - question: For the sample input in the statement, what is the minimum valid cost?
+    difficulty: easy
+    points: 10
+    options:
+      - "30"
+      - "35"
+      - "40"
+      - "55"
+    correct_answer: 1
+    explanation: The valid path 0->1->2->3 has total cost 35.
+    type: single_choice
+    id: edq_1
+  - question: Which modification to Dijkstra solves this problem?
+    difficulty: medium
+    points: 15
+    options:
+      - Ignore edge weights
+      - Skip edges with weight > B during relaxation
+      - Use BFS instead
+      - Sort nodes by degree
+    correct_answer: 1
+    explanation: Filtering out heavy edges reduces the problem to standard Dijkstra.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of the filtered Dijkstra approach?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n + m)
+      - O((n + m) log n)
+      - O(n^2)
+      - O(m log m)
+    correct_answer: 1
+    explanation: The algorithm still runs Dijkstra with heap operations.
+    type: single_choice
+    id: edq_3

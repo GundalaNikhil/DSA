@@ -58,6 +58,23 @@ X X X
 X . .
 X . .
 ```
+Once you avoid the poison, every legal move is a clean bite.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with state heights] --> B{State in memo?}
+    B -- Yes --> C[Return memo value]
+    B -- No --> D[Try all cells r c within state]
+    D --> E{Move avoids poison?}
+    E -- No --> F[Skip move]
+    E -- Yes --> G[Build next state by lowering columns]
+    G --> H{Next state is losing?}
+    H -- Yes --> I[Store winning and return]
+    H -- No --> F
+    F --> D
+    D --> J[Store losing and return]
+```
 
 ## ✅ Input/Output Clarifications
 

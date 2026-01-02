@@ -76,6 +76,20 @@ Imagine you are designing a **Programmable Circuit Controller**.
 -   Handle each type.
 -   Complexity: `O(T)` time, `O(T)` space.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read next token] --> B{Token type}
+B -->|Number or variable| C[Push value]
+B -->|Operator| D[Pop operands and compute]
+B -->|DUP| E[Duplicate top value]
+B -->|SWAP| F[Swap top two values]
+C --> A
+D --> A
+E --> A
+F --> A
+```
+
 ## Implementations
 
 ### Java

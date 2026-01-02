@@ -41,14 +41,17 @@ You are organizing a group study session.
     -   They **must** all be free at 5PM and 6PM (Intersection includes X).
     -   They **must not** have any *other* common free time (Intersection is *exactly* X). If they are all free at 7PM too, the session might drag on too long. You want precise time-boxing.
 
-![Real-World Application](../images/BIT-010/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291281/Bitwise/BIT-010/v2/b7e3s2we8eucpymjdq1t.png)
 
 ### From Real World to Algorithm
 -   **Intersection:** Bitwise AND represents the common set bits (intersection).
 -   **Exactness:** We need $\text{AND}(\text{Subset}) == X$.
 -   **Small N:** Since there are only 20 students, we can check every possible group combination. $2^{20} \approx 1,000,000$, which is very fast for computers.
+AND is picky about consensus, so only bits everyone agrees on survive.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291284/Bitwise/BIT-010/v2/ofgcggt0nswagzqfjl7w.png)
 
 ### logical Diagram: The Filtering Process
 
@@ -72,15 +75,21 @@ You are organizing a group study session.
 
 **Total Matches:** 2.
 
+<!-- mermaid -->
 ```mermaid
-graph TD
-    Start[Input Array] --> Filter[Keep only Supermasks of X]
-    Filter --> Candidates[Reduced List]
-    Candidates --> Iterate[Iterate all 2^k Subsets]
-    Iterate --> Calc[Calculate AND]
-    Calc --> Check{== X?}
-    Check -- Yes --> Count[Increment Result]
-    Check -- No --> Continue
+flowchart TD
+    A[Start with array and X] --> B[Filter values where v AND X equals X]
+    B --> C[Set count to 0]
+    C --> D[Set mask to 1]
+    D --> E{mask less than 2 to the power k?}
+    E -- No --> I[Return count]
+    E -- Yes --> F[Compute AND for subset mask]
+    F --> G{AND equals X?}
+    G -- Yes --> H[count++]
+    G -- No --> J[No change]
+    H --> K[mask++]
+    J --> K
+    K --> E
 ```
 
 ## ✅ Input/Output Clarifications
@@ -251,7 +260,9 @@ class Solution {
 }
 ```
 
-## 🧪 Test Case Walkthrough (Dry Run)
+## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291287/Bitwise/BIT-010/v2/zhtcpbpp6i5yp7fh1x7y.png) (Dry Run)
 
 **Input**: `6, 4, 2`. `X=2`.
 1. **Filter**:

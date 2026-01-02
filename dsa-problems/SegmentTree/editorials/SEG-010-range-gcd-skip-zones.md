@@ -67,6 +67,18 @@ Imagine a **Cluster Health Monitoring System**.
 -   **Update**: `O(log N + log (max_val))`. GCD takes logarithmic time.
 -   **Query**: `O(log N + log (max_val))`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build tree with active values] --> B[Handle toggle]
+B --> C[Set leaf to zero or value]
+C --> D[Handle set update]
+D --> E[Update leaf if active]
+E --> F[Handle gcd query]
+F --> G[Combine gcd over range]
+G --> H[Output result]
+```
+
 ## Implementations
 
 ### Java

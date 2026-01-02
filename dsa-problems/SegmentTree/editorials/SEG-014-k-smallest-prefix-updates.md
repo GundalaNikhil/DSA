@@ -61,6 +61,16 @@ This is a standard **Range Assignment** problem, but restricted to prefixes.
 -   **Query**: `O(log N)`.
 -   Space: `O(N)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build tree with sums] --> B[Handle setprefix]
+B --> C[Apply range set with lazy]
+C --> D[Handle sum query]
+D --> E[Push lazy when needed]
+E --> F[Return sum]
+```
+
 ## Implementations
 
 ### Java

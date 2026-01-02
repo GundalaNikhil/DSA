@@ -1,2 +1,52 @@
-# Quiz for STC-002: Pattern Search With KMP
-# YAML content to be added
+problem_id: STC_PATTERN_SEARCH_KMP_002
+display_id: STC-002
+slug: pattern-search-kmp
+questions:
+  - question: After finding a full match of the pattern `p` in text `t` (i.e., `j` reaches `|p|`), what is the correct step to continue searching for potentially overlapping matches without missing any?
+    difficulty: medium
+    points: 15
+    options:
+      - Set `j = pi[j - 1]`
+      - Set `j = 0`
+      - Set `j = j - 1`
+      - Stop the algorithm
+    correct_answer: 0
+    explanation: To find overlapping matches (e.g., 'ana' in 'banana'), we must treat the full match as a 'mismatch' at the hypothetical next character. The longest proper prefix of `p` that matches a suffix of `p` (given by `pi[|p|-1]`) is the correct starting point for the next potential match.
+    type: single_choice
+    id: prq_1
+  - question: What is the worst-case time complexity of the KMP algorithm to search for pattern `p` in text `t`?
+    difficulty: easy
+    points: 10
+    options:
+      - "`O(|p| + |t|)`"
+      - "`O(|p| * |t|)`"
+      - "`O(|t|)`"
+      - "`O(|t| log |p|)`"
+    correct_answer: 0
+    explanation: KMP preprocesses the pattern in `O(|p|)` and then scans the text in `O(|t|)`, ensuring each character of the text is processed a constant number of times on average.
+    type: single_choice
+    id: edq_1
+  - question: A common KMP implementation trick involves concatenating the pattern and text. What is the correct format string `S` to compute the prefix function on?
+    difficulty: medium
+    points: 15
+    options:
+      - "`P + '#' + T` (where `#` is a unique separator)"
+      - "`P + T`"
+      - "`T + '#' + P`"
+      - "`P + '$' + T + '#'`"
+    correct_answer: 0
+    explanation: Using a unique separator `#` that appears in neither string ensures that the prefix match values in the `T` part of the string never exceed `|P|`, correctly identifying occurrences where `pi[i] == |P|`.
+    type: single_choice
+    id: edq_2
+  - question: In the KMP search loop, if `t[i] != p[j]` and `j > 0`, we update `j = pi[j-1]`. Conceptually, what does this operation represent?
+    difficulty: hard
+    points: 10
+    options:
+      - Shifting the pattern to the right so that the widest possible verified prefix of `p` aligns with the known suffix of the matched text.
+      - Restarting the match from the beginning of the pattern.
+      - Skipping the current character `t[i]`.
+      - Moving the text pointer `i` backwards.
+    correct_answer: 0
+    explanation: "`pi[j-1]` gives the length of the longest prefix of `p` that is also a suffix of `p[0...j-1]`. Since `p[0...j-1]` matched the text, shifting the pattern to align this prefix allows us to implicitly keep the maximum possible partial match."
+    type: single_choice
+    id: edq_3

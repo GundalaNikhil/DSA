@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUE-016: Assembly Line</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: linear-gradient(135deg, #1a1a1a 0%, #333 100%); --belt: #444; --item: #00d4ff; --buffer: #ffcc00; --panel: rgba(0,0,0,0.7); --text: #fff; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--item); }
+        h1 { margin: 0; font-family: 'Share Tech Mono', monospace; color: var(--item); font-size: 1.8rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .factory { display: flex; flex-direction: column; align-items: center; gap: 30px; }
+        .conveyor-belt { width: 600px; height: 100px; background: repeating-linear-gradient(90deg, #222, #222 20px, #333 20px, #333 40px); border: 2px solid #555; border-radius: 10px; display: flex; align-items: center; padding: 0 20px; overflow: hidden; position: relative; }
+        .belt-label { position: absolute; top: -25px; left: 10px; font-family: 'Share Tech Mono'; color: #888; }
+        .items { display: flex; gap: 10px; transition: transform 0.5s; }
+        .part { width: 50px; height: 50px; background: var(--item); border-radius: 5px; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #000; box-shadow: 0 0 10px var(--item); }
+        .buffer-zone { width: 300px; padding: 20px; background: rgba(255,204,0,0.1); border: 2px dashed var(--buffer); border-radius: 15px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .buffer-slots { display: flex; gap: 10px; min-height: 60px; }
+        .buffer-slot { width: 50px; height: 50px; border: 2px solid var(--buffer); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: #aaa; font-size: 0.8rem; }
+        .output-bin { width: 100px; height: 100px; background: #222; border: 3px solid #00ff88; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .output-count { font-size: 2rem; font-family: 'Share Tech Mono'; color: #00ff88; }
+        .controls { display: flex; gap: 15px; }
+        .btn { background: var(--item); color: #000; border: none; padding: 15px 35px; font-family: 'Share Tech Mono'; font-size: 1.1rem; cursor: pointer; border-radius: 5px; transition: all 0.2s; }
+        .btn:hover { transform: scale(1.05); filter: brightness(1.2); }
+        .btn.buffer { background: var(--buffer); }
+        .btn.process { background: #00ff88; }
+        #status { font-family: 'Share Tech Mono'; color: var(--item); min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: #222; padding: 40px; border: 3px solid var(--item); max-width: 500px; text-align: center; border-radius: 10px; }
+        .dialog h2 { color: var(--item); font-family: 'Share Tech Mono'; margin: 0 0 20px 0; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🏭 ASSEMBLY LINE</h1>
+    <div style="color:var(--item)">BUFFER MANAGEMENT</div>
+</header>
+<main>
+    <div class="factory">
+        <div style="position:relative">
+            <div class="belt-label">INCOMING PARTS (QUEUE)</div>
+            <div class="conveyor-belt">
+                <div class="items" id="queue"></div>
+            </div>
+        </div>
+        <div style="display:flex;gap:50px;align-items:center;">
+            <div class="buffer-zone">
+                <div style="color:var(--buffer);font-family:'Share Tech Mono'">⚠️ HOLDING BUFFER</div>
+                <div class="buffer-slots" id="buffer"></div>
+            </div>
+            <div class="output-bin">
+                <div style="color:#00ff88;font-size:0.8rem;">PROCESSED</div>
+                <div class="output-count" id="processed">0</div>
+            </div>
+        </div>
+    </div>
+    <div id="status">Factory ready. Process parts in order!</div>
+    <div class="controls">
+        <button class="btn" onclick="game.nextPart()">📥 Next Part</button>
+        <button class="btn buffer" onclick="game.moveToBuffer()">🏗️ Move to Buffer</button>
+        <button class="btn process" onclick="game.processFromQueue()">⚙️ Process Queue</button>
+        <button class="btn process" onclick="game.processFromBuffer()">⚙️ Process Buffer</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🏭 ASSEMBLY LINE</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--item)">BUFFER SWAP LOGIC!</b></p>
+            <ul>
+                <li>⚙️ Goal: Process parts in order (1, 2, 3...)</li>
+                <li>📥 Parts arrive safely out of order</li>
+                <li>🏗️ Use <b>Buffer</b> to hold parts temporarily</li>
+                <li>⚙️ Process from Queue or Buffer when ready</li>
+                <li>🧠 Optimize buffer usage!</li>
+            </ul>
+        </div>
+        <button class="btn" onclick="game.start()">🏭 START SHIFT</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.queue = []; this.buffer = []; this.processed = 0; this.nextNeeded = 1;
+        this.ui = { queue: document.getElementById('queue'), buffer: document.getElementById('buffer'), processed: document.getElementById('processed'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { 
+        this.ui.modal.classList.add('hidden'); 
+        this.queue = [1, 3, 2, 5, 4]; // Initial scrambled batch
+        this.render();
+    }
+    nextPart() {
+        const val = Math.floor(Math.random() * 5) + 6 + this.queue.length; // Just random future parts
+        this.queue.push(val); 
+        this.render();
+    }
+    moveToBuffer() {
+        if (this.queue.length === 0) { this.ui.status.textContent = '⚠️ Queue empty!'; return; }
+        const part = this.queue.shift();
+        this.buffer.push(part);
+        this.ui.status.textContent = `Moved part ${part} to buffer`;
+        this.render();
+    }
+    processFromQueue() {
+        if (this.queue.length === 0) return;
+        const part = this.queue[0];
+        if (part === this.nextNeeded) {
+            this.queue.shift();
+            this.processed++;
+            this.nextNeeded++;
+            this.ui.status.textContent = `✅ Processed part ${part}!`;
+            this.checkWin();
+        } else {
+            this.ui.status.textContent = `⚠️ Needed ${this.nextNeeded}, got ${part}. Move to buffer?`;
+        }
+        this.render();
+    }
+    processFromBuffer() {
+        if (this.buffer.length === 0) return;
+        // Find if needed part is in buffer
+        const idx = this.buffer.indexOf(this.nextNeeded);
+        if (idx !== -1) {
+            this.buffer.splice(idx, 1);
+            this.processed++;
+            this.nextNeeded++;
+            this.ui.status.textContent = `✅ Retrieved & processed ${this.nextNeeded-1} from buffer!`;
+            this.checkWin();
+        } else {
+            this.ui.status.textContent = `⚠️ Part ${this.nextNeeded} not in buffer!`;
+        }
+        this.render();
+    }
+    checkWin() {
+        if (this.processed % 5 === 0) this.ui.status.textContent += ' Great efficiency!';
+    }
+    render() {
+        this.ui.queue.innerHTML = '';
+        this.queue.forEach(p => {
+            const el = document.createElement('div');
+            el.className = 'part';
+            el.textContent = p;
+            this.ui.queue.appendChild(el);
+        });
+        this.ui.buffer.innerHTML = '';
+        this.buffer.forEach(p => {
+            const el = document.createElement('div');
+            el.className = 'buffer-slot';
+            el.style.background = 'var(--item)';
+            el.style.color = '#000';
+            el.style.fontWeight = 'bold';
+            el.textContent = p;
+            this.ui.buffer.appendChild(el);
+        });
+        this.ui.processed.textContent = this.processed;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

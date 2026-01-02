@@ -1,0 +1,52 @@
+problem_id: GRP_COURSE_PLAN_MANDATORY_PAIRS_007
+display_id: GRP-007
+slug: course-plan-mandatory-pairs
+questions:
+  - question: If no valid schedule exists, what should be printed?
+    difficulty: easy
+    points: 10
+    options:
+      - "-1"
+      - "0"
+      - empty list
+      - "false"
+    correct_answer: 0
+    explanation: The output is -1 when no valid ordering exists.
+    type: single_choice
+    id: prq_1
+  - question: What does a mandatory pair (u, v) require?
+    difficulty: easy
+    points: 10
+    options:
+      - u must come before v
+      - v must come before u
+      - u and v must be adjacent in any order
+      - u and v must be in different components
+    correct_answer: 2
+    explanation: Mandatory pairs must appear next to each other in the final schedule.
+    type: single_choice
+    id: edq_1
+  - question: "A common approach to enforce adjacency pairs is to:"
+    difficulty: medium
+    points: 15
+    options:
+      - Ignore the pairs during sorting
+      - Contract each pair into a super-node and topologically sort
+      - Sort by course number
+      - Run BFS from node 0
+    correct_answer: 1
+    explanation: Contracting pairs reduces the problem to topological sorting of super-nodes.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of the approach using contraction and topological sort?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n + m)
+      - O(n + m + p)
+      - O(n^2)
+      - O(m log n)
+    correct_answer: 1
+    explanation: You process edges and pairs once, giving O(n + m + p).
+    type: single_choice
+    id: edq_3

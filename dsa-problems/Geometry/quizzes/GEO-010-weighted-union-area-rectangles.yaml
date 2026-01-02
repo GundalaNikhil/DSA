@@ -1,0 +1,52 @@
+problem_id: GEO_WEIGHTED_UNION_AREA_RECTANGLES_010
+display_id: GEO-010
+slug: weighted-union-area-rectangles
+questions:
+  - question: Which region contributes to the area in this problem?
+    difficulty: easy
+    points: 10
+    options:
+      - Points covered by at least one rectangle
+      - Points where cumulative weight is at least W
+      - Points covered by exactly W rectangles
+      - Only the overlap of all rectangles
+    correct_answer: 1
+    explanation: We count points where the sum of weights from covering rectangles is >= W.
+    type: single_choice
+    id: prq_1
+  - question: For the sample input with two rectangles and W=2, what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "3"
+      - "4"
+      - "5"
+    correct_answer: 2
+    explanation: The statement example reports total area 4 where weight sum >= 2.
+    type: single_choice
+    id: edq_1
+  - question: What is the time complexity of the sweep line + segment tree solution?
+    difficulty: medium
+    points: 15
+    options:
+      - O(m)
+      - O(m log m)
+      - O(m^2)
+      - O(log m)
+    correct_answer: 1
+    explanation: Sorting events and updating the segment tree costs O(m log m).
+    type: single_choice
+    id: edq_2
+  - question: Why is coordinate compression used for y-values?
+    difficulty: medium
+    points: 15
+    options:
+      - To avoid floating point
+      - Because y coordinates can be very large
+      - To ensure rectangles are sorted
+      - To reduce the number of rectangles
+    correct_answer: 1
+    explanation: Compression maps large coordinates to a compact index set for the segment tree.
+    type: single_choice
+    id: edq_3

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRE-015: Treasure Rank</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Lora&display=swap" rel="stylesheet">
+    <style>
+        :root { --gold: #ffd700; --bronze: #cd7f32; --silver: #c0c0c0; --chest: #8b4513; --dark: #2c1810; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Lora', serif; background: linear-gradient(180deg, var(--dark) 0%, #1a0f0a 100%); min-height: 100vh; color: #fff; }
+        header { background: rgba(0,0,0,0.5); padding: 15px; text-align: center; border-bottom: 3px solid var(--gold); }
+        h1 { font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; }
+        main { padding: 20px; max-width: 900px; margin: 0 auto; }
+        .treasure-vault { background: linear-gradient(135deg, #3d2914 0%, var(--dark) 100%); border: 5px solid var(--chest); border-radius: 15px; padding: 30px; min-height: 350px; }
+        .tree-container { display: flex; flex-direction: column; align-items: center; gap: 25px; }
+        .tree-level { display: flex; gap: 20px; }
+        .gem { width: 55px; height: 55px; background: radial-gradient(circle, #fff 0%, var(--silver) 50%, #999 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: bold; color: #333; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .gem:hover { transform: scale(1.1); }
+        .gem.visited { background: radial-gradient(circle, var(--gold) 0%, #daa520 100%); animation: glow 0.5s ease; }
+        .gem.found { background: radial-gradient(circle, #e74c3c 0%, #c0392b 100%); box-shadow: 0 0 30px #e74c3c; animation: pulse 0.5s ease; }
+        @keyframes glow { 0%,100% { box-shadow: 0 5px 15px rgba(0,0,0,0.5); } 50% { box-shadow: 0 0 30px var(--gold); } }
+        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+        .controls { background: rgba(0,0,0,0.5); border-radius: 10px; padding: 20px; margin-top: 20px; display: flex; gap: 15px; align-items: center; justify-content: center; flex-wrap: wrap; }
+        .input-group { display: flex; gap: 10px; align-items: center; color: var(--gold); }
+        .input-group input { width: 60px; padding: 10px; font-size: 1.2rem; border: 2px solid var(--gold); border-radius: 8px; text-align: center; background: #333; color: var(--gold); }
+        .btn { padding: 15px 25px; border: none; border-radius: 10px; font-family: 'Cinzel', serif; font-size: 1rem; cursor: pointer; }
+        .btn-find { background: var(--gold); color: #333; }
+        .btn-reset { background: var(--chest); color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+        .result { background: rgba(255,215,0,0.1); border: 2px solid var(--gold); border-radius: 10px; padding: 20px; margin-top: 15px; text-align: center; display: none; }
+        .result.show { display: block; }
+        .result-value { font-size: 3rem; color: var(--gold); font-weight: bold; }
+        #message { text-align: center; color: var(--gold); padding: 10px; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🏆 TREASURE RANK</h1>
+</header>
+<main>
+    <div id="message">Find the Kth smallest treasure in the vault!</div>
+    <div class="treasure-vault">
+        <div class="tree-container" id="tree"></div>
+    </div>
+    <div class="controls">
+        <div class="input-group">
+            <label>Find rank:</label>
+            <input type="number" id="k" min="1" max="7" value="3">
+        </div>
+        <button class="btn btn-find" onclick="game.findKth()">🔍 FIND KTH</button>
+        <button class="btn btn-reset" onclick="game.reset()">🔄 RESET</button>
+    </div>
+    <div class="result" id="result">
+        <div>The <span id="kth-label"></span> smallest treasure is:</div>
+        <div class="result-value" id="kth-value"></div>
+    </div>
+</main>
+<script>
+class TreasureRank {
+    constructor() {
+        this.tree = { val: 5, left: { val: 3, left: { val: 1 }, right: { val: 4 } }, right: { val: 7, left: { val: 6 }, right: { val: 8 } } };
+        this.render();
+    }
+    render() {
+        const container = document.getElementById('tree');
+        container.innerHTML = '';
+        const levels = [[this.tree]];
+        let queue = [this.tree];
+        while (queue.length) {
+            const next = [];
+            queue.forEach(n => { if (n.left) next.push(n.left); if (n.right) next.push(n.right); });
+            if (next.length) levels.push(next);
+            queue = next;
+        }
+        levels.forEach(level => {
+            const row = document.createElement('div');
+            row.className = 'tree-level';
+            level.forEach(node => {
+                const el = document.createElement('div');
+                el.className = 'gem';
+                el.id = `gem-${node.val}`;
+                el.textContent = node.val;
+                row.appendChild(el);
+            });
+            container.appendChild(row);
+        });
+    }
+    getInorder(node, result = []) {
+        if (!node) return result;
+        this.getInorder(node.left, result);
+        result.push(node.val);
+        this.getInorder(node.right, result);
+        return result;
+    }
+    async findKth() {
+        const k = parseInt(document.getElementById('k').value);
+        document.querySelectorAll('.gem').forEach(g => g.classList.remove('visited', 'found'));
+        const inorder = this.getInorder(this.tree);
+        if (k < 1 || k > inorder.length) {
+            document.getElementById('message').textContent = `Invalid K! Must be 1-${inorder.length}`;
+            return;
+        }
+        document.getElementById('message').textContent = 'Searching in-order...';
+        for (let i = 0; i < k; i++) {
+            const val = inorder[i];
+            const el = document.getElementById(`gem-${val}`);
+            el.classList.add('visited');
+            await this.delay(400);
+            if (i === k - 1) {
+                el.classList.add('found');
+                document.getElementById('kth-label').textContent = k === 1 ? '1st' : k === 2 ? '2nd' : k === 3 ? '3rd' : `${k}th`;
+                document.getElementById('kth-value').textContent = val;
+                document.getElementById('result').classList.add('show');
+                document.getElementById('message').innerHTML = `<span style="color:var(--gold)">🎉 Found! ${k}${k===1?'st':k===2?'nd':k===3?'rd':'th'} smallest = ${val}</span>`;
+            }
+        }
+    }
+    reset() {
+        document.querySelectorAll('.gem').forEach(g => g.classList.remove('visited', 'found'));
+        document.getElementById('result').classList.remove('show');
+        document.getElementById('message').textContent = 'Enter K and search!';
+    }
+    delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+}
+const game = new TreasureRank();
+</script>
+</body>
+</html>

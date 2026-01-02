@@ -1,2 +1,52 @@
-# Quiz for STC-001: KMP Prefix Function
-# YAML content to be added
+problem_id: STC_KMP_PREFIX_FUNCTION_001
+display_id: STC-001
+slug: kmp-prefix-function
+questions:
+  - question: What does the value `pi[i]` represent in the KMP prefix function array for a string `s`?
+    difficulty: easy
+    points: 10
+    options:
+      - The length of the longest proper prefix of `s[0...i]` that is also a suffix of `s[0...i]`.
+      - The length of the longest substring ending at `i` that is a palindrome.
+      - The number of times the prefix `s[0...i]` appears in the string.
+      - The start index of the longest proper prefix of `s[0...i]`.
+    correct_answer: 0
+    explanation: By definition, the prefix function value at index `i` is the length of the longest proper prefix of the substring ending at `i` that matches a suffix of the same substring.
+    type: single_choice
+    id: prq_1
+  - question: Why is the time complexity of the KMP prefix function calculation considered `O(N)` despite having a `while` loop inside the `for` loop?
+    difficulty: medium
+    points: 15
+    options:
+      - Because the variable `j` (current match length) increases at most `N` times in total and cannot decrease below 0.
+      - Because the `while` loop runs at most `N` times for each `i`.
+      - Because the string length is small.
+      - It is actually `O(N^2)` in the worst case.
+    correct_answer: 0
+    explanation: This is an amortized analysis argument. In each iteration of the `for` loop, `j` increases by at most 1. The `while` loop decreases `j`. Since `j` is non-negative, the total number of decrements across the entire algorithm cannot exceed the total number of increments, which is bounded by `N`.
+    type: single_choice
+    id: edq_1
+  - question: When computing `pi[i]`, if the character `s[i]` does not match `s[j]`, what is the correct update for `j`?
+    difficulty: medium
+    points: 15
+    options:
+      - "`j = pi[j - 1]`"
+      - "`j = j - 1`"
+      - "`j = 0`"
+      - "`j = pi[i]`"
+    correct_answer: 0
+    explanation: If `s[i] != s[j]`, we cannot extend the current prefix of length `j`. We must fall back to the next longest valid prefix that is also a suffix, which is given by `pi[j-1]`.
+    type: single_choice
+    id: edq_2
+  - question: Given a string `s` of length `N` and its last prefix function value `k = pi[N-1]`, what condition implies that the string has a period of length `N - k`?
+    difficulty: easy
+    points: 10
+    options:
+      - "`N % (N - k) == 0` and `k > 0`"
+      - "`k == N / 2`"
+      - "`N - k == 1`"
+      - "`k == 0`"
+    correct_answer: 0
+    explanation: If `N` is divisible by the length of the potential repeating unit `N - k`, and `k` is non-zero (meaning there is some prefix-suffix match), then `N - k` is the length of the smallest period.
+    type: single_choice
+    id: edq_3

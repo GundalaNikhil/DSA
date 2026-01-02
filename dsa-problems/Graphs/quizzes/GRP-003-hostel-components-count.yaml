@@ -1,0 +1,52 @@
+problem_id: GRP_HOSTEL_COMPONENTS_COUNT_003
+display_id: GRP-003
+slug: hostel-components-count
+questions:
+  - question: How many connected components does a single isolated node form?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - "1"
+      - "2"
+      - Depends on edges
+    correct_answer: 1
+    explanation: An isolated node is itself a connected component.
+    type: single_choice
+    id: prq_1
+  - question: For n=5 with edges (0,1) and (2,3), what is the number of connected components?
+    difficulty: easy
+    points: 10
+    options:
+      - "2"
+      - "3"
+      - "4"
+      - "5"
+    correct_answer: 1
+    explanation: Components are {0,1}, {2,3}, and {4}, so total is 3.
+    type: single_choice
+    id: edq_1
+  - question: When using DFS/BFS to count components, when do you increment the count?
+    difficulty: medium
+    points: 15
+    options:
+      - For every edge processed
+      - For every node with degree > 0
+      - Each time you start a traversal from an unvisited node
+      - Only when node 0 is unvisited
+    correct_answer: 2
+    explanation: Each new traversal from an unvisited node marks a new component.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of counting components with DFS/BFS?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n + m)
+      - O(m log n)
+      - O(n^2)
+    correct_answer: 1
+    explanation: Each node and edge is visited at most once.
+    type: single_choice
+    id: edq_3

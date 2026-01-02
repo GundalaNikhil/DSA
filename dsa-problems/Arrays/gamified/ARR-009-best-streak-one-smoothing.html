@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARR-009: Streak Repair</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 850px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .header h1 { font-size: 36px; text-shadow: 2px 2px 0 #92400e; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #f59e0b; margin-bottom: 15px; }
+
+        .goal-box {
+            background: #fffbeb;
+            border: 2px solid #fcd34d;
+            border-radius: 12px;
+            padding: 15px;
+            line-height: 1.6;
+        }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .score-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 18px;
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+            border-radius: 10px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .tiles-row {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #fffbeb;
+            border-radius: 12px;
+        }
+
+        .tile {
+            width: 50px;
+            height: 55px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.2s;
+            border: 3px solid transparent;
+        }
+        .tile.good { background: #dcfce7; color: #16a34a; }
+        .tile.bad { background: #fee2e2; color: #dc2626; }
+        .tile.fixed { 
+            background: #fef3c7; 
+            color: #f59e0b; 
+            border-color: #f59e0b;
+            animation: glow 1s ease-in-out infinite alternate;
+        }
+        .tile:hover { transform: scale(1.1); }
+        .tile-idx { font-size: 9px; opacity: 0.6; margin-top: 2px; }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 5px #f59e0b; }
+            to { box-shadow: 0 0 15px #f59e0b; }
+        }
+
+        .streak-display {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f0fdf4;
+            border-radius: 10px;
+        }
+        .streak-box {
+            text-align: center;
+        }
+        .streak-label { font-size: 12px; color: #666; }
+        .streak-value { font-size: 32px; font-weight: 700; color: #16a34a; }
+
+        .legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .legend-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+        }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .message.correct { background: #dcfce7; color: #16a34a; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #fffbeb; color: #92400e; }
+
+        .new-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #f59e0b;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🔧 Streak Repair</h1>
+        <div style="opacity:0.9; color:#78350f">Click ONE bad tile to "fix" it and maximize the streak!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="goal-box">
+            <strong>🎯 Goal:</strong> Find the longest streak of consecutive GREEN (good) tiles.
+            <br>You can FIX exactly ONE red tile to make it green!
+            <br><br>
+            <strong>Strategy:</strong> Click the red tile that, when fixed, gives the longest streak.
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="score-bar">
+            <span>🏆 Score: <strong id="score">0</strong></span>
+            <span>Best Streak: <strong id="best">0</strong></span>
+        </div>
+
+        <div class="tiles-row" id="tilesRow"></div>
+
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-dot" style="background:#dcfce7; border:1px solid #16a34a"></div>
+                <span>Good (1)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background:#fee2e2; border:1px solid #dc2626"></div>
+                <span>Bad (0)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-dot" style="background:#fef3c7; border:2px solid #f59e0b"></div>
+                <span>Fixed</span>
+            </div>
+        </div>
+
+        <div class="streak-display">
+            <div class="streak-box">
+                <div class="streak-label">Current Longest Streak</div>
+                <div class="streak-value" id="streakValue">0</div>
+            </div>
+            <div class="streak-box">
+                <div class="streak-label">Optimal (with 1 fix)</div>
+                <div class="streak-value" id="optimalValue">?</div>
+            </div>
+        </div>
+
+        <div class="message neutral" id="message">Click a RED tile to fix it and see the new streak!</div>
+
+        <button class="new-btn" onclick="newGame()">🔄 New Tiles</button>
+    </div>
+</div>
+
+<script>
+    let tiles = []; // 1 = good, 0 = bad
+    let fixedIdx = -1;
+    let score = 0;
+    let best = 0;
+
+    function generateTiles() {
+        const n = 12 + Math.floor(Math.random() * 5); // 12-16 tiles
+        tiles = [];
+
+        for (let i = 0; i < n; i++) {
+            tiles.push(Math.random() > 0.3 ? 1 : 0); // 70% good
+        }
+
+        // Ensure at least 2 bad tiles
+        let badCount = tiles.filter(t => t === 0).length;
+        while (badCount < 2) {
+            const idx = Math.floor(Math.random() * n);
+            if (tiles[idx] === 1) {
+                tiles[idx] = 0;
+                badCount++;
+            }
+        }
+
+        fixedIdx = -1;
+    }
+
+    function render() {
+        const row = document.getElementById('tilesRow');
+        row.innerHTML = '';
+
+        tiles.forEach((val, i) => {
+            const tile = document.createElement('div');
+            let cls = 'tile';
+
+            if (i === fixedIdx) {
+                cls += ' fixed';
+            } else if (val === 1) {
+                cls += ' good';
+            } else {
+                cls += ' bad';
+            }
+
+            const displayVal = (i === fixedIdx) ? '✓' : val;
+            tile.className = cls;
+            tile.innerHTML = `${displayVal}<span class="tile-idx">[${i}]</span>`;
+            tile.onclick = () => fixTile(i);
+            row.appendChild(tile);
+        });
+
+        updateStreak();
+    }
+
+    function fixTile(idx) {
+        if (tiles[idx] === 1 && idx !== fixedIdx) {
+            document.getElementById('message').className = 'message wrong';
+            document.getElementById('message').textContent = 'That\'s already good! Click a RED tile.';
+            return;
+        }
+
+        fixedIdx = idx;
+        render();
+
+        const streak = calcStreak();
+        const optimal = calcOptimalStreak();
+
+        if (streak === optimal) {
+            score += 20;
+            document.getElementById('score').textContent = score;
+            document.getElementById('message').className = 'message correct';
+            document.getElementById('message').textContent = `✅ Optimal fix! Streak = ${streak}`;
+        } else {
+            document.getElementById('message').className = 'message neutral';
+            document.getElementById('message').textContent = `Streak = ${streak}. Optimal is ${optimal}. Try another tile!`;
+        }
+
+        best = Math.max(best, streak);
+        document.getElementById('best').textContent = best;
+    }
+
+    function calcStreak() {
+        // Calculate longest streak with fixedIdx treated as 1
+        let maxStreak = 0;
+        let current = 0;
+
+        for (let i = 0; i < tiles.length; i++) {
+            if (tiles[i] === 1 || i === fixedIdx) {
+                current++;
+                maxStreak = Math.max(maxStreak, current);
+            } else {
+                current = 0;
+            }
+        }
+
+        return maxStreak;
+    }
+
+    function calcOptimalStreak() {
+        // Try fixing each bad tile and find the best
+        let maxStreak = 0;
+
+        for (let fix = 0; fix < tiles.length; fix++) {
+            if (tiles[fix] === 0) {
+                let current = 0;
+                for (let i = 0; i < tiles.length; i++) {
+                    if (tiles[i] === 1 || i === fix) {
+                        current++;
+                        maxStreak = Math.max(maxStreak, current);
+                    } else {
+                        current = 0;
+                    }
+                }
+            }
+        }
+
+        return maxStreak;
+    }
+
+    function updateStreak() {
+        const streak = (fixedIdx >= 0) ? calcStreak() : calcStreakNoFix();
+        const optimal = calcOptimalStreak();
+
+        document.getElementById('streakValue').textContent = streak;
+        document.getElementById('optimalValue').textContent = (fixedIdx >= 0) ? optimal : '?';
+    }
+
+    function calcStreakNoFix() {
+        let maxStreak = 0;
+        let current = 0;
+
+        for (let i = 0; i < tiles.length; i++) {
+            if (tiles[i] === 1) {
+                current++;
+                maxStreak = Math.max(maxStreak, current);
+            } else {
+                current = 0;
+            }
+        }
+
+        return maxStreak;
+    }
+
+    function newGame() {
+        generateTiles();
+        render();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Click a RED tile to fix it and see the new streak!';
+    }
+
+    window.onload = newGame;
+</script>
+</body>
+</html>

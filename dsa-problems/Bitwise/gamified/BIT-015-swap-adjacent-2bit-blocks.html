@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIT-015: DNA Re-Sequencer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #002b36;
+            --panel: #073642;
+            --text: #839496;
+            --base-00: #2aa198; /* Cyan */
+            --base-01: #268bd2; /* Blue */
+            --base-10: #859900; /* Green */
+            --base-11: #d33682; /* Magenta */
+            --mask-even: #b58900;
+            --mask-odd: #cb4b16;
+        }
+
+        body {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            padding: 20px 40px;
+            background: var(--panel);
+            border-bottom: 2px solid #586e75;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        h1 { margin:0; color: #93a1a1; letter-spacing: 1px; }
+
+        .lab-bench {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 60px;
+            position: relative;
+        }
+
+        /* STRANDS */
+        .strand-container {
+            display: flex; flex-direction: column; gap: 10px; align-items: flex-start;
+        }
+        .strand-label { font-weight: bold; font-size: 1.2rem; }
+
+        .dna-strand {
+            display: flex;
+            gap: 2px;
+            background: rgba(0,0,0,0.3);
+            padding: 10px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .base-block {
+            width: 60px; height: 80px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            border-radius: 4px;
+            font-weight: bold; font-size: 1.5rem; color: #fff;
+            position: relative;
+            transition: all 0.5s ease-in-out;
+        }
+        
+        /* 2-bit colors */
+        .base-00 { background: var(--base-00); }
+        .base-01 { background: var(--base-01); }
+        .base-10 { background: var(--base-10); }
+        .base-11 { background: var(--base-11); }
+        
+        .bits-sub { font-size: 0.8rem; margin-top: 5px; opacity: 0.8; }
+        .idx-sub { 
+            position: absolute; top: -25px; 
+            font-size: 0.8rem; color: #586e75;
+        }
+
+        /* CONTROLS */
+        .controls {
+            display: flex; gap: 20px;
+        }
+        
+        .op-btn {
+            background: var(--panel); border: 2px solid #586e75; color: #93a1a1;
+            padding: 15px 30px; font-family: inherit; font-size: 1rem; cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 4px;
+        }
+        .op-btn:hover { background: #586e75; color: #fff; }
+        .op-btn.active { border-color: #2aa198; background: #002b36; }
+
+        /* ANIMATION LAYERS */
+        .mask-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; opacity: 0; transition: opacity 0.3s;
+        }
+        .mask-overlay.show { opacity: 1; }
+        
+        .highlight-box {
+            position: absolute; border: 3px solid; background: rgba(0,0,0,0.3);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            display: flex; align-items: center; justify-content: center; z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        .dialog {
+            background: var(--panel); border: 1px solid #93a1a1; padding: 40px;
+            max-width: 600px; text-align: center; color: #93a1a1; box-shadow: 0 10px 30px #000;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>DNA RE-SEQUENCER</h1>
+    <div>BIT-015</div>
+</header>
+
+<div class="lab-bench">
+    
+    <div class="strand-container">
+        <div class="strand-label" style="color:#d33682">CORRUPTED SEQUENCE (Input)</div>
+        <div class="dna-strand" id="strand">
+            <!-- Blocks -->
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="op-btn" onclick="game.isolateEven()">1. MASK EVENS (0x33)</button>
+        <button class="op-btn" onclick="game.isolateOdd()">2. MASK ODDS (0xCC)</button>
+        <button class="op-btn" onclick="game.shiftMerge()">3. SHIFT & MERGE</button>
+        <button class="op-btn" style="border-color:#d33682" onclick="game.reset()">RESET</button>
+    </div>
+
+    <div style="height: 50px; text-align: center; color: #2aa198; font-size: 1.2rem;" id="statusMsg">
+        Analyze the sequence corruption...
+    </div>
+
+</div>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="color:#2aa198; margin-top:0;">SEQUENCE REPAIR</h2>
+        <p>
+            <b>Error:</b> Adjacent 2-bit blocks (DNA Bases) have been swapped.<br>
+            Block 0 swapped with Block 1, Block 2 with 3, etc.<br><br>
+            
+            <b>Task:</b> Use Bitwise Operations to repair the strand.<br>
+            1. Isolate Even Blocks (Mask 0011 0011...)<br>
+            2. Isolate Odd Blocks (Mask 1100 1100...)<br>
+            3. Shift Even Left, Odd Right, and Merge.
+        </p>
+        <button class="op-btn" onclick="game.start()">INITIALIZE</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.state = {
+                blocks: [], // 0-3
+                step: 0
+            };
+            
+            this.ui = {
+                strand: document.getElementById('strand'),
+                msg: document.getElementById('statusMsg'),
+                modal: document.getElementById('modal')
+            };
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.reset();
+        }
+
+        reset() {
+            this.state.step = 0;
+            // Generate random 8 blocks (16 bits)
+            this.state.blocks = [];
+            for(let i=0; i<8; i++) {
+                this.state.blocks.push(Math.floor(Math.random() * 4));
+            }
+            this.ui.msg.innerText = "Error: Blocks are swapped pairwise (0-1, 2-3...).";
+            this.render();
+        }
+
+        render() {
+            this.ui.strand.innerHTML = '';
+            
+            this.state.blocks.forEach((val, idx) => {
+                const el = document.createElement('div');
+                const bin = val.toString(2).padStart(2,'0');
+                // Base map: 00=A, 01=C, 10=G, 11=T
+                const base = ['A','C','G','T'][val];
+                
+                el.className = `base-block base-${bin}`;
+                el.id = `block-${idx}`;
+                el.innerHTML = `
+                    <div class="idx-sub">${idx}</div>
+                    <div>${base}</div>
+                    <div class="bits-sub">${bin}</div>
+                `;
+                this.ui.strand.appendChild(el);
+            });
+        }
+
+        isolateEven() {
+            if(this.state.step !== 0) return;
+            this.state.step = 1;
+            this.ui.msg.innerText = "Masking Even Positions (0, 2, 4, 6)...";
+            
+            // Dim odd blocks
+            for(let i=0; i<8; i++) {
+                if(i % 2 !== 0) {
+                    document.getElementById(`block-${i}`).style.opacity = '0.2';
+                } else {
+                    document.getElementById(`block-${i}`).style.border = '2px solid #b58900';
+                }
+            }
+        }
+        
+        isolateOdd() {
+            if(this.state.step !== 1) return;
+            this.state.step = 2;
+             this.ui.msg.innerText = "Masking Odd Positions (1, 3, 5, 7)...";
+             
+             // Restore odds, dim evens? No, let's visualize separation
+             // Actually, usually happens in parallel.
+             // Let's dim EVENS now to show attention to ODDS
+             for(let i=0; i<8; i++) {
+                 const el = document.getElementById(`block-${i}`);
+                 if(i % 2 !== 0) {
+                     el.style.opacity = '1';
+                     el.style.border = '2px solid #cb4b16';
+                 } else {
+                     el.style.opacity = '0.2';
+                     el.style.border = 'none';
+                 }
+             }
+        }
+        
+        shiftMerge() {
+            if(this.state.step !== 2) return;
+            this.state.step = 3;
+            this.ui.msg.innerText = "Shifting & Merging: Evens << 2, Odds >> 2";
+            
+            // Animate Swap
+            // We physically move DOM elements.
+            // Pair (0,1), (2,3)...
+            // Event (0) goes to 1 position. Odd (1) goes to 0 position.
+            
+            for(let i=0; i<8; i+=2) {
+                const e0 = document.getElementById(`block-${i}`);
+                const e1 = document.getElementById(`block-${i+1}`);
+                
+                // Reset styles
+                e0.style.opacity = 1; e0.style.border = 'none';
+                e1.style.opacity = 1; e1.style.border = 'none';
+                
+                // Swap visual transform
+                // Assuming width gap
+                // block width 60 + gap 2 = 62px translation approx
+                
+                e0.style.transform = `translateX(62px)`;
+                e1.style.transform = `translateX(-62px)`;
+            }
+            
+            setTimeout(() => {
+                this.ui.msg.innerText = "SEQUENCE REPAIRED.";
+                this.ui.msg.style.color = "#2ecc71";
+            }, 600);
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

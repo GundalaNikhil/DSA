@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRD-015: Median Batches</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --median: #00d4aa; --num: #ff6b6b; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--median); }
+        h1 { margin: 0; font-family: 'Quicksand', sans-serif; color: var(--median); font-size: 1.5rem; font-weight: 700; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--median); }
+        .instructions b { color: var(--median); }
+        .stream-area { display: flex; gap: 20px; align-items: flex-start; }
+        .incoming { display: flex; gap: 10px; padding: 15px; background: var(--panel); border-radius: 10px; flex-wrap: wrap; max-width: 300px; }
+        .num-chip { width: 50px; height: 50px; background: var(--num); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.2rem; cursor: pointer; transition: all 0.2s; }
+        .num-chip:hover { transform: scale(1.1); }
+        .num-chip.processed { opacity: 0.3; }
+        .heaps-view { display: flex; gap: 30px; }
+        .heap { padding: 15px; background: var(--panel); border-radius: 10px; min-width: 120px; text-align: center; }
+        .heap-title { font-size: 0.8rem; color: #888; margin-bottom: 10px; }
+        .heap-items { display: flex; flex-direction: column; gap: 5px; min-height: 100px; }
+        .heap-item { padding: 8px; background: rgba(0,212,170,0.2); border-radius: 5px; }
+        .median-display { font-size: 2rem; font-weight: bold; color: var(--median); padding: 20px; background: var(--panel); border-radius: 15px; border: 3px solid var(--median); min-width: 150px; text-align: center; }
+        .side-panel { display: flex; flex-direction: column; gap: 15px; }
+        .panel-box { background: var(--panel); border: 2px solid #333; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--median); }
+        .btn { background: var(--median); color: #000; border: none; padding: 12px 25px; font-family: 'Quicksand'; font-weight: 700; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #00aa88; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--median); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--median); font-family: 'Quicksand'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>📊 MEDIAN BATCHES</h1>
+    <div style="color:#888">TWO-HEAP TECHNIQUE</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 TRACK RUNNING MEDIAN:</b> Click numbers to add to stream. 
+        Watch the two heaps balance to maintain median!
+    </div>
+    <div class="stream-area">
+        <div>
+            <div style="color:var(--num); margin-bottom:10px;">INCOMING NUMBERS</div>
+            <div class="incoming" id="incoming"></div>
+        </div>
+        <div class="heaps-view">
+            <div class="heap">
+                <div class="heap-title">MAX HEAP (smaller half)</div>
+                <div class="heap-items" id="maxHeap"></div>
+            </div>
+            <div class="median-display">
+                <div style="font-size:0.8rem; color:#888;">MEDIAN</div>
+                <div id="medianVal">-</div>
+            </div>
+            <div class="heap">
+                <div class="heap-title">MIN HEAP (larger half)</div>
+                <div class="heap-items" id="minHeap"></div>
+            </div>
+        </div>
+        <div class="side-panel">
+            <div class="panel-box">
+                <div class="stat-row"><span class="stat-label">Processed</span><span class="stat-value" id="processed">0</span></div>
+                <div class="stat-row"><span class="stat-label">Total</span><span class="stat-value" id="total">0</span></div>
+            </div>
+        </div>
+    </div>
+    <div id="status">Click numbers to add to stream and track median!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW STREAM</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>📊 MEDIAN BATCHES</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--median)">GOAL:</b> Understand running median with two heaps!</p>
+            <ul>
+                <li>Click numbers to add them to the stream</li>
+                <li><b>Max Heap</b>: stores smaller half</li>
+                <li><b>Min Heap</b>: stores larger half</li>
+                <li>Median = top of max heap (or average of tops)</li>
+            </ul>
+            <p style="color:#888">O(log n) per insertion using two heaps!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START STREAMING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.numbers = []; this.maxHeap = []; this.minHeap = []; this.processedIdx = new Set();
+        this.ui = { incoming: document.getElementById('incoming'), maxHeap: document.getElementById('maxHeap'), minHeap: document.getElementById('minHeap'), medianVal: document.getElementById('medianVal'), processed: document.getElementById('processed'), total: document.getElementById('total'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const n = Math.floor(Math.random() * 4) + 6;
+        this.numbers = Array.from({length: n}, () => Math.floor(Math.random() * 50) + 1);
+        this.reset();
+    }
+    reset() { this.maxHeap = []; this.minHeap = []; this.processedIdx = new Set(); this.ui.status.textContent = 'Click numbers to add to stream!'; this.render(); }
+    addNumber(idx) {
+        if (this.processedIdx.has(idx)) return;
+        this.processedIdx.add(idx);
+        const num = this.numbers[idx];
+        // Add to appropriate heap
+        if (this.maxHeap.length === 0 || num <= this.maxHeap[0]) {
+            this.maxHeap.push(num);
+            this.maxHeap.sort((a, b) => b - a);
+        } else {
+            this.minHeap.push(num);
+            this.minHeap.sort((a, b) => a - b);
+        }
+        // Rebalance
+        while (this.maxHeap.length > this.minHeap.length + 1) {
+            this.minHeap.push(this.maxHeap.shift());
+            this.minHeap.sort((a, b) => a - b);
+        }
+        while (this.minHeap.length > this.maxHeap.length) {
+            this.maxHeap.push(this.minHeap.shift());
+            this.maxHeap.sort((a, b) => b - a);
+        }
+        this.ui.status.textContent = `Added ${num}. Median updated!`;
+        this.render();
+    }
+    getMedian() {
+        if (this.maxHeap.length === 0) return '-';
+        if (this.maxHeap.length > this.minHeap.length) return this.maxHeap[0];
+        return ((this.maxHeap[0] + this.minHeap[0]) / 2).toFixed(1);
+    }
+    render() {
+        this.ui.incoming.innerHTML = '';
+        this.numbers.forEach((n, i) => {
+            const chip = document.createElement('div');
+            chip.className = 'num-chip';
+            if (this.processedIdx.has(i)) chip.classList.add('processed');
+            chip.textContent = n;
+            chip.onclick = () => this.addNumber(i);
+            this.ui.incoming.appendChild(chip);
+        });
+        this.ui.maxHeap.innerHTML = '';
+        this.maxHeap.forEach(n => {
+            const item = document.createElement('div');
+            item.className = 'heap-item';
+            item.textContent = n;
+            this.ui.maxHeap.appendChild(item);
+        });
+        this.ui.minHeap.innerHTML = '';
+        this.minHeap.forEach(n => {
+            const item = document.createElement('div');
+            item.className = 'heap-item';
+            item.textContent = n;
+            this.ui.minHeap.appendChild(item);
+        });
+        this.ui.medianVal.textContent = this.getMedian();
+        this.ui.processed.textContent = this.processedIdx.size;
+        this.ui.total.textContent = this.numbers.length;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

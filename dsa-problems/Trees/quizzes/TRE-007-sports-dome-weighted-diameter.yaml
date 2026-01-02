@@ -1,0 +1,52 @@
+problem_id: TRE_SPORTS_DOME_WEIGHTED_DIAMETER_007
+display_id: TRE-007
+slug: sports-dome-weighted-diameter
+questions:
+  - question: What does the weighted diameter represent?
+    difficulty: easy
+    points: 10
+    options:
+      - Sum of all edge weights
+      - Maximum total edge weight between any two nodes
+      - Maximum node value
+      - Minimum edge weight
+    correct_answer: 1
+    explanation: The diameter is the maximum path weight between any two nodes.
+    type: single_choice
+    id: prq_1
+  - question: For the sample input, what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - "4"
+      - "5"
+      - "6"
+      - "7"
+    correct_answer: 2
+    explanation: The sample path weight is 6.
+    type: single_choice
+    id: edq_1
+  - question: Can the diameter path avoid the root?
+    difficulty: medium
+    points: 15
+    options:
+      - "No"
+      - "Yes"
+      - Only if the tree is balanced
+      - Only if weights are zero
+    correct_answer: 1
+    explanation: The diameter can pass through any nodes, not necessarily the root.
+    type: single_choice
+    id: edq_2
+  - question: Which approach computes the diameter in one DFS?
+    difficulty: medium
+    points: 15
+    options:
+      - Keep two best downward paths at each node
+      - Sort all edges
+      - Use BFS on values
+      - Use union-find
+    correct_answer: 0
+    explanation: Combine the two longest downward paths to update the diameter.
+    type: single_choice
+    id: edq_3

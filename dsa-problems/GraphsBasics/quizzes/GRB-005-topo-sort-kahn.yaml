@@ -1,0 +1,52 @@
+problem_id: GRB_TOPO_SORT_KAHN_005
+display_id: GRB-005
+slug: topo-sort-kahn
+questions:
+  - question: In Kahn's algorithm, which nodes are added to the queue initially?
+    difficulty: easy
+    points: 10
+    options:
+      - Nodes with out-degree 0
+      - Nodes with in-degree 0
+      - Nodes with in-degree 1
+      - Arbitrary nodes
+    correct_answer: 1
+    explanation: Nodes with in-degree 0 have no dependencies and can be processed first.
+    type: single_choice
+    id: prq_1
+  - question: If the topological sort output has fewer than N nodes, what does it imply?
+    difficulty: medium
+    points: 15
+    options:
+      - The graph is disconnected
+      - The graph has a cycle
+      - The graph is a tree
+      - The start node was incorrect
+    correct_answer: 1
+    explanation: If we cannot process all nodes, there is a cycle preventing some in-degrees from becoming 0.
+    type: single_choice
+    id: edq_1
+  - question: Topological Sort is applicable to which type of graphs?
+    difficulty: easy
+    points: 10
+    options:
+      - Undirected Cyclic Graphs
+      - Directed Acyclic Graphs (DAG)
+      - Any Directed Graph
+      - Weighted Graphs only
+    correct_answer: 1
+    explanation: Topo sort is only defined for Directed Acyclic Graphs.
+    type: single_choice
+    id: edq_2
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: What is the condition for a graph to have a valid topological sort?
+    options:
+      - It must be connected
+      - It must be a DAG (Directed Acyclic Graph)
+      - It must have a source and a sink
+      - It must be undirected
+    correct_answer: 1
+    explanation: Cycles prevent a linear ordering where all edges point forward.

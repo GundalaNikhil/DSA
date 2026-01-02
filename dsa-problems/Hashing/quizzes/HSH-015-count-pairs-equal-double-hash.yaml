@@ -1,2 +1,52 @@
-# Quiz for HSH-015: Count Pairs with Equal Hash Mod Two Mods
-# YAML content to be added
+problem_id: HSH_COUNT_PAIRS_EQUAL_DOUBLE_HASH_015
+display_id: HSH-015
+slug: count-pairs-equal-double-hash
+questions:
+  - question: For string 'aaaa' with substring length L=2, how many pairs of equal substrings exist?
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "6"
+    correct_answer: 2
+    explanation: "Substrings: 'aa' at [0,1], 'aa' at [1,2], 'aa' at [2,3]. All three are equal, giving C(3,2) = 3 pairs: (0,1), (0,2), (1,2)."
+    type: single_choice
+    id: prq_1
+  - question: If k substrings have identical double hashes, how many pairs are formed from these k substrings?
+    difficulty: easy
+    points: 10
+    options:
+      - k
+      - k(k-1)
+      - k(k-1)/2
+      - k²
+    correct_answer: 2
+    explanation: "Pairs are unordered combinations: C(k,2) = k(k-1)/2. For k=3: 3×2/2 = 3 pairs."
+    type: single_choice
+    id: edq_1
+  - question: Why is double hashing essential in this problem rather than single hashing?
+    difficulty: medium
+    points: 15
+    options:
+      - To count faster
+      - "To reduce false positives: single hash has ~1/M collision probability per pair, but double hash has ~1/(M1×M2) ≈ 10^-18"
+      - To increase the pair count
+      - It has no specific benefit
+    correct_answer: 1
+    explanation: With millions of substrings, single hash collision probability becomes significant. Double hashing ensures pairs are truly equal with confidence ~1/10^18.
+    type: single_choice
+    id: edq_2
+  - question: What is the space complexity of grouping substring hashes?
+    difficulty: medium
+    points: 15
+    options:
+      - O(1)
+      - O(n) where n is string length
+      - O(L²) where L is substring length
+      - O(n × L)
+    correct_answer: 1
+    explanation: "We store hashes for all O(n) substrings of length L in a map. Total space: O(n) entries in the hash map."
+    type: single_choice
+    id: edq_3

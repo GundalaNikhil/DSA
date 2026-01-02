@@ -124,6 +124,17 @@ Since traversing all suffix links can be slow, we can optimize by precomputing t
          - `dp[i+1] = max(dp[i+1], score + w)`.
 4. **Result**: `dp[N]`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build Aho Corasick automaton] --> B[Initialize dp array]
+B --> C[Scan text characters]
+C --> D[Follow transitions and outputs]
+D --> E[Update dp with cooldown]
+E --> F[Carry forward dp]
+F --> C
+```
+
 ### Time Complexity
 
 - **O(N * sqrt(SumLen))**: In the worst case, we traverse `sqrt(SumLen)` output links per character. With `SumLen = 200,000`, this is fast enough.

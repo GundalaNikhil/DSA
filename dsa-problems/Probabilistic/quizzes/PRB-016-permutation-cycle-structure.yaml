@@ -1,2 +1,52 @@
-# Quiz for PRB-016: Random Permutation Cycle Structure
-# YAML content to be added
+problem_id: PRB_PERMUTATION_CYCLE_STRUCTURE_016
+display_id: PRB-016
+slug: permutation-cycle-structure
+questions:
+  - question: In a random permutation of `n` elements, what is the expected number of cycles of length exactly `k` (where `1 <= k <= n`)?
+    difficulty: medium
+    points: 15
+    options:
+      - "`1/k`"
+      - "`n/k`"
+      - "`k/n`"
+      - "`1/n`"
+    correct_answer: 0
+    explanation: Remarkably, the expected number of cycles of length `k` depends only on `k`, not on `n`. It is simply `1/k`.
+    type: single_choice
+    id: prq_1
+  - question: The expected length of the longest cycle in a random permutation of length `n` is proportional to `n`. What is the constant of proportionality?
+    difficulty: hard
+    points: 15
+    options:
+      - Golomb-Dickman constant (`approx 0.6243`)
+      - Euler-Mascheroni constant (`approx 0.5772`)
+      - "`1 / e` (`approx 0.3679`)"
+      - "`ln(2)` (`approx 0.6931`)"
+    correct_answer: 0
+    explanation: As `n` approaches infinity, the expected length of the longest cycle converges to `n * lambda`, where `lambda` is the Golomb-Dickman constant.
+    type: single_choice
+    id: edq_1
+  - question: A cycle of length 1 corresponds to a fixed point (where `P[i] == i`). What is the expected number of fixed points in a random permutation?
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "0"
+      - "`n`"
+      - "`1/n`"
+    correct_answer: 0
+    explanation: Using the formula `1/k` where `k=1`, the expected number of cycles of length 1 is `1/1 = 1`. This assumes a random permutation with replacement of fixed points allowed (standard distribution).
+    type: single_choice
+    id: edq_2
+  - question: Does the expected number of cycles of length `k` increase, decrease, or stay the same as `n` increases (assuming `n >= k`)?
+    difficulty: easy
+    points: 10
+    options:
+      - Stays the same.
+      - Increases linearly.
+      - Decreases.
+      - Increases logarithmically.
+    correct_answer: 0
+    explanation: Since the expectation is `1/k`, it is strictly independent of `n` once `n >= k`.
+    type: single_choice
+    id: edq_3

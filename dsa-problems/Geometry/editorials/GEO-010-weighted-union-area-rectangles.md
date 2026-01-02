@@ -73,6 +73,22 @@ For each consecutive pair of events `(x_i, x_{i+1})`:
 - `covered_y = tree.maxLen`
 - `delta_x = x_{i+1} - x_i`
 - `area += covered_y * delta_x`
+The sweep keeps a running tally, every strip adds its weight to the map.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with rectangles and W] --> B[Collect and compress all y values]
+    B --> C[Create enter and exit events]
+    C --> D[Sort events by x]
+    D --> E[Init segment tree]
+    E --> F[Process next event]
+    F --> G[Update tree on y interval]
+    G --> H[Compute covered length]
+    H --> I[Add covered length times delta x]
+    I --> F
+    F --> J[Return total area]
+```
 
 ### Complexity
 

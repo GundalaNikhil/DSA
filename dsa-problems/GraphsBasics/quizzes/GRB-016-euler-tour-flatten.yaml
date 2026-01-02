@@ -1,0 +1,52 @@
+problem_id: GRB_EULER_TOUR_FLATTEN_016
+display_id: GRB-016
+slug: euler-tour-flatten
+questions:
+  - question: In the Euler Tour flattening technique (Subtree Ranges), what property holds for a subtree of u?
+    difficulty: easy
+    points: 10
+    options:
+      - It corresponds to a contiguous subarray from tin[u] to tout[u]
+      - All nodes in the subtree are adjacent in the original array
+      - The subtree size is tout[u] - tin[u] - 1
+      - Nodes are sorted by value
+    correct_answer: 0
+    explanation: DFS entry and exit times map any subtree to a contiguous range [tin[u], tout[u]].
+    type: single_choice
+    id: prq_1
+  - question: How can we check if node u is an ancestor of node v in O(1)?
+    difficulty: medium
+    points: 15
+    options:
+      - tin[u] <= tin[v] and tout[u] >= tout[v]
+      - tin[u] < tin[v]
+      - tout[u] > tout[v]
+      - depth[u] < depth[v]
+    correct_answer: 0
+    explanation: u is an ancestor if we enter u before v and leave u after v.
+    type: single_choice
+    id: edq_1
+  - question: What is the size of the 'tin' array required for this technique?
+    difficulty: easy
+    points: 10
+    options:
+      - N
+      - 2N
+      - N^2
+      - Log N
+    correct_answer: 0
+    explanation: We assign one unique entry time per node, so size N is sufficient.
+    type: single_choice
+    id: edq_2
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: What is the purpose of re-flattening a tree via an Euler Tour?
+    options:
+      - To convert subtrees into contiguous array segments
+      - To find the root
+      - To sort the nodes
+      - To reduce memory
+    correct_answer: 0
+    explanation: Euler tour allows subtree queries to be handled as range queries on an array.

@@ -42,7 +42,22 @@ The delivery schedule consists of specific "legs" or trips that cannot be interr
 
 ## Detailed Explanation
 
-### ASCII Diagram: Timeline Visualization
+### Flow Diagram: Timeline Visualization
+
+When a driver can keep the wheel, we let them, because every swap is a pit stop.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Initialize cost for driver A and driver B]
+    B --> C[Check first trip coverage]
+    C --> D{More trips remain}
+    D -- Yes --> E[Compute new cost for driver A]
+    E --> F[Compute new cost for driver B]
+    F --> G[Update costs]
+    G --> D
+    D -- No --> H[Return minimum cost or minus one]
+```
 
 ```text
 Time:   1   2   3   4   5   6   7   8   9   10
@@ -57,7 +72,6 @@ T1 (1-3): Covered by A? Yes. Covered by B? Yes (barely, starts at 3).
 T2 (4-6): Covered by A? Yes. Covered by B? Yes.
 T3 (7-9): Covered by A? No (ends at 8). Covered by B? Yes.
 ```
-
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Chronological Order:** The trips are guaranteed to be sorted by their start times.

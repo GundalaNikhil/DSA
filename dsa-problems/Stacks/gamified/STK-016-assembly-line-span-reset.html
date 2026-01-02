@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STK-016: Reset Span</title>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000;
+            --grid: #0f3460;
+            --line: #e94560;
+            --reset: #16213e;
+        }
+
+        body {
+            font-family: 'Audiowide', cursive;
+            background: var(--bg);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+
+        h1 { margin-top: 1rem; color: var(--line); }
+
+        .monitor {
+            width: 800px;
+            height: 400px;
+            background: radial-gradient(circle, #1a1a2e 0%, #000 100%);
+            border: 2px solid var(--grid);
+            margin-top: 2rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            padding-left: 10px;
+            gap: 2px;
+        }
+
+        .bar {
+            width: 20px;
+            background: var(--grid);
+            transition: height 0.2s;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .bar:hover { background: #fff; }
+        .bar.reset { background: var(--line); box-shadow: 0 0 10px var(--line); }
+
+        .span-indicator {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 2px;
+            background: #fff;
+            transition: width 0.2s, left 0.2s;
+            opacity: 0;
+        }
+        
+        .info {
+            position: absolute;
+            top: 20px; left: 20px;
+            font-size: 1.2rem;
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>RESET SPAN</h1>
+<div style="font-size:0.8rem; color:#888">Rule: Span resets if value drops <= 20 (Simulated).</div>
+
+<div class="monitor" id="mon">
+    <div class="info" id="info">Select a bar...</div>
+    <div class="span-indicator" id="ind"></div>
+    <!-- Bars -->
+</div>
+
+<button style="margin-top:20px; padding:10px" onclick="init()">Regenerate Signal</button>
+
+<script>
+    const N = 30;
+    let vals = [];
+    
+    function init() {
+        const m = document.getElementById('mon');
+        // Clear bars
+        const old = m.querySelectorAll('.bar');
+        old.forEach(e => e.remove());
+        
+        vals = [];
+        for(let i=0; i<N; i++) {
+            // Trend + Noise
+            let v = 50 + Math.sin(i * 0.5) * 40 + Math.random() * 20;
+            if (v < 20) v = 15; // Force drop
+            vals.push(v);
+            
+            const b = document.createElement('div');
+            b.className = 'bar';
+            b.style.height = (v * 3) + 'px';
+            if (v <= 20) b.classList.add('reset');
+            
+            b.onmouseover = () => showSpan(i);
+            m.appendChild(b);
+        }
+    }
+
+    function showSpan(idx) {
+        // Logic: Standard Span?
+        // Let's implement active logic:
+        // Count backwards consecutive <= current.
+        // STOP if value <= 20 (Reset Condition example).
+        
+        let span = 1;
+        let left = idx - 1;
+        const cur = vals[idx];
+        
+        if (cur <= 20) {
+            span = 1; // It is a reset point
+        } else {
+            while (left >= 0 && vals[left] <= cur) {
+                 if (vals[left] <= 20) break; // Reset constraint
+                 span++;
+                 left--;
+            }
+        }
+        
+        document.getElementById('info').textContent = `Index ${idx}: Val ${Math.floor(cur)} | Span: ${span}`;
+        
+        // Visual indicator
+        const ind = document.getElementById('ind');
+        const bars = document.querySelectorAll('.bar');
+        const rightB = bars[idx].getBoundingClientRect();
+        const leftB = span === 1 ? rightB : bars[idx - span + 1].getBoundingClientRect();
+        const monRect = document.getElementById('mon').getBoundingClientRect();
+        
+        ind.style.width = (rightB.right - leftB.left) + 'px';
+        ind.style.left = (leftB.left - monRect.left) + 'px';
+        ind.style.bottom = (cur * 3) + 'px'; // At top of bar
+        ind.style.opacity = 1;
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

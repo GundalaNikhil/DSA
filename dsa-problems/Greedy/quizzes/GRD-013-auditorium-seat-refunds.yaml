@@ -1,0 +1,52 @@
+problem_id: GRD_AUDITORIUM_SEAT_REFUNDS_013
+display_id: GRD-013
+slug: auditorium-seat-refunds
+questions:
+  - question: The problem asks to minimize the highest occupied row. What is the optimal strategy to achieve this?
+    difficulty: easy
+    points: 10
+    options:
+      - Consolidate all remaining attendees into the lowest possible rows (1, 2, ...).
+      - Keep everyone in their original seats.
+      - Move everyone to the highest possible rows.
+      - Spread attendees evenly across all rows.
+    correct_answer: 0
+    explanation: Since people can be moved to fill vacancies, the best way to empty high rows is to pack everyone into the bottom-most rows.
+    type: single_choice
+    id: prq_1
+  - question: Does the specific location of a refund request affect the final answer?
+    difficulty: medium
+    points: 10
+    options:
+      - No, only the total number of refunds matters.
+      - Yes, because we can only move people from the same row.
+      - Yes, refunds in higher rows are more valuable.
+      - It depends on the row capacity.
+    correct_answer: 0
+    explanation: Because we can move any person to fill any vacancy in a lower row, the specific seat doesn't matter, only the total count of remaining people.
+    type: single_choice
+    id: edq_1
+  - question: How do we calculate the highest occupied row efficiently?
+    difficulty: easy
+    points: 10
+    options:
+      - Calculate total remaining people, then simulate filling rows from 1 upwards until we run out of people.
+      - Simulate each refund and move operations one by one.
+      - Sort the rows by capacity and fill largest first.
+      - Refunds cannot change row occupancy.
+    correct_answer: 0
+    explanation: This 'water filling' approach (filling capacity from bottom up) correctly determines the level the 'people sediment' reaches.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of the optimal solution?
+    difficulty: easy
+    points: 10
+    options:
+      - O(R), where R is the number of rows.
+      - O(N log N), where N is refunds.
+      - O(N * R)
+      - O(Total Capacity)
+    correct_answer: 0
+    explanation: We simply sum capacities and then iterate through the rows once to distribute the remaining people, taking linear time relative to the number of rows.
+    type: single_choice
+    id: edq_3

@@ -1,2 +1,52 @@
-# Quiz for NUM-003: Modular Inverse Existence
-# YAML content to be added
+problem_id: NUM_MODULAR_INVERSE_EXISTENCE_003
+display_id: NUM-003
+slug: modular-inverse-existence
+questions:
+  - question: "The modular multiplicative inverse of A modulo M exists if and only if:"
+    difficulty: easy
+    points: 10
+    options:
+      - GCD(A, M) == 1
+      - A < M
+      - M is prime
+      - A is prime
+    correct_answer: 0
+    explanation: "This is a fundamental theorem: A has an inverse mod M iff A and M are coprime."
+    type: single_choice
+    id: prq_1
+  - question: "According to Fermat's Little Theorem, if M is prime, the inverse of A is:"
+    difficulty: medium
+    points: 15
+    options:
+      - A^(M-2) % M
+      - A^(M-1) % M
+      - A^(M) % M
+      - It doesn't exist
+    correct_answer: 0
+    explanation: Since A^(M-1) = 1 mod M, multiplying by A^-1 gives A^(M-2) = A^-1.
+    type: single_choice
+    id: edq_1
+  - question: Which algorithm is used to find the modular inverse when M is NOT prime?
+    difficulty: easy
+    points: 10
+    options:
+      - Extended Euclidean Algorithm
+      - Sieve of Eratosthenes
+      - Binary Exponentiation
+      - Prime Factorization
+    correct_answer: 0
+    explanation: Extended Euclidean finds x, y such that Ax + My = gcd(A, M). If gcd is 1, x is the inverse.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of the Extended Euclidean Algorithm?
+    difficulty: easy
+    points: 10
+    options:
+      - O(log(min(A, M)))
+      - O(A + M)
+      - O(sqrt(M))
+      - O(1)
+    correct_answer: 0
+    explanation: Like standard Euclidean algorithm, it is logarithmic.
+    type: single_choice
+    id: edq_3

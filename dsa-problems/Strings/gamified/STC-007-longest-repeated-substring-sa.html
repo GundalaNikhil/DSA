@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-007: Music Sample Detector</title>
+    <link href="https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0f0f23; --purple: #9b59b6; --pink: #e91e63; --cyan: #00bcd4; --gold: #ffc107; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); color: #fff; min-height: 100vh; }
+        header { background: #1a1a2e; padding: 1.5rem; border-bottom: 3px solid var(--purple); text-align: center; }
+        h1 { font-family: 'Permanent Marker', cursive; color: var(--pink); font-size: 2rem; }
+        .subtitle { color: var(--cyan); font-size: 0.9rem; }
+        main { padding: 30px; max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+        .studio { background: #1a1a2e; border: 2px solid var(--purple); border-radius: 15px; padding: 25px; }
+        .piano-roll { display: flex; gap: 3px; padding: 20px; background: rgba(0,0,0,0.5); border-radius: 10px; overflow-x: auto; }
+        .note { width: 45px; height: 80px; display: flex; align-items: center; justify-content: center; border-radius: 5px; font-size: 1.3rem; font-weight: bold; position: relative; transition: all 0.3s; background: linear-gradient(180deg, #3498db, #2980b9); }
+        .note.A { background: linear-gradient(180deg, #e74c3c, #c0392b); }
+        .note.B { background: linear-gradient(180deg, #2ecc71, #27ae60); }
+        .note.repeated { box-shadow: 0 0 25px var(--gold); border: 3px solid var(--gold); }
+        .note .idx { position: absolute; bottom: -18px; font-size: 0.6rem; color: #666; }
+        .controls { background: #1a1a2e; border: 2px solid var(--purple); border-radius: 10px; padding: 20px; display: flex; gap: 20px; align-items: end; }
+        .input-group { flex: 2; }
+        .input-group label { color: var(--cyan); display: block; margin-bottom: 8px; }
+        .input-group input { width: 100%; background: var(--bg); border: 2px solid var(--purple); border-radius: 8px; padding: 12px; color: #fff; font-size: 1.1rem; letter-spacing: 3px; }
+        .btn { flex: 1; padding: 15px; border: none; border-radius: 10px; font-family: 'Permanent Marker', cursive; font-size: 1rem; cursor: pointer; background: var(--pink); color: #fff; }
+        .btn:hover { transform: translateY(-3px); }
+        #status { text-align: center; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; }
+        .results { background: #1a1a2e; border: 2px solid var(--gold); border-radius: 10px; padding: 20px; text-align: center; }
+        .lrs-display { font-size: 2rem; color: var(--pink); font-weight: bold; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 10px; letter-spacing: 5px; }
+        .lrs-info { margin-top: 10px; color: #888; }
+        .lcp-row { display: flex; gap: 5px; justify-content: center; flex-wrap: wrap; margin-top: 15px; }
+        .lcp-item { padding: 8px 12px; background: #16213e; border-radius: 5px; font-size: 0.8rem; }
+        .lcp-item.max { background: var(--gold); color: #000; font-weight: bold; }
+    </style>
+</head>
+<body>
+<header><h1>🎵 MUSIC SAMPLE DETECTOR</h1><div class="subtitle">Find Longest Repeated Substring using SA + LCP</div></header>
+<main>
+    <div class="studio"><div class="piano-roll" id="piano-roll"></div></div>
+    <div class="controls">
+        <div class="input-group"><label>🎼 Enter Melody</label><input type="text" id="melody" value="ABCAB" maxlength="15"></div>
+        <button class="btn" onclick="game.detect()">🔍 DETECT SAMPLE</button>
+    </div>
+    <div id="status">Enter a melody and find the longest repeated pattern!</div>
+    <div class="results">
+        <div style="color:var(--gold); margin-bottom:10px;">🏆 LONGEST REPEATED SAMPLE</div>
+        <div class="lrs-display" id="lrs-display">-</div>
+        <div class="lrs-info" id="lrs-info">The repeating pattern will appear here</div>
+        <div class="lcp-row" id="lcp-row"></div>
+    </div>
+</main>
+<script>
+class SampleDetector {
+    constructor() { this.melody = ""; this.sa = []; this.lcp = []; this.load(); }
+    load() { this.melody = document.getElementById('melody').value.toUpperCase(); this.renderMelody(); }
+    renderMelody() {
+        const roll = document.getElementById('piano-roll'); roll.innerHTML = '';
+        this.melody.split('').forEach((c, i) => {
+            const n = document.createElement('div');
+            n.className = `note ${['A','B','C','D','E'].includes(c) ? c : ''}`;
+            n.id = `note-${i}`; n.innerHTML = `${c}<span class="idx">${i}</span>`;
+            roll.appendChild(n);
+        });
+    }
+    buildSA() {
+        let s = []; for (let i = 0; i < this.melody.length; i++) s.push({ idx: i, suffix: this.melody.substring(i) });
+        s.sort((a, b) => a.suffix.localeCompare(b.suffix)); this.sa = s.map(x => x.idx);
+    }
+    buildLCP() {
+        const n = this.melody.length; this.lcp = new Array(n).fill(0);
+        for (let i = 1; i < n; i++) {
+            const s1 = this.melody.substring(this.sa[i-1]), s2 = this.melody.substring(this.sa[i]); let l = 0;
+            while (l < s1.length && l < s2.length && s1[l] === s2[l]) l++; this.lcp[i] = l;
+        }
+    }
+    async detect() {
+        this.load(); if (this.melody.length < 2) return;
+        this.buildSA(); this.buildLCP(); this.renderLCP();
+        let maxLCP = 0, maxIdx = -1;
+        for (let i = 1; i < this.lcp.length; i++) if (this.lcp[i] > maxLCP) { maxLCP = this.lcp[i]; maxIdx = i; }
+        if (maxIdx !== -1) document.querySelectorAll('.lcp-item')[maxIdx].classList.add('max');
+        if (maxLCP === 0) {
+            document.getElementById('lrs-display').textContent = '(none)';
+            document.getElementById('lrs-info').textContent = 'No repeated substring found!';
+        } else {
+            const lrs = this.melody.substring(this.sa[maxIdx], this.sa[maxIdx] + maxLCP);
+            document.getElementById('lrs-display').textContent = lrs;
+            document.getElementById('lrs-info').textContent = `Length: ${maxLCP}`;
+            this.highlight(lrs);
+            document.getElementById('status').innerHTML = `<span style="color:var(--gold)">🎵 Sample: "${lrs}"</span>`;
+        }
+    }
+    renderLCP() { const r = document.getElementById('lcp-row'); r.innerHTML = ''; this.lcp.forEach((v, i) => { const it = document.createElement('div'); it.className = 'lcp-item'; it.textContent = `[${i}]=${v}`; r.appendChild(it); }); }
+    highlight(p) { document.querySelectorAll('.note').forEach(n => n.classList.remove('repeated')); let pos = 0; while ((pos = this.melody.indexOf(p, pos)) !== -1) { for (let k = 0; k < p.length; k++) { const el = document.getElementById(`note-${pos+k}`); if (el) el.classList.add('repeated'); } pos++; } }
+}
+const game = new SampleDetector();
+document.getElementById('melody').addEventListener('change', () => game.load());
+</script>
+</body>
+</html>

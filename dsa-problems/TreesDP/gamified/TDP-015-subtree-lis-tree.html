@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDP-015: Sequence Climber</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Bangers', cursive;
+            background: linear-gradient(180deg, #1a237e 0%, #0d47a1 50%, #01579b 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .game-zone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 40px;
+            letter-spacing: 3px;
+            text-shadow: 3px 3px 0 #000;
+        }
+
+        .subtitle { color: #90caf9; font-size: 12px; margin: 10px 0 20px; font-family: Arial; }
+
+        .scoreboard {
+            display: flex;
+            gap: 30px;
+            background: rgba(0,0,0,0.3);
+            padding: 15px 40px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .score-box { text-align: center; }
+        .score-lbl { font-size: 10px; color: #90caf9; font-family: Arial; }
+        .score-num { font-size: 28px; color: #ffeb3b; }
+
+        .mountain {
+            width: 700px;
+            height: 400px;
+            background: linear-gradient(180deg, transparent 0%, rgba(255,255,255,0.05) 100%);
+            border: 3px solid #1565c0;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        line { stroke: #1565c0; stroke-width: 4; }
+        line.lis { stroke: #ffeb3b; stroke-width: 5; filter: drop-shadow(0 0 10px #ffeb3b); }
+
+        .rock {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #616161, #424242);
+            border: 3px solid #757575;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.2s;
+        }
+        .rock:hover { transform: scale(1.15); }
+        .rock.selected { border-color: #ffeb3b; box-shadow: 0 0 25px #ffeb3b; background: #ffeb3b; color: #000; }
+
+        .rock .val { font-size: 18px; }
+        .rock .id { font-size: 9px; color: #aaa; font-family: Arial; }
+
+        .path-display {
+            margin-top: 20px;
+            padding: 15px 30px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            font-size: 14px;
+            font-family: Arial;
+        }
+
+        .controls { margin-top: 20px; display: flex; gap: 15px; }
+
+        .btn {
+            padding: 15px 35px;
+            background: #ffeb3b;
+            border: none;
+            color: #000;
+            font-family: inherit;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        .btn:hover { filter: brightness(1.1); }
+
+    
+        .alert-modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .alert-modal {
+            background: white; padding: 2rem; border-radius: 8px;
+            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+        .alert-modal button {
+            background: #4b5563; color: white; padding: 0.8rem 2rem;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .alert-modal button:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<div class="game-zone">
+    <h1>🧗 SEQUENCE CLIMBER</h1>
+    <div class="subtitle">SUBTREE LIS: Build the longest increasing sequence from root to leaves!</div>
+
+    <div class="scoreboard">
+        <div class="score-box">
+            <div class="score-lbl">SEQUENCE LENGTH</div>
+            <div class="score-num" id="lisLen">0</div>
+        </div>
+        <div class="score-box">
+            <div class="score-lbl">LONGEST POSSIBLE</div>
+            <div class="score-num" id="optimal">?</div>
+        </div>
+    </div>
+
+    <div class="mountain" id="mountain">
+        <svg id="ropes"></svg>
+    </div>
+
+    <div class="path-display">
+        Your Sequence: <span id="sequence" style="color:#ffeb3b">-</span>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="checkLIS()">CHECK LIS</button>
+        <button class="btn" style="background:#757575; color:#fff" onclick="reset()">RESET</button>
+    </div>
+</div>
+
+<script>
+    const TREE = {
+        nodes: [
+            {id:1, x:325, y:30, val:5},
+            {id:2, x:150, y:110, val:3}, {id:3, x:500, y:110, val:7},
+            {id:4, x:70, y:200, val:1}, {id:5, x:230, y:200, val:6}, {id:6, x:420, y:200, val:4}, {id:7, x:580, y:200, val:9},
+            {id:8, x:150, y:300, val:8}, {id:9, x:500, y:300, val:10}
+        ],
+        edges: [[1,2],[1,3],[2,4],[2,5],[3,6],[3,7],[5,8],[6,9]],
+        adj: {},
+        parent: {1:null, 2:1, 3:1, 4:2, 5:2, 6:3, 7:3, 8:5, 9:6}
+    };
+
+    TREE.nodes.forEach(n => TREE.adj[n.id] = []);
+    TREE.edges.forEach(([a,b]) => { TREE.adj[a].push(b); TREE.adj[b].push(a); });
+
+    let selected = [];
+    const OPTIMAL = 4; // Best LIS: 3 -> 5 or similar paths
+
+    function init() {
+        document.getElementById('optimal').textContent = OPTIMAL;
+        renderMountain();
+    }
+
+    function renderMountain() {
+        const mtn = document.getElementById('mountain');
+        const svg = document.getElementById('ropes');
+        svg.innerHTML = '';
+        mtn.querySelectorAll('.rock').forEach(r => r.remove());
+
+        // Create edge set for selected path
+        const lisEdges = new Set();
+        for (let i = 0; i < selected.length - 1; i++) {
+            const a = Math.min(selected[i], selected[i+1]);
+            const b = Math.max(selected[i], selected[i+1]);
+            lisEdges.add(`${a}-${b}`);
+        }
+
+        TREE.edges.forEach(([a, b]) => {
+            const n1 = TREE.nodes.find(n => n.id === a);
+            const n2 = TREE.nodes.find(n => n.id === b);
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', n1.x + 25);
+            line.setAttribute('y1', n1.y + 25);
+            line.setAttribute('x2', n2.x + 25);
+            line.setAttribute('y2', n2.y + 25);
+            if (lisEdges.has(`${Math.min(a,b)}-${Math.max(a,b)}`)) {
+                line.classList.add('lis');
+            }
+            svg.appendChild(line);
+        });
+
+        TREE.nodes.forEach(n => {
+            const el = document.createElement('div');
+            el.className = 'rock';
+            if (selected.includes(n.id)) el.classList.add('selected');
+            el.id = `rock-${n.id}`;
+            el.style.left = n.x + 'px';
+            el.style.top = n.y + 'px';
+            el.innerHTML = `<span class="val">${n.val}</span><span class="id">#${n.id}</span>`;
+            el.onclick = () => toggleNode(n.id);
+            mtn.appendChild(el);
+        });
+
+        updateDisplay();
+    }
+
+    function toggleNode(id) {
+        if (selected.includes(id)) {
+            selected = selected.slice(0, selected.indexOf(id));
+        } else {
+            // Must be connected to last selected or be root
+            if (selected.length === 0) {
+                selected.push(id);
+            } else {
+                const last = selected[selected.length - 1];
+                if (TREE.adj[last].includes(id)) {
+                    const lastVal = TREE.nodes.find(n => n.id === last).val;
+                    const thisVal = TREE.nodes.find(n => n.id === id).val;
+                    if (thisVal > lastVal) {
+                        selected.push(id);
+                    }
+                }
+            }
+        }
+        renderMountain();
+    }
+
+    function updateDisplay() {
+        document.getElementById('lisLen').textContent = selected.length;
+        const vals = selected.map(id => TREE.nodes.find(n => n.id === id).val);
+        document.getElementById('sequence').textContent = vals.join(' → ') || '-';
+    }
+
+    function checkLIS() {
+        // Verify it's actually increasing
+        let valid = true;
+        for (let i = 1; i < selected.length; i++) {
+            const prev = TREE.nodes.find(n => n.id === selected[i-1]).val;
+            const curr = TREE.nodes.find(n => n.id === selected[i]).val;
+            if (curr <= prev) { valid = false; break; }
+        }
+
+        if (!valid) {
+            this.showGameAlert('Not strictly increasing!');
+        } else if (selected.length === OPTIMAL) {
+            this.showGameAlert('🎉 OPTIMAL LIS FOUND!');
+        } else {
+            this.showGameAlert(`Valid LIS of length ${selected.length}. Optimal is ${OPTIMAL}.`);
+        }
+    }
+
+    function reset() {
+        selected = [];
+        renderMountain();
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARR-014: Sort by Ones</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .header h1 { font-size: 36px; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #1e40af; margin-bottom: 15px; }
+
+        .goal-box {
+            background: #eff6ff;
+            border: 2px solid #93c5fd;
+            border-radius: 12px;
+            padding: 15px;
+            line-height: 1.6;
+        }
+
+        .example {
+            margin-top: 10px;
+            padding: 10px;
+            background: #1e40af;
+            color: #93c5fd;
+            border-radius: 8px;
+            font-family: monospace;
+        }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .numbers-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 20px;
+            background: #eff6ff;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .num-card {
+            width: 100px;
+            padding: 12px;
+            border-radius: 12px;
+            background: #fff;
+            border: 3px solid #e5e7eb;
+            text-align: center;
+            cursor: grab;
+            transition: all 0.2s;
+        }
+        .num-card:hover { border-color: #3b82f6; }
+        .num-card.dragging { opacity: 0.5; }
+
+        .num-val { font-size: 22px; font-weight: 700; color: #1e40af; }
+        .num-binary { font-size: 11px; color: #666; font-family: monospace; }
+        .num-ones { 
+            font-size: 12px; 
+            background: #3b82f6; 
+            color: #fff; 
+            padding: 2px 8px; 
+            border-radius: 10px;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        .drop-zone {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 20px;
+            background: #f0fdf4;
+            border: 3px dashed #86efac;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            min-height: 120px;
+        }
+        .drop-zone.over { background: #dcfce7; border-color: #22c55e; }
+
+        .drop-label {
+            width: 100%;
+            text-align: center;
+            color: #16a34a;
+            font-weight: 600;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-check { background: #22c55e; color: #fff; }
+        .btn-reset { background: #64748b; color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .message.correct { background: #dcfce7; color: #16a34a; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #eff6ff; color: #1e40af; }
+
+        .new-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #1e40af;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🔢 Sort by Ones</h1>
+        <div style="opacity:0.9">Sort numbers by their count of 1-bits!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="goal-box">
+            <strong>🎯 Goal:</strong> Drag numbers into the sorted area.
+            <br>Sort by the count of 1-bits. If equal, smaller number first.
+            <div class="example">
+                7 = 111 (3 ones) | 5 = 101 (2 ones) | 4 = 100 (1 one)
+                <br>Sorted: 4, 5, 7
+            </div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="numbers-row" id="numbersRow"></div>
+
+        <div class="drop-zone" id="dropZone">
+            <div class="drop-label">↓ Drag numbers here in sorted order ↓</div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-check" onclick="checkOrder()">✓ Check Order</button>
+            <button class="btn btn-reset" onclick="resetGame()">↺ Reset</button>
+        </div>
+
+        <div class="message neutral" id="message">Drag cards from top to bottom in order of 1-bit count!</div>
+
+        <button class="new-btn" onclick="newGame()">🔄 New Numbers</button>
+    </div>
+</div>
+
+<script>
+    let numbers = [];
+    let sorted = [];
+    let draggedIdx = -1;
+
+    function countOnes(n) {
+        let count = 0;
+        while (n > 0) {
+            count += n & 1;
+            n >>= 1;
+        }
+        return count;
+    }
+
+    function generateNumbers() {
+        const n = 5 + Math.floor(Math.random() * 2); // 5-6 numbers
+        const used = new Set();
+        numbers = [];
+
+        while (numbers.length < n) {
+            const val = Math.floor(Math.random() * 30) + 1;
+            if (!used.has(val)) {
+                used.add(val);
+                numbers.push(val);
+            }
+        }
+
+        sorted = [];
+    }
+
+    function createCard(val, inDropZone = false) {
+        const ones = countOnes(val);
+        const binary = val.toString(2).padStart(5, '0');
+
+        const card = document.createElement('div');
+        card.className = 'num-card';
+        card.draggable = true;
+        card.dataset.val = val;
+        card.innerHTML = `
+            <div class="num-val">${val}</div>
+            <div class="num-binary">${binary}</div>
+            <div class="num-ones">${ones} ones</div>
+        `;
+
+        card.ondragstart = (e) => {
+            e.dataTransfer.setData('text/plain', val);
+            card.classList.add('dragging');
+        };
+
+        card.ondragend = () => {
+            card.classList.remove('dragging');
+        };
+
+        return card;
+    }
+
+    function render() {
+        const row = document.getElementById('numbersRow');
+        const zone = document.getElementById('dropZone');
+
+        row.innerHTML = '';
+        zone.innerHTML = '<div class="drop-label">↓ Drag numbers here in sorted order ↓</div>';
+
+        // Numbers not yet sorted
+        numbers.forEach(val => {
+            if (!sorted.includes(val)) {
+                row.appendChild(createCard(val));
+            }
+        });
+
+        // Sorted area
+        sorted.forEach(val => {
+            zone.appendChild(createCard(val, true));
+        });
+    }
+
+    function setupDropZone() {
+        const zone = document.getElementById('dropZone');
+
+        zone.ondragover = (e) => {
+            e.preventDefault();
+            zone.classList.add('over');
+        };
+
+        zone.ondragleave = () => {
+            zone.classList.remove('over');
+        };
+
+        zone.ondrop = (e) => {
+            e.preventDefault();
+            zone.classList.remove('over');
+
+            const val = parseInt(e.dataTransfer.getData('text/plain'));
+            if (!sorted.includes(val)) {
+                sorted.push(val);
+                render();
+            }
+        };
+    }
+
+    function checkOrder() {
+        const msg = document.getElementById('message');
+
+        if (sorted.length !== numbers.length) {
+            msg.className = 'message wrong';
+            msg.textContent = 'Drag all numbers into the sorted area first!';
+            return;
+        }
+
+        // Correct order: sort by ones count, then by value
+        const correct = [...numbers].sort((a, b) => {
+            const onesA = countOnes(a);
+            const onesB = countOnes(b);
+            if (onesA !== onesB) return onesA - onesB;
+            return a - b;
+        });
+
+        const isCorrect = sorted.every((val, i) => val === correct[i]);
+
+        if (isCorrect) {
+            msg.className = 'message correct';
+            msg.textContent = '✅ Perfect! Numbers are correctly sorted by 1-bit count!';
+        } else {
+            const correctStr = correct.map(v => `${v}(${countOnes(v)})`).join(', ');
+            msg.className = 'message wrong';
+            msg.textContent = `❌ Wrong order! Correct: ${correctStr}`;
+        }
+    }
+
+    function resetGame() {
+        sorted = [];
+        render();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Drag cards from top to bottom in order of 1-bit count!';
+    }
+
+    function newGame() {
+        generateNumbers();
+        render();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Drag cards from top to bottom in order of 1-bit count!';
+    }
+
+    window.onload = () => {
+        newGame();
+        setupDropZone();
+    };
+</script>
+</body>
+</html>

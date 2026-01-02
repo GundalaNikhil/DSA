@@ -47,6 +47,7 @@ This resembles trend detection in monitoring systems, finance (bounded jump pric
 - Trains “LIS with constraints” thinking (common interview pattern)
 - Teaches coordinate compression + range maximum query
 - Reinforces that `n=1e5` kills quadratic DP
+The gap rule keeps the sequence in a steady stride, not a wild leap.
 
 ![Real-World Application](../images/DP-006/real-world-scenario.png)
 
@@ -98,6 +99,19 @@ Step 5 (value 25):
   dp[5] = 1 + 2 = 3
 
 Answer: max(dp) = 3
+```
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with array and d g] --> B[Coordinate compress values]
+    B --> C[Init segment tree for max dp]
+    C --> D[For each value x in order]
+    D --> E[Query best dp in value range x minus g to x minus d]
+    E --> F[Set dp at x to best plus 1]
+    F --> G[Update segment tree at x]
+    G --> D
+    D --> H[Return max dp]
 ```
 
 ### Naive DP (why it fails)
@@ -290,4 +304,3 @@ Processing in index order ensures we only build subsequences with increasing ind
 - Coordinate compression
 - Range maximum query (segment tree)
 - LIS-style DP
-

@@ -1,0 +1,52 @@
+problem_id: TRE_CAMPUS_BST_INSERT_SEARCH_014
+display_id: TRE-014
+slug: campus-bst-insert-search
+questions:
+  - question: Where are duplicates inserted in this BST?
+    difficulty: easy
+    points: 10
+    options:
+      - Left subtree
+      - Right subtree
+      - Ignored
+      - Random side
+    correct_answer: 1
+    explanation: Duplicates are inserted into the right subtree.
+    type: single_choice
+    id: prq_1
+  - question: What does the inorder traversal of a BST produce?
+    difficulty: easy
+    points: 10
+    options:
+      - Values in descending order
+      - Values in non-decreasing order
+      - Values in random order
+      - Only leaves
+    correct_answer: 1
+    explanation: Inorder traversal of a BST yields sorted order.
+    type: single_choice
+    id: edq_1
+  - question: For the sample input, what is the search result?
+    difficulty: easy
+    points: 10
+    options:
+      - "true"
+      - "false"
+      - depends on insertion
+      - "-1"
+    correct_answer: 1
+    explanation: The target 5 is not in the BST.
+    type: single_choice
+    id: edq_2
+  - question: If n=0, what should be printed for inorder?
+    difficulty: medium
+    points: 15
+    options:
+      - "-1"
+      - Empty line
+      - "0"
+      - "false"
+    correct_answer: 1
+    explanation: No nodes means an empty traversal line.
+    type: single_choice
+    id: edq_3

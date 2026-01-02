@@ -1,2 +1,52 @@
-# Quiz for REC-012: Knight Tour With Blocked Cells
-# YAML content to be added
+problem_id: REC_KNIGHT_TOUR_BLOCKED_012
+display_id: REC-012
+slug: knight-tour-blocked
+questions:
+  - question: From position (0, 0) on a chessboard, which positions can a knight reach in exactly 1 move?
+    difficulty: easy
+    points: 10
+    options:
+      - (1, 2) and (2, 1)
+      - (1, 1) and (2, 2)
+      - (2, 2) only
+      - (1, 2), (2, 1), (-1, 2), (-2, 1)
+    correct_answer: 0
+    explanation: "Knight moves: (±2, ±1) and (±1, ±2). From (0,0), valid moves staying on board: (1,2), (2,1). Negative coordinates are off-board."
+    type: single_choice
+    id: prq_1
+  - question: What is the total number of possible knight moves from any position (considering all 8 directions)?
+    difficulty: easy
+    points: 10
+    options:
+      - "4"
+      - "6"
+      - "8"
+      - "16"
+    correct_answer: 2
+    explanation: "Knight moves in 8 directions: (±2,±1) and (±1,±2). That's 2×2 + 2×2 = 8 moves."
+    type: single_choice
+    id: edq_1
+  - question: In a 3×3 board with start (0,0) and all cells unblocked, what is the maximum number of cells the knight can visit?
+    difficulty: medium
+    points: 15
+    options:
+      - 9 (all cells)
+      - 5 (limited by knight move range)
+      - "3"
+      - "1"
+    correct_answer: 1
+    explanation: "3×3 board: positions (0,0) to (2,2). From (0,0), knight can reach (1,2) and (2,1). From (1,2), it can reach (0,0), (2,0), (3,1), etc. (many off-board). The knight's reach is limited; a 3×3 board is too small for a full tour."
+    type: single_choice
+    id: edq_2
+  - question: For a 5×5 board with some blocked cells, what is the worst-case time complexity of finding a Hamiltonian path?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n^2)
+      - O(n^3)
+      - O(8^(n^2))
+      - O(n!)
+    correct_answer: 2
+    explanation: "Hamiltonian path is NP-Complete. Worst case: try all paths. With n=25 cells, branching up to 8 per cell, time = O(8^25) in worst case. Warnsdorff heuristic reduces this significantly in practice."
+    type: single_choice
+    id: edq_3

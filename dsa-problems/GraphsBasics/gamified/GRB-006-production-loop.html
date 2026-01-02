@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRB-006: Production Loop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Tektur:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1a1c1e;
+            --panel: #2d2f31;
+            --accent: #ff9f1c; /* Industrial Orange */
+            --danger: #e71d36;
+            --safe: #2ec4b6;
+            --metal: #718096;
+            --text: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+        }
+
+        header {
+            background: #111;
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 4px solid var(--accent);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Tektur', cursive; 
+            color: var(--accent); 
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .factory-floor {
+            position: relative;
+            width: 700px;
+            height: 400px;
+            background: #252729;
+            border: 5px solid var(--metal);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .module {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: var(--panel);
+            border: 3px solid var(--metal);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .module:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .module.visiting { border-color: var(--accent); box-shadow: 0 0 20px var(--accent); }
+        .module.in-stack { background: var(--accent); color: #000; box-shadow: 0 0 25px var(--accent); }
+        .module.cycle { border-color: var(--danger); box-shadow: 0 0 30px var(--danger); animation: shake 0.2s infinite; }
+
+        @keyframes shake { 0%, 100% { transform: translate(0,0); } 25% { transform: translate(3px,0); } 75% { transform: translate(-3px,0); } }
+
+        .conveyor-svg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+        }
+        .conveyor-svg line {
+            stroke: var(--metal);
+            stroke-width: 4;
+            marker-end: url(#arrowhead);
+        }
+        .conveyor-svg line.cycle { stroke: var(--danger); stroke-width: 6; }
+
+        .stats-panel {
+            display: flex;
+            gap: 20px;
+            padding: 15px 30px;
+            background: var(--panel);
+            border-radius: 8px;
+            border-left: 5px solid var(--accent);
+        }
+
+        .stat-item { display: flex; flex-direction: column; align-items: center; }
+        .stat-label { color: #888; font-size: 0.7rem; font-family: 'Tektur'; }
+        .stat-value { font-size: 1.4rem; color: var(--accent); font-family: 'Tektur'; }
+
+        .btn {
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+            padding: 12px 25px;
+            font-family: 'Tektur', cursive;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 4px;
+        }
+
+        .btn:hover { background: var(--accent); color: #000; box-shadow: 0 0 15px var(--accent); }
+        .btn.secondary { border-color: var(--metal); color: var(--metal); }
+
+        #status {
+            min-height: 40px;
+            font-family: 'Tektur';
+            font-size: 1.1rem;
+            color: var(--safe);
+            text-align: center;
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        .dialog {
+            background: var(--panel); padding: 40px; border: 2px solid var(--accent);
+            max-width: 550px; text-align: center; border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🏭 PRODUCTION LOOP</h1>
+    <div style="color: var(--metal); font-family: 'Tektur'; font-size: 0.7rem;">GRB-006: DIRECTED CYCLE DETECTION</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div style="color: #888;">Factory modules depend on each other. Find the circular dependencies that stall production!</div>
+
+        <div class="factory-floor" id="floor">
+
+            <!-- Modules -->
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-item"><span class="stat-label">MODULES</span><span class="stat-value" id="nodeCount">0</span></div>
+            <div class="stat-item"><span class="stat-label">DEPENDENCIES</span><span class="stat-value" id="edgeCount">0</span></div>
+            <div class="stat-item"><span class="stat-label">RECURSION STACK</span><span class="stat-value" id="stackSize">0</span></div>
+        </div>
+
+        <div id="status">INITIATE SCAN...</div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" onclick="game.step()">DFS STEP</button>
+            <button class="btn" onclick="game.autoRun()">AUTO SCAN</button>
+            <button class="btn secondary" onclick="game.reset()">RESET STATUS</button>
+            <button class="btn secondary" onclick="game.newFactory()">NEW LAYOUT</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="font-family: 'Tektur'; color: var(--accent);">🏭 PRODUCTION LOOP</h2>
+        <div style="text-align:left; line-height:1.6; color:#888; font-size:0.9rem; margin-bottom:20px;">
+            <p>A production deadlock is detected! Use <b>Depth-First Search</b> to identify directed cycles.</p>
+            <p><b>DETECTION LOGIC:</b></p>
+            <ul style="padding-left: 20px;">
+                <li>Traverse dependencies using DFS.</li>
+                <li>Keep track of the <b style="color:var(--accent)">Recursion Stack</b> (modules in the current path).</li>
+                <li>If you visit a module that is <b>already in the stack</b>, a cycle exists!</li>
+            </ul>
+        </div>
+        <button class="btn" onclick="game.start()">ENGAGE SCANNER</button>
+    </div>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.nodes = [];
+        this.adj = [];
+        this.visited = new Set();
+        this.inStack = new Set();
+        this.cycleFound = false;
+        this.dfsPath = [];
+        this.autoInterval = null;
+
+        this.ui = {
+            floor: document.getElementById('floor'),
+            svg: document.getElementById('convSvg'),
+            nodeCount: document.getElementById('nodeCount'),
+            edgeCount: document.getElementById('edgeCount'),
+            stackSize: document.getElementById('stackSize'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newFactory();
+    }
+
+    newFactory() {
+        const n = Math.floor(Math.random() * 3) + 7;
+        this.nodes = [];
+        const padding = 60;
+        for (let i = 0; i < n; i++) {
+            this.nodes.push({
+                x: padding + Math.random() * (700 - 2 * padding),
+                y: padding + Math.random() * (400 - 2 * padding)
+            });
+        }
+        
+        this.adj = Array.from({length: n}, () => []);
+        this.edges = [];
+        
+        // Add some random dependencies
+        for (let i = 0; i < n; i++) {
+            const targets = [ (i+1)%n ];
+            if (Math.random() > 0.5) targets.push( Math.floor(Math.random()*n) );
+            targets.forEach(t => {
+                if (t !== i && !this.adj[i].includes(t)) {
+                    this.adj[i].push(t);
+                    this.edges.push({u: i, v: t});
+                }
+            });
+        }
+        this.reset();
+    }
+
+    reset() {
+        if (this.autoInterval) clearInterval(this.autoInterval);
+        this.autoInterval = null;
+        this.visited = new Set();
+        this.inStack = new Set();
+        this.cycleFound = false;
+        this.dfsStack = []; // Manual stack for step-by-step
+        this.dfsGen = this.dfsTraverse();
+        this.ui.status.textContent = 'SYSTEM READY. COMMENCE SCAN.';
+        this.ui.status.style.color = 'var(--safe)';
+        this.render();
+    }
+
+    *dfsTraverse() {
+        for (let i = 0; i < this.nodes.length; i++) {
+            if (!this.visited.has(i)) {
+                yield* this.dfsVisit(i);
+                if (this.cycleFound) return;
+            }
+        }
+    }
+
+    *dfsVisit(u) {
+        this.visited.add(u);
+        this.inStack.add(u);
+        this.currentId = u;
+        yield 'visit';
+
+        for (const v of this.adj[u]) {
+            this.edgeActive = {u, v};
+            if (this.inStack.has(v)) {
+                this.cycleFound = true;
+                this.cycleEdge = {u, v};
+                yield 'cycle';
+                return;
+            }
+            if (!this.visited.has(v)) {
+                yield* this.dfsVisit(v);
+                if (this.cycleFound) return;
+            }
+        }
+
+        this.inStack.delete(u);
+        yield 'backtrack';
+    }
+
+    step() {
+        if (this.cycleFound) {
+            this.ui.status.textContent = '⛔ CYCLE DETECTED! PRODUCTION HALTED.';
+            this.ui.status.style.color = 'var(--danger)';
+            return false;
+        }
+        const res = this.dfsGen.next();
+        if (res.done) {
+            this.ui.status.textContent = '✅ SCAN COMPLETE. NO CYCLES FOUND.';
+            return false;
+        }
+        this.render();
+        return true;
+    }
+
+    autoRun() {
+        if (this.autoInterval) return;
+        this.autoInterval = setInterval(() => {
+            if (!this.step()) {
+                clearInterval(this.autoInterval);
+                this.autoInterval = null;
+            }
+        }, 500);
+    }
+
+    render() {
+        this.ui.floor.innerHTML = '<svg class="conveyor-svg" id="convSvg"><defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="22" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#718096" /></marker><marker id="arrowhead-danger" markerWidth="10" markerHeight="7" refX="22" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#e71d36" /></marker></defs></svg>';
+        this.ui.svg = document.getElementById('convSvg');
+
+        this.edges.forEach(e => {
+            const u = this.nodes[e.u], v = this.nodes[e.v];
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', u.x); line.setAttribute('y1', u.y);
+            line.setAttribute('x2', v.x); line.setAttribute('y2', v.y);
+            if (this.cycleFound && this.inStack.has(e.u) && this.inStack.has(e.v) && (this.adj[e.u].includes(e.v))) {
+                 // Check if it's the specific cycle edge
+                 if (this.cycleEdge && this.cycleEdge.u === e.u && this.cycleEdge.v === e.v) {
+                     line.classList.add('cycle');
+                     line.setAttribute('marker-end', 'url(#arrowhead-danger)');
+                 }
+            }
+            this.ui.svg.appendChild(line);
+        });
+
+        this.nodes.forEach((n, i) => {
+            const mod = document.createElement('div');
+            mod.className = 'module';
+            if (this.currentId === i) mod.classList.add('visiting');
+            if (this.inStack.has(i)) {
+                mod.classList.add('in-stack');
+                if (this.cycleFound) mod.classList.add('cycle');
+            }
+            mod.style.left = (n.x - 30) + 'px';
+            mod.style.top = (n.y - 30) + 'px';
+            mod.innerHTML = `<span style="font-size:0.6rem">M</span><b>${i}</b>`;
+            this.ui.floor.appendChild(mod);
+        });
+
+        this.ui.nodeCount.textContent = this.nodes.length;
+        this.ui.edgeCount.textContent = this.edges.length;
+        this.ui.stackSize.textContent = this.inStack.size;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRE-005: Magic Mirror</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Lora&display=swap" rel="stylesheet">
+    <style>
+        :root { --frame: #8b6914; --mirror: #e8e8e8; --magic: #9b59b6; --gold: #f1c40f; --correct: #27ae60; --wrong: #e74c3c; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Lora', serif; background: linear-gradient(180deg, #2c3e50 0%, #1a1a2e 100%); min-height: 100vh; color: #fff; }
+        header { background: rgba(0,0,0,0.3); padding: 15px; text-align: center; border-bottom: 3px solid var(--gold); }
+        h1 { font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; }
+        main { padding: 20px; max-width: 900px; margin: 0 auto; }
+        .mirror-room { display: flex; gap: 30px; justify-content: center; align-items: center; }
+        .mirror-frame { background: linear-gradient(135deg, var(--frame) 0%, #6d5a10 100%); padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .mirror-surface { background: linear-gradient(135deg, #fff 0%, var(--mirror) 100%); border-radius: 10px; padding: 20px; min-width: 180px; min-height: 250px; }
+        .mirror-title { text-align: center; color: #333; font-family: 'Cinzel', serif; margin-bottom: 15px; }
+        .tree-display { display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .tree-level { display: flex; gap: 10px; }
+        .node { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: #fff; transition: all 0.3s; }
+        .node.a { background: var(--magic); }
+        .node.b { background: #3498db; }
+        .node.highlight { animation: glow 0.5s ease; }
+        @keyframes glow { 0%,100% { box-shadow: 0 0 10px var(--gold); } 50% { box-shadow: 0 0 30px var(--gold); } }
+        .divider { font-size: 3rem; color: var(--gold); opacity: 0.5; }
+        .verdict { text-align: center; padding: 30px; font-size: 1.5rem; margin-top: 20px; }
+        .verdict.correct { color: var(--correct); }
+        .verdict.wrong { color: var(--wrong); }
+        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
+        .btn { padding: 15px 30px; border: none; border-radius: 10px; font-family: 'Cinzel', serif; font-size: 1rem; cursor: pointer; transition: all 0.2s; }
+        .btn-check { background: var(--magic); color: #fff; }
+        .btn-new { background: var(--gold); color: #333; }
+        .btn:hover { transform: translateY(-3px); }
+        .guess-btns { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
+        .guess-btn { padding: 15px 40px; border: 3px solid var(--gold); border-radius: 10px; background: transparent; font-family: 'Cinzel', serif; font-size: 1.1rem; color: var(--gold); cursor: pointer; transition: all 0.2s; }
+        .guess-btn:hover { background: var(--gold); color: #333; }
+        .guess-btn.selected { background: var(--gold); color: #333; }
+        #message { text-align: center; color: var(--gold); padding: 15px; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🪞 MAGIC MIRROR</h1>
+</header>
+<main>
+    <div id="message">Is the tree a mirror of itself? Make your guess!</div>
+    <div class="mirror-room">
+        <div class="mirror-frame">
+            <div class="mirror-surface">
+                <div class="mirror-title">LEFT SIDE</div>
+                <div class="tree-display" id="left-tree"></div>
+            </div>
+        </div>
+        <div class="divider">🪞</div>
+        <div class="mirror-frame">
+            <div class="mirror-surface">
+                <div class="mirror-title">RIGHT SIDE</div>
+                <div class="tree-display" id="right-tree"></div>
+            </div>
+        </div>
+    </div>
+    <div class="guess-btns">
+        <button class="guess-btn" id="btn-yes" onclick="game.guess(true)">✓ SYMMETRIC</button>
+        <button class="guess-btn" id="btn-no" onclick="game.guess(false)">✗ NOT SYMMETRIC</button>
+    </div>
+    <div class="verdict" id="verdict"></div>
+    <div class="controls">
+        <button class="btn btn-check" onclick="game.reveal()">🔍 REVEAL ANSWER</button>
+        <button class="btn btn-new" onclick="game.newTree()">🌲 NEW TREE</button>
+    </div>
+</main>
+<script>
+class MagicMirror {
+    constructor() {
+        this.trees = [
+            { tree: { val: 1, left: { val: 2, left: { val: 3 }, right: { val: 4 } }, right: { val: 2, left: { val: 4 }, right: { val: 3 } } }, symmetric: true },
+            { tree: { val: 1, left: { val: 2, right: { val: 3 } }, right: { val: 2, right: { val: 3 } } }, symmetric: false },
+            { tree: { val: 1, left: { val: 2 }, right: { val: 2 } }, symmetric: true },
+            { tree: { val: 1, left: { val: 2, left: { val: 3 } }, right: { val: 2, left: { val: 3 } } }, symmetric: false }
+        ];
+        this.currentIdx = 0;
+        this.render();
+    }
+    render() {
+        const current = this.trees[this.currentIdx];
+        const tree = current.tree;
+        this.renderSide('left-tree', tree.left, 'a');
+        this.renderSide('right-tree', tree.right, 'b');
+        document.getElementById('verdict').textContent = '';
+        document.getElementById('btn-yes').classList.remove('selected');
+        document.getElementById('btn-no').classList.remove('selected');
+    }
+    renderSide(containerId, subtree, type) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        if (!subtree) { container.innerHTML = '<div style="color:#888">(empty)</div>'; return; }
+        const levels = [[subtree]];
+        if (subtree.left || subtree.right) levels.push([subtree.left, subtree.right].filter(n => n));
+        levels.forEach(level => {
+            const row = document.createElement('div');
+            row.className = 'tree-level';
+            level.forEach(node => {
+                if (node) {
+                    const el = document.createElement('div');
+                    el.className = `node ${type}`;
+                    el.textContent = node.val;
+                    row.appendChild(el);
+                }
+            });
+            container.appendChild(row);
+        });
+    }
+    guess(isSymmetric) {
+        document.getElementById('btn-yes').classList.toggle('selected', isSymmetric);
+        document.getElementById('btn-no').classList.toggle('selected', !isSymmetric);
+        const correct = this.trees[this.currentIdx].symmetric === isSymmetric;
+        const verdict = document.getElementById('verdict');
+        if (correct) {
+            verdict.textContent = '🎉 CORRECT!';
+            verdict.className = 'verdict correct';
+        } else {
+            verdict.textContent = '❌ Wrong! Try again or reveal.';
+            verdict.className = 'verdict wrong';
+        }
+    }
+    reveal() {
+        const isSymmetric = this.trees[this.currentIdx].symmetric;
+        const verdict = document.getElementById('verdict');
+        verdict.textContent = isSymmetric ? '✓ This tree IS symmetric!' : '✗ This tree is NOT symmetric.';
+        verdict.className = 'verdict ' + (isSymmetric ? 'correct' : 'wrong');
+    }
+    newTree() {
+        this.currentIdx = (this.currentIdx + 1) % this.trees.length;
+        this.render();
+        document.getElementById('message').textContent = 'New tree! Is it symmetric?';
+    }
+}
+const game = new MagicMirror();
+</script>
+</body>
+</html>

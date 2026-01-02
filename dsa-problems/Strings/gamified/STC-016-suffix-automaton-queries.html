@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-016: Memory Palace</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lora&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0d0d1a; --gold: #d4af37; --purple: #6b4c9a; --blue: #4a90d9; --marble: #f0ead6; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Lora', serif; background: linear-gradient(135deg, var(--bg) 0%, #1a1a2e 100%); color: var(--marble); min-height: 100vh; }
+        header { background: linear-gradient(180deg, #1a1a3e 0%, var(--bg) 100%); padding: 1.5rem; text-align: center; border-bottom: 3px solid var(--gold); }
+        h1 { font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.8rem; letter-spacing: 3px; }
+        .subtitle { color: var(--purple); font-size: 0.8rem; }
+        main { padding: 25px; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+        .palace { background: linear-gradient(180deg, #1f1f3d 0%, #0d0d1a 100%); border: 3px solid var(--purple); border-radius: 15px; padding: 25px; position: relative; }
+        .palace::before { content: '🏛️'; position: absolute; top: 10px; left: 15px; font-size: 1.5rem; }
+        .automaton { display: flex; gap: 15px; justify-content: center; align-items: center; padding: 20px; min-height: 120px; flex-wrap: wrap; }
+        .state { width: 60px; height: 60px; background: linear-gradient(135deg, var(--purple) 0%, #4a3366 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Cinzel', serif; font-size: 1.2rem; font-weight: bold; box-shadow: 0 5px 15px rgba(107,76,154,0.5); transition: all 0.3s; position: relative; }
+        .state.current { box-shadow: 0 0 30px var(--gold); border: 3px solid var(--gold); transform: scale(1.1); }
+        .state.accepting { background: linear-gradient(135deg, var(--gold) 0%, #b8962e 100%); color: #000; }
+        .arrow { color: var(--blue); font-size: 1.5rem; }
+        .path { display: flex; gap: 10px; justify-content: center; align-items: center; margin-top: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; }
+        .path-char { padding: 8px 15px; background: var(--purple); border-radius: 5px; font-size: 1.1rem; }
+        .path-char.active { background: var(--gold); color: #000; }
+        .controls { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 20px; display: flex; gap: 15px; align-items: end; }
+        .input-group { flex: 1; }
+        .input-group label { color: var(--gold); display: block; margin-bottom: 8px; font-size: 0.8rem; font-family: 'Cinzel', serif; }
+        .input-group input { width: 100%; background: rgba(0,0,0,0.5); border: 2px solid var(--purple); border-radius: 8px; padding: 12px; color: var(--marble); font-size: 1rem; letter-spacing: 2px; }
+        .btn { padding: 15px 25px; border: none; border-radius: 8px; font-family: 'Cinzel', serif; font-size: 0.9rem; cursor: pointer; }
+        .btn-walk { background: var(--gold); color: #000; }
+        .btn-check { background: var(--blue); color: #fff; }
+        .btn:hover { transform: translateY(-2px); }
+        .result { background: rgba(0,0,0,0.3); border: 2px solid var(--gold); border-radius: 10px; padding: 25px; text-align: center; }
+        .result-title { font-family: 'Cinzel', serif; color: var(--gold); margin-bottom: 15px; }
+        .result-answer { font-size: 2rem; font-weight: bold; padding: 15px; border-radius: 10px; }
+        .result-answer.yes { color: #4caf50; background: rgba(76,175,80,0.1); }
+        .result-answer.no { color: #f44336; background: rgba(244,67,54,0.1); }
+        #status { text-align: center; padding: 15px; color: #888; }
+        .hint { background: rgba(74,144,217,0.1); border: 1px solid var(--blue); border-radius: 8px; padding: 15px; font-size: 0.8rem; line-height: 1.6; }
+    </style>
+</head>
+<body>
+<header><h1>🧠 MEMORY PALACE</h1><div class="subtitle">Suffix Automaton Substring Query</div></header>
+<main>
+    <div class="palace">
+        <div class="automaton" id="automaton"></div>
+        <div class="path" id="path"><span style="color:#555">Walk the palace to check substrings...</span></div>
+    </div>
+    <div class="controls">
+        <div class="input-group"><label>📜 Source String</label><input type="text" id="source" value="ABCAB" maxlength="12"></div>
+        <div class="input-group"><label>🔍 Query Substring</label><input type="text" id="query" value="BCA" maxlength="8"></div>
+        <button class="btn btn-walk" onclick="game.walk()">🚶 WALK PALACE</button>
+        <button class="btn btn-check" onclick="game.check()">⚡ QUICK CHECK</button>
+    </div>
+    <div id="status">Enter a source string and query to check if substring exists!</div>
+    <div class="result">
+        <div class="result-title">🏆 SUBSTRING EXISTS?</div>
+        <div class="result-answer" id="answer">-</div>
+    </div>
+    <div class="hint">💡 <strong>Suffix Automaton:</strong> A compact automaton that accepts all suffixes of a string. To check if Q is a substring of S, walk through the automaton following Q's characters. If you can complete the walk, Q exists in S!</div>
+</main>
+<script>
+class MemoryPalace {
+    renderAutomaton(len) {
+        const c = document.getElementById('automaton'); c.innerHTML = '';
+        for (let i = 0; i <= Math.min(len, 5); i++) {
+            if (i > 0) { const a = document.createElement('div'); a.className = 'arrow'; a.textContent = '→'; c.appendChild(a); }
+            const s = document.createElement('div'); s.className = 'state'; s.id = `state-${i}`; s.textContent = `S${i}`; c.appendChild(s);
+        }
+    }
+    renderPath(query) {
+        const c = document.getElementById('path'); c.innerHTML = '';
+        query.split('').forEach((ch, i) => {
+            const p = document.createElement('div'); p.className = 'path-char'; p.id = `path-${i}`; p.textContent = ch; c.appendChild(p);
+        });
+    }
+    async walk() {
+        const source = document.getElementById('source').value.toUpperCase();
+        const query = document.getElementById('query').value.toUpperCase();
+        this.renderAutomaton(source.length); this.renderPath(query);
+        let exists = true, pos = 0;
+        for (let i = 0; i < query.length; i++) {
+            document.querySelectorAll('.state').forEach(s => s.classList.remove('current'));
+            document.querySelectorAll('.path-char').forEach(p => p.classList.remove('active'));
+            document.getElementById(`path-${i}`).classList.add('active');
+            const sIdx = Math.min(i, 5); document.getElementById(`state-${sIdx}`).classList.add('current');
+            await new Promise(r => setTimeout(r, 400));
+            // Simple substring check simulation
+            const found = source.indexOf(query.substring(0, i + 1));
+            if (found === -1) { exists = false; break; }
+        }
+        this.showResult(exists, query);
+    }
+    check() {
+        const source = document.getElementById('source').value.toUpperCase();
+        const query = document.getElementById('query').value.toUpperCase();
+        this.renderAutomaton(source.length);
+        const exists = source.includes(query);
+        this.showResult(exists, query);
+    }
+    showResult(exists, query) {
+        const a = document.getElementById('answer');
+        a.textContent = exists ? '✓ YES' : '✗ NO';
+        a.className = 'result-answer ' + (exists ? 'yes' : 'no');
+        document.getElementById('status').innerHTML = exists 
+            ? `<span style="color:#4caf50">✓ "${query}" exists in the source string!</span>`
+            : `<span style="color:#f44336">✗ "${query}" not found in the source string.</span>`;
+    }
+}
+const game = new MemoryPalace();
+</script>
+</body>
+</html>

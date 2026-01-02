@@ -1,0 +1,52 @@
+problem_id: CON_TOPIC_3
+display_id: CON-003
+slug: readers-writers-lease
+questions:
+- id: prq_1
+  type: single_choice
+  difficulty: medium
+  points: 15
+  question: In a Readers-Writers lock, which scenario is allowed?
+  options:
+  - Multiple concurrent writers
+  - One writer and multiple readers
+  - Multiple concurrent readers
+  - None of these
+  correct_answer: 2
+  explanation: Readers do not modify data, so multiple readers can safely access the resource simultaneously.
+- id: edq_1
+  type: single_choice
+  difficulty: medium
+  points: 15
+  question: What is a 'lease' in this context?
+  options:
+  - A payment for the lock
+  - A time-limited permission to hold the lock, after which it is considered released or resumable
+  - A recursive lock count
+  - A pointer to memory
+  correct_answer: 1
+  explanation: Leases act as a safety net to ensure resources are eventually freed even if a thread hangs or crashes.
+- id: edq_2
+  type: single_choice
+  difficulty: medium
+  points: 15
+  question: To prevent writer starvation, what should happen when a writer arrives?
+  options:
+  - Writer should wait indefinitely
+  - New readers and renewals should be blocked until the writer proceeds
+  - Readers should be killed
+  - Writer should take the lock immediately and crash readers
+  correct_answer: 1
+  explanation: Blocking new readers (gating) allows existing readers to finish, after which the writer can enter.
+- id: edq_3
+  type: single_choice
+  difficulty: medium
+  points: 15
+  question: What is a potential downside of a pure 'readers-priority' lock?
+  options:
+  - Low throughput
+  - Writer starvation
+  - Reader starvation
+  - Memory corruption
+  correct_answer: 1
+  explanation: If readers are constant, a writer might never get a chance to acquire the exclusive lock.

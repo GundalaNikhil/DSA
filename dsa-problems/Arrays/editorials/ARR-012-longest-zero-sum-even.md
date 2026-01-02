@@ -61,6 +61,27 @@ Length = 3 - 1 = 2. Even? Yes.
 If we had found a Zero Sum of length 3, we would ignore it.
 ```
 
+### 🔄 Algorithm Flow Diagram
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Init map, map sum 0 odd = -1]
+    B --> C[current_sum = 0, i = 0, ans = 0]
+    C --> D{i < n?}
+    D -- No --> J[Return ans]
+    D -- Yes --> E[current_sum += arr at i]
+    E --> F[parity = i % 2]
+    F --> G{map has current_sum with parity?}
+    G -- Yes --> H[len = i - map current_sum parity; ans = max of ans and len]
+    G -- No --> I[map current_sum parity = i]
+    H --> K[i++]
+    I --> K
+    K --> D
+```
+
+> Even lengths keep the books balanced, no odd fees.
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Zero Sum**: `sum(arr[i...j]) == 0`.

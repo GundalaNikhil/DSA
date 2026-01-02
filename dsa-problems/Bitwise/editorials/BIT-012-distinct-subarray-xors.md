@@ -37,17 +37,20 @@ You are auditing a Pseudo-Random Number Generator (PRNG).
 -   **metric:** The "Diversity Score" is the count of **distinct** outcomes observed. A low score implies the generator is repetitive or flawed.
 -   **Goal:** Compute this Diversity Score efficiently.
 
-![Real-World Application](../images/BIT-012/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291300/Bitwise/BIT-012/v2/vu0j8d34mq4kqpmzz5mc.png)
 
 ### From Real World to Algorithm
 -   **Subarrays:** There are $O(N^2)$ subarrays.
 -   **Values:** We just need to compute the XOR sum for each and insert into a HashSet.
+Collecting XORs is like collecting fingerprints, the set keeps only the distinct ones.
 -   **Optimization:** Can we do better than $O(N^2)$?
     -   Generally, no. The number of distinct XORs can be $O(N^2)$. Just iterating the output takes that long.
     -   However, if $N$ is large ($10^5$), this is hard. But usually this problem appears with $N \le 1000$ or strictly limited values.
     -   Here, we assume we implement the Set-based approach.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291303/Bitwise/BIT-012/v2/hthbwyzlb1etp0pm4o4s.png)
 
 ### logical Diagram: Set Collection
 
@@ -64,14 +67,20 @@ You are auditing a Pseudo-Random Number Generator (PRNG).
 
 **Result:** 6 distinct values.
 
+<!-- mermaid -->
 ```mermaid
-graph TD
-    Start[Outer Loop i: 0 to N] --> Inner[Inner Loop j: i to N]
-    Inner --> Accumulate[CurrentXOR ^= A[j]]
-    Accumulate --> Insert[Set.add(CurrentXOR)]
-    Insert --> Inner
-    Inner --> NextOuter[Next i]
-    NextOuter --> Count[Return Set.size()]
+flowchart TD
+    A[Set distinct set empty] --> B[Set i to 0]
+    B --> C{i less than n?}
+    C -- No --> K[Return size of set]
+    C -- Yes --> D[Set current_xor to 0 and j to i]
+    D --> E{j less than n?}
+    E -- No --> J[i++]
+    E -- Yes --> F[current_xor XOR equals a at j]
+    F --> G[Add current_xor to set]
+    G --> H[j++]
+    H --> E
+    J --> C
 ```
 
 ## ✅ Input/Output Clarifications
@@ -212,7 +221,9 @@ class Solution {
 }
 ```
 
-## 🧪 Test Case Walkthrough (Dry Run)
+## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291306/Bitwise/BIT-012/v2/ww6invhwlw4mk072qyo2.png) (Dry Run)
 
 **Input**: `1, 2, 3`.
 1. i=0:

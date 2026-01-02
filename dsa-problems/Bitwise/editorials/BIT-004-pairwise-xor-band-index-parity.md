@@ -37,7 +37,7 @@ You are building a matching app for college dorms.
 -   **Compatibility:** The compatibility of two students is calculated by XORing their scores. A perfect match is not too similar (XOR 0) and not too different (XOR Max). It must be within a healthy "Band" `[L, U]`.
 -   **Goal:** Count how many valid roommate pairs exist.
 
-![Real-World Application](../images/BIT-004/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291220/Bitwise/BIT-004/v2/hkrqis4fts6xco4btmjc.png)
 
 ### From Real World to Algorithm
 -   **Condition 1 (Parity):** `i + j` is odd implies one index is even and the other is odd.
@@ -53,8 +53,11 @@ You are building a matching app for college dorms.
 -   Maintain two Tries: T_odd, T_even.
 -   If current index `k` is Even: Query T_odd for range `[L, U]`. Insert `a[k]` into T_even.
 -   If current index `k` is Odd: Query T_even for range `[L, U]`. Insert `a[k]` into T_odd.
+Two tries keep the parities in their lanes, and every value merges into the right side.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291225/Bitwise/BIT-004/v2/y7npqtzupu1sw8wgml6s.png)
 
 ### logical Diagram: Trie Range Query
 
@@ -67,15 +70,20 @@ We need a function `query(TrieNode, Val, Limit)` that returns how many numbers i
     -   Option 1: Match bit `V`. XOR bit = 0 (0 < 1). **All** numbers in this branch differ by 0 at this bit, so they are strictly smaller than `Limit` (at this bit level). Add `count` of this subtree.
     -   Option 2: Different bit `1-V`. XOR bit = 1 (1 == 1). We are equal so far. Continue to child `1-V`.
 
+<!-- mermaid -->
 ```mermaid
-graph TD
-    Start[Input Stream] --> CheckW[Is Index Even?]
-    CheckW -- Yes --> QueryOdd[Query Odd Trie]
-    QueryOdd --> InsertEven[Insert into Even Trie]
-    CheckW -- No --> QueryEven[Query Even Trie]
-    QueryEven --> InsertOdd[Insert into Odd Trie]
-    QueryOdd --> Acc[Accumulate Result]
-    QueryEven --> Acc
+flowchart TD
+    A[Start] --> B[Init even trie, odd trie, total to 0]
+    B --> C[Iterate index i from 0 to n-1]
+    C --> D{Index i is even?}
+    D -- Yes --> E[Query odd trie for XOR range]
+    E --> F[Add count to total]
+    F --> G[Insert value into even trie]
+    D -- No --> H[Query even trie for XOR range]
+    H --> I[Add count to total]
+    I --> J[Insert value into odd trie]
+    G --> C
+    J --> C
 ```
 
 ## ✅ Input/Output Clarifications
@@ -370,6 +378,8 @@ class Solution {
 ```
 
 ## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291228/Bitwise/BIT-004/v2/wpynim0rx4fk3cik7f3z.png)
 **Input:** `[2, 4, 2]`, L=0, U=10.
 -   Indices: 0 (Even, Val 2), 1 (Odd, Val 4), 2 (Even, Val 2).
 -   Evens: `[2, 2]`. Odds: `[4]`.

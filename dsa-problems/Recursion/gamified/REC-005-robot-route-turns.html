@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REC-005: Laser Director</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000;
+            --grid: #111;
+            --cell-border: #222;
+            --laser: #f0f;
+            --mirror: #0ff;
+            --text: #fff;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Orbitron', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+
+        h1 {
+            color: var(--laser);
+            text-shadow: 0 0 10px var(--laser);
+            margin-top: 1rem;
+            letter-spacing: 3px;
+        }
+
+        .game-board {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            align-items: flex-start;
+        }
+
+        .grid-container {
+            position: relative;
+            background: var(--grid);
+            padding: 10px;
+            border: 2px solid #333;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 60px);
+            grid-template-rows: repeat(5, 60px);
+            gap: 2px;
+        }
+
+        .cell {
+            width: 60px;
+            height: 60px;
+            background: #0a0a0a;
+            border: 1px solid var(--cell-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            font-size: 2rem;
+            color: var(--mirror);
+        }
+
+        .cell:hover { background: #151515; }
+
+        .cell.start { box-shadow: inset 0 0 15px var(--laser); }
+        .cell.end { box-shadow: inset 0 0 15px #0f0; }
+
+        .cell.mirror-1::after { content: '/'; }
+        .cell.mirror-2::after { content: '\\'; }
+        .cell.block { background: #333; cursor: default; }
+        .cell.block::after { content: ''; }
+
+        .beam {
+            position: absolute;
+            background: var(--laser);
+            box-shadow: 0 0 10px var(--laser);
+            pointer-events: none;
+            z-index: 10;
+            opacity: 0.8;
+            transform-origin: 0 50%;
+        }
+
+        .controls {
+            width: 200px;
+            background: #111;
+            padding: 20px;
+            border: 1px solid #333;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--mirror);
+            border: 1px solid var(--mirror);
+            padding: 10px;
+            font-family: inherit;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .btn:hover { background: var(--mirror); color: #000; box-shadow: 0 0 15px var(--mirror); }
+        .btn.fire { border-color: var(--laser); color: var(--laser); }
+        .btn.fire:hover { background: var(--laser); color: #fff; box-shadow: 0 0 15px var(--laser); }
+
+    </style>
+</head>
+<body>
+
+<h1>LASER DIRECTOR</h1>
+
+<div class="game-board">
+    <div class="grid-container">
+        <div class="grid" id="grid"></div>
+        <div id="beamLayer"></div>
+    </div>
+
+    <div class="controls">
+        <div class="status-row">
+            <span>Mirrors:</span>
+            <span id="mirrorCount" style="color:var(--mirror)">0</span>
+        </div>
+        <div class="status-row">
+            <span>Turns:</span>
+            <span id="turnCount">0</span> / 3
+        </div>
+        <hr style="border-color:#333; width:100%">
+        <div id="msg" style="min-height:3em; font-size:0.8rem; color:#888">Click empty cells to place mirrors based on slash direction.</div>
+        <button class="btn fire" onclick="fireLaser()">FIRE LASER</button>
+        <button class="btn" onclick="clearMirrors()">CLEAR</button>
+    </div>
+</div>
+
+<script>
+    const N = 5;
+    let gridData = []; // 0=empty, 1=/, 2=\, 9=block
+    let startParams = {r:0, c:0, dir:0}; // 0:R, 1:D, 2:L, 3:U
+    const END = {r:4, c:4};
+
+    function init() {
+        gridData = Array(N).fill().map(() => Array(N).fill(0));
+        // Add some blocks
+        gridData[1][1] = 9;
+        gridData[2][3] = 9;
+        gridData[3][0] = 9;
+
+        renderGrid();
+    }
+
+    function renderGrid() {
+        const grid = document.getElementById('grid');
+        grid.innerHTML = '';
+        
+        let mirrors = 0;
+
+        for(let r=0; r<N; r++) {
+            for(let c=0; c<N; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                
+                if (r===0 && c===0) cell.classList.add('start');
+                else if (r===END.r && c===END.c) cell.classList.add('end');
+                else if (gridData[r][c] === 9) cell.classList.add('block');
+                else if (gridData[r][c] === 1) { cell.classList.add('mirror-1'); mirrors++; }
+                else if (gridData[r][c] === 2) { cell.classList.add('mirror-2'); mirrors++; }
+
+                if (gridData[r][c] !== 9 && !(r===0 && c===0) && !(r===END.r && c===END.c)) {
+                    cell.onclick = () => toggleCell(r, c);
+                }
+                
+                grid.appendChild(cell);
+            }
+        }
+        document.getElementById('mirrorCount').textContent = mirrors;
+    }
+
+    function toggleCell(r, c) {
+        // Cycle: 0 -> 1 (/) -> 2 (\) -> 0
+        gridData[r][c] = (gridData[r][c] + 1) % 3;
+        renderGrid();
+        clearBeams();
+    }
+
+    function clearBeams() {
+        document.getElementById('beamLayer').innerHTML = '';
+        document.getElementById('msg').textContent = "Ready to fire.";
+        document.getElementById('msg').style.color = "#888";
+    }
+
+    function clearMirrors() {
+        for(let r=0; r<N; r++) {
+            for(let c=0; c<N; c++) {
+                if(gridData[r][c] !== 9) gridData[r][c] = 0;
+            }
+        }
+        renderGrid();
+        clearBeams();
+    }
+
+    async function fireLaser() {
+        clearBeams();
+        let r = 0, c = 0;
+        let d = 0; // Start heading Right
+        let beamPath = [{r, c}];
+        let turns = 0;
+        let lastDir = 0;
+        
+        // Safety Break
+        let steps = 0;
+        
+        while (steps < 100) {
+            steps++;
+            
+            // Move
+            let dr = 0, dc = 0;
+            if (d===0) dc=1;
+            else if (d===1) dr=1;
+            else if (d===2) dc=-1;
+            else if (d===3) dr=-1;
+
+            let nr = r + dr;
+            let nc = c + dc;
+
+            // Check bounds
+            if (nr<0 || nr>=N || nc<0 || nc>=N) {
+                // Hit wall - stop visualize
+                drawLine(r, c, nr, nc, true); // Partial draw?
+                fail("Hit Wall!");
+                return;
+            }
+
+            // Check content
+            const type = gridData[nr][nc];
+            
+            // Draw segment
+            await drawLine(r, c, nr, nc);
+            r = nr; c = nc;
+
+            if (r === END.r && c === END.c) {
+                success();
+                return;
+            }
+
+            if (type === 9) {
+                fail("Hit Obstacle!");
+                return;
+            } else if (type === 1) { // Mirror /
+                // reflect
+                // d: 0(R) -> / -> 3(U)
+                // d: 1(D) -> / -> 2(L)
+                // d: 2(L) -> / -> 1(D)
+                // d: 3(U) -> / -> 0(R)
+                // Rule: sum is 3? 0+3=3, 1+2=3. YES.
+                const newD = 3 - d;
+                if (newD !== d) turns++;
+                d = newD;
+            } else if (type === 2) { // Mirror \
+                // d: 0(R) -> \ -> 1(D)
+                // d: 1(D) -> \ -> 0(R)
+                // d: 2(L) -> \ -> 3(U)
+                // d: 3(U) -> \ -> 2(L)
+                // Rule: XOR 1? 0^1=1, 1^1=0, 2^1=3, 3^1=2.
+                const newD = d ^ 1;
+                if (newD !== d) turns++;
+                d = newD;
+            }
+
+            document.getElementById('turnCount').textContent = turns;
+        }
+        fail("Laser dissipated.");
+    }
+
+    function drawLine(r1, c1, r2, c2) {
+        return new Promise(resolve => {
+            const layer = document.getElementById('beamLayer');
+            const beam = document.createElement('div');
+            beam.className = 'beam';
+            
+            // Coords: padding 10 + r*62 + 30
+            const x1 = 10 + c1*62 + 30;
+            const y1 = 10 + r1*62 + 30;
+            const x2 = 10 + c2*62 + 30;
+            const y2 = 10 + r2*62 + 30;
+            
+            const len = Math.sqrt((x2-x1)**2 + (y2-y1)**2);
+            const angle = Math.atan2(y2-y1, x2-x1);
+
+            beam.style.width = '0px';
+            beam.style.height = '4px';
+            beam.style.left = x1 + 'px';
+            beam.style.top = y1 + 'px';
+            beam.style.transform = `rotate(${angle}rad)`;
+            
+            layer.appendChild(beam);
+
+            // Animate grow
+            setTimeout(() => {
+                beam.style.transition = 'width 0.1s linear';
+                beam.style.width = len + 'px';
+            }, 10);
+
+            setTimeout(resolve, 100);
+        });
+    }
+
+    function fail(msg) {
+        document.getElementById('msg').textContent = "FAILURE: " + msg;
+        document.getElementById('msg').style.color = "#f0f";
+    }
+
+    function success() {
+        document.getElementById('msg').textContent = "TARGET DESTROYED. SUCCESS.";
+        document.getElementById('msg').style.color = "#0f0";
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

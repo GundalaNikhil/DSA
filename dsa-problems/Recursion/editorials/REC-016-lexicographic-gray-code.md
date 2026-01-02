@@ -71,6 +71,15 @@ Directly implement the recursive definition.
 -   For `s` in `prev` reversed: `res.add("1" + s)`.
 -   Return `res`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[If n is one return zero and one] --> B[Get gray code for n minus one]
+B --> C[Prefix zero to each string]
+C --> D[Prefix one to reversed list]
+D --> E[Return combined list]
+```
+
 ### Approach 2: Iterative (Bitwise)
 Iterate `i` from `0` to `2^n - 1`.
 Calculate `val = i ^ (i >> 1)`.

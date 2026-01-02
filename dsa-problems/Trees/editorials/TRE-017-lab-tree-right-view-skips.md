@@ -77,6 +77,24 @@ Imagine a multi-story building where you want to install security cameras on the
     -   **DFS:** Pass `level` as parameter. Keep a map/list `level -> value`. Since we visit Right before Left, the *first* valid node we see at a new level is the rightmost one.
 3.  **Filtering:** Explicitly check `node.val >= 0`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Set view map empty]
+    B --> C[DFS node with depth]
+    C --> D{Node is null}
+    D -->|Yes| H[Return]
+    D -->|No| E{Value is non negative and depth not seen}
+    E -->|Yes| F[Store value for depth]
+    E -->|No| G[Skip store]
+    F --> I[DFS right child]
+    G --> I
+    I --> J[DFS left child]
+    J --> H
+    H --> K[Iterate depths and output stored values]
+    K --> L[End]
+```
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 -   **Negative Nodes:** Are traversed (their children might be positive), but they themselves are never part of the view.

@@ -40,48 +40,24 @@ Imagine you are building a flight booking system.
 
 ## Detailed Explanation
 
-### ASCII Diagram: Concept Visualization
+### Flow Diagram: Concept Visualization
 
-**Graph:**
-```
-      (4)
-  0 ------> 1
-  ^         |
-  | (-2)    | (3)
-  |         v
-  2 <------ 2
-```
-Let's assume: `0->1 (4)`, `1->2 (-2)`, `2->0 (3)`.
-
-**Initial Matrix:**
-```
-   0  1  2
-0  0  4 -1
-1 -1  0 -2
-2  3 -1  0
-```
-(-1 means infinity)
-
-**Iteration k=0 (Via Node 0):**
--   Can we improve `2->1` using `2->0->1`?
--   `dist[2][1] = min(inf, dist[2][0] + dist[0][1])`
--   `dist[2][1] = min(inf, 3 + 4) = 7`.
--   Updated Matrix.
-
-**Iteration k=1 (Via Node 1):**
--   Can we improve `0->2` using `0->1->2`?
--   `dist[0][2] = min(inf, 4 + (-2)) = 2`.
-
-**Iteration k=2 (Via Node 2):**
--   Can we improve `1->0` using `1->2->0`?
--   `dist[1][0] = min(inf, -2 + 3) = 1`.
-
-**Final Matrix:**
-```
-   0  1  2
-0  0  4  2
-1  1  0 -2
-2  3  7  0
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Initialize dist matrix]
+    B --> C[Set dist for direct edges]
+    C --> D[For each intermediate node]
+    D --> E[For each source node]
+    E --> F[For each destination node]
+    F --> G[Update dist if shorter path found]
+    G --> F
+    F --> E
+    E --> D
+    D --> H[Check diagonal for negative cycle]
+    H --> I{Negative cycle found}
+    I -- Yes --> J[Report negative cycle]
+    I -- No --> K[Return dist matrix]
 ```
 
 ### Algorithm Steps
@@ -113,7 +89,7 @@ Run Bellman-Ford from every node.
 
 ## Optimal Approach (Floyd-Warshall)
 
-Dynamic Programming approach. `dp[k][i][j]` = shortest path from `i` to `j` using only nodes `0..k` as intermediates. We optimize space to `dp[i][j]`.
+Dynamic Programming approach. `dp[k][i][j]` = shortest path from `i` to `j` using only nodes `0..k` as intermediates. We optimize space to `dp[i][j]`. It is the travel agent that tries every possible layover.
 
 ### Time Complexity
 

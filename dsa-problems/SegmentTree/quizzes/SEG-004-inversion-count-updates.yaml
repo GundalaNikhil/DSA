@@ -1,2 +1,52 @@
-# Quiz for SEG-004: Inversion Count Updates
-# YAML content to be added
+problem_id: SEG_INVERSION_COUNT_UPDATES_004
+display_id: SEG-004
+slug: inversion-count-updates
+questions:
+  - question: What is an inversion in an array?
+    difficulty: easy
+    points: 10
+    options:
+      - i < j and a[i] < a[j]
+      - i < j and a[i] > a[j]
+      - i == j
+      - a[i] == a[j]
+    correct_answer: 1
+    explanation: An inversion is a pair out of ascending order.
+    type: single_choice
+    id: prq_1
+  - question: After setting a[1]=4 in [3,1,2], what is the inversion count?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - "1"
+      - "2"
+      - "3"
+    correct_answer: 2
+    explanation: Array becomes [3,4,2], inversions are (3,2) and (4,2).
+    type: single_choice
+    id: edq_1
+  - question: Why is coordinate compression needed?
+    difficulty: medium
+    points: 15
+    options:
+      - To reduce memory for value-indexed trees
+      - To keep indices 0-based
+      - To sort queries
+      - To avoid modulo
+    correct_answer: 0
+    explanation: Fenwick/segment trees use value indices; compression maps large values to a compact range.
+    type: single_choice
+    id: edq_2
+  - question: Which pairs are affected by updating a single index i?
+    difficulty: medium
+    points: 15
+    options:
+      - Only pairs entirely to the left
+      - Only pairs entirely to the right
+      - Pairs where one element is at index i
+      - All pairs
+    correct_answer: 2
+    explanation: Only pairs involving index i change after a point update.
+    type: single_choice
+    id: edq_3

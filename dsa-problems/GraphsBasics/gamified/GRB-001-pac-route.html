@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRB-001: Pac-Route</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000;
+            --maze: #1a1aff;
+            --pacman: #ffff00;
+            --ghost: #ff0055;
+            --pellet: #fff;
+            --path: #00ff00;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--pellet);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+        }
+
+        header {
+            background: #001a4d;
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 3px solid var(--maze);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Press Start 2P', cursive; 
+            color: var(--pacman); 
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px var(--pacman);
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem;
+            gap: 15px;
+        }
+
+        .instructions {
+            background: #001a4d;
+            padding: 12px 20px;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 700px;
+            font-size: 0.85rem;
+            border: 2px solid var(--maze);
+        }
+
+        .instructions b { color: var(--pacman); }
+
+        .game-container {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .maze-container {
+            position: relative;
+            width: 550px;
+            height: 400px;
+            background: #0a0a3a;
+            border-radius: 15px;
+            border: 3px solid var(--maze);
+            box-shadow: 0 0 30px rgba(26, 26, 255, 0.5);
+        }
+
+        .node {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 3px solid var(--maze);
+            background: #001a4d;
+            z-index: 10;
+        }
+
+        .node:hover { transform: scale(1.15); border-color: var(--pacman); }
+        .node.source { background: var(--pacman); color: #000; animation: pulse 1s infinite; }
+        .node.target { background: var(--ghost); border-color: var(--ghost); }
+        .node.visited { background: #333; border-color: #666; }
+        .node.path { background: var(--path); border-color: var(--path); color: #000; }
+        .node.clickable { box-shadow: 0 0 15px var(--pacman); cursor: pointer; }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 10px var(--pacman); }
+            50% { box-shadow: 0 0 25px var(--pacman); }
+        }
+
+        .edge-svg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+        }
+
+        .edge-svg line { stroke: var(--maze); stroke-width: 3; }
+        .edge-svg line.path { stroke: var(--path); stroke-width: 5; }
+
+        .side-panel {
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .panel-box {
+            background: #001a4d;
+            border: 2px solid var(--maze);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .panel-title {
+            font-family: 'Press Start 2P';
+            font-size: 0.6rem;
+            color: var(--pacman);
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .queue-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            min-height: 40px;
+        }
+
+        .queue-item {
+            padding: 5px 12px;
+            background: var(--pacman);
+            border-radius: 15px;
+            color: #000;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { color: var(--pacman); font-weight: bold; }
+
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--pacman);
+            border: 2px solid var(--pacman);
+            padding: 10px 20px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.65rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 5px;
+        }
+
+        .btn:hover { background: var(--pacman); color: #000; }
+        .btn.secondary { border-color: var(--maze); color: var(--maze); }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        #status {
+            font-family: 'Press Start 2P';
+            font-size: 0.7rem;
+            text-align: center;
+            min-height: 25px;
+            color: var(--path);
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(0, 0, 0, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #0a0a3a; padding: 30px; border: 3px solid var(--maze);
+            max-width: 500px; text-align: center; color: var(--pellet);
+            border-radius: 15px;
+        }
+        .dialog h2 { color: var(--pacman); font-family: 'Press Start 2P'; font-size: 1rem; }
+        .dialog ul { text-align: left; line-height: 2; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🎮 PAC-ROUTE</h1>
+    <div style="color: var(--maze); font-family: 'Press Start 2P'; font-size: 0.6rem;">BFS SHORTEST PATH</div>
+</header>
+
+<main>
+    <div class="instructions">
+        <b>🎯 YOUR MISSION:</b> Click nodes to explore! Find the shortest path from 
+        <span style="color:var(--pacman)">PAC-MAN (0)</span> to the 
+        <span style="color:var(--ghost)">GHOST</span>. 
+        You can only click nodes adjacent to already-visited nodes!
+    </div>
+
+    <div class="game-container">
+        <div class="maze-container" id="mazeContainer">
+            <svg class="edge-svg" id="edgeSvg"></svg>
+        </div>
+
+        <div class="side-panel">
+            <div class="panel-box">
+                <div class="panel-title">BFS QUEUE</div>
+                <div class="queue-items" id="queueDisplay"></div>
+            </div>
+
+            <div class="panel-box">
+                <div class="panel-title">STATS</div>
+                <div class="stat-row">
+                    <span class="stat-label">Moves</span>
+                    <span class="stat-value" id="moves">0</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Optimal</span>
+                    <span class="stat-value" id="optimal">?</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Score</span>
+                    <span class="stat-value" id="score">0</span>
+                </div>
+            </div>
+
+            <div class="btn-row">
+                <button class="btn" id="hintBtn" onclick="game.showHint()">HINT</button>
+                <button class="btn" id="solveBtn" onclick="game.autoSolve()">SOLVE</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="status"></div>
+
+    <div class="btn-row">
+        <button class="btn secondary" onclick="game.reset()">RESTART</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW MAZE</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🎮 PAC-ROUTE</h2>
+        <div style="margin: 20px 0; text-align: left; line-height: 1.8;">
+            <p><b style="color:var(--pacman)">GOAL:</b> Navigate Pac-Man to reach the Ghost!</p>
+            <p><b style="color:var(--ghost)">HOW TO PLAY:</b></p>
+            <ul>
+                <li>Click on <b>adjacent nodes</b> to move</li>
+                <li>You can only visit nodes connected to your path</li>
+                <li>Find the <b>shortest</b> route to win!</li>
+                <li>Fewer moves = Higher score</li>
+            </ul>
+            <p style="color:#888; font-size:0.85rem;">This teaches BFS - exploring level by level finds the shortest path!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START GAME</button>
+    </div>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.nodes = [];
+        this.edges = [];
+        this.adj = [];
+        this.source = 0;
+        this.target = 0;
+        this.visited = new Set();
+        this.path = [];
+        this.moves = 0;
+        this.optimalDist = 0;
+        
+        this.ui = {
+            container: document.getElementById('mazeContainer'),
+            svg: document.getElementById('edgeSvg'),
+            queue: document.getElementById('queueDisplay'),
+            moves: document.getElementById('moves'),
+            optimal: document.getElementById('optimal'),
+            score: document.getElementById('score'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newGame();
+    }
+
+    newGame() {
+        const n = Math.floor(Math.random() * 3) + 7;
+        this.nodes = [];
+        this.adj = Array.from({length: n}, () => []);
+        this.edges = [];
+        
+        // Position nodes
+        const centerX = 275, centerY = 200, radius = 140;
+        for (let i = 0; i < n; i++) {
+            const angle = (2 * Math.PI * i) / n - Math.PI / 2;
+            this.nodes.push({
+                id: i,
+                x: centerX + radius * Math.cos(angle) + (Math.random() - 0.5) * 40,
+                y: centerY + radius * Math.sin(angle) + (Math.random() - 0.5) * 40
+            });
+        }
+        
+        // Create connected graph
+        for (let i = 1; i < n; i++) {
+            const j = Math.floor(Math.random() * i);
+            this.addEdge(i, j);
+        }
+        
+        // Add extra edges
+        const extra = Math.floor(Math.random() * 4) + 2;
+        for (let k = 0; k < extra; k++) {
+            const i = Math.floor(Math.random() * n);
+            const j = Math.floor(Math.random() * n);
+            if (i !== j && !this.adj[i].includes(j)) {
+                this.addEdge(i, j);
+            }
+        }
+        
+        this.source = 0;
+        this.target = n - 1;
+        this.optimalDist = this.computeBFS();
+        
+        this.reset();
+    }
+
+    addEdge(u, v) {
+        this.edges.push([u, v]);
+        this.adj[u].push(v);
+        this.adj[v].push(u);
+    }
+
+    computeBFS() {
+        const dist = new Array(this.nodes.length).fill(-1);
+        dist[this.source] = 0;
+        const queue = [this.source];
+        
+        while (queue.length > 0) {
+            const u = queue.shift();
+            for (const v of this.adj[u]) {
+                if (dist[v] === -1) {
+                    dist[v] = dist[u] + 1;
+                    queue.push(v);
+                }
+            }
+        }
+        
+        this.bfsDist = dist;
+        return dist[this.target];
+    }
+
+    reset() {
+        this.visited = new Set([this.source]);
+        this.path = [this.source];
+        this.moves = 0;
+        this.ui.status.textContent = '';
+        this.ui.optimal.textContent = this.optimalDist;
+        this.render();
+    }
+
+    clickNode(nodeId) {
+        if (nodeId === this.target && this.path.length > 0) {
+            // Can we reach target?
+            const last = this.path[this.path.length - 1];
+            if (this.adj[last].includes(nodeId)) {
+                this.path.push(nodeId);
+                this.visited.add(nodeId);
+                this.moves++;
+                this.checkWin();
+                this.render();
+            }
+            return;
+        }
+        
+        if (this.visited.has(nodeId)) return;
+        
+        // Check if adjacent to current path end
+        const last = this.path[this.path.length - 1];
+        if (!this.adj[last].includes(nodeId)) {
+            this.ui.status.textContent = '❌ NOT ADJACENT! Click a connected node.';
+            return;
+        }
+        
+        this.path.push(nodeId);
+        this.visited.add(nodeId);
+        this.moves++;
+        this.render();
+    }
+
+    checkWin() {
+        if (this.path[this.path.length - 1] === this.target) {
+            const pathLen = this.path.length - 1;
+            const bonus = Math.max(0, (this.optimalDist - pathLen + 5) * 100);
+            const score = 1000 - (pathLen - this.optimalDist) * 50 + bonus;
+            
+            this.ui.score.textContent = Math.max(0, score);
+            
+            if (pathLen === this.optimalDist) {
+                this.ui.status.innerHTML = '🎉 PERFECT! You found the OPTIMAL path!';
+            } else {
+                this.ui.status.innerHTML = `✅ You reached the Ghost in ${pathLen} moves! (Optimal: ${this.optimalDist})`;
+            }
+        }
+    }
+
+    showHint() {
+        const last = this.path[this.path.length - 1];
+        let bestNext = -1;
+        let bestDist = Infinity;
+        
+        for (const neighbor of this.adj[last]) {
+            if (!this.visited.has(neighbor) && this.bfsDist[neighbor] < bestDist) {
+                bestDist = this.bfsDist[neighbor];
+                bestNext = neighbor;
+            }
+        }
+        
+        if (bestNext !== -1) {
+            this.ui.status.textContent = `💡 Try node ${bestNext}`;
+        }
+    }
+
+    autoSolve() {
+        // Reconstruct BFS path
+        const parent = new Array(this.nodes.length).fill(-1);
+        const queue = [this.source];
+        const visited = new Set([this.source]);
+        
+        while (queue.length > 0) {
+            const u = queue.shift();
+            if (u === this.target) break;
+            for (const v of this.adj[u]) {
+                if (!visited.has(v)) {
+                    visited.add(v);
+                    parent[v] = u;
+                    queue.push(v);
+                }
+            }
+        }
+        
+        // Build path
+        const optPath = [];
+        let curr = this.target;
+        while (curr !== -1) {
+            optPath.unshift(curr);
+            curr = parent[curr];
+        }
+        
+        // Animate
+        this.reset();
+        let i = 1;
+        const interval = setInterval(() => {
+            if (i < optPath.length) {
+                this.clickNode(optPath[i]);
+                i++;
+            } else {
+                clearInterval(interval);
+            }
+        }, 500);
+    }
+
+    render() {
+        // Clear
+        this.ui.container.querySelectorAll('.node').forEach(n => n.remove());
+        this.ui.svg.innerHTML = '';
+        
+        // Draw edges
+        for (const [u, v] of this.edges) {
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', this.nodes[u].x);
+            line.setAttribute('y1', this.nodes[u].y);
+            line.setAttribute('x2', this.nodes[v].x);
+            line.setAttribute('y2', this.nodes[v].y);
+            
+            // Highlight path edges
+            for (let i = 0; i < this.path.length - 1; i++) {
+                if ((this.path[i] === u && this.path[i+1] === v) ||
+                    (this.path[i] === v && this.path[i+1] === u)) {
+                    line.classList.add('path');
+                }
+            }
+            
+            this.ui.svg.appendChild(line);
+        }
+        
+        // Draw nodes
+        const last = this.path[this.path.length - 1];
+        const clickable = new Set(this.adj[last].filter(n => !this.visited.has(n)));
+        
+        for (const node of this.nodes) {
+            const el = document.createElement('div');
+            el.className = 'node';
+            
+            if (node.id === this.source) {
+                el.classList.add('source');
+                el.textContent = '😀';
+            } else if (node.id === this.target) {
+                el.classList.add('target');
+                el.textContent = '👻';
+            } else if (this.path.includes(node.id)) {
+                el.classList.add('path');
+                el.textContent = '●';
+            } else if (clickable.has(node.id)) {
+                el.classList.add('clickable');
+                el.textContent = node.id;
+            } else {
+                el.textContent = node.id;
+            }
+            
+            el.style.left = (node.x - 25) + 'px';
+            el.style.top = (node.y - 25) + 'px';
+            
+            el.onclick = () => this.clickNode(node.id);
+            
+            this.ui.container.appendChild(el);
+        }
+        
+        // Update queue (clickable nodes)
+        this.ui.queue.innerHTML = '';
+        for (const nodeId of clickable) {
+            const item = document.createElement('div');
+            item.className = 'queue-item';
+            item.textContent = nodeId;
+            this.ui.queue.appendChild(item);
+        }
+        
+        this.ui.moves.textContent = this.path.length - 1;
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

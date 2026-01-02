@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRB-014: Sprint Path</title>
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --path: #00d4aa; --node: #4a69bd; --current: #f39c12; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Share Tech Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--path); }
+        h1 { margin: 0; font-family: 'Russo One', sans-serif; color: var(--path); font-size: 1.5rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--path); }
+        .instructions b { color: var(--path); }
+        .game-container { display: flex; gap: 20px; align-items: flex-start; }
+        .dag-view { position: relative; width: 500px; height: 350px; background: var(--panel); border-radius: 10px; border: 2px solid #333; }
+        .node { position: absolute; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; z-index: 10; background: var(--node); border: 3px solid #5a79cd; transition: all 0.2s; }
+        .node:hover { transform: scale(1.15); }
+        .node.source { background: var(--current); border-color: #f5b041; }
+        .node.visited { background: var(--path); border-color: #00ffcc; }
+        .node.clickable { box-shadow: 0 0 15px var(--path); }
+        .edge-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        .edge-svg line { stroke: #444; stroke-width: 3; }
+        .edge-svg line.path { stroke: var(--path); stroke-width: 4; }
+        .weight-label { position: absolute; background: #000; color: #fff; padding: 1px 5px; border-radius: 8px; font-size: 0.65rem; transform: translate(-50%,-50%); z-index: 11; }
+        .side-panel { width: 200px; display: flex; flex-direction: column; gap: 15px; }
+        .panel-box { background: var(--panel); border: 2px solid #333; padding: 15px; border-radius: 10px; }
+        .panel-title { font-family: 'Russo One'; font-size: 0.9rem; color: var(--path); margin-bottom: 10px; text-align: center; }
+        .dist-table { font-size: 0.8rem; }
+        .dist-row { display: flex; justify-content: space-between; padding: 5px 0; border-bottom: 1px solid #333; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { color: var(--path); font-weight: bold; }
+        .btn { background: var(--path); color: #000; border: none; padding: 12px 25px; font-family: 'Russo One'; cursor: pointer; border-radius: 5px; }
+        .btn:hover { background: #00aa88; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; font-family: 'Russo One'; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--path); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--path); font-family: 'Russo One'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🏃 SPRINT PATH</h1>
+    <div style="color:#888">DAG SHORTEST PATH</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 FIND SHORTEST PATHS IN DAG:</b> Click nodes in topological order to compute distances. 
+        Only visit nodes after all predecessors are processed!
+    </div>
+    <div class="game-container">
+        <div class="dag-view" id="dagView">
+            <svg class="edge-svg" id="edgeSvg"></svg>
+        </div>
+        <div class="side-panel">
+            <div class="panel-box">
+                <div class="panel-title">DISTANCES FROM 0</div>
+                <div class="dist-table" id="distTable"></div>
+            </div>
+            <div class="panel-box">
+                <div class="stat-row"><span class="stat-label">Processed</span><span class="stat-value" id="processedCount">0</span></div>
+                <div class="stat-row"><span class="stat-label">Total</span><span class="stat-value" id="nodeCount">0</span></div>
+            </div>
+        </div>
+    </div>
+    <div id="status">Process nodes in topological order starting from source!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkOrder()">CHECK ORDER</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW DAG</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🏃 SPRINT PATH</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--path)">GOAL:</b> Process DAG nodes correctly!</p>
+            <ul>
+                <li>Click nodes in <b>topological order</b></li>
+                <li>A node can only be clicked after all its <b>predecessors</b></li>
+                <li>Distances update as you process each node</li>
+                <li>DAG shortest path is O(V+E)!</li>
+            </ul>
+            <p style="color:#888">Topological order = no back edges!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START SPRINT</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.nodes=[]; this.edges=[]; this.adj=[]; this.inDegree=[]; this.dist=[]; this.processed=new Set(); this.path=[];
+        this.ui = { dag:document.getElementById('dagView'), svg:document.getElementById('edgeSvg'), distTable:document.getElementById('distTable'), processedCount:document.getElementById('processedCount'), nodeCount:document.getElementById('nodeCount'), status:document.getElementById('status'), modal:document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const n = Math.floor(Math.random()*2)+6;
+        this.nodes=[]; this.adj=Array.from({length:n},()=>[]); this.inDegree=new Array(n).fill(0); this.edges=[];
+        // Create DAG positioned left-to-right
+        const layers=Math.ceil(n/2);
+        let idx=0;
+        for(let l=0;l<layers && idx<n;l++) {
+            const nodesInLayer=Math.min(2,n-idx);
+            for(let i=0;i<nodesInLayer;i++) {
+                this.nodes.push({id:idx, x:80+l*100, y:80+i*120+(l%2)*40});
+                idx++;
+            }
+        }
+        // Add forward edges
+        for(let i=0;i<n-1;i++) {
+            const targets=[];
+            for(let j=i+1;j<Math.min(i+3,n);j++) { if(Math.random()>0.3) targets.push(j); }
+            if(targets.length===0 && i<n-1) targets.push(i+1);
+            for(const j of targets) { const w=Math.floor(Math.random()*8)+1; this.edges.push({u:i,v:j,w}); this.adj[i].push({to:j,w}); this.inDegree[j]++; }
+        }
+        this.originalInDegree=[...this.inDegree];
+        this.reset();
+    }
+    reset() { this.processed=new Set(); this.path=[]; this.inDegree=[...this.originalInDegree]; this.dist=new Array(this.nodes.length).fill(Infinity); this.dist[0]=0; this.ui.status.textContent='Click nodes with 0 remaining predecessors!'; this.ui.status.style.color='#eee'; this.render(); }
+    clickNode(id) {
+        if(this.processed.has(id)) return;
+        if(this.inDegree[id]>0) { this.ui.status.textContent=`Cannot process ${id} - ${this.inDegree[id]} predecessors remain!`; this.ui.status.style.color='#ff4444'; return; }
+        this.processed.add(id);
+        this.path.push(id);
+        // Relax edges
+        for(const e of this.adj[id]) {
+            if(this.dist[id]+e.w<this.dist[e.to]) { this.dist[e.to]=this.dist[id]+e.w; }
+            this.inDegree[e.to]--;
+        }
+        this.ui.status.textContent=`Processed node ${id}. Relaxed outgoing edges.`;
+        this.ui.status.style.color='var(--path)';
+        if(this.processed.size===this.nodes.length) { this.ui.status.innerHTML='🎉 ALL NODES PROCESSED! Shortest paths computed.'; }
+        this.render();
+    }
+    checkOrder() {
+        if(this.processed.size<this.nodes.length) { this.ui.status.textContent='Process all nodes first!'; return; }
+        this.ui.status.innerHTML='✅ Valid topological order achieved!';
+    }
+    render() {
+        this.ui.dag.querySelectorAll('.node,.weight-label').forEach(n=>n.remove());
+        this.ui.svg.innerHTML='';
+        // Draw edges
+        for(const e of this.edges) {
+            const u=this.nodes[e.u], v=this.nodes[e.v];
+            const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+            line.setAttribute('x1',u.x); line.setAttribute('y1',u.y);
+            line.setAttribute('x2',v.x); line.setAttribute('y2',v.y);
+            if(this.processed.has(e.u)) line.classList.add('path');
+            this.ui.svg.appendChild(line);
+            const lbl=document.createElement('div');
+            lbl.className='weight-label';
+            lbl.textContent=e.w;
+            lbl.style.left=(u.x+v.x)/2+'px'; lbl.style.top=(u.y+v.y)/2+'px';
+            this.ui.dag.appendChild(lbl);
+        }
+        // Draw nodes
+        for(const n of this.nodes) {
+            const el=document.createElement('div');
+            el.className='node';
+            if(n.id===0) el.classList.add('source');
+            if(this.processed.has(n.id)) el.classList.add('visited');
+            else if(this.inDegree[n.id]===0) el.classList.add('clickable');
+            el.style.left=(n.x-25)+'px'; el.style.top=(n.y-25)+'px';
+            el.textContent=n.id;
+            el.onclick=()=>this.clickNode(n.id);
+            this.ui.dag.appendChild(el);
+        }
+        // Update dist table
+        this.ui.distTable.innerHTML='';
+        for(let i=0;i<this.nodes.length;i++) {
+            const row=document.createElement('div');
+            row.className='dist-row';
+            row.innerHTML=`<span>Node ${i}</span><span style="color:${this.dist[i]===Infinity?'#888':'var(--path)'}">${this.dist[i]===Infinity?'∞':this.dist[i]}</span>`;
+            this.ui.distTable.appendChild(row);
+        }
+        this.ui.processedCount.textContent=this.processed.size;
+        this.ui.nodeCount.textContent=this.nodes.length;
+    }
+}
+const game=new Game();
+</script>
+</body>
+</html>

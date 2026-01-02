@@ -67,6 +67,15 @@ Check "Alice":
 All bits 1, 4, 9 are 1 -> Probably Present.
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute m using target f]
+    B --> C[Compute k using m and n]
+    C --> D[Estimate final FPR]
+    D --> E[Output m and k]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Inputs:**

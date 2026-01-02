@@ -107,6 +107,19 @@ Since the SA is sorted, we only need to check **adjacent** suffixes in the Suffi
 5. If they are from different strings, update `max_len = max(max_len, lcp[i])`.
 6. Return `max_len`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build combined string with sentinel] --> B[Build suffix array]
+B --> C[Build LCP array]
+C --> D[Scan adjacent suffixes]
+D --> E{From different strings}
+E -->|Yes| F[Update max length]
+E -->|No| G[Skip]
+F --> D
+G --> D
+```
+
 ### Time Complexity
 
 - **O(N log N)**: Where `N = |a| + |b|`. Dominated by SA construction.

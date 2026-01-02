@@ -69,6 +69,18 @@ Imagine you are a **Chemist** mixing a solution.
 -   Move pointers based on comparison with `target`.
 -   Complexity: `O(N)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Set left and right] --> B[Compute sum and diff]
+B --> C[Update best pair if needed]
+C --> D{Sum below target}
+D -->|Yes| E[Move left rightward]
+D -->|No| F[Move right leftward]
+E --> B
+F --> B
+```
+
 ## Implementations
 
 ### Java

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRP-003: Component Counter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1e1e2e;
+            --primary: #cba6f7;
+            --secondary: #313244;
+            --red: #f38ba8;
+            --green: #a6e3a1;
+            --yellow: #f9e2af;
+            --blue: #89b4fa;
+            --text: #cdd6f4;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+        }
+
+        header {
+            background: var(--secondary);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .graph-container {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            background: var(--secondary);
+            border-radius: 15px;
+            border: 2px solid var(--primary);
+        }
+
+        .node {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid var(--text);
+            background: var(--secondary);
+        }
+
+        .node:hover { transform: scale(1.1); }
+        
+        .node.color-0 { background: var(--red); border-color: var(--red); color: #000; }
+        .node.color-1 { background: var(--green); border-color: var(--green); color: #000; }
+        .node.color-2 { background: var(--yellow); border-color: var(--yellow); color: #000; }
+        .node.color-3 { background: var(--blue); border-color: var(--blue); color: #000; }
+
+        .edge {
+            position: absolute;
+            background: var(--text);
+            height: 2px;
+            transform-origin: left center;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .edge.highlighted { opacity: 0.8; height: 3px; }
+
+        .stats-panel {
+            display: flex;
+            gap: 30px;
+            padding: 15px 30px;
+            background: var(--secondary);
+            border-radius: 10px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label { color: #94a3b8; font-size: 0.8rem; }
+        .stat-value { font-size: 1.5rem; font-weight: bold; color: var(--primary); }
+
+        .component-legend {
+            display: flex;
+            gap: 15px;
+            padding: 10px 20px;
+            background: var(--secondary);
+            border-radius: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .legend-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 12px 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: #000;
+        }
+
+        .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .btn.secondary { border-color: #64748b; color: #64748b; }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(30, 30, 46, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: var(--secondary); padding: 40px; border: 2px solid var(--primary);
+            max-width: 550px; text-align: center; color: var(--text);
+            border-radius: 15px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🏘️ Component Counter</h1>
+    <div style="color: #94a3b8;">GRP-003: CONNECTED COMPONENTS</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div style="color: #94a3b8;">Click a node to start finding its component. Find all isolated hostel blocks!</div>
+
+        <div class="graph-container" id="graphContainer"></div>
+
+        <div class="component-legend" id="legend"></div>
+
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span class="stat-label">Nodes Visited</span>
+                <span class="stat-value" id="visited">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Components Found</span>
+                <span class="stat-value" id="components">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Total Nodes</span>
+                <span class="stat-value" id="total">0</span>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" id="btnAuto" onclick="game.autoFind()">AUTO FIND ALL</button>
+            <button class="btn secondary" onclick="game.reset()">RESET</button>
+            <button class="btn secondary" onclick="game.newGraph()">NEW HOSTEL</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🏘️ COMPONENT COUNTER</h2>
+        <div style="text-align:left; font-size:0.95rem; margin:1.5rem 0; line-height:1.7; color:#aaa;">
+            <p><b>Scenario:</b> The hostel has multiple isolated blocks. Find all of them!</p>
+            <p><b>How It Works:</b></p>
+            <ul style="margin-left: 15px;">
+                <li>Click any unvisited node to explore its component</li>
+                <li>BFS/DFS will mark all connected nodes with same color</li>
+                <li>Move to next unvisited node for new component</li>
+                <li>Count increases with each new component</li>
+            </ul>
+            <p><b>Goal:</b> Find all connected components!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START COUNTING</button>
+    </div>
+</div>
+
+<script>
+const COLORS = ['color-0', 'color-1', 'color-2', 'color-3'];
+const COLOR_NAMES = ['Red', 'Green', 'Yellow', 'Blue'];
+
+class Game {
+    constructor() {
+        this.nodes = [];
+        this.adj = [];
+        this.edges = [];
+        this.nodeColor = [];
+        this.componentCount = 0;
+        
+        this.ui = {
+            container: document.getElementById('graphContainer'),
+            legend: document.getElementById('legend'),
+            visited: document.getElementById('visited'),
+            components: document.getElementById('components'),
+            total: document.getElementById('total'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newGraph();
+    }
+
+    newGraph() {
+        const n = Math.floor(Math.random() * 4) + 8; // 8-11 nodes
+        const numComponents = Math.floor(Math.random() * 3) + 2; // 2-4 components
+        
+        this.nodes = [];
+        this.adj = Array.from({length: n}, () => []);
+        this.edges = [];
+        this.nodeColor = new Array(n).fill(-1);
+        this.componentCount = 0;
+        
+        // Assign nodes to components
+        const componentAssignment = [];
+        for (let i = 0; i < n; i++) {
+            componentAssignment.push(i % numComponents);
+        }
+        // Shuffle
+        for (let i = n - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [componentAssignment[i], componentAssignment[j]] = [componentAssignment[j], componentAssignment[i]];
+        }
+        
+        // Create positions by component
+        const componentNodes = Array.from({length: numComponents}, () => []);
+        for (let i = 0; i < n; i++) {
+            componentNodes[componentAssignment[i]].push(i);
+        }
+        
+        // Position nodes in clusters
+        const clusterCenters = [
+            {x: 150, y: 150}, {x: 450, y: 150}, 
+            {x: 150, y: 300}, {x: 450, y: 300}
+        ];
+        
+        for (let c = 0; c < numComponents; c++) {
+            const center = clusterCenters[c % 4];
+            const members = componentNodes[c];
+            for (let i = 0; i < members.length; i++) {
+                const angle = (2 * Math.PI * i) / members.length;
+                const r = 40 + Math.random() * 30;
+                this.nodes[members[i]] = {
+                    id: members[i],
+                    x: center.x + r * Math.cos(angle) + (Math.random() - 0.5) * 20,
+                    y: center.y + r * Math.sin(angle) + (Math.random() - 0.5) * 20
+                };
+            }
+            
+            // Connect within component
+            for (let i = 1; i < members.length; i++) {
+                const j = Math.floor(Math.random() * i);
+                this.addEdge(members[i], members[j]);
+            }
+            // Extra edges within component
+            if (members.length > 2) {
+                const extra = Math.floor(Math.random() * 2) + 1;
+                for (let k = 0; k < extra; k++) {
+                    const i = members[Math.floor(Math.random() * members.length)];
+                    const j = members[Math.floor(Math.random() * members.length)];
+                    if (i !== j && !this.adj[i].includes(j)) {
+                        this.addEdge(i, j);
+                    }
+                }
+            }
+        }
+        
+        this.ui.total.textContent = n;
+        this.reset();
+    }
+
+    addEdge(u, v) {
+        this.edges.push([u, v]);
+        this.adj[u].push(v);
+        this.adj[v].push(u);
+    }
+
+    reset() {
+        this.nodeColor = new Array(this.nodes.length).fill(-1);
+        this.componentCount = 0;
+        this.ui.status.textContent = '';
+        this.render();
+    }
+
+    clickNode(id) {
+        if (this.nodeColor[id] !== -1) return;
+        
+        // BFS to find all nodes in this component
+        const color = this.componentCount % 4;
+        const queue = [id];
+        this.nodeColor[id] = color;
+        
+        while (queue.length > 0) {
+            const curr = queue.shift();
+            for (const neighbor of this.adj[curr]) {
+                if (this.nodeColor[neighbor] === -1) {
+                    this.nodeColor[neighbor] = color;
+                    queue.push(neighbor);
+                }
+            }
+        }
+        
+        this.componentCount++;
+        this.render();
+        this.checkComplete();
+    }
+
+    autoFind() {
+        for (let i = 0; i < this.nodes.length; i++) {
+            if (this.nodeColor[i] === -1) {
+                this.clickNode(i);
+            }
+        }
+    }
+
+    checkComplete() {
+        const visited = this.nodeColor.filter(c => c !== -1).length;
+        if (visited === this.nodes.length) {
+            this.ui.status.innerHTML = `<span style="color:var(--green)">🎉 All ${this.componentCount} components found!</span>`;
+        }
+    }
+
+    render() {
+        this.ui.container.innerHTML = '';
+        
+        // Draw edges
+        for (const [u, v] of this.edges) {
+            const edge = document.createElement('div');
+            edge.className = 'edge';
+            if (this.nodeColor[u] !== -1 && this.nodeColor[u] === this.nodeColor[v]) {
+                edge.classList.add('highlighted');
+            }
+            
+            const x1 = this.nodes[u].x, y1 = this.nodes[u].y;
+            const x2 = this.nodes[v].x, y2 = this.nodes[v].y;
+            const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+            const angle = Math.atan2(y2 - y1, x2 - x1);
+            
+            edge.style.left = x1 + 'px';
+            edge.style.top = y1 + 'px';
+            edge.style.width = length + 'px';
+            edge.style.transform = `rotate(${angle}rad)`;
+            
+            this.ui.container.appendChild(edge);
+        }
+        
+        // Draw nodes
+        for (const node of this.nodes) {
+            if (!node) continue;
+            const el = document.createElement('div');
+            el.className = 'node';
+            if (this.nodeColor[node.id] !== -1) {
+                el.classList.add(COLORS[this.nodeColor[node.id]]);
+            }
+            
+            el.style.left = (node.x - 25) + 'px';
+            el.style.top = (node.y - 25) + 'px';
+            el.textContent = node.id;
+            el.onclick = () => this.clickNode(node.id);
+            
+            this.ui.container.appendChild(el);
+        }
+        
+        // Update stats
+        const visited = this.nodeColor.filter(c => c !== -1).length;
+        this.ui.visited.textContent = visited;
+        this.ui.components.textContent = this.componentCount;
+        
+        // Update legend
+        this.ui.legend.innerHTML = '';
+        for (let i = 0; i < this.componentCount; i++) {
+            const item = document.createElement('div');
+            item.className = 'legend-item';
+            item.innerHTML = `<div class="legend-dot ${COLORS[i % 4]}"></div>Component ${i + 1}`;
+            this.ui.legend.appendChild(item);
+        }
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

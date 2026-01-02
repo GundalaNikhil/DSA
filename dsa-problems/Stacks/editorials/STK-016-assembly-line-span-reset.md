@@ -78,6 +78,18 @@ Imagine an **Assembly Line Performance Tracker**.
 -   Standard solution.
 -   Complexity: `O(N)` time, `O(N)` space.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Scan counts from left] --> B[Pop smaller elements]
+B --> C{Stack empty}
+C -->|Yes| D[Span is i plus one]
+C -->|No| E[Span is i minus top]
+D --> F[Push index]
+E --> F
+F --> A
+```
+
 ## Implementations
 
 ### Java

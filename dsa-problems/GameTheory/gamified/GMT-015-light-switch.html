@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMT-015: Light Switch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 36px; text-shadow: 0 0 20px #ffeb3b; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .tutorial h2 { color: #f59e0b; margin-bottom: 15px; }
+
+        .rules { display: flex; gap: 15px; }
+        .rule {
+            flex: 1;
+            background: #fffbeb;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .rule-icon { font-size: 28px; }
+        .rule-text { font-size: 13px; color: #555; margin-top: 5px; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .turn-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+            border-radius: 12px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .turn-bar.ai { background: linear-gradient(90deg, #4b5563, #6b7280); }
+
+        .lights-area {
+            padding: 30px;
+            background: #1f2937;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .lights-row {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .light {
+            width: 60px;
+            height: 80px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .light.on {
+            background: radial-gradient(circle, #ffeb3b, #ffc107);
+            box-shadow: 0 0 30px #ffeb3b;
+        }
+        .light.off {
+            background: #374151;
+        }
+        .light:hover { transform: scale(1.1); }
+        .light .bulb { font-size: 28px; }
+        .light .num { font-size: 12px; color: #fff; margin-top: 5px; }
+
+        .message { text-align: center; padding: 15px; color: #666; }
+
+        .result {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            display: none;
+        }
+        .result.win { display: block; background: #d1fae5; color: #059669; }
+        .result.lose { display: block; background: #fee2e2; color: #dc2626; }
+
+        .new-game {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 15px;
+            background: #f59e0b;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>💡 Light Switch</h1>
+        <div style="opacity:0.9">Toggle lights - turn off the last one to win!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="rules">
+            <div class="rule">
+                <div class="rule-icon">💡</div>
+                <div class="rule-text"><strong>Click a lit light</strong> to flip it and all to its right</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">🔄</div>
+                <div class="rule-text"><strong>ON → OFF</strong> and <strong>OFF → ON</strong></div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">🏆</div>
+                <div class="rule-text"><strong>Turn off the last light</strong> to win!</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="turn-bar" id="turnBar">
+            <span id="turnText">🟢 Your Turn</span>
+            <span>Lights ON: <span id="lightsOn">0</span></span>
+        </div>
+
+        <div class="message" id="message">Click a lit light to toggle it and all to its right!</div>
+
+        <div class="lights-area">
+            <div class="lights-row" id="lightsRow"></div>
+        </div>
+
+        <div class="result" id="result"></div>
+
+        <button class="new-game" onclick="newGame()">🔄 New Game</button>
+    </div>
+</div>
+
+<script>
+    const NUM_LIGHTS = 8;
+    let lights = []; // true = on
+    let isPlayerTurn = true;
+    let gameOver = false;
+
+    function init() {
+        // Random initial state with at least one light on
+        lights = new Array(NUM_LIGHTS).fill(false);
+        lights[0] = true;
+        lights[2] = true;
+        lights[5] = true;
+        isPlayerTurn = true;
+        gameOver = false;
+        document.getElementById('result').className = 'result';
+        render();
+    }
+
+    function render() {
+        const turnBar = document.getElementById('turnBar');
+        turnBar.className = isPlayerTurn ? 'turn-bar' : 'turn-bar ai';
+        document.getElementById('turnText').textContent = isPlayerTurn ? '🟢 Your Turn' : '🔴 AI Turn';
+        document.getElementById('lightsOn').textContent = lights.filter(l => l).length;
+
+        const row = document.getElementById('lightsRow');
+        row.innerHTML = '';
+
+        lights.forEach((isOn, i) => {
+            const light = document.createElement('div');
+            light.className = 'light ' + (isOn ? 'on' : 'off');
+            light.innerHTML = `<div class="bulb">${isOn ? '💡' : '⚫'}</div><div class="num">#${i+1}</div>`;
+
+            if (isOn && isPlayerTurn && !gameOver) {
+                light.onclick = () => toggleLight(i);
+            }
+
+            row.appendChild(light);
+        });
+    }
+
+    function toggleLight(i) {
+        if (!lights[i] || !isPlayerTurn || gameOver) return;
+
+        // Toggle this light and all to its right
+        for (let j = i; j < NUM_LIGHTS; j++) {
+            lights[j] = !lights[j];
+        }
+
+        if (lights.every(l => !l)) {
+            endGame(true);
+            return;
+        }
+
+        isPlayerTurn = false;
+        render();
+        document.getElementById('message').textContent = '🤖 AI is thinking...';
+
+        setTimeout(aiMove, 800);
+    }
+
+    function aiMove() {
+        if (gameOver) return;
+
+        // Find leftmost lit light
+        const leftmost = lights.findIndex(l => l);
+        if (leftmost < 0) {
+            endGame(true);
+            return;
+        }
+
+        // Toggle it
+        for (let j = leftmost; j < NUM_LIGHTS; j++) {
+            lights[j] = !lights[j];
+        }
+
+        document.getElementById('message').textContent = `🤖 AI toggles light #${leftmost + 1}`;
+
+        if (lights.every(l => !l)) {
+            endGame(false);
+            return;
+        }
+
+        isPlayerTurn = true;
+        render();
+        setTimeout(() => {
+            document.getElementById('message').textContent = 'Your turn! Click a lit light.';
+        }, 500);
+    }
+
+    function endGame(playerWins) {
+        gameOver = true;
+        render();
+        const result = document.getElementById('result');
+        if (playerWins) {
+            result.className = 'result win';
+            result.textContent = '🎉 YOU WIN! All lights are off!';
+        } else {
+            result.className = 'result lose';
+            result.textContent = '😢 AI WINS! AI turned off the last light.';
+        }
+        document.getElementById('message').textContent = '';
+    }
+
+    function newGame() {
+        init();
+        document.getElementById('message').textContent = 'Click a lit light to toggle it and all to its right!';
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

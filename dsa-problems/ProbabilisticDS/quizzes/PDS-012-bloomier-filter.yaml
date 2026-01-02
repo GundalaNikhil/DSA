@@ -1,2 +1,52 @@
-# Quiz for PDS-012: Bloomier Filter Key-Value
-# YAML content to be added
+problem_id: PDS_BLOOMIER_FILTER_012
+display_id: PDS-012
+slug: bloomier-filter
+questions:
+  - question: "A Bloomier Filter extends the standard Bloom Filter by allowing:"
+    difficulty: easy
+    points: 10
+    options:
+      - Storage of arbitrary values associated with keys
+      - Deletion of keys
+      - Counting of keys
+      - Infinite capacity
+    correct_answer: 0
+    explanation: It implements an approximate associative array (Map) rather than just a Set.
+    type: single_choice
+    id: prq_1
+  - question: If we query a key that was NEVER inserted into the Bloomier Filter, what is returned?
+    difficulty: medium
+    points: 15
+    options:
+      - A random value (False Positive)
+      - "Null"
+      - An error
+      - The correct value
+    correct_answer: 0
+    explanation: Like a Bloom filter, it cannot distinguish 'missing' from 'present' perfectly. It returns a value constructed from XORs.
+    type: single_choice
+    id: edq_1
+  - question: "The probability that a non-key query returns a specific 'valid' value (false positive) is:"
+    difficulty: easy
+    points: 10
+    options:
+      - 2^(-r)
+      - 1/m
+      - 1/N
+      - "0"
+    correct_answer: 0
+    explanation: Where r is the bit-width of the value cells. It's the chance of r random bits matching.
+    type: single_choice
+    id: edq_2
+  - question: What is the critical failure mode during Bloomier Filter construction?
+    difficulty: easy
+    points: 10
+    options:
+      - Cyclic dependencies in the cuckoo graph
+      - Hash collisions
+      - Table full
+      - Memory leak
+    correct_answer: 0
+    explanation: Construction requires solving dependencies (peeling). Cycles prevent unique determination of values.
+    type: single_choice
+    id: edq_3

@@ -1,0 +1,52 @@
+problem_id: TRI_SUFFIX_TRIE_LONGEST_REPEAT_011
+display_id: TRI-011
+slug: suffix-trie-longest-repeat
+questions:
+  - question: "A substring is 'repeated' if it appears:"
+    difficulty: easy
+    points: 10
+    options:
+      - At least twice in the string
+      - Exactly twice
+      - As a palindrome
+      - At the start and end
+    correct_answer: 0
+    explanation: We look for the longest string with frequency >= 2.
+    type: single_choice
+    id: prq_1
+  - question: "In the Suffix Trie, a node represents a repeated substring if:"
+    difficulty: medium
+    points: 15
+    options:
+      - The count of suffixes passing through it is >= 2
+      - It is a leaf node
+      - It is the root
+      - It has 2 children
+    correct_answer: 0
+    explanation: Each suffix insertion increments counts along its path. Count X means X suffixes share this prefix.
+    type: single_choice
+    id: edq_1
+  - question: "The 'depth' of a node in the Suffix Trie corresponds to:"
+    difficulty: easy
+    points: 10
+    options:
+      - The length of the substring represented by the path to this node
+      - The number of repeated times
+      - The index in the string
+      - The character value
+    correct_answer: 0
+    explanation: Root is depth 0. Each edge adds 1 character to length.
+    type: single_choice
+    id: edq_2
+  - question: Building a naive Suffix Trie takes O(N^2). Is this efficient for N=10^5?
+    difficulty: easy
+    points: 10
+    options:
+      - No, usually Time Limit Exceeded
+      - Yes, it's fine
+      - It depends on the alphabet
+      - Only in Java
+    correct_answer: 0
+    explanation: O(N^2) is too slow for 10^5. Suffix Array (O(N log N)) or Suffix Tree (O(N)) is needed for large inputs.
+    type: single_choice
+    id: edq_3

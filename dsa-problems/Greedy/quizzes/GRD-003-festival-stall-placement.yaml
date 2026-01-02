@@ -1,0 +1,52 @@
+problem_id: GRD_FESTIVAL_STALL_PLACEMENT_003
+display_id: GRD-003
+slug: festival-stall-placement
+questions:
+  - question: To maximize the number of stalls placed, how should the requests be sorted primarily?
+    difficulty: easy
+    points: 10
+    options:
+      - By End Time (Ascending)
+      - By Start Time (Ascending)
+      - By Duration (Shortest first)
+      - By Distance from origin
+    correct_answer: 0
+    explanation: This is a variant of Activity Selection. Picking the interval that finishes earliest leaves the maximum room for subsequent intervals.
+    type: single_choice
+    id: prq_1
+  - question: What is the correct condition to determine if a new stall `[start, end]` fits after `last_end` with minimum distance `d`?
+    difficulty: easy
+    points: 10
+    options:
+      - start - last_end >= d
+      - start > last_end
+      - start - last_end > d
+      - start >= last_end
+    correct_answer: 0
+    explanation: The safety regulation requires the gap (start of new - end of old) to be at least `d`.
+    type: single_choice
+    id: edq_1
+  - question: Why is sorting by Start Time generally incorrect for this maximization problem?
+    difficulty: medium
+    points: 10
+    options:
+      - A stall starting early might be extremely long, blocking many other potential stalls
+      - It makes checking the distance constraint impossible
+      - It is actually the correct approach
+      - Start times might be negative
+    correct_answer: 0
+    explanation: E.g., interval [0, 100] starts earliest but blocks valuable space for many short intervals like [2,3], [5,6], etc.
+    type: single_choice
+    id: edq_2
+  - question: If each stall had a different 'profit' value and we wanted to maximize total profit, which algorithm would be required?
+    difficulty: medium
+    points: 15
+    options:
+      - Dynamic Programming (O(N log N))
+      - The same Greedy approach
+      - Depth First Search (O(2^N))
+      - Linear Scan (O(N))
+    correct_answer: 0
+    explanation: This becomes Weighted Interval Scheduling. The greedy choice is no longer optimal; DP is required to compare 'taking current + prev optimal' vs 'skipping current'.
+    type: single_choice
+    id: edq_3

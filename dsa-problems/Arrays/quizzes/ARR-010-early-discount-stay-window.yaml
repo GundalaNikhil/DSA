@@ -1,0 +1,52 @@
+problem_id: ARR_EARLY_DISCOUNT_STAY_WINDOW_010
+display_id: ARR-010
+slug: early-discount-stay-window
+questions:
+  - question: How is profit computed for a buy at i and sell at j?
+    difficulty: easy
+    points: 10
+    options:
+      - prices[j] - prices[i]
+      - min(prices[j], C) - prices[i]
+      - prices[i] - prices[j]
+      - max(prices[j], C) - prices[i]
+    correct_answer: 1
+    explanation: The selling price is capped at C, while the buy price is not capped.
+    type: single_choice
+    id: prq_1
+  - question: For a fixed sell day j, which buy indices are valid?
+    difficulty: medium
+    points: 15
+    options:
+      - i in [0, j - dMin]
+      - i in [j - dMax, j - dMin]
+      - i in [j + dMin, j + dMax]
+      - i in [0, n-1]
+    correct_answer: 1
+    explanation: The holding period must satisfy dMin <= j - i <= dMax.
+    type: single_choice
+    id: edq_1
+  - question: For prices = [7, 2, 5, 1, 9], dMin=1, dMax=3, C=6, what is the maximum profit?
+    difficulty: easy
+    points: 10
+    options:
+      - "3"
+      - "4"
+      - "5"
+      - "7"
+    correct_answer: 2
+    explanation: Buy at 1 and sell at 9, but capped to 6, so profit is 6 - 1 = 5.
+    type: single_choice
+    id: edq_2
+  - question: What data structure supports tracking the minimum buy price in the sliding window efficiently?
+    difficulty: medium
+    points: 15
+    options:
+      - Stack
+      - Monotonic deque
+      - Binary search tree
+      - Hash set
+    correct_answer: 1
+    explanation: A monotonic deque maintains candidates for the minimum in amortized O(1).
+    type: single_choice
+    id: edq_3

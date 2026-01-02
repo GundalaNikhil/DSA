@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNK-010: Shuttle Partition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #EBEEF5;
+            --panel: #FFFFFF;
+            --text: #2C3E50;
+            --accent-less: #3498DB;
+            --accent-eq: #9B59B6;
+            --accent-gt: #E67E22;
+            --border: #DCDFE6;
+            --shadow: rgba(0,0,0,0.05);
+
+            --track-l: rgba(52, 152, 219, 0.1);
+            --track-e: rgba(155, 89, 182, 0.1);
+            --track-g: rgba(230, 126, 34, 0.1);
+        }
+
+        body {
+            font-family: 'Public Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            background: var(--panel);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        h1 { margin: 0; font-size: 1.2rem; font-weight: 700; letter-spacing: -0.5px; }
+
+        .partition-val {
+            background: #2C3E50; color: white;
+            padding: 4px 12px; border-radius: 4px;
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            padding: 2rem;
+            gap: 2rem;
+        }
+        
+        .incoming-lane {
+            flex: 0 0 100px;
+            background: var(--panel);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            display: flex; flex-direction: column; align-items: center;
+            padding: 1rem 0;
+            position: relative;
+        }
+
+        .conveyor {
+            flex: 1; width: 100%;
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+            padding-bottom: 20px;
+            gap: 20px;
+            overflow: hidden;
+        }
+
+        .node {
+            width: 60px; height: 60px;
+            background: white; border: 2px solid #2C3E50;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'Space Mono'; font-weight: 700; font-size: 1.2rem;
+            box-shadow: 0 4px 6px var(--shadow);
+            z-index: 10;
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .node.active {
+            border-color: #2C3E50;
+            cursor: grab;
+        }
+        .node.active:active { cursor: grabbing; transform: scale(0.9); }
+        
+        .tracks-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .track {
+            flex: 1;
+            background: var(--panel);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            overflow: hidden;
+        }
+
+        .track::before {
+            content: attr(data-label);
+            position: absolute; left: 1rem; top: 1rem;
+            font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+            opacity: 0.6;
+        }
+
+        #track-less { background: var(--track-l); border-color: var(--accent-less); color: var(--accent-less); }
+        #track-equal { background: var(--track-e); border-color: var(--accent-eq); color: var(--accent-eq); }
+        #track-greater { background: var(--track-g); border-color: var(--accent-gt); color: var(--accent-gt); }
+
+        .drop-zone {
+            position: absolute; inset: 0; z-index: 1;
+        }
+        .drop-zone.hover { background: rgba(255,255,255,0.4); }
+
+        .sorted-nodes {
+            display: flex; gap: 10px; margin-left: 100px;
+            flex-wrap: nowrap; overflow: visible;
+        }
+
+        .node-mini {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            background: white; border: 2px solid currentColor;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-family: 'Space Mono';
+            animation: slideIn 0.4s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(44, 62, 80, 0.8);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+            backdrop-filter: blur(4px);
+        }
+        .modal.active { opacity: 1; pointer-events: all; }
+        
+        .dialog {
+            background: white; padding: 2rem; border-radius: 12px;
+            width: 400px; text-align: center;
+        }
+        
+        .btn {
+            background: #2C3E50; color: white; border: none;
+            padding: 0.8rem 2rem; font-family: inherit; font-weight: 600;
+            border-radius: 6px; cursor: pointer; margin-top: 1.5rem;
+        }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        .score-box { background: #f8f9fa; padding: 5px 10px; border-radius: 4px; font-family: 'Space Mono'; font-weight: 700; }
+        
+    
+        .alert-modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .alert-modal {
+            background: white; padding: 2rem; border-radius: 8px;
+            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+        .alert-modal button {
+            background: #4b5563; color: white; padding: 0.8rem 2rem;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .alert-modal button:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<header>
+    <div style="display:flex; align-items:center; gap:15px;">
+        <h1>SHUTTLE PARTITION</h1>
+        <div class="partition-val">X = <span id="val-x">4</span></div>
+    </div>
+    <div class="score-box">SCORE: <span id="score">0</span></div>
+</header>
+
+<main>
+    <div class="incoming-lane">
+        <div style="font-size:0.7rem; font-weight:700; margin-bottom:10px; opacity:0.6;">INCOMING</div>
+        <div id="conveyor" class="conveyor">
+            <!-- Source Nodes -->
+        </div>
+    </div>
+
+    <div class="tracks-area">
+        <div class="track" id="track-less" data-label="Prior (< X)">
+            <div class="drop-zone" id="dz-less"></div>
+            <div class="sorted-nodes" id="c-less"></div>
+        </div>
+        <div class="track" id="track-equal" data-label="Standard (= X)">
+             <div class="drop-zone" id="dz-equal"></div>
+             <div class="sorted-nodes" id="c-equal"></div>
+        </div>
+        <div class="track" id="track-greater" data-label="Later (> X)">
+             <div class="drop-zone" id="dz-greater"></div>
+             <div class="sorted-nodes" id="c-greater"></div>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal active">
+    <div class="dialog">
+        <h2>Traffic Controller</h2>
+            <b>Protocol:</b>
+            <ul style="text-align:left; color:#7f8c8d; font-size:1rem; margin:1rem 0;">
+                <li>1. <b>Analyze</b>: Compare incoming ID vs Partition X.</li>
+                <li>2. <b>Route</b> to correct lane:
+                    <ul style="margin-left:15px; font-size:0.9rem;">
+                        <li><b>Prior Lane</b> (< X)</li>
+                        <li><b>Standard Lane</b> (= X)</li>
+                        <li><b>Later Lane</b> (> X)</li>
+                    </ul>
+                </li>
+                <li>3. <b>Maintain</b> traffic flow.</li>
+            </ul>
+        <button class="btn" onclick="game.start()">Open Lanes</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.queue = [];
+            this.x = 4;
+            this.score = 0;
+            
+            this.ui = {
+                conveyor: document.getElementById('conveyor'),
+                x: document.getElementById('val-x'),
+                score: document.getElementById('score'),
+                dzLess: document.getElementById('dz-less'),
+                dzEq: document.getElementById('dz-equal'),
+                dzGt: document.getElementById('dz-greater'),
+                cLess: document.getElementById('c-less'),
+                cEq: document.getElementById('c-equal'),
+                cGt: document.getElementById('c-greater')
+            };
+            
+            this.draggedVal = null;
+            this.activeNodeEl = null;
+        }
+
+        start() {
+            document.getElementById('modal').classList.remove('active');
+            this.loadLevel();
+            this.setupDrag();
+        }
+
+        loadLevel() {
+            this.ui.conveyor.innerHTML = '';
+            this.ui.cLess.innerHTML = '';
+            this.ui.cEq.innerHTML = '';
+            this.ui.cGt.innerHTML = '';
+            
+            this.x = 3 + Math.floor(Math.random()*4); // 3-6
+            this.ui.x.innerText = this.x;
+            
+            const n = 8;
+            this.queue = [];
+            for(let i=0; i<n; i++) {
+                this.queue.push(1 + Math.floor(Math.random()*9));
+            }
+            
+            this.renderQueue();
+        }
+
+        renderQueue() {
+            this.ui.conveyor.innerHTML = '';
+            // Render in reverse so last is bottom (front of queue)
+            // Or just render normally and flex-end justify handles it
+            
+            this.queue.forEach((v, i) => {
+                const el = document.createElement('div');
+                el.className = 'node';
+                el.innerText = v;
+                // Only the bottom-most (index 0 logic) is active?
+                // Queue: index 0 is head.
+                // In flex-col, index 0 should be at bottom?
+                // Let's make index 0 the bottom one.
+                
+                if (i === 0) {
+                    el.classList.add('active');
+                    el.draggable = true;
+                    el.setAttribute('data-val', v);
+                } else {
+                    el.style.opacity = 0.5;
+                }
+                
+                // Add to conveyor. If we want index 0 at bottom, append.
+                // Flex: column, justify-content: flex-end.
+                // But append order: 1st appended is top. 
+                // We want 1st (index 0) to be bottom.
+                // So pre-pend?
+                // Visual stack: Top is End of Queue. Bottom is Front.
+                // So index 0 is Front (Bottom).
+                // If I append, index 0 is top.
+                // So I should prepend.
+                this.ui.conveyor.prepend(el);
+            });
+            
+            this.setupNodeEvents();
+        }
+
+        setupNodeEvents() {
+            const head = this.ui.conveyor.querySelector('.node.active');
+            if (!head) return;
+            
+            head.addEventListener('dragstart', (e) => {
+                this.draggedVal = parseInt(head.getAttribute('data-val'));
+                this.activeNodeEl = head;
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/plain', this.draggedVal);
+                setTimeout(() => head.style.opacity = 0, 0);
+            });
+            
+            head.addEventListener('dragend', (e) => {
+                head.style.opacity = 1;
+                this.cleanZones();
+            });
+        }
+        
+        setupDrag() {
+            [this.ui.dzLess, this.ui.dzEq, this.ui.dzGt].forEach(dz => {
+                dz.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    dz.classList.add('hover');
+                });
+                dz.addEventListener('dragleave', e => {
+                    dz.classList.remove('hover');
+                });
+                dz.addEventListener('drop', e => {
+                    e.preventDefault();
+                    dz.classList.remove('hover');
+                    this.handleDrop(dz);
+                });
+            });
+        }
+        
+        handleDrop(zone) {
+            if (!this.activeNodeEl) return;
+            
+            // Logic Check
+            const v = this.draggedVal;
+            const x = this.x;
+            
+            let correct = false;
+            let targetC = null;
+            
+            if (zone === this.ui.dzLess) {
+                if (v < x) { correct = true; targetC = this.ui.cLess; }
+            } else if (zone === this.ui.dzEq) {
+                if (v === x) { correct = true; targetC = this.ui.cEq; }
+            } else if (zone === this.ui.dzGt) {
+                if (v > x) { correct = true; targetC = this.ui.cGt; }
+            }
+            
+            if (correct) {
+                this.score += 10;
+                this.ui.score.innerText = this.score;
+                
+                // Add to target lane
+                const mini = document.createElement('div');
+                mini.className = 'node-mini';
+                mini.innerText = v;
+                // Color based on lane
+                if (targetC === this.ui.cLess) mini.style.color = 'var(--accent-less)';
+                if (targetC === this.ui.cEq) mini.style.color = 'var(--accent-eq)';
+                if (targetC === this.ui.cGt) mini.style.color = 'var(--accent-gt)';
+                
+                targetC.appendChild(mini);
+                
+                // Remove from queue
+                this.queue.shift();
+                this.renderQueue();
+                
+                if (this.queue.length === 0) {
+                     setTimeout(() => {
+                         this.showGameAlert("PARTITION COMPLETE! Score: " + this.score);
+                         this.loadLevel();
+                     }, 500);
+                }
+            } else {
+                this.showGameAlert("Incorrect Lane! Check Value vs X.");
+                this.score -= 5;
+                this.ui.score.innerText = this.score;
+            }
+        }
+        
+        cleanZones() {
+            [this.ui.dzLess, this.ui.dzEq, this.ui.dzGt].forEach(z => z.classList.remove('hover'));
+        }
+    }
+    
+    const game = new Game();
+</script>
+</body>
+</html>

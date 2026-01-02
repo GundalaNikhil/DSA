@@ -1,32 +1,52 @@
-# filepath: /Users/nikhilgundala/Desktop/NTB/DSA/dsa-problems/Bitwise/quizzes/BIT-001-odd-after-bit-salt.yaml
----
-problem_id: BIT_XOR_ODD_OCCURRENCE__8401
+problem_id: BIT_ODD_AFTER_BIT_SALT_001
 display_id: BIT-001
 slug: odd-after-bit-salt
-title: "Odd After Bit Salt - Quiz"
----
-
-# Problem-Related Questions (PRQ)
-# These test understanding of the problem statement, constraints, and requirements
-
-problem_questions:
-  - quiz_id: "PRQ-BIT-001-Q001"
-    category: "problem"
-    type: single_choice
-    question: "What transformation is applied to each array element in this problem?"
-    options:
-      - option_id: "A"
-        text: "Multiply by salt"
-        correct: false
-      - option_id: "B"
-        text: "XOR with salt"
-        correct: true
-      - option_id: "C"
-        text: "Add salt"
-        correct: false
-      - option_id: "D"
-        text: "AND with salt"
-        correct: false
-    explanation: "Each element x is transformed to x' = x XOR salt (x ⊕ salt)."
+questions:
+  - question: What transformation is applied to each array element in this problem?
     difficulty: easy
     points: 10
+    options:
+      - Multiply by salt
+      - XOR with salt
+      - Add salt
+      - AND with salt
+    correct_answer: 1
+    explanation: Each element x is transformed to x' = x XOR salt (x ⊕ salt).
+    type: single_choice
+    id: prq_1
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: What is the result of x ^ salt ^ salt?
+    options:
+      - salt
+      - x
+      - "0"
+      - x ^ salt
+    correct_answer: 1
+    explanation: XORing the same value twice cancels it out (a ^ b ^ b = a).
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: What is the result if we XOR all numbers in a multiset where every value appears an even number of times?
+    options:
+      - The total sum
+      - The last element
+      - "0"
+      - A random value
+    correct_answer: 2
+    explanation: XOR is commutative and associative. Pairwise XOR of identical elements always yields 0.
+  - id: edq_3
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: If n=100,000, what is the optimal time complexity of this problem?
+    options:
+      - O(1)
+      - O(n)
+      - O(n log n)
+      - O(n^2)
+    correct_answer: 1
+    explanation: A single pass through the array XORing all elements with the salt takes O(n) time.

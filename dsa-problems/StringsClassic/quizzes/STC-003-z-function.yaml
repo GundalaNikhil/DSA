@@ -1,2 +1,52 @@
-# Quiz for STC-003: Z-Function Construction
-# YAML content to be added
+problem_id: STC_Z_FUNCTION_003
+display_id: STC-003
+slug: z-function
+questions:
+  - question: What does `Z[i]` represent in the Z-algorithm for a string `s`?
+    difficulty: easy
+    points: 10
+    options:
+      - The length of the longest common prefix between `s` and the suffix of `s` starting at `i`.
+      - The length of the longest substring starting at `i` that is a palindrome.
+      - The number of occurrences of the prefix `s[0...i]` in `s`.
+      - The length of the longest common substring between two strings.
+    correct_answer: 0
+    explanation: "`Z[i]` computes the length of the matching prefix between the original string `s` and the suffix `s[i...]`."
+    type: single_choice
+    id: prq_1
+  - question: When calculating `Z[i]` inside the current Z-box `[L, R]`, how do we initialize `Z[i]` efficiently using previously computed values?
+    difficulty: hard
+    points: 15
+    options:
+      - "`min(R - i + 1, Z[i - L])`"
+      - "`Z[i - L]`"
+      - "`R - i + 1`"
+      - "`Z[L]`"
+    correct_answer: 0
+    explanation: We can use the value `Z[i - L]` because the substring inside the Z-box matches the prefix. However, we are bounded by the edge of the Z-box (`R`), so we take the minimum of the mirrored Z-value and the distance to `R`.
+    type: single_choice
+    id: edq_1
+  - question: When do we update the Z-box `[L, R]` during the iteration `i`?
+    difficulty: medium
+    points: 10
+    options:
+      - When the match extends beyond the current right boundary `R` (i.e., `i + Z[i] - 1 > R`).
+      - In every iteration.
+      - Only when `Z[i] > 0`.
+      - Only when `i > R`.
+    correct_answer: 0
+    explanation: The Z-box represents the rightmost matching segment found so far. We only update `L` and `R` if the new match computed at `i` extends further to the right than our current `R`.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of the Z-algorithm?
+    difficulty: easy
+    points: 10
+    options:
+      - "`O(N)`"
+      - "`O(N log N)`"
+      - "`O(N^2)`"
+      - "`O(N^3)`"
+    correct_answer: 0
+    explanation: Similar to Manacher's algorithm, the right boundary `R` never decreases and moves at most `N` steps. The inner `while` loop operations can be amortized against the movement of `R`. Thus, it is linear.
+    type: single_choice
+    id: edq_3

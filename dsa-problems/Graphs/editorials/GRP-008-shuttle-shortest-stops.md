@@ -44,22 +44,25 @@ BFS naturally computes this because it explores nodes level by level - all stops
 
 ## Detailed Explanation
 
-### ASCII Diagram: BFS Shortest Path
+### Flow Diagram: BFS Shortest Path
 
-```
-Graph:
-    0 --- 1 --- 2
-    |           |
-    3 --- 4 ----+
+BFS is the line that never cuts: it visits stops level by level, so the first arrival is the shortest ride.
 
-Source: 0
-
-BFS levels:
-Level 0: [0] (distance 0)
-Level 1: [1, 3] (distance 1)
-Level 2: [2, 4] (distance 2)
-
-Distances: [0, 1, 2, 1, 2]
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Initialize dist as not visited]
+    B --> C[Set source distance to zero]
+    C --> D[Enqueue source]
+    D --> E{Queue has nodes}
+    E -- Yes --> F[Dequeue a node]
+    F --> G[Visit each neighbor]
+    G --> H{Neighbor not visited}
+    H -- Yes --> I[Set neighbor distance to current distance plus one]
+    I --> J[Enqueue neighbor]
+    J --> G
+    H -- No --> G
+    E -- No --> K[Output dist]
 ```
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)

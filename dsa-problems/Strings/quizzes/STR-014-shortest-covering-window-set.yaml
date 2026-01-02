@@ -1,0 +1,52 @@
+problem_id: STR_SHORTEST_COVERING_WINDOW_SET_014
+display_id: STR-014
+slug: shortest-covering-window-set
+questions:
+  - question: What is the goal of this problem?
+    difficulty: easy
+    points: 10
+    options:
+      - Find the shortest subsequence covering T
+      - Find the shortest contiguous subarray covering all strings in T
+      - Find the longest window covering T
+      - Count how many windows cover T
+    correct_answer: 1
+    explanation: The output is the shortest contiguous window that covers all required strings.
+    type: single_choice
+    id: prq_1
+  - question: For the sample input, what is the output length?
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+    correct_answer: 1
+    explanation: The minimal window is [aa, cc] with length 2.
+    type: single_choice
+    id: edq_1
+  - question: Which technique is typically used to find the shortest covering window?
+    difficulty: medium
+    points: 15
+    options:
+      - Stack
+      - Sliding window with frequency counts
+      - Binary search on answer only
+      - Heap only
+    correct_answer: 1
+    explanation: A two-pointer sliding window tracks coverage counts.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of the sliding window approach?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n log n)
+      - O(n^2)
+      - O(log n)
+    correct_answer: 0
+    explanation: Each pointer moves at most n steps.
+    type: single_choice
+    id: edq_3

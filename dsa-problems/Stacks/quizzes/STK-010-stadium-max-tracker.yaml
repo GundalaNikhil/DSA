@@ -1,2 +1,52 @@
-# Quiz for STK-010: Stadium Max Tracker
-# YAML content to be added
+problem_id: STK_STADIUM_MAX_TRACKER_010
+display_id: STK-010
+slug: stadium-max-tracker
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: If the stack operations are PUSH 2, PUSH 9, PUSH 5, what does GETMAX return?
+    options:
+      - "2"
+      - "5"
+      - "9"
+      - EMPTY
+    correct_answer: 2
+    explanation: The current elements are {2, 9, 5}. The maximum is 9.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: Which data structure is most commonly used to implement a max-stack with O(1) complexity for all operations?
+    options:
+      - Priority Queue
+      - An auxiliary stack that stores the maximum seen so far at each level
+      - A balanced BST
+      - A deque
+    correct_answer: 1
+    explanation: The auxiliary stack mirrors the main stack but holds the 'current max' at that stack height.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: If you POP an element that is NOT the current maximum, what happens to the result of GETMAX?
+    options:
+      - It decreases
+      - It remains the same
+      - It must be recalculated linearly
+      - The stack becomes empty
+    correct_answer: 1
+    explanation: The maximum only potentially changes when the current maximum element itself is removed from the stack.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: What is the output of POP followed by TOP on an empty stack?
+    options:
+      - EMPTY EMPTY
+      - ERROR ERROR
+      - -1 -1
+      - 0 0
+    correct_answer: 0
+    explanation: The problem specifies outputting EMPTY for both operations if the stack is empty.

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRE-018: Gene Matcher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        :root { --dna: #9b59b6; --even: #3498db; --odd: #e74c3c; --match: #27ae60; --helix: #1abc9c; --dark: #1a1a2e; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', sans-serif; background: linear-gradient(180deg, var(--dark) 0%, #0f0f1a 100%); min-height: 100vh; color: #fff; }
+        header { background: rgba(0,0,0,0.3); padding: 15px; text-align: center; border-bottom: 3px solid var(--dna); }
+        h1 { font-family: 'Orbitron', sans-serif; color: var(--helix); font-size: 1.6rem; }
+        main { padding: 20px; max-width: 900px; margin: 0 auto; }
+        .lab { background: linear-gradient(135deg, #2d3436 0%, var(--dark) 100%); border: 2px solid var(--dna); border-radius: 15px; padding: 30px; min-height: 350px; }
+        .helix { position: absolute; top: 20px; left: 20px; font-size: 2rem; animation: spin 3s linear infinite; }
+        @keyframes spin { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+        .tree-container { display: flex; flex-direction: column; align-items: center; gap: 25px; }
+        .tree-level { display: flex; gap: 20px; }
+        .gene { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold; color: #fff; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .gene.even { background: linear-gradient(135deg, var(--even) 0%, #2980b9 100%); border: 3px solid #1a5276; }
+        .gene.odd { background: linear-gradient(135deg, var(--odd) 0%, #c0392b 100%); border: 3px solid #922b21; }
+        .gene:hover { transform: scale(1.1); }
+        .gene.selected { box-shadow: 0 0 20px var(--helix); animation: pulse 0.5s ease; }
+        .gene.ancestor { background: var(--match); box-shadow: 0 0 25px var(--match); }
+        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+        .parity-label { position: absolute; bottom: -20px; font-size: 0.6rem; color: #888; }
+        .controls { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 20px; margin-top: 20px; display: flex; gap: 15px; align-items: center; justify-content: center; flex-wrap: wrap; }
+        .selection { padding: 10px 20px; border-radius: 10px; border: 2px solid var(--dna); background: transparent; color: #fff; }
+        .btn { padding: 15px 25px; border: none; border-radius: 10px; font-family: 'Orbitron', sans-serif; font-size: 0.9rem; cursor: pointer; }
+        .btn-find { background: var(--helix); color: #fff; }
+        .btn-reset { background: var(--dna); color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+        .result { background: rgba(0,0,0,0.3); border: 2px solid var(--match); border-radius: 10px; padding: 20px; margin-top: 15px; text-align: center; display: none; }
+        .result.show { display: block; }
+        .result-title { color: var(--helix); font-weight: bold; margin-bottom: 10px; }
+        .result-value { font-size: 2rem; color: var(--match); }
+        #message { text-align: center; color: var(--helix); padding: 10px; font-size: 1rem; }
+        .legend { display: flex; gap: 20px; justify-content: center; margin-bottom: 15px; }
+        .legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.9rem; }
+        .legend-dot { width: 15px; height: 15px; border-radius: 50%; }
+        .legend-dot.even { background: var(--even); }
+        .legend-dot.odd { background: var(--odd); }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🧬 GENE MATCHER</h1>
+</header>
+<main>
+    <div id="message">Click a node to find its nearest opposite-parity ancestor!</div>
+    <div class="lab">
+        <div class="legend">
+            <div class="legend-item"><span class="legend-dot even"></span> EVEN</div>
+            <div class="legend-item"><span class="legend-dot odd"></span> ODD</div>
+        </div>
+        <div class="tree-container" id="tree"></div>
+    </div>
+    <div class="controls">
+        <div class="selection">Selected: <span id="selected">None</span></div>
+        <button class="btn btn-find" onclick="game.findAncestor()">🔍 FIND ANCESTOR</button>
+        <button class="btn btn-reset" onclick="game.reset()">🔄 RESET</button>
+    </div>
+    <div class="result" id="result">
+        <div class="result-title">🎯 OPPOSITE PARITY ANCESTOR</div>
+        <div class="result-value" id="ancestor-val"></div>
+    </div>
+</main>
+<script>
+class GeneMatcher {
+    constructor() {
+        this.tree = { val: 4, left: { val: 2, left: { val: 1 }, right: { val: 3 } }, right: { val: 6, left: { val: 5 }, right: { val: 7 } } };
+        this.parentMap = {};
+        this.nodeMap = {};
+        this.selected = null;
+        this.buildMaps(this.tree, null);
+        this.render();
+    }
+    buildMaps(node, parent) {
+        if (!node) return;
+        this.nodeMap[node.val] = node;
+        this.parentMap[node.val] = parent;
+        this.buildMaps(node.left, node);
+        this.buildMaps(node.right, node);
+    }
+    render() {
+        const container = document.getElementById('tree');
+        container.innerHTML = '';
+        const levels = [[this.tree]];
+        let queue = [this.tree];
+        while (queue.length) {
+            const next = [];
+            queue.forEach(n => { if (n.left) next.push(n.left); if (n.right) next.push(n.right); });
+            if (next.length) levels.push(next);
+            queue = next;
+        }
+        levels.forEach(level => {
+            const row = document.createElement('div');
+            row.className = 'tree-level';
+            level.forEach(node => {
+                const el = document.createElement('div');
+                el.className = `gene ${node.val % 2 === 0 ? 'even' : 'odd'}`;
+                el.id = `gene-${node.val}`;
+                el.textContent = node.val;
+                el.onclick = () => this.select(node.val);
+                row.appendChild(el);
+            });
+            container.appendChild(row);
+        });
+    }
+    select(val) {
+        document.querySelectorAll('.gene').forEach(g => g.classList.remove('selected', 'ancestor'));
+        this.selected = val;
+        document.getElementById(`gene-${val}`).classList.add('selected');
+        document.getElementById('selected').textContent = val;
+        document.getElementById('result').classList.remove('show');
+    }
+    async findAncestor() {
+        if (!this.selected) {
+            document.getElementById('message').textContent = 'Select a node first!';
+            return;
+        }
+        const nodeParity = this.selected % 2;
+        let curr = this.parentMap[this.selected];
+        document.getElementById('message').textContent = 'Searching ancestors...';
+        while (curr) {
+            const el = document.getElementById(`gene-${curr.val}`);
+            el.classList.add('selected');
+            await this.delay(400);
+            if (curr.val % 2 !== nodeParity) {
+                el.classList.remove('selected');
+                el.classList.add('ancestor');
+                document.getElementById('ancestor-val').textContent = curr.val;
+                document.getElementById('result').classList.add('show');
+                document.getElementById('message').innerHTML = `<span style="color:var(--match)">🎉 Found! ${curr.val} has opposite parity.</span>`;
+                return;
+            }
+            el.classList.remove('selected');
+            curr = this.parentMap[curr.val];
+        }
+        document.getElementById('message').innerHTML = `<span style="color:var(--odd)">❌ No opposite-parity ancestor found!</span>`;
+    }
+    reset() {
+        this.selected = null;
+        document.querySelectorAll('.gene').forEach(g => g.classList.remove('selected', 'ancestor'));
+        document.getElementById('selected').textContent = 'None';
+        document.getElementById('result').classList.remove('show');
+        document.getElementById('message').textContent = 'Click a node to select!';
+    }
+    delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+}
+const game = new GeneMatcher();
+</script>
+</body>
+</html>

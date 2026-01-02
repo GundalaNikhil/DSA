@@ -49,6 +49,7 @@ This pattern is common in:
 - It’s a clean introduction to “max sum with skipping” DP (House Robber family)
 - It teaches you to encode constraints into state transitions
 - It reinforces O(n) DP with O(1) memory
+The gap rule turns this into a calm rhythm, pick one and let two rest.
 
 ![Real-World Application](../images/DP-007/real-world-scenario.png)
 
@@ -100,6 +101,20 @@ Example transitions:
   dp[4] = max(70, 60 + 50) = 110
   dp[5] = max(110, 40 + 70) = 110
   dp[6] = max(110, 80 + 70) = 150
+```
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with array] --> B[Set dp for indices below zero to 0]
+    B --> C[Set i to 0]
+    C --> D{i not greater than last index?}
+    D -- No --> I[Return dp at last index]
+    D -- Yes --> E[take is value at i plus dp at i minus 3]
+    E --> F[skip is dp at i minus 1]
+    F --> G[dp at i is max of take and skip]
+    G --> H[i++]
+    H --> D
 ```
 
 ### Visual intuition (gap = 3)

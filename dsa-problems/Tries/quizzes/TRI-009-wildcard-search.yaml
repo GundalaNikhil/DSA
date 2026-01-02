@@ -1,0 +1,52 @@
+problem_id: TRI_WILDCARD_SEARCH_009
+display_id: TRI-009
+slug: wildcard-search
+questions:
+  - question: "In the wildcard search, '?' matches exactly one character, while '*' matches:"
+    difficulty: easy
+    points: 10
+    options:
+      - Zero or more characters sequence
+      - Exactly one character
+      - Zero characters only
+      - One or more characters
+    correct_answer: 0
+    explanation: "Standard globbing rules: * is flexible length."
+    type: single_choice
+    id: prq_1
+  - question: "When we encounter a '*' in the pattern during DFS, we branch into two possibilities:"
+    difficulty: medium
+    points: 15
+    options:
+      - Match 0 characters (stay at current node, advance pattern) OR Match 1+ characters (advance node, keep pattern)
+      - Match 0 characters OR Match 1 character only
+      - Match all remaining characters
+      - Skip the * entirely
+    correct_answer: 0
+    explanation: To match 1+, we consume a character from the Trie but keep the * in the pattern to allow it to match more.
+    type: single_choice
+    id: edq_1
+  - question: What is the worst-case time complexity of matching a pattern with many '*' against a deep Trie?
+    difficulty: easy
+    points: 10
+    options:
+      - Exponential in the number of stars
+      - Linear O(N)
+      - Logarithmic
+      - O(1)
+    correct_answer: 0
+    explanation: Multiple stars can cause significant backtracking, visiting many paths repeatedly.
+    type: single_choice
+    id: edq_2
+  - question: If the pattern ends with a normal character, what condition must be met at the Trie node?
+    difficulty: easy
+    points: 10
+    options:
+      - The node must be marked isEnd (end of word)
+      - The node must have children
+      - The node must be the root
+      - The node count must be > 1
+    correct_answer: 0
+    explanation: We must ensure the matched path corresponds to a complete word valid in the dictionary.
+    type: single_choice
+    id: edq_3

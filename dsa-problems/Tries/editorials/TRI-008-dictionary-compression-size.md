@@ -225,6 +225,19 @@ The "naive" approach is actually optimal for this problem. We must build the tri
    ```
 3. **Return**: Total count
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Create root and count one]
+    B --> C[Insert each word]
+    C --> D[Create node if child missing]
+    D --> E[Increase count]
+    E --> F[Move to child and continue]
+    F --> C
+    C --> G[Return total count]
+    G --> H[End]
+```
+
 **Implementation Optimization:**
 
 Instead of creating full trie objects, we can use a hash set to track unique paths, but this doesn't improve complexity.

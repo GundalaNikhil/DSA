@@ -77,6 +77,31 @@ Imagine a shuttle service with buses departing at various times (represented by 
     -   If `L <= node.val <= R`: Increment counter. If counter equals `k`, return `node.val`.
 4.  **Result:** If traversal finishes without count reaching `k`, return `-1`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Insert values into BST]
+    B --> C[Set count to 0 and result to -1]
+    C --> D[DFS node]
+    D --> E{Node is null or result found}
+    E -->|Yes| H[Return]
+    E -->|No| F{Node value above L}
+    F -->|Yes| G[DFS left]
+    F -->|No| I[Skip left]
+    G --> J{Node value in range}
+    I --> J
+    J -->|Yes| K[Increase count]
+    J -->|No| L[Keep count]
+    K --> M{Count is k}
+    M -->|Yes| N[Set result]
+    M -->|No| O{Node value below R}
+    N --> O
+    L --> O
+    O -->|Yes| P[DFS right]
+    O -->|No| H
+    P --> H
+```
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 -   **Duplicates:** Problem says duplicates go right. They are valid values.

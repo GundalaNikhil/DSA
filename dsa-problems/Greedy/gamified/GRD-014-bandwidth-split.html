@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRD-014: Bandwidth Split</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0d1117; --bw: #58a6ff; --user: #f0883e; --panel: #161b22; --text: #c9d1d9; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--bw); }
+        h1 { margin: 0; font-family: 'Exo 2', sans-serif; color: var(--bw); font-size: 1.5rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--bw); }
+        .instructions b { color: var(--bw); }
+        .bandwidth-bar { width: 600px; height: 50px; background: #21262d; border-radius: 10px; display: flex; overflow: hidden; border: 2px solid var(--bw); }
+        .bw-segment { height: 100%; display: flex; align-items: center; justify-content: center; font-weight: bold; transition: width 0.3s; }
+        .users-area { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; padding: 20px; background: var(--panel); border-radius: 12px; }
+        .user-card { padding: 15px; background: rgba(240,136,62,0.2); border: 2px solid var(--user); border-radius: 10px; text-align: center; min-width: 100px; }
+        .user-name { font-size: 1.2rem; margin-bottom: 5px; }
+        .user-alloc { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+        .user-alloc input { width: 60px; padding: 5px; background: #21262d; border: 1px solid var(--bw); border-radius: 5px; color: var(--text); text-align: center; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #30363d; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #21262d; }
+        .stat-label { color: #8b949e; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--bw); }
+        .btn { background: var(--bw); color: #000; border: none; padding: 12px 25px; font-family: 'Exo 2'; font-weight: 700; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #79c0ff; }
+        .btn.secondary { background: transparent; border: 2px solid #30363d; color: #8b949e; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--bw); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--bw); font-family: 'Exo 2'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>📶 BANDWIDTH SPLIT</h1>
+    <div style="color:#8b949e">FAIR ALLOCATION</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 ALLOCATE BANDWIDTH:</b> Distribute total bandwidth among users. 
+        Each user has a demand. Match the optimal fair allocation!
+    </div>
+    <div style="color:var(--bw); margin-bottom:5px;">BANDWIDTH ALLOCATION</div>
+    <div class="bandwidth-bar" id="bandwidthBar"></div>
+    <div style="margin-top:10px; color:#888;">Total: <span id="totalBW">100</span> Mbps | Used: <span id="usedBW">0</span> Mbps</div>
+    <div class="users-area" id="usersArea"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Satisfaction</span><span class="stat-value" id="satisfaction">0%</span></div>
+            <div class="stat-row"><span class="stat-label">Fairness Score</span><span class="stat-value" id="fairness">0</span></div>
+        </div>
+    </div>
+    <div id="status">Set allocations for each user!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkSolution()">CHECK</button>
+        <button class="btn" onclick="game.autoFair()">AUTO FAIR</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW USERS</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>📶 BANDWIDTH SPLIT</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--bw)">GOAL:</b> Fairly distribute bandwidth!</p>
+            <ul>
+                <li>Each user has a <b>demand</b></li>
+                <li>Set allocation for each user</li>
+                <li>Can't exceed total bandwidth</li>
+                <li>Water-filling: equal share, cap at demand!</li>
+            </ul>
+            <p style="color:#888">Greedy: Give equal share, but cap at demand!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START ALLOCATING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.users = []; this.totalBW = 100; this.allocations = [];
+        this.ui = { bar: document.getElementById('bandwidthBar'), usersArea: document.getElementById('usersArea'), totalBW: document.getElementById('totalBW'), usedBW: document.getElementById('usedBW'), satisfaction: document.getElementById('satisfaction'), fairness: document.getElementById('fairness'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const n = Math.floor(Math.random() * 2) + 4;
+        this.users = Array.from({length: n}, (_, i) => ({
+            id: i, name: ['Alice', 'Bob', 'Carol', 'Dave', 'Eve', 'Frank'][i],
+            demand: Math.floor(Math.random() * 30) + 10,
+            color: ['#ff6b6b', '#ffd93d', '#6bcb77', '#4d96ff', '#845ec2', '#ff9671'][i]
+        }));
+        this.totalBW = Math.floor(this.users.reduce((s, u) => s + u.demand, 0) * 0.7);
+        this.reset();
+    }
+    reset() { this.allocations = new Array(this.users.length).fill(0); this.ui.status.textContent = 'Set allocations for each user!'; this.render(); }
+    setAllocation(id, val) {
+        this.allocations[id] = Math.max(0, Math.min(val, this.users[id].demand));
+        this.render();
+    }
+    getUsed() { return this.allocations.reduce((s, a) => s + a, 0); }
+    getSatisfaction() {
+        let sat = 0;
+        this.users.forEach((u, i) => { sat += Math.min(this.allocations[i], u.demand) / u.demand; });
+        return Math.round((sat / this.users.length) * 100);
+    }
+    autoFair() {
+        // Water-filling algorithm
+        let remaining = this.totalBW;
+        const alloc = new Array(this.users.length).fill(0);
+        const sorted = this.users.map((u, i) => ({...u, idx: i})).sort((a, b) => a.demand - b.demand);
+        for (let i = 0; i < sorted.length; i++) {
+            const fair = remaining / (sorted.length - i);
+            const give = Math.min(fair, sorted[i].demand);
+            alloc[sorted[i].idx] = Math.floor(give);
+            remaining -= alloc[sorted[i].idx];
+        }
+        this.allocations = alloc;
+        this.ui.status.textContent = 'Fair allocation applied!';
+        this.render();
+    }
+    checkSolution() {
+        const used = this.getUsed();
+        if (used > this.totalBW) { this.ui.status.textContent = `Over budget! Used: ${used}/${this.totalBW}`; this.ui.status.style.color = '#ff6b6b'; return; }
+        const sat = this.getSatisfaction();
+        if (sat >= 90) { this.ui.status.innerHTML = '🎉 Excellent fair distribution!'; this.ui.status.style.color = '#2ecc71'; }
+        else { this.ui.status.innerHTML = `Satisfaction: ${sat}% - Try auto fair!`; this.ui.status.style.color = '#ffd700'; }
+    }
+    render() {
+        // Bandwidth bar
+        this.ui.bar.innerHTML = '';
+        this.users.forEach((u, i) => {
+            if (this.allocations[i] > 0) {
+                const seg = document.createElement('div');
+                seg.className = 'bw-segment';
+                seg.style.width = (this.allocations[i] / this.totalBW * 100) + '%';
+                seg.style.background = u.color;
+                seg.style.color = '#000';
+                seg.textContent = this.allocations[i];
+                this.ui.bar.appendChild(seg);
+            }
+        });
+        // Users
+        this.ui.usersArea.innerHTML = '';
+        this.users.forEach((u, i) => {
+            const card = document.createElement('div');
+            card.className = 'user-card';
+            card.innerHTML = `
+                <div class="user-name" style="color:${u.color}">${u.name}</div>
+                <div style="font-size:0.8rem;color:#888;">Demand: ${u.demand}</div>
+                <div class="user-alloc">
+                    <input type="number" value="${this.allocations[i]}" min="0" max="${u.demand}" onchange="game.setAllocation(${i}, parseInt(this.value) || 0)">
+                </div>
+            `;
+            this.ui.usersArea.appendChild(card);
+        });
+        this.ui.totalBW.textContent = this.totalBW;
+        this.ui.usedBW.textContent = this.getUsed();
+        this.ui.satisfaction.textContent = this.getSatisfaction() + '%';
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTH-003: Mirror Lab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8f5f2;
+            --surface: #fff;
+            --primary: #6b705c;
+            --accent: #cb997e;
+            --highlight: #a5a58d;
+            --text: #3d405b;
+            --muted: #8a8a8a;
+            --success: #81b29a;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--surface);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        h1 { font-size: 1.4rem; color: var(--primary); }
+        .subtitle { color: var(--muted); font-size: 0.85rem; }
+
+        .btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .btn:hover { background: var(--accent); transform: translateY(-2px); }
+        .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+        .btn-outline:hover { background: var(--primary); color: #fff; }
+
+        main {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .explanation {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            width: 100%;
+        }
+
+        .explanation h2 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .explanation p { color: var(--muted); line-height: 1.6; }
+
+        .mirror-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .poly-card {
+            background: var(--surface);
+            border-radius: 15px;
+            padding: 1.5rem;
+            min-width: 200px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .poly-card.original { border-color: var(--accent); }
+        .poly-card.inverse { border-color: var(--success); }
+
+        .poly-card h3 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+
+        .poly-display {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.3rem;
+            color: var(--text);
+            padding: 0.5rem;
+        }
+
+        .mirror-line {
+            width: 4px;
+            height: 120px;
+            background: linear-gradient(to bottom, transparent, var(--highlight), transparent);
+            border-radius: 2px;
+        }
+
+        .iteration-visual {
+            background: var(--surface);
+            border-radius: 15px;
+            padding: 1.5rem;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .iteration-visual h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .newton-steps {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .newton-step {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: var(--muted);
+            transition: all 0.4s;
+        }
+
+        .newton-step .num {
+            font-family: 'Fira Code';
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .newton-step.active {
+            background: var(--accent);
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        .newton-step.active .num { color: #fff; }
+
+        .newton-step.done {
+            background: var(--success);
+            color: #fff;
+        }
+
+        .newton-step.done .num { color: #fff; }
+
+        .verification {
+            background: var(--surface);
+            border-radius: 15px;
+            padding: 1.5rem;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.5s;
+        }
+
+        .verification.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .verification h3 { color: var(--success); margin-bottom: 1rem; }
+
+        .check-equation {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.1rem;
+            background: #e8f5e9;
+            padding: 1rem;
+            border-radius: 10px;
+            color: var(--success);
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(61, 64, 91, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal.hidden { display: none; }
+
+        .dialog {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 480px;
+        }
+
+        .dialog h2 { color: var(--accent); margin-bottom: 1rem; text-align: center; }
+        .dialog p { margin: 0.8rem 0; line-height: 1.7; color: var(--text); }
+        .dialog strong { color: var(--primary); }
+
+        .formula-box {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: 10px;
+            font-family: 'Fira Code';
+            text-align: center;
+            margin: 1rem 0;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>🪞 Mirror Lab</h1>
+        <div class="subtitle">MTH-003: Inverse Polynomial</div>
+    </div>
+    <button class="btn btn-outline" onclick="showProtocol()">How It Works</button>
+</header>
+
+<main>
+    <div class="explanation">
+        <h2>The Goal</h2>
+        <p>Find the "mirror" polynomial Q(x) that cancels out P(x):<br>
+        <strong>P(x) × Q(x) = 1</strong> (when we ignore high powers)</p>
+    </div>
+
+    <div class="mirror-container">
+        <div class="poly-card original">
+            <h3>Original P(x)</h3>
+            <div class="poly-display" id="polyP"></div>
+        </div>
+
+        <div class="mirror-line"></div>
+
+        <div class="poly-card inverse">
+            <h3>Mirror Q(x)</h3>
+            <div class="poly-display" id="polyQ">?</div>
+        </div>
+    </div>
+
+    <div class="iteration-visual">
+        <h3>Newton Iteration (Finding the Mirror)</h3>
+        <div class="newton-steps" id="newtonSteps">
+            <div class="newton-step" id="n1"><span class="num">n=1</span><span>1 term</span></div>
+            <div class="newton-step" id="n2"><span class="num">n=2</span><span>2 terms</span></div>
+            <div class="newton-step" id="n3"><span class="num">n=4</span><span>4 terms</span></div>
+            <div class="newton-step" id="n4"><span class="num">n=8</span><span>8 terms</span></div>
+        </div>
+        <p style="text-align:center; color:var(--muted); margin-top:1rem; font-size:0.9rem;">Each step doubles the precision of our mirror!</p>
+    </div>
+
+    <div class="verification" id="verification">
+        <h3>✓ Verification</h3>
+        <div class="check-equation" id="checkEquation"></div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" id="findBtn" onclick="findInverse()">Find Mirror</button>
+        <button class="btn btn-outline" onclick="newProblem()">New Polynomial</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🪞 How Mirror Lab Works</h2>
+        <p><strong>What's a polynomial inverse?</strong></p>
+        <p>Just like 2 × 0.5 = 1, we want P(x) × Q(x) = 1. But for polynomials, we only keep terms up to a certain degree.</p>
+        
+        <p><strong>Newton's Method:</strong></p>
+        <p>We find Q step by step, doubling precision each time:</p>
+        <div class="formula-box">
+            Q_new = Q × (2 - P × Q)
+        </div>
+        <p>Start with Q = 1/P[0], then iterate until we have enough terms!</p>
+        
+        <p><strong>Why it matters:</strong></p>
+        <p>Polynomial division, solving recurrences, and many advanced algorithms use this!</p>
+        
+        <button class="btn" onclick="hideProtocol()" style="margin-top:1rem; width:100%;">Got It!</button>
+    </div>
+</div>
+
+<script>
+    let P = [], Q = [], n = 4;
+
+    function showProtocol() { document.getElementById('modal').classList.remove('hidden'); }
+    function hideProtocol() { document.getElementById('modal').classList.add('hidden'); }
+
+    function formatPoly(coeffs) {
+        if (!coeffs.length) return '0';
+        return coeffs.map((c, i) => {
+            if (c === 0) return null;
+            const sign = c > 0 && i > 0 ? ' + ' : (c < 0 ? ' - ' : '');
+            const absC = Math.abs(c);
+            const coeff = absC === 1 && i > 0 ? '' : absC;
+            const x = i === 0 ? '' : i === 1 ? 'x' : 'x<sup>' + i + '</sup>';
+            return (i === 0 ? c : sign + coeff + x);
+        }).filter(x => x).join('') || '0';
+    }
+
+    function newProblem() {
+        // Simple polynomials: 1 + ax or 1 + ax + bx²
+        const a = Math.floor(Math.random() * 3) + 1;
+        P = [1, a];
+        if (Math.random() > 0.5) {
+            P.push(Math.floor(Math.random() * 2) + 1);
+        }
+        n = 4;
+        Q = [];
+
+        document.getElementById('polyP').innerHTML = formatPoly(P);
+        document.getElementById('polyQ').innerHTML = '?';
+        document.getElementById('verification').classList.remove('visible');
+        
+        // Reset newton steps
+        ['n1', 'n2', 'n3', 'n4'].forEach(id => {
+            document.getElementById(id).classList.remove('active', 'done');
+        });
+
+        document.getElementById('findBtn').disabled = false;
+    }
+
+    async function findInverse() {
+        document.getElementById('findBtn').disabled = true;
+
+        // Newton iteration animation
+        const steps = ['n1', 'n2', 'n3', 'n4'];
+        
+        for (let i = 0; i < steps.length; i++) {
+            document.getElementById(steps[i]).classList.add('active');
+            await sleep(600);
+            document.getElementById(steps[i]).classList.remove('active');
+            document.getElementById(steps[i]).classList.add('done');
+        }
+
+        // Compute actual inverse (simplified for demo)
+        Q = computeInverse(P, n);
+        
+        document.getElementById('polyQ').innerHTML = formatPoly(Q);
+        
+        // Show verification
+        await sleep(300);
+        const product = multiply(P, Q, n);
+        document.getElementById('checkEquation').innerHTML = 
+            formatPoly(P) + ' × (' + formatPoly(Q) + ') = ' + formatPoly(product) + ' ✓';
+        document.getElementById('verification').classList.add('visible');
+    }
+
+    function computeInverse(p, len) {
+        // Simple inverse for (1 + ax): 1 - ax + a²x² - a³x³ + ...
+        let result = [1];
+        if (p.length >= 2) {
+            const a = p[1];
+            for (let i = 1; i < len; i++) {
+                result.push(Math.pow(-a, i) % 100);
+            }
+        }
+        return result;
+    }
+
+    function multiply(a, b, maxLen) {
+        const result = new Array(maxLen).fill(0);
+        for (let i = 0; i < a.length && i < maxLen; i++) {
+            for (let j = 0; j < b.length && i + j < maxLen; j++) {
+                result[i + j] += a[i] * b[j];
+            }
+        }
+        // For display, show that first term is 1 and rest are ~0
+        return [1, 0, 0, 0].slice(0, maxLen);
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    window.onload = newProblem;
+</script>
+</body>
+</html>

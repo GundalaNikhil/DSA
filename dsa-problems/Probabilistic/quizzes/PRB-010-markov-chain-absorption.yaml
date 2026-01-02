@@ -1,2 +1,52 @@
-# Quiz for PRB-010: Markov Chain Absorption
-# YAML content to be added
+problem_id: PRB_MARKOV_CHAIN_ABSORPTION_010
+display_id: PRB-010
+slug: markov-chain-absorption
+questions:
+  - question: In an absorbing Markov chain with transient state submatrix `Q`, what is the Fundamental Matrix `N`?
+    difficulty: medium
+    points: 15
+    options:
+      - "`N = (I - Q)^(-1)`"
+      - "`N = I + Q`"
+      - "`N = (I + Q)^(-1)`"
+      - "`N = Q * R`"
+    correct_answer: 0
+    explanation: The fundamental matrix `N` represents the expected number of times the process visits each transient state before absorption. It is derived from the infinite geometric series `I + Q + Q^2 + ...`, which theoretically sums to `(I - Q)^(-1)`.
+    type: single_choice
+    id: prq_1
+  - question: How do you calculate the expected total number of steps until absorption starting from a specific transient state `i`?
+    difficulty: medium
+    points: 10
+    options:
+      - Sum the elements of the `i`-th row of the Fundamental Matrix `N`.
+      - It is the `i`-th diagonal element of `N`.
+      - It is the sum of the `i`-th column of `Q`.
+      - It is always infinite.
+    correct_answer: 0
+    explanation: Since `N[i][j]` is the expected number of visits to state `j` starting from `i`, summing these values over all possible transient states `j` gives the total expected steps.
+    type: single_choice
+    id: edq_1
+  - question: If `R` is the transition matrix from transient to absorbing states, how do you compute the probability of being absorbed into a specific absorbing state?
+    difficulty: medium
+    points: 10
+    options:
+      - Compute `B = N * R`. `B[i][j]` is the probability of starting at transient state `i` and ending at absorbing state `j`.
+      - Compute `B = Q * R`.
+      - Compute `B = R * N`.
+      - It is just the values in `R`.
+    correct_answer: 0
+    explanation: We multiply the expected visits to each transient state (`N`) by the probability of jumping from those states to a specific absorbing state (`R`).
+    type: single_choice
+    id: edq_2
+  - question: What is the primary computational bottleneck for solving this problem?
+    difficulty: easy
+    points: 10
+    options:
+      - Matrix Inversion, which takes `O(n^3)`.
+      - Matrix Multiplication, which takes `O(n^2)`.
+      - Identifying absorbing states, which takes `O(n)`.
+      - Reading the input.
+    correct_answer: 0
+    explanation: Calculating the Fundamental Matrix `N = (I - Q)^(-1)` requires inverting a matrix, which generally has cubic time complexity.
+    type: single_choice
+    id: edq_3

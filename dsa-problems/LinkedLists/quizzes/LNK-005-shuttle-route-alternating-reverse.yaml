@@ -1,2 +1,52 @@
-# Quiz for LNK-005: Shuttle Route Alternating Reverse
-# YAML content to be added
+problem_id: LNK_SHUTTLE_ROUTE_ALTERNATING_REVERSE_005
+display_id: LNK-005
+slug: shuttle-route-alternating-reverse
+questions:
+  - question: This problem requires reversing which parts of the linked list?
+    difficulty: easy
+    points: 10
+    options:
+      - The entire list
+      - Every alternate segment of size K
+      - The second half only
+      - Only odd-valued nodes
+    correct_answer: 1
+    explanation: We reverse K nodes, skip K nodes, reverse next K nodes, and so on.
+    type: single_choice
+    id: prq_1
+  - question: What is the key challenge when reversing a subgrid inside a linked list?
+    difficulty: medium
+    points: 15
+    options:
+      - Storing the node values in an array
+      - Connecting the 'before' part to the new head and the new tail to the 'after' part
+      - Finding the middle element
+      - Calculating the total length
+    correct_answer: 1
+    explanation: Re-linking the reversed segment correctly to the rest of the list without breaking connectivity is crucial.
+    type: single_choice
+    id: edq_1
+  - question: If the remaining nodes are fewer than K, should they be reversed?
+    difficulty: easy
+    points: 10
+    options:
+      - Yes, always
+      - No, leave them as is
+      - Yes, but pad with dummy nodes
+      - It depends on if it's a 'reverse' or 'skip' chunk
+    correct_answer: 3
+    explanation: If we are in a 'reverse' turn, we reverse remaining nodes. If 'skip' turn, we leave them.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of this specific k-group reversal variant?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N)
+      - O(N^2)
+      - O(N/K)
+      - O(K)
+    correct_answer: 0
+    explanation: We visit each node exactly once, either reversing it or skipping over it.
+    type: single_choice
+    id: edq_3

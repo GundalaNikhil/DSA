@@ -1,0 +1,52 @@
+problem_id: GEO_MST_COMPLETE_GEOMETRY_016
+display_id: GEO-016
+slug: mst-complete-geometry
+questions:
+  - question: What edge weight is used between two points in this graph?
+    difficulty: easy
+    points: 10
+    options:
+      - Euclidean distance
+      - Manhattan distance
+      - Squared distance
+      - Chebyshev distance
+    correct_answer: 1
+    explanation: Edges are weighted by |x1-x2| + |y1-y2|.
+    type: single_choice
+    id: prq_1
+  - question: For points (0,0), (2,2), (3,0), what is the MST weight?
+    difficulty: easy
+    points: 10
+    options:
+      - "4"
+      - "5"
+      - "6"
+      - "7"
+    correct_answer: 2
+    explanation: The best edges have weights 3 and 3, totaling 6.
+    type: single_choice
+    id: edq_1
+  - question: Which technique reduces the candidate edges to near-linear size?
+    difficulty: medium
+    points: 15
+    options:
+      - All-pairs enumeration
+      - Four directional transforms with sweeps, then Kruskal
+      - Dijkstra on the complete graph
+      - Binary search on distance
+    correct_answer: 1
+    explanation: The Manhattan MST trick uses 4 transforms to generate O(n) candidate edges.
+    type: single_choice
+    id: edq_2
+  - question: Why is building all edges of the complete graph infeasible for large n?
+    difficulty: medium
+    points: 15
+    options:
+      - It requires O(n^2) edges
+      - It requires O(log n) edges
+      - It only works for Euclidean distance
+      - It loses the MST property
+    correct_answer: 0
+    explanation: A complete graph has O(n^2) edges, which is too large for n up to 200000.
+    type: single_choice
+    id: edq_3

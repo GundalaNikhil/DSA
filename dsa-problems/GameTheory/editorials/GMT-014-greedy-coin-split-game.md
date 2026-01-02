@@ -69,12 +69,27 @@ So for a fixed split `k`, the outcome is:
 
 The Splitter will choose `k` to maximize this outcome:
 `dp[i][j] = max_{k} ( Outcome(k) )`.
+Every split is a negotiation, and the chooser makes it feel personal.
 
 ### Base Case
 
 - If `i == j` (single element), no split is possible.
 - The coin is discarded.
 - `dp[i][i] = 0`.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start solve for i j] --> B{Single coin?}
+    B -- Yes --> C[Return 0]
+    B -- No --> D[Set best to negative INF]
+    D --> E[For each split k]
+    E --> F[Compute sum of left and right]
+    F --> G[Compute outcome for chooser]
+    G --> H[Update best with max]
+    H --> E
+    E --> I[Store best and return]
+```
 
 ### Complexity
 

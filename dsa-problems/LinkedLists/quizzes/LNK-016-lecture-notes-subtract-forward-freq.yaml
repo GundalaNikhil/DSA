@@ -1,2 +1,52 @@
-# Quiz for LNK-016: Lecture Notes Subtract Two Numbers with Digit Frequency Analysis
-# YAML content to be added
+problem_id: LNK_LECTURE_NOTES_SUBTRACT_FORWARD_FREQ_016
+display_id: LNK-016
+slug: lecture-notes-subtract-forward-freq
+questions:
+  - question: Since simple subtraction proceeds right-to-left but lists are left-to-right, what data structure helps?
+    difficulty: easy
+    points: 10
+    options:
+      - Queue
+      - Stack
+      - Set
+      - Heap
+    correct_answer: 1
+    explanation: Pushing nodes to a stack allows popping them in reverse order (LSB first).
+    type: single_choice
+    id: prq_1
+  - question: How do we determine the sign of the result (A - B)?
+    difficulty: medium
+    points: 15
+    options:
+      - Compare lengths, if equal compare MSB first
+      - Always positive
+      - Subtract first then check
+      - Check last digit
+    correct_answer: 0
+    explanation: We must identify the larger number first to ensure we compute (Large - Small) and set the sign.
+    type: single_choice
+    id: edq_1
+  - question: What logic handles the borrow in subtraction?
+    difficulty: easy
+    points: 10
+    options:
+      - If diff < 0, add 10 to diff and set borrow = 1
+      - If diff < 0, set diff = 0
+      - If diff < 0, take from previous result
+      - Bitwise XOR
+    correct_answer: 0
+    explanation: "Standard elementary subtraction: borrow 10 from the next higher place value."
+    type: single_choice
+    id: edq_2
+  - question: Why might the result list need post-processing?
+    difficulty: easy
+    points: 10
+    options:
+      - To remove leading zeros
+      - To reverse it
+      - To convert to int
+      - To sort it
+    correct_answer: 0
+    explanation: 100 - 99 = 001. We want to display 1, so we strip leading zeros.
+    type: single_choice
+    id: edq_3

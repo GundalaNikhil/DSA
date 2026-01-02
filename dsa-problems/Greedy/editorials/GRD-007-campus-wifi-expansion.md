@@ -47,7 +47,21 @@ To save taxpayer money, the engineers want to design a network (a set of roads) 
 
 ## Detailed Explanation
 
-### ASCII Diagram: The Cost of Height
+### Flow Diagram: The Cost of Height
+
+Connect the closest neighbors first and the network stays grounded.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Union existing free connections]
+    B --> C[Sort buildings by height]
+    C --> D[Create edges between adjacent heights]
+    D --> E[Sort candidate edges by cost]
+    E --> F[Run Kruskal with union find]
+    F --> G[Add edge cost when union succeeds]
+    G --> H[Return total cost]
+```
 
 Buildings: A(10m), B(15m), C(12m).
 Existing: None.
@@ -71,7 +85,6 @@ Total Cost: 2 + 3 = 5.
          | (2)
    10m [ A ]
 ```
-
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Graph Type:** This is a Minimum Spanning Tree (MST) problem.

@@ -1,0 +1,52 @@
+problem_id: GRB_TWO_SAT_AMO_013
+display_id: GRB-013
+slug: two-sat-amo
+questions:
+  - question: In 2-SAT, the clause (A OR B) is equivalent to which implications?
+    difficulty: easy
+    points: 10
+    options:
+      - NOT A -> B and NOT B -> A
+      - A -> B and B -> A
+      - A -> NOT B and B -> NOT A
+      - NOT A -> NOT B
+    correct_answer: 0
+    explanation: If A is false, B *must* be true for the clause to be satisfied, and vice-versa.
+    type: single_choice
+    id: prq_1
+  - question: A 2-SAT instance is unsatisfiable if specifically which condition is met?
+    difficulty: medium
+    points: 15
+    options:
+      - A variable X and NOT X are in the same Strongly Connected Component (SCC)
+      - The implication graph has a cycle
+      - There are more clauses than variables
+      - A variable X implies NOT X
+    correct_answer: 0
+    explanation: If X and NOT X are in the same SCC, it means X -> ... -> NOT X -> ... -> X, which is a contradiction.
+    type: single_choice
+    id: edq_1
+  - question: To convert 'At Most One of {A, B, C} is true' to 2-SAT clauses, how many clauses are needed naively?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N)
+      - O(N^2)
+      - O(1)
+      - O(log N)
+    correct_answer: 1
+    explanation: We need to say (NOT A or NOT B), (NOT A or NOT C), (NOT B or NOT C), which is N*(N-1)/2 pairs.
+    type: single_choice
+    id: edq_2
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: In the implication graph for 2-SAT, how many nodes are there for N variables?
+    options:
+      - N
+      - 2N
+      - M
+      - N^2
+    correct_answer: 1
+    explanation: "Each variable X has two literals: X and not-X."

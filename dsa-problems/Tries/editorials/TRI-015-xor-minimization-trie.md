@@ -239,6 +239,20 @@ Use **prefix XOR array** + **binary trie** to efficiently find the minimum XOR.
      - Update minimum result
      - Insert prefix[j] into trie
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute prefix xor array]
+    B --> C[Insert zero into trie]
+    C --> D[For each prefix value]
+    D --> E[Query trie for closest match]
+    E --> F[Update minimum result]
+    F --> G[Insert prefix into trie]
+    G --> D
+    D --> H[Return minimum]
+    H --> I[End]
+```
+
 3. **Binary Trie Query**:
    - Represent numbers as 32-bit binary (or based on max value)
    - Traverse trie from MSB to LSB

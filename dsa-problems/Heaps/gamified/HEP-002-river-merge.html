@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEP-002: River Merge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a2a1a; --water: #4ecdc4; --merged: #ff6b6b; --panel: #0f3a2a; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--water); }
+        h1 { margin: 0; font-family: 'Fredoka One', cursive; color: var(--water); font-size: 1.6rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--water); }
+        .instructions b { color: var(--water); }
+        .streams-area { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; padding: 20px; background: var(--panel); border-radius: 15px; }
+        .stream-box { padding: 15px; background: rgba(78,205,196,0.1); border: 2px solid var(--water); border-radius: 10px; cursor: pointer; transition: all 0.2s; min-width: 80px; text-align: center; }
+        .stream-box:hover { transform: scale(1.05); box-shadow: 0 0 15px var(--water); }
+        .stream-box.selected { background: var(--water); color: #000; }
+        .stream-box.merged { opacity: 0.3; pointer-events: none; }
+        .stream-head { font-size: 0.8rem; color: #888; }
+        .stream-value { font-size: 1.5rem; font-weight: bold; margin: 5px 0; }
+        .stream-items { font-size: 0.7rem; color: #aaa; }
+        .merge-zone { padding: 20px 30px; background: rgba(255,107,107,0.2); border: 3px dashed var(--merged); border-radius: 15px; display: flex; gap: 20px; align-items: center; min-height: 80px; }
+        .merge-slot { width: 60px; height: 60px; background: rgba(255,107,107,0.1); border: 2px solid var(--merged); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: bold; }
+        .merge-slot.filled { background: var(--merged); color: #fff; }
+        .output-stream { padding: 20px; background: var(--panel); border-radius: 10px; }
+        .output-label { color: #888; margin-bottom: 10px; }
+        .output-values { display: flex; gap: 8px; flex-wrap: wrap; }
+        .output-val { padding: 8px 12px; background: var(--merged); color: #fff; border-radius: 8px; font-weight: bold; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #1a4a3a; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1a4a3a; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--water); }
+        .btn { background: var(--water); color: #000; border: none; padding: 12px 25px; font-family: 'Fredoka One'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #6ee0d8; }
+        .btn.secondary { background: transparent; border: 2px solid #1a4a3a; color: #888; font-family: 'Nunito'; }
+        .btn.merge { background: var(--merged); color: #fff; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--water); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--water); font-family: 'Fredoka One'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🌊 RIVER MERGE</h1>
+    <div style="color:#888">MERGE K SORTED STREAMS</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 MERGE THE RIVERS:</b> Click streams to select, then merge! Always pick the streams with the smallest current heads to merge first (min-heap style).
+    </div>
+    <div style="color:var(--water);">ACTIVE STREAMS (click to select):</div>
+    <div class="streams-area" id="streams"></div>
+    <div class="merge-zone">
+        <span>MERGE:</span>
+        <div class="merge-slot" id="slot1">?</div>
+        <span>+</span>
+        <div class="merge-slot" id="slot2">?</div>
+        <button class="btn merge" onclick="game.merge()">MERGE!</button>
+    </div>
+    <div class="output-stream">
+        <div class="output-label">MERGED OUTPUT:</div>
+        <div class="output-values" id="output"></div>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Streams Left</span><span class="stat-value" id="left">0</span></div>
+            <div class="stat-row"><span class="stat-label">Total Merged</span><span class="stat-value" id="merged">0</span></div>
+        </div>
+    </div>
+    <div id="status">Select two streams to merge!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.autoMerge()">AUTO MERGE</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW RIVERS</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🌊 RIVER MERGE</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--water)">CONCEPT:</b> Merge K Sorted Lists with Min-Heap!</p>
+            <ul>
+                <li>Each stream is <b>sorted</b> with a head value</li>
+                <li>Always merge the <b>two smallest heads</b></li>
+                <li>Min-heap gives O(log K) to find smallest</li>
+                <li>Total: O(N log K) to merge all</li>
+            </ul>
+            <p style="color:#888">Used in external sorting, database merges!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START MERGING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.streams = []; this.selected = []; this.output = [];
+        this.ui = { streams: document.getElementById('streams'), slot1: document.getElementById('slot1'), slot2: document.getElementById('slot2'), output: document.getElementById('output'), left: document.getElementById('left'), merged: document.getElementById('merged'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        this.streams = [];
+        const k = 4 + Math.floor(Math.random() * 3);
+        for (let i = 0; i < k; i++) {
+            const len = 2 + Math.floor(Math.random() * 3);
+            let base = Math.floor(Math.random() * 20) + 1;
+            const arr = [];
+            for (let j = 0; j < len; j++) { arr.push(base); base += Math.floor(Math.random() * 10) + 1; }
+            this.streams.push({ id: i, values: arr, head: arr[0], merged: false });
+        }
+        this.selected = []; this.output = [];
+        this.ui.status.textContent = 'Select two streams to merge!';
+        this.render();
+    }
+    selectStream(id) {
+        const stream = this.streams.find(s => s.id === id);
+        if (!stream || stream.merged) return;
+        if (this.selected.includes(id)) {
+            this.selected = this.selected.filter(s => s !== id);
+        } else if (this.selected.length < 2) {
+            this.selected.push(id);
+        }
+        this.render();
+    }
+    merge() {
+        if (this.selected.length !== 2) { this.ui.status.textContent = 'Select exactly 2 streams!'; return; }
+        const s1 = this.streams.find(s => s.id === this.selected[0]);
+        const s2 = this.streams.find(s => s.id === this.selected[1]);
+        // Merge the two streams
+        const merged = [...s1.values, ...s2.values].sort((a, b) => a - b);
+        s1.merged = true; s2.merged = true;
+        // Add new merged stream
+        const newStream = { id: this.streams.length, values: merged, head: merged[0], merged: false };
+        this.streams.push(newStream);
+        this.output = merged;
+        this.selected = [];
+        // Check if done
+        const active = this.streams.filter(s => !s.merged);
+        if (active.length === 1) {
+            this.ui.status.innerHTML = '🎉 ALL MERGED! Final stream ready!';
+            this.ui.status.style.color = 'var(--merged)';
+        } else {
+            this.ui.status.textContent = 'Merged! Continue merging...';
+        }
+        this.render();
+    }
+    autoMerge() {
+        const active = this.streams.filter(s => !s.merged);
+        if (active.length < 2) return;
+        // Pick two smallest heads
+        active.sort((a, b) => a.head - b.head);
+        this.selected = [active[0].id, active[1].id];
+        this.render();
+        setTimeout(() => this.merge(), 500);
+    }
+    render() {
+        const active = this.streams.filter(s => !s.merged);
+        this.ui.streams.innerHTML = '';
+        this.streams.forEach(s => {
+            const box = document.createElement('div');
+            box.className = 'stream-box';
+            if (s.merged) box.classList.add('merged');
+            if (this.selected.includes(s.id)) box.classList.add('selected');
+            box.innerHTML = `<div class="stream-head">Stream ${s.id + 1}</div><div class="stream-value">${s.head}</div><div class="stream-items">[${s.values.join(', ')}]</div>`;
+            box.onclick = () => this.selectStream(s.id);
+            this.ui.streams.appendChild(box);
+        });
+        this.ui.slot1.textContent = this.selected[0] !== undefined ? this.streams.find(s => s.id === this.selected[0]).head : '?';
+        this.ui.slot1.className = 'merge-slot' + (this.selected[0] !== undefined ? ' filled' : '');
+        this.ui.slot2.textContent = this.selected[1] !== undefined ? this.streams.find(s => s.id === this.selected[1]).head : '?';
+        this.ui.slot2.className = 'merge-slot' + (this.selected[1] !== undefined ? ' filled' : '');
+        this.ui.output.innerHTML = '';
+        this.output.forEach(v => {
+            const el = document.createElement('div');
+            el.className = 'output-val';
+            el.textContent = v;
+            this.ui.output.appendChild(el);
+        });
+        this.ui.left.textContent = active.length;
+        this.ui.merged.textContent = this.streams.filter(s => s.merged).length;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

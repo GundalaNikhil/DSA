@@ -47,6 +47,18 @@ This is a variation of the **Hamiltonian Path** problem on a graph.
 ### 3. Base Case
 -   If `path.size() == total_unblocked_cells`: Success!
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Start at initial cell] --> B{Visited count equals total unblocked}
+B -->|Yes| C[Return success]
+B -->|No| D[Generate valid knight moves]
+D --> E{Any moves available}
+E -->|No| F[Backtrack]
+E -->|Yes| G[Try next move and recurse]
+G --> B
+```
+
 ## Approaches
 
 ### Approach 1: Backtracking (DFS)

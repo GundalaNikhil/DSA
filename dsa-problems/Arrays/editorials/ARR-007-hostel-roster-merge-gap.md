@@ -67,6 +67,26 @@ Next: A empty? No. B empty? No.
 ...
 ```
 
+### 🔄 Algorithm Flow Diagram
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Set i = 0, j = 0, k = 0, result size N + M]
+    B --> C{i < N and j < M?}
+    C -- Yes --> D{A at i <= B at j?}
+    D -- Yes --> E[result at k = A at i; i++]
+    D -- No --> F[result at k = B at j; j++]
+    E --> G[k++]
+    F --> G
+    G --> C
+    C -- No --> H[Copy remaining A if any]
+    H --> I[Copy remaining B if any]
+    I --> J[Return result]
+```
+
+> When two sorted lines meet, staying in order keeps everyone calm.
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Sorted Inputs**: You can assume A and B are already sorted.

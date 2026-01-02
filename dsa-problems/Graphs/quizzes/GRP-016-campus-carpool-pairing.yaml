@@ -1,0 +1,52 @@
+problem_id: GRP_CAMPUS_CARPOOL_PAIRING_016
+display_id: GRP-016
+slug: campus-carpool-pairing
+questions:
+  - question: What does it mean for a graph to be a forest?
+    difficulty: easy
+    points: 10
+    options:
+      - It is connected and has cycles
+      - It has no cycles
+      - It has exactly one component
+      - Every node has degree 2
+    correct_answer: 1
+    explanation: A forest is an acyclic undirected graph; isolated nodes are allowed.
+    type: single_choice
+    id: prq_1
+  - question: In Union-Find cycle detection, when do you conclude the graph is not a forest?
+    difficulty: medium
+    points: 15
+    options:
+      - When an edge connects two nodes in different sets
+      - When an edge connects two nodes already in the same set
+      - When a node has degree 0
+      - When m < n
+    correct_answer: 1
+    explanation: An edge within the same set forms a cycle.
+    type: single_choice
+    id: edq_1
+  - question: What can be concluded if an undirected graph has m >= n edges?
+    difficulty: medium
+    points: 15
+    options:
+      - It must be a forest
+      - It must contain a cycle
+      - It has no edges
+      - It is a tree
+    correct_answer: 1
+    explanation: A forest on n nodes has at most n-1 edges, so m >= n implies a cycle.
+    type: single_choice
+    id: edq_2
+  - question: For n=3 with edges (0,1) and (1,2), what should be returned?
+    difficulty: easy
+    points: 10
+    options:
+      - "true"
+      - "false"
+      - depends on traversal
+      - invalid input
+    correct_answer: 0
+    explanation: The graph is a simple path and has no cycles.
+    type: single_choice
+    id: edq_3

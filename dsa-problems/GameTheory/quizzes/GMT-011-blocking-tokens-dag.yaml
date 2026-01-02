@@ -1,222 +1,52 @@
----
-problem_id: GMT_BLOCKING_TOKENS__5821
+problem_id: GMT_BLOCKING_TOKENS_DAG_011
 display_id: GMT-011
 slug: blocking-tokens-dag
-title: "Blocking Tokens on DAG - Quiz"
----
-
-# Problem-Related Questions (PRQ)
-
-problem_questions:
-  - quiz_id: "PRQ-GMT-011-Q001"
-    category: "problem"
-    type: single_choice
-    question: "Can two tokens occupy the same node?"
-    options:
-      - option_id: "A"
-        text: "Yes, always."
-        correct: false
-      - option_id: "B"
-        text: "No, never."
-        correct: true
-      - option_id: "C"
-        text: "Only if it's the last node."
-        correct: false
-      - option_id: "D"
-        text: "Only if they arrive at the same time."
-        correct: false
-    explanation: "The problem states a token cannot be moved to a node occupied by the other token."
+questions:
+  - question: Can two tokens occupy the same node?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-GMT-011-Q002"
-    category: "problem"
-    type: single_choice
-    question: "If Token A is at 1 and Token B is at 2, and edge 1->2 exists, can A move to 2?"
     options:
-      - option_id: "A"
-        text: "Yes."
-        correct: false
-      - option_id: "B"
-        text: "No, it is blocked."
-        correct: true
-      - option_id: "C"
-        text: "Yes, and B is removed."
-        correct: false
-      - option_id: "D"
-        text: "Yes, and they swap."
-        correct: false
-    explanation: "Move to occupied node is invalid."
+      - Yes, always.
+      - No, never.
+      - Only if it's the last node.
+      - Only if they arrive at the same time.
+    correct_answer: 1
+    explanation: The problem states a token cannot be moved to a node occupied by the other token.
+    type: single_choice
+    id: prq_1
+  - question: If Token A is at 1 and Token B is at 2, and edge 1->2 exists, can A move to 2?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-GMT-011-Q003"
-    category: "problem"
-    type: multiple_choice
-    question: "Which of these are valid moves from state {u, v}?"
     options:
-      - option_id: "A"
-        text: "Move u to neighbor u' (if u' != v)"
-        correct: true
-      - option_id: "B"
-        text: "Move v to neighbor v' (if v' != u)"
-        correct: true
-      - option_id: "C"
-        text: "Move u to v"
-        correct: false
-      - option_id: "D"
-        text: "Move both u and v"
-        correct: false
-    explanation: "Players choose ONE token to move. Target must be empty."
+      - Yes.
+      - No, it is blocked.
+      - Yes, and B is removed.
+      - Yes, and they swap.
+    correct_answer: 1
+    explanation: Move to occupied node is invalid.
+    type: single_choice
+    id: edq_1
+  - question: Which of these are valid moves from state {u, v}?
     difficulty: medium
     points: 10
-
-  - quiz_id: "PRQ-GMT-011-Q004"
-    category: "problem"
-    type: single_choice
-    question: "What is the maximum number of states?"
     options:
-      - option_id: "A"
-        text: "N"
-        correct: false
-      - option_id: "B"
-        text: "N^2"
-        correct: true
-      - option_id: "C"
-        text: "2^N"
-        correct: false
-      - option_id: "D"
-        text: "N!"
-        correct: false
-    explanation: "State is defined by the pair of positions (u, v). There are N*N pairs."
+      - Move u to neighbor u' (if u' != v)
+      - Move v to neighbor v' (if v' != u)
+      - Move u to v
+      - Move both u and v
+    correct_answer: 1
+    explanation: Players choose ONE token to move. Target must be empty.
+    type: single_choice
+    id: edq_2
+  - question: What is the maximum number of states?
     difficulty: medium
     points: 10
-
-  - quiz_id: "PRQ-GMT-011-Q005"
-    category: "problem"
+    options:
+      - N
+      - N^2
+      - 2^N
+      - N!
+    correct_answer: 1
+    explanation: State is defined by the pair of positions (u, v). There are N*N pairs.
     type: single_choice
-    question: "Is the game guaranteed to end?"
-    options:
-      - option_id: "A"
-        text: "Yes, because it's a DAG."
-        correct: true
-      - option_id: "B"
-        text: "No, cycles are possible."
-        correct: false
-      - option_id: "C"
-        text: "Only if N is small."
-        correct: false
-      - option_id: "D"
-        text: "Depends on starting position."
-        correct: false
-    explanation: "Tokens always move forward along directed edges. Since there are no cycles, paths are finite."
-    difficulty: easy
-    points: 10
-
-# Editorial/Algorithm Questions (EDQ)
-
-editorial_questions:
-  - quiz_id: "EDQ-GMT-011-Q001"
-    category: "editorial"
-    type: single_choice
-    question: "Why do we use Memoization?"
-    options:
-      - option_id: "A"
-        text: "To avoid recomputing the winner for the same state."
-        correct: true
-      - option_id: "B"
-        text: "To find the shortest path."
-        correct: false
-      - option_id: "C"
-        text: "To sort the edges."
-        correct: false
-      - option_id: "D"
-        text: "To compress the graph."
-        correct: false
-    explanation: "States can be revisited from different paths in the state space (e.g., move A then B vs move B then A)."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-GMT-011-Q002"
-    category: "editorial"
-    type: single_choice
-    question: "What is the time complexity?"
-    options:
-      - option_id: "A"
-        text: "O(N^2 * (N+M))"
-        correct: true
-      - option_id: "B"
-        text: "O(N)"
-        correct: false
-      - option_id: "C"
-        text: "O(2^N)"
-        correct: false
-      - option_id: "D"
-        text: "O(M)"
-        correct: false
-    explanation: "We visit each of the N^2 states once, and iterate neighbors."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-GMT-011-Q003"
-    category: "editorial"
-    type: scenario
-    question: "State (3, 4). Moves: (3->5), (4->5). Who wins?"
-    options:
-      - option_id: "A"
-        text: "First"
-        correct: true
-      - option_id: "B"
-        text: "Second"
-        correct: false
-      - option_id: "C"
-        text: "Draw"
-        correct: false
-      - option_id: "D"
-        text: "Unknown"
-        correct: false
-    explanation: "P1 moves 3->5. State (5, 4). P2 moves 4->5? Blocked! P2 has no moves. P1 wins."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-GMT-011-Q004"
-    category: "editorial"
-    type: single_choice
-    question: "Are the two tokens independent?"
-    options:
-      - option_id: "A"
-        text: "Yes, completely."
-        correct: false
-      - option_id: "B"
-        text: "No, they block each other."
-        correct: true
-      - option_id: "C"
-        text: "Only if they start at the same node."
-        correct: false
-      - option_id: "D"
-        text: "Yes, but they share a score."
-        correct: false
-    explanation: "The blocking rule creates interaction. It is not just sum of two games."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-GMT-011-Q005"
-    category: "editorial"
-    type: single_choice
-    question: "If we allowed moving to occupied nodes (stacking), what would the game be?"
-    options:
-      - option_id: "A"
-        text: "Sum of two independent games (Nim sum)."
-        correct: true
-      - option_id: "B"
-        text: "Still blocking."
-        correct: false
-      - option_id: "C"
-        text: "Impossible to determine."
-        correct: false
-      - option_id: "D"
-        text: "Tic-Tac-Toe."
-        correct: false
-    explanation: "Without blocking, the tokens don't interact. It becomes G(u) ^ G(v)."
-    difficulty: medium
-    points: 15
+    id: edq_3

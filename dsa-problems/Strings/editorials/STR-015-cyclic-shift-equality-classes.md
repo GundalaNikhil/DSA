@@ -87,6 +87,15 @@ DNA sequence analysis groups circular genomes by rotation equivalence. Counting 
 3. Return len(canonical_map)
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read next string] --> B[Compute minimal rotation]
+B --> C[Insert canonical into set]
+C --> D[Repeat for all strings]
+D --> E[Output set size]
+```
+
 ---
 
 ## 🧪 Test Case Walkthrough (Dry Run)

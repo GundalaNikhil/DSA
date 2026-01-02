@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSH-015: Double Lock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a1a; --lock1: #ff6b6b; --lock2: #4ecdc4; --match: #ffd700; --panel: #0f1a2e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--match); }
+        h1 { margin: 0; font-family: 'Orbitron', sans-serif; color: var(--match); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--match); }
+        .instructions b { color: var(--match); }
+        .locks-container { display: flex; gap: 30px; }
+        .lock-box { background: var(--panel); padding: 20px; border-radius: 15px; text-align: center; }
+        .lock-label { margin-bottom: 10px; font-size: 0.9rem; }
+        .lock-label.one { color: var(--lock1); }
+        .lock-label.two { color: var(--lock2); }
+        .lock-display { font-family: 'Orbitron'; font-size: 2rem; padding: 15px 25px; background: #000; border-radius: 10px; letter-spacing: 5px; }
+        .lock-display.one { color: var(--lock1); border: 3px solid var(--lock1); }
+        .lock-display.two { color: var(--lock2); border: 3px solid var(--lock2); }
+        .string-input-area { display: flex; gap: 15px; align-items: center; padding: 20px; background: var(--panel); border-radius: 10px; }
+        .string-input { font-size: 1.5rem; padding: 15px; width: 200px; background: #000; border: 3px solid var(--match); color: var(--match); text-align: center; border-radius: 10px; font-family: 'Orbitron'; text-transform: uppercase; }
+        .pairs-found { display: flex; flex-wrap: wrap; gap: 10px; padding: 15px; background: var(--panel); border-radius: 10px; min-width: 400px; min-height: 50px; justify-content: center; }
+        .pair-item { padding: 8px 15px; background: var(--match); color: #000; border-radius: 20px; font-weight: bold; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #1a2a3e; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1a2a3e; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--match); }
+        .btn { background: var(--match); color: #000; border: none; padding: 12px 25px; font-family: 'Orbitron'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ffe066; }
+        .btn.secondary { background: transparent; border: 2px solid #1a2a3e; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--match); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--match); font-family: 'Orbitron'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🔐🔐 DOUBLE LOCK</h1>
+    <div style="color:#888">DOUBLE HASHING</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 FIND MATCHING PAIRS:</b> Enter two strings that have the same DOUBLE hash! Both Hash1 AND Hash2 must match.
+    </div>
+    <div class="locks-container">
+        <div class="lock-box">
+            <div class="lock-label one">HASH #1 (mod 97)</div>
+            <div class="lock-display one" id="hash1">00</div>
+        </div>
+        <div class="lock-box">
+            <div class="lock-label two">HASH #2 (mod 101)</div>
+            <div class="lock-display two" id="hash2">00</div>
+        </div>
+    </div>
+    <div class="string-input-area">
+        <input type="text" class="string-input" id="str1" placeholder="STRING 1" maxlength="6" oninput="game.updateHash()">
+        <span style="font-size:2rem">↔</span>
+        <input type="text" class="string-input" id="str2" placeholder="STRING 2" maxlength="6" oninput="game.updateHash()">
+    </div>
+    <button class="btn" onclick="game.check()">VERIFY PAIR</button>
+    <div style="color:var(--match);">VERIFIED PAIRS:</div>
+    <div class="pairs-found" id="pairs"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Pairs Found</span><span class="stat-value" id="found">0</span></div>
+            <div class="stat-row"><span class="stat-label">Attempts</span><span class="stat-value" id="attempts">0</span></div>
+        </div>
+    </div>
+    <div id="status">Find strings with matching double hashes!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.newGame()">RESET</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔐🔐 DOUBLE LOCK</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--match)">CHALLENGE:</b> Why double hashing?</p>
+            <ul>
+                <li>Single hash can have <b>collisions</b></li>
+                <li>Double hash uses <b>two different mods</b></li>
+                <li>Much harder to find matching pairs!</li>
+                <li>Used in Rabin-Karp, bloom filters</li>
+            </ul>
+            <p style="color:#888">P(double collision) ≈ 1/(97×101)!</p>
+        </div>
+        <button class="btn" onclick="game.start()">OPEN LOCKS</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.pairs = []; this.attempts = 0;
+        this.ui = { str1: document.getElementById('str1'), str2: document.getElementById('str2'), hash1: document.getElementById('hash1'), hash2: document.getElementById('hash2'), pairs: document.getElementById('pairs'), found: document.getElementById('found'), attempts: document.getElementById('attempts'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    hash1(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h + s.charCodeAt(i)) % 97; return h; }
+    hash2(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h + s.charCodeAt(i) * 2) % 101; return h; }
+    newGame() { this.pairs = []; this.attempts = 0; this.ui.str1.value = ''; this.ui.str2.value = ''; this.updateHash(); this.render(); }
+    updateHash() {
+        const s1 = this.ui.str1.value.toUpperCase();
+        const s2 = this.ui.str2.value.toUpperCase();
+        this.ui.hash1.textContent = s1.length ? `${this.hash1(s1)} | ${this.hash1(s2)}` : '00';
+        this.ui.hash2.textContent = s1.length ? `${this.hash2(s1)} | ${this.hash2(s2)}` : '00';
+    }
+    check() {
+        const s1 = this.ui.str1.value.toUpperCase();
+        const s2 = this.ui.str2.value.toUpperCase();
+        if (!s1 || !s2) { this.ui.status.textContent = 'Enter both strings!'; return; }
+        if (s1 === s2) { this.ui.status.textContent = 'Strings must be different!'; return; }
+        this.attempts++;
+        const h1Match = this.hash1(s1) === this.hash1(s2);
+        const h2Match = this.hash2(s1) === this.hash2(s2);
+        if (h1Match && h2Match) {
+            const key = [s1, s2].sort().join('=');
+            if (!this.pairs.includes(key)) {
+                this.pairs.push(key);
+                this.ui.status.innerHTML = '🎉 DOUBLE COLLISION! Very rare!';
+                this.ui.status.style.color = 'var(--match)';
+            } else {
+                this.ui.status.textContent = 'Already found this pair!';
+            }
+        } else if (h1Match) {
+            this.ui.status.textContent = 'Hash1 matches, but Hash2 different!';
+            this.ui.status.style.color = 'var(--lock1)';
+        } else if (h2Match) {
+            this.ui.status.textContent = 'Hash2 matches, but Hash1 different!';
+            this.ui.status.style.color = 'var(--lock2)';
+        } else {
+            this.ui.status.textContent = 'Both hashes different.';
+            this.ui.status.style.color = '#888';
+        }
+        this.render();
+    }
+    render() {
+        this.ui.pairs.innerHTML = '';
+        this.pairs.forEach(p => {
+            const item = document.createElement('div');
+            item.className = 'pair-item';
+            item.textContent = p;
+            this.ui.pairs.appendChild(item);
+        });
+        this.ui.found.textContent = this.pairs.length;
+        this.ui.attempts.textContent = this.attempts;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

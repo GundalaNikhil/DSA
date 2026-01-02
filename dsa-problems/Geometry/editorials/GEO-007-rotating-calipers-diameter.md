@@ -58,6 +58,20 @@ For a convex polygon `P`:
 4. Repeat for all `i` (mod n).
 
 Because the polygon is convex, every antipodal pair is visited once; the maximum distance lies among these pairs.
+The calipers keep pace around the hull, never letting the farthest pair slip by.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with convex hull] --> B[Pick initial i and j]
+    B --> C[Set best distance to 0]
+    C --> D[For each i around hull]
+    D --> E[Update best with distance at i and j]
+    E --> F[Advance j while area increases]
+    F --> E
+    E --> D
+    D --> G[Return best distance]
+```
 
 ### Distance Computation
 

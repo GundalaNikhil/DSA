@@ -1,0 +1,52 @@
+problem_id: GEO_POINT_IN_POLYGON_WINDING_002
+display_id: GEO-002
+slug: point-in-polygon-winding
+questions:
+  - question: If the query point lies exactly on an edge or vertex, what should be printed?
+    difficulty: easy
+    points: 10
+    options:
+      - inside
+      - outside
+      - boundary
+      - collinear
+    correct_answer: 2
+    explanation: Boundary points must be reported as boundary before any winding check.
+    type: single_choice
+    id: prq_1
+  - question: For the square (0,0)-(4,0)-(4,4)-(0,4) with query point (2,2), what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - inside
+      - outside
+      - boundary
+      - clockwise
+    correct_answer: 0
+    explanation: (2,2) is strictly inside the square.
+    type: single_choice
+    id: edq_1
+  - question: After processing all edges, when is the point considered inside using winding number?
+    difficulty: medium
+    points: 15
+    options:
+      - When the winding number is zero
+      - When the winding number is non-zero
+      - When the polygon is convex
+      - Only when the polygon is clockwise
+    correct_answer: 1
+    explanation: For a simple polygon, a non-zero winding number means the point is inside.
+    type: single_choice
+    id: edq_2
+  - question: If the point is not on the boundary and the winding number is zero, what is the result?
+    difficulty: easy
+    points: 10
+    options:
+      - inside
+      - outside
+      - boundary
+      - clockwise
+    correct_answer: 1
+    explanation: A zero winding number means the point is outside.
+    type: single_choice
+    id: edq_3

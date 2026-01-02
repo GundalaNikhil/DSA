@@ -1,0 +1,52 @@
+problem_id: TDP_TREE_INDEPENDENT_SET_DISTANCE2_007
+display_id: TDP-007
+slug: tree-independent-set-distance2
+questions:
+  - question: "In a Distance-2 Independent Set, if we select node `u`, we cannot select:"
+    difficulty: easy
+    points: 10
+    options:
+      - Its children AND its grandchildren (neighbors of neighbors)
+      - Its children only
+      - Its parent only
+      - Any other node
+    correct_answer: 0
+    explanation: Distance-2 implies buffering not just immediate neighbors but their neighbors too.
+    type: single_choice
+    id: prq_1
+  - question: "The standard Max Independent Set DP on trees (`dp[u][1]` considers children skipped) is modified here. For `dp[u][1]` (picking u), we sum contributions from:"
+    difficulty: medium
+    points: 15
+    options:
+      - Grandchildren of u (skipping children)
+      - Children of u
+      - Parent of u
+      - Siblings of u
+    correct_answer: 0
+    explanation: Picking `u` invalidates children. The next available nodes are grandchildren.
+    type: single_choice
+    id: edq_1
+  - question: "If we do NOT pick `u` (`dp[u][0]`), we simply take:"
+    difficulty: easy
+    points: 10
+    options:
+      - Sum of max(dp[child][0], dp[child][1]) for all children
+      - Sum of dp[child][0]
+      - Sum of dp[grandchild][0]
+      - "0"
+    correct_answer: 0
+    explanation: If u is skipped, children are free to be picked or skipped optimally.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of the DP solution?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N)
+      - O(N^2)
+      - O(N log N)
+      - O(2^N)
+    correct_answer: 0
+    explanation: It's a linear traversal, assuming efficient child/grandchild access.
+    type: single_choice
+    id: edq_3

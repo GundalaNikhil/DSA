@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DP-009: Flood Escape</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --grid: #1e293b;
+            --primary: #0ea5e9; /* Sky blue */
+            --danger: #ef4444;
+            --accent: #a855f7; /* Purple for free */
+            --success: #10b981;
+            --text: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            background-image: 
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(14, 165, 233, 0.3);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            text-shadow: 0 0 10px var(--primary);
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .info-panel {
+            display: flex;
+            gap: 30px;
+            padding: 15px 30px;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 12px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .info-label { color: #94a3b8; font-size: 0.8rem; }
+        .info-value { font-size: 1.3rem; font-weight: bold; color: var(--primary); }
+        .info-value.accent { color: var(--accent); }
+
+        .grid-container {
+            padding: 20px;
+            background: rgba(14, 165, 233, 0.05);
+            border-radius: 12px;
+            border: 1px solid rgba(14, 165, 233, 0.2);
+        }
+
+        .grid {
+            display: grid;
+            gap: 4px;
+        }
+
+        .cell {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(30, 41, 59, 0.8);
+            border: 2px solid var(--grid);
+            border-radius: 6px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            gap: 2px;
+        }
+
+        .cell:hover {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .cell.start { border-color: var(--success); background: rgba(16, 185, 129, 0.15); }
+        .cell.end { border-color: var(--danger); background: rgba(239, 68, 68, 0.15); }
+        .cell.free { border-color: var(--accent); background: rgba(168, 85, 247, 0.2); }
+        .cell.path { border-color: #fbbf24; background: rgba(251, 191, 36, 0.15); }
+
+        .cell-cost { font-weight: bold; color: var(--primary); }
+        .cell-cost.free { color: var(--accent); text-decoration: line-through; }
+
+        .stats-panel {
+            display: flex;
+            gap: 30px;
+            padding: 15px 25px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label { color: #64748b; font-size: 0.8rem; }
+        .stat-value { font-size: 1.3rem; font-weight: bold; }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .move-btn {
+            padding: 10px 25px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .move-btn:hover:not(:disabled) {
+            background: var(--primary);
+            color: #000;
+        }
+
+        .move-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .move-btn.free-btn {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .move-btn.free-btn:hover:not(:disabled) {
+            background: var(--accent);
+            color: #000;
+        }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #1e293b; padding: 40px; border: 2px solid var(--primary);
+            max-width: 600px; text-align: center; color: var(--text);
+            box-shadow: 0 0 50px rgba(14, 165, 233, 0.2);
+            border-radius: 12px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+
+        .scan-line {
+            position: fixed; top: 0; left: 0; right: 0; height: 2px;
+            background: rgba(14, 165, 233, 0.3); opacity: 0.5;
+            animation: scan 4s linear infinite; pointer-events: none;
+        }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+    </style>
+</head>
+<body>
+
+<div class="scan-line"></div>
+
+<header>
+    <h1>🌊 Flood Escape</h1>
+    <div style="color: #94a3b8; font-size: 0.9rem;">DP-009: MIN COST WITH FREE CELLS</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div class="info-panel">
+            <div class="info-item">
+                <span class="info-label">Free Passes</span>
+                <span class="info-value accent" id="freePasses">-</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Optimal Cost</span>
+                <span class="info-value" id="optimal">?</span>
+            </div>
+        </div>
+
+        <div class="grid-container">
+            <div class="grid" id="grid"></div>
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span class="stat-label">Position</span>
+                <span class="stat-value" id="position">(0,0)</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Cost So Far</span>
+                <span class="stat-value" id="costSoFar">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Free Used</span>
+                <span class="stat-value" id="freeUsed">0</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="move-btn" id="btnRight" onclick="game.move('R', false)">→ Right (+cost)</button>
+            <button class="move-btn" id="btnDown" onclick="game.move('D', false)">↓ Down (+cost)</button>
+            <button class="move-btn free-btn" id="btnFreeR" onclick="game.move('R', true)">→ Right (FREE)</button>
+            <button class="move-btn free-btn" id="btnFreeD" onclick="game.move('D', true)">↓ Down (FREE)</button>
+        </div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" style="border-color: #64748b; color: #64748b;" onclick="game.reset()">RESET</button>
+            <button class="btn" onclick="game.newLevel()">NEW GRID</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🌊 FLOOD ESCAPE</h2>
+        <div style="text-align:left; font-size:1rem; margin:1.5rem 0; line-height:1.7; color:#cbd5e1;">
+            <p><b>Objective:</b> Navigate from top-left to bottom-right with minimum total cost.</p>
+            <p><b>Mechanics:</b></p>
+            <ul style="margin-left: 20px;">
+                <li>Each cell has a crossing cost</li>
+                <li>You have <b>F free passes</b> - use them to skip cell costs</li>
+                <li>Move only <b>Right</b> or <b>Down</b></li>
+                <li>Minimize total cost!</li>
+            </ul>
+            <p><b>DP Insight:</b> <code>dp[r][c][k]</code> = min cost to reach (r,c) using k free cells.</p>
+        </div>
+        <button class="btn" onclick="game.start()">START ESCAPING</button>
+    </div>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.m = 0;
+        this.n = 0;
+        this.F = 0; // free passes
+        this.costs = [];
+        this.row = 0;
+        this.col = 0;
+        this.costSoFar = 0;
+        this.freeUsed = 0;
+        this.path = [];
+        this.freeCells = new Set();
+        this.optimal = 0;
+        
+        this.ui = {
+            grid: document.getElementById('grid'),
+            freePasses: document.getElementById('freePasses'),
+            optimal: document.getElementById('optimal'),
+            position: document.getElementById('position'),
+            costSoFar: document.getElementById('costSoFar'),
+            freeUsed: document.getElementById('freeUsed'),
+            btnRight: document.getElementById('btnRight'),
+            btnDown: document.getElementById('btnDown'),
+            btnFreeR: document.getElementById('btnFreeR'),
+            btnFreeD: document.getElementById('btnFreeD'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newLevel();
+    }
+
+    newLevel() {
+        this.m = Math.floor(Math.random() * 2) + 3;
+        this.n = Math.floor(Math.random() * 2) + 3;
+        this.F = Math.floor(Math.random() * 2) + 1; // 1-2 free passes
+        
+        this.costs = [];
+        for (let r = 0; r < this.m; r++) {
+            const row = [];
+            for (let c = 0; c < this.n; c++) {
+                row.push(Math.floor(Math.random() * 15) + 1);
+            }
+            this.costs.push(row);
+        }
+        
+        this.optimal = this.calculateOptimal();
+        this.reset();
+        
+        this.ui.freePasses.textContent = this.F;
+        this.ui.optimal.textContent = '?';
+    }
+
+    calculateOptimal() {
+        const INF = 1e18;
+        const dp = Array.from({length: this.m}, () =>
+            Array.from({length: this.n}, () => new Array(this.F + 1).fill(INF)));
+        
+        dp[0][0][0] = this.costs[0][0];
+        if (this.F > 0) dp[0][0][1] = 0;
+        
+        for (let r = 0; r < this.m; r++) {
+            for (let c = 0; c < this.n; c++) {
+                for (let k = 0; k <= this.F; k++) {
+                    if (dp[r][c][k] >= INF) continue;
+                    
+                    // Move right
+                    if (c + 1 < this.n) {
+                        dp[r][c+1][k] = Math.min(dp[r][c+1][k], dp[r][c][k] + this.costs[r][c+1]);
+                        if (k + 1 <= this.F) {
+                            dp[r][c+1][k+1] = Math.min(dp[r][c+1][k+1], dp[r][c][k]);
+                        }
+                    }
+                    // Move down
+                    if (r + 1 < this.m) {
+                        dp[r+1][c][k] = Math.min(dp[r+1][c][k], dp[r][c][k] + this.costs[r+1][c]);
+                        if (k + 1 <= this.F) {
+                            dp[r+1][c][k+1] = Math.min(dp[r+1][c][k+1], dp[r][c][k]);
+                        }
+                    }
+                }
+            }
+        }
+        
+        let ans = INF;
+        for (let k = 0; k <= this.F; k++) {
+            ans = Math.min(ans, dp[this.m-1][this.n-1][k]);
+        }
+        return ans;
+    }
+
+    reset() {
+        this.row = 0;
+        this.col = 0;
+        this.costSoFar = this.costs[0][0];
+        this.freeUsed = 0;
+        this.path = [[0, 0]];
+        this.freeCells = new Set();
+        this.ui.status.textContent = '';
+        this.ui.optimal.textContent = '?';
+        this.render();
+    }
+
+    move(dir, useFree) {
+        let newRow = this.row, newCol = this.col;
+        if (dir === 'R') newCol++;
+        if (dir === 'D') newRow++;
+        
+        if (newRow >= this.m || newCol >= this.n) return;
+        
+        if (useFree) {
+            if (this.freeUsed >= this.F) {
+                this.ui.status.innerHTML = '<span style="color:var(--danger)">No free passes left!</span>';
+                return;
+            }
+            this.freeUsed++;
+            this.freeCells.add(`${newRow},${newCol}`);
+        } else {
+            this.costSoFar += this.costs[newRow][newCol];
+        }
+        
+        this.row = newRow;
+        this.col = newCol;
+        this.path.push([this.row, this.col]);
+        
+        this.render();
+        this.checkWin();
+    }
+
+    render() {
+        this.ui.grid.innerHTML = '';
+        this.ui.grid.style.gridTemplateColumns = `repeat(${this.n}, 60px)`;
+        
+        for (let r = 0; r < this.m; r++) {
+            for (let c = 0; c < this.n; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                
+                const isPath = this.path.some(([pr, pc]) => pr === r && pc === c);
+                const isFree = this.freeCells.has(`${r},${c}`);
+                const isStart = r === 0 && c === 0;
+                const isEnd = r === this.m - 1 && c === this.n - 1;
+                
+                if (isPath) cell.classList.add('path');
+                if (isFree) cell.classList.add('free');
+                if (isStart) cell.classList.add('start');
+                if (isEnd) cell.classList.add('end');
+                
+                cell.innerHTML = `
+                    <span class="cell-cost ${isFree ? 'free' : ''}">${this.costs[r][c]}</span>
+                    <span style="font-size:0.65rem;color:#64748b;">(${r},${c})</span>
+                `;
+                
+                this.ui.grid.appendChild(cell);
+            }
+        }
+        
+        this.ui.position.textContent = `(${this.row},${this.col})`;
+        this.ui.costSoFar.textContent = this.costSoFar;
+        this.ui.freeUsed.textContent = `${this.freeUsed}/${this.F}`;
+        
+        const canMoveR = this.col < this.n - 1;
+        const canMoveD = this.row < this.m - 1;
+        const hasFree = this.freeUsed < this.F;
+        
+        this.ui.btnRight.disabled = !canMoveR;
+        this.ui.btnDown.disabled = !canMoveD;
+        this.ui.btnFreeR.disabled = !canMoveR || !hasFree;
+        this.ui.btnFreeD.disabled = !canMoveD || !hasFree;
+    }
+
+    checkWin() {
+        if (this.row === this.m - 1 && this.col === this.n - 1) {
+            this.ui.optimal.textContent = this.optimal;
+            
+            if (this.costSoFar === this.optimal) {
+                this.ui.status.innerHTML = `<span style="color:var(--success)">🎉 OPTIMAL! Cost: ${this.costSoFar}</span>`;
+            } else {
+                this.ui.status.innerHTML = `<span style="color:var(--primary)">Escaped! Cost: ${this.costSoFar}. Optimal: ${this.optimal}</span>`;
+            }
+        }
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

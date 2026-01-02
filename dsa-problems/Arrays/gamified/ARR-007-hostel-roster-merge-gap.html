@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARR-007: Merge Intervals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 850px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .header h1 { font-size: 36px; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #059669; margin-bottom: 15px; }
+
+        .goal-box {
+            background: #ecfdf5;
+            border: 2px solid #6ee7b7;
+            border-radius: 12px;
+            padding: 15px;
+            line-height: 1.6;
+        }
+
+        .example {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f0fdf4;
+            border-radius: 10px;
+            font-family: monospace;
+        }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .info-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 18px;
+            background: linear-gradient(90deg, #059669, #10b981);
+            border-radius: 10px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .timeline {
+            padding: 30px 20px;
+            background: #f0fdf4;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            position: relative;
+            min-height: 150px;
+        }
+
+        .timeline-axis {
+            height: 4px;
+            background: #94a3b8;
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            top: 50%;
+        }
+
+        .interval {
+            position: absolute;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+            top: calc(50% - 20px);
+        }
+        .interval:hover { transform: scale(1.05); }
+        .interval.merged { opacity: 0.4; }
+
+        .merge-area {
+            padding: 20px;
+            background: #ecfdf5;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .selected-intervals {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 15px;
+            min-height: 50px;
+        }
+
+        .selected-chip {
+            padding: 10px 15px;
+            background: #10b981;
+            color: #fff;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .selected-chip:hover { background: #dc2626; }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-merge { background: #10b981; color: #fff; }
+        .btn-clear { background: #64748b; color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+
+        .result {
+            padding: 15px;
+            background: #f0fdf4;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .message.correct { background: #dcfce7; color: #16a34a; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #ecfdf5; color: #059669; }
+
+        .new-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #059669;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>📅 Merge Intervals</h1>
+        <div style="opacity:0.9">Select overlapping intervals and merge them!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="goal-box">
+            <strong>🎯 Goal:</strong> Click on OVERLAPPING intervals to select them, then MERGE.
+            <br>Overlapping means [1,5] and [3,7] → merged into [1,7].
+        </div>
+        <div class="example">
+            <strong>Example:</strong> [1,4] + [3,6] = [1,6] (they overlap at 3-4)
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="info-bar">
+            <span>Intervals: <strong id="intervalCount">0</strong></span>
+            <span>Merged: <strong id="mergedCount">0</strong></span>
+        </div>
+
+        <div class="timeline" id="timeline">
+            <div class="timeline-axis"></div>
+        </div>
+
+        <div class="merge-area">
+            <div style="text-align:center; margin-bottom:10px; color:#666">Selected Intervals (click to remove):</div>
+            <div class="selected-intervals" id="selectedIntervals"></div>
+            <div class="controls">
+                <button class="btn btn-merge" onclick="mergeSelected()">🔗 Merge Selected</button>
+                <button class="btn btn-clear" onclick="clearSelection()">Clear</button>
+            </div>
+        </div>
+
+        <div class="result" id="result">Select overlapping intervals to merge!</div>
+
+        <div class="message neutral" id="message">Click intervals on the timeline to select them.</div>
+
+        <button class="new-btn" onclick="newGame()">🔄 New Intervals</button>
+    </div>
+</div>
+
+<script>
+    let intervals = [];
+    let selected = [];
+    let mergedCount = 0;
+    const colors = ['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#14b8a6', '#ef4444'];
+
+    function generateIntervals() {
+        const n = 4 + Math.floor(Math.random() * 3); // 4-6 intervals
+        intervals = [];
+        const maxEnd = 20;
+
+        for (let i = 0; i < n; i++) {
+            const start = Math.floor(Math.random() * (maxEnd - 3));
+            const end = start + 2 + Math.floor(Math.random() * 5);
+            intervals.push({ start, end: Math.min(end, maxEnd), color: colors[i % colors.length], merged: false });
+        }
+
+        // Sort by start
+        intervals.sort((a, b) => a.start - b.start);
+        selected = [];
+        mergedCount = 0;
+    }
+
+    function render() {
+        const timeline = document.getElementById('timeline');
+        // Keep axis, clear intervals
+        timeline.innerHTML = '<div class="timeline-axis"></div>';
+
+        const maxEnd = Math.max(...intervals.map(i => i.end));
+        const width = timeline.clientWidth - 40;
+
+        intervals.forEach((intv, i) => {
+            if (intv.merged) return;
+
+            const left = 20 + (intv.start / maxEnd) * width;
+            const w = ((intv.end - intv.start) / maxEnd) * width;
+
+            const el = document.createElement('div');
+            el.className = 'interval' + (selected.includes(i) ? ' selected' : '');
+            el.style.left = left + 'px';
+            el.style.width = Math.max(w, 40) + 'px';
+            el.style.background = intv.color;
+            el.style.border = selected.includes(i) ? '3px solid #000' : 'none';
+            el.textContent = `[${intv.start},${intv.end}]`;
+            el.onclick = () => toggleSelect(i);
+            timeline.appendChild(el);
+        });
+
+        // Update selected chips
+        const chips = document.getElementById('selectedIntervals');
+        chips.innerHTML = '';
+        selected.forEach(i => {
+            const chip = document.createElement('div');
+            chip.className = 'selected-chip';
+            chip.textContent = `[${intervals[i].start}, ${intervals[i].end}]`;
+            chip.onclick = () => { selected = selected.filter(x => x !== i); render(); };
+            chips.appendChild(chip);
+        });
+
+        document.getElementById('intervalCount').textContent = intervals.filter(i => !i.merged).length;
+        document.getElementById('mergedCount').textContent = mergedCount;
+    }
+
+    function toggleSelect(idx) {
+        if (selected.includes(idx)) {
+            selected = selected.filter(i => i !== idx);
+        } else {
+            selected.push(idx);
+        }
+        render();
+    }
+
+    function doOverlap(a, b) {
+        return a.start <= b.end && b.start <= a.end;
+    }
+
+    function mergeSelected() {
+        const msg = document.getElementById('message');
+        const result = document.getElementById('result');
+
+        if (selected.length < 2) {
+            msg.className = 'message wrong';
+            msg.textContent = 'Select at least 2 intervals to merge!';
+            return;
+        }
+
+        // Check if all selected intervals overlap with at least one other
+        const selIntervals = selected.map(i => intervals[i]);
+
+        // Check pairwise overlap (at least form a chain)
+        let allOverlap = true;
+        for (let i = 0; i < selIntervals.length && allOverlap; i++) {
+            let hasOverlap = false;
+            for (let j = 0; j < selIntervals.length; j++) {
+                if (i !== j && doOverlap(selIntervals[i], selIntervals[j])) {
+                    hasOverlap = true;
+                    break;
+                }
+            }
+            if (!hasOverlap && selIntervals.length > 1) allOverlap = false;
+        }
+
+        if (!allOverlap) {
+            msg.className = 'message wrong';
+            msg.textContent = '❌ These intervals don\'t overlap! Select overlapping ones.';
+            return;
+        }
+
+        // Merge
+        const minStart = Math.min(...selIntervals.map(i => i.start));
+        const maxEnd = Math.max(...selIntervals.map(i => i.end));
+
+        // Mark as merged
+        selected.forEach(i => { intervals[i].merged = true; });
+
+        // Add new merged interval
+        intervals.push({ start: minStart, end: maxEnd, color: '#22c55e', merged: false });
+        intervals.sort((a, b) => a.start - b.start);
+
+        mergedCount++;
+        selected = [];
+
+        msg.className = 'message correct';
+        msg.textContent = `✅ Merged into [${minStart}, ${maxEnd}]!`;
+        result.textContent = `Created: [${minStart}, ${maxEnd}]`;
+
+        render();
+    }
+
+    function clearSelection() {
+        selected = [];
+        render();
+    }
+
+    function newGame() {
+        generateIntervals();
+        render();
+        document.getElementById('result').textContent = 'Select overlapping intervals to merge!';
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Click intervals on the timeline to select them.';
+    }
+
+    window.onload = newGame;
+</script>
+</body>
+</html>

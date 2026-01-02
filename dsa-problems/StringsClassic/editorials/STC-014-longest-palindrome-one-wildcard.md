@@ -109,6 +109,19 @@ Does the wildcard break this?
    - Update `C`, `R` if `i + P[i] > R`.
 3. Find max `P[i]`. Extract substring.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Transform string with separators] --> B[Initialize center and right]
+B --> C[Set initial radius from mirror]
+C --> D[Expand while match or wildcard]
+D --> E{Extend right boundary}
+E -->|Yes| F[Update center and right]
+E -->|No| G[Continue]
+F --> C
+G --> C
+```
+
 ### Time Complexity
 
 - **O(N)**: Manacher's is linear.

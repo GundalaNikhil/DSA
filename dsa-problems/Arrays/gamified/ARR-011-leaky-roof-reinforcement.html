@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARR-011: Rain Trap</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 850px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .header h1 { font-size: 36px; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #1e3a8a; margin-bottom: 15px; }
+
+        .goal-box {
+            background: #eff6ff;
+            border: 2px solid #93c5fd;
+            border-radius: 12px;
+            padding: 15px;
+            line-height: 1.6;
+        }
+        .formula {
+            margin-top: 10px;
+            padding: 10px;
+            background: #1e3a8a;
+            color: #93c5fd;
+            border-radius: 8px;
+            font-family: monospace;
+        }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .bar-chart {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+            align-items: flex-end;
+            height: 200px;
+            padding: 20px;
+            background: linear-gradient(180deg, #bfdbfe 0%, #eff6ff 100%);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .bar-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .water {
+            width: 35px;
+            background: rgba(59, 130, 246, 0.5);
+            border-radius: 3px 3px 0 0;
+            transition: height 0.3s;
+        }
+
+        .bar {
+            width: 35px;
+            background: linear-gradient(180deg, #78350f 0%, #92400e 100%);
+            border-radius: 3px 3px 0 0;
+        }
+
+        .bar-label {
+            font-size: 11px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #eff6ff;
+            border-radius: 10px;
+        }
+        .stat { text-align: center; }
+        .stat-label { font-size: 12px; color: #666; }
+        .stat-value { font-size: 28px; font-weight: 700; color: #1e3a8a; }
+
+        .quiz-section {
+            background: #fef3c7;
+            border: 2px solid #fcd34d;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .quiz-question { font-weight: 600; color: #92400e; margin-bottom: 15px; }
+        .quiz-row {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+        }
+        .quiz-input {
+            width: 100px;
+            padding: 12px;
+            font-size: 20px;
+            text-align: center;
+            border: 3px solid #f59e0b;
+            border-radius: 10px;
+            font-family: inherit;
+        }
+        .btn { 
+            padding: 12px 25px; 
+            border: none; 
+            border-radius: 10px; 
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-check { background: #22c55e; color: #fff; }
+        .btn-reveal { background: #3b82f6; color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .message.correct { background: #dcfce7; color: #16a34a; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #eff6ff; color: #1e3a8a; }
+
+        .new-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #1e3a8a;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🌧️ Rain Trap</h1>
+        <div style="opacity:0.9">How much rainwater can be trapped?</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="goal-box">
+            <strong>🎯 Goal:</strong> Calculate the total units of water trapped between the bars.
+            <div class="formula">
+                Water at i = min(maxLeft, maxRight) - height[i]
+            </div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="bar-chart" id="barChart"></div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-label">Number of Bars</div>
+                <div class="stat-value" id="barCount">0</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Max Height</div>
+                <div class="stat-value" id="maxHeight">0</div>
+            </div>
+        </div>
+
+        <div class="quiz-section">
+            <div class="quiz-question">How many units of water are trapped?</div>
+            <div class="quiz-row">
+                <input type="number" class="quiz-input" id="answerInput" placeholder="?">
+                <button class="btn btn-check" onclick="checkAnswer()">✓ Check</button>
+                <button class="btn btn-reveal" onclick="revealWater()">👁 Reveal</button>
+            </div>
+        </div>
+
+        <div class="message neutral" id="message">Count the water that would be trapped between bars!</div>
+
+        <button class="new-btn" onclick="newGame()">🔄 New Bars</button>
+    </div>
+</div>
+
+<script>
+    let heights = [];
+    let waterLevels = [];
+    let totalWater = 0;
+    let revealed = false;
+
+    function generateHeights() {
+        const n = 10 + Math.floor(Math.random() * 4); // 10-13 bars
+        heights = [];
+
+        for (let i = 0; i < n; i++) {
+            heights.push(Math.floor(Math.random() * 8) + 1);
+        }
+
+        calculateWater();
+        revealed = false;
+    }
+
+    function calculateWater() {
+        const n = heights.length;
+        const maxLeft = new Array(n).fill(0);
+        const maxRight = new Array(n).fill(0);
+
+        maxLeft[0] = heights[0];
+        for (let i = 1; i < n; i++) {
+            maxLeft[i] = Math.max(maxLeft[i-1], heights[i]);
+        }
+
+        maxRight[n-1] = heights[n-1];
+        for (let i = n-2; i >= 0; i--) {
+            maxRight[i] = Math.max(maxRight[i+1], heights[i]);
+        }
+
+        waterLevels = [];
+        totalWater = 0;
+
+        for (let i = 0; i < n; i++) {
+            const water = Math.min(maxLeft[i], maxRight[i]) - heights[i];
+            waterLevels.push(Math.max(0, water));
+            totalWater += Math.max(0, water);
+        }
+    }
+
+    function render() {
+        const chart = document.getElementById('barChart');
+        chart.innerHTML = '';
+
+        const maxH = Math.max(...heights);
+        const scale = 160 / maxH;
+
+        heights.forEach((h, i) => {
+            const col = document.createElement('div');
+            col.className = 'bar-col';
+
+            if (revealed && waterLevels[i] > 0) {
+                const water = document.createElement('div');
+                water.className = 'water';
+                water.style.height = (waterLevels[i] * scale) + 'px';
+                col.appendChild(water);
+            }
+
+            const bar = document.createElement('div');
+            bar.className = 'bar';
+            bar.style.height = (h * scale) + 'px';
+            col.appendChild(bar);
+
+            const label = document.createElement('div');
+            label.className = 'bar-label';
+            label.textContent = h;
+            col.appendChild(label);
+
+            chart.appendChild(col);
+        });
+
+        document.getElementById('barCount').textContent = heights.length;
+        document.getElementById('maxHeight').textContent = maxH;
+    }
+
+    function checkAnswer() {
+        const userAnswer = parseInt(document.getElementById('answerInput').value);
+        const msg = document.getElementById('message');
+
+        if (isNaN(userAnswer)) {
+            msg.className = 'message wrong';
+            msg.textContent = 'Enter a number!';
+            return;
+        }
+
+        if (userAnswer === totalWater) {
+            msg.className = 'message correct';
+            msg.textContent = `✅ Correct! Total water = ${totalWater} units`;
+            revealWater();
+        } else {
+            msg.className = 'message wrong';
+            msg.textContent = `❌ Wrong! Total water = ${totalWater} (not ${userAnswer})`;
+        }
+    }
+
+    function revealWater() {
+        revealed = true;
+        render();
+        document.getElementById('message').textContent = `Water trapped: ${totalWater} units (shown in blue)`;
+    }
+
+    function newGame() {
+        generateHeights();
+        render();
+        document.getElementById('answerInput').value = '';
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Count the water that would be trapped between bars!';
+    }
+
+    window.onload = newGame;
+</script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEG-014: Library Sorter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville&family=Montserrat&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #f5f5dc; --wood: #8d6e63; --book: #5d4037; --text: #3e2723; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        header { width: 100%; padding: 20px; text-align: center; border-bottom: 3px solid var(--wood); background: #d7ccc8; }
+        h1 { margin: 0; font-family: 'Libre Baskerville', serif; font-size: 2rem; }
+
+        main { flex: 1; display: flex; flex-direction: column; width: 100%; max-width: 900px; padding: 30px; gap: 30px; align-items: center; }
+
+        .shelf {
+            width: 100%; height: 220px; background: var(--wood); border: 10px solid #5d4037;
+            display: flex; align-items: flex-end; padding: 0 20px; gap: 5px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3); border-radius: 5px;
+        }
+
+        .book {
+            flex: 1; border-radius: 3px 3px 0 0; background: linear-gradient(90deg, #a1887f 0%, #8d6e63 100%);
+            border: 1px solid #5d4037; display: flex; align-items: center; justify-content: center;
+            color: #fff; font-weight: bold; position: relative; transition: all 0.3s;
+            cursor: pointer; writing-mode: vertical-rl; text-orientation: mixed; box-shadow: inset 2px 0 5px rgba(0,0,0,0.2);
+        }
+        .book:hover { transform: translateY(-10px); background: #d7ccc8; color: #3e2723; }
+        .book.found { background: #ffca28; color: #3e2723; box-shadow: 0 0 15px #ffca28; transform: translateY(-20px); z-index: 10; }
+        .book-idx { position: absolute; bottom: -25px; width: 100%; text-align: center; font-size: 0.8rem; color: #3e2723; writing-mode: horizontal-tb; }
+
+        .controls { display: flex; gap: 20px; padding: 20px; background: #efebe9; border-radius: 10px; border: 1px solid #d7ccc8; align-items: center; }
+        .btn { padding: 10px 20px; background: var(--book); color: #fff; border: none; font-family: 'Libre Baskerville'; cursor: pointer; border-radius: 3px; }
+        .btn:hover { background: #3e2723; }
+        input { padding: 8px; border: 1px solid var(--wood); width: 60px; text-align: center; }
+
+        #res { font-size: 1.2rem; font-weight: bold; min-height: 30px; font-family: 'Libre Baskerville'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>SEG-014 LIBRARY SORTER</h1>
+    <div style="font-size:0.9rem;">PREFIX K-TH SMALLEST QUERY</div>
+</header>
+<main>
+    <div id="res">Find the K-th smallest book in the prefix [0...R].</div>
+
+    <div class="shelf" id="shelf"></div>
+
+    <div class="controls">
+        <label>Prefix Range [0, R]:</label>
+        <input type="number" id="R" placeholder="R" min="0" max="11">
+        <label>Find K-th Smallest:</label>
+        <input type="number" id="K" placeholder="K" min="1" max="12">
+        <button class="btn" onclick="game.findKth()">SEARCH</button>
+    </div>
+</main>
+<script>
+class Game {
+    constructor() {
+        this.n = 12;
+        this.books = [15, 42, 8, 23, 16, 4, 90, 33, 50, 12, 7, 28];
+        this.colors = ['#ef5350', '#ab47bc', '#7e57c2', '#5c6bc0', '#42a5f5', '#26c6da', '#26a69a', '#66bb6a', '#9ccc65', '#d4e157', '#ffca28', '#ffa726'];
+        this.ui = { shelf: document.getElementById('shelf'), res: document.getElementById('res') };
+        this.render();
+    }
+
+    render() {
+        this.ui.shelf.innerHTML = '';
+        this.books.forEach((sz, i) => {
+            let b = document.createElement('div');
+            b.className = 'book';
+            b.id = 'b-'+i;
+            b.style.height = (40 + sz*2) + 'px';
+            b.style.backgroundColor = this.colors[i % this.colors.length];
+            b.innerHTML = sz + `<div class="book-idx">${i}</div>`;
+            this.ui.shelf.appendChild(b);
+        });
+    }
+
+    findKth() {
+        // Reset
+        document.querySelectorAll('.book').forEach(b => {
+             b.classList.remove('found');
+             b.style.opacity = 0.5;
+        });
+
+        let r = parseInt(document.getElementById('R').value);
+        let k = parseInt(document.getElementById('K').value);
+
+        if(isNaN(r) || isNaN(k) || r<0 || r>=this.n || k<1 || k>(r+1)) {
+            this.ui.res.innerText = "Invalid Query";
+            document.querySelectorAll('.book').forEach(b => b.style.opacity = 1);
+            return;
+        }
+
+        // Highlight Prefix Range
+        for(let i=0; i<=r; i++) {
+             document.getElementById('b-'+i).style.opacity = 1;
+        }
+
+        // Logic
+        let sub = [];
+        for(let i=0; i<=r; i++) sub.push({val: this.books[i], idx: i});
+        sub.sort((a,b) => a.val - b.val);
+        
+        let target = sub[k-1];
+        
+        // Highlight found
+        let tEl = document.getElementById('b-'+target.idx);
+        tEl.classList.add('found');
+        
+        this.ui.res.innerHTML = `Found ${k}${this.suf(k)} smallest: Size ${target.val} (at index ${target.idx})`;
+    }
+    
+    suf(i) {
+        let j=i%10, k=i%100;
+        if(j==1 && k!=11)return "st";
+        if(j==2 && k!=12)return "nd";
+        if(j==3 && k!=13)return "rd";
+        return "th";
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

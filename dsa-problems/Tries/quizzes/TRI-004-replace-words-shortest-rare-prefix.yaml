@@ -1,0 +1,52 @@
+problem_id: TRI_REPLACE_WORDS_SHORTEST_RARE_PREFIX_004
+display_id: TRI-004
+slug: replace-words-shortest-rare-prefix
+questions:
+  - question: "We want to replace words with a root from the dictionary. The selection criteria is:"
+    difficulty: easy
+    points: 10
+    options:
+      - Lowest rarity score, then shortest length
+      - Highest rarity score
+      - Longest matching root
+      - First match found
+    correct_answer: 0
+    explanation: Tie-breaking prefers the shortest root if rarities are equal.
+    type: single_choice
+    id: prq_1
+  - question: In the Trie, what information should be stored at each node to facilitate efficient replacement?
+    difficulty: medium
+    points: 15
+    options:
+      - The 'best' root found so far in the path to this node
+      - All possible roots
+      - Just the character
+      - The word count
+    correct_answer: 0
+    explanation: Storing the best (min rarity) root allows us to update our candidate as we traverse.
+    type: single_choice
+    id: edq_1
+  - question: If the traversal of a word in the sentence falls off the Trie (no child), what do we do?
+    difficulty: easy
+    points: 10
+    options:
+      - Use the best root found so far, or the original word if none found
+      - Delete the word
+      - Replace with empty string
+      - Throw an error
+    correct_answer: 0
+    explanation: We stop searching and commit to the best match we saw. If we saw nothing, we keep the original.
+    type: single_choice
+    id: edq_2
+  - question: "Compared to checking every dictionary word for every sentence word (Naive O(N*M*L)), the Trie approach is:"
+    difficulty: easy
+    points: 10
+    options:
+      - Linear O(N*L + M*K)
+      - Quadratic
+      - Exponential
+      - Logarithmic
+    correct_answer: 0
+    explanation: We process each character of the sentence and dictionary exactly once (roughly).
+    type: single_choice
+    id: edq_3

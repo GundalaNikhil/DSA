@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEG-005: Ranked Arena</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lato&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #212121; --gold: #ffd700; --arena: #3e2723; --text: #f5f5f5; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Lato', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        header { width: 100%; background: #000; padding: 1rem; border-bottom: 2px solid var(--gold); text-align: center; }
+        h1 { margin: 0; font-family: 'Cinzel', serif; color: var(--gold); letter-spacing: 2px; }
+        
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 30px; padding: 30px; width: 100%; max-width: 1000px; }
+        
+        .arena-container {
+            display: flex; gap: 10px; padding: 20px; background: var(--arena); 
+            border: 4px solid #5d4037; border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        
+        .warrior {
+            width: 80px; height: 120px; background: #5d4037;
+            border: 2px solid #8d6e63; border-radius: 5px;
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+            position: relative; transition: all 0.3s; cursor: pointer;
+        }
+        .warrior:hover { transform: translateY(-5px); border-color: var(--gold); }
+        .warrior.selected { background: #4e342e; box-shadow: 0 0 15px var(--gold); border-color: var(--gold); }
+        .warrior.target { background: #ffd700; color: #000; box-shadow: 0 0 20px #fff; transform: scale(1.1); z-index: 10; }
+        
+        .power-bar { width: 10px; background: #ff5252; border-radius: 5px; margin-bottom: 5px; transition: height 0.5s; }
+        .avatar { font-size: 2rem; margin-bottom: 5px; }
+        .val { font-weight: bold; font-family: 'Cinzel'; margin-bottom: 5px; }
+        .idx { position: absolute; top: -25px; color: #888; font-size: 0.8rem; }
+
+        .controls {
+            display: flex; gap: 20px; padding: 20px; background: #333; border-radius: 10px; border: 1px solid #555;
+        }
+        .inp { padding: 10px; width: 60px; background: #222; border: 1px solid #555; color: #fff; text-align: center; border-radius: 5px; font-family: 'Cinzel'; }
+        .btn { padding: 10px 25px; background: var(--gold); color: #000; border: none; font-family: 'Cinzel'; font-weight: bold; cursor: pointer; border-radius: 5px; transition: all 0.2s; }
+        .btn:hover { background: #fff; transform: scale(1.05); }
+
+        #result { font-size: 1.5rem; color: var(--gold); min-height: 40px; font-family: 'Cinzel'; text-align: center; }
+        .sorted-view { display: flex; gap: 5px; opacity: 0; transition: opacity 0.5s; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 5px; }
+        .mini-card { padding: 5px 10px; background: #444; border-radius: 3px; font-size: 0.8rem; }
+        .mini-card.highlight { background: var(--gold); color: #000; font-weight: bold; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>SEG-005 RANKED ARENA</h1>
+    <div style="color:#888; font-size:0.9rem;">RANGE K-TH SMALLEST QUERY</div>
+</header>
+<main>
+    <div id="result">Find the K-th weakest warrior in range!</div>
+
+    <div class="arena-container" id="arena">
+        <!-- Warriors JS -->
+    </div>
+
+    <div class="controls">
+        <div style="display:flex; align-items:center; gap:10px;">
+            <span>Range [L, R]:</span>
+            <input type="number" id="L" class="inp" placeholder="L" min="0" max="7">
+            <input type="number" id="R" class="inp" placeholder="R" min="0" max="7">
+        </div>
+        <div style="width:1px; background:#555; height:30px;"></div>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <span>Rank K:</span>
+            <input type="number" id="K" class="inp" placeholder="K" min="1" max="8">
+            <button class="btn" onclick="game.findKth()">FIND K-TH</button>
+        </div>
+    </div>
+    
+    <div class="sorted-view" id="sortedView"></div>
+</main>
+<script>
+class Game {
+    constructor() {
+        this.n = 8;
+        this.powers = [45, 12, 89, 34, 23, 67, 90, 15];
+        this.avatars = ['⚔️','🛡️','🏹','🪓','🧙','🗡️','🦾','🧛'];
+        this.ui = {
+            arena: document.getElementById('arena'),
+            result: document.getElementById('result'),
+            sorted: document.getElementById('sortedView')
+        };
+        this.render();
+    }
+
+    render() {
+        this.ui.arena.innerHTML = '';
+        this.powers.forEach((p, i) => {
+            let w = document.createElement('div');
+            w.className = 'warrior';
+            w.id = 'w-'+i;
+            
+            let idx = document.createElement('div');
+            idx.className = 'idx';
+            idx.innerText = i;
+            
+            let bar = document.createElement('div');
+            bar.className = 'power-bar';
+            bar.style.height = (p/2) + 'px';
+            
+            let av = document.createElement('div');
+            av.className = 'avatar';
+            av.innerText = this.avatars[i];
+            
+            let val = document.createElement('div');
+            val.className = 'val';
+            val.innerText = p;
+
+            w.appendChild(idx);
+            w.appendChild(bar);
+            w.appendChild(av);
+            w.appendChild(val);
+            this.ui.arena.appendChild(w);
+        });
+    }
+
+    findKth() {
+        // Clear visuals
+        document.querySelectorAll('.warrior').forEach(el => el.className = 'warrior');
+        this.ui.sorted.style.opacity = 0;
+
+        let l = parseInt(document.getElementById('L').value);
+        let r = parseInt(document.getElementById('R').value);
+        let k = parseInt(document.getElementById('K').value);
+
+        if(isNaN(l) || isNaN(r) || isNaN(k) || l>r || l<0 || r>=this.n || k < 1 || k > (r-l+1)) {
+            this.ui.result.innerText = "Invalid Query!";
+            this.ui.result.style.color = "red";
+            return;
+        }
+
+        // Highlight Range
+        for(let i=l; i<=r; i++) {
+            document.getElementById('w-'+i).classList.add('selected');
+        }
+
+        // Simulating Merge Sort Tree query logic for visualization
+        let sub = [];
+        for(let i=l; i<=r; i++) sub.push({val: this.powers[i], idx: i});
+        sub.sort((a,b) => a.val - b.val);
+        
+        // Result
+        let target = sub[k-1];
+        
+        this.ui.result.style.color = "var(--gold)";
+        this.ui.result.innerText = `Searching...`;
+
+        setTimeout(() => {
+            // Show sorted list
+            this.ui.sorted.innerHTML = 'Sorted Range: ';
+            sub.forEach((item, idx) => {
+                let sp = document.createElement('span');
+                sp.className = 'mini-card';
+                if(idx === k-1) sp.classList.add('highlight');
+                sp.innerText = item.val;
+                this.ui.sorted.appendChild(sp);
+            });
+            this.ui.sorted.style.opacity = 1;
+            
+            // Highlight target
+            let tEl = document.getElementById('w-'+target.idx);
+            tEl.classList.remove('selected');
+            tEl.classList.add('target');
+            
+            this.ui.result.innerText = `The ${k}${this.suffix(k)} weakest is Power ${target.val}`;
+        }, 600);
+    }
+    
+    suffix(i) {
+        let j = i % 10, k = i % 100;
+        if (j == 1 && k != 11) return "st";
+        if (j == 2 && k != 12) return "nd";
+        if (j == 3 && k != 13) return "rd";
+        return "th";
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

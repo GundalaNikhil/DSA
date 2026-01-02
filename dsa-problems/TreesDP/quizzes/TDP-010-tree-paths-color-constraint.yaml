@@ -1,0 +1,52 @@
+problem_id: TDP_TREE_PATHS_COLOR_CONSTRAINT_010
+display_id: TDP-010
+slug: tree-paths-color-constraint
+questions:
+  - question: "To count paths that contain AT LEAST one node of color C, it is often simpler to Count:"
+    difficulty: easy
+    points: 10
+    options:
+      - Total paths - Paths containing NO node of color C
+      - Paths with exactly one node of color C
+      - Paths with all nodes of color C
+      - Paths starting with color C
+    correct_answer: 0
+    explanation: Principle of inclusion-exclusion / Complementary counting.
+    type: single_choice
+    id: prq_1
+  - question: "If we remove all nodes of color C from the tree, the remaining structure is:"
+    difficulty: medium
+    points: 15
+    options:
+      - A forest of disjoint trees (components)
+      - A single smaller tree
+      - A cyclic graph
+      - Empty
+    correct_answer: 0
+    explanation: Removing nodes breaks the connectivity.
+    type: single_choice
+    id: edq_1
+  - question: In a component of size S (where no node has color C), how many valid paths exist (including length 0)?
+    difficulty: easy
+    points: 10
+    options:
+      - S * (S + 1) / 2
+      - S
+      - S^2
+      - 2^S
+    correct_answer: 0
+    explanation: Number of pairs (i, j) with i <= j is S(S+1)/2.
+    type: single_choice
+    id: edq_2
+  - question: With N nodes and K colors, if we want to solve this for ALL colors efficiently, what is the bottleneck?
+    difficulty: easy
+    points: 10
+    options:
+      - Iterating over N nodes for each of K colors (O(NK) total)
+      - Sorting colors
+      - Reading input
+      - Tree construction
+    correct_answer: 0
+    explanation: If K is large, O(NK) is slow. Optimizations exist but require advanced techniques.
+    type: single_choice
+    id: edq_3

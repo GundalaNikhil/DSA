@@ -72,6 +72,15 @@ P: 0 0 1 2 3 4 6 7 8 9 11
 Query `[2, 5]`: `P[5] - P[1] = 4 - 0 = 4`.
 (`f(2)+f(3)+f(4)+f(5) = 1+1+1+1 = 4`).
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Run sieve to count distinct primes]
+    B --> C[Build prefix sums]
+    C --> D[Answer range query]
+    D --> E[Output sum]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Constraints:** `N <= 10^6`, `Q <= 10^5`.

@@ -105,6 +105,14 @@ Since `N` is the period, this implies the rotation at `i` is smaller than or equ
 3. Iterate through the Suffix Array `sa`.
 4. The first `sa[i]` such that `sa[i] < |s|` is the answer.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build S as s plus s] --> B[Construct suffix array of S]
+B --> C[Scan SA for index below n]
+C --> D[Return that index]
+```
+
 ### Time Complexity
 
 - **O(N log N)**: Dominated by SA construction.

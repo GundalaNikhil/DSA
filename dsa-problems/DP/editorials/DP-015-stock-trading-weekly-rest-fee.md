@@ -37,6 +37,7 @@ Traders need a fast tool to find the best profit plan for the upcoming quarter�
 - Extends classic stock DP with a **time-aligned cooldown** (next Monday) instead of a fixed one-day pause.
 - Highlights scheduling concepts: actions unlock on specific future days.
 - Reinforces separating **“can buy”** and **“holding”** states when availability is time-dependent.
+The cooldown is a calendar gate, you sell now but you buy later.
 
 ![Real-World Application](../images/DP-015/real-world-scenario.png)
 
@@ -65,6 +66,19 @@ Corner cases:
 
 - If you never buy, profit stays 0.
 - Buying and selling the same day is disallowed; we use `hold_prev` before today’s buy transition to compute sells.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with prices and fee] --> B[Init buyable 0 hold NEG unlock array]
+    B --> C[For each day i]
+    C --> D[Merge unlock at i into buyable]
+    D --> E[Update hold from buyable and price]
+    E --> F[If previous hold exists compute sell profit]
+    F --> G[Schedule unlock on next Monday]
+    G --> C
+    C --> H[Track best profit and return answer]
+```
 
 ## Naive Approach
 

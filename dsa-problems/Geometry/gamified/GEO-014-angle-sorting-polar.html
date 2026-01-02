@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEO-014: Polar Angle Sorting</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 32px; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #1e40af; margin-bottom: 12px; }
+        .tutorial p { font-size: 14px; color: #555; line-height: 1.6; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .score-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 18px;
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            border-radius: 10px;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .canvas-container {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .order-area {
+            padding: 15px;
+            background: #eff6ff;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .order-label { font-weight: 600; color: #1e40af; margin-bottom: 10px; }
+        .order-slots {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .slot {
+            width: 45px;
+            height: 45px;
+            border: 2px dashed #93c5fd;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e40af;
+        }
+        .slot.filled { background: #3b82f6; color: #fff; border-style: solid; }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-check { background: #1e40af; color: #fff; }
+        .btn-clear { background: #64748b; color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .message.correct { background: #d1fae5; color: #059669; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #eff6ff; color: #1e40af; }
+
+        .new-game {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #1e40af;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🎯 Polar Angle Sort</h1>
+        <div style="opacity:0.9">Sort points by their angle from the center!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <p>Points are labeled A, B, C, D... Click on them in order of increasing polar angle (starting from the positive X-axis, going counter-clockwise).</p>
+    </div>
+
+    <div class="game-card">
+        <div class="score-bar">
+            <span>Score: <strong id="score">0</strong></span>
+            <span>Round: <strong id="round">1</strong></span>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvas" width="500" height="400"></canvas>
+        </div>
+
+        <div class="order-area">
+            <div class="order-label">Your order (click points in counter-clockwise order from →):</div>
+            <div class="order-slots" id="orderSlots"></div>
+        </div>
+
+        <div class="buttons">
+            <button class="btn btn-check" onclick="checkOrder()">✓ Check Order</button>
+            <button class="btn btn-clear" onclick="clearOrder()">↺ Reset</button>
+        </div>
+
+        <div class="message neutral" id="message">Click points starting from the one closest to the positive X-axis!</div>
+
+        <button class="new-game" onclick="newRound()">Next Round →</button>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    let points = [];
+    let userOrder = [];
+    let correctOrder = [];
+    let center = { x: 250, y: 200 };
+    let score = 0;
+    let round = 1;
+
+    const labels = 'ABCDEFGH';
+
+    function generatePoints() {
+        points = [];
+        userOrder = [];
+        const numPoints = 4 + Math.floor(Math.random() * 3);
+
+        for (let i = 0; i < numPoints; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const r = 80 + Math.random() * 100;
+            points.push({
+                x: center.x + r * Math.cos(angle),
+                y: center.y + r * Math.sin(angle),
+                label: labels[i],
+                angle: angle
+            });
+        }
+
+        // Sort by angle (from positive X-axis, counter-clockwise)
+        correctOrder = points.slice().sort((a, b) => {
+            let angleA = Math.atan2(a.y - center.y, a.x - center.x);
+            let angleB = Math.atan2(b.y - center.y, b.x - center.x);
+            if (angleA < 0) angleA += Math.PI * 2;
+            if (angleB < 0) angleB += Math.PI * 2;
+            return angleA - angleB;
+        }).map(p => p.label);
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Grid
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 1;
+        for (let x = 0; x <= canvas.width; x += 50) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, canvas.height);
+            ctx.stroke();
+        }
+        for (let y = 0; y <= canvas.height; y += 50) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+        }
+
+        // Draw axes from center
+        ctx.beginPath();
+        ctx.moveTo(center.x - 180, center.y);
+        ctx.lineTo(center.x + 180, center.y);
+        ctx.strokeStyle = '#94a3b8';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.moveTo(center.x, center.y - 150);
+        ctx.lineTo(center.x, center.y + 150);
+        ctx.stroke();
+
+        // Arrow on positive X
+        ctx.beginPath();
+        ctx.moveTo(center.x + 180, center.y);
+        ctx.lineTo(center.x + 170, center.y - 8);
+        ctx.moveTo(center.x + 180, center.y);
+        ctx.lineTo(center.x + 170, center.y + 8);
+        ctx.strokeStyle = '#22c55e';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        ctx.fillStyle = '#22c55e';
+        ctx.font = 'bold 14px sans-serif';
+        ctx.fillText('Start→', center.x + 140, center.y - 15);
+
+        // Draw center
+        ctx.beginPath();
+        ctx.arc(center.x, center.y, 6, 0, Math.PI * 2);
+        ctx.fillStyle = '#64748b';
+        ctx.fill();
+
+        // Draw points
+        points.forEach(p => {
+            const isSelected = userOrder.includes(p.label);
+            
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 18, 0, Math.PI * 2);
+            ctx.fillStyle = isSelected ? '#22c55e' : '#3b82f6';
+            ctx.fill();
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 14px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(p.label, p.x, p.y);
+
+            if (isSelected) {
+                const orderNum = userOrder.indexOf(p.label) + 1;
+                ctx.fillStyle = '#22c55e';
+                ctx.font = 'bold 11px sans-serif';
+                ctx.fillText(orderNum, p.x + 20, p.y - 15);
+            }
+        });
+
+        updateSlots();
+    }
+
+    function updateSlots() {
+        const container = document.getElementById('orderSlots');
+        container.innerHTML = '';
+
+        for (let i = 0; i < points.length; i++) {
+            const slot = document.createElement('div');
+            slot.className = 'slot' + (i < userOrder.length ? ' filled' : '');
+            slot.textContent = i < userOrder.length ? userOrder[i] : (i + 1);
+            container.appendChild(slot);
+        }
+    }
+
+    canvas.onclick = function(e) {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        for (const p of points) {
+            const dx = x - p.x;
+            const dy = y - p.y;
+            if (dx * dx + dy * dy < 400) {
+                if (!userOrder.includes(p.label)) {
+                    userOrder.push(p.label);
+                    draw();
+                }
+                break;
+            }
+        }
+    };
+
+    function clearOrder() {
+        userOrder = [];
+        draw();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Click points starting from the one closest to the positive X-axis!';
+    }
+
+    function checkOrder() {
+        if (userOrder.length !== points.length) {
+            document.getElementById('message').textContent = 'Click all points first!';
+            return;
+        }
+
+        const msg = document.getElementById('message');
+        const isCorrect = userOrder.every((label, i) => label === correctOrder[i]);
+
+        if (isCorrect) {
+            score++;
+            msg.className = 'message correct';
+            msg.textContent = '✅ Perfect! That\'s the correct polar angle order!';
+        } else {
+            msg.className = 'message wrong';
+            msg.textContent = `❌ Wrong! Correct order: ${correctOrder.join(' → ')}`;
+        }
+
+        document.getElementById('score').textContent = score;
+    }
+
+    function newRound() {
+        round++;
+        generatePoints();
+        draw();
+        document.getElementById('round').textContent = round;
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Click points starting from the one closest to the positive X-axis!';
+    }
+
+    window.onload = () => { generatePoints(); draw(); };
+</script>
+</body>
+</html>

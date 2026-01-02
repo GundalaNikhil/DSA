@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRI-013: Binary Gap Finder</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: #0f172a;
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header { text-align: center; margin-bottom: 25px; }
+        .header h1 { font-size: 32px; color: #38bdf8; }
+        .header p { color: #64748b; }
+
+        /* Guide */
+        .guide {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        .guide h2 { color: #38bdf8; margin-bottom: 15px; }
+        .guide-content { font-size: 14px; color: #94a3b8; line-height: 1.8; }
+        .guide-content strong { color: #38bdf8; }
+
+        .steps { display: flex; gap: 15px; margin-top: 20px; }
+        .step {
+            flex: 1;
+            background: #0f172a;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #334155;
+        }
+        .step-num { font-size: 24px; font-weight: 600; color: #38bdf8; }
+        .step-text { font-size: 12px; color: #64748b; }
+
+        /* Game */
+        .game-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .goal {
+            background: linear-gradient(90deg, #0891b2, #0284c7);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        /* Binary Input */
+        .input-section { margin-bottom: 25px; }
+        .section-title { font-size: 14px; color: #64748b; margin-bottom: 10px; }
+
+        .binary-display {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            padding: 20px;
+            background: #0f172a;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .bit {
+            width: 40px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 600;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .bit.zero { background: #334155; color: #64748b; }
+        .bit.one { background: #38bdf8; color: #0f172a; }
+        .bit:hover { transform: scale(1.1); }
+
+        .controls { display: flex; gap: 10px; }
+        .btn {
+            padding: 10px 20px;
+            background: #38bdf8;
+            border: none;
+            color: #0f172a;
+            font-family: inherit;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .btn:hover { background: #0ea5e9; }
+        .btn.secondary { background: #334155; color: #e2e8f0; }
+
+        /* Results */
+        .result-section {
+            padding: 25px;
+            background: #0f172a;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .result-label { font-size: 12px; color: #64748b; }
+        .result-value { font-size: 36px; font-weight: 600; color: #38bdf8; margin: 10px 0; }
+        .result-binary { font-size: 14px; color: #94a3b8; font-family: monospace; }
+        .absent-highlight { background: #ef4444; color: #fff; padding: 2px 6px; border-radius: 3px; }
+
+        .existing-list {
+            margin-top: 20px;
+            padding: 15px;
+            background: #334155;
+            border-radius: 8px;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🔍 Binary Gap Finder</h1>
+        <p>Find the shortest absent binary string of length L</p>
+    </div>
+
+    <div class="guide">
+        <h2>📖 How It Works</h2>
+        <div class="guide-content">
+            Given a set of binary strings, find the <strong>lexicographically smallest binary string of length L</strong> that is NOT in the set. This uses a Trie to efficiently track which strings exist.
+        </div>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-text">Toggle bits to add binary strings</div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-text">Build your set of existing strings</div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-text">See the shortest absent string!</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="goal">
+            <strong>🎯 GOAL:</strong> Find the smallest binary string of length 3 NOT in your set!
+        </div>
+
+        <div class="input-section">
+            <div class="section-title">Toggle bits to create a binary string, then add it:</div>
+            <div class="binary-display" id="binaryDisplay"></div>
+            <div class="controls">
+                <button class="btn" onclick="addString()">Add to Set</button>
+                <button class="btn secondary" onclick="resetBits()">Reset Bits</button>
+            </div>
+        </div>
+
+        <div class="existing-list" id="existingList">
+            <strong>Existing strings:</strong> (none yet)
+        </div>
+
+        <div class="result-section" style="margin-top:25px">
+            <div class="result-label">Shortest Absent Binary String (Length 3):</div>
+            <div class="result-value" id="absentString">000</div>
+            <div class="result-binary">This is the smallest string NOT in your set</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const LENGTH = 3;
+    let bits = [0, 0, 0];
+    let existingSet = new Set();
+
+    function init() {
+        renderBits();
+        updateResult();
+    }
+
+    function renderBits() {
+        const display = document.getElementById('binaryDisplay');
+        display.innerHTML = bits.map((b, i) => `
+            <div class="bit ${b === 0 ? 'zero' : 'one'}" onclick="toggleBit(${i})">${b}</div>
+        `).join('');
+    }
+
+    function toggleBit(i) {
+        bits[i] = bits[i] === 0 ? 1 : 0;
+        renderBits();
+    }
+
+    function resetBits() {
+        bits = [0, 0, 0];
+        renderBits();
+    }
+
+    function addString() {
+        const str = bits.join('');
+        existingSet.add(str);
+        updateExistingList();
+        updateResult();
+    }
+
+    function updateExistingList() {
+        const list = document.getElementById('existingList');
+        const strings = Array.from(existingSet).sort();
+        list.innerHTML = `<strong>Existing strings:</strong> ${strings.length > 0 ? strings.map(s => `"${s}"`).join(', ') : '(none yet)'}`;
+    }
+
+    function updateResult() {
+        // Find smallest absent string of length L
+        for (let i = 0; i < Math.pow(2, LENGTH); i++) {
+            const str = i.toString(2).padStart(LENGTH, '0');
+            if (!existingSet.has(str)) {
+                document.getElementById('absentString').textContent = str;
+                return;
+            }
+        }
+        document.getElementById('absentString').textContent = '(all exist!)';
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

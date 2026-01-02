@@ -1,0 +1,52 @@
+problem_id: AGR_APSP_WITH_NEGATIVES_004
+display_id: AGR-004
+slug: apsp-with-negatives
+questions:
+  - question: Which algorithm is best suited for APSP (all-pairs shortest path) with negative edge weights but no negative cycles?
+    difficulty: easy
+    points: 10
+    options:
+      - Floyd-Warshall only
+      - Johnson's Algorithm
+      - Dijkstra directly
+      - Bellman-Ford once, then cache
+    correct_answer: 1
+    explanation: Johnson's Algorithm efficiently handles negative weights by reweighting via Bellman-Ford, then running Dijkstra from each source. It's O(NM log N), better than Floyd-Warshall's O(N³) for sparse graphs.
+    type: single_choice
+    id: prq_1
+  - question: In Johnson's Algorithm, what is the purpose of the reweighting formula w'(u,v) = w(u,v) + h[u] - h[v]? (Select all that apply)
+    difficulty: easy
+    points: 10
+    options:
+      - It ensures all edge weights become non-negative
+      - It preserves relative path costs
+      - It makes Dijkstra valid without negative edges
+      - It simplifies the graph structure
+    correct_answer: 0
+    explanation: "The formula transforms negative weights into non-negative while keeping relative path costs identical. This enables Dijkstra to work. The key property: shortest path in original graph remains shortest in reweighted graph."
+    type: single_choice
+    id: edq_1
+  - question: For a graph with N=2000 and M=5000, what is the complexity of Johnson's Algorithm?
+    difficulty: medium
+    points: 15
+    options:
+      - O(N³) = 8 × 10¹⁰ (slow)
+      - O(NM log N) ≈ 10⁸ (fast)
+      - O(N²M) = huge
+      - O(M log N) only
+    correct_answer: 1
+    explanation: Johnson's is O(NM log N) = 2000 × 5000 × log(2000) ≈ 1.1 × 10⁸. Floyd-Warshall is O(N³) = 8 × 10⁹, which would TLE on this input.
+    type: single_choice
+    id: edq_2
+  - question: After running Johnson's Algorithm and getting reweighted distances, how do you recover original distances?
+    difficulty: medium
+    points: 15
+    options:
+      - Use distances directly
+      - "Subtract h[v]: dist'[s][v] - h[v]"
+      - "Add h[s] and subtract h[v]: dist'[s][v] - h[s] + h[v]"
+      - No recovery needed
+    correct_answer: 2
+    explanation: Original distance = reweighted distance - h[s] + h[v]. This is because reweighting adds h[u] at start and subtracts h[v] at each step; we undo this.
+    type: single_choice
+    id: edq_3

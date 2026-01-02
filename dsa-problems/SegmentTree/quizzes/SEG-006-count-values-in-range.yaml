@@ -1,2 +1,52 @@
-# Quiz for SEG-006: Count of Values in Range
-# YAML content to be added
+problem_id: SEG_COUNT_VALUES_IN_RANGE_006
+display_id: SEG-006
+slug: count-values-in-range
+questions:
+  - question: What does COUNT l r x y return?
+    difficulty: easy
+    points: 10
+    options:
+      - Sum of a[l..r]
+      - Number of a[i] in [l,r] with x <= a[i] <= y
+      - Minimum in [l,r]
+      - Maximum in [l,r]
+    correct_answer: 1
+    explanation: It counts values within the value range [x,y] inside index range [l,r].
+    type: single_choice
+    id: prq_1
+  - question: "For array [1,5,2], COUNT 0 2 2 5 returns:"
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "0"
+    correct_answer: 1
+    explanation: Values 5 and 2 are within [2,5], so count is 2.
+    type: single_choice
+    id: edq_1
+  - question: Why is coordinate compression needed in this problem?
+    difficulty: medium
+    points: 15
+    options:
+      - To order updates by time
+      - To map large values to a compact index range
+      - To remove duplicate queries
+      - To avoid negative indices
+    correct_answer: 1
+    explanation: The data structure indexes values, so compression keeps it small.
+    type: single_choice
+    id: edq_2
+  - question: What is the typical per-operation time complexity?
+    difficulty: medium
+    points: 15
+    options:
+      - O(1)
+      - O(log^2 n)
+      - O(n)
+      - O(n log n)
+    correct_answer: 1
+    explanation: A segment tree of BITs yields O(log^2 n).
+    type: single_choice
+    id: edq_3

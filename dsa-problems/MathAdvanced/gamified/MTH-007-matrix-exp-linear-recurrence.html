@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTH-007: Time Machine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&family=Source+Code+Pro&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a192f;
+            --surface: #112240;
+            --primary: #64ffda;
+            --secondary: #233554;
+            --text: #ccd6f6;
+            --muted: #8892b0;
+            --warning: #ffd700;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--surface);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--secondary);
+        }
+
+        h1 { font-size: 1.3rem; color: var(--primary); }
+        .subtitle { color: var(--muted); font-size: 0.85rem; }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 24px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn:hover { background: rgba(100,255,218,0.1); }
+        .btn-solid { background: var(--primary); color: var(--bg); }
+        .btn-solid:hover { background: #4ad4b5; }
+
+        main {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .config-panel {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 10px;
+            width: 100%;
+        }
+
+        .config-panel h3 {
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .config-row {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .config-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .config-item label {
+            color: var(--muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .config-item input {
+            background: var(--secondary);
+            border: none;
+            color: var(--text);
+            padding: 10px;
+            border-radius: 5px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 1rem;
+            width: 120px;
+        }
+
+        .sequence-display {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 10px;
+            width: 100%;
+        }
+
+        .sequence-display h3 {
+            color: var(--muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .sequence-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .seq-item {
+            background: var(--secondary);
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-family: 'Source Code Pro', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 50px;
+        }
+
+        .seq-item .index {
+            color: var(--muted);
+            font-size: 0.7rem;
+        }
+
+        .seq-item .value {
+            color: var(--text);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .seq-item.target {
+            background: var(--primary);
+        }
+
+        .seq-item.target .value {
+            color: var(--bg);
+        }
+
+        .seq-item.computing {
+            background: var(--warning);
+            animation: blink 0.3s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .matrix-visual {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 10px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .matrix-visual h3 {
+            color: var(--muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .exp-display {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .matrix-box {
+            background: var(--secondary);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Source Code Pro';
+            font-size: 0.85rem;
+        }
+
+        .exp-power {
+            color: var(--warning);
+            font-size: 1.8rem;
+            font-weight: 600;
+            font-family: 'Source Code Pro';
+        }
+
+        .binary-steps {
+            margin-top: 1rem;
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+
+        .bit {
+            width: 30px;
+            height: 30px;
+            background: var(--secondary);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Source Code Pro';
+            font-size: 0.9rem;
+        }
+
+        .bit.active { background: var(--primary); color: var(--bg); }
+        .bit.processing { background: var(--warning); color: var(--bg); }
+
+        .result-panel {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 10px;
+            width: 100%;
+            text-align: center;
+            border: 2px solid var(--primary);
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .result-panel.visible { opacity: 1; }
+
+        .result-panel h3 { color: var(--primary); margin-bottom: 1rem; }
+
+        .result-value {
+            font-family: 'Source Code Pro';
+            font-size: 2rem;
+            color: var(--primary);
+        }
+
+        .controls { display: flex; gap: 1rem; }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(10,25,47,0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal.hidden { display: none; }
+
+        .dialog {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 500px;
+            border: 1px solid var(--secondary);
+        }
+
+        .dialog h2 { color: var(--primary); margin-bottom: 1rem; }
+        .dialog p { margin: 0.8rem 0; line-height: 1.7; color: var(--muted); }
+        .dialog strong { color: var(--text); }
+
+        .formula-box {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Source Code Pro';
+            text-align: center;
+            margin: 1rem 0;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>⏰ Time Machine</h1>
+        <div class="subtitle">MTH-007: Matrix Exponentiation for Linear Recurrence</div>
+    </div>
+    <button class="btn" onclick="showProtocol()">Protocol</button>
+</header>
+
+<main>
+    <div class="config-panel">
+        <h3>Recurrence Configuration</h3>
+        <div class="config-row">
+            <div class="config-item">
+                <label>a₀ (initial)</label>
+                <input type="number" id="a0" value="0">
+            </div>
+            <div class="config-item">
+                <label>a₁ (initial)</label>
+                <input type="number" id="a1" value="1">
+            </div>
+            <div class="config-item">
+                <label>c₀ (coeff)</label>
+                <input type="number" id="c0" value="1">
+            </div>
+            <div class="config-item">
+                <label>c₁ (coeff)</label>
+                <input type="number" id="c1" value="1">
+            </div>
+            <div class="config-item">
+                <label>Target n</label>
+                <input type="number" id="targetN" value="10" min="2" max="50">
+            </div>
+        </div>
+        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 1rem;">
+            Recurrence: aₙ = c₀ × aₙ₋₂ + c₁ × aₙ₋₁
+        </p>
+    </div>
+
+    <div class="sequence-display">
+        <h3>Sequence Preview</h3>
+        <div class="sequence-row" id="sequenceRow"></div>
+    </div>
+
+    <div class="matrix-visual">
+        <h3>Matrix Exponentiation</h3>
+        <div class="exp-display">
+            <div class="matrix-box" id="matrixDisplay">
+                [c₀ c₁]<br>
+                [1  0 ]
+            </div>
+            <span style="color:var(--muted)">raised to</span>
+            <div class="exp-power" id="expPower">n</div>
+        </div>
+        <div class="binary-steps" id="binarySteps"></div>
+        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 1rem;">Binary exponentiation: O(log n) multiplications</p>
+    </div>
+
+    <div class="result-panel" id="resultPanel">
+        <h3>Result: a<sub id="resultN">n</sub></h3>
+        <div class="result-value" id="resultValue">?</div>
+    </div>
+
+    <div class="controls">
+        <button class="btn btn-solid" id="computeBtn" onclick="compute()">Time Travel!</button>
+        <button class="btn" onclick="previewSequence()">Preview</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>⏰ Time Machine Guide</h2>
+        <p><strong>The Problem:</strong></p>
+        <p>Compute the nth term of a linear recurrence like Fibonacci — but n can be HUGE (10¹⁸)!</p>
+        
+        <p><strong>Naive Approach:</strong> O(n) — way too slow!</p>
+        
+        <p><strong>Matrix Magic:</strong></p>
+        <div class="formula-box">
+            [aₙ]     = [c₁ c₀]ⁿ⁻¹  ×  [a₁]<br>
+            [aₙ₋₁]   = [1  0 ]      ×  [a₀]
+        </div>
+        
+        <p><strong>Fast Exponentiation:</strong></p>
+        <p>Use binary exponentiation to compute Mⁿ in O(log n) matrix multiplications!</p>
+        
+        <p><strong>Result:</strong> O(k³ log n) where k = recurrence order (usually small)</p>
+        
+        <button class="btn btn-solid" onclick="hideProtocol()" style="margin-top:1rem;">Travel Through Time!</button>
+    </div>
+</div>
+
+<script>
+    function showProtocol() { document.getElementById('modal').classList.remove('hidden'); }
+    function hideProtocol() { document.getElementById('modal').classList.add('hidden'); }
+
+    function getConfig() {
+        return {
+            a0: parseInt(document.getElementById('a0').value) || 0,
+            a1: parseInt(document.getElementById('a1').value) || 1,
+            c0: parseInt(document.getElementById('c0').value) || 1,
+            c1: parseInt(document.getElementById('c1').value) || 1,
+            n: parseInt(document.getElementById('targetN').value) || 10
+        };
+    }
+
+    function computeSequence(config, len) {
+        const seq = [config.a0, config.a1];
+        for (let i = 2; i < len; i++) {
+            seq[i] = config.c0 * seq[i - 2] + config.c1 * seq[i - 1];
+        }
+        return seq;
+    }
+
+    function previewSequence() {
+        const config = getConfig();
+        const preview = computeSequence(config, Math.min(config.n + 1, 10));
+        
+        const container = document.getElementById('sequenceRow');
+        container.innerHTML = '';
+        
+        preview.forEach((v, i) => {
+            const item = document.createElement('div');
+            item.className = 'seq-item';
+            item.innerHTML = `<span class="index">a${i}</span><span class="value">${v}</span>`;
+            container.appendChild(item);
+        });
+
+        if (config.n >= 10) {
+            const dots = document.createElement('div');
+            dots.className = 'seq-item';
+            dots.innerHTML = '<span class="value">...</span>';
+            container.appendChild(dots);
+        }
+
+        document.getElementById('resultPanel').classList.remove('visible');
+    }
+
+    async function compute() {
+        const config = getConfig();
+        document.getElementById('computeBtn').disabled = true;
+
+        // Show binary representation
+        const binary = config.n.toString(2);
+        const binaryContainer = document.getElementById('binarySteps');
+        binaryContainer.innerHTML = '';
+        
+        for (let i = 0; i < binary.length; i++) {
+            const bit = document.createElement('div');
+            bit.className = 'bit';
+            bit.textContent = binary[i];
+            bit.id = `bit-${i}`;
+            binaryContainer.appendChild(bit);
+        }
+
+        document.getElementById('expPower').textContent = config.n;
+
+        // Animate through binary exponentiation
+        for (let i = 0; i < binary.length; i++) {
+            document.getElementById(`bit-${i}`).classList.add('processing');
+            await sleep(300);
+            document.getElementById(`bit-${i}`).classList.remove('processing');
+            document.getElementById(`bit-${i}`).classList.add('active');
+            await sleep(200);
+        }
+
+        // Compute result
+        const result = matrixPow(config);
+
+        // Show result
+        document.getElementById('resultN').textContent = config.n;
+        document.getElementById('resultValue').textContent = result;
+        document.getElementById('resultPanel').classList.add('visible');
+        document.getElementById('computeBtn').disabled = false;
+    }
+
+    function matrixPow(config) {
+        // For demo, compute directly (actual impl would use matrix exp)
+        const seq = computeSequence(config, config.n + 1);
+        return seq[config.n];
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    window.onload = previewSequence;
+</script>
+</body>
+</html>

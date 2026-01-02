@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEG-006: Inventory Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #263238; --shelf: #546e7a; --highlight: #80cbc4; --text: #eceff1; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        header { width: 100%; background: #37474f; padding: 1rem; border-bottom: 2px solid var(--highlight); text-align: center; }
+        h1 { margin: 0; font-family: 'Share Tech Mono', monospace; color: var(--highlight); }
+        
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 30px; padding: 30px; }
+        
+        .warehouse {
+            display: grid; grid-template-columns: repeat(8, 1fr); gap: 10px;
+            padding: 20px; background: #37474f; border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            max-width: 900px;
+        }
+        
+        .slot {
+            width: 80px; height: 80px; background: #455a64;
+            border: 2px solid #546e7a; border-radius: 5px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2.5rem; cursor: pointer; transition: all 0.2s; position: relative;
+        }
+        .slot:hover { background: #607d8b; }
+        .slot.range { border-color: var(--highlight); background: #546e7a; }
+        .slot.match { background: #00897b; box-shadow: 0 0 10px #00897b; transform: scale(1.1); z-index: 5; }
+        
+        .slot-idx { position: absolute; top: 2px; left: 5px; font-size: 0.7rem; color: #cfd8dc; font-family: 'Share Tech Mono'; }
+
+        .controls {
+            display: flex; gap: 20px; padding: 20px; background: #37474f; border-radius: 10px;
+        }
+        .btn { padding: 10px 20px; font-family: 'Share Tech Mono'; font-size: 1rem; cursor: pointer; border: none; border-radius: 5px; background: var(--highlight); color: #004d40; font-weight: bold; }
+        .btn:hover { background: #b2dfdb; }
+        .inp { padding: 10px; width: 60px; text-align: center; font-family: 'Share Tech Mono'; background: #263238; color: #fff; border: 1px solid #78909c; border-radius: 5px; }
+
+        .selector { display: flex; gap: 5px; }
+        .item-opt { padding: 5px 10px; background: #455a64; cursor: pointer; border-radius: 5px; border: 1px solid transparent; }
+        .item-opt:hover { background: #546e7a; }
+        .item-opt.sel { border-color: var(--highlight); background: #263238; }
+
+        #result { font-size: 1.5rem; min-height: 40px; font-family: 'Share Tech Mono'; color: var(--highlight); }
+    </style>
+</head>
+<body>
+<header>
+    <h1>SEG-006 INVENTORY MANAGER</h1>
+    <div style="font-size:0.9rem;">COUNT VALUES IN RANGE QUERY</div>
+</header>
+<main>
+    <div id="result">Select range and item type to count.</div>
+
+    <div class="warehouse" id="wh"></div>
+
+    <div class="controls">
+        <div style="display:flex; flex-direction:column; gap:5px;">
+            <label>Item Type:</label>
+            <div class="selector" id="itemSel">
+                <div class="item-opt sel" onclick="game.selType('🍎')">🍎</div>
+                <div class="item-opt" onclick="game.selType('📦')">📦</div>
+                <div class="item-opt" onclick="game.selType('💎')">💎</div>
+                <div class="item-opt" onclick="game.selType('🧪')">🧪</div>
+            </div>
+        </div>
+        <div style="width:1px; background:#78909c;"></div>
+        <div style="display:flex; flex-direction:column; gap:5px;">
+            <label>Range Query:</label>
+            <div style="display:flex; gap:10px;">
+                <input type="number" id="L" class="inp" placeholder="L" min="0" max="7">
+                <input type="number" id="R" class="inp" placeholder="R" min="0" max="7">
+                <button class="btn" onclick="game.count()">COUNT</button>
+            </div>
+        </div>
+        <div style="width:1px; background:#78909c;"></div>
+        <button class="btn" style="background:#ef5350; color:#fff;" onclick="game.randomize()">RESTOCK</button>
+    </div>
+</main>
+<script>
+class Game {
+    constructor() {
+        this.n = 8;
+        this.items = ['🍎','📦','💎','🧪'];
+        this.grid = [];
+        this.selectedType = '🍎';
+        
+        this.ui = { wh: document.getElementById('wh'), res: document.getElementById('result') };
+        
+        this.randomize();
+    }
+
+    randomize() {
+        this.grid = [];
+        this.ui.wh.innerHTML = '';
+        for(let i=0; i<this.n; i++) {
+            let ch = this.items[Math.floor(Math.random()*this.items.length)];
+            this.grid.push(ch);
+            
+            let d = document.createElement('div');
+            d.className = 'slot';
+            d.id = 'slot-'+i;
+            d.innerHTML = `<span class="slot-idx">${i}</span>${ch}`;
+            d.onclick = () => {
+                // Point Update Simulation
+                this.grid[i] = this.selectedType;
+                d.innerHTML = `<span class="slot-idx">${i}</span>${this.selectedType}`;
+                d.style.animation = 'none';
+                d.offsetWidth; // trigger reflow
+                d.style.animation = 'pulse 0.3s';
+            };
+            this.ui.wh.appendChild(d);
+        }
+    }
+
+    selType(t) {
+        this.selectedType = t;
+        document.querySelectorAll('.item-opt').forEach(el => {
+            el.classList.toggle('sel', el.innerText === t);
+        });
+    }
+
+    count() {
+        // Reset classes
+        document.querySelectorAll('.slot').forEach(el => el.classList.remove('range', 'match'));
+        
+        let l = parseInt(document.getElementById('L').value);
+        let r = parseInt(document.getElementById('R').value);
+        
+        if (isNaN(l) || isNaN(r) || l > r || l < 0 || r >= this.n) {
+            this.ui.res.innerText = "Invalid Range";
+            return;
+        }
+
+        let cnt = 0;
+        for(let i=l; i<=r; i++) {
+            let el = document.getElementById('slot-'+i);
+            el.classList.add('range');
+            if (this.grid[i] === this.selectedType) {
+                el.classList.add('match');
+                cnt++;
+            }
+        }
+        
+        this.ui.res.innerText = `Found ${cnt} ${this.selectedType} in range [${l}, ${r}]`;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

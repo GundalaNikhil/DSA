@@ -43,8 +43,21 @@ Calculating this volume is crucial for:
 
 ## Detailed Explanation
 
-### ASCII Diagram: Gaussian Elimination
+### Flow Diagram: Gaussian Elimination
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with matrix] --> B[Find pivot in current column]
+    B --> C{Pivot is zero}
+    C -- Yes --> D[Return determinant zero]
+    C -- No --> E[Swap rows if needed]
+    E --> F[Eliminate below pivot]
+    F --> G[Move to next column]
+    G --> B
+    B --> H[Upper triangular formed]
+    H --> I[Multiply diagonal for determinant]
+```
 We want to transform the matrix into **Upper Triangular Form** (all zeros below diagonal).
 The determinant of a triangular matrix is just the product of its diagonal elements.
 

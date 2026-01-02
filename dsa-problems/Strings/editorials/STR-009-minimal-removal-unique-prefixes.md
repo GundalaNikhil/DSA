@@ -85,6 +85,16 @@ Database indexing requires unique prefix keys for efficient lookups. When identi
 4. Return total cost
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build trie of prefixes] --> B[Find conflicts at depth L]
+B --> C[Choose one string to keep]
+C --> D[Trim others below L]
+D --> E[Accumulate deletions]
+E --> F[Output total]
+```
+
 **Greedy Choice**: Keep longest string in each conflict group minimizes deletions
 
 ---

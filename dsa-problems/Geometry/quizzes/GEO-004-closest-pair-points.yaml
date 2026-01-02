@@ -1,0 +1,52 @@
+problem_id: GEO_CLOSEST_PAIR_POINTS_004
+display_id: GEO-004
+slug: closest-pair-points
+questions:
+  - question: What value should be returned by this problem?
+    difficulty: easy
+    points: 10
+    options:
+      - The minimum Euclidean distance
+      - The minimum squared Euclidean distance
+      - The maximum distance
+      - The count of closest pairs
+    correct_answer: 1
+    explanation: The output is the minimum squared distance to avoid floating point.
+    type: single_choice
+    id: prq_1
+  - question: For points (0,0), (3,4), and (1,1), what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - "2"
+      - "5"
+      - "10"
+      - "25"
+    correct_answer: 0
+    explanation: "Closest pair is (0,0) and (1,1): distance^2 = 1 + 1 = 2."
+    type: single_choice
+    id: edq_1
+  - question: In the divide-and-conquer strip step, how many next points need checking per point (by y order)?
+    difficulty: medium
+    points: 15
+    options:
+      - At most 2
+      - At most 4
+      - At most 7
+      - All remaining points
+    correct_answer: 2
+    explanation: A packing argument shows you only need to compare up to 7 following points.
+    type: single_choice
+    id: edq_2
+  - question: If two points are identical, what is the minimum squared distance?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - "1"
+      - "2"
+      - It is undefined
+    correct_answer: 0
+    explanation: Duplicate points have distance 0, which is the minimum possible.
+    type: single_choice
+    id: edq_3

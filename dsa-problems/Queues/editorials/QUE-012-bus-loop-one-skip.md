@@ -63,6 +63,16 @@ Try Start 0:
   - Skip 2 (gain 1): Net becomes `-2`. Tank path: `1 -> 3 -> 1`. Success.
 - Start 0 is valid when skipping Stop 2.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Find stop with smallest gain] --> B[Skip that gain]
+B --> C[Run gas station greedy scan]
+C --> D{Total balance nonnegative}
+D -->|Yes| E[Return start index]
+D -->|No| F[Return minus one]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** `gain` array, `cost` array.
@@ -485,4 +495,3 @@ By removing the smallest gain, we create the "worst-case" scenario for total fue
 2. **Not checking Total**
    - ❌ Wrong: Returning `start` even if `totalTank < 0`.
    - ✅ Correct: Must check total feasibility.
-

@@ -68,6 +68,19 @@ Compare every pair: `O(n^2)`. Works for small `n` but too slow for `n = 2e5`.
 5. Update `d` with any smaller squared distance found in the strip.
 
 Return `d`.
+The strip is a neat filter, it keeps the comparisons from getting crowded.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with points] --> B[Sort by x and by y]
+    B --> C[Divide into left and right halves]
+    C --> D[Recurse on both halves]
+    D --> E[Set d to min of left and right]
+    E --> F[Build strip near mid x]
+    F --> G[Check nearby points in strip by y]
+    G --> H[Update d and return]
+```
 
 ### Why 7 Comparisons?
 

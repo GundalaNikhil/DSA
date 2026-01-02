@@ -76,6 +76,25 @@ We need to track the **minimum** and **maximum** values seen so far for both **E
         -   Update `minOdd` and `maxOdd` for children.
 3.  **Recurse:** Continue to children.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Set globalMax to 0]
+    B --> C[Call dfs on root with parity bounds]
+    C --> D{Node is null}
+    D -->|Yes| K[Return]
+    D -->|No| E{Depth is even}
+    E -->|Yes| F[Compare with odd bounds if present and update globalMax]
+    E -->|No| G[Compare with even bounds and update globalMax]
+    F --> H[Update even bounds]
+    G --> I[Update odd bounds]
+    H --> J[Recurse left and right]
+    I --> J
+    J --> K
+    K --> L[Output globalMax]
+    L --> M[End]
+```
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 -   **Initialization:** Use infinity/null to indicate "no ancestor found yet" for a specific parity.

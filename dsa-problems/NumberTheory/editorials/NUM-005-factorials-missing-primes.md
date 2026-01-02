@@ -63,6 +63,15 @@ Notice the pattern: The product of terms in any full block of length `p` (exclud
 By Wilson's Theorem, `(p-1)! equiv -1 +/-od p`.
 So each full block contributes `-1 +/-od p`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute full blocks and remainder]
+    B --> C[Apply block contribution]
+    C --> D[Multiply by remainder factorial]
+    D --> E[Output result]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Constraints:** `n <= 10^12`, `p <= 10^6`.

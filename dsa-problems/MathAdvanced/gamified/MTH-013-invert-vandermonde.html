@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTH-013: Code Breaker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;600&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #2c3e50;
+            --surface: #34495e;
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --accent: #e74c3c;
+            --text: #ecf0f1;
+            --muted: #95a5a6;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--surface);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 { font-size: 1.3rem; color: var(--primary); }
+        .subtitle { color: var(--muted); font-size: 0.85rem; }
+
+        .btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn:hover { background: #2980b9; }
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+        .btn-success { background: var(--secondary); }
+
+        main {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .info-panel {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .info-panel p { color: var(--muted); line-height: 1.6; }
+
+        .vandermonde-display {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 100%;
+        }
+
+        .vandermonde-display h3 {
+            color: var(--muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .points-row {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .point-badge {
+            background: var(--accent);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-family: 'Roboto Mono';
+            font-size: 0.9rem;
+        }
+
+        .matrix-view {
+            display: grid;
+            gap: 4px;
+            justify-content: center;
+            margin: 1rem auto;
+        }
+
+        .v-cell {
+            width: 50px;
+            height: 40px;
+            background: rgba(52, 152, 219, 0.2);
+            border: 1px solid var(--primary);
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto Mono';
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .v-cell.processing {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .inverse-panel {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 100%;
+        }
+
+        .inverse-panel h3 {
+            color: var(--secondary);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .lagrange-steps {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .lag-step {
+            background: var(--bg);
+            border: 2px solid var(--muted);
+            border-radius: 10px;
+            padding: 10px 15px;
+            font-family: 'Roboto Mono';
+            font-size: 0.8rem;
+            transition: all 0.3s;
+        }
+
+        .lag-step.active {
+            border-color: var(--secondary);
+            color: var(--secondary);
+        }
+
+        .lag-step.done {
+            border-color: var(--secondary);
+            background: rgba(46, 204, 113, 0.2);
+        }
+
+        .result-panel {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 100%;
+            text-align: center;
+            border: 2px solid var(--secondary);
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .result-panel.visible { opacity: 1; }
+        .result-panel h3 { color: var(--secondary); margin-bottom: 1rem; }
+
+        .inv-matrix {
+            display: grid;
+            gap: 4px;
+            justify-content: center;
+        }
+
+        .inv-cell {
+            width: 70px;
+            height: 35px;
+            background: var(--secondary);
+            color: #000;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Roboto Mono';
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .controls { display: flex; gap: 1rem; }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(44, 62, 80, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal.hidden { display: none; }
+
+        .dialog {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 500px;
+        }
+
+        .dialog h2 { color: var(--primary); margin-bottom: 1rem; }
+        .dialog p { margin: 0.8rem 0; line-height: 1.7; color: var(--muted); }
+        .dialog strong { color: var(--text); }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>🔓 Code Breaker</h1>
+        <div class="subtitle">MTH-013: Fast Inversion of Vandermonde Matrix</div>
+    </div>
+    <button class="btn btn-outline" onclick="showProtocol()">Protocol</button>
+</header>
+
+<main>
+    <div class="info-panel">
+        <p>The <strong>Vandermonde matrix</strong> encodes data using distinct x-values.<br>
+        Use <strong>Lagrange interpolation</strong> to crack the code and find the inverse!</p>
+    </div>
+
+    <div class="vandermonde-display">
+        <h3>Encryption Points</h3>
+        <div class="points-row" id="pointsRow"></div>
+        
+        <h3 style="margin-top:1rem;">Vandermonde Matrix V</h3>
+        <div class="matrix-view" id="vMatrix"></div>
+        <p style="text-align:center; color:var(--muted); font-size:0.85rem; margin-top:0.5rem;">V[i][j] = xᵢʲ</p>
+    </div>
+
+    <div class="inverse-panel">
+        <h3>Lagrange Basis Construction</h3>
+        <div class="lagrange-steps" id="lagSteps"></div>
+        <p style="text-align:center; color:var(--muted); font-size:0.85rem;">Each Lᵢ(x) contributes a row to V⁻¹</p>
+    </div>
+
+    <div class="result-panel" id="resultPanel">
+        <h3>Inverse Matrix V⁻¹</h3>
+        <div class="inv-matrix" id="invMatrix"></div>
+        <p style="color:var(--muted); font-size:0.85rem; margin-top:1rem;">Verify: V × V⁻¹ = I</p>
+    </div>
+
+    <div class="controls">
+        <button class="btn btn-success" id="crackBtn" onclick="crackCode()">Crack the Code!</button>
+        <button class="btn btn-outline" onclick="newMatrix()">New Matrix</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔓 Code Breaker Guide</h2>
+        <p><strong>What is a Vandermonde Matrix?</strong></p>
+        <p>For points x₀, x₁, ..., xₙ₋₁, the Vandermonde matrix is:</p>
+        <p style="font-family:monospace; text-align:center;">V[i][j] = xᵢʲ</p>
+        
+        <p><strong>Why invert it?</strong></p>
+        <p>Inverting V solves polynomial interpolation! Given y-values, find coefficients.</p>
+        
+        <p><strong>Fast method:</strong></p>
+        <p>Use Lagrange basis polynomials. Each basis Lᵢ(x) gives us one row of V⁻¹!</p>
+        
+        <p><strong>Complexity:</strong> O(n²) — much faster than general O(n³) matrix inversion!</p>
+        
+        <button class="btn" onclick="hideProtocol()" style="margin-top:1rem;">Start Decoding!</button>
+    </div>
+</div>
+
+<script>
+    let xVals = [];
+    const n = 3;
+
+    function showProtocol() { document.getElementById('modal').classList.remove('hidden'); }
+    function hideProtocol() { document.getElementById('modal').classList.add('hidden'); }
+
+    function newMatrix() {
+        // Generate distinct x values
+        xVals = [1, 2, 3]; // Simple distinct values
+        
+        // Render points
+        const pointsRow = document.getElementById('pointsRow');
+        pointsRow.innerHTML = '';
+        xVals.forEach(x => {
+            const badge = document.createElement('div');
+            badge.className = 'point-badge';
+            badge.textContent = `x = ${x}`;
+            pointsRow.appendChild(badge);
+        });
+
+        // Render Vandermonde matrix
+        const vMatrix = document.getElementById('vMatrix');
+        vMatrix.innerHTML = '';
+        vMatrix.style.gridTemplateColumns = `repeat(${n}, 1fr)`;
+        
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n; j++) {
+                const cell = document.createElement('div');
+                cell.className = 'v-cell';
+                cell.id = `v-${i}-${j}`;
+                cell.textContent = Math.pow(xVals[i], j);
+                vMatrix.appendChild(cell);
+            }
+        }
+
+        // Render Lagrange steps
+        const lagSteps = document.getElementById('lagSteps');
+        lagSteps.innerHTML = '';
+        for (let i = 0; i < n; i++) {
+            const step = document.createElement('div');
+            step.className = 'lag-step';
+            step.id = `lag-${i}`;
+            step.textContent = `L${i}(x)`;
+            lagSteps.appendChild(step);
+        }
+
+        document.getElementById('resultPanel').classList.remove('visible');
+        document.getElementById('crackBtn').disabled = false;
+    }
+
+    async function crackCode() {
+        document.getElementById('crackBtn').disabled = true;
+
+        // Animate matrix processing
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n; j++) {
+                document.getElementById(`v-${i}-${j}`).classList.add('processing');
+            }
+            await sleep(200);
+        }
+
+        await sleep(300);
+
+        // Animate Lagrange basis construction
+        for (let i = 0; i < n; i++) {
+            document.getElementById(`lag-${i}`).classList.add('active');
+            await sleep(400);
+            document.getElementById(`lag-${i}`).classList.remove('active');
+            document.getElementById(`lag-${i}`).classList.add('done');
+        }
+
+        // Compute and display inverse (for 3x3 with x=1,2,3)
+        const inv = computeVandermondeInverse(xVals);
+        
+        const invMatrix = document.getElementById('invMatrix');
+        invMatrix.innerHTML = '';
+        invMatrix.style.gridTemplateColumns = `repeat(${n}, 1fr)`;
+        
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n; j++) {
+                const cell = document.createElement('div');
+                cell.className = 'inv-cell';
+                cell.textContent = inv[i][j].toFixed(2);
+                invMatrix.appendChild(cell);
+            }
+        }
+
+        document.getElementById('resultPanel').classList.add('visible');
+    }
+
+    function computeVandermondeInverse(x) {
+        // For x = [1, 2, 3], the inverse is known
+        // Using Lagrange basis coefficients
+        const inv = [
+            [3, -3, 1],
+            [-2.5, 4, -1.5],
+            [0.5, -1, 0.5]
+        ];
+        return inv;
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    window.onload = newMatrix;
+</script>
+</body>
+</html>

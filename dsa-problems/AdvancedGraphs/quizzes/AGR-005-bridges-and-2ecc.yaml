@@ -1,0 +1,52 @@
+problem_id: AGR_BRIDGES_AND_2ECC_005
+display_id: AGR-005
+slug: bridges-and-2ecc
+questions:
+  - question: What is a bridge in an undirected graph?
+    difficulty: easy
+    points: 10
+    options:
+      - An edge connecting two components
+      - An edge whose removal disconnects the graph or increases components
+      - The longest edge
+      - An edge in a cycle
+    correct_answer: 1
+    explanation: "A bridge is a critical edge. Removing it increases the number of connected components. Examples: edges in a tree are all bridges, edges in a cycle are not bridges."
+    type: single_choice
+    id: prq_1
+  - question: "In Tarjan's bridge-finding algorithm, a bridge is detected when:"
+    difficulty: easy
+    points: 10
+    options:
+      - low[v] < tin[u]
+      - low[v] > tin[u]
+      - low[v] == tin[v]
+      - dfs_parent[v] == u
+    correct_answer: 1
+    explanation: If low[v] > tin[u], then v cannot reach any ancestor of u via back-edges. So (u,v) is a bridge. The condition means v's subtree has no back-edge to u or its ancestors.
+    type: single_choice
+    id: edq_1
+  - question: In a tree with N nodes, how many bridges exist?
+    difficulty: medium
+    points: 15
+    options:
+      - "0"
+      - "1"
+      - N-1
+      - Depends on structure
+    correct_answer: 2
+    explanation: Every edge in a tree is a bridge. A tree has exactly N-1 edges, so all N-1 edges are bridges. Removing any edge disconnects the tree.
+    type: single_choice
+    id: edq_2
+  - question: What is a 2-edge-connected component?
+    difficulty: medium
+    points: 15
+    options:
+      - A component with at least 2 edges
+      - A subgraph where any two nodes have 2 edge-disjoint paths
+      - A component reachable via 2 edges
+      - A component with 2 nodes
+    correct_answer: 1
+    explanation: A 2-edge-connected component (2ECC) is a maximal subgraph where every pair of vertices has at least 2 edge-disjoint paths. Equivalently, no bridges exist within the 2ECC.
+    type: single_choice
+    id: edq_3

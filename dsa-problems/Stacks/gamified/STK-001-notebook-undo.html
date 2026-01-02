@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STK-001: Gem Miner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #2c2137; --dirt: #5d4037; --gem1: #ff4081; --gem2: #00e5ff; --gem3: #ffd740; --cart: #4e342e; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background: var(--bg); color: #fff; margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; user-select: none; }
+        
+        header { width: 100%; padding: 15px; text-align: center; background: rgba(0,0,0,0.3); border-bottom: 2px solid #888; }
+        h1 { font-family: 'Press Start 2P', cursive; font-size: 1.5rem; color: #e1bee7; margin: 0; }
+
+        main { flex: 1; display: flex; flex-direction: column; width: 100%; max-width: 600px; padding: 20px; align-items: center; gap: 20px; }
+
+        .mine-face {
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; padding: 20px;
+            background: rgba(0,0,0,0.2); border-radius: 10px; border: 2px dashed #666;
+        }
+
+        .rock {
+            height: 80px; background: var(--dirt); border-radius: 8px; cursor: pointer; position: relative;
+            display: flex; align-items: center; justify-content: center; transition: transform 0.1s;
+            border: 4px solid #3e2723; box-shadow: inset 0 -5px rgba(0,0,0,0.5);
+        }
+        .rock:active { transform: scale(0.95); }
+        .rock:hover { filter: brightness(1.2); }
+        
+        .gem-icon { font-size: 2rem; pointer-events: none; animation: float 1s infinite alternate; }
+        @keyframes float { from{transform:translateY(0)} to{transform:translateY(-5px)} }
+
+        .cart-track {
+            width: 100%; height: 250px; position: relative; display: flex; justify-content: center; align-items: flex-end;
+            margin-top: auto;
+        }
+        
+        .cart {
+            width: 140px; height: 180px; background: url('data:image/svg+xml;utf8,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="%234e342e"/><circle cx="20" cy="90" r="10" fill="black"/><circle cx="80" cy="90" r="10" fill="black"/></svg>');
+            background-size: cover; position: relative; display: flex; flex-direction: column-reverse; 
+            align-items: center; padding-bottom: 30px; border: 2px solid #3e2723; border-radius: 0 0 10px 10px;
+        }
+        
+        .stack-item {
+            width: 80%; height: 25px; margin-bottom: 2px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.5);
+            display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold;
+            animation: dropIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-shadow: 0 1px 2px #000;
+        }
+        @keyframes dropIn { from{transform:translateY(-100px) rotate(10deg); opacity:0;} to{transform:translateY(0) rotate(0); opacity:1;} }
+
+        .controls { display: flex; gap: 20px; width: 100%; justify-content: center; }
+        .btn {
+            font-family: 'Press Start 2P'; font-size: 0.8rem; padding: 15px 20px; border: none; cursor: pointer;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.5); border-radius: 5px; transition: transform 0.1s;
+        }
+        .btn:active { transform: translateY(4px); box-shadow: 0 0 0; }
+        .btn-undo { background: #ff5252; color: #fff; }
+
+        .score-board {
+            position: absolute; top: 10px; right: 10px; font-family: 'Press Start 2P'; font-size: 0.8rem; color: #ffd740;
+        }
+        
+        #msg { height: 20px; color: #bbb; font-size: 0.9rem; margin-top: 10px; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>STK-001 GEM MINER</h1>
+    <div style="font-size:0.8rem; color:#aaa; margin-top:5px;">Mine Gems (PUSH) - Sell Last (POP)</div>
+</header>
+<main>
+    <div class="score-board">VALUE: $<span id="score">0</span></div>
+    
+    <div class="mine-face">
+        <div class="rock" onclick="game.mine('ruby', 100, '#ff4081')"><div class="gem-icon">💎</div></div>
+        <div class="rock" onclick="game.mine('sapphire', 200, '#00e5ff')"><div class="gem-icon">🔷</div></div>
+        <div class="rock" onclick="game.mine('gold', 50, '#ffd740')"><div class="gem-icon">🪙</div></div>
+    </div>
+    
+    <div id="msg">Click rocks to mine!</div>
+
+    <div class="cart-track">
+        <div class="cart" id="cartStack">
+            <!-- Gems pile here -->
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn btn-undo" onclick="game.undo()">🧨 BLAST LAST (POP)</button>
+    </div>
+</main>
+<script>
+class Game {
+    constructor() {
+        this.stack = [];
+        this.score = 0;
+        this.ui = { cart: document.getElementById('cartStack'), score: document.getElementById('score'), msg: document.getElementById('msg') };
+    }
+
+    mine(type, val, color) {
+        if(this.stack.length >= 5) {
+            this.msg("Cart is full! Pop some items.");
+            return;
+        }
+        
+        // Push
+        this.stack.push({type, val, color});
+        this.score += val;
+        this.updateScore();
+        
+        // Visual
+        let el = document.createElement('div');
+        el.className = 'stack-item';
+        el.style.backgroundColor = color;
+        el.innerText = `+${val}`;
+        this.ui.cart.appendChild(el);
+        this.msg(`Mined ${type}! Pushed to stack.`);
+    }
+
+    undo() {
+        if(this.stack.length === 0) {
+            this.msg("Cart is empty!");
+            return;
+        }
+        
+        // Pop
+        let item = this.stack.pop();
+        this.score -= item.val;
+        this.updateScore();
+        
+        // Visual removal
+        if(this.ui.cart.lastElementChild) {
+            this.ui.cart.lastElementChild.remove();
+        }
+        this.msg(`Removed ${item.type}. Popped from stack.`);
+    }
+
+    updateScore() {
+        // Count animation
+        this.ui.score.innerText = this.score;
+    }
+    
+    msg(txt) {
+        this.ui.msg.innerText = txt;
+        this.ui.msg.style.animation = 'none';
+        this.ui.msg.offsetHeight; // trigger reflow
+        this.ui.msg.style.animation = 'pulse 0.2s';
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

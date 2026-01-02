@@ -104,6 +104,16 @@ We can use a **Sparse Table** to preprocess the LCP array in O(N log N) time and
    - Ensure `r1 < r2`. If not, swap.
    - Query RMQ on range `[r1, r2 - 1]`. Note the `-1` because `lcp[k]` describes the overlap between `sa[k]` and `sa[k+1]`. The interval between `r1` and `r2` involves `lcp[r1], lcp[r1+1]...lcp[r2-1]`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build SA and LCP] --> B[Build sparse table]
+B --> C[Read query indices]
+C --> D[Map to ranks]
+D --> E[Range minimum query on LCP]
+E --> F[Return LCP length]
+```
+
 ### Time Complexity
 
 - **Preprocessing:** O(N log N) for SA and Sparse Table.

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEO-006: Polygon Area Calculator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 32px; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #7c3aed; margin-bottom: 12px; }
+
+        .formula-box {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f5f3ff;
+            border-radius: 10px;
+            text-align: center;
+            font-family: monospace;
+            font-size: 14px;
+        }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .canvas-container {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+            cursor: crosshair;
+        }
+
+        .info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 15px;
+        }
+        .info-item {
+            text-align: center;
+            padding: 15px 25px;
+            background: #f5f3ff;
+            border-radius: 10px;
+        }
+        .info-label { font-size: 12px; color: #666; }
+        .info-value { font-size: 24px; font-weight: 700; color: #7c3aed; }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-calc { background: #7c3aed; color: #fff; }
+        .btn-clear { background: #64748b; color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>📐 Polygon Area Calculator</h1>
+        <div style="opacity:0.9">Draw a polygon and calculate its area!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 Shoelace Formula</h2>
+        <p style="color:#555; font-size:14px">Click to place vertices. The area is calculated using the Shoelace formula:</p>
+        <div class="formula-box">
+            Area = ½ |Σ(x₁y₂ - x₂y₁)| (summed over all edges)
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="canvas-container">
+            <canvas id="canvas" width="500" height="400"></canvas>
+        </div>
+
+        <div class="info">
+            <div class="info-item">
+                <div class="info-label">Vertices</div>
+                <div class="info-value" id="vertexCount">0</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Area</div>
+                <div class="info-value" id="areaValue">0</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Perimeter</div>
+                <div class="info-value" id="perimeterValue">0</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-calc" onclick="closePoly()">✓ Close Polygon</button>
+            <button class="btn btn-clear" onclick="clearCanvas()">🔄 Clear</button>
+        </div>
+
+        <div class="message" id="message" style="background:#f5f3ff; color:#7c3aed">Click on the canvas to add vertices!</div>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    let vertices = [];
+    let closed = false;
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Grid
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 1;
+        for (let x = 0; x < canvas.width; x += 50) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, canvas.height);
+            ctx.stroke();
+        }
+        for (let y = 0; y < canvas.height; y += 50) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+        }
+
+        if (vertices.length === 0) return;
+
+        // Draw polygon
+        ctx.beginPath();
+        ctx.moveTo(vertices[0].x, vertices[0].y);
+        for (let i = 1; i < vertices.length; i++) {
+            ctx.lineTo(vertices[i].x, vertices[i].y);
+        }
+        if (closed) ctx.closePath();
+
+        if (closed) {
+            ctx.fillStyle = 'rgba(124, 58, 237, 0.2)';
+            ctx.fill();
+        }
+        ctx.strokeStyle = '#7c3aed';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Draw vertices
+        vertices.forEach((v, i) => {
+            ctx.beginPath();
+            ctx.arc(v.x, v.y, 8, 0, Math.PI * 2);
+            ctx.fillStyle = i === 0 ? '#22c55e' : '#7c3aed';
+            ctx.fill();
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 10px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(i + 1, v.x, v.y);
+        });
+
+        updateInfo();
+    }
+
+    function updateInfo() {
+        document.getElementById('vertexCount').textContent = vertices.length;
+
+        if (closed && vertices.length >= 3) {
+            const area = calculateArea();
+            const perimeter = calculatePerimeter();
+            document.getElementById('areaValue').textContent = area.toFixed(0);
+            document.getElementById('perimeterValue').textContent = perimeter.toFixed(0);
+        } else {
+            document.getElementById('areaValue').textContent = '-';
+            document.getElementById('perimeterValue').textContent = '-';
+        }
+    }
+
+    function calculateArea() {
+        let area = 0;
+        const n = vertices.length;
+        for (let i = 0; i < n; i++) {
+            const j = (i + 1) % n;
+            area += vertices[i].x * vertices[j].y;
+            area -= vertices[j].x * vertices[i].y;
+        }
+        return Math.abs(area) / 2;
+    }
+
+    function calculatePerimeter() {
+        let perimeter = 0;
+        const n = vertices.length;
+        for (let i = 0; i < n; i++) {
+            const j = (i + 1) % n;
+            const dx = vertices[j].x - vertices[i].x;
+            const dy = vertices[j].y - vertices[i].y;
+            perimeter += Math.sqrt(dx * dx + dy * dy);
+        }
+        return perimeter;
+    }
+
+    canvas.onclick = function(e) {
+        if (closed) return;
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        vertices.push({ x, y });
+        draw();
+        document.getElementById('message').textContent = `Added vertex ${vertices.length}. ${vertices.length >= 3 ? 'Click "Close Polygon" when done!' : 'Add more vertices...'}`;
+    };
+
+    function closePoly() {
+        if (vertices.length < 3) {
+            document.getElementById('message').textContent = 'Need at least 3 vertices to form a polygon!';
+            return;
+        }
+        closed = true;
+        draw();
+        const area = calculateArea();
+        document.getElementById('message').textContent = `Polygon closed! Area = ${area.toFixed(1)} square pixels`;
+    }
+
+    function clearCanvas() {
+        vertices = [];
+        closed = false;
+        draw();
+        document.getElementById('message').textContent = 'Click on the canvas to add vertices!';
+    }
+
+    window.onload = draw;
+</script>
+</body>
+</html>

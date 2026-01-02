@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMT-009: Gem Splitter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Sora', sans-serif;
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 36px; text-shadow: 0 0 20px #a855f7; }
+
+        .tutorial {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .tutorial h2 { color: #7c3aed; margin-bottom: 15px; }
+
+        .rules { display: flex; gap: 15px; }
+        .rule {
+            flex: 1;
+            background: #f5f3ff;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .rule-icon { font-size: 28px; }
+        .rule-text { font-size: 13px; color: #555; margin-top: 5px; }
+
+        .game-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .turn-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #7c3aed, #a855f7);
+            border-radius: 12px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .turn-bar.ai { background: linear-gradient(90deg, #dc2626, #b91c1c); }
+
+        /* Gems Display */
+        .gems-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            padding: 25px;
+            background: #1e1b4b;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .gem-pile {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #312e81, #4c1d95);
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-width: 100px;
+        }
+        .gem-pile:hover { transform: scale(1.05); box-shadow: 0 0 20px #a855f7; }
+        .gem-pile.selected { box-shadow: 0 0 0 4px #fbbf24; }
+        .gem-pile.disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .gem-count { font-size: 36px; color: #fff; font-weight: 600; }
+        .gem-icon { font-size: 24px; margin-top: 5px; }
+
+        /* Split Controls */
+        .split-panel {
+            padding: 20px;
+            background: #f5f3ff;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        .split-panel.active { display: block; }
+
+        .split-options { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .split-btn {
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .split-btn:hover { filter: brightness(1.1); }
+
+        .take-section { margin-top: 15px; text-align: center; }
+        .take-btn {
+            padding: 12px 30px;
+            background: #22c55e;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .message { text-align: center; padding: 15px; color: #666; }
+
+        .result {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            display: none;
+        }
+        .result.win { display: block; background: #d1fae5; color: #059669; }
+        .result.lose { display: block; background: #fee2e2; color: #dc2626; }
+
+        .new-game {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 15px;
+            background: #7c3aed;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>💎 Gem Splitter</h1>
+        <div style="opacity:0.9">Take gems or split a pile - last move wins!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="rules">
+            <div class="rule">
+                <div class="rule-icon">👆</div>
+                <div class="rule-text"><strong>Take all gems</strong> from any pile, OR</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">✂️</div>
+                <div class="rule-text"><strong>Split a pile</strong> into two unequal parts</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">🏆</div>
+                <div class="rule-text"><strong>Last to move</strong> wins!</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="turn-bar" id="turnBar">
+            <span id="turnText">🟢 Your Turn</span>
+            <span>Total: <span id="totalGems">0</span> gems</span>
+        </div>
+
+        <div class="message" id="message">Click a pile to take it or split it!</div>
+
+        <div class="gems-area" id="gemsArea"></div>
+
+        <div class="split-panel" id="splitPanel">
+            <div style="text-align:center; margin-bottom:15px; font-weight:600">
+                Pile of <span id="pileSize">0</span> gems:
+            </div>
+            <div class="take-section">
+                <button class="take-btn" onclick="takePile()">🎁 Take All</button>
+            </div>
+            <div style="text-align:center; margin:15px 0; color:#888">OR split into:</div>
+            <div class="split-options" id="splitOptions"></div>
+        </div>
+
+        <div class="result" id="result"></div>
+
+        <button class="new-game" onclick="newGame()">🔄 New Game</button>
+    </div>
+</div>
+
+<script>
+    let piles = [];
+    let selectedPile = -1;
+    let isPlayerTurn = true;
+    let gameOver = false;
+
+    function init() {
+        piles = [5, 3];
+        selectedPile = -1;
+        isPlayerTurn = true;
+        gameOver = false;
+        document.getElementById('result').className = 'result';
+        render();
+    }
+
+    function render() {
+        const turnBar = document.getElementById('turnBar');
+        turnBar.className = isPlayerTurn ? 'turn-bar' : 'turn-bar ai';
+        document.getElementById('turnText').textContent = isPlayerTurn ? '🟢 Your Turn' : '🔴 AI Turn';
+        document.getElementById('totalGems').textContent = piles.reduce((a, b) => a + b, 0);
+
+        const area = document.getElementById('gemsArea');
+        area.innerHTML = '';
+
+        piles.forEach((size, i) => {
+            const pile = document.createElement('div');
+            pile.className = 'gem-pile';
+            if (i === selectedPile) pile.classList.add('selected');
+            pile.innerHTML = `<div class="gem-count">${size}</div><div class="gem-icon">${'💎'.repeat(Math.min(size, 3))}</div>`;
+
+            if (isPlayerTurn && !gameOver) {
+                pile.onclick = () => selectPile(i);
+            }
+
+            area.appendChild(pile);
+        });
+
+        if (piles.length === 0) {
+            area.innerHTML = '<div style="color:#fff;opacity:0.6">No piles left!</div>';
+        }
+
+        document.getElementById('splitPanel').classList.remove('active');
+    }
+
+    function selectPile(i) {
+        if (!isPlayerTurn || gameOver) return;
+
+        selectedPile = i;
+        render();
+
+        const size = piles[i];
+        document.getElementById('pileSize').textContent = size;
+
+        // Generate split options
+        const options = document.getElementById('splitOptions');
+        options.innerHTML = '';
+
+        for (let left = 1; left < size; left++) {
+            const right = size - left;
+            if (left !== right) {
+                const btn = document.createElement('button');
+                btn.className = 'split-btn';
+                btn.textContent = `${left} + ${right}`;
+                btn.onclick = () => splitPile(left, right);
+                options.appendChild(btn);
+            }
+        }
+
+        document.getElementById('splitPanel').classList.add('active');
+    }
+
+    function takePile() {
+        if (selectedPile < 0 || !isPlayerTurn || gameOver) return;
+
+        piles.splice(selectedPile, 1);
+        selectedPile = -1;
+
+        checkGameEnd();
+    }
+
+    function splitPile(left, right) {
+        if (selectedPile < 0 || !isPlayerTurn || gameOver) return;
+
+        piles.splice(selectedPile, 1, left, right);
+        selectedPile = -1;
+
+        checkGameEnd();
+    }
+
+    function checkGameEnd() {
+        if (piles.length === 0) {
+            endGame(true);
+            return;
+        }
+
+        isPlayerTurn = false;
+        render();
+        document.getElementById('message').textContent = '🤖 AI is thinking...';
+
+        setTimeout(aiMove, 800);
+    }
+
+    function aiMove() {
+        if (gameOver) return;
+
+        if (piles.length === 0) {
+            endGame(true);
+            return;
+        }
+
+        // Simple AI: take first pile
+        const size = piles[0];
+        piles.splice(0, 1);
+        document.getElementById('message').textContent = `🤖 AI takes pile of ${size}`;
+
+        if (piles.length === 0) {
+            endGame(false);
+            return;
+        }
+
+        isPlayerTurn = true;
+        render();
+        setTimeout(() => {
+            document.getElementById('message').textContent = 'Your turn! Click a pile.';
+        }, 500);
+    }
+
+    function endGame(playerWins) {
+        gameOver = true;
+        render();
+        const result = document.getElementById('result');
+        if (playerWins) {
+            result.className = 'result win';
+            result.textContent = '🎉 YOU WIN!';
+        } else {
+            result.className = 'result lose';
+            result.textContent = '😢 AI WINS!';
+        }
+        document.getElementById('message').textContent = '';
+    }
+
+    function newGame() {
+        init();
+        document.getElementById('message').textContent = 'Click a pile to take it or split it!';
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

@@ -82,6 +82,18 @@ Log file compression needs adaptive encoding - only compress runs above a thresh
 4. Return join(result)
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Scan next run] --> B[Compute run length]
+B --> C{Run length at least threshold}
+C -->|Yes| D[Append char and count]
+C -->|No| E[Append repeated chars]
+D --> F[Move to next run]
+E --> F
+F --> A
+```
+
 ### Time Complexity
 
 | Phase            | Operations                  | Cost             |

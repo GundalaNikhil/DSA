@@ -43,7 +43,28 @@ If the top song in Pop and the top song in Rock are both by "The Beatles", and y
 
 ## Detailed Explanation
 
-### ASCII Diagram: The Constraint
+### Flow Diagram: The Constraint
+
+Keep the stream smooth: two in a row is fine, three is a streak too far.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Push head of each queue into min heap]
+    B --> C[Initialize last value and count]
+    C --> D{Heap has items}
+    D -- Yes --> E[Pop smallest item]
+    E --> F{Would make three in a row}
+    F -- No --> G[Output item and update count]
+    G --> H[Push next item from same queue]
+    H --> D
+    F -- Yes --> I{Heap has alternative}
+    I -- No --> J[Stop output]
+    I -- Yes --> K[Pop next smallest and output]
+    K --> L[Push blocked item back]
+    L --> D
+    D -- No --> M[Return output stream]
+```
 
 Queues:
 Q1: [1, 1, 1]
@@ -71,7 +92,6 @@ Top: 1. Valid? No (1==1 and count==2).
    -> Pop next: 2. Valid? Yes. -> Output 2.
    -> Push saved 1 back.
 ```
-
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Sorted Input:** All individual queues are sorted. This allows us to use the "Merge K Sorted Lists" approach.

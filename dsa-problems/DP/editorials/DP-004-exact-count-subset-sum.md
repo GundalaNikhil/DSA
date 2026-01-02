@@ -50,6 +50,7 @@ This maps directly to exact-count subset sum.
 - Trains you to add an extra dimension to DP: “count of chosen items”
 - Builds strong foundations for interview DP (subset sum, partition, k-sum variants)
 - Shows how bitset tricks turn a heavy DP into a fast one
+With the count fixed, the sum has to land on the dot.
 
 ![Real-World Application](../images/DP-004/real-world-scenario.png)
 
@@ -107,6 +108,20 @@ Example 3: Array [1, 2], Target=5, K=2
 │ {1,2} → sum=3  ✗            │
 └─────────────────────────────┘
 Answer: false (no valid subset)
+```
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with array target and k] --> B[Set dp count 0 sum 0 to true]
+    B --> C[For each value x]
+    C --> D[For count from k down to 1]
+    D --> E[For sum from target down to x]
+    E --> F[Set dp at count and sum if dp at count minus 1 and sum minus x is true]
+    F --> E
+    E --> D
+    D --> C
+    C --> G[Return dp at k and target]
 ```
 
 ### The DP idea

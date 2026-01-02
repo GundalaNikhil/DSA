@@ -1,0 +1,52 @@
+problem_id: GRB_ARTICULATION_POINTS_COLORED_010
+display_id: GRB-010
+slug: articulation-points-colored
+questions:
+  - question: For the root of the DFS tree, when is it an articulation point?
+    difficulty: easy
+    points: 10
+    options:
+      - Always
+      - Never
+      - If it has more than 1 child in the DFS tree
+      - If it has edges to leaf nodes
+    correct_answer: 2
+    explanation: Removing the root disconnects its children subtrees if there are >1 independent children.
+    type: single_choice
+    id: prq_1
+  - question: What is the condition for a non-root node u to be an articulation point?
+    difficulty: medium
+    points: 15
+    options:
+      - low[child] >= disc[u]
+      - low[child] > disc[u]
+      - low[child] < disc[u]
+      - disc[child] == low[u]
+    correct_answer: 0
+    explanation: If a child cannot reach an ancestor of u (low >= disc[u]), removing u disconnects that child.
+    type: single_choice
+    id: edq_1
+  - question: What do 'disc' and 'low' arrays represent?
+    difficulty: easy
+    points: 10
+    options:
+      - Distance and Lowest common ancestor
+      - Discovery time and Lowest discovery time reachable via back-edge
+      - Distinct nodes and Lower bound
+      - Diameter and Lower capacity
+    correct_answer: 1
+    explanation: Disc is when a node is first visited; Low is the earliest visited node reachable from the subtree.
+    type: single_choice
+    id: edq_2
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: In a DFS tree, when is the root considered an articulation point?
+    options:
+      - If it has at least one child
+      - If it has more than one child
+      - If it is part of a cycle
+      - Always
+    correct_answer: 1
+    explanation: A root is an articulation point if it has 2 or more children in the DFS tree, as removing it disconnects those child subtrees.

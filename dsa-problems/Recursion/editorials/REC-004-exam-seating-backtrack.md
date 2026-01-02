@@ -56,6 +56,18 @@ At each step, we have two choices for the current `index`:
 -   If `students_left == 0`: We have successfully placed everyone. This counts as 1 valid arrangement.
 -   If `index >= n`: We ran out of seats. If `students_left > 0`, this path is invalid (return 0).
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Consider current seat] --> B{Students left is zero}
+B -->|Yes| C[Return one]
+B -->|No| D{Index past last seat}
+D -->|Yes| E[Return zero]
+D -->|No| F[Place student and jump forward]
+F --> G[Skip seat and move forward]
+G --> A
+```
+
 ## Approaches
 
 ### Approach 1: Pure Backtracking

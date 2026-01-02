@@ -1,0 +1,52 @@
+problem_id: CON_TOPIC_2
+display_id: CON-002
+slug: producer-consumer-priority-aging
+questions:
+- id: prq_1
+  type: single_choice
+  difficulty: medium
+  points: 15
+  question: What is 'starvation' in the context of a priority queue?
+  options:
+  - The queue running out of memory
+  - Low-priority items being perpetually ignored due to constant high-priority arrivals
+  - Producers blocking consumers
+  - Threads crashing
+  correct_answer: 1
+  explanation: If new high-priority items always arrive, low-priority ones may never be dequeued.
+- id: edq_1
+  type: single_choice
+  difficulty: medium
+  points: 15
+  question: How does 'aging' solve the starvation problem?
+  options:
+  - By deleting old items
+  - By gradually increasing the priority of items that have waited a long time
+  - By decreasing producer speed
+  - By randomizing selection
+  correct_answer: 1
+  explanation: Eventually, even a low-priority item will age into a high-priority one and be served.
+- id: edq_2
+  type: single_choice
+  difficulty: medium
+  points: 15
+  question: When using condition variables for a bounded buffer, why should you ideally use 'while' instead of 'if' for wait conditions?
+  options:
+  - To avoid recursion
+  - To handle spurious wakeups safely
+  - For recursion support
+  - It is just convention
+  correct_answer: 1
+  explanation: A thread may wake up without a signal or find the condition no longer true; 'while' re-checks the condition before proceeding.
+- id: edq_3
+  type: single_choice
+  difficulty: medium
+  points: 15
+  question: If aging period T=100ms, and an item has waited 250ms, what is its total priority boost?
+  options:
+  - '+1'
+  - '+2'
+  - '+3'
+  - '+0'
+  correct_answer: 1
+  explanation: 250ms / 100ms = 2 (integer division bits). It gets +1 for every full T milliseconds.

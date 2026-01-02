@@ -220,6 +220,23 @@ function hasEditDistance1(node, query, index, editsUsed):
     return false
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[DFS with edit budget]
+    B --> C{End of query}
+    C -->|Yes| D[Check end flag and budget]
+    C -->|No| E[Read current char]
+    E --> F[Try exact match]
+    E --> G[Try substitution]
+    E --> H[Try insertion]
+    E --> I[Try deletion]
+    F --> J[Return true if any path works]
+    G --> J
+    H --> J
+    I --> J
+```
+
 **Time Complexity:** O(N) worst case where N = nodes in trie
 
 - In practice, much faster due to pruning when editsUsed > 1

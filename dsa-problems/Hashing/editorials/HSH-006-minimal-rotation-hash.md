@@ -28,106 +28,150 @@ Example: "bba" -> "bab" -> "abb". Smallest is "abb".
 
 ## 🌍 Real-World Scenario
 
-**Scenario Title:** Canonical Representation of Cyclic Data
+**Scenario Title:** The Molecule Canonicalizer 🧪
 
-Imagine you are storing cyclic chemical structures (like benzene rings) or circular DNA plasmids in a database.
-- "ABCDEF" and "BCDEFA" represent the exact same circular structure.
-- To store them uniquely (canonicalization), you need a standard form.
-- The "lexicographically smallest rotation" is a common choice for this standard form.
-- By converting all cyclic variations to this form, you can easily check if two structures are identical.
+### The Problem
+You are building a database to store circular chemical structures (like benzene derivatives) or circular DNA plasmids.
+- **Challenge:** "ABCDEF", "BCDEFA", "CDEFAB"... all represent the *same* physical molecule, just viewed from a different starting point.
+- **Goal:** Store only one "canonical" version so you can easily check if a new molecule already exists in the DB.
+- **Solution:** Always store the lexicographically smallest rotation. Then `Canonical("BCDEFA")` -> "ABCDEF".
 
-![Real-World Application](../images/HSH-006/real-world-scenario.png)
+### Why This Matters
+- **Database Normalization:** Ensuring unique keys for cyclic data.
+- **Geometry Processing:** Normalizing polygon vertex lists.
+- **Cryptography:** Canonicalizing inputs for consistent hashing.
+
+### Constraints in Real World
+- **Efficiency:** You have millions of molecules. Normalization must be fast.
+- **Complexity:** $O(N^2)$ comparison is too slow for long DNA strands ($N=10^5$). We need something faster.
 
 ## Detailed Explanation
 
-### ASCII Diagram: Comparing Rotations
+### Concept Visualization
 
-String: "banana"
-Rotations:
-1. "banana"
-2. "ananab"
-3. "nanaba"
-4. "anaban"
-5. "nabana"
-6. "abanan"
+We want to find the "smallest" string among all N rotations.
+Directly comparing two strings takes $O(N)$. Doing this $N$ times takes $O(N^2)$.
+We can speed this up by finding the **Longest Common Prefix (LCP)** of two rotations efficiently.
 
-To find the smallest, we can compare any two rotations.
-Compare "ananab" vs "anaban":
-- "ana" matches.
-- Next char: 'n' vs 'b'.
-- 'b' < 'n', so "anaban" is smaller.
+```mermaid
+graph TD
+    Rot1[Rotation 1: b a n a n a]
+    Rot2[Rotation 2: b a n a n b]
+    
+    Comp[Compare Rot1 vs Rot2]
+    Comp --> LCP{Find LCP Length}
+    
+    subgraph Binary Search + Hashing
+    Check1[Len 3: ban == ban? Yes]
+    Check2[Len 4: bana == bana? Yes]
+    Check3[Len 5: banan == banan? Yes]
+    Check4[Len 6: banana == bananb? No]
+    end
+    
+    LCP --> Result[LCP Length = 5]
+    Result --> CharCheck[Compare char at index 5]
+    CharCheck --> Final[ 'a' < 'b' -> Rot1 is smaller]
+    
+    style Result fill:#e6f3ff
+    style Final fill:#d4f4dd
+```
 
-### Key Concept: Efficient Comparison
+### Algorithm Flow Diagram
 
-Comparing two strings of length `N` takes `O(N)`. Doing this for all `N` rotations takes `O(N^2)`.
-We can speed up the comparison using **Hashing + Binary Search**.
-- To compare Rotation A and Rotation B:
-  - Find the length of the Longest Common Prefix (LCP) using binary search and hashing.
-  - Let LCP length be `L`.
-  - Compare the characters at index `L`.
-  - This takes `O(log N)` instead of `O(N)`.
+```mermaid
+graph TD
+    Start[Start] --> Init[Doubled = s + s, Compute Hashes]
+    Init --> Best[Best Start Index = 0]
+    Best --> Loop{Curr from 1 to N-1}
+    
+    Loop -- Yes --> LCP[Find LCP(Best, Curr) using BinSearch]
+    LCP --> Check{LCP < N?}
+    Check -- Yes --> Compare{Doubled[Curr+LCP] < Doubled[Best+LCP]?}
+    Compare -- Yes --> Update[Best = Curr]
+    Compare -- No --> Continue
+    
+    Continue --> Loop
+    Update --> Loop
+    Check -- No --> Loop
+    
+    Loop -- No --> Return[Substr(Best, Best+N)]
+    
+    style Update fill:#d4f4dd
+    style LCP fill:#e6f3ff
+```
 
-## ✅ Input/Output Clarifications (Read This Before Coding)
+## 🎯 Edge Cases to Test
 
-- **Input:** String `s`.
-- **Output:** The smallest rotation string.
-- **Constraints:** `|s| <= 2 * 10^5`. `O(N^2)` is too slow. `O(N log N)` or `O(N)` is required.
-- **Note:** Booth's Algorithm solves this in `O(N)`, but the problem specifically asks for Hashing (`O(N log N)`).
+1.  **All Same Characters**
+    -   Input: `"aaaa"`
+    -   Rotations: "aaaa"
+    -   Output: "aaaa"
+2.  **Already Smallest**
+    -   Input: `"abcde"`
+    -   Output: `"abcde"`
+3.  **Reverse Sorted**
+    -   Input: `"edcba"`
+    -   Rotations: "edcba", "dcbae", "cbaed", "baedc", "aedcb"
+    -   Output: `"aedcb"`
+4.  **Repeated Patterns**
+    -   Input: `"abab"`
+    -   Output: `"abab"` (start index 0 or 2, both valid)
+
+## ✅ Input/Output Clarifications
+
+-   **Input:** String `s`.
+-   **Output:** The smallest rotation string.
+-   **Constraints:** Length up to $2 \times 10^5$.
+-   **Doubling:** Concatenating `s+s` allows accessing any rotation `i` as `doubled[i...i+n-1]`.
 
 ## Naive Approach
 
 ### Intuition
-
-Generate all rotations and sort them.
+Generate all $N$ rotations, put them in a list, sort the list.
 
 ### Algorithm
+1.  Verify all rotations.
+2.  Sort.
+3.  Pick first.
 
-1. Create a list of all rotations.
-2. Sort the list.
-3. Return the first element.
+### Complexity Visualization
 
-### Time Complexity
+| Approach | Time Complexity | Space Complexity | Feasibility for N=100K |
+| :--- | :---: | :---: | :---: |
+| Naive Sort | O(N² log N) | O(N²) | ❌ Impossible |
+| Linear Scan | O(N²) | O(N) | ❌ TLE |
+| **Hashing + BS** | **O(N log N)** | **O(N)** | ✅ Fast |
+| Booth's Algo | O(N) | O(N) | ✅ Fastest (Complex) |
 
-- **O(N^2 \log N)**: Sorting `N` strings of length `N`. Too slow.
+### Why This Fails
+Sorting $N$ strings of length $N$ requires $O(N \log N)$ comparisons, each taking $O(N)$, total $O(N^2 \log N)$. Memory also explodes.
 
-## Optimal Approach (Hashing)
+## Optimal Approach (Hashing + Binary Search)
 
 ### Key Insight
-
-1. Concatenate `s + s` to easily access any rotation as a substring of length `N`.
-2. Use **Rolling Hash** to compute hashes of substrings in `O(1)`.
-3. Keep track of the `best_start_index` (initially 0).
-4. Iterate `current_start` from 1 to `N-1`.
-5. Compare rotation at `best_start` vs `current_start`:
-   - Use Binary Search to find the first mismatching character.
-   - Check hashes of prefixes. If hashes match, LCP is longer.
-   - Once mismatch index `k` is found, compare characters `(s+s)[best+k]` and `(s+s)[current+k]`.
-   - Update `best_start` if `current` is smaller.
+To compare two rotations starting at `i` and `j`, we need to find the first index where they differ.
+This is equivalent to finding the length of their **Longest Common Prefix (LCP)**.
+1.  **Hashing**: We can check if `s[i...i+len]` == `s[j...j+len]` in $O(1)$.
+2.  **Binary Search**: We can find the max `len` such that the prefixes match in $O(\log N)$.
+3.  Once we find the mismatch index, a single character comparison determines which rotation is smaller.
 
 ### Algorithm
-
-1. `doubled = s + s`.
-2. Compute prefix hashes for `doubled`.
-3. `best = 0`.
-4. Loop `curr` from 1 to `n-1`:
-   - Compare rotation starting at `best` vs `curr`.
-   - Binary search `len` in `[0, n]`.
-   - `check(len)`: `hash(best, best+len-1) == hash(curr, curr+len-1)`.
-   - Find max `len` where hashes match (LCP).
-   - If `LCP == n`, strings are equal.
-   - Else, compare chars at `best + LCP` and `curr + LCP`.
-   - If `doubled[curr + LCP] < doubled[best + LCP]`, `best = curr`.
-5. Return `doubled.substring(best, best + n)`.
+1.  Construct `doubled = s + s` and precompute rolling hashes.
+2.  Initialize `best = 0`.
+3.  Iterate `curr` from `1` to `N-1`.
+4.  **Compare(best, curr)**:
+    -   Binary search `L` in `[0, N]`.
+    -   Predicate: `Hash(best, best+L-1) == Hash(curr, curr+L-1)`.
+    -   Found `LCP` length.
+    -   If `LCP < N` and `doubled[curr + LCP] < doubled[best + LCP]`, update `best = curr`.
+5.  Return substring starting at `best`.
 
 ### Time Complexity
-
-- **O(N \log N)**: `N` comparisons, each takes `O(log N)` with binary search.
+-   **O(N log N)**: Loop runs $N$ times. Comparison takes $O(\log N)$.
+-   (Note: Can be optimized to $O(N)$ using Booth's Algorithm, but Hashing is the intended lesson here).
 
 ### Space Complexity
-
-- **O(N)**: Hash arrays.
-
-![Algorithm Visualization](../images/HSH-006/algorithm-visualization.png)
+-   **O(N)**: Hash arrays.
 
 ## Implementations
 
@@ -449,56 +493,61 @@ rl.on("close", () => {
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 
-**Input:**
+### Input
 ```
 bba
 ```
 `doubled` = "bbabba"
 
-**Iteration 1 (curr=1):**
-- Compare "bba..." (best=0) vs "bab..." (curr=1).
-- LCP("bba...", "bab...")?
-  - Len 1: 'b' vs 'b'. Match.
-  - Len 2: 'bb' vs 'ba'. Mismatch.
-- LCP = 1.
-- Compare char at index 1: `doubled[0+1]`='b', `doubled[1+1]`='a'.
-- 'a' < 'b', so `curr` is better. `best = 1`.
+### Iteration 1 (compare best=0 vs curr=1)
+- Rotation A (0): "bba"
+- Rotation B (1): "bab"
+- **Binary Search LCP:**
+  - Try len 2: "bb" vs "ba" -> Different. High=1.
+  - Try len 1: "b" vs "b" -> Same. Low=2. Ans=1.
+- **LCP = 1**.
+- **Compare:** `doubled[0+1]` ('b') `doubled[1+1]` ('a').
+- 'a' < 'b', so **curr is better**. `best` becomes 1.
 
-**Iteration 2 (curr=2):**
-- Compare "bab..." (best=1) vs "abb..." (curr=2).
-- LCP("bab...", "abb...")?
-  - Len 1: 'b' vs 'a'. Mismatch.
-- LCP = 0.
-- Compare char at index 0: `doubled[1+0]`='b', `doubled[2+0]`='a'.
-- 'a' < 'b', so `curr` is better. `best = 2`.
+### Iteration 2 (compare best=1 vs curr=2)
+- Rotation A (1): "bab"
+- Rotation B (2): "abb"
+- **Binary Search LCP:**
+  - Try len 1: "b" vs "a" -> Different. High=0.
+- **LCP = 0**.
+- **Compare:** `doubled[1+0]` ('b') `doubled[2+0]` ('a').
+- 'a' < 'b', so **curr is better**. `best` becomes 2.
 
-**End:**
-Return `doubled.substring(2, 5)` = "abb".
+### End
+- `best` = 2.
+- Substring at 2: "abb".
+- Correct.
 
 ## ✅ Proof of Correctness
 
 ### Invariant
-At step `i`, `best` holds the starting index of the lexicographically smallest rotation found among indices `0` to `i`.
-Comparing two strings using LCP + next char correctly determines lexicographical order.
-Binary search + Hashing finds LCP in `O(log N)`.
+After iteration `i`, `best` points to the starting index of the lexicographically smallest rotation among the first `i+1` starting positions.
+Proof: Comparing any two strings using LCP + first different character is a valid strict weak ordering. Since we scan all candidates and keep the minimum, we find the global minimum.
+
+## ⚠️ Common Mistakes to Avoid
+
+1.  **Forgetting to Double the String**
+    -   ❌ Wrong: Explicitly rotating string using `substr`. $O(N)$ copy per step $\rightarrow O(N^2)$.
+    -   ✅ Correct: Use `s + s` and access by index.
+2.  **Comparison Logic**
+    -   ❌ Wrong: Checking `h1 < h2`. Hashes are random.
+    -   ✅ Correct: Use Hashes only for equality in LCP. Compare chars for order.
 
 ## 💡 Interview Extensions
 
-- **Extension 1:** Solve in `O(N)` time.
-  - *Answer:* Booth's Algorithm (Least Rotation) or Duval's Algorithm (Lyndon Factorization).
-- **Extension 2:** Find *maximal* rotation.
-  - *Answer:* Same logic, just flip the comparison condition.
-
-### Common Mistakes to Avoid
-
-1. **Comparing Hashes Directly**
-   - ❌ Wrong: `if (hash(rot1) < hash(rot2))` - Hashes are random numbers, not lexicographical.
-   - ✅ Correct: Use hashes only for equality check in LCP. Compare actual characters for order.
-2. **Modulo Arithmetic**
-   - ❌ Wrong: Forgetting negative results in subtraction.
-   - ✅ Correct: `(a - b + MOD) % MOD`.
+1.  **Solve in O(N)**
+    -   *Extension:* Candidates need faster solution.
+    -   *Answer:* **Booth's Algorithm** (Minimum Representation of Cyclic String). It uses a modified KMP failure function approach.
+2.  **Lyndon Factorization**
+    -   *Extension:* Decompose string into smallest fundamental substrings.
+    -   *Answer:* Duval's Algorithm runs in $O(N)$ and finds the minimal rotation as a byproduct (if string is simple).
 
 ## Related Concepts
 
-- **Booth's Algorithm:** `O(N)` specific algorithm for this problem.
-- **Suffix Array:** Can solve this by sorting suffixes of `s+s`.
+-   **Lexicographical Comparison:** LCP + character check.
+-   **Cyclic Shifts:** Effectively handled by concatenation S+S.

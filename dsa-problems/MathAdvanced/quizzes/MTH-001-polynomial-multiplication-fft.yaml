@@ -1,2 +1,52 @@
-# Quiz for MTH-001: Polynomial Multiplication via FFT
-# YAML content to be added
+problem_id: MTH_POLYNOMIAL_MULTIPLICATION_FFT_001
+display_id: MTH-001
+slug: polynomial-multiplication-fft
+questions:
+  - question: What is the length of the output coefficient array?
+    difficulty: easy
+    points: 10
+    options:
+      - max(n, m)
+      - n + m - 1
+      - n * m
+      - next power of 2
+    correct_answer: 1
+    explanation: The product degree is (n-1)+(m-1), so there are n+m-1 coefficients.
+    type: single_choice
+    id: prq_1
+  - question: For input A=[1,2] and B=[3,4], what is the output modulo 1e9+7?
+    difficulty: easy
+    points: 10
+    options:
+      - 3 8 10
+      - 3 10 8
+      - 4 11 8
+      - 3 7 8
+    correct_answer: 1
+    explanation: (1+2x)(3+4x)=3+10x+8x^2.
+    type: single_choice
+    id: edq_1
+  - question: What modulus is used for the output coefficients?
+    difficulty: easy
+    points: 10
+    options:
+      - "998244353"
+      - "1000000007"
+      - "1000000009"
+      - "1000003"
+    correct_answer: 1
+    explanation: The problem specifies output modulo 1,000,000,007.
+    type: single_choice
+    id: edq_2
+  - question: Why are arrays padded to the next power of two before FFT?
+    difficulty: medium
+    points: 15
+    options:
+      - To reduce precision errors
+      - Because radix-2 FFT requires power-of-two length
+      - To avoid modular arithmetic
+      - To make the result length n+m-1
+    correct_answer: 1
+    explanation: Standard FFT implementations assume lengths that are powers of two.
+    type: single_choice
+    id: edq_3

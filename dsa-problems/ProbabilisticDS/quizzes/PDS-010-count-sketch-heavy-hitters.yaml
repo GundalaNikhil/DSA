@@ -1,2 +1,52 @@
-# Quiz for PDS-010: Heavy Hitters with Count Sketch
-# YAML content to be added
+problem_id: PDS_COUNT_SKETCH_HEAVY_HITTERS_010
+display_id: PDS-010
+slug: count-sketch-heavy-hitters
+questions:
+  - question: How does Count Sketch differ from Count-Min Sketch in its update mechanism?
+    difficulty: easy
+    points: 10
+    options:
+      - It adds +1 or -1 based on a second hash function
+      - It only increments
+      - It uses a linked list
+      - It sorts the counters
+    correct_answer: 0
+    explanation: The random sign (+/- 1) ensures that collisions average out to zero in expectation.
+    type: single_choice
+    id: prq_1
+  - question: "The estimate for an item in Count Sketch is taken as:"
+    difficulty: medium
+    points: 15
+    options:
+      - The median of the row estimates
+      - The minimum of the row estimates
+      - The maximum of the row estimates
+      - The sum of the row estimates
+    correct_answer: 0
+    explanation: Since the estimator is unbiased, the median is robust against large noise (outliers) from collisions.
+    type: single_choice
+    id: edq_1
+  - question: Is Count Sketch an unbiased estimator?
+    difficulty: easy
+    points: 10
+    options:
+      - Yes, E[estimate] = true_count
+      - No, it overestimates
+      - No, it underestimates
+      - Only for positive counts
+    correct_answer: 0
+    explanation: The expected value of the noise from other items is 0 due to the random signs.
+    type: single_choice
+    id: edq_2
+  - question: Count Sketch typically requires more or less space than Count-Min Sketch for the same error bounds?
+    difficulty: easy
+    points: 10
+    options:
+      - More space (width depends on 1/epsilon^2)
+      - Less space
+      - Same space
+      - Depends on delta
+    correct_answer: 0
+    explanation: CMS width is proportional to 1/epsilon, while Count Sketch is 1/epsilon^2 for L2 norm error.
+    type: single_choice
+    id: edq_3

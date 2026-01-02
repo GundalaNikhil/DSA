@@ -67,6 +67,19 @@ At `(r, c)`:
     -   If `(r, c)` is the *last* empty cell in that cage, validate the cage fully.
     -   If valid, recurse.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Choose next cell] --> B[Try candidate value]
+B --> C{Row and column allow value}
+C -->|No| B
+C -->|Yes| D{Cage is complete}
+D -->|No| E[Recurse to next cell]
+D -->|Yes| F{Cage satisfies rule}
+F -->|Yes| E
+F -->|No| B
+```
+
 To implement this efficiently:
 -   Precompute a map `cell -> cage_index`.
 -   Track `cage_filled_count[cage_index]`.

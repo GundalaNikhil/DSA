@@ -87,6 +87,20 @@ Imagine you are a **Lab Technician** recording temperature readings in a logbook
 -   `MIN k`: `query(size - k, size - 1)`.
 -   Complexity: `O(log M)` per op.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read next command] --> B{Command type}
+B -->|PUSH| C[Update tree at size]
+C --> D[Increment size]
+B -->|POP| E[Decrement size]
+B -->|MIN| F[Query range for min]
+F --> G[Output min]
+D --> A
+E --> A
+G --> A
+```
+
 ## Implementations
 
 ### Java

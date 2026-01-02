@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSH-009: Typo Fixer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime&family=Inter:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --cursor: #00ff00; --error: #ff6b6b; --fixed: #4ecdc4; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Courier Prime', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--cursor); }
+        h1 { margin: 0; font-family: 'Inter', sans-serif; color: var(--cursor); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--cursor); }
+        .instructions b { color: var(--cursor); }
+        .editor { background: #000; padding: 25px; border-radius: 10px; border-left: 4px solid var(--cursor); min-width: 500px; }
+        .editor-row { display: flex; gap: 5px; margin-bottom: 10px; }
+        .line-num { color: #555; width: 30px; }
+        .char-cell { width: 20px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; border-radius: 3px; transition: all 0.2s; font-size: 1.1rem; }
+        .char-cell:hover { background: rgba(0,255,0,0.2); }
+        .char-cell.selected { background: var(--cursor); color: #000; }
+        .char-cell.error { background: var(--error); color: #fff; animation: blink 0.5s; }
+        @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.5} }
+        .edit-panel { display: flex; gap: 15px; padding: 20px; background: var(--panel); border-radius: 10px; align-items: center; }
+        .edit-input { width: 50px; height: 40px; background: #000; border: 2px solid var(--cursor); color: var(--cursor); font-size: 1.5rem; text-align: center; font-family: 'Courier Prime'; text-transform: uppercase; }
+        .hash-display { display: flex; gap: 20px; padding: 15px; background: #000; border-radius: 8px; }
+        .hash-box { text-align: center; }
+        .hash-label { color: #555; font-size: 0.8rem; }
+        .hash-value { font-size: 1.2rem; color: var(--cursor); }
+        .hash-value.mismatch { color: var(--error); }
+        .hash-value.match { color: var(--fixed); }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #333; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--cursor); }
+        .btn { background: var(--cursor); color: #000; border: none; padding: 12px 25px; font-family: 'Inter'; font-weight: 700; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #33ff33; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--cursor); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--cursor); font-family: 'Inter'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>⌨️ TYPO FIXER</h1>
+    <div style="color:#888">HASH UNDER EDITS</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 FIX THE BUGS:</b> The string has errors! Click to select a character, then type the replacement. Watch how the hash changes with each edit!
+    </div>
+    <div class="editor" id="editor"></div>
+    <div class="edit-panel">
+        <span>Replace with:</span>
+        <input type="text" class="edit-input" id="replaceInput" maxlength="1">
+        <button class="btn" onclick="game.applyEdit()">APPLY</button>
+    </div>
+    <div class="hash-display">
+        <div class="hash-box"><div class="hash-label">CURRENT HASH</div><div class="hash-value" id="currentHash">0</div></div>
+        <div class="hash-box"><div class="hash-label">TARGET HASH</div><div class="hash-value" id="targetHash">0</div></div>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Edits Made</span><span class="stat-value" id="edits">0</span></div>
+            <div class="stat-row"><span class="stat-label">Errors Left</span><span class="stat-value" id="errors">0</span></div>
+        </div>
+    </div>
+    <div id="status">Click a character to edit it!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.hint()">HINT</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW CODE</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>⌨️ TYPO FIXER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--cursor)">DEBUG:</b> Fix typos to match the target hash!</p>
+            <ul>
+                <li>Click a <b>character</b> to select it</li>
+                <li>Type the <b>correct character</b></li>
+                <li>Watch the <b>hash update</b> with each edit</li>
+                <li>Match the target hash to win!</li>
+            </ul>
+            <p style="color:#888">O(1) hash update after single-char edit!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START DEBUGGING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.target = ''; this.current = ''; this.selectedIdx = -1; this.edits = 0;
+        this.ui = { editor: document.getElementById('editor'), input: document.getElementById('replaceInput'), currentHash: document.getElementById('currentHash'), targetHash: document.getElementById('targetHash'), edits: document.getElementById('edits'), errors: document.getElementById('errors'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    hash(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h + s.charCodeAt(i) * Math.pow(31, i)) % 10000; return Math.floor(h); }
+    newGame() {
+        const words = ['HELLO', 'WORLD', 'DEBUG', 'FIXED', 'CODES'];
+        this.target = words[Math.floor(Math.random() * words.length)];
+        // Introduce errors
+        const chars = this.target.split('');
+        const numErrors = 2;
+        for (let i = 0; i < numErrors; i++) {
+            const idx = Math.floor(Math.random() * chars.length);
+            chars[idx] = String.fromCharCode(65 + Math.floor(Math.random() * 26));
+        }
+        this.current = chars.join('');
+        this.selectedIdx = -1; this.edits = 0;
+        this.ui.status.textContent = 'Click a character to edit it!';
+        this.render();
+    }
+    countErrors() {
+        let count = 0;
+        for (let i = 0; i < this.target.length; i++) {
+            if (this.current[i] !== this.target[i]) count++;
+        }
+        return count;
+    }
+    selectChar(idx) { this.selectedIdx = idx; this.ui.input.value = ''; this.ui.input.focus(); this.render(); }
+    applyEdit() {
+        if (this.selectedIdx === -1) { this.ui.status.textContent = 'Select a character first!'; return; }
+        const newChar = this.ui.input.value.toUpperCase();
+        if (newChar.length !== 1) { this.ui.status.textContent = 'Enter exactly one character!'; return; }
+        const chars = this.current.split('');
+        const oldHash = this.hash(this.current);
+        chars[this.selectedIdx] = newChar;
+        this.current = chars.join('');
+        const newHash = this.hash(this.current);
+        this.edits++;
+        this.ui.status.textContent = `Changed position ${this.selectedIdx}: Hash ${oldHash} → ${newHash}`;
+        this.selectedIdx = -1;
+        this.ui.input.value = '';
+        if (this.current === this.target) {
+            this.ui.status.innerHTML = `🎉 ALL BUGS FIXED in ${this.edits} edits!`;
+            this.ui.status.style.color = 'var(--fixed)';
+        }
+        this.render();
+    }
+    hint() {
+        for (let i = 0; i < this.target.length; i++) {
+            if (this.current[i] !== this.target[i]) {
+                this.ui.status.textContent = `Hint: Position ${i} should be "${this.target[i]}"`;
+                return;
+            }
+        }
+    }
+    render() {
+        this.ui.editor.innerHTML = '';
+        const row = document.createElement('div');
+        row.className = 'editor-row';
+        const lineNum = document.createElement('span');
+        lineNum.className = 'line-num';
+        lineNum.textContent = '1';
+        row.appendChild(lineNum);
+        for (let i = 0; i < this.current.length; i++) {
+            const cell = document.createElement('span');
+            cell.className = 'char-cell';
+            if (i === this.selectedIdx) cell.classList.add('selected');
+            if (this.current[i] !== this.target[i]) cell.classList.add('error');
+            cell.textContent = this.current[i];
+            cell.onclick = () => this.selectChar(i);
+            row.appendChild(cell);
+        }
+        this.ui.editor.appendChild(row);
+        const curHash = this.hash(this.current);
+        const tarHash = this.hash(this.target);
+        this.ui.currentHash.textContent = curHash;
+        this.ui.targetHash.textContent = tarHash;
+        this.ui.currentHash.className = 'hash-value ' + (curHash === tarHash ? 'match' : 'mismatch');
+        this.ui.edits.textContent = this.edits;
+        this.ui.errors.textContent = this.countErrors();
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

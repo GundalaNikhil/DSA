@@ -66,6 +66,16 @@ Queue: `[4, 9, 1, 7]`, `K=3`.
 
 Result: `7 4 9 1`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read N values and K] --> B{N is zero}
+B -->|Yes| C[Output empty]
+B -->|No| D[Compute K modulo N]
+D --> E[Move first K items to back]
+E --> F[Output queue order]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** `N`, array of values, `K`.

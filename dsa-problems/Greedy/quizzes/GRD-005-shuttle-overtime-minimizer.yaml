@@ -1,0 +1,52 @@
+problem_id: GRD_SHUTTLE_OVERTIME_MINIMIZER_005
+display_id: GRD-005
+slug: shuttle-overtime-minimizer
+questions:
+  - question: Which hours should be utilized first to minimize the total cost?
+    difficulty: easy
+    points: 10
+    options:
+      - All available standard hours (Cost 0)
+      - Overtime hours with the lowest rate
+      - Hours from the shift with the longest standard duration
+      - Hours from the shift with the highest overtime rate
+    correct_answer: 0
+    explanation: Standard hours are essentially 'free' or sunk costs. To minimize additional spending, you must exhaust all standard hours before paying for any overtime.
+    type: single_choice
+    id: prq_1
+  - question: How should the remaining required hours be covered after standard hours are exhausted?
+    difficulty: easy
+    points: 10
+    options:
+      - By using overtime from the single shift with the absolute minimum overtime rate
+      - By distributing them evenly across all shifts
+      - By using overtime from the shift with the most standard hours
+      - By using the rate closest to the average
+    correct_answer: 0
+    explanation: Since there is no limit on overtime per shift, strictly assigning all excess hours to the cheapest rate yields the lowest cost.
+    type: single_choice
+    id: edq_1
+  - question: What is the appropriate data type for storing `H` and the total cost?
+    difficulty: medium
+    points: 10
+    options:
+      - 64-bit integer (long / long long)
+      - 32-bit integer (int)
+      - Floating point (float)
+      - Short integer
+    correct_answer: 0
+    explanation: With `H` up to 10^12, a 32-bit integer (max ~2*10^9) will overflow. A 64-bit integer is required.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity to find the optimal solution if we just scan for the minimum rate?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N)
+      - O(N log N)
+      - O(N^2)
+      - O(log N)
+    correct_answer: 0
+    explanation: We iterate through the list once to sum standard hours and find the minimum overtime rate, taking linear time O(N).
+    type: single_choice
+    id: edq_3

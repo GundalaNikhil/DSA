@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNK-015: Parity Workshop</title>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600&family=Roboto+Condensed:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #2C3A47;
+            --panel: #CAD3C8;
+            --conveyor: #58B19F;
+            --text-dark: #2C3E50;
+            --accent: #EAB543; /* Muted Yellow */
+            --odd-col: #F97F51; /* Muted Orange */
+            --even-col: #1B9CFC; /* Muted Blue */
+            
+            --border: #182C61;
+        }
+
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background: var(--bg);
+            color: var(--text-dark);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            background: #2C3E50;
+            padding: 1rem 2rem;
+            color: #EAB543;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 4px solid var(--accent);
+        }
+
+        h1 { font-family: 'Teko', sans-serif; font-size: 2rem; margin: 0; letter-spacing: 1px; }
+
+        .score-board {
+            background: #182C61; color: white;
+            padding: 5px 15px; border-radius: 4px; border: 2px solid var(--accent);
+            font-size: 1.2rem; font-family: 'Teko';
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .workspace {
+            flex: 1; width: 100%; max-width: 900px;
+            background: #dfe6e9;
+            border: 4px solid #636e72;
+            border-radius: 8px;
+            display: flex; flex-direction: column;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+        
+        .hazard-strip {
+            height: 20px;
+            background: repeating-linear-gradient(45deg, #f1c40f, #f1c40f 10px, #2c3e50 10px, #2c3e50 20px);
+        }
+
+        .conveyor-zone {
+            flex: 1;
+            display: flex;
+            align-items: center; justify-content: center;
+            background: #b2bec3;
+            position: relative;
+        }
+        
+        /* Belt */
+        .belt {
+            width: 80%; height: 10px; background: #2d3436; border-radius: 5px; position:absolute;
+        }
+
+        .sorter-arm {
+            position: absolute;
+            top: 20%; left: 50%; transform: translateX(-50%);
+            width: 80px; height: 120px;
+            background: #636e72;
+            border: 2px solid #2d3436;
+            display: flex; align-items: flex-end; justify-content: center;
+            z-index: 20;
+        }
+        .sorter-arm::after { content:''; width: 20px; height: 100%; background: #b2bec3; }
+
+        .item {
+            position: absolute;
+            width: 60px; height: 60px;
+            background: #ecf0f1;
+            border: 3px solid #2d3436;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 1.5rem;
+            box-shadow: 0 5px 0 rgba(0,0,0,0.2);
+            z-index: 10;
+            transition: all 0.3s;
+        }
+        
+        .item.odd { color: var(--odd-col); border-color: var(--odd-col); }
+        .item.even { color: var(--even-col); border-color: var(--even-col); }
+
+        .bin {
+            position: absolute; bottom: 20px; width: 150px; height: 120px;
+            border: 4px solid #2d3436; border-top: none;
+            display: flex; flex-direction: column-reverse; /* Stack upwards */
+            align-items: center;
+            background: rgba(0,0,0,0.1);
+        }
+        
+        .bin-header {
+            position: absolute; top: -30px; width: 100%; text-align: center;
+            font-family: 'Teko'; font-size: 1.5rem; color: #2d3436;
+        }
+        
+        #bin-left { left: 50px; border-color: var(--odd-col); }
+        #bin-left .bin-header { color: var(--odd-col); }
+        
+        #bin-right { right: 50px; border-color: var(--even-col); }
+        #bin-right .bin-header { color: var(--even-col); }
+
+        .control-panel {
+            display: flex; gap: 40px; margin-top: 20px;
+        }
+        
+        .btn-big {
+            width: 120px; height: 120px;
+            border-radius: 50%;
+            border: 6px solid #2c3e50;
+            background: #ecf0f1;
+            font-family: 'Teko'; font-size: 2rem;
+            cursor: pointer;
+            box-shadow: 0 8px 0 #bdc3c7;
+            transition: all 0.1s;
+        }
+        .btn-big:active { transform: translateY(4px); box-shadow: 0 4px 0 #bdc3c7; }
+        
+        .btn-l { color: var(--odd-col); border-color: var(--odd-col); }
+        .btn-r { color: var(--even-col); border-color: var(--even-col); }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .intro-box {
+            background: #ecf0f1; padding: 2rem; border-radius: 8px;
+            text-align: center; border: 4px solid var(--accent);
+            max-width: 400px;
+        }
+        
+        .start-btn {
+            background: var(--accent); color: #2d3436; border: none; padding: 1rem 2rem;
+            font-family: 'Teko'; font-size: 1.5rem; cursor: pointer; margin-top: 1rem;
+        }
+
+    
+        .alert-modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .alert-modal {
+            background: white; padding: 2rem; border-radius: 8px;
+            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+        .alert-modal button {
+            background: #4b5563; color: white; padding: 0.8rem 2rem;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .alert-modal button:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>PARITY WORKSHOP</h1>
+    <div class="score-board">$$ <span id="score">0</span></div>
+</header>
+
+<main>
+    <div class="workspace">
+        <div class="hazard-strip"></div>
+        <div class="conveyor-zone" id="zone">
+            <div class="belt"></div>
+            <div class="sorter-arm"></div>
+            
+            <div class="bin" id="bin-left">
+                <div class="bin-header">ODD</div>
+            </div>
+            
+            <div class="bin" id="bin-right">
+                <div class="bin-header">EVEN</div>
+            </div>
+        </div>
+        <div class="hazard-strip"></div>
+    </div>
+
+    <div class="control-panel">
+        <button class="btn-big btn-l" onclick="game.sort('LEFT')">ODD</button>
+        <div style="font-family:'Teko'; font-size:1.5rem; color:#2d3436; align-self:center;">MANUAL OVERRIDE</div>
+        <button class="btn-big btn-r" onclick="game.sort('RIGHT')">EVEN</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="intro-box">
+        <h2>SORTING PROTOCOL</h2>
+        <b>Protocol:</b>
+        <div style="text-align:left; color:#2d3436; font-size:1.1rem; margin:1rem 0;">
+            1. <b>Analyze</b>: Audit current Item parity.<br>
+            2. <b>Sort</b>:<br>
+            <span style="display:inline-block; margin-left:15px; color:var(--odd-col);">• <b>ODD (Left)</b>: Divert to Odd Bin.</span><br>
+            <span style="display:inline-block; margin-left:15px; color:var(--even-col);">• <b>EVEN (Right)</b>: Divert to Even Bin.</span><br>
+            3. <b>Speed</b>: Maintain rapid sorting pace.
+        </div>
+        <button class="start-btn" onclick="game.start()">ACTIVATE BELT</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.queue = [];
+            this.current = null; // { val, el }
+            this.score = 0;
+            this.isBusy = false;
+            
+            this.ui = {
+                zone: document.getElementById('zone'),
+                binL: document.getElementById('bin-left'),
+                binR: document.getElementById('bin-right'),
+                score: document.getElementById('score')
+            };
+        }
+
+        start() {
+            document.getElementById('modal').classList.add('hidden');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.queue = [];
+            // generate 10 items
+            for(let i=0; i<10; i++) {
+                this.queue.push(Math.floor(Math.random()*20) + 1);
+            }
+            this.spawnNext();
+        }
+
+        spawnNext() {
+            if (this.queue.length === 0) {
+                setTimeout(() => {
+                    this.showGameAlert("BATCH COMPLETE! Score: " + this.score);
+                    this.loadLevel();
+                }, 500);
+                return;
+            }
+            
+            const val = this.queue.shift();
+            const el = document.createElement('div');
+            el.className = `item ${val%2!==0 ? 'odd' : 'even'}`;
+            el.innerText = val;
+            
+            // Start pos: Top Center (from arm)
+            el.style.left = '50%';
+            el.style.top = '20%';
+            el.style.transform = 'translate(-50%, 0) scale(0)';
+            
+            this.ui.zone.appendChild(el);
+            
+            // Anim In
+            setTimeout(() => el.style.transform = 'translate(-50%, 0) scale(1)', 50);
+            
+            this.current = { val, el };
+            this.isBusy = false;
+        }
+
+        sort(dir) {
+            if (this.isBusy || !this.current) return;
+            this.isBusy = true;
+            
+            const isOdd = (this.current.val % 2 !== 0);
+            const correct = (dir === 'LEFT' && isOdd) || (dir === 'RIGHT' && !isOdd);
+            
+            if (correct) {
+                this.score += 100;
+                this.ui.score.innerText = this.score;
+                this.animateMove(dir, true);
+            } else {
+                this.score -= 50;
+                this.ui.score.innerText = this.score;
+                this.flashError();
+                this.animateMove(dir, false); // Still move but maybe destroy?
+            }
+        }
+
+        flashError() {
+            const w = document.querySelector('.workspace');
+            w.style.borderColor = '#e74c3c';
+            setTimeout(() => w.style.borderColor = '#636e72', 300);
+        }
+
+        animateMove(dir, success) {
+            const el = this.current.el;
+            const targetBin = dir === 'LEFT' ? this.ui.binL : this.ui.binR;
+            
+            // Calculate target pos relative to zone
+            // Bin pos is absolute in zone? No, bin logic.
+            // Let's just animate visual translation to bin area
+            
+            const zoneRect = this.ui.zone.getBoundingClientRect();
+            const binRect = targetBin.getBoundingClientRect();
+            
+            const tx = (binRect.left + binRect.width/2) - (zoneRect.left + zoneRect.width/2);
+            const ty = (binRect.top + binRect.height/2) - (zoneRect.top + 50); // Rough top offset
+            
+            el.style.transition = 'all 0.4s cubic-bezier(0.5, 0, 0.5, 1)';
+            el.style.transform = `translate(calc(-50% + ${tx}px), ${ty}px) scale(0.6)`;
+            
+            setTimeout(() => {
+                el.remove();
+                if (success) {
+                    // Add static item to bin stack
+                    const mini = document.createElement('div');
+                    mini.style.width = '40px'; mini.style.height = '10px';
+                    mini.style.background = dir === 'LEFT' ? 'var(--odd-col)' : 'var(--even-col)';
+                    mini.style.marginBottom = '2px';
+                    mini.style.border = '1px solid rgba(0,0,0,0.2)';
+                    targetBin.appendChild(mini);
+                }
+                this.spawnNext();
+            }, 400);
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

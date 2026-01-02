@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMT-013: Grid Eraser</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 36px; text-shadow: 0 0 20px #00d4ff; }
+
+        .tutorial {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .tutorial h2 { color: #0088cc; margin-bottom: 15px; }
+
+        .rules { display: flex; gap: 15px; }
+        .rule {
+            flex: 1;
+            background: #e0f7ff;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .rule-icon { font-size: 28px; }
+        .rule-text { font-size: 13px; color: #555; margin-top: 5px; }
+
+        .game-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .turn-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #0088cc, #00d4ff);
+            border-radius: 12px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .turn-bar.ai { background: linear-gradient(90deg, #dc2626, #ef4444); }
+
+        .grid-area {
+            display: flex;
+            justify-content: center;
+            padding: 25px;
+            background: #f0f4f8;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .grid { display: grid; gap: 5px; }
+
+        .cell {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #0088cc, #00d4ff);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+            color: #fff;
+        }
+        .cell:hover { transform: scale(1.1); }
+        .cell.erased { background: #e0e0e0; opacity: 0.3; cursor: not-allowed; }
+        .cell.preview { opacity: 0.5; box-shadow: 0 0 0 3px #ff6600; }
+
+        .message { text-align: center; padding: 15px; color: #666; }
+
+        .result {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            display: none;
+        }
+        .result.win { display: block; background: #d1fae5; color: #059669; }
+        .result.lose { display: block; background: #fee2e2; color: #dc2626; }
+
+        .new-game {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 15px;
+            background: #0088cc;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🧹 Grid Eraser</h1>
+        <div style="opacity:0.9">Erase a row or column - last move wins!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="rules">
+            <div class="rule">
+                <div class="rule-icon">👆</div>
+                <div class="rule-text"><strong>Click any cell</strong> in a row or column</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">🧹</div>
+                <div class="rule-text"><strong>Erase the entire</strong> row or column</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">🏆</div>
+                <div class="rule-text"><strong>Last to erase</strong> wins!</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="turn-bar" id="turnBar">
+            <span id="turnText">🟢 Your Turn</span>
+            <span>Cells: <span id="cellCount">0</span></span>
+        </div>
+
+        <div class="message" id="message">Click a cell to erase its row or column!</div>
+
+        <div class="grid-area">
+            <div class="grid" id="grid"></div>
+        </div>
+
+        <div class="action-buttons" id="actionButtons" style="text-align:center; margin-bottom:15px; display:none;">
+            <button onclick="eraseRow()" style="padding:12px 25px; margin:5px; background:#0088cc; color:#fff; border:none; border-radius:10px; font-family:inherit; font-weight:600; cursor:pointer;">Erase Row</button>
+            <button onclick="eraseCol()" style="padding:12px 25px; margin:5px; background:#00d4ff; color:#fff; border:none; border-radius:10px; font-family:inherit; font-weight:600; cursor:pointer;">Erase Column</button>
+            <button onclick="cancelSelect()" style="padding:12px 25px; margin:5px; background:#95a5a6; color:#fff; border:none; border-radius:10px; font-family:inherit; font-weight:600; cursor:pointer;">Cancel</button>
+        </div>
+
+        <div class="result" id="result"></div>
+
+        <button class="new-game" onclick="newGame()">🔄 New Game</button>
+    </div>
+</div>
+
+<script>
+    const ROWS = 4;
+    const COLS = 5;
+    let grid = []; // true = present
+    let selectedCell = null;
+    let isPlayerTurn = true;
+    let gameOver = false;
+
+    function init() {
+        grid = Array(ROWS).fill().map(() => Array(COLS).fill(true));
+        selectedCell = null;
+        isPlayerTurn = true;
+        gameOver = false;
+        document.getElementById('result').className = 'result';
+        document.getElementById('actionButtons').style.display = 'none';
+        render();
+    }
+
+    function render() {
+        const turnBar = document.getElementById('turnBar');
+        turnBar.className = isPlayerTurn ? 'turn-bar' : 'turn-bar ai';
+        document.getElementById('turnText').textContent = isPlayerTurn ? '🟢 Your Turn' : '🔴 AI Turn';
+
+        let count = 0;
+        grid.forEach(row => row.forEach(c => { if (c) count++; }));
+        document.getElementById('cellCount').textContent = count;
+
+        const container = document.getElementById('grid');
+        container.style.gridTemplateColumns = `repeat(${COLS}, 50px)`;
+        container.innerHTML = '';
+
+        for (let r = 0; r < ROWS; r++) {
+            for (let c = 0; c < COLS; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                if (!grid[r][c]) cell.classList.add('erased');
+                cell.textContent = grid[r][c] ? '■' : '';
+
+                if (grid[r][c] && isPlayerTurn && !gameOver) {
+                    cell.onclick = () => selectCell(r, c);
+                }
+
+                container.appendChild(cell);
+            }
+        }
+    }
+
+    function selectCell(r, c) {
+        selectedCell = { r, c };
+        document.getElementById('actionButtons').style.display = 'block';
+        document.getElementById('message').textContent = `Selected (${r+1}, ${c+1}). Erase row ${r+1} or column ${c+1}?`;
+    }
+
+    function cancelSelect() {
+        selectedCell = null;
+        document.getElementById('actionButtons').style.display = 'none';
+        document.getElementById('message').textContent = 'Click a cell to erase its row or column!';
+    }
+
+    function eraseRow() {
+        if (!selectedCell) return;
+        const r = selectedCell.r;
+        for (let c = 0; c < COLS; c++) grid[r][c] = false;
+        finishTurn();
+    }
+
+    function eraseCol() {
+        if (!selectedCell) return;
+        const c = selectedCell.c;
+        for (let r = 0; r < ROWS; r++) grid[r][c] = false;
+        finishTurn();
+    }
+
+    function finishTurn() {
+        selectedCell = null;
+        document.getElementById('actionButtons').style.display = 'none';
+
+        if (grid.every(row => row.every(c => !c))) {
+            endGame(true);
+            return;
+        }
+
+        isPlayerTurn = false;
+        render();
+        document.getElementById('message').textContent = '🤖 AI is thinking...';
+
+        setTimeout(aiMove, 800);
+    }
+
+    function aiMove() {
+        if (gameOver) return;
+
+        // Find first non-empty row and erase it
+        for (let r = 0; r < ROWS; r++) {
+            if (grid[r].some(c => c)) {
+                for (let c = 0; c < COLS; c++) grid[r][c] = false;
+                document.getElementById('message').textContent = `🤖 AI erases row ${r+1}`;
+                break;
+            }
+        }
+
+        if (grid.every(row => row.every(c => !c))) {
+            endGame(false);
+            return;
+        }
+
+        isPlayerTurn = true;
+        render();
+        setTimeout(() => {
+            document.getElementById('message').textContent = 'Your turn! Click a cell to erase.';
+        }, 500);
+    }
+
+    function endGame(playerWins) {
+        gameOver = true;
+        render();
+        const result = document.getElementById('result');
+        if (playerWins) {
+            result.className = 'result win';
+            result.textContent = '🎉 YOU WIN!';
+        } else {
+            result.className = 'result lose';
+            result.textContent = '😢 AI WINS!';
+        }
+        document.getElementById('message').textContent = '';
+    }
+
+    function newGame() {
+        init();
+        document.getElementById('message').textContent = 'Click a cell to erase its row or column!';
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

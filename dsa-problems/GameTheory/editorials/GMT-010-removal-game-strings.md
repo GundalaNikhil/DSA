@@ -46,6 +46,7 @@ Imagine a tunnel supported by segments of different materials (Concrete, Steel, 
 3. If you remove a group in the middle, the two neighbors are the same
    character and merge, so the number of groups decreases by **2**.
 4. If you remove an end group, the number of groups decreases by **1**.
+The groups behave like springs, snip one and the neighbors snap together.
 
 So for a string with `k` groups, the moves are exactly:
 - `k -> k - 1`
@@ -69,6 +70,20 @@ of the Grundy values across all strings.
     - Compute `g = grundy(k)`.
     - `xor_sum ^= g`.
 2.  Return "First" if `xor_sum > 0`.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with strings] --> B[Set xor_sum to 0]
+    B --> C[For each string]
+    C --> D[Compress to group count k]
+    D --> E[Compute grundy for k]
+    E --> F[Update xor_sum with grundy]
+    F --> C
+    C --> G{xor_sum is zero?}
+    G -- Yes --> H[Return Second]
+    G -- No --> I[Return First]
+```
 
 ### Time Complexity
 

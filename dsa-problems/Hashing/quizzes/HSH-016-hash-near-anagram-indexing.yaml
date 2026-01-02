@@ -1,2 +1,52 @@
-# Quiz for HSH-016: Hash-Based Near-Anagram Indexing
-# YAML content to be added
+problem_id: HSH_HASH_NEAR_ANAGRAM_INDEXING_016
+display_id: HSH-016
+slug: hash-near-anagram-indexing
+questions:
+  - question: Two words are connected if they become anagrams after removing exactly one character from each. Which pairs are connected?
+    difficulty: easy
+    points: 10
+    options:
+      - "'abc' and 'def' (no connection)"
+      - "'abc' and 'bca' (both anagrams of each other)"
+      - "'abc' and 'bc' (if we remove 'a' and 'b' leaves 'bc' and nothing)"
+      - "'abcd' and 'abc' (remove 'd' from first, but nothing from second)"
+    correct_answer: 0
+    explanation: For 'abc' and 'def', there's no way to remove one character from each and get anagrams. They're not connected.
+    type: single_choice
+    id: prq_1
+  - question: Why must we sort the characters in a reduced form (word after removing one character)?
+    difficulty: easy
+    points: 10
+    options:
+      - To make it alphabetically ordered
+      - "To create a canonical anagram signature: 'abc' and 'bca' both reduce to the same forms"
+      - To speed up removal
+      - It's optional
+    correct_answer: 1
+    explanation: Sorting ensures that anagrams have the same canonical form. For example, both 'bac' and 'abc' after removing 'c' become 'ab'.
+    type: single_choice
+    id: edq_1
+  - question: In Union-Find, why is path compression important when grouping words?
+    difficulty: medium
+    points: 15
+    options:
+      - To make the code shorter
+      - To reduce amortized time complexity to nearly O(1) per operation, making large unions efficient
+      - To save space
+      - It's not necessary
+    correct_answer: 1
+    explanation: With path compression, union-find operations approach O(1) amortized time. This is critical when processing thousands of word connections.
+    type: single_choice
+    id: edq_2
+  - question: How many reduced forms (intermediate signatures) are generated for a word of length L?
+    difficulty: medium
+    points: 15
+    options:
+      - L
+      - L-1
+      - L+1
+      - 2^L
+    correct_answer: 0
+    explanation: For each position in the word, we remove one character. A word of length L has exactly L positions, giving L reduced forms.
+    type: single_choice
+    id: edq_3

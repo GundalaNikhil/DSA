@@ -1,2 +1,52 @@
-# Quiz for QUE-002: Circular Shuttle Buffer with Overwrite
-# YAML content to be added
+problem_id: QUE_CIRCULAR_SHUTTLE_BUFFER_OVERWRITE_002
+display_id: QUE-002
+slug: circular-shuttle-buffer-overwrite
+questions:
+  - question: For circular buffer with capacity k=3 starting empty, after ENQ_OVR 1, 2, 3, 4, 5, what is REAR?
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "3"
+      - "5"
+      - "4"
+    correct_answer: 2
+    explanation: "ENQ_OVR keeps capacity fixed at 3. Final buffer is [3, 4, 5] (overwrote 1, 2). REAR is the last enqueued element: 5."
+    type: single_choice
+    id: prq_1
+  - question: What distinguishes ENQ_OVR from regular ENQUEUE?
+    difficulty: easy
+    points: 10
+    options:
+      - ENQ_OVR is slower
+      - ENQ_OVR overwrites the oldest element when buffer is full instead of failing
+      - ENQ_OVR always deletes the newest element
+      - ENQ_OVR reverses the queue
+    correct_answer: 1
+    explanation: ENQ_OVR (enqueue with overwrite) discards the oldest element when full, allowing continuous insertion.
+    type: single_choice
+    id: edq_1
+  - question: In a circular buffer, how do you distinguish between full and empty using head and tail pointers only?
+    difficulty: medium
+    points: 15
+    options:
+      - You can't without extra information
+      - "Full: (tail + 1) % k == head. Empty: head == tail. Both conditions are mutually exclusive"
+      - Full and empty are always the same condition
+      - Use head < tail always
+    correct_answer: 1
+    explanation: "With an explicit count variable, you can avoid ambiguity: count == k means full, count == 0 means empty."
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of ENQ_OVR operation in a circular buffer of capacity k?
+    difficulty: medium
+    points: 15
+    options:
+      - O(k) because all elements must shift
+      - O(1) - just update tail pointer and (if full) advance head pointer
+      - O(log k) due to circular modulo arithmetic
+      - O(n) where n is the number of elements
+    correct_answer: 1
+    explanation: ENQ_OVR only updates pointers in O(1); the circular array structure prevents expensive shifts.
+    type: single_choice
+    id: edq_3

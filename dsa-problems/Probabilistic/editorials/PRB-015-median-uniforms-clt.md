@@ -60,7 +60,15 @@ For a Uniform distribution on `[0,1]`:
          |   |        |
          |  /          \
     -----|-+------------+-----
-         0    0.5     1.0
+        0    0.5     1.0
+```
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Use asymptotic median formulas]
+    B --> C[Compute mean and variance]
+    C --> D[Output values]
 ```
 
 ### ✅ Input/Output Clarifications (Read This Before Coding)

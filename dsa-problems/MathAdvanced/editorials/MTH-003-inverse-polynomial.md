@@ -48,7 +48,18 @@ Just like finding `1/7` in decimal gives an infinite series `0.142857...`, findi
 
 ## Detailed Explanation
 
-### ASCII Diagram: Newton Iteration
+### Flow Diagram: Newton Iteration
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with inverse of constant term] --> B[Set current length]
+    B --> C{Length less than n}
+    C -- Yes --> D[Double length]
+    D --> E[Compute Q new as Q old times two minus P times Q old]
+    E --> B
+    C -- No --> F[Return first n coefficients]
+```
 
 We want to solve `F(Q) = frac1Q - P = 0`.
 Newton's Method finds roots by iterating: `x_new = x_old - fracf(x_old)f'(x_old)`.

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NUM-005: Prime Factorizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a1a0a; --prime: #00ff00; --composite: #ff6b6b; --panel: #0f2a0f; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--prime); }
+        h1 { margin: 0; font-family: 'Bangers', cursive; color: var(--prime); font-size: 1.8rem; letter-spacing: 3px; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--prime); }
+        .instructions b { color: var(--prime); }
+        .input-area { display: flex; gap: 15px; align-items: center; padding: 20px; background: var(--panel); border-radius: 15px; }
+        .big-input { width: 150px; height: 60px; font-size: 1.5rem; text-align: center; background: #000; border: 3px solid var(--prime); color: var(--prime); border-radius: 10px; font-family: 'Bangers'; }
+        .factors-display { display: flex; gap: 10px; flex-wrap: wrap; padding: 25px; background: #000; border-radius: 15px; min-width: 400px; justify-content: center; align-items: center; }
+        .factor { display: flex; align-items: baseline; gap: 2px; }
+        .factor-base { font-size: 2rem; font-family: 'Bangers'; color: var(--prime); }
+        .factor-exp { font-size: 1rem; color: var(--composite); vertical-align: super; }
+        .multiply { font-size: 1.5rem; color: #888; margin: 0 5px; }
+        .tree-visual { padding: 20px; background: var(--panel); border-radius: 10px; min-width: 400px; }
+        .tree-row { display: flex; justify-content: center; gap: 20px; margin-bottom: 15px; }
+        .tree-node { padding: 10px 20px; border-radius: 10px; text-align: center; }
+        .tree-node.prime { background: var(--prime); color: #000; font-weight: bold; }
+        .tree-node.composite { background: var(--composite); color: #fff; }
+        .tree-arrow { color: #888; text-align: center; margin-bottom: 10px; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #1a3a1a; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1a3a1a; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--prime); }
+        .btn { background: var(--prime); color: #000; border: none; padding: 12px 25px; font-family: 'Bangers'; font-size: 1.1rem; cursor: pointer; border-radius: 8px; letter-spacing: 2px; }
+        .btn:hover { background: #33ff33; }
+        .btn.secondary { background: transparent; border: 2px solid #1a3a1a; color: #888; font-family: 'Nunito'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--prime); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--prime); font-family: 'Bangers'; font-size: 2rem; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🧬 PRIME FACTORIZER</h1>
+    <div style="color:#888">FUNDAMENTAL THEOREM</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 FACTOR IT:</b> Enter a number to see its unique prime factorization! Every number is a product of primes.
+    </div>
+    <div class="input-area">
+        <span>Factor:</span>
+        <input type="number" class="big-input" id="numInput" value="360" min="2" max="10000">
+        <button class="btn" onclick="game.factor()">FACTORIZE!</button>
+    </div>
+    <div style="color:var(--prime);">PRIME FACTORIZATION:</div>
+    <div class="factors-display" id="factors"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Unique Primes</span><span class="stat-value" id="uniquePrimes">0</span></div>
+            <div class="stat-row"><span class="stat-label">Total Factors</span><span class="stat-value" id="totalFactors">0</span></div>
+            <div class="stat-row"><span class="stat-label">Divisors Count</span><span class="stat-value" id="divisors">0</span></div>
+        </div>
+    </div>
+    <div id="status">Enter a number to factor!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.random()">RANDOM</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🧬 PRIME FACTORIZER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--prime)">CONCEPT:</b> Fundamental Theorem of Arithmetic!</p>
+            <ul>
+                <li>Every integer > 1 is a <b>unique product of primes</b></li>
+                <li>Factorize by dividing by smallest prime</li>
+                <li>360 = 2³ × 3² × 5</li>
+                <li>Divisors = (e₁+1)(e₂+1)... for exponents</li>
+            </ul>
+            <p style="color:#888">Foundation of number theory!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START FACTORING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.ui = { numInput: document.getElementById('numInput'), factors: document.getElementById('factors'), uniquePrimes: document.getElementById('uniquePrimes'), totalFactors: document.getElementById('totalFactors'), divisors: document.getElementById('divisors'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); }
+    random() { this.ui.numInput.value = Math.floor(Math.random() * 1000) + 2; this.factor(); }
+    factor() {
+        let n = parseInt(this.ui.numInput.value);
+        if (n < 2) return;
+        const original = n;
+        const factors = {};
+        let d = 2;
+        while (d * d <= n) {
+            while (n % d === 0) {
+                factors[d] = (factors[d] || 0) + 1;
+                n /= d;
+            }
+            d++;
+        }
+        if (n > 1) factors[n] = (factors[n] || 0) + 1;
+        this.displayFactors(factors, original);
+    }
+    displayFactors(factors, original) {
+        this.ui.factors.innerHTML = '';
+        const primes = Object.keys(factors).map(Number).sort((a, b) => a - b);
+        primes.forEach((p, i) => {
+            const factor = document.createElement('div');
+            factor.className = 'factor';
+            factor.innerHTML = `<span class="factor-base">${p}</span><span class="factor-exp">${factors[p] > 1 ? factors[p] : ''}</span>`;
+            this.ui.factors.appendChild(factor);
+            if (i < primes.length - 1) {
+                const mult = document.createElement('span');
+                mult.className = 'multiply';
+                mult.textContent = '×';
+                this.ui.factors.appendChild(mult);
+            }
+        });
+        // Calculate stats
+        const totalFactors = Object.values(factors).reduce((a, b) => a + b, 0);
+        const divisors = Object.values(factors).reduce((a, b) => a * (b + 1), 1);
+        this.ui.uniquePrimes.textContent = primes.length;
+        this.ui.totalFactors.textContent = totalFactors;
+        this.ui.divisors.textContent = divisors;
+        const factorStr = primes.map(p => factors[p] > 1 ? `${p}^${factors[p]}` : p).join(' × ');
+        this.ui.status.textContent = `${original} = ${factorStr}`;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

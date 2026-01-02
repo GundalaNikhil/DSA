@@ -1,0 +1,52 @@
+problem_id: TDP_CENTROID_DECOMP_TIME_DECAY_014
+display_id: TDP-014
+slug: centroid-decomp-time-decay
+questions:
+  - question: "Centroid Decomposition works by recursively splitting the tree at the centroid, producing a 'Centroid Tree' of height:"
+    difficulty: easy
+    points: 10
+    options:
+      - O(log N)
+      - O(N)
+      - O(sqrt N)
+      - O(1)
+    correct_answer: 0
+    explanation: Each split ensures subtrees are at most half the size.
+    type: single_choice
+    id: prq_1
+  - question: "This technique is particularly useful for:"
+    difficulty: medium
+    points: 15
+    options:
+      - Path queries/updates where paths are decomposed into two segments going up to an ancestor in the Centroid Tree
+      - Finding LCA
+      - Finding MST
+      - Subtree sum queries
+    correct_answer: 0
+    explanation: Any path u-v in the original tree passes through the LCA of u,v in the Centroid Tree.
+    type: single_choice
+    id: edq_1
+  - question: What is the construction time complexity of the Centroid Tree?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N log N)
+      - O(N^2)
+      - O(N)
+      - O(log N)
+    correct_answer: 0
+    explanation: At each level (log N levels), we process O(N) nodes.
+    type: single_choice
+    id: edq_2
+  - question: "A centroid of a tree with N nodes is a node whose removal leaves no component larger than:"
+    difficulty: easy
+    points: 10
+    options:
+      - N / 2
+      - N / 3
+      - N - 1
+      - sqrt(N)
+    correct_answer: 0
+    explanation: Standard centroid definition.
+    type: single_choice
+    id: edq_3

@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSH-016: Anagram Hunt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a2a1a; --anagram: #ff6b6b; --found: #7bed9f; --panel: #0f1a0f; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--anagram); }
+        h1 { margin: 0; font-family: 'Luckiest Guy', cursive; color: var(--anagram); font-size: 1.8rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--anagram); }
+        .instructions b { color: var(--anagram); }
+        .target-word { font-size: 2rem; font-family: 'Luckiest Guy'; color: var(--anagram); padding: 15px 30px; background: var(--panel); border: 3px solid var(--anagram); border-radius: 15px; letter-spacing: 8px; }
+        .text-area { background: var(--panel); padding: 25px; border-radius: 15px; max-width: 600px; }
+        .text-chars { display: flex; flex-wrap: wrap; gap: 4px; font-size: 1.3rem; }
+        .text-char { padding: 8px 10px; border-radius: 5px; cursor: pointer; transition: all 0.2s; }
+        .text-char:hover { background: rgba(255,107,107,0.3); }
+        .text-char.selected { background: var(--anagram); color: #fff; }
+        .text-char.found { background: var(--found); color: #000; }
+        .found-anagrams { display: flex; flex-wrap: wrap; gap: 10px; padding: 15px; background: var(--panel); border-radius: 10px; min-width: 400px; min-height: 50px; justify-content: center; }
+        .anagram-item { padding: 8px 15px; background: var(--found); color: #000; border-radius: 20px; font-weight: bold; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #1a3a1a; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1a3a1a; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--anagram); }
+        .btn { background: var(--anagram); color: #fff; border: none; padding: 12px 25px; font-family: 'Luckiest Guy'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ff8585; }
+        .btn.secondary { background: transparent; border: 2px solid #1a3a1a; color: #888; font-family: 'Nunito'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--anagram); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--anagram); font-family: 'Luckiest Guy'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🔠 ANAGRAM HUNT</h1>
+    <div style="color:#888">NEAR-ANAGRAM INDEXING</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 FIND ANAGRAMS:</b> Select substrings that are anagrams of the target word! Same letters, different order.
+    </div>
+    <div style="color:var(--anagram);">FIND ANAGRAMS OF:</div>
+    <div class="target-word" id="target">CAT</div>
+    <div class="text-area">
+        <div class="text-chars" id="textChars"></div>
+    </div>
+    <div style="color:var(--found);">FOUND ANAGRAMS:</div>
+    <div class="found-anagrams" id="foundList"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Found</span><span class="stat-value" id="found">0</span></div>
+            <div class="stat-row"><span class="stat-label">Hidden</span><span class="stat-value" id="hidden">?</span></div>
+        </div>
+    </div>
+    <div id="status">Select consecutive characters!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.check()">CHECK</button>
+        <button class="btn secondary" onclick="game.clearSelection()">CLEAR</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW PUZZLE</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔠 ANAGRAM HUNT</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--anagram)">MISSION:</b> Find all anagram substrings!</p>
+            <ul>
+                <li>Select substrings of <b>same length</b> as target</li>
+                <li>Check if letters match (any order)</li>
+                <li>Character frequency hash enables O(1) check</li>
+                <li>Used in spell checkers, word games!</li>
+            </ul>
+            <p style="color:#888">Hash = product of char primes!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START HUNT</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.target = ''; this.text = ''; this.selected = []; this.foundAnagrams = []; this.allPositions = [];
+        this.ui = { target: document.getElementById('target'), text: document.getElementById('textChars'), foundList: document.getElementById('foundList'), found: document.getElementById('found'), hidden: document.getElementById('hidden'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    sortedStr(s) { return s.split('').sort().join(''); }
+    isAnagram(s1, s2) { return this.sortedStr(s1) === this.sortedStr(s2); }
+    newGame() {
+        const targets = ['CAT', 'DOG', 'ACE', 'BAT'];
+        this.target = targets[Math.floor(Math.random() * targets.length)];
+        // Build text with hidden anagrams
+        const filler = 'XYZPQRMNL';
+        let text = '';
+        this.allPositions = [];
+        for (let i = 0; i < 3; i++) {
+            text += filler.substring(0, 2 + Math.floor(Math.random() * 2));
+            this.allPositions.push(text.length);
+            // Shuffle target
+            const shuffled = this.target.split('').sort(() => Math.random() - 0.5).join('');
+            text += shuffled;
+        }
+        text += filler.substring(0, 3);
+        this.text = text;
+        this.selected = []; this.foundAnagrams = [];
+        this.ui.hidden.textContent = '?';
+        this.ui.status.textContent = 'Select consecutive characters!';
+        this.render();
+    }
+    toggleChar(idx) {
+        if (this.selected.includes(idx)) this.selected = this.selected.filter(i => i !== idx);
+        else { this.selected.push(idx); this.selected.sort((a, b) => a - b); }
+        this.render();
+    }
+    isConsecutive() {
+        if (this.selected.length === 0) return false;
+        for (let i = 1; i < this.selected.length; i++) {
+            if (this.selected[i] !== this.selected[i-1] + 1) return false;
+        }
+        return true;
+    }
+    getSelectedText() {
+        if (!this.isConsecutive()) return '';
+        return this.selected.map(i => this.text[i]).join('');
+    }
+    check() {
+        if (!this.isConsecutive()) { this.ui.status.textContent = 'Select consecutive characters!'; return; }
+        const sel = this.getSelectedText();
+        if (sel.length !== this.target.length) { this.ui.status.textContent = `Select exactly ${this.target.length} characters!`; return; }
+        if (this.isAnagram(sel, this.target)) {
+            const pos = Math.min(...this.selected);
+            if (!this.foundAnagrams.includes(pos)) {
+                this.foundAnagrams.push(pos);
+                this.ui.status.innerHTML = `🎉 "${sel}" is an anagram of "${this.target}"!`;
+                this.ui.status.style.color = 'var(--found)';
+            } else {
+                this.ui.status.textContent = 'Already found this one!';
+            }
+        } else {
+            this.ui.status.textContent = `❌ "${sel}" is not an anagram`;
+            this.ui.status.style.color = '#888';
+        }
+        this.selected = [];
+        if (this.foundAnagrams.length === 3) this.ui.hidden.textContent = 3;
+        this.render();
+    }
+    clearSelection() { this.selected = []; this.render(); }
+    render() {
+        this.ui.target.textContent = this.target;
+        this.ui.text.innerHTML = '';
+        for (let i = 0; i < this.text.length; i++) {
+            const ch = document.createElement('span');
+            ch.className = 'text-char';
+            if (this.selected.includes(i)) ch.classList.add('selected');
+            if (this.foundAnagrams.some(p => i >= p && i < p + this.target.length)) ch.classList.add('found');
+            ch.textContent = this.text[i];
+            ch.onclick = () => this.toggleChar(i);
+            this.ui.text.appendChild(ch);
+        }
+        this.ui.foundList.innerHTML = '';
+        this.foundAnagrams.forEach(pos => {
+            const item = document.createElement('div');
+            item.className = 'anagram-item';
+            item.textContent = this.text.substring(pos, pos + this.target.length);
+            this.ui.foundList.appendChild(item);
+        });
+        this.ui.found.textContent = this.foundAnagrams.length;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

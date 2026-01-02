@@ -37,14 +37,17 @@ You are a contestant on a game show.
 -   **The Score:** Your score is the Cumulative XOR of all boxes you've opened so far in this streak.
 -   **The Goal:** You generally know (or can calculate) what the boxes contain. You want to stop at the exact moment your score is highest.
 
-![Real-World Application](../images/BIT-005/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291231/Bitwise/BIT-005/v2/zrlhlm2y1z93wh8db5k0.png)
 
 ### From Real World to Algorithm
 -   **Fixed Start:** Unlike the general "Max Subarray XOR" problem (which lets you pick *any* start and end), here your feet are glued to `s`. You can only move forward.
 -   **Implication:** We don't need a Trie or complex data structures. We just need to walk forward, calculate the running XOR, and keep track of the highest value we've seen.
 -   **Complexity:** This simplifies the problem from $O(N \log K)$ to $O(N)$ linear time.
+It is a straight XOR sprint from the start, so the best stop is just the brightest blink.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291235/Bitwise/BIT-005/v2/tecqcz6yvtni115ibcjt.png)
 
 ### logical Diagram: The Walk
 
@@ -61,15 +64,19 @@ You are a contestant on a game show.
 
 **Result:** 12.
 
+<!-- mermaid -->
 ```mermaid
-graph LR
-    Start[Index s] --> Accumulate[Update CurrentXOR]
-    Accumulate --> CheckMax{Current > Max?}
-    CheckMax -- Yes --> UpdateMax[New Max Found]
-    CheckMax -- No --> Continue
-    UpdateMax --> Next[Index s+1]
-    Continue --> Next
-    Next --> Loop{End of Array?}
+flowchart TD
+    A[Start at index s] --> B[Set current_xor to 0 and max_xor to 0]
+    B --> C{i less than n?}
+    C -- No --> H[Return max_xor]
+    C -- Yes --> D[current_xor XOR equals a at i]
+    D --> E{current_xor > max_xor?}
+    E -- Yes --> F[Update max_xor]
+    E -- No --> G[Keep max_xor]
+    F --> I[i++]
+    G --> I
+    I --> C
 ```
 
 ## ✅ Input/Output Clarifications
@@ -193,6 +200,8 @@ class Solution {
 ```
 
 ## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291238/Bitwise/BIT-005/v2/miwn02cpdqagfpaiwade.png)
 **Input:** `[10, 20, 30]`, s=0.
 -   i=0: XOR=10. Max=10.
 -   i=1: XOR=30. Max=30.

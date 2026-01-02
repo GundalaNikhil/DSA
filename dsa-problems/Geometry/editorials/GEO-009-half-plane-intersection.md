@@ -61,6 +61,24 @@ The intersection of half-planes that are all on one side of their directed line 
 4. **Build polygon:** Intersections of consecutive deque lines plus the wrap-around intersection give the final polygon vertices.
 
 Empty intersection arises when the deque shrinks below 2 or when parallel contradictory lines are encountered.
+The deque keeps the region tight, it trims away any line that cuts too deep.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with half planes] --> B[Compute angles and normalize]
+    B --> C[Sort by angle and keep tightest parallels]
+    C --> D[Init deque]
+    D --> E[Process next line]
+    E --> F[Pop back while last intersection is outside]
+    F --> G[Pop front while first intersection is outside]
+    G --> H[Push line]
+    H --> E
+    E --> I[Clean up ends and check size]
+    I --> J{Deque size at least two?}
+    J -- No --> K[Return EMPTY]
+    J -- Yes --> L[Build intersection polygon and output]
+```
 
 ### Intersections
 

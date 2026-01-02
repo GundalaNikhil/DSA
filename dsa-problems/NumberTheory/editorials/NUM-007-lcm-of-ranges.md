@@ -62,6 +62,15 @@ Prime 3: max(0, 1, 1) = 1 -> 3^1
 LCM = 2^1 * 3^1 = 6
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Factorize numbers in range]
+    B --> C[Track max prime exponents]
+    C --> D[Multiply primes to get lcm]
+    D --> E[Output lcm modulo M]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Range Length:** Small (`<= 21`). This is the key constraint. We don't need a Segment Tree.

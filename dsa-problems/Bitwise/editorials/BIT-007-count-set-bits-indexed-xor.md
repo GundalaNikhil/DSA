@@ -37,13 +37,16 @@ You are analyzing a data transmission protocol.
 -   **Error Metric:** The amount of corruption is measured by the **Hamming Distance** between the received data `a[i]` and the expected pattern `i`.
 -   **Goal:** Calculate the total accumulated error bits across the entire file stream to decide if a retransmission request (ARQ) is needed.
 
-![Real-World Application](../images/BIT-007/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291252/Bitwise/BIT-007/v2/jcnocmuolsv4miqlkxyx.png)
 
 ### From Real World to Algorithm
 -   **Hamming Distance:** The number of differing bits between two numbers $X$ and $Y$ is formally defined as $\text{Popcount}(X \oplus Y)$.
 -   **Task:** We need $\sum_{i=0}^{n-1} \text{Popcount}(i \oplus a[i])$.
+Each XOR is a quick bitwise handshake that counts how much the index and value disagree.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291255/Bitwise/BIT-007/v2/cb3e8pwhvhhhtdsea54n.png)
 
 ### logical Diagram: Bit Comparison
 
@@ -57,15 +60,15 @@ Also known as "Hamming Weight".
 -   `Popcount(4)` -> `100` -> 1.
 -   `Popcount(7)` -> `111` -> 3.
 
+<!-- mermaid -->
 ```mermaid
-graph LR
-    Index0[i=0] --> XOR0[0 XOR a_0]
-    XOR0 --> Count0[Count Bits]
-    Index1[i=1] --> XOR1[1 XOR a_1]
-    XOR1 --> Count1[Count Bits]
-    Count0 --> Sum[Total Sum]
-    Count1 --> Sum
-    Sum --> Result
+flowchart TD
+    A[Set i to 0 and total to 0] --> B{i less than n?}
+    B -- No --> G[Return total]
+    B -- Yes --> C[diff from i XOR a at i]
+    C --> D[Add popcount of diff to total]
+    D --> E[i++]
+    E --> B
 ```
 
 ## ✅ Input/Output Clarifications
@@ -160,6 +163,8 @@ class Solution {
 ```
 
 ## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291258/Bitwise/BIT-007/v2/rrew7340lrjd7rizjjbz.png)
 
 **Input:** `a = [5, 1, 3]`.
 1.  $i=0, v=5$. $0 \oplus 5 = 5 (101)$. Bits: 2.

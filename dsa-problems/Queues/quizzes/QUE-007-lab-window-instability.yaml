@@ -1,2 +1,52 @@
-# Quiz for QUE-007: Lab Window Instability
-# YAML content to be added
+problem_id: QUE_LAB_WINDOW_INSTABILITY_007
+display_id: QUE-007
+slug: lab-window-instability
+questions:
+  - question: Window [5, 10, 3] has min=3, max=10, median=5. Instability = floor((10-3)/5) = ?
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "2"
+      - "0"
+      - "7"
+    correct_answer: 1
+    explanation: "Instability formula: floor((max - min) / median) = floor(7 / 5) = floor(1.4) = 1."
+    type: single_choice
+    id: prq_1
+  - question: What happens to instability if median equals 0?
+    difficulty: easy
+    points: 10
+    options:
+      - Return 0 to avoid division by zero
+      - Return infinity
+      - The window has only 0 values
+      - Undefined behavior
+    correct_answer: 0
+    explanation: "Special case: if median = 0, output 0 (stable window). Avoid division by zero error."
+    type: single_choice
+    id: edq_1
+  - question: This problem requires three distinct techniques. Which is NOT one of them?
+    difficulty: medium
+    points: 15
+    options:
+      - Deque for min/max in sliding window
+      - Dual heaps for median computation
+      - Lazy deletion for efficient removal
+      - Binary search for element lookup
+    correct_answer: 3
+    explanation: "Techniques used: (1) Monotonic deques for min/max, (2) Dual heaps for median, (3) Lazy deletion. Binary search is NOT used."
+    type: single_choice
+    id: edq_2
+  - question: Why does finding the median require O(log k) with heaps, not O(1)?
+    difficulty: medium
+    points: 15
+    options:
+      - Heaps don't support fast median queries
+      - Finding median requires balancing two heaps; lazy deletion adds overhead
+      - Median is always at the root
+      - It's actually O(1)
+    correct_answer: 1
+    explanation: Dual heaps need rebalancing and lazy deletion complicates access. Overall O(n log k) for n windows of size k.
+    type: single_choice
+    id: edq_3

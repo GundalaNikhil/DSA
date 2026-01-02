@@ -36,14 +36,17 @@ You are designing a fault-tolerant communication protocol for deep space probes.
 -   **Detection:** To detect errors, you strictly use **Symmetric Packets** (Palindromes). If a packet arrives and it isn't symmetric, you know it's garbage.
 -   **Allocation:** You are assigned a block of IDs from `L` to `R`. You need to know exactly how many valid Symmetric Packets exist in this range to know your bandwidth capacity.
 
-![Real-World Application](../images/BIT-014/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291319/Bitwise/BIT-014/v2/uj3ovmtwhcsruuolubfg.png)
 
 ### From Real World to Algorithm
 -   **Structure:** A binary palindrome is fully determined by its first $\lceil N/2 \rceil$ bits. The rest are reflections.
+Binary palindromes are just neat mirror images, the bits hold up a perfect reflection.
 -   **Counting:** We need to count palindromes $\le K$. This is a "Digit DP" or "Constructive Counting" problem.
 -   **Solution:** Calculate `Count(X)` (palindromes $\le X$) and return `Count(R) - Count(L-1)`.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291322/Bitwise/BIT-014/v2/iuh6peubfxtudxaob2xw.png)
 
 ### logical Diagram: Constructing Palindromes
 
@@ -64,17 +67,18 @@ Count palindromes with length:
 
 **Total:** $1+1+2+2+1 = 7$.
 
+<!-- mermaid -->
 ```mermaid
-graph TD
-    Start[Solve for X] --> IterateLen[Iterate Lengths 1 to L-1]
-    IterateLen --> FullCount[Add 2^(Ceil(len/2)-1)]
-    IterateLen --> CurrentLen[Process Length L]
-    CurrentLen --> ExtractPrefix[Get MSB half of X]
-    ExtractPrefix --> Construct[Build Palindrome P]
-    Construct --> Check{P <= X?}
-    Check -- Yes --> AddPrefix[Count Prefix + 1]
-    Check -- No --> AddPrefixOnly[Count Prefix]
-    AddPrefix --> Sum[Total Count]
+flowchart TD
+    A[Count palindromes up to X] --> B[Find bit length L of X]
+    B --> C[Sum counts for lengths less than L]
+    C --> D[Extract first half prefix of X]
+    D --> E[Build palindrome from prefix]
+    E --> F{Palindrome at most X?}
+    F -- Yes --> G[Add prefix count plus one]
+    F -- No --> H[Add prefix count only]
+    G --> I[Return total count]
+    H --> I
 ```
 
 ## ✅ Input/Output Clarifications
@@ -359,6 +363,8 @@ class Solution {
 ```
 
 ## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291325/Bitwise/BIT-014/v2/rgjfckpcgtrlc6uvyrs0.png)
 **Input:** `L=1, R=5`. Range `1, 2, 3, 4, 5`.
 -   1 (`1`): Yes.
 -   2 (`10`): No.

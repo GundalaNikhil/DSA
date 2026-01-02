@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEO-010: Rectangle Union Area</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 32px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #f59e0b; margin-bottom: 12px; }
+        .tutorial p { font-size: 14px; color: #555; line-height: 1.6; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .canvas-container {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+
+        .guess-area {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #fffbeb;
+            border-radius: 10px;
+        }
+        .guess-label { font-weight: 600; color: #92400e; }
+        .guess-input {
+            width: 120px;
+            padding: 12px;
+            font-size: 18px;
+            text-align: center;
+            border: 2px solid #f59e0b;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+        .btn-check {
+            padding: 12px 25px;
+            background: #f59e0b;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .hint {
+            text-align: center;
+            padding: 10px;
+            background: #fef3c7;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #92400e;
+            margin-bottom: 15px;
+        }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .message.correct { background: #d1fae5; color: #059669; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #fffbeb; color: #92400e; }
+
+        .new-game {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #f59e0b;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>📦 Rectangle Union Area</h1>
+        <div style="opacity:0.9">Calculate the total area covered by overlapping rectangles!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How It Works</h2>
+        <p>Multiple rectangles may overlap. The union area is the total space covered (counting overlaps only once). Look at the rectangles and estimate the union area!</p>
+    </div>
+
+    <div class="game-card">
+        <div class="canvas-container">
+            <canvas id="canvas" width="500" height="400"></canvas>
+        </div>
+
+        <div class="hint" id="hint">Hint: Each grid cell = 50×50 = 2500 sq units</div>
+
+        <div class="guess-area">
+            <span class="guess-label">Union Area:</span>
+            <input type="number" class="guess-input" id="guessInput" placeholder="0">
+            <button class="btn-check" onclick="checkGuess()">Check</button>
+        </div>
+
+        <div class="message neutral" id="message">Estimate the total area covered!</div>
+
+        <button class="new-game" onclick="newRound()">New Rectangles →</button>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    let rectangles = [];
+    let correctArea = 0;
+    const colors = ['rgba(239, 68, 68, 0.5)', 'rgba(59, 130, 246, 0.5)', 'rgba(34, 197, 94, 0.5)', 'rgba(168, 85, 247, 0.5)'];
+    const borderColors = ['#ef4444', '#3b82f6', '#22c55e', '#a855f7'];
+
+    function generateRectangles() {
+        rectangles = [];
+        const numRects = 2 + Math.floor(Math.random() * 2);
+
+        for (let i = 0; i < numRects; i++) {
+            const x = 50 + Math.floor(Math.random() * 250 / 50) * 50;
+            const y = 50 + Math.floor(Math.random() * 200 / 50) * 50;
+            const w = (1 + Math.floor(Math.random() * 3)) * 50;
+            const h = (1 + Math.floor(Math.random() * 3)) * 50;
+
+            rectangles.push({
+                x, y, w, h,
+                color: colors[i],
+                border: borderColors[i]
+            });
+        }
+
+        // Calculate union area using pixel counting (simplified)
+        correctArea = calculateUnionArea();
+    }
+
+    function calculateUnionArea() {
+        // Simple grid-based calculation
+        const grid = {};
+        const cellSize = 10; // Use 10px cells for accuracy
+
+        rectangles.forEach(r => {
+            for (let x = r.x; x < r.x + r.w; x += cellSize) {
+                for (let y = r.y; y < r.y + r.h; y += cellSize) {
+                    grid[`${x},${y}`] = true;
+                }
+            }
+        });
+
+        return Object.keys(grid).length * cellSize * cellSize;
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Grid
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 1;
+        for (let x = 0; x <= canvas.width; x += 50) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, canvas.height);
+            ctx.stroke();
+        }
+        for (let y = 0; y <= canvas.height; y += 50) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+        }
+
+        // Draw rectangles
+        rectangles.forEach((r, i) => {
+            ctx.fillStyle = r.color;
+            ctx.fillRect(r.x, r.y, r.w, r.h);
+            ctx.strokeStyle = r.border;
+            ctx.lineWidth = 3;
+            ctx.strokeRect(r.x, r.y, r.w, r.h);
+
+            // Label
+            ctx.fillStyle = r.border;
+            ctx.font = 'bold 12px sans-serif';
+            ctx.fillText(`R${i+1}: ${r.w}×${r.h}`, r.x + 5, r.y + 15);
+        });
+    }
+
+    function checkGuess() {
+        const guess = parseInt(document.getElementById('guessInput').value) || 0;
+        const msg = document.getElementById('message');
+
+        const error = Math.abs(guess - correctArea);
+        const errorPercent = (error / correctArea) * 100;
+
+        if (errorPercent <= 5) {
+            msg.className = 'message correct';
+            msg.textContent = `✅ Excellent! Union area = ${correctArea}. Your guess: ${guess} (${errorPercent.toFixed(1)}% off)`;
+        } else if (errorPercent <= 20) {
+            msg.className = 'message neutral';
+            msg.textContent = `👍 Close! Union area = ${correctArea}. Your guess: ${guess} (${errorPercent.toFixed(1)}% off)`;
+        } else {
+            msg.className = 'message wrong';
+            msg.textContent = `❌ Union area = ${correctArea}. Your guess: ${guess} was ${errorPercent.toFixed(1)}% off`;
+        }
+    }
+
+    function newRound() {
+        generateRectangles();
+        draw();
+        document.getElementById('guessInput').value = '';
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Estimate the total area covered!';
+    }
+
+    window.onload = newRound;
+</script>
+</body>
+</html>

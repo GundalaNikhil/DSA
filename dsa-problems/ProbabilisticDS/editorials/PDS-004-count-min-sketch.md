@@ -71,6 +71,14 @@ Query "A":
 Min(Row1[1], Row2[3])
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Stream item A] --> B[Hash functions map to buckets]
+B --> C[Increment counters in each row]
+C --> D[For query take minimum across rows]
+```
+
 - **Width (`w`):** Controls the magnitude of the error (`epsilon`). Wider table = less collisions = less error.
 - **Depth (`d`):** Controls the confidence (`1-delta`). More rows = lower chance that *all* hash functions collide with heavy hitters.
 

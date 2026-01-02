@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNK-007: Weighted Median Finder</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #f0f2f5;
+            --panel: #ffffff;
+            --text-main: #1c1e21;
+            --text-sub: #65676b;
+            --border: #ccd0d5;
+            
+            --accent: #1877f2;
+            --success: #42b72a;
+            --highlight: #e7f3ff;
+            
+            --node: #ffffff;
+            --node-border: #1c1e21;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            margin: 0;
+            background: var(--bg);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        header {
+            background: var(--panel);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        h1 { margin:0; font-size:1.2rem; font-weight:600; display:flex; gap:10px; align-items:center; }
+        .badge { background:#e4e6eb; padding:2px 8px; border-radius:4px; font-size:0.8rem; font-family:'IBM Plex Mono'; }
+
+        main { flex: 1; display: flex; }
+
+        aside {
+            width: 340px;
+            background: var(--panel);
+            border-right: 1px solid var(--border);
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            z-index: 10;
+        }
+
+        .stat-card {
+            background: #f0f2f5;
+            border-radius: 8px;
+            padding: 1.2rem;
+            border: 1px solid #e4e6eb;
+        }
+
+        .stat-label { font-size: 0.75rem; text-transform: uppercase; color: var(--text-sub); font-weight: 600; }
+        .stat-val { font-size: 1.5rem; font-weight: 600; font-family: 'IBM Plex Mono'; color: var(--text-main); }
+        .stat-sub { font-size: 0.9rem; color: var(--text-sub); margin-top: 4px; }
+        
+        .progress-bar {
+            height: 8px; background: #e4e6eb; border-radius: 4px; overflow: hidden; margin-top: 8px;
+        }
+        .progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.3s; }
+
+        .controls { display: flex; flex-direction: column; gap: 10px; }
+        
+        button {
+            padding: 1rem;
+            border: none;
+            background: #e4e6eb;
+            color: var(--text-main);
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: 'IBM Plex Sans';
+            display: flex; justify-content: space-between;
+        }
+        button:hover:not(:disabled) { background: #d8dadf; }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        
+        button.primary { background: var(--accent); color: white; }
+        button.primary:hover:not(:disabled) { background: #166fe5; }
+
+        #viz {
+            flex: 1;
+            position: relative;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+            padding-left: 60px;
+        }
+
+        .node-wrap {
+            position: absolute;
+            transition: left 0.5s;
+            display: flex; flex-direction: column; align-items: center;
+        }
+
+        .node {
+            width: 70px; height: 70px;
+            background: var(--node);
+            border: 2px solid var(--node-border);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'IBM Plex Mono'; font-weight: 600; font-size: 1.2rem;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .node.target { border-color: var(--success); background: #e7f7e9; }
+
+        .weight-label {
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: var(--text-sub);
+            font-weight: 500;
+        }
+
+        /* Accumulated weight bubble */
+        .accum-bubble {
+            position: absolute;
+            top: -35px;
+            background: var(--text-main);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-family: 'IBM Plex Mono';
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .node-wrap.active .accum-bubble { opacity: 1; }
+
+        svg {
+            position: absolute; inset: 0; width:100%; height:100%;
+            pointer-events: none; z-index: 0;
+        }
+        line { stroke: var(--border); stroke-width: 2; }
+
+        /* Dialog */
+        .backdrop {
+            position: fixed; inset: 0; background: rgba(255,255,255,0.8);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; z-index: 50; transition: opacity 0.3s;
+            backdrop-filter: blur(5px);
+        }
+        .backdrop.show { opacity: 1; pointer-events: all; }
+        
+        .dialog {
+            background: white; border: 1px solid var(--border); padding: 2rem;
+            border-radius: 8px; width: 400px; text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .start-btn {
+            background: var(--text-main); color: white; padding: 0.8rem 2rem;
+            border-radius: 6px; font-weight: 600; cursor: pointer; border: none;
+            margin-top:1.5rem;
+        }
+
+    
+        .alert-modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .alert-modal {
+            background: white; padding: 2rem; border-radius: 8px;
+            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+        .alert-modal button {
+            background: #4b5563; color: white; padding: 0.8rem 2rem;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .alert-modal button:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<header>
+    <h1><span class="badge">LNK-007</span> Weighted Median</h1>
+    <div style="font-family:'IBM Plex Mono'">SCORE: <span id="score">0</span></div>
+</header>
+
+<main>
+    <aside>
+        <div class="stat-card">
+            <div class="stat-label">Total Weight (Sum)</div>
+            <div id="total-sum" class="stat-val">--</div>
+            <div class="stat-sub">Median Threshold: <span id="median-target">?</span></div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-label">Current Accumulation</div>
+            <div id="curr-accum" class="stat-val">0</div>
+            <div class="progress-bar"><div id="p-bar" class="progress-fill"></div></div>
+        </div>
+
+        <div class="controls">
+            <div class="stat-label" style="margin-bottom:0.5rem">Protocol Phase</div>
+            <button id="btn-sum" class="primary" onclick="game.calcSum()">
+                <span>1. Scan Total Weight</span>
+            </button>
+            <button id="btn-search" onclick="game.searchMedian()" disabled>
+                <span>2. Find Median Node</span>
+            </button>
+        </div>
+        
+        <div style="flex:1"></div>
+        <div style="font-size:0.8rem; color:var(--text-sub);">
+            Logic: Pass 1 -> Calculate Total W. Pass 2 -> Accumulate until sum >= (Total+1)/2.
+        </div>
+    </aside>
+
+    <div id="viz">
+        <svg id="lines"></svg>
+        <!-- Nodes -->
+    </div>
+</main>
+
+<div id="modal" class="backdrop show">
+    <div class="dialog">
+        <h2>Weighted Middle Seat</h2>
+            <b>Protocol:</b>
+            <ul style="text-align:left; color:var(--text-sub); font-size:0.9rem; margin:1rem 0;">
+                <li>1. <b>Scan Total</b>: Click button 1 to sum all weights.</li>
+                <li>2. <b>Observe</b> the Median Threshold (Total+1)/2.</li>
+                <li>3. <b>Search</b>: Click button 2 to find the crossing node.</li>
+            </ul>
+        <button class="start-btn" onclick="game.start()">Begin Scan</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.nodes = [];
+            this.totalWeight = 0;
+            this.currWeight = 0;
+            this.threshold = 0;
+            this.score = 0;
+            
+            this.ui = {
+                viz: document.getElementById('viz'),
+                svg: document.getElementById('lines'),
+                total: document.getElementById('total-sum'),
+                target: document.getElementById('median-target'),
+                accum: document.getElementById('curr-accum'),
+                pBar: document.getElementById('p-bar'),
+                btnSum: document.getElementById('btn-sum'),
+                btnSearch: document.getElementById('btn-search'),
+                score: document.getElementById('score')
+            };
+        }
+
+        start() {
+            document.getElementById('modal').classList.remove('show');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.ui.viz.querySelectorAll('.node-wrap').forEach(el => el.remove());
+            this.ui.svg.innerHTML = '';
+            
+            // Generate
+            const count = 5 + Math.floor(Math.random()*4);
+            this.nodes = [];
+            let startX = 60;
+            const gap = 100;
+            const y = window.innerHeight / 2 - 35;
+
+            // Generate weights
+            for(let i=0; i<count; i++) {
+                const w = 1 + Math.floor(Math.random()*9);
+                this.nodes.push({
+                    id: i,
+                    weight: w,
+                    x: startX + i*gap,
+                    y: y,
+                    el: null
+                });
+            }
+
+            // Render
+            this.nodes.forEach((n, i) => {
+                const wrap = document.createElement('div');
+                wrap.className = 'node-wrap';
+                wrap.style.left = n.x + 'px';
+                wrap.style.top = (n.y - 30) + 'px';
+                wrap.id = `node-${i}`;
+
+                const bubble = document.createElement('div');
+                bubble.className = 'accum-bubble';
+                bubble.innerText = '+0';
+                wrap.appendChild(bubble);
+
+                const node = document.createElement('div');
+                node.className = 'node';
+                node.innerText = n.weight;
+                wrap.appendChild(node);
+                
+                const label = document.createElement('div');
+                label.className = 'weight-label';
+                label.innerText = `w=${n.weight}`;
+                wrap.appendChild(label);
+
+                this.ui.viz.appendChild(wrap);
+                n.el = wrap;
+                n.bubble = bubble;
+            });
+            
+            this.drawLines();
+            
+            // Reset
+            this.totalWeight = 0;
+            this.currWeight = 0;
+            this.threshold = 0;
+            this.ui.total.innerText = "--";
+            this.ui.target.innerText = "?";
+            this.ui.accum.innerText = "0";
+            this.ui.pBar.style.width = "0%";
+            
+            this.ui.btnSum.disabled = false;
+            this.ui.btnSearch.disabled = true;
+            this.ui.btnSum.classList.add('primary');
+            this.ui.btnSearch.classList.remove('primary');
+        }
+
+        drawLines() {
+            for(let i=0; i<this.nodes.length-1; i++) {
+                const n1 = this.nodes[i];
+                const n2 = this.nodes[i+1];
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute('x1', n1.x + 70);
+                line.setAttribute('y1', n1.y);
+                line.setAttribute('x2', n2.x);
+                line.setAttribute('y2', n2.y);
+                this.ui.svg.appendChild(line);
+            }
+        }
+
+        async calcSum() {
+            this.ui.btnSum.disabled = true;
+            
+            // Animate scan
+            let sum = 0;
+            for(let i=0; i<this.nodes.length; i++) {
+                const n = this.nodes[i];
+                n.el.classList.add('active'); // show bubble
+                n.bubble.innerText = `+${n.weight}`;
+                
+                sum += n.weight;
+                this.ui.total.innerText = sum;
+                
+                await new Promise(r => setTimeout(r, 400));
+                n.el.classList.remove('active');
+            }
+            
+            this.totalWeight = sum;
+            // Floor((Total+1)/2) for Integer logic if odd? 
+            // Problem: "if total is odd, use ceiling of half". Ceil(total/2).
+            // (Total + 1) // 2 works for integers.
+            this.threshold = Math.floor((this.totalWeight + 1) / 2); // Wait, if 10, half is 5. If 11, half is 5.5 -> 6. 
+            // (10+1)/2 = 5. (11+1)/2 = 6. Correct.
+            
+            this.ui.target.innerText = `>= ${this.threshold}`;
+            
+            this.ui.btnSearch.disabled = false;
+            this.ui.btnSearch.classList.add('primary');
+            this.ui.btnSum.classList.remove('primary');
+        }
+
+        async searchMedian() {
+            this.ui.btnSearch.disabled = true;
+            
+            let accum = 0;
+            for(let i=0; i<this.nodes.length; i++) {
+                const n = this.nodes[i];
+                n.el.classList.add('active');
+                
+                accum += n.weight;
+                this.ui.accum.innerText = accum;
+                n.bubble.innerText = `Sum: ${accum}`;
+                
+                // Update bar
+                const pct = Math.min((accum / this.totalWeight) * 100, 100);
+                this.ui.pBar.style.width = pct + '%';
+                
+                await new Promise(r => setTimeout(r, 600)); // Slower for drama
+                
+                if (accum >= this.threshold) {
+                    // Found it
+                    n.el.querySelector('.node').classList.add('target');
+                    this.score += 100;
+                    this.ui.score.innerText = this.score;
+                    
+                    setTimeout(() => {
+                        this.showGameAlert(`Median Found at Node ${i} (Value ${n.weight})! Score: ${this.score}`);
+                        this.loadLevel();
+                    }, 1000);
+                    return;
+                }
+                
+                n.el.classList.remove('active');
+            }
+        }
+    }
+    
+    const game = new Game();
+</script>
+</body>
+</html>

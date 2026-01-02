@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTH-009: Lattice Weaver</title>
+    <link href="https://fonts.googleapis.com/css2?family=Work+Sans:wght@400;600&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #faf8f5;
+            --surface: #fff;
+            --primary: #2d6a4f;
+            --secondary: #40916c;
+            --accent: #d4a373;
+            --text: #2d3748;
+            --muted: #718096;
+            --node-bg: #e8f5e9;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Work Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--surface);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        h1 { font-size: 1.3rem; color: var(--primary); }
+        .subtitle { color: var(--muted); font-size: 0.85rem; }
+
+        .btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn:hover { background: var(--secondary); }
+        .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+
+        main {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .concept-card {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        .concept-card h2 { color: var(--primary); font-size: 1rem; margin-bottom: 0.5rem; }
+        .concept-card p { color: var(--muted); line-height: 1.6; }
+
+        .mode-toggle {
+            display: flex;
+            gap: 10px;
+        }
+
+        .mode-btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 2px solid var(--muted);
+            background: transparent;
+            color: var(--muted);
+            cursor: pointer;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .mode-btn.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .lattice-container {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 15px;
+            width: 100%;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .lattice-container h3 {
+            color: var(--muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .lattice-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .lattice-row {
+            display: flex;
+            gap: 20px;
+        }
+
+        .lattice-node {
+            width: 70px;
+            height: 45px;
+            background: var(--node-bg);
+            border: 2px solid var(--muted);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--muted);
+            transition: all 0.4s;
+            position: relative;
+        }
+
+        .lattice-node .subset { font-weight: 600; color: var(--text); }
+        .lattice-node .value { font-size: 0.9rem; }
+
+        .lattice-node.active {
+            border-color: var(--primary);
+            background: var(--primary);
+            color: #fff;
+            transform: scale(1.1);
+        }
+
+        .lattice-node.active .subset,
+        .lattice-node.active .value { color: #fff; }
+
+        .lattice-node.done {
+            border-color: var(--accent);
+            background: rgba(212,163,115,0.2);
+        }
+
+        .transform-info {
+            background: var(--surface);
+            padding: 1rem;
+            border-radius: 10px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+
+        .transform-info h3 { color: var(--primary); margin-bottom: 0.5rem; }
+        .transform-info p { color: var(--muted); font-size: 0.9rem; }
+
+        .result-panel {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 100%;
+            text-align: center;
+            border: 2px solid var(--secondary);
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .result-panel.visible { opacity: 1; }
+        .result-panel h3 { color: var(--secondary); margin-bottom: 1rem; }
+
+        .result-values {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .result-chip {
+            background: var(--secondary);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-family: 'IBM Plex Mono';
+        }
+
+        .controls { display: flex; gap: 1rem; }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(45,58,72,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal.hidden { display: none; }
+
+        .dialog {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 500px;
+        }
+
+        .dialog h2 { color: var(--primary); margin-bottom: 1rem; }
+        .dialog p { margin: 0.8rem 0; line-height: 1.7; color: var(--text); }
+        .dialog strong { color: var(--primary); }
+
+        .formula-box {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'IBM Plex Mono';
+            text-align: center;
+            margin: 1rem 0;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>🕸️ Lattice Weaver</h1>
+        <div class="subtitle">MTH-009: Subset Convolution (AND/OR)</div>
+    </div>
+    <button class="btn btn-outline" onclick="showProtocol()">Protocol</button>
+</header>
+
+<main>
+    <div class="concept-card">
+        <h2>Subset Lattice</h2>
+        <p>Watch values propagate through the subset lattice using Zeta and Möbius transforms!</p>
+    </div>
+
+    <div class="mode-toggle">
+        <button class="mode-btn active" id="orBtn" onclick="setMode('or')">OR Mode</button>
+        <button class="mode-btn" id="andBtn" onclick="setMode('and')">AND Mode</button>
+    </div>
+
+    <div class="lattice-container">
+        <h3>Subset Lattice (n=2)</h3>
+        <div class="lattice-grid" id="latticeGrid"></div>
+    </div>
+
+    <div class="transform-info" id="transformInfo">
+        <h3 id="transformName">Zeta Transform (OR)</h3>
+        <p id="transformDesc">Values propagate UP to supersets</p>
+    </div>
+
+    <div class="result-panel" id="resultPanel">
+        <h3>Convolution Result</h3>
+        <div class="result-values" id="resultValues"></div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" id="weaveBtn" onclick="performConvolution()">Weave!</button>
+        <button class="btn btn-outline" onclick="newArrays()">New Values</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🕸️ Lattice Weaver Guide</h2>
+        <p><strong>What is a Subset Lattice?</strong></p>
+        <p>For n bits, we have 2ⁿ subsets. The lattice shows which subsets contain others.</p>
+        
+        <p><strong>Subset Convolution:</strong></p>
+        <div class="formula-box">
+            C[S] = Σ A[T] × B[S \ T] for T ⊆ S
+        </div>
+        
+        <p><strong>Transforms:</strong></p>
+        <p>• <strong>Zeta (OR)</strong>: Values flow UP to supersets</p>
+        <p>• <strong>Möbius</strong>: The inverse — values flow back down</p>
+        
+        <p><strong>Time:</strong> O(2ⁿ × n²) with ranked transforms</p>
+        
+        <button class="btn" onclick="hideProtocol()" style="margin-top:1rem;">Start Weaving!</button>
+    </div>
+</div>
+
+<script>
+    let A = [], B = [], mode = 'or';
+    const n = 2;
+    const subsets = ['∅', '{0}', '{1}', '{0,1}'];
+
+    function showProtocol() { document.getElementById('modal').classList.remove('hidden'); }
+    function hideProtocol() { document.getElementById('modal').classList.add('hidden'); }
+
+    function setMode(m) {
+        mode = m;
+        document.getElementById('orBtn').classList.toggle('active', m === 'or');
+        document.getElementById('andBtn').classList.toggle('active', m === 'and');
+        
+        document.getElementById('transformName').textContent = 
+            m === 'or' ? 'Zeta Transform (OR)' : 'Zeta Transform (AND)';
+        document.getElementById('transformDesc').textContent = 
+            m === 'or' ? 'Values propagate UP to supersets' : 'Values propagate DOWN to subsets';
+    }
+
+    function newArrays() {
+        const size = 1 << n;
+        A = Array.from({length: size}, () => Math.floor(Math.random() * 4));
+        B = Array.from({length: size}, () => Math.floor(Math.random() * 4));
+        
+        renderLattice();
+        document.getElementById('resultPanel').classList.remove('visible');
+        document.getElementById('weaveBtn').disabled = false;
+    }
+
+    function renderLattice() {
+        const grid = document.getElementById('latticeGrid');
+        grid.innerHTML = '';
+        
+        // Level 2: {0,1}
+        const row1 = document.createElement('div');
+        row1.className = 'lattice-row';
+        row1.appendChild(createNode(3, subsets[3], A[3], B[3]));
+        grid.appendChild(row1);
+        
+        // Level 1: {0}, {1}
+        const row2 = document.createElement('div');
+        row2.className = 'lattice-row';
+        row2.appendChild(createNode(1, subsets[1], A[1], B[1]));
+        row2.appendChild(createNode(2, subsets[2], A[2], B[2]));
+        grid.appendChild(row2);
+        
+        // Level 0: ∅
+        const row3 = document.createElement('div');
+        row3.className = 'lattice-row';
+        row3.appendChild(createNode(0, subsets[0], A[0], B[0]));
+        grid.appendChild(row3);
+    }
+
+    function createNode(idx, label, a, b) {
+        const node = document.createElement('div');
+        node.className = 'lattice-node';
+        node.id = `node-${idx}`;
+        node.innerHTML = `
+            <span class="subset">${label}</span>
+            <span class="value">A:${a} B:${b}</span>
+        `;
+        return node;
+    }
+
+    async function performConvolution() {
+        document.getElementById('weaveBtn').disabled = true;
+
+        // Animate transform propagation
+        const order = mode === 'or' ? [0, 1, 2, 3] : [3, 1, 2, 0];
+        
+        for (const idx of order) {
+            document.getElementById(`node-${idx}`).classList.add('active');
+            await sleep(400);
+            document.getElementById(`node-${idx}`).classList.remove('active');
+            document.getElementById(`node-${idx}`).classList.add('done');
+        }
+
+        // Compute subset convolution
+        const C = subsetConvolution(A, B);
+
+        // Show result
+        const container = document.getElementById('resultValues');
+        container.innerHTML = '';
+        C.forEach((v, i) => {
+            const chip = document.createElement('div');
+            chip.className = 'result-chip';
+            chip.textContent = `${subsets[i]}: ${v}`;
+            container.appendChild(chip);
+        });
+        
+        document.getElementById('resultPanel').classList.add('visible');
+    }
+
+    function subsetConvolution(a, b) {
+        const size = a.length;
+        const result = new Array(size).fill(0);
+        
+        for (let s = 0; s < size; s++) {
+            // Iterate over all subsets of s
+            for (let t = s; ; t = (t - 1) & s) {
+                result[s] += a[t] * b[s ^ t];
+                if (t === 0) break;
+            }
+        }
+        return result;
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    window.onload = newArrays;
+</script>
+</body>
+</html>

@@ -55,6 +55,7 @@ This matches real constraints in packaging, shipping, and resource allocation pr
 - Trains you to adapt classic knapsack to extra constraints (minimum weight)
 - Reinforces 0/1 DP iteration order (descending weight)
 - Builds interview-ready clarity: define states, transitions, and how to extract the answer
+A good pack hits the sweet spot, not just the limit.
 
 ![Real-World Application](../images/DP-003/real-world-scenario.png)
 
@@ -102,6 +103,21 @@ Knapsack visualization:
 └─────────────────┘
 
 Goal: Maximize value while staying in VALID ZONE
+```
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with items R and W] --> B[Set dp0 to 0 and others to negative INF]
+    B --> C[For each item weight and value]
+    C --> D[For weight from W down to item weight]
+    D --> E[Update dp at weight]
+    E --> D
+    D --> C
+    C --> F[Scan dp from R to W for best value]
+    F --> G{Found any reachable?}
+    G -- Yes --> H[Return best value]
+    G -- No --> I[Return -1]
 ```
 
 ### Why greedy fails

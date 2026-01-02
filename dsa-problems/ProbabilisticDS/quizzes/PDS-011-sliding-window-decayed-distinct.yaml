@@ -1,2 +1,52 @@
-# Quiz for PDS-011: Sliding Window Distinct with Exponential Decay
-# YAML content to be added
+problem_id: PDS_SLIDING_WINDOW_DECAYED_DISTINCT_011
+display_id: PDS-011
+slug: sliding-window-decayed-distinct
+questions:
+  - question: In the exponential decay model, an item seen at time 't' contributes how much to the count at time 'T'?
+    difficulty: easy
+    points: 10
+    options:
+      - e^(-lambda * (T - t))
+      - e^(lambda * (T - t))
+      - lambda * (T - t)
+      - 1 / (T - t)
+    correct_answer: 0
+    explanation: The contribution decays exponentially with the age (T - t).
+    type: single_choice
+    id: prq_1
+  - question: If we update the current time from T to T + dt, how does the total decayed count change?
+    difficulty: medium
+    points: 15
+    options:
+      - Multiply current total by e^(-lambda * dt)
+      - Subtract dt
+      - Add e^(-lambda * dt)
+      - Divide by dt
+    correct_answer: 0
+    explanation: This property allows efficient online updates without recomputing the summation.
+    type: single_choice
+    id: edq_1
+  - question: "If lambda = 0 (no decay), the result simplifies to:"
+    difficulty: easy
+    points: 10
+    options:
+      - The total count of distinct elements seen so far (unweighted)
+      - "0"
+      - Infinity
+      - "1"
+    correct_answer: 0
+    explanation: e^0 = 1, so every item contributes exactly 1, regardless of age.
+    type: single_choice
+    id: edq_2
+  - question: "This decay mechanism is most useful for:"
+    difficulty: easy
+    points: 10
+    options:
+      - Tracking trending topics or recent activity
+      - Archival storage
+      - Exact counting
+      - Cryptography
+    correct_answer: 0
+    explanation: It gives higher weight to recent events, naturally filtering out old 'stale' data.
+    type: single_choice
+    id: edq_3

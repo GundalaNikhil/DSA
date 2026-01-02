@@ -120,6 +120,19 @@ This should pass in C++/Java. Python might struggle.
         -   Same block: iterate elements.
     -   Update total count.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Split array into blocks] --> B[Sort each block]
+B --> C[Compute initial inversions]
+C --> D[Handle update]
+D --> E[Remove old inversion contribution]
+E --> F[Update value and resort block]
+F --> G[Add new inversion contribution]
+G --> H[Output current inversion count]
+H --> D
+```
+
 ### Approach 2: Fenwick Tree (Offline)
 If we process queries offline, we can use CDQ Divide and Conquer, but that's for static 2D range sums or batch updates. Here updates are dependent.
 So Square Root Decomposition is the most viable online approach.

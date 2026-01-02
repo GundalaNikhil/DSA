@@ -1,2 +1,52 @@
-# Quiz for HSH-003: Longest Common Substring of Two Strings
-# YAML content to be added
+problem_id: HSH_LCS_HASH_TWO_STRINGS_003
+display_id: HSH-003
+slug: lcs-hash-two-strings
+questions:
+  - question: Given strings a='abcxyz' and b='bcxyzpq', what is the longest common substring?
+    difficulty: easy
+    points: 10
+    options:
+      - "'ab'"
+      - "'bcxyz'"
+      - "'xyz'"
+      - "'q'"
+    correct_answer: 1
+    explanation: The substring 'bcxyz' (length 5) appears in both strings. 'xyz' (length 3) also appears in both but is shorter. No longer common substring exists.
+    type: single_choice
+    id: prq_1
+  - question: Why is binary search suitable for finding the longest common substring?
+    difficulty: easy
+    points: 10
+    options:
+      - It reduces time complexity to O(n)
+      - "The answer satisfies a monotone property: if a substring of length k exists, then length k-1 must exist"
+      - It finds all substrings in order
+      - It guarantees a collision-free hash
+    correct_answer: 1
+    explanation: If a common substring of length L exists between two strings, then a common substring of length L-1 must also exist. This monotone property enables binary search on the answer.
+    type: single_choice
+    id: edq_1
+  - question: In the binary search + rolling hash approach, after choosing a candidate length L, what is the correct procedure?
+    difficulty: medium
+    points: 15
+    options:
+      - Compare all substrings of A and B character-by-character
+      - Compute all length-L substring hashes of A, store in a set, then compute hashes of B and check for a match in the set
+      - Use double hashing only if L > 100
+      - Directly compare A and B without hashing
+    correct_answer: 1
+    explanation: For each candidate length, we compute rolling hashes of all length-L substrings in O(n) time for each string. Storing A's hashes in a set and checking B's hashes enables O(1) average lookup.
+    type: single_choice
+    id: edq_2
+  - question: What is the overall time complexity of binary search + rolling hash for strings of length n and m?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n²)
+      - O((n+m) × log(min(n,m)))
+      - O(n×m)
+      - O(n+m)
+    correct_answer: 1
+    explanation: "Binary search has O(log(min(n,m))) iterations. Each iteration checks if a common substring of length L exists in O(n+m) time. Total: O((n+m) × log(min(n,m)))."
+    type: single_choice
+    id: edq_3

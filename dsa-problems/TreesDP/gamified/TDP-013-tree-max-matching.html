@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDP-013: Match Maker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Satisfy&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Satisfy', cursive;
+            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+            min-height: 100vh;
+        }
+
+        .game-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #c0392b;
+            font-size: 42px;
+            text-shadow: 2px 2px 0 #fff;
+        }
+
+        .subtitle { color: #888; font-size: 14px; margin: 10px 0 20px; font-family: Arial; }
+
+        .score-zone {
+            display: flex;
+            gap: 30px;
+            background: rgba(255,255,255,0.8);
+            padding: 15px 40px;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .score-item { text-align: center; }
+        .score-label { font-size: 12px; color: #888; font-family: Arial; }
+        .score-val { font-size: 28px; color: #c0392b; }
+
+        .matchboard {
+            width: 700px;
+            height: 380px;
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            position: relative;
+        }
+
+        svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+        line { stroke: #ddd; stroke-width: 3; }
+        line.matched { stroke: #e74c3c; stroke-width: 5; filter: drop-shadow(0 0 10px #e74c3c); }
+
+        .person {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: #fff;
+            border: 4px solid #ddd;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            z-index: 10;
+            transition: all 0.2s;
+        }
+        .person:hover { transform: scale(1.15); }
+        .person.selected { border-color: #e74c3c; box-shadow: 0 0 20px #e74c3c; }
+        .person.matched { background: #e74c3c; border-color: #c0392b; }
+
+        .controls { margin-top: 20px; display: flex; gap: 15px; }
+
+        .btn {
+            padding: 15px 35px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            border: none;
+            color: #fff;
+            font-family: Arial;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .btn:hover { transform: translateY(-2px); }
+
+        .result { margin-top: 15px; font-size: 20px; color: #c0392b; min-height: 30px; }
+
+    </style>
+</head>
+<body>
+
+<div class="game-wrapper">
+    <h1>💕 Match Maker</h1>
+    <div class="subtitle">MAXIMUM MATCHING: Match adjacent pairs. Each person can only be in one match!</div>
+
+    <div class="score-zone">
+        <div class="score-item">
+            <div class="score-label">MATCHES</div>
+            <div class="score-val" id="matchCount">0</div>
+        </div>
+        <div class="score-item">
+            <div class="score-label">PEOPLE MATCHED</div>
+            <div class="score-val" id="peopleMatched">0</div>
+        </div>
+        <div class="score-item">
+            <div class="score-label">OPTIMAL</div>
+            <div class="score-val" id="optimal">3</div>
+        </div>
+    </div>
+
+    <div class="matchboard" id="board">
+        <svg id="connections"></svg>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="checkOptimal()">CHECK IF OPTIMAL</button>
+        <button class="btn" style="background:#aaa" onclick="reset()">RESET</button>
+    </div>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    const TREE = {
+        nodes: [
+            {id:1, x:325, y:25, emoji:'👩'},
+            {id:2, x:150, y:100, emoji:'👨'}, {id:3, x:500, y:100, emoji:'👩'},
+            {id:4, x:70, y:200, emoji:'👨'}, {id:5, x:230, y:200, emoji:'👩'}, 
+            {id:6, x:420, y:200, emoji:'👨'}, {id:7, x:580, y:200, emoji:'👩'},
+            {id:8, x:150, y:300, emoji:'👨'}
+        ],
+        edges: [[1,2],[1,3],[2,4],[2,5],[3,6],[3,7],[5,8]]
+    };
+
+    // Maximum matching for this tree: 3 matches possible
+    const OPTIMAL_MATCHES = 3;
+
+    let matches = []; // Array of [a, b] pairs
+    let selectedNode = null;
+
+    function init() {
+        document.getElementById('optimal').textContent = OPTIMAL_MATCHES;
+        renderBoard();
+    }
+
+    function renderBoard() {
+        const board = document.getElementById('board');
+        const svg = document.getElementById('connections');
+        svg.innerHTML = '';
+        board.querySelectorAll('.person').forEach(p => p.remove());
+
+        // Get matched nodes
+        const matchedNodes = new Set();
+        const matchedEdges = new Set();
+        matches.forEach(([a, b]) => {
+            matchedNodes.add(a);
+            matchedNodes.add(b);
+            matchedEdges.add(`${Math.min(a,b)}-${Math.max(a,b)}`);
+        });
+
+        TREE.edges.forEach(([a, b]) => {
+            const n1 = TREE.nodes.find(n => n.id === a);
+            const n2 = TREE.nodes.find(n => n.id === b);
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', n1.x + 25);
+            line.setAttribute('y1', n1.y + 25);
+            line.setAttribute('x2', n2.x + 25);
+            line.setAttribute('y2', n2.y + 25);
+            if (matchedEdges.has(`${Math.min(a,b)}-${Math.max(a,b)}`)) {
+                line.classList.add('matched');
+            }
+            svg.appendChild(line);
+        });
+
+        TREE.nodes.forEach(n => {
+            const el = document.createElement('div');
+            el.className = 'person';
+            if (matchedNodes.has(n.id)) el.classList.add('matched');
+            if (selectedNode === n.id) el.classList.add('selected');
+            el.id = `person-${n.id}`;
+            el.style.left = n.x + 'px';
+            el.style.top = n.y + 'px';
+            el.textContent = n.emoji;
+            el.onclick = () => selectPerson(n.id);
+            board.appendChild(el);
+        });
+
+        updateStats();
+    }
+
+    function selectPerson(id) {
+        // Check if already matched
+        const matched = matches.flat();
+        if (matched.includes(id)) return;
+
+        if (selectedNode === null) {
+            selectedNode = id;
+        } else if (selectedNode === id) {
+            selectedNode = null;
+        } else {
+            // Check if adjacent
+            const isAdjacent = TREE.edges.some(([a, b]) => 
+                (a === selectedNode && b === id) || (b === selectedNode && a === id)
+            );
+            
+            if (isAdjacent && !matched.includes(selectedNode)) {
+                matches.push([selectedNode, id]);
+            }
+            selectedNode = null;
+        }
+        renderBoard();
+    }
+
+    function updateStats() {
+        document.getElementById('matchCount').textContent = matches.length;
+        document.getElementById('peopleMatched').textContent = matches.length * 2;
+    }
+
+    function checkOptimal() {
+        const result = document.getElementById('result');
+        if (matches.length === OPTIMAL_MATCHES) {
+            result.textContent = '🎉 Perfect! You found the maximum matching!';
+            result.style.color = '#27ae60';
+        } else if (matches.length < OPTIMAL_MATCHES) {
+            result.textContent = `You have ${matches.length} matches. Optimal is ${OPTIMAL_MATCHES}.`;
+            result.style.color = '#e74c3c';
+        }
+    }
+
+    function reset() {
+        matches = [];
+        selectedNode = null;
+        document.getElementById('result').textContent = '';
+        renderBoard();
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

@@ -46,7 +46,23 @@ To minimize staffing costs, the administration wants to know the peak demand: Wh
 
 ## Detailed Explanation
 
-### ASCII Diagram: Timeline of Overlaps
+### Flow Diagram: Timeline of Overlaps
+
+The busiest minute tells you how many proctors to pull from the bench.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Create start and end events]
+    B --> C[Sort events by time and start before end]
+    C --> D[Initialize overlap to zero]
+    D --> E[Scan events in order]
+    E --> F[Update overlap by event type]
+    F --> G[Track maximum overlap]
+    G --> E
+    E --> H[Compute proctors as ceiling max over r]
+    H --> I[Return proctor count]
+```
 
 Exams: A[0-10], B[5-7], C[6-9].
 Capacity `r = 2`.
@@ -68,7 +84,6 @@ T=9 to 10: 1 (A)
 Max Overlap = 3.
 Proctors Needed = ceil(3 / 2) = 2.
 ```
-
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Intervals:** `[start, end]` usually means the exam is active during this time.

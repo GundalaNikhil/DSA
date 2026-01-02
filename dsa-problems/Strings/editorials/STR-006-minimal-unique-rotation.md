@@ -78,6 +78,15 @@ Booth's algorithm finds the minimal rotation in O(n) time by analyzing the doubl
    - Return minimal rotation
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Run Booth algorithm] --> B[Build minimal rotation]
+B --> C{Rotation equals original}
+C -->|Yes| D[Return original]
+C -->|No| E[Return minimal rotation]
+```
+
 **Booth's Algorithm Core**:
 
 ```

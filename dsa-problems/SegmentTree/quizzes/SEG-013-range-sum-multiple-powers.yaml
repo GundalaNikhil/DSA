@@ -1,2 +1,52 @@
-# Quiz for SEG-013: Range Sum of Multiple Powers
-# YAML content to be added
+problem_id: SEG_RANGE_SUM_MULTIPLE_POWERS_013
+display_id: SEG-013
+slug: range-sum-multiple-powers
+questions:
+  - question: What values of p are supported in SUM l r p?
+    difficulty: easy
+    points: 10
+    options:
+      - Any p
+      - p in {1,2,3}
+      - Only p=2
+      - Only p=1
+    correct_answer: 1
+    explanation: The problem restricts p to 1, 2, or 3.
+    type: single_choice
+    id: prq_1
+  - question: For array [2,3], what is SUM 0 1 2?
+    difficulty: easy
+    points: 10
+    options:
+      - "5"
+      - "13"
+      - "25"
+      - "35"
+    correct_answer: 1
+    explanation: 2^2 + 3^2 = 4 + 9 = 13.
+    type: single_choice
+    id: edq_1
+  - question: What should each node store to answer queries?
+    difficulty: medium
+    points: 15
+    options:
+      - Only sum of values
+      - Sums of powers 1, 2, and 3
+      - Only max value
+      - Only min value
+    correct_answer: 1
+    explanation: Storing sums of powers lets queries be answered in O(log n).
+    type: single_choice
+    id: edq_2
+  - question: What modulus is used for all sums?
+    difficulty: medium
+    points: 15
+    options:
+      - "998244353"
+      - "1000000007"
+      - "1000000009"
+      - "1000003"
+    correct_answer: 1
+    explanation: The problem fixes MOD = 1,000,000,007.
+    type: single_choice
+    id: edq_3

@@ -69,6 +69,18 @@ Imagine a **Recycling Plant** sorting line.
 -   After the loop, construct the result string from the stack (bottom to top).
 -   Complexity: `O(N)` time, `O(N)` space.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read next item and weight] --> B{Stack top matches item}
+B -->|No| C[Push item]
+B -->|Yes| D{Weight sum even}
+D -->|Yes| E[Pop and add to total]
+D -->|No| C
+E --> A
+C --> A
+```
+
 ## Implementations
 
 ### Java

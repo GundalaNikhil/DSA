@@ -1,2 +1,52 @@
-# Quiz for NUM-014: Maximum Points on a Line Segment Length Limit
-# YAML content to be added
+problem_id: NUM_MAXIMUM_POINTS_LINE_SEGMENT_LIMIT_014
+display_id: NUM-014
+slug: maximum-points-line-segment-limit
+questions:
+  - question: This problem is a variation of the 'Max Points on a Line' problem. What is the typical constraint?
+    difficulty: easy
+    points: 10
+    options:
+      - Points must be on a segment of limited length L
+      - Points must be collinear
+      - Points must have integer coordinates
+      - Infinite line
+    correct_answer: 0
+    explanation: The 'limit' implies we care about distance or a bounding box constraint along the line.
+    type: single_choice
+    id: prq_1
+  - question: "To solve Max Points on a Line, we typically use:"
+    difficulty: medium
+    points: 15
+    options:
+      - GCD to normalize slopes
+      - Sorting by X coordinate
+      - DFS
+      - Dynamic Programming
+    correct_answer: 0
+    explanation: We group points by the slope (dy/dx) relative to an anchor point.
+    type: single_choice
+    id: edq_1
+  - question: When calculating slope between (x1, y1) and (x2, y2), why is floating point division risky?
+    difficulty: easy
+    points: 10
+    options:
+      - Precision errors
+      - It is slower
+      - It cannot handle infinity
+      - It consumes more memory
+    correct_answer: 0
+    explanation: Small precision errors can make distinct slopes appear equal. Using GCD-reduced fraction pairs is safer.
+    type: single_choice
+    id: edq_2
+  - question: How do we handle vertical lines (undefined slope)?
+    difficulty: easy
+    points: 10
+    options:
+      - Treat as a special pair (0, 1) or separate counter
+      - Use infinity
+      - Ignore them
+      - Rotate the grid
+    correct_answer: 0
+    explanation: Vertical lines have dx=0, so we can encode the slope as (0, 1) after GCD reduction.
+    type: single_choice
+    id: edq_3

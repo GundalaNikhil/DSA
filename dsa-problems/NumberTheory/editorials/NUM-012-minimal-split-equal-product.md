@@ -72,6 +72,19 @@ Product: 250
 Minimal Product: 25.
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Convert number to string]
+    B --> C[Try each split position]
+    C --> D[Compute left and right values]
+    D --> E{Product non zero}
+    E -- Yes --> F[Update minimum product]
+    E -- No --> C
+    F --> C
+    C --> G[Output minimum product]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** `x` up to `10^12` (12 digits).

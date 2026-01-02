@@ -1,0 +1,52 @@
+problem_id: TDP_SUBTREE_SUM_SIZE_003
+display_id: TDP-003
+slug: subtree-sum-size
+questions:
+- question: If we need to calculate the size (number of nodes) of the subtree rooted at `u`, what is the recurrence relation?
+  difficulty: easy
+  points: 10
+  options:
+  - size[u] = 1 + sum(size[child]) for all children
+  - size[u] = sum(size[child])
+  - size[u] = 1
+  - size[u] = max(size[child])
+  correct_answer: 0
+  explanation: Count self (1) plus all nodes in children's subtrees.
+  type: single_choice
+  id: prq_1
+- question: Which traversal order naturally supports calculating subtree aggregates (sum, size, min, max)?
+  difficulty: medium
+  points: 15
+  options:
+  - Post-order (Children processed before Parent)
+  - Pre-order
+  - Level-order
+  - Random
+  correct_answer: 0
+  explanation: We need the results from children to compute the parent's value.
+  type: single_choice
+  id: edq_1
+- question: This basic subtree DP pattern is a prerequisite for which advanced technique?
+  difficulty: easy
+  points: 10
+  options:
+  - Centroid Decomposition or Heavy-Light Decomposition
+  - Union Find
+  - Dijkstra
+  - Floyd-Warshall
+  correct_answer: 0
+  explanation: Knowing subtree sizes is the first step in HLD (finding heavy edges) and Centroid finding.
+  type: single_choice
+  id: edq_2
+- question: What is the space complexity if we store subtree sum for every node?
+  difficulty: easy
+  points: 10
+  options:
+  - O(N)
+  - O(1)
+  - O(N^2)
+  - O(log N)
+  correct_answer: 0
+  explanation: One value per node.
+  type: single_choice
+  id: edq_3

@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTH-011: Krylov Engine</title>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f0f23;
+            --surface: #1a1a35;
+            --primary: #00d9ff;
+            --secondary: #9d4edd;
+            --accent: #ff6b9d;
+            --text: #e6e6e6;
+            --muted: #7a7aa0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Sora', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--surface);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 { font-size: 1.3rem; color: var(--primary); }
+        .subtitle { color: var(--muted); font-size: 0.85rem; }
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn:hover { transform: scale(1.05); }
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+
+        main {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .concept-panel {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .concept-panel p { color: var(--muted); line-height: 1.6; }
+        .concept-panel strong { color: var(--primary); }
+
+        .matrix-display {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 100%;
+        }
+
+        .matrix-display h3 {
+            color: var(--muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .matrix-grid {
+            display: grid;
+            gap: 5px;
+            justify-content: center;
+        }
+
+        .m-cell {
+            width: 45px;
+            height: 45px;
+            background: rgba(0, 217, 255, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono';
+            font-size: 0.9rem;
+        }
+
+        .krylov-visual {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 100%;
+        }
+
+        .krylov-visual h3 {
+            color: var(--muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .krylov-sequence {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .krylov-vector {
+            background: var(--bg);
+            border: 2px solid var(--muted);
+            border-radius: 10px;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.4s;
+        }
+
+        .krylov-vector .power {
+            font-size: 0.75rem;
+            color: var(--muted);
+            margin-bottom: 5px;
+        }
+
+        .krylov-vector .vals {
+            font-family: 'JetBrains Mono';
+            font-size: 0.85rem;
+        }
+
+        .krylov-vector.active {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(0, 217, 255, 0.3);
+        }
+
+        .krylov-vector.done {
+            border-color: var(--secondary);
+        }
+
+        .arrow {
+            display: flex;
+            align-items: center;
+            color: var(--muted);
+            font-size: 1.5rem;
+        }
+
+        .result-panel {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 100%;
+            text-align: center;
+            border: 2px solid var(--secondary);
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .result-panel.visible { opacity: 1; }
+        .result-panel h3 { color: var(--secondary); margin-bottom: 1rem; }
+
+        .min-poly {
+            font-family: 'JetBrains Mono';
+            font-size: 1.1rem;
+            background: rgba(157, 78, 221, 0.2);
+            padding: 1rem;
+            border-radius: 8px;
+        }
+
+        .controls { display: flex; gap: 1rem; }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 15, 35, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal.hidden { display: none; }
+
+        .dialog {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 500px;
+        }
+
+        .dialog h2 { color: var(--primary); margin-bottom: 1rem; }
+        .dialog p { margin: 0.8rem 0; line-height: 1.7; color: var(--muted); }
+        .dialog strong { color: var(--text); }
+
+        .formula-box {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono';
+            text-align: center;
+            margin: 1rem 0;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>⚙️ Krylov Engine</h1>
+        <div class="subtitle">MTH-011: Minimal Polynomial of Matrix</div>
+    </div>
+    <button class="btn btn-outline" onclick="showProtocol()">Protocol</button>
+</header>
+
+<main>
+    <div class="concept-panel">
+        <p>Generate the <strong>Krylov sequence</strong>: v, Av, A²v, A³v, ...<br>
+        Apply Berlekamp-Massey to find the <strong>minimal polynomial</strong>!</p>
+    </div>
+
+    <div class="matrix-display">
+        <h3>Matrix A</h3>
+        <div class="matrix-grid" id="matrixGrid" style="grid-template-columns: repeat(2, 1fr);"></div>
+    </div>
+
+    <div class="krylov-visual">
+        <h3>Krylov Sequence (v = [1, 0]ᵀ)</h3>
+        <div class="krylov-sequence" id="krylovSeq"></div>
+    </div>
+
+    <div class="result-panel" id="resultPanel">
+        <h3>Minimal Polynomial Discovered</h3>
+        <div class="min-poly" id="minPoly"></div>
+        <p style="color: var(--muted); margin-top: 1rem; font-size: 0.9rem;">This polynomial "annihilates" the matrix: p(A) = 0</p>
+    </div>
+
+    <div class="controls">
+        <button class="btn" id="engineBtn" onclick="runEngine()">Generate Sequence</button>
+        <button class="btn btn-outline" onclick="newMatrix()">New Matrix</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>⚙️ Krylov Engine Guide</h2>
+        <p><strong>What is the Minimal Polynomial?</strong></p>
+        <p>The smallest-degree monic polynomial p(x) such that p(A) = 0 (the zero matrix).</p>
+        
+        <p><strong>Krylov Method:</strong></p>
+        <div class="formula-box">
+            v, Av, A²v, A³v, ...
+        </div>
+        <p>This sequence eventually becomes linearly dependent. The coefficients form the minimal polynomial!</p>
+        
+        <p><strong>Why it matters:</strong></p>
+        <p>Knowing the minimal polynomial tells us about eigenvalues and helps solve matrix equations efficiently.</p>
+        
+        <button class="btn" onclick="hideProtocol()" style="margin-top:1rem;">Start Engine!</button>
+    </div>
+</div>
+
+<script>
+    let matrix = [];
+    let krylovVectors = [];
+
+    function showProtocol() { document.getElementById('modal').classList.remove('hidden'); }
+    function hideProtocol() { document.getElementById('modal').classList.add('hidden'); }
+
+    function newMatrix() {
+        // 2x2 matrix for simplicity
+        matrix = [
+            [Math.floor(Math.random() * 5), Math.floor(Math.random() * 4)],
+            [Math.floor(Math.random() * 3), Math.floor(Math.random() * 5)]
+        ];
+        
+        renderMatrix();
+        document.getElementById('krylovSeq').innerHTML = '';
+        document.getElementById('resultPanel').classList.remove('visible');
+        document.getElementById('engineBtn').disabled = false;
+        krylovVectors = [];
+    }
+
+    function renderMatrix() {
+        const grid = document.getElementById('matrixGrid');
+        grid.innerHTML = '';
+        matrix.forEach(row => {
+            row.forEach(val => {
+                const cell = document.createElement('div');
+                cell.className = 'm-cell';
+                cell.textContent = val;
+                grid.appendChild(cell);
+            });
+        });
+    }
+
+    function matVec(A, v) {
+        return [
+            A[0][0] * v[0] + A[0][1] * v[1],
+            A[1][0] * v[0] + A[1][1] * v[1]
+        ];
+    }
+
+    async function runEngine() {
+        document.getElementById('engineBtn').disabled = true;
+        const container = document.getElementById('krylovSeq');
+        container.innerHTML = '';
+
+        let v = [1, 0];
+        krylovVectors = [v];
+
+        // Generate Krylov sequence
+        for (let i = 0; i < 4; i++) {
+            const vecEl = document.createElement('div');
+            vecEl.className = 'krylov-vector';
+            vecEl.id = `kv-${i}`;
+            vecEl.innerHTML = `
+                <span class="power">A<sup>${i}</sup>v</span>
+                <span class="vals">[${v[0]}, ${v[1]}]</span>
+            `;
+            container.appendChild(vecEl);
+
+            if (i < 3) {
+                const arrow = document.createElement('span');
+                arrow.className = 'arrow';
+                arrow.textContent = '→';
+                container.appendChild(arrow);
+            }
+
+            vecEl.classList.add('active');
+            await sleep(500);
+            vecEl.classList.remove('active');
+            vecEl.classList.add('done');
+
+            v = matVec(matrix, v);
+            krylovVectors.push(v);
+        }
+
+        // Compute minimal polynomial (characteristic for 2x2)
+        const trace = matrix[0][0] + matrix[1][1];
+        const det = matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+
+        document.getElementById('minPoly').innerHTML = 
+            `p(λ) = λ² − ${trace}λ + ${det}`;
+        document.getElementById('resultPanel').classList.add('visible');
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    window.onload = newMatrix;
+</script>
+</body>
+</html>

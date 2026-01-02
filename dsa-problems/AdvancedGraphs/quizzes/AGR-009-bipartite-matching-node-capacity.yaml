@@ -1,0 +1,52 @@
+problem_id: AGR_BIPARTITE_MATCHING_NODE_CAPACITY_009
+display_id: AGR-009
+slug: bipartite-matching-node-capacity
+questions:
+  - question: In maximum bipartite matching with node capacities, what does node capacity mean?
+    difficulty: easy
+    points: 10
+    options:
+      - Maximum degree of the node
+      - Maximum flow that can pass through the node
+      - Maximum matching pairs involving the node
+      - Node weight
+    correct_answer: 2
+    explanation: Node capacity limits how many edges can use that node. For demand/supply, it's how many items that node can handle.
+    type: single_choice
+    id: prq_1
+  - question: How is maximum bipartite matching with node capacities solved using max flow?
+    difficulty: easy
+    points: 10
+    options:
+      - Add source to left nodes, right nodes to sink with capacities
+      - Use standard max flow with edge capacities only
+      - Preprocess node capacities as min degree
+      - Use greedy matching
+    correct_answer: 0
+    explanation: "Create a flow network: source→left (capacity = left's demand), left↔right (edges with capacity 1), right→sink (capacity = right's supply)."
+    type: single_choice
+    id: edq_1
+  - question: In the matching network, why is edge capacity between left and right = 1?
+    difficulty: medium
+    points: 15
+    options:
+      - Bipartite graphs have unit edges
+      - Each edge can be used at most once (one pair per original edge)
+      - To simplify computation
+      - Standard convention
+    correct_answer: 1
+    explanation: In matching, each original edge (u,v) can match at most one pair. Flow of 1 on an edge means it's matched; flow of 0 means unmatched.
+    type: single_choice
+    id: edq_2
+  - question: For a bipartite graph with left partition demand [2, 1, 3] and right partition supply [2, 2, 2], is a perfect matching possible?
+    difficulty: medium
+    points: 15
+    options:
+      - Yes, always possible
+      - Yes, total demand 6 = total supply 6
+      - No, imbalanced
+      - Depends on edges
+    correct_answer: 1
+    explanation: If total demand = total supply, a matching exists iff Hall's condition is met (connectivity-based). Equality is necessary but not sufficient.
+    type: single_choice
+    id: edq_3

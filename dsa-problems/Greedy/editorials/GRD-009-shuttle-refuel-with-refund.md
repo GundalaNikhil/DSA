@@ -44,7 +44,21 @@ You want to know where to start your journey so that you never run out of gas, u
 
 ## Detailed Explanation
 
-### ASCII Diagram: The Fuel Tank
+### Flow Diagram: The Fuel Tank
+
+The coupon is your turbo boost, so spend it where it buys the most distance.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Find max cost edge]
+    B --> C[Compute total gain and total cost]
+    C --> D{Total gain plus max cost at least total cost}
+    D -- No --> E[Return minus one]
+    D -- Yes --> F[Set cost of max edge to zero]
+    F --> G[Run standard gas station scan]
+    G --> H[Return start index]
+```
 
 Stops: 0, 1, 2.
 Gain: [1, 4, 2]
@@ -70,7 +84,6 @@ Tank = 2 (Cost 0). Arrive at 1 with 2. Success.
 Route: 1 -> 2 -> 0 -> 1
 Fuel:  4 -> 2 -> 1 -> 2 (Coupon used on 0->1)
 ```
-
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Coupon Strategy:** You should use the coupon on the edge that saves you the most fuel? Not necessarily. You use it on an edge that *allows* you to complete the cycle. But intuitively, refunding the largest cost is best for the *total* balance.

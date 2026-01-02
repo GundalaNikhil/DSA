@@ -45,7 +45,17 @@ Just like FFT speeds up standard multiplication, FWHT speeds up "XOR multiplicat
 
 ## Detailed Explanation
 
-### ASCII Diagram: FWHT Butterfly
+### Flow Diagram: FWHT Butterfly
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Input u] --> C[Compute u plus v]
+    B[Input v] --> C
+    A --> D[Compute u minus v]
+    B --> D
+```
+
 
 The structure is very similar to FFT, but the "twiddle factors" are just `+1` and `-1`.
 

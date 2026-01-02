@@ -49,6 +49,21 @@ This is a classic recursive relation.
 ### 3. Overlapping Subproblems
 A naive recursive solution will re-calculate the number of paths for the same cell multiple times. For example, to calculate paths to `(2, 2)`, we need `(1, 2)` and `(2, 1)`. Both of those will eventually ask for `(1, 1)`. This suggests **Memoization** or **Dynamic Programming**.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Start at target cell] --> B{Row and column are zero}
+B -->|Yes| C[Return one]
+B -->|No| D{Row is below zero or column is below zero}
+D -->|Yes| E[Return zero]
+D -->|No| F[Check memo value]
+F --> G{Memo has value}
+G -->|Yes| H[Return memo value]
+G -->|No| I[Recurse to up and left]
+I --> J[Store sum in memo]
+J --> K[Return sum]
+```
+
 ## Approaches
 
 ### Approach 1: Naive Recursion (Exponential)

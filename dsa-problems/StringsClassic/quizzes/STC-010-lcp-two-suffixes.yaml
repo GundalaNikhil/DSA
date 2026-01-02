@@ -1,2 +1,52 @@
-# Quiz for STC-010: Longest Common Prefix of Two Suffixes
-# YAML content to be added
+problem_id: STC_LCP_TWO_SUFFIXES_010
+display_id: STC-010
+slug: lcp-two-suffixes
+questions:
+  - question: To find the Longest Common Prefix (LCP) length between any two suffixes starting at indices `i` and `j` using the Suffix Array `SA` and LCP Array `lcp`, what standard problem does this reduce to?
+    difficulty: medium
+    points: 15
+    options:
+      - Range Minimum Query (RMQ) on the LCP array.
+      - Range Sum Query (RSQ) on the LCP array.
+      - Longest Increasing Subsequence (LIS) on the SA.
+      - Finding the Lowest Common Ancestor (LCA) in a Fenwick Tree.
+    correct_answer: 0
+    explanation: The LCP of two suffixes is the minimum value in the LCP array in the interval between their ranks in the Suffix Array.
+    type: single_choice
+    id: prq_1
+  - question: If `rank[i]` and `rank[j]` are the positions of two suffixes in the sorted Suffix Array (assume `rank[i] < rank[j]`), what is the exact range `[L, R]` in the LCP array that must be queried to find their LCP?
+    difficulty: hard
+    points: 15
+    options:
+      - "`[rank[i], rank[j] - 1]`"
+      - "`[rank[i], rank[j]]`"
+      - "`[rank[i] + 1, rank[j]]`"
+      - "`[rank[i] + 1, rank[j] - 1]`"
+    correct_answer: 0
+    explanation: The value `lcp[k]` represents the LCP between the suffix at rank `k` and `k+1`. The interval between rank `rank[i]` and `rank[j]` is bridged by the LCP values `lcp[rank[i]]`, `lcp[rank[i]+1]`, ..., `lcp[rank[j]-1]`. Thus, we query the minimum in `[rank[i], rank[j]-1]`.
+    type: single_choice
+    id: edq_1
+  - question: Which data structure is most suitable for answering static Range Minimum Queries on the LCP array in `O(1)` time after `O(N log N)` preprocessing?
+    difficulty: easy
+    points: 10
+    options:
+      - Sparse Table
+      - Segment Tree
+      - Fenwick Tree (Binary Indexed Tree)
+      - Hash Map
+    correct_answer: 0
+    explanation: A Sparse Table allows for `O(1)` idempotent range queries (like min/max) after `O(N log N)` build time, which fits perfectly here since the array is static.
+    type: single_choice
+    id: edq_2
+  - question: Why do we need the inverse Suffix Array (often called `rank` or `isa`) to solve this problem?
+    difficulty: easy
+    points: 10
+    options:
+      - Because the input gives us original string indices `i` and `j`, but the RMQ must be performed on the sorted order indices (ranks).
+      - To sort the string.
+      - It is not needed; we can use `i` and `j` directly.
+      - To compute the LCP array.
+    correct_answer: 0
+    explanation: The LCP array is indexed by the sorted order. To look up information about the suffix starting at position `i`, we first need to know where it ended up after sorting, which is exactly what `rank[i]` stores.
+    type: single_choice
+    id: edq_3

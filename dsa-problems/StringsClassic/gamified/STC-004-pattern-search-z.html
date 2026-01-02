@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-004: Z-Search</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1a1a2e;
+            --text: #eaf0fb;
+            --pattern: #e94560;
+            --match: #0f3460;
+        }
+
+        body {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 { color: var(--pattern); margin-top: 2rem; }
+
+        .concat-display {
+            display: flex;
+            gap: 3px;
+            margin-top: 3rem;
+            font-size: 1.5rem;
+            flex-wrap: wrap;
+            max-width: 800px;
+            justify-content: center;
+        }
+
+        .char {
+            width: 30px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #16213e;
+            border: 1px solid #0f3460;
+            border-radius: 3px;
+        }
+
+        .char.pattern { background: var(--pattern); color: #fff; }
+        .char.separator { background: #333; color: #888; }
+        .char.match-start { background: #00b894; color: #000; }
+
+        .z-values {
+            display: flex;
+            gap: 3px;
+            margin-top: 1rem;
+            font-size: 0.8rem;
+            flex-wrap: wrap;
+            max-width: 800px;
+            justify-content: center;
+        }
+
+        .z-val {
+            width: 30px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #0f3460;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .z-val.highlight { background: #00b894; color: #000; }
+
+        .info { margin-top: 2rem; padding: 20px; background: #16213e; border-radius: 10px; max-width: 500px; text-align: center; }
+
+        .btn {
+            margin-top: 2rem;
+            padding: 10px 30px;
+            background: var(--pattern);
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>Z-SEARCH</h1>
+<div style="color:#888">Find pattern in text using Z-function on P$T.</div>
+
+<div class="concat-display" id="concatDisplay"></div>
+<div class="z-values" id="zDisplay"></div>
+
+<div class="info" id="info">Z[i] >= |P| means a match starts at position i - |P| - 1 in original text.</div>
+
+<button class="btn" onclick="init()">New Search</button>
+
+<script>
+    const PATTERN = "ab";
+    const TEXT = "cabababc";
+    const SEP = "$";
+    
+    let concat = "";
+    let zArray = [];
+
+    function computeZ(s) {
+        const n = s.length;
+        const z = Array(n).fill(0);
+        let l = 0, r = 0;
+        for (let i = 1; i < n; i++) {
+            if (i < r) z[i] = Math.min(r - i, z[i - l]);
+            while (i + z[i] < n && s[z[i]] === s[i + z[i]]) z[i]++;
+            if (i + z[i] > r) { l = i; r = i + z[i]; }
+        }
+        return z;
+    }
+
+    function init() {
+        concat = PATTERN + SEP + TEXT;
+        zArray = computeZ(concat);
+        render();
+    }
+
+    function render() {
+        const cd = document.getElementById('concatDisplay');
+        const zd = document.getElementById('zDisplay');
+        cd.innerHTML = '';
+        zd.innerHTML = '';
+
+        const pLen = PATTERN.length;
+
+        for (let i = 0; i < concat.length; i++) {
+            const c = document.createElement('div');
+            c.className = 'char';
+            c.textContent = concat[i];
+            
+            if (i < pLen) c.classList.add('pattern');
+            else if (i === pLen) c.classList.add('separator');
+            else if (zArray[i] >= pLen) c.classList.add('match-start');
+            
+            cd.appendChild(c);
+
+            const zv = document.createElement('div');
+            zv.className = 'z-val';
+            zv.textContent = zArray[i];
+            if (zArray[i] >= pLen && i > pLen) zv.classList.add('highlight');
+            zv.onclick = () => showInfo(i);
+            zd.appendChild(zv);
+        }
+
+        // Show matches
+        const matches = [];
+        for (let i = pLen + 1; i < concat.length; i++) {
+            if (zArray[i] >= pLen) {
+                matches.push(i - pLen - 1);
+            }
+        }
+        document.getElementById('info').innerHTML = matches.length > 0 
+            ? `Pattern found at text indices: <strong>${matches.join(', ')}</strong>`
+            : "No matches found.";
+    }
+
+    function showInfo(i) {
+        const pLen = PATTERN.length;
+        if (i <= pLen) {
+            document.getElementById('info').textContent = "This is part of the pattern or separator.";
+        } else {
+            const textIdx = i - pLen - 1;
+            document.getElementById('info').textContent = `Z[${i}]=${zArray[i]} → ${zArray[i] >= pLen ? 'MATCH' : 'No match'} at text index ${textIdx}`;
+        }
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

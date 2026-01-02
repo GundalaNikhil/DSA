@@ -55,6 +55,18 @@ Intersection occurs if:
 2. The segment intersects any of the 4 rectangle edges.
 
 Use orientation and on-segment tests for robust intersection.
+Think of the rectangle as a gate, if the segment touches it anywhere it counts.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with rectangle and segment] --> B{Endpoint inside rectangle?}
+    B -- Yes --> C[Return true]
+    B -- No --> D[Check intersection with each edge]
+    D --> E{Any edge intersects?}
+    E -- Yes --> F[Return true]
+    E -- No --> G[Return false]
+```
 
 ### Point Inside Rectangle
 

@@ -39,7 +39,28 @@ Imagine planning a route for an Electric Vehicle (EV) across an archipelago of i
 
 ## Detailed Explanation
 
-### ASCII Diagram: Constrained Path
+### Flow Diagram: Constrained Path
+
+Battery capacity is the bouncer at the bridge: if a crossing is too long, it does not get on the guest list.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Set dist as infinite]
+    B --> C[Set source distance to zero]
+    C --> D[Push source into min heap]
+    D --> E{Heap has nodes}
+    E -- Yes --> F[Extract node with smallest distance]
+    F --> G[Check each incident edge]
+    G --> H{Edge weight within battery}
+    H -- Yes --> I[Compute candidate distance]
+    I --> J{Candidate is less than dist}
+    J -- Yes --> K[Update dist and push to heap]
+    K --> G
+    J -- No --> G
+    H -- No --> G
+    E -- No --> L[Return dist for destination]
+```
 
 **Graph:**
 ```

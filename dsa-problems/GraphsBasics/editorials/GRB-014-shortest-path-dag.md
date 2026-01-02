@@ -39,30 +39,21 @@ Imagine managing a software project.
 
 ## Detailed Explanation
 
-### ASCII Diagram: Concept Visualization
+### Flow Diagram: Concept Visualization
 
-**Graph:**
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute topological order]
+    B --> C[Initialize dist as infinite]
+    C --> D[Set source distance to zero]
+    D --> E[Process nodes in topological order]
+    E --> F{Node reachable}
+    F -- No --> E
+    F -- Yes --> G[Relax all outgoing edges]
+    G --> E
+    E --> H[Return dist with minus one for unreachable]
 ```
-      (2)      (1)
-  0 ------> 1 ------> 3
-  |         ^
-  | (5)     | (-2)
-  v         |
-  2 --------+
-```
-**Topological Sort:** `0, 2, 1, 3` (One valid order).
-
-**Relaxation Order:**
-1.  **Process 0:** `dist[0]=0`.
-    -   `0->1` (w=2): `dist[1] = min(inf, 0+2) = 2`.
-    -   `0->2` (w=5): `dist[2] = min(inf, 0+5) = 5`.
-2.  **Process 2:** `dist[2]=5`.
-    -   `2->1` (w=-2): `dist[1] = min(2, 5-2) = 3`. (Updated!)
-3.  **Process 1:** `dist[1]=3`.
-    -   `1->3` (w=1): `dist[3] = min(inf, 3+1) = 4`.
-4.  **Process 3:** `dist[3]=4`. No outgoing edges.
-
-**Final Distances:** `0:0, 1:3, 2:5, 3:4`.
 
 ### Algorithm Steps
 
@@ -91,7 +82,7 @@ Run Bellman-Ford.
 
 ## Optimal Approach (Topological Sort + Relaxation)
 
-By processing nodes in topological order, we guarantee that when we visit node `u`, we have already processed all possible predecessors of `u`. Thus, `dist[u]` is already final.
+By processing nodes in topological order, we guarantee that when we visit node `u`, we have already processed all possible predecessors of `u`. Thus, `dist[u]` is already final. A DAG never lets you loop back, so the shortest path is settled in one clean pass.
 
 ### Time Complexity
 

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRI-009: Wildcard Search</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Lexend', sans-serif;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 25px; }
+        .header h1 { font-size: 36px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+
+        /* Tutorial */
+        .tutorial {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .tutorial h2 { color: #6366f1; margin-bottom: 15px; }
+        .rules-list { display: flex; flex-direction: column; gap: 12px; }
+        .rule {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background: #f5f3ff;
+            border-radius: 12px;
+            border-left: 4px solid #6366f1;
+        }
+        .rule-icon { font-size: 24px; }
+        .rule-text { font-size: 15px; color: #555; }
+        .rule-text strong { color: #6366f1; }
+
+        /* Game */
+        .game-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .goal {
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            padding: 15px;
+            border-radius: 12px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        /* Dictionary */
+        .dict-section { margin-bottom: 25px; }
+        .section-title { font-size: 14px; color: #888; margin-bottom: 10px; }
+        .dict-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .dict-word {
+            padding: 12px;
+            background: #f5f3ff;
+            border: 2px solid #ddd5ff;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 18px;
+        }
+        .dict-word.match { border-color: #22c55e; background: #dcfce7; color: #15803d; }
+
+        /* Search */
+        .search-section { margin-bottom: 25px; }
+        .search-row { display: flex; gap: 10px; }
+        .search-input {
+            flex: 1;
+            padding: 15px 25px;
+            font-size: 24px;
+            font-family: monospace;
+            border: 3px solid #6366f1;
+            border-radius: 15px;
+            text-align: center;
+            letter-spacing: 5px;
+        }
+        .search-input:focus { outline: none; box-shadow: 0 0 15px rgba(99, 102, 241, 0.3); }
+
+        .btn {
+            padding: 15px 30px;
+            background: #6366f1;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+        .btn:hover { background: #4f46e5; }
+
+        /* Results */
+        .results {
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 15px;
+            text-align: center;
+        }
+        .results-title { font-size: 14px; color: #888; margin-bottom: 10px; }
+        .results-count { font-size: 48px; font-weight: 700; color: #6366f1; }
+        .results-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .result-word {
+            padding: 8px 20px;
+            background: #dcfce7;
+            border: 2px solid #22c55e;
+            border-radius: 20px;
+            font-weight: 600;
+            color: #15803d;
+        }
+
+        .examples {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fef3c7;
+            border-radius: 10px;
+            font-size: 14px;
+            color: #92400e;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🔮 Wildcard Search</h1>
+        <div>Search with . as a wildcard!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="rules-list">
+            <div class="rule">
+                <span class="rule-icon">📝</span>
+                <span class="rule-text">Type a <strong>pattern</strong> in the search box</span>
+            </div>
+            <div class="rule">
+                <span class="rule-icon">🎯</span>
+                <span class="rule-text">Use <strong>.</strong> (dot) as a wildcard that matches <strong>any single character</strong></span>
+            </div>
+            <div class="rule">
+                <span class="rule-icon">🔍</span>
+                <span class="rule-text">Example: <strong>c.t</strong> matches "cat", "cot", "cut" but NOT "cart"</span>
+            </div>
+            <div class="rule">
+                <span class="rule-icon">✨</span>
+                <span class="rule-text">Click <strong>Search</strong> to find all matching words!</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="goal">
+            <strong>🎯 GOAL:</strong> Find words matching your wildcard pattern!
+        </div>
+
+        <div class="dict-section">
+            <div class="section-title">📚 Dictionary (words you can search):</div>
+            <div class="dict-grid" id="dictGrid"></div>
+        </div>
+
+        <div class="search-section">
+            <div class="section-title">🔍 Enter pattern (use . for any character):</div>
+            <div class="search-row">
+                <input type="text" class="search-input" id="patternInput" placeholder="c.t">
+                <button class="btn" onclick="search()">Search</button>
+            </div>
+        </div>
+
+        <div class="results">
+            <div class="results-title">Matching Words Found:</div>
+            <div class="results-count" id="matchCount">0</div>
+            <div class="results-list" id="matchList"></div>
+        </div>
+
+        <div class="examples">
+            💡 <strong>Try these:</strong> "c.t", "b..d", "...e", "app.."
+        </div>
+    </div>
+</div>
+
+<script>
+    const DICT = ["cat", "car", "card", "care", "bat", "bad", "band", "apple", "apply", "code", "core", "cone"];
+
+    function init() {
+        renderDict();
+    }
+
+    function renderDict(matches = []) {
+        const grid = document.getElementById('dictGrid');
+        grid.innerHTML = '';
+        DICT.forEach(word => {
+            const div = document.createElement('div');
+            div.className = 'dict-word';
+            if (matches.includes(word)) div.classList.add('match');
+            div.textContent = word;
+            grid.appendChild(div);
+        });
+    }
+
+    function search() {
+        const pattern = document.getElementById('patternInput').value.toLowerCase();
+        if (!pattern) {
+            renderDict([]);
+            document.getElementById('matchCount').textContent = '0';
+            document.getElementById('matchList').innerHTML = '';
+            return;
+        }
+
+        const regex = new RegExp('^' + pattern.replace(/\./g, '.') + '$');
+        const matches = DICT.filter(word => regex.test(word));
+
+        renderDict(matches);
+        document.getElementById('matchCount').textContent = matches.length;
+        document.getElementById('matchList').innerHTML = matches.map(w => `<span class="result-word">${w}</span>`).join('');
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

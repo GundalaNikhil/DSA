@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STK-012: Equation Balancer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Ubuntu Mono', monospace;
+            background: #eee;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+        h1 { margin-top: 2rem; }
+        
+        .equation-bar {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 2rem;
+            display: flex;
+            gap: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .token {
+            padding: 10px;
+            background: #ddd;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .token:hover { background: #ccc; }
+        .token.used { opacity: 0.3; pointer-events: none; }
+
+        .postfix-out {
+            margin-top: 2rem;
+            font-size: 2rem;
+            min-height: 50px;
+            border-bottom: 2px solid #333;
+            width: 80%;
+            text-align: center;
+        }
+    
+        .alert-modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .alert-modal {
+            background: white; padding: 2rem; border-radius: 8px;
+            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+        .alert-modal button {
+            background: #4b5563; color: white; padding: 0.8rem 2rem;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .alert-modal button:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<h1>EQUATION BALANCER</h1>
+<div>Convert Infix to Postfix (RPN). Click in correct order.</div>
+
+<div class="equation-bar" id="eq">
+    <!-- Tokens -->
+</div>
+
+<div class="postfix-out" id="out">Output: </div>
+<div id="stackDisplay" style="margin-top:10px; color:#888">Op Stack: []</div>
+
+<script>
+    const tokens = ["A", "+", "B", "*", "C"]; // A + B * C -> A B C * +
+    // Ideally user plays the Shunting Yard algo?
+    // User clicks tokens. If operand, goes to out. If Op, goes to stack.
+    // User must manage stack pops manually?
+    // Let's simplified version: User just clicks the Postfix order.
+    // Goal: A -> B -> C -> * -> +
+    
+    // Better: Visual Shunting Yard.
+    // User clicks NEXT token from input. It moves to Stack or Output automatically?
+    // No "Active" means user decides where it goes.
+    // Mechanics:
+    // 1. Click token "A".
+    // 2. Click "Direct to Output" OR "Push to Op Stack".
+    
+    // Let's implement that.
+    
+    let currentTokIdx = 0;
+    let opStack = [];
+    let output = "";
+
+    function init() {
+        const div = document.getElementById('eq');
+        div.innerHTML = '';
+        tokens.forEach((t, i) => {
+             const el = document.createElement('div');
+             el.className = 'token';
+             el.textContent = t;
+             el.id = `tok-${i}`;
+             div.appendChild(el);
+        });
+        updateHighlight();
+    }
+
+    function updateHighlight() {
+        if (currentTokIdx < tokens.length) {
+            document.getElementById(`tok-${currentTokIdx}`).style.border = "2px solid blue";
+        }
+    }
+
+    // Buttons
+    // [Move to Output] [Push to Stack] [Pop Stack to Output]
+    
+    // We need UI for this.
+    // Adding dynamicaly via JS for brevity in this file prompt?
+    // Let's assume user just types 1, 2, 3 hotkeys or buttons.
+    
+    // Render simple UI
+    const controls = document.createElement('div');
+    controls.style.marginTop = "20px";
+    controls.innerHTML = `
+        <button onclick="moveToOut()">Move to Output</button>
+        <button onclick="pushStack()">Push to Op Stack</button>
+        <button onclick="popStack()">Pop Stack to Output</button>
+    `;
+    document.body.appendChild(controls);
+
+    function moveToOut() {
+        if(currentTokIdx >= tokens.length) return;
+        const t = tokens[currentTokIdx];
+        if("+-*/".includes(t)) { this.showGameAlert("Operators usually go to stack!"); return; } // Hint
+        output += t + " ";
+        finishToken();
+    }
+
+    function pushStack() {
+        if(currentTokIdx >= tokens.length) return;
+        const t = tokens[currentTokIdx];
+        opStack.push(t);
+        finishToken();
+    }
+
+    function finishToken() {
+        document.getElementById(`tok-${currentTokIdx}`).classList.add('used');
+        document.getElementById(`tok-${currentTokIdx}`).style.border = "none";
+        currentTokIdx++;
+        renderState();
+        updateHighlight();
+    }
+
+    function popStack() {
+        if(opStack.length === 0) return;
+        const op = opStack.pop();
+        output += op + " ";
+        renderState();
+    }
+
+    function renderState() {
+        document.getElementById('out').textContent = "Output: " + output;
+        document.getElementById('stackDisplay').textContent = "Op Stack: [" + opStack.join(', ') + "]";
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

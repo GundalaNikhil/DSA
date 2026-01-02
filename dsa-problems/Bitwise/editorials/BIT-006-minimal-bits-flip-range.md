@@ -36,7 +36,7 @@ You are working on a low-level driver for a legacy circuit board.
 -   **Constraint:** You can only perform this "Low-Bit Toggle" operation once.
 -   **Goal:** Determine the pulse duration `m` needed to reach exactly state `y`, or report that it's impossible.
 
-![Real-World Application](../images/BIT-006/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291242/Bitwise/BIT-006/v2/kr2icvmb05kq5zrwayt6.png)
 
 ### From Real World to Algorithm
 -   **Toggle:** In binary, toggling bits corresponds to the XOR operation.
@@ -44,8 +44,11 @@ You are working on a low-level driver for a legacy circuit board.
 -   **Mask Shape:** The mask represents the first `m` bits being 1, and the rest 0. This is always of the form $2^m - 1$ (e.g., `00011`, `00111`, `11111`).
 -   **Finding Mask:** Since $A \oplus B = C \implies A \oplus C = B$, we can find the required mask by computing `diff = x ^ y`.
 -   **Validation:** We just need to check if `diff` consists of a contiguous block of 1s starting from the least significant bit (LSB).
+When the bits line up, the mask clicks in like a zipper.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291246/Bitwise/BIT-006/v2/vqxevbxcfvwaoibijwnu.png)
 
 ### logical Diagram: Mask Validation
 
@@ -67,14 +70,15 @@ Properties of numbers like `11...1` ($N$):
 -   Powers of 2 have the property: `k & (k-1) == 0`.
 -   Therefore, valid masks satisfy: `(diff & (diff + 1)) == 0`.
 
+<!-- mermaid -->
 ```mermaid
-graph TD
-    Start[Calculate Diff = X ^ Y] --> CheckZero{Diff == 0?}
-    CheckZero -- Yes --> Ret0[Return 0]
-    CheckZero -- No --> CheckMask{Is (Diff & Diff+1) == 0?}
-    CheckMask -- No --> RetNeg1[Return -1]
-    CheckMask -- Yes --> Count[Count Set Bits in Diff]
-    Count --> RetM[Return m]
+flowchart TD
+    A[Compute diff from x XOR y] --> B{diff equals 0?}
+    B -- Yes --> C[Return 0]
+    B -- No --> D{diff is low bits all ones?}
+    D -- No --> E[Return -1]
+    D -- Yes --> F[Count set bits in diff]
+    F --> G[Return m]
 ```
 
 ## ✅ Input/Output Clarifications
@@ -177,6 +181,8 @@ class Solution {
 
 ## 🧪 Test Case Walkthrough
 
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291249/Bitwise/BIT-006/v2/gw9ioiiffjvumtg4jdh7.png)
+
 **Input:** `x=10 (1010)`, `y=5 (0101)`.
 1.  `Diff = 1111` (15).
 2.  `15 & 16 = 0`. Valid.
@@ -197,4 +203,3 @@ The check confirms `x^y` belongs to $S$.
 ## 💡 Interview Extensions
 1.  **Arbitrary Range:** Flip range `[i, j]`. Mask is `((1<<j)-1) ^ ((1<<i)-1)`. Check if diff is a shifted block of 1s (shift right until LSB is 1, then check same property).
 2.  **Min Flips:** If we can flip any range? Standard BFS/Greedy.
-

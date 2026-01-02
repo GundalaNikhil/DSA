@@ -66,6 +66,16 @@ Cases for Pivot Rank i:
 
 `E(5, 3) = 4 + frac15 [ E(4, 2) + E(3, 1) + 0 + E(3, 3) + E(4, 3) ]`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Pick random pivot]
+    B --> C[Partition and count comparisons]
+    C --> D[Recurse on subproblem]
+    D --> E[Use DP for expected value]
+    E --> F[Output expectation]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Recurrence:**

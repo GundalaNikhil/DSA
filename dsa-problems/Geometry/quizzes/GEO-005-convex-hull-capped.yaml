@@ -1,0 +1,52 @@
+problem_id: GEO_CONVEX_HULL_CAPPED_005
+display_id: GEO-005
+slug: convex-hull-capped
+questions:
+  - question: Which hull vertices are discarded in the capping step?
+    difficulty: easy
+    points: 10
+    options:
+      - Vertices with interior angle greater than theta
+      - Vertices with interior angle strictly less than theta
+      - All collinear vertices
+      - All vertices on the leftmost edge
+    correct_answer: 1
+    explanation: Only vertices with interior angle strictly less than the threshold are removed.
+    type: single_choice
+    id: prq_1
+  - question: A square hull has interior angles 90 degrees. For theta = 60, how many vertices remain?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - "2"
+      - "3"
+      - "4"
+    correct_answer: 3
+    explanation: All 4 angles are 90 >= 60, so all vertices remain.
+    type: single_choice
+    id: edq_1
+  - question: What is the time complexity of the full solution (hull + angle filtering)?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n log n)
+      - O(n^2)
+      - O(log n)
+    correct_answer: 1
+    explanation: Convex hull construction dominates at O(n log n); filtering is linear.
+    type: single_choice
+    id: edq_2
+  - question: If three consecutive hull points are collinear, what is the interior angle at the middle point?
+    difficulty: medium
+    points: 15
+    options:
+      - 0 degrees
+      - 90 degrees
+      - 180 degrees
+      - undefined
+    correct_answer: 2
+    explanation: Collinear edges form a straight angle of 180 degrees.
+    type: single_choice
+    id: edq_3

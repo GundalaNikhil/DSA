@@ -38,7 +38,7 @@ You are a teacher organizing a class project.
 -   **Goal:** You have a list of all Student IDs (scanned from the badges of everyone in the room). You want to quickly identify the IDs of the two leftovers.
 -   **Constraint:** The list is huge, and your scanner is weird—it can filter bits based on a mask `M`.
 
-![Real-World Application](../images/BIT-002/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291199/Bitwise/BIT-002/v2/m9nqqxgrxmh23cvrw1pb.png)
 
 ### From Real World to Algorithm
 -   **Normal Approach:** If we just XOR everything, the groups of 3 don't cancel out ($A \oplus A \oplus A = A$). That fails.
@@ -47,8 +47,11 @@ You are a teacher organizing a class project.
     -   The remainder `Count % 3` comes entirely from the two unique numbers.
 -   **The Ambiguity:** If `Count % 3 == 0`, both unique numbers have a 0 (or both have a 1) at that bit. If `Count % 3 == 1` or `2`, they differ (or both have 1?). It's tricky.
 -   **The Split:** We need to separate the two unique numbers into different "buckets" so we can solve for them individually. We need a "Splitting Bit" $k$ where one unique number has a 0 and the other has a 1.
+It is a bit of a split decision, but one good separator does all the heavy lifting.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291202/Bitwise/BIT-002/v2/xe0licw60cqnciyrz9j5.png)
 
 ### logical Diagram: The Modulo 3 Filter
 
@@ -76,17 +79,18 @@ For any bit position $i$:
     -   In Group 1: The other unique number is present.
     -   Now, for each group, run the "Single Unique in Triples" algorithm (Standard Modulo 3 count) to extract the number.
 
+<!-- mermaid -->
 ```mermaid
-graph TD
-    Start[Input Array] --> Count[Count Bits Mod 3]
-    Count --> FindSplit[Find Bit 'S' where Count%3 == 1]
-    FindSplit --> Partition[Split Array by Bit S]
-    Partition --> Group0[Group 0: bit S == 0]
-    Partition --> Group1[Group 1: bit S == 1]
-    Group0 --> Algo0[Apply Mod 3 Logic]
-    Group1 --> Algo1[Apply Mod 3 Logic]
-    Algo0 --> Res1[Found Unique 1]
-    Algo1 --> Res2[Found Unique 2]
+flowchart TD
+    A[Start with array and mask M] --> B[Count bits mod 3 at each position]
+    B --> C[Find split bit S where count mod 3 equals 1 and S in M]
+    C --> D[Partition by bit S]
+    D --> E[Group S equals 0]
+    D --> F[Group S equals 1]
+    E --> G[Apply mod 3 bit count to get unique one]
+    F --> H[Apply mod 3 bit count to get unique two]
+    G --> I[Return both uniques]
+    H --> I
 ```
 
 ## ✅ Input/Output Clarifications
@@ -161,7 +165,7 @@ Count occurrences. Return keys with count 1.
 
 - **O(1)**.
 
-![Algorithm Visualization](../images/BIT-002/algorithm-visualization.png)
+![Modulo 3 Logic Sketch](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767286649/Bitwise/BIT-002/gpjcp41jj79c60v6kjd4.jpg)
 ![Algorithm Steps](../images/BIT-002/algorithm-steps.png)
 
 ## Implementations
@@ -331,7 +335,9 @@ class Solution {
 }
 ```
 
-## 🧪 Test Case Walkthrough (Dry Run)
+## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291206/Bitwise/BIT-002/v2/qpx0mdwy3bcejjscuava.png) (Dry Run)
 
 **Input**: `[5, 5, 5, 9, 9, 9, 3, 6]`, `M=1`
 

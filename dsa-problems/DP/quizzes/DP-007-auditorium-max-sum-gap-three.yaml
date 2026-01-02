@@ -1,266 +1,52 @@
----
-problem_id: DP_MAXSUM_GAP3__7706
+problem_id: DP_AUDITORIUM_MAX_SUM_GAP_THREE_007
 display_id: DP-007
 slug: auditorium-max-sum-gap-three
-title: "Auditorium Max Sum With Gap Three - Quiz"
----
-
-# Problem-Related Questions (PRQ)
-# These test understanding of the problem statement, constraints, and requirements
-
-problem_questions:
-  - quiz_id: "PRQ-007-Q001"
-    category: "problem"
-    type: single_choice
-    question: "What is the primary task in the Auditorium Max Sum With Gap Three problem?"
-    options:
-      - option_id: "A"
-        text: "Select all seats to maximize sum"
-        correct: false
-      - option_id: "B"
-        text: "Select non-adjacent seats with gap ≥3 to maximize total value"
-        correct: true
-      - option_id: "C"
-        text: "Find the minimum gap between selected seats"
-        correct: false
-      - option_id: "D"
-        text: "Count the number of valid seat selections"
-        correct: false
-    explanation: "This is a house robber variant where you must maintain at least 3 seats gap between any two selected seats while maximizing the sum of selected seat values."
+questions:
+  - question: What is the primary task in the Auditorium Max Sum With Gap Three problem?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-007-Q002"
-    category: "problem"
-    type: single_choice
-    question: "If you select seat at index 5, which seats cannot be selected?"
     options:
-      - option_id: "A"
-        text: "Only seat 4 and seat 6"
-        correct: false
-      - option_id: "B"
-        text: "Seats 2, 3, 4, 6, 7, 8"
-        correct: true
-      - option_id: "C"
-        text: "All seats within distance 3"
-        correct: false
-      - option_id: "D"
-        text: "Only adjacent seats"
-        correct: false
-    explanation: "Gap of 3 means you cannot select 3 seats before (indices 2,3,4) or 3 seats after (indices 6,7,8). Seats 0,1 and 9+ are valid if gap ≥3."
+      - Select all seats to maximize sum
+      - Select non-adjacent seats with gap ≥3 to maximize total value
+      - Find the minimum gap between selected seats
+      - Count the number of valid seat selections
+    correct_answer: 1
+    explanation: This is a house robber variant where you must maintain at least 3 seats gap between any two selected seats while maximizing the sum of selected seat values.
+    type: single_choice
+    id: prq_1
+  - question: If you select seat at index 5, which seats cannot be selected?
     difficulty: medium
     points: 15
-
-  - quiz_id: "PRQ-007-Q003"
-    category: "problem"
-    type: single_choice
-    question: "How does this problem differ from the classic House Robber problem?"
     options:
-      - option_id: "A"
-        text: "No difference, they're identical"
-        correct: false
-      - option_id: "B"
-        text: "Gap requirement is 3 instead of 1"
-        correct: true
-      - option_id: "C"
-        text: "This allows adjacent selections"
-        correct: false
-      - option_id: "D"
-        text: "This minimizes instead of maximizes"
-        correct: false
-    explanation: "House Robber requires gap ≥1 (no adjacent houses). This problem requires gap ≥3 (at least 3 seats between selections), making it more restrictive."
+      - Only seat 4 and seat 6
+      - Seats 2, 3, 4, 6, 7, 8
+      - All seats within distance 3
+      - Only adjacent seats
+    correct_answer: 1
+    explanation: Gap of 3 means you cannot select 3 seats before (indices 2,3,4) or 3 seats after (indices 6,7,8). Seats 0,1 and 9+ are valid if gap ≥3.
+    type: single_choice
+    id: edq_1
+  - question: How does this problem differ from the classic House Robber problem?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-007-Q004"
-    category: "problem"
-    type: multiple_choice
-    question: "Which of the following seat selections are valid for array [10, 5, 8, 3, 9, 7, 2]? (Select all that apply)"
     options:
-      - option_id: "A"
-        text: "Selecting indices {0, 4} (gap = 4-0 = 4 ≥ 3)"
-        correct: true
-      - option_id: "B"
-        text: "Selecting indices {0, 3} (gap = 3-0 = 3 ≥ 3)"
-        correct: true
-      - option_id: "C"
-        text: "Selecting indices {1, 3, 5} (gaps: 3-1=2, invalid)"
-        correct: false
-      - option_id: "D"
-        text: "Selecting indices {0, 4, 6} (gaps: 4, 2, second gap invalid)"
-        correct: false
-    explanation: "Valid selections need gap ≥3 between all consecutive selected indices. {0,4} and {0,3} are valid. {1,3,5} fails at first gap (2<3), {0,4,6} fails at second gap (2<3)."
+      - No difference, they're identical
+      - Gap requirement is 3 instead of 1
+      - This allows adjacent selections
+      - This minimizes instead of maximizes
+    correct_answer: 1
+    explanation: House Robber requires gap ≥1 (no adjacent houses). This problem requires gap ≥3 (at least 3 seats between selections), making it more restrictive.
+    type: single_choice
+    id: edq_2
+  - question: Which of the following seat selections are valid for array [10, 5, 8, 3, 9, 7, 2]? (Select all that apply)
     difficulty: medium
     points: 15
-
-  - quiz_id: "PRQ-007-Q005"
-    category: "problem"
+    options:
+      - Selecting indices {0, 4} (gap = 4-0 = 4 ≥ 3)
+      - Selecting indices {0, 3} (gap = 3-0 = 3 ≥ 3)
+      - "Selecting indices {1, 3, 5} (gaps: 3-1=2, invalid)"
+      - "Selecting indices {0, 4, 6} (gaps: 4, 2, second gap invalid)"
+    correct_answer: 1
+    explanation: Valid selections need gap ≥3 between all consecutive selected indices. {0,4} and {0,3} are valid. {1,3,5} fails at first gap (2<3), {0,4,6} fails at second gap (2<3).
     type: single_choice
-    question: "For array [5, 10, 3, 2, 8, 1, 4, 20] with gap requirement of 3, what is the maximum sum?"
-    options:
-      - option_id: "A"
-        text: "25 (selecting 5 and 20)"
-        correct: true
-      - option_id: "B"
-        text: "30 (selecting 10 and 20)"
-        correct: false
-      - option_id: "C"
-        text: "38 (selecting multiple seats)"
-        correct: false
-      - option_id: "D"
-        text: "20 (selecting only the maximum value)"
-        correct: false
-    explanation: "Index 0 (value 5) and index 7 (value 20) have gap = 7 ≥ 3, giving sum = 25. Index 1 to 7 has gap = 6 ≥ 3, giving sum = 30. So answer is 30."
-    difficulty: hard
-    points: 20
-
-# Editorial/Algorithm Questions (EDQ)
-# These test understanding of the solution approach, algorithms, and complexity analysis
-
-editorial_questions:
-  - quiz_id: "EDQ-007-Q001"
-    category: "editorial"
-    type: single_choice
-    question: "What is the time complexity of the DP solution for this problem?"
-    options:
-      - option_id: "A"
-        text: "O(N)"
-        correct: true
-      - option_id: "B"
-        text: "O(N * 3)"
-        correct: false
-      - option_id: "C"
-        text: "O(N²)"
-        correct: false
-      - option_id: "D"
-        text: "O(N log N)"
-        correct: false
-    explanation: "We process each seat once, and for each seat we look back at most 3 positions (constant time), resulting in O(N) overall time complexity."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-007-Q002"
-    category: "editorial"
-    type: single_choice
-    question: "What is the recurrence relation for dp[i]?"
-    options:
-      - option_id: "A"
-        text: "dp[i] = max(dp[i-1], dp[i-3] + arr[i])"
-        correct: false
-      - option_id: "B"
-        text: "dp[i] = max(dp[i-1], dp[i-4] + arr[i])"
-        correct: true
-      - option_id: "C"
-        text: "dp[i] = dp[i-1] + arr[i]"
-        correct: false
-      - option_id: "D"
-        text: "dp[i] = max(dp[i-3], arr[i])"
-        correct: false
-    explanation: "We either skip seat i (dp[i-1]) or take seat i (arr[i] + dp[i-4]), since gap ≥3 means the previous selection must be at index ≤ i-4."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-007-Q003"
-    category: "editorial"
-    type: single_choice
-    question: "Why is dp[i-4] used instead of dp[i-3] when selecting seat i?"
-    options:
-      - option_id: "A"
-        text: "It's a typo, should be dp[i-3]"
-        correct: false
-      - option_id: "B"
-        text: "Gap ≥3 means indices must differ by at least 4 (e.g., 0 and 4 have gap 4)"
-        correct: true
-      - option_id: "C"
-        text: "To handle edge cases"
-        correct: false
-      - option_id: "D"
-        text: "For optimization purposes"
-        correct: false
-    explanation: "If we select seat i, the previous selection must be at index j where i-j ≥ 4 (to ensure gap ≥3). So we use dp[i-4]."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-007-Q004"
-    category: "editorial"
-    type: scenario
-    question: "You're scheduling advertisements on a timeline where each ad blocks nearby time slots. Which algorithm applies?"
-    options:
-      - option_id: "A"
-        text: "Greedy interval scheduling"
-        correct: false
-      - option_id: "B"
-        text: "House robber variant with gap constraint"
-        correct: true
-      - option_id: "C"
-        text: "Knapsack problem"
-        correct: false
-      - option_id: "D"
-        text: "Binary search"
-        correct: false
-    explanation: "This directly models the auditorium problem - selecting time slots (seats) with minimum gap requirements to maximize total ad value."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-007-Q005"
-    category: "editorial"
-    type: scenario
-    question: "Your solution gives correct answers for small arrays but incorrect results for large arrays. What's the likely issue?"
-    options:
-      - option_id: "A"
-        text: "Off-by-one error in the gap calculation or DP transition"
-        correct: true
-      - option_id: "B"
-        text: "Integer overflow"
-        correct: false
-      - option_id: "C"
-        text: "Time limit exceeded"
-        correct: false
-      - option_id: "D"
-        text: "Stack overflow"
-        correct: false
-    explanation: "Incorrect results (not timeouts) suggest logic errors. Gap-based DP is prone to off-by-one errors (using dp[i-3] vs dp[i-4]) that compound with array size."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-007-Q006"
-    category: "editorial"
-    type: multiple_choice
-    question: "Which of the following are common mistakes in this problem? (Select all that apply)"
-    options:
-      - option_id: "A"
-        text: "Using dp[i-3] instead of dp[i-4] when taking seat i"
-        correct: true
-      - option_id: "B"
-        text: "Not handling base cases for i < 4 properly"
-        correct: true
-      - option_id: "C"
-        text: "Confusing gap requirement (≥3) with index difference (≥4)"
-        correct: true
-      - option_id: "D"
-        text: "Using O(N²) solution"
-        correct: false
-    explanation: "Common errors include wrong lookback index, missing base cases, and gap vs index confusion. O(N²) is inefficient but not conceptually wrong."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-007-Q007"
-    category: "editorial"
-    type: single_choice
-    question: "What is the space complexity of the optimized DP solution?"
-    options:
-      - option_id: "A"
-        text: "O(1) - only need to track last 4 dp values"
-        correct: true
-      - option_id: "B"
-        text: "O(N) - need full dp array"
-        correct: false
-      - option_id: "C"
-        text: "O(3) - fixed gap size"
-        correct: false
-      - option_id: "D"
-        text: "O(N²)"
-        correct: false
-    explanation: "Since dp[i] only depends on dp[i-1] and dp[i-4], we only need to maintain a sliding window of 4 values, achieving O(1) space complexity."
-    difficulty: medium
-    points: 15
+    id: edq_3

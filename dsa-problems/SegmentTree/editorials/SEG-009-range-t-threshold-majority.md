@@ -89,6 +89,16 @@ With constraints `N, Q <= 200,000` and the hint "Store small candidate frequency
     -   Filter those with freq >= T.
     -   Pick best.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Preprocess positions by value] --> B[Build tree with summaries]
+B --> C[Query range summary]
+C --> D[Verify candidates with positions]
+D --> E[Select best meeting threshold]
+E --> F[Output result]
+```
+
 **Complexity**: `O(Q * (K log N + K log N))`. With `K=3`, feasible.
 
 ## Implementations

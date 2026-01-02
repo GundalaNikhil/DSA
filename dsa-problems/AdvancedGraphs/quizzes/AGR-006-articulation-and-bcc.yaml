@@ -1,0 +1,52 @@
+problem_id: AGR_ARTICULATION_AND_BCC_006
+display_id: AGR-006
+slug: articulation-and-bcc
+questions:
+  - question: What is an articulation point (cut vertex)?
+    difficulty: easy
+    points: 10
+    options:
+      - A node with degree ≥ 2
+      - A node whose removal increases the number of connected components
+      - A node that appears in multiple cycles
+      - The central node in a star graph
+    correct_answer: 1
+    explanation: "An articulation point is a critical node. Removing it disconnects the graph or increases components. Example: in a path 1-2-3, node 2 is an articulation point."
+    type: single_choice
+    id: prq_1
+  - question: "In Tarjan's articulation point detection, a non-root node u is an AP when:"
+    difficulty: easy
+    points: 10
+    options:
+      - tin[u] = 1
+      - low[v] >= tin[u] for some child v
+      - degree[u] > 2
+      - u has a back-edge
+    correct_answer: 1
+    explanation: If a child v satisfies low[v] >= tin[u], then v's subtree cannot bypass u to reach u's ancestors. So u is critical (articulation point).
+    type: single_choice
+    id: edq_1
+  - question: What is the special condition for the root node to be an articulation point?
+    difficulty: medium
+    points: 15
+    options:
+      - low[root] = 0
+      - root has children in DFS tree
+      - root has > 1 child in DFS tree
+      - root has > 1 back-edge
+    correct_answer: 2
+    explanation: The root is an AP iff it has more than one child in the DFS tree. This splits the graph into at least 2 components (one per subtree).
+    type: single_choice
+    id: edq_2
+  - question: What is a biconnected component (BCC)?
+    difficulty: medium
+    points: 15
+    options:
+      - A component with 2 nodes
+      - A maximal subgraph with no articulation points (or single edge)
+      - A component with 2 articulation points
+      - A cycle
+    correct_answer: 1
+    explanation: A BCC is a maximal subgraph where any two nodes have 2 node-disjoint paths (no AP between them). Equivalently, between any 2 nodes in a BCC, at least one cycle exists.
+    type: single_choice
+    id: edq_3

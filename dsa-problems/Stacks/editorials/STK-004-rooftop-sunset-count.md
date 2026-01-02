@@ -70,6 +70,17 @@ Imagine you are an **Architect** designing a row of beach houses.
         -   `max_height = h`
 -   Complexity: `O(N)` time, `O(1)` space.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Start scan from west] --> B[Compare height to max]
+B --> C{Height greater than max}
+C -->|Yes| D[Increment count and update max]
+C -->|No| E[Continue]
+D --> B
+E --> B
+```
+
 ## Implementations
 
 ### Java

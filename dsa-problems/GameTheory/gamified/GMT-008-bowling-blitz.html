@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMT-008: Bowling Kayles</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Lexend', sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 36px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .tutorial h2 { color: #3498db; margin-bottom: 15px; }
+
+        .rules { display: flex; gap: 15px; }
+        .rule {
+            flex: 1;
+            background: #e8f4fc;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .rule-icon { font-size: 28px; }
+        .rule-text { font-size: 13px; color: #555; margin-top: 5px; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .turn-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            border-radius: 12px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .turn-bar.ai { background: linear-gradient(90deg, #e74c3c, #c0392b); }
+
+        .pins-area {
+            padding: 30px;
+            background: #8b4513;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .pins-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .pin {
+            width: 40px;
+            height: 60px;
+            background: linear-gradient(to bottom, #fff 70%, #f0f0f0);
+            border-radius: 8px 8px 50% 50%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        }
+        .pin::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            width: 15px;
+            height: 15px;
+            background: #e74c3c;
+            border-radius: 50%;
+        }
+        .pin:hover { transform: scale(1.1); }
+        .pin.knocked { opacity: 0.2; cursor: not-allowed; background: #aaa; }
+        .pin.selected { box-shadow: 0 0 0 4px #f1c40f; }
+        .pin .num { font-size: 12px; color: #333; font-weight: 600; }
+
+        .controls { display: flex; gap: 10px; justify-content: center; margin: 15px 0; }
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-knock { background: #27ae60; color: #fff; }
+        .btn-clear { background: #95a5a6; color: #fff; }
+        .btn:disabled { opacity: 0.5; }
+
+        .message { text-align: center; padding: 15px; color: #666; font-size: 16px; }
+
+        .result {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            display: none;
+        }
+        .result.win { display: block; background: #d5f5e3; color: #27ae60; }
+        .result.lose { display: block; background: #fadbd8; color: #e74c3c; }
+
+        .new-game {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 15px;
+            background: #3498db;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🎳 Bowling Kayles</h1>
+        <div style="opacity:0.9">Knock down 1 or 2 adjacent pins - last move wins!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="rules">
+            <div class="rule">
+                <div class="rule-icon">🎯</div>
+                <div class="rule-text"><strong>Click 1-2 adjacent</strong> standing pins</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">🎳</div>
+                <div class="rule-text"><strong>Knock them down</strong> to remove them</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">🏆</div>
+                <div class="rule-text"><strong>Last to knock</strong> down pins wins!</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="turn-bar" id="turnBar">
+            <span id="turnText">🟢 Your Turn</span>
+            <span>Pins left: <span id="pinsLeft">10</span></span>
+        </div>
+
+        <div class="message" id="message">Click 1 or 2 adjacent pins to knock down!</div>
+
+        <div class="pins-area">
+            <div class="pins-row" id="pinsRow"></div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-knock" id="knockBtn" onclick="confirmKnock()" disabled>🎳 Knock Down</button>
+            <button class="btn btn-clear" onclick="clearSelection()">✕ Clear</button>
+        </div>
+
+        <div class="result" id="result"></div>
+
+        <button class="new-game" onclick="newGame()">🔄 New Game</button>
+    </div>
+</div>
+
+<script>
+    const NUM_PINS = 10;
+    let pins = []; // true = standing
+    let selected = [];
+    let isPlayerTurn = true;
+    let gameOver = false;
+
+    function init() {
+        pins = new Array(NUM_PINS).fill(true);
+        selected = [];
+        isPlayerTurn = true;
+        gameOver = false;
+        document.getElementById('result').className = 'result';
+        render();
+    }
+
+    function render() {
+        const turnBar = document.getElementById('turnBar');
+        turnBar.className = isPlayerTurn ? 'turn-bar' : 'turn-bar ai';
+        document.getElementById('turnText').textContent = isPlayerTurn ? '🟢 Your Turn' : '🔴 AI Turn';
+        document.getElementById('pinsLeft').textContent = pins.filter(p => p).length;
+
+        const row = document.getElementById('pinsRow');
+        row.innerHTML = '';
+
+        pins.forEach((standing, i) => {
+            const pin = document.createElement('div');
+            pin.className = 'pin';
+            if (!standing) pin.classList.add('knocked');
+            if (selected.includes(i)) pin.classList.add('selected');
+            pin.innerHTML = `<span class="num">${i + 1}</span>`;
+
+            if (standing && isPlayerTurn && !gameOver) {
+                pin.onclick = () => togglePin(i);
+            }
+
+            row.appendChild(pin);
+        });
+
+        document.getElementById('knockBtn').disabled = !isValidSelection();
+    }
+
+    function togglePin(i) {
+        if (!pins[i] || !isPlayerTurn || gameOver) return;
+
+        if (selected.includes(i)) {
+            selected = selected.filter(x => x !== i);
+        } else {
+            if (selected.length >= 2) return;
+            if (selected.length === 1) {
+                // Must be adjacent
+                if (Math.abs(selected[0] - i) !== 1) return;
+            }
+            selected.push(i);
+        }
+
+        render();
+    }
+
+    function isValidSelection() {
+        if (selected.length === 0) return false;
+        if (selected.length === 2) {
+            return Math.abs(selected[0] - selected[1]) === 1;
+        }
+        return true;
+    }
+
+    function clearSelection() {
+        selected = [];
+        render();
+    }
+
+    function confirmKnock() {
+        if (!isValidSelection() || !isPlayerTurn || gameOver) return;
+
+        selected.forEach(i => pins[i] = false);
+        selected = [];
+
+        if (pins.every(p => !p)) {
+            endGame(true);
+            return;
+        }
+
+        isPlayerTurn = false;
+        render();
+        document.getElementById('message').textContent = '🤖 AI is thinking...';
+
+        setTimeout(aiMove, 800);
+    }
+
+    function aiMove() {
+        if (gameOver) return;
+
+        // Find first standing pin and knock it
+        const first = pins.findIndex(p => p);
+        if (first < 0) {
+            endGame(true);
+            return;
+        }
+
+        pins[first] = false;
+        document.getElementById('message').textContent = `🤖 AI knocks pin ${first + 1}`;
+
+        if (pins.every(p => !p)) {
+            endGame(false);
+            return;
+        }
+
+        isPlayerTurn = true;
+        render();
+        setTimeout(() => {
+            document.getElementById('message').textContent = 'Your turn! Select pins to knock down.';
+        }, 500);
+    }
+
+    function endGame(playerWins) {
+        gameOver = true;
+        render();
+        const result = document.getElementById('result');
+        if (playerWins) {
+            result.className = 'result win';
+            result.textContent = '🎉 YOU WIN! You knocked the last pin!';
+        } else {
+            result.className = 'result lose';
+            result.textContent = '😢 AI WINS! AI knocked the last pin.';
+        }
+        document.getElementById('message').textContent = '';
+    }
+
+    function newGame() {
+        init();
+        document.getElementById('message').textContent = 'Click 1 or 2 adjacent pins to knock down!';
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

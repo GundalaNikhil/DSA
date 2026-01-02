@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-014: Wildcard Mirror</title>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #2d3436;
+            --text: #dfe6e9;
+            --wild: #f39c12;
+            --accent: #9b59b6;
+            --match: #2ecc71;
+        }
+
+        body {
+            font-family: 'Audiowide', cursive;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 { color: var(--accent); margin-top: 2rem; }
+
+        .string-display {
+            display: flex;
+            gap: 5px;
+            margin-top: 3rem;
+            font-size: 2rem;
+        }
+
+        .char {
+            width: 45px;
+            height: 55px;
+            background: #3d3d3d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            border: 2px solid #555;
+        }
+        .char.wild { background: var(--wild); color: #000; cursor: pointer; }
+        .char.wild:hover { transform: scale(1.1); }
+        .char.pal { background: var(--match); color: #000; }
+
+        .options {
+            margin-top: 2rem;
+            display: flex;
+            gap: 10px;
+        }
+
+        .opt-btn {
+            width: 50px;
+            height: 50px;
+            background: #555;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .opt-btn:hover { background: var(--accent); }
+
+        .result-box {
+            margin-top: 2rem;
+            padding: 20px;
+            background: #3d3d3d;
+            border-radius: 10px;
+            min-width: 300px;
+            text-align: center;
+        }
+
+        .btn {
+            margin-top: 15px;
+            padding: 10px 25px;
+            background: var(--accent);
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+    
+        .alert-modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .alert-modal {
+            background: white; padding: 2rem; border-radius: 8px;
+            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+        .alert-modal button {
+            background: #4b5563; color: white; padding: 0.8rem 2rem;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .alert-modal button:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<h1>WILDCARD MIRROR</h1>
+<div style="color:#888">Replace * with a character to form the longest palindrome.</div>
+
+<div class="string-display" id="strDisplay"></div>
+
+<div class="options" id="options">
+    <button class="opt-btn" onclick="setWild('a')">a</button>
+    <button class="opt-btn" onclick="setWild('b')">b</button>
+    <button class="opt-btn" onclick="setWild('c')">c</button>
+</div>
+
+<div class="result-box">
+    <div>Longest Palindrome:</div>
+    <div id="palResult" style="font-size:1.5rem; color:var(--match); margin-top:10px">-</div>
+    <button class="btn" onclick="checkBest()">CHECK CHOICE</button>
+</div>
+
+<button style="margin-top:20px; padding:10px 20px; background:#555; border:none; color:#fff; cursor:pointer; border-radius:5px" onclick="init()">New Puzzle</button>
+
+<script>
+    const PUZZLES = [
+        { str: "ab*ba", wild: 2, best: 'a', answer: "ababa" },
+        { str: "a*c*a", wild: [1, 3], best: ['c', 'c'], answer: "accca" },
+        { str: "ra*ecar", wild: 2, best: 'c', answer: "racecar" }
+    ];
+    
+    let puzzle = null;
+    let userChar = '';
+
+    function init() {
+        puzzle = PUZZLES[Math.floor(Math.random() * PUZZLES.length)];
+        if (!Array.isArray(puzzle.wild)) puzzle.wild = [puzzle.wild];
+        if (!Array.isArray(puzzle.best)) puzzle.best = [puzzle.best];
+        userChar = '';
+        render();
+        document.getElementById('palResult').textContent = '-';
+    }
+
+    function render() {
+        const div = document.getElementById('strDisplay');
+        div.innerHTML = '';
+
+        for (let i = 0; i < puzzle.str.length; i++) {
+            const c = document.createElement('div');
+            c.className = 'char';
+            
+            if (puzzle.str[i] === '*') {
+                c.classList.add('wild');
+                c.textContent = userChar || '*';
+            } else {
+                c.textContent = puzzle.str[i];
+            }
+            
+            div.appendChild(c);
+        }
+    }
+
+    function setWild(ch) {
+        userChar = ch;
+        render();
+        // Show resulting string
+        const result = puzzle.str.replace(/\*/g, ch);
+        document.getElementById('palResult').textContent = result;
+    }
+
+    function checkBest() {
+        if (!userChar) {
+            this.showGameAlert("Select a character first!");
+            return;
+        }
+
+        const result = puzzle.str.replace(/\*/g, userChar);
+        const longestPal = findLongestPalindrome(result);
+
+        const bestResult = puzzle.str.replace(/\*/g, puzzle.best[0]);
+        const bestPal = findLongestPalindrome(bestResult);
+
+        if (longestPal.length >= bestPal.length) {
+            document.getElementById('palResult').innerHTML = `"${longestPal}" (Length ${longestPal.length}) ✓ BEST!`;
+            document.getElementById('palResult').style.color = "#2ecc71";
+        } else {
+            document.getElementById('palResult').innerHTML = `"${longestPal}" (Length ${longestPal.length}). Better exists!`;
+            document.getElementById('palResult').style.color = "#e74c3c";
+        }
+    }
+
+    function findLongestPalindrome(s) {
+        let longest = "";
+        for (let i = 0; i < s.length; i++) {
+            for (let j = i + 1; j <= s.length; j++) {
+                const sub = s.substring(i, j);
+                if (isPal(sub) && sub.length > longest.length) longest = sub;
+            }
+        }
+        return longest;
+    }
+
+    function isPal(s) {
+        return s === s.split('').reverse().join('');
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

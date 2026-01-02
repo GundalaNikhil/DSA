@@ -1,21 +1,20 @@
 problem_id: CON_REUSABLE_BARRIER__61E2
 samples:
-  - input: |-
-      N=3
-      phase1 arrivals: T1, T2, T3
-      phase2 arrivals: T2, T3, T1
-    output: |-
-      All threads must be released together per phase; barrier must reset between phases.
+- input: 'N=3
+
+    phase1 arrivals: T1, T2, T3
+
+    phase2 arrivals: T2, T3, T1'
+  output: All threads must be released together per phase; barrier must reset between phases.
 public:
-  - input: |-
-      N=1
-      phase1: T1 arrives
-      phase2: T1 arrives
-    output: |-
-      Trivial barrier: thread proceeds immediately each phase.
+- input: 'N=1
+
+    phase1: T1 arrives
+
+    phase2: T1 arrives'
+  output: 'Trivial barrier: thread proceeds immediately each phase.'
 hidden:
-  - input: |-
-      N=4
-      repeated phases
-    output: |-
-      Must use generation/phase separation (or two-turnstile) to avoid reuse bugs.
+- input: 'N=4
+
+    repeated phases'
+  output: Must use generation/phase separation (or two-turnstile) to avoid reuse bugs.

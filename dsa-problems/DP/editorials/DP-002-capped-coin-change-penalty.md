@@ -49,6 +49,7 @@ This maps directly to a bounded knapsack with a threshold-based activation cost.
 - Forces you to model per-type constraints (bounded knapsack, not unbounded)
 - Introduces “activation cost” patterns (pay once if you cross a threshold)
 - Tests whether you can optimize DP beyond naive triple loops for `target <= 5000`
+Once the penalty kicks in, the cost jumps, so you want to time that leap well.
 
 ![Real-World Application](../images/DP-002/real-world-scenario.png)
 
@@ -93,6 +94,20 @@ Option B: 2×10 + 1×5 + 1×1
   - Type 2: 1 coin (≤5, no penalty) → cost: 1
   - Type 1: 1 coin (≤2, no penalty) → cost: 1
   Total cost: 4 coins ✓ Better!
+```
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with target and coin types] --> B[Set dp0 to 0 and others to INF]
+    B --> C[For each coin type]
+    C --> D[Compute cap threshold and penalty]
+    D --> E[For each remainder class]
+    E --> F[Use deque to update next dp in this class]
+    F --> E
+    E --> G[Replace dp with next]
+    G --> C
+    C --> H[If dp at target is INF return -1 else return dp at target]
 ```
 
 ### Cost function per coin type

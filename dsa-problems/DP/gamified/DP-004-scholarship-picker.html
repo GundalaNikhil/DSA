@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DP-004: Scholarship Picker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --grid: #1e293b;
+            --primary: #eab308; /* Yellow/Gold */
+            --danger: #ef4444;
+            --accent: #ec4899; /* Pink */
+            --success: #10b981;
+            --text: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            background-image: 
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(234, 179, 8, 0.3);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            text-shadow: 0 0 10px var(--primary);
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .target-panel {
+            display: flex;
+            gap: 40px;
+            padding: 20px 40px;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 12px;
+            border: 2px solid var(--primary);
+        }
+
+        .target-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .target-label { color: #94a3b8; font-size: 0.85rem; }
+        .target-value { 
+            font-size: 1.8rem; 
+            font-weight: bold; 
+            color: var(--primary); 
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .students-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 15px;
+            width: 100%;
+        }
+
+        .student-card {
+            background: rgba(30, 41, 59, 0.8);
+            border: 2px solid var(--grid);
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .student-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .student-card.selected {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.15);
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .student-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--primary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .student-name {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .student-score {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .summary-panel {
+            display: flex;
+            gap: 40px;
+            padding: 20px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+        }
+
+        .summary-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .summary-label { color: #64748b; font-size: 0.85rem; }
+        .summary-value { font-size: 1.5rem; font-weight: bold; }
+        .summary-value.match { color: var(--success); }
+        .summary-value.off { color: var(--danger); }
+        .summary-value.neutral { color: var(--text); }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #1e293b; padding: 40px; border: 2px solid var(--primary);
+            max-width: 600px; text-align: center; color: var(--text);
+            box-shadow: 0 0 50px rgba(234, 179, 8, 0.2);
+            border-radius: 12px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+
+        .scan-line {
+            position: fixed; top: 0; left: 0; right: 0; height: 2px;
+            background: rgba(234, 179, 8, 0.3); opacity: 0.5;
+            animation: scan 4s linear infinite; pointer-events: none;
+        }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+    </style>
+</head>
+<body>
+
+<div class="scan-line"></div>
+
+<header>
+    <h1>🎓 Scholarship Picker</h1>
+    <div style="color: #94a3b8; font-size: 0.9rem;">DP-004: EXACT COUNT SUBSET SUM</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div class="target-panel">
+            <div class="target-item">
+                <span class="target-label">Select Exactly</span>
+                <span class="target-value" id="targetK">K</span>
+                <span class="target-label">students</span>
+            </div>
+            <div class="target-item">
+                <span class="target-label">With Total Score</span>
+                <span class="target-value" id="targetSum">T</span>
+            </div>
+        </div>
+
+        <div class="students-grid" id="students"></div>
+
+        <div class="summary-panel">
+            <div class="summary-item">
+                <span class="summary-label">Selected</span>
+                <span class="summary-value" id="selectedCount">0</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Current Sum</span>
+                <span class="summary-value" id="currentSum">0</span>
+            </div>
+            <div class="summary-item">
+                <span class="summary-label">Possible?</span>
+                <span class="summary-value" id="isPossible">?</span>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+        <button class="btn" onclick="game.newLevel()">NEW CHALLENGE</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🎓 SCHOLARSHIP PICKER</h2>
+        <div style="text-align:left; font-size:1rem; margin:1.5rem 0; line-height:1.7; color:#cbd5e1;">
+            <p><b>Objective:</b> Select exactly <b>K</b> students whose scores sum to exactly <b>T</b>.</p>
+            <p><b>Rules:</b></p>
+            <ul style="margin-left: 20px;">
+                <li>You must select <b>exactly</b> K students (not more, not less)</li>
+                <li>Their total score must equal <b>exactly</b> T</li>
+                <li>Some puzzles may be <em>impossible</em> - recognize when!</li>
+            </ul>
+            <p><b>DP Insight:</b> This uses 2D subset sum DP: <code>dp[count][sum]</code> where count tracks selected elements.</p>
+        </div>
+        <button class="btn" onclick="game.start()">START SELECTING</button>
+    </div>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.students = [];
+        this.K = 0;
+        this.target = 0;
+        this.selected = new Set();
+        this.isPossible = false;
+        
+        this.ui = {
+            students: document.getElementById('students'),
+            targetK: document.getElementById('targetK'),
+            targetSum: document.getElementById('targetSum'),
+            selectedCount: document.getElementById('selectedCount'),
+            currentSum: document.getElementById('currentSum'),
+            isPossible: document.getElementById('isPossible'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newLevel();
+    }
+
+    newLevel() {
+        // Generate students
+        const names = ['Alex', 'Blake', 'Casey', 'Dana', 'Evan', 'Finn', 'Gray', 'Harper'];
+        const emojis = ['👩‍🎓', '👨‍🎓', '🧑‍🎓', '👩‍💻', '👨‍💻', '🧑‍🔬', '👩‍🔬', '👨‍🔬'];
+        const numStudents = Math.floor(Math.random() * 3) + 5; // 5-7 students
+        
+        this.students = [];
+        for (let i = 0; i < numStudents; i++) {
+            this.students.push({
+                id: i,
+                name: names[i % names.length],
+                emoji: emojis[i % emojis.length],
+                score: Math.floor(Math.random() * 15) + 5 // 5-19
+            });
+        }
+        
+        // Set K and calculate a valid target (or random)
+        this.K = Math.floor(Math.random() * 2) + 2; // 2-3 students
+        
+        // 70% chance to have a valid solution
+        if (Math.random() < 0.7) {
+            // Find a valid combination
+            const combos = this.findKSubsets(this.K);
+            if (combos.length > 0) {
+                const pick = combos[Math.floor(Math.random() * combos.length)];
+                this.target = pick.reduce((s, idx) => s + this.students[idx].score, 0);
+                this.isPossible = true;
+            } else {
+                this.target = Math.floor(Math.random() * 30) + 20;
+                this.isPossible = this.checkPossible();
+            }
+        } else {
+            // Random target (may or may not be possible)
+            this.target = Math.floor(Math.random() * 40) + 15;
+            this.isPossible = this.checkPossible();
+        }
+        
+        this.selected = new Set();
+        this.ui.targetK.textContent = this.K;
+        this.ui.targetSum.textContent = this.target;
+        this.ui.isPossible.textContent = '?';
+        this.ui.isPossible.className = 'summary-value neutral';
+        this.ui.status.textContent = '';
+        
+        this.render();
+    }
+
+    findKSubsets(k) {
+        // Find all subsets of exactly k elements
+        const results = [];
+        const n = this.students.length;
+        
+        const combine = (start, current) => {
+            if (current.length === k) {
+                results.push([...current]);
+                return;
+            }
+            for (let i = start; i < n; i++) {
+                current.push(i);
+                combine(i + 1, current);
+                current.pop();
+            }
+        };
+        
+        combine(0, []);
+        return results;
+    }
+
+    checkPossible() {
+        // DP to check if any k-subset sums to target
+        const n = this.students.length;
+        const dp = Array.from({length: this.K + 1}, () => new Set());
+        dp[0].add(0);
+        
+        for (const student of this.students) {
+            for (let c = Math.min(this.K, n) - 1; c >= 0; c--) {
+                for (const s of dp[c]) {
+                    dp[c + 1].add(s + student.score);
+                }
+            }
+        }
+        
+        return dp[this.K].has(this.target);
+    }
+
+    toggleStudent(id) {
+        if (this.selected.has(id)) {
+            this.selected.delete(id);
+        } else {
+            this.selected.add(id);
+        }
+        this.render();
+        this.checkWin();
+    }
+
+    render() {
+        this.ui.students.innerHTML = '';
+        for (const student of this.students) {
+            const el = document.createElement('div');
+            el.className = 'student-card' + (this.selected.has(student.id) ? ' selected' : '');
+            el.onclick = () => this.toggleStudent(student.id);
+            el.innerHTML = `
+                <div class="student-avatar">${student.emoji}</div>
+                <div class="student-name">${student.name}</div>
+                <div class="student-score">${student.score}</div>
+            `;
+            this.ui.students.appendChild(el);
+        }
+        
+        this.updateSummary();
+    }
+
+    updateSummary() {
+        let count = this.selected.size;
+        let sum = 0;
+        for (const id of this.selected) {
+            sum += this.students.find(s => s.id === id).score;
+        }
+        
+        this.ui.selectedCount.textContent = count;
+        this.ui.selectedCount.className = 'summary-value ' + 
+            (count === this.K ? 'match' : count > this.K ? 'off' : 'neutral');
+        
+        this.ui.currentSum.textContent = sum;
+        this.ui.currentSum.className = 'summary-value ' + 
+            (sum === this.target ? 'match' : 'neutral');
+    }
+
+    checkWin() {
+        let count = this.selected.size;
+        let sum = 0;
+        for (const id of this.selected) {
+            sum += this.students.find(s => s.id === id).score;
+        }
+        
+        if (count === this.K && sum === this.target) {
+            this.ui.isPossible.textContent = 'YES';
+            this.ui.isPossible.className = 'summary-value match';
+            this.ui.status.innerHTML = `<span style="color:var(--success)">🎉 PERFECT! You found a valid selection!</span>`;
+        } else if (count === this.K) {
+            // Check if any valid solution exists
+            if (!this.isPossible) {
+                this.ui.isPossible.textContent = 'NO';
+                this.ui.isPossible.className = 'summary-value off';
+            }
+        }
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

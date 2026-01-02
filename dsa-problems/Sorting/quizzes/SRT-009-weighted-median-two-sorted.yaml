@@ -1,2 +1,52 @@
-# Quiz for SRT-009: Weighted Median of Two Sorted Arrays
-# YAML content to be added
+problem_id: SRT_WEIGHTED_MEDIAN_TWO_SORTED_009
+display_id: SRT-009
+slug: weighted-median-two-sorted
+questions:
+  - question: Given two sorted arrays with uniform weights `wA` and `wB` (where `wA` applies to all elements of A, and `wB` to B), what is an efficient way to find the weighted median without expanding the arrays?
+    difficulty: medium
+    points: 15
+    options:
+      - Binary Search on the Value (Answer) range, calculating the cumulative count of elements `<= mid` using `upper_bound` on both arrays.
+      - Merge the two arrays into a new array and pick the middle element.
+      - Iterate through both arrays with two pointers until the median index is reached.
+      - Use a selection algorithm on the concatenation.
+    correct_answer: 0
+    explanation: Since the range of values is typically within integer limits and the count function is monotonic, binary searching on the answer is extremely efficient (`O(log(Range) * (log N + log M))`) and avoids `O(N+M)` memory/time expansion.
+    type: single_choice
+    id: prq_1
+  - question: In the Binary Search on Value approach, if we want to find the element at 0-based rank `k`, what condition do we check for a candidate value `val`?
+    difficulty: medium
+    points: 10
+    options:
+      - Find smallest `val` such that `countLessEqual(val) > k`.
+      - Find `val` such that `countLessEqual(val) == k`.
+      - Find largest `val` such that `countLessEqual(val) < k`.
+      - Find `val` such that `countEqual(val) == 1`.
+    correct_answer: 0
+    explanation: We look for the first value (smallest) in the sorted sequence such that the number of elements less than or equal to it exceeds `k`. This ensures the element at rank `k` is covered.
+    type: single_choice
+    id: edq_1
+  - question: If the value range is `R` and array sizes are `N` and `M`, what is the time complexity of the Binary Search on Value solution?
+    difficulty: easy
+    points: 10
+    options:
+      - "`O(log R * (log N + log M))`"
+      - "`O(N + M)`"
+      - "`O(log N + log M)`"
+      - "`O((N + M) log (N + M))`"
+    correct_answer: 0
+    explanation: The outer loop runs `log R` times. Inside, we perform binary searches (`upper_bound`) on both arrays A and B, taking `O(log N)` and `O(log M)` respectively.
+    type: single_choice
+    id: edq_2
+  - question: Given that `wA` and `wB` can be up to `10^6` and array sizes up to `10^5`, what data type is necessary to store the cumulative counts?
+    difficulty: easy
+    points: 10
+    options:
+      - 64-bit integer (long long / long).
+      - 32-bit integer (int).
+      - 16-bit integer (short).
+      - Standard float.
+    correct_answer: 0
+    explanation: The total count `n*wA + m*wB` can reach `10^5 * 10^6 + 10^5 * 10^6 = 2 * 10^{11}`, which exceeds the 32-bit signed integer limit (`~2 * 10^9`).
+    type: single_choice
+    id: edq_3

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTH-002: Quantum Signal Mixer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d1b2a;
+            --surface: #1b263b;
+            --primary: #778da9;
+            --secondary: #415a77;
+            --accent: #e0e1dd;
+            --highlight: #b5838d;
+            --text: #e0e1dd;
+            --muted: #778da9;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: var(--surface);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--secondary);
+        }
+
+        h1 { font-size: 1.4rem; color: var(--accent); }
+        .subtitle { color: var(--muted); font-size: 0.85rem; }
+
+        .btn {
+            background: var(--secondary);
+            color: var(--text);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn:hover { background: var(--primary); }
+        .btn-action { background: var(--highlight); color: #000; }
+        .btn-action:hover { background: #c9707d; }
+
+        main {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .streams-container {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .stream-panel {
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 1.5rem;
+            min-width: 280px;
+            border: 1px solid var(--secondary);
+        }
+
+        .stream-panel h3 {
+            color: var(--muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .particle-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .particle {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            font-weight: 600;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .particle-a {
+            background: linear-gradient(135deg, #415a77, #778da9);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(119, 141, 169, 0.4);
+        }
+
+        .particle-b {
+            background: linear-gradient(135deg, #b5838d, #e5989b);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(181, 131, 141, 0.4);
+        }
+
+        .particle-result {
+            background: linear-gradient(135deg, #52796f, #84a98c);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(132, 169, 140, 0.4);
+        }
+
+        .mixer-chamber {
+            background: var(--surface);
+            border-radius: 15px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 600px;
+            border: 2px solid var(--secondary);
+            text-align: center;
+        }
+
+        .mixer-chamber h3 {
+            color: var(--highlight);
+            margin-bottom: 1rem;
+        }
+
+        .ntt-visual {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .ntt-stage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .ntt-stage span {
+            font-size: 0.7rem;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+
+        .ntt-block {
+            width: 80px;
+            height: 50px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fira Code';
+            font-size: 0.8rem;
+            transition: all 0.4s;
+        }
+
+        .ntt-off { background: var(--secondary); color: var(--muted); }
+        .ntt-on { background: var(--highlight); color: #fff; }
+        .ntt-done { background: #52796f; color: #fff; }
+
+        .arrow {
+            display: flex;
+            align-items: center;
+            color: var(--muted);
+            font-size: 1.5rem;
+        }
+
+        .result-panel {
+            background: var(--surface);
+            border-radius: 10px;
+            padding: 1.5rem;
+            width: 100%;
+            max-width: 600px;
+            border: 2px solid #52796f;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.5s;
+        }
+
+        .result-panel.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .result-panel h3 { color: #84a98c; margin-bottom: 1rem; }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(13, 27, 42, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal.hidden { display: none; }
+
+        .dialog {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 12px;
+            max-width: 500px;
+            border: 1px solid var(--secondary);
+        }
+
+        .dialog h2 {
+            color: var(--highlight);
+            margin-bottom: 1rem;
+        }
+
+        .dialog p {
+            margin: 0.8rem 0;
+            line-height: 1.6;
+            color: var(--muted);
+        }
+
+        .dialog strong { color: var(--text); }
+
+        .modulus-badge {
+            display: inline-block;
+            background: var(--highlight);
+            color: #000;
+            padding: 3px 10px;
+            border-radius: 15px;
+            font-family: 'Fira Code';
+            font-size: 0.8rem;
+            margin-top: 1rem;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 10px currentColor; }
+            50% { box-shadow: 0 0 25px currentColor; }
+        }
+
+        .glowing { animation: glow 0.6s ease-in-out infinite; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>⚛️ Quantum Signal Mixer</h1>
+        <div class="subtitle">MTH-002: Convolution Mod Prime Using NTT</div>
+    </div>
+    <button class="btn" onclick="showProtocol()">Protocol</button>
+</header>
+
+<main>
+    <div class="modulus-badge">mod 998244353</div>
+
+    <div class="streams-container">
+        <div class="stream-panel">
+            <h3>Stream A</h3>
+            <div class="particle-row" id="streamA"></div>
+        </div>
+        <div class="stream-panel">
+            <h3>Stream B</h3>
+            <div class="particle-row" id="streamB"></div>
+        </div>
+    </div>
+
+    <div class="mixer-chamber">
+        <h3>NTT Processing Pipeline</h3>
+        <div class="ntt-visual">
+            <div class="ntt-stage">
+                <div class="ntt-block ntt-off" id="stage1">NTT(A)</div>
+                <span>Transform</span>
+            </div>
+            <div class="arrow">→</div>
+            <div class="ntt-stage">
+                <div class="ntt-block ntt-off" id="stage2">×</div>
+                <span>Multiply</span>
+            </div>
+            <div class="arrow">→</div>
+            <div class="ntt-stage">
+                <div class="ntt-block ntt-off" id="stage3">INTT</div>
+                <span>Inverse</span>
+            </div>
+        </div>
+        <p style="color: var(--muted); font-size: 0.9rem;">Number Theoretic Transform preserves modular arithmetic</p>
+    </div>
+
+    <div class="result-panel" id="resultPanel">
+        <h3>Convolution Result</h3>
+        <div class="particle-row" id="resultStream"></div>
+    </div>
+
+    <div class="controls">
+        <button class="btn btn-action" id="convolveBtn" onclick="performNTT()">Convolve Signals</button>
+        <button class="btn" onclick="newProblem()">New Streams</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>📡 Protocol: Quantum Signal Mixer</h2>
+        <p><strong>Objective:</strong> Compute the convolution of two sequences using NTT.</p>
+        <p><strong>What is Convolution?</strong> C[k] = Σ A[i] × B[k-i] — combines signals based on overlap.</p>
+        <p><strong>Why NTT?</strong> Number Theoretic Transform works in modular arithmetic (mod 998244353), avoiding floating-point errors unlike FFT.</p>
+        <p><strong>Steps:</strong></p>
+        <p>1. Transform both sequences to NTT domain</p>
+        <p>2. Multiply pointwise in O(n) time</p>
+        <p>3. Inverse transform back to coefficient domain</p>
+        <button class="btn btn-action" onclick="hideProtocol()" style="margin-top: 1rem;">Begin Mixing</button>
+    </div>
+</div>
+
+<script>
+    const MOD = 998244353n;
+    let seqA = [], seqB = [], result = [];
+
+    function showProtocol() { document.getElementById('modal').classList.remove('hidden'); }
+    function hideProtocol() { document.getElementById('modal').classList.add('hidden'); }
+
+    function renderParticles(containerId, arr, type) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        arr.forEach(v => {
+            const p = document.createElement('div');
+            p.className = 'particle ' + type;
+            p.textContent = v;
+            container.appendChild(p);
+        });
+    }
+
+    function newProblem() {
+        const len = 3 + Math.floor(Math.random() * 2);
+        seqA = Array.from({length: len}, () => Math.floor(Math.random() * 10));
+        seqB = Array.from({length: len}, () => Math.floor(Math.random() * 10));
+        result = [];
+
+        renderParticles('streamA', seqA, 'particle-a');
+        renderParticles('streamB', seqB, 'particle-b');
+        document.getElementById('resultStream').innerHTML = '';
+        document.getElementById('resultPanel').classList.remove('visible');
+
+        // Reset NTT stages
+        ['stage1', 'stage2', 'stage3'].forEach(id => {
+            document.getElementById(id).className = 'ntt-block ntt-off';
+        });
+
+        document.getElementById('convolveBtn').disabled = false;
+    }
+
+    async function performNTT() {
+        document.getElementById('convolveBtn').disabled = true;
+
+        // Stage 1: NTT Transform
+        const stage1 = document.getElementById('stage1');
+        stage1.className = 'ntt-block ntt-on glowing';
+        await sleep(700);
+        stage1.className = 'ntt-block ntt-done';
+
+        // Stage 2: Pointwise multiply
+        const stage2 = document.getElementById('stage2');
+        stage2.className = 'ntt-block ntt-on glowing';
+        await sleep(700);
+        stage2.className = 'ntt-block ntt-done';
+
+        // Stage 3: Inverse NTT
+        const stage3 = document.getElementById('stage3');
+        stage3.className = 'ntt-block ntt-on glowing';
+        await sleep(700);
+        stage3.className = 'ntt-block ntt-done';
+
+        // Compute actual convolution
+        result = convolve(seqA, seqB);
+
+        // Show result
+        renderParticles('resultStream', result, 'particle-result');
+        document.getElementById('resultPanel').classList.add('visible');
+    }
+
+    function convolve(a, b) {
+        const res = new Array(a.length + b.length - 1).fill(0);
+        for (let i = 0; i < a.length; i++) {
+            for (let j = 0; j < b.length; j++) {
+                res[i + j] = (res[i + j] + a[i] * b[j]) % 998244353;
+            }
+        }
+        return res;
+    }
+
+    function sleep(ms) {
+        return new Promise(r => setTimeout(r, ms));
+    }
+
+    window.onload = newProblem;
+</script>
+</body>
+</html>

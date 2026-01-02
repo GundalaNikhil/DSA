@@ -73,6 +73,17 @@ Imagine you are a **Hiker** in a mountain range covered in thick fog.
 -   Compare `mid` and `mid+1`.
 -   Complexity: `O(log N)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Set low and high] --> B[Check mid and mid plus one]
+B --> C{Mid below next}
+C -->|Yes| D[Search right half]
+C -->|No| E[Search left half]
+D --> B
+E --> B
+```
+
 ## Implementations
 
 ### Java

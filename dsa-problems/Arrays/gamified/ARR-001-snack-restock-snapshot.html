@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARR-001: Cookie Counter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 36px;
+            color: #92400e;
+            text-shadow: 2px 2px 0 #fcd34d;
+        }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 3px solid #f59e0b;
+        }
+        .tutorial h2 {
+            color: #d97706;
+            font-size: 22px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .steps {
+            display: flex;
+            gap: 15px;
+        }
+        .step {
+            flex: 1;
+            background: #fffbeb;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #fcd34d;
+        }
+        .step-num {
+            width: 40px;
+            height: 40px;
+            background: #f59e0b;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 auto 10px;
+        }
+        .step-text { font-size: 14px; color: #78350f; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .score-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+            border-radius: 12px;
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .cookie-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #fef3c7;
+            border-radius: 15px;
+        }
+
+        .cookie {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(145deg, #92400e, #78350f);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 22px;
+            font-weight: 600;
+            color: #fef3c7;
+            transition: all 0.2s;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .cookie:hover { transform: scale(1.1); }
+        .cookie.selected {
+            background: linear-gradient(145deg, #16a34a, #15803d);
+            box-shadow: 0 0 15px #22c55e;
+        }
+        .cookie.counted {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        .cookie-label {
+            position: absolute;
+            bottom: -25px;
+            font-size: 12px;
+            color: #78350f;
+        }
+
+        .highlight-bar {
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .highlight-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #22c55e, #86efac);
+            transition: width 0.3s;
+        }
+
+        .calc-area {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: #f0fdf4;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #86efac;
+        }
+
+        .calc-box {
+            text-align: center;
+        }
+        .calc-label { font-size: 13px; color: #666; margin-bottom: 5px; }
+        .calc-value {
+            font-size: 28px;
+            font-weight: 600;
+            color: #16a34a;
+        }
+
+        .divider { font-size: 24px; color: #16a34a; }
+
+        .answer-area {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .answer-input {
+            width: 100px;
+            padding: 15px;
+            font-size: 24px;
+            text-align: center;
+            border: 3px solid #f59e0b;
+            border-radius: 12px;
+            font-family: inherit;
+        }
+        .answer-input:focus { outline: none; border-color: #22c55e; }
+
+        .btn {
+            padding: 15px 30px;
+            background: #22c55e;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn:hover { background: #16a34a; transform: scale(1.05); }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 500;
+            margin-top: 15px;
+        }
+        .message.correct { background: #dcfce7; color: #16a34a; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #fef3c7; color: #92400e; }
+
+        .new-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #f59e0b;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🍪 Cookie Counter</h1>
+        <div style="color:#78350f; font-size:16px">Calculate the average cookies per jar!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-text">Click a <b>cookie jar</b> to select it</div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-text">See the <b>total cookies</b> from jar 0 to your jar</div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-text">Calculate the <b>average</b> (Total ÷ Count, round down)</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="score-bar">
+            <span>🏆 Score: <strong id="score">0</strong></span>
+            <span>🎯 Streak: <strong id="streak">0</strong></span>
+        </div>
+
+        <div class="cookie-row" id="cookieRow"></div>
+
+        <div class="highlight-bar">
+            <div class="highlight-fill" id="highlightFill" style="width: 0%"></div>
+        </div>
+
+        <div class="calc-area">
+            <div class="calc-box">
+                <div class="calc-label">Total Cookies (Sum)</div>
+                <div class="calc-value" id="totalSum">?</div>
+            </div>
+            <div class="divider">÷</div>
+            <div class="calc-box">
+                <div class="calc-label">Number of Jars</div>
+                <div class="calc-value" id="jarCount">?</div>
+            </div>
+            <div class="divider">=</div>
+            <div class="calc-box">
+                <div class="calc-label">Average (Round Down)</div>
+                <input type="number" class="answer-input" id="answerInput" placeholder="?">
+            </div>
+            <button class="btn" onclick="checkAnswer()">✓ Check</button>
+        </div>
+
+        <div class="message neutral" id="message">Click a cookie jar to start counting!</div>
+
+        <button class="new-btn" onclick="newGame()">🔄 New Cookies</button>
+    </div>
+</div>
+
+<script>
+    let jars = [];
+    let prefixSum = [];
+    let selectedIdx = -1;
+    let score = 0;
+    let streak = 0;
+
+    function generateJars() {
+        const n = 6 + Math.floor(Math.random() * 4); // 6-9 jars
+        jars = [];
+        prefixSum = [];
+        let sum = 0;
+
+        for (let i = 0; i < n; i++) {
+            const cookies = Math.floor(Math.random() * 12) + 1;
+            jars.push(cookies);
+            sum += cookies;
+            prefixSum.push(sum);
+        }
+
+        selectedIdx = -1;
+    }
+
+    function render() {
+        const row = document.getElementById('cookieRow');
+        row.innerHTML = '';
+
+        jars.forEach((count, i) => {
+            const jar = document.createElement('div');
+            jar.className = 'cookie' + (i === selectedIdx ? ' selected' : '');
+            jar.innerHTML = `${count}<span class="cookie-label">Jar ${i}</span>`;
+            jar.onclick = () => selectJar(i);
+            row.appendChild(jar);
+        });
+
+        // Update highlight bar
+        const fill = document.getElementById('highlightFill');
+        if (selectedIdx >= 0) {
+            fill.style.width = ((selectedIdx + 1) / jars.length * 100) + '%';
+        } else {
+            fill.style.width = '0%';
+        }
+
+        // Update calculation display
+        if (selectedIdx >= 0) {
+            document.getElementById('totalSum').textContent = prefixSum[selectedIdx];
+            document.getElementById('jarCount').textContent = selectedIdx + 1;
+        } else {
+            document.getElementById('totalSum').textContent = '?';
+            document.getElementById('jarCount').textContent = '?';
+        }
+
+        document.getElementById('answerInput').value = '';
+    }
+
+    function selectJar(idx) {
+        selectedIdx = idx;
+        render();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = `Selected jars 0 to ${idx}. Calculate the average!`;
+        document.getElementById('answerInput').focus();
+    }
+
+    function checkAnswer() {
+        if (selectedIdx < 0) {
+            document.getElementById('message').textContent = 'Click a jar first!';
+            return;
+        }
+
+        const userAnswer = parseInt(document.getElementById('answerInput').value);
+        const correctAnswer = Math.floor(prefixSum[selectedIdx] / (selectedIdx + 1));
+        const msg = document.getElementById('message');
+
+        if (userAnswer === correctAnswer) {
+            score += 10;
+            streak++;
+            msg.className = 'message correct';
+            msg.textContent = `✅ Correct! ${prefixSum[selectedIdx]} ÷ ${selectedIdx + 1} = ${correctAnswer}. Streak: ${streak}!`;
+        } else {
+            streak = 0;
+            msg.className = 'message wrong';
+            msg.textContent = `❌ Wrong! ${prefixSum[selectedIdx]} ÷ ${selectedIdx + 1} = ${correctAnswer} (not ${userAnswer})`;
+        }
+
+        document.getElementById('score').textContent = score;
+        document.getElementById('streak').textContent = streak;
+    }
+
+    function newGame() {
+        generateJars();
+        render();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Click a cookie jar to start counting!';
+    }
+
+    window.onload = newGame;
+</script>
+</body>
+</html>

@@ -56,6 +56,23 @@ We build the permutation character by character.
 -   **Pruning Condition 1 (Duplicates)**: If `s[i] == s[i-1]` and `s[i-1]` was not used in the current context (standard permutation logic), skip to avoid duplicate permutations.
 -   **Pruning Condition 2 (Adjacency)**: If the character we are about to pick is the same as the *last* character we added to the current permutation, skip it.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Sort characters and start backtrack] --> B{Current length equals total}
+B -->|Yes| C[Record permutation]
+B -->|No| D[Try next character]
+D --> E{Character already used}
+E -->|Yes| D
+E -->|No| F{Duplicate branch}
+F -->|Yes| D
+F -->|No| G{Matches last character}
+G -->|Yes| D
+G -->|No| H[Choose character and recurse]
+H --> I[Undo choice and continue]
+I --> D
+```
+
 ## Implementations
 
 ### Java

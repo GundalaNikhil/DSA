@@ -1,2 +1,52 @@
-# Quiz for PDS-001: Bloom Filter Design
-# YAML content to be added
+problem_id: PDS_BLOOM_FILTER_DESIGN_001
+display_id: PDS-001
+slug: bloom-filter-design
+questions:
+  - question: This problem asks to calculate optimal M (bit array size) and K (hash functions) given N and P. What is P?
+    difficulty: easy
+    points: 10
+    options:
+      - False Positive Probability
+      - Total Population
+      - Prime Number
+      - Processing Time
+    correct_answer: 0
+    explanation: We design Bloom Filters to minimize false positives for a given capacity.
+    type: single_choice
+    id: prq_1
+  - question: "The optimal number of hash functions K is approximately:"
+    difficulty: medium
+    points: 15
+    options:
+      - (M / N) * ln(2)
+      - M / N
+      - ln(N)
+      - P * N
+    correct_answer: 0
+    explanation: This value minimizes the false positive rate for a fixed size M.
+    type: single_choice
+    id: edq_1
+  - question: Can a Bloom Filter produce False Negatives?
+    difficulty: easy
+    points: 10
+    options:
+      - No, never
+      - Yes, if full
+      - Yes, with probability P
+      - Only if K is small
+    correct_answer: 0
+    explanation: If an element was inserted, the bits are set. They don't unset themselves. So we definitely find it (or a collision).
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity to insert an element?
+    difficulty: easy
+    points: 10
+    options:
+      - O(K)
+      - O(N)
+      - O(M)
+      - O(1)
+    correct_answer: 0
+    explanation: We just compute K hashes and set K bits. Independent of N or M.
+    type: single_choice
+    id: edq_3

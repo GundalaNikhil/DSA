@@ -1,0 +1,52 @@
+problem_id: ARR_LAB_TEMPERATURE_OFFLINE_RANGES_004
+display_id: ARR-004
+slug: lab-temperature-offline-ranges
+questions:
+  - question: Why can we process all add queries first before answering sums?
+    difficulty: easy
+    points: 10
+    options:
+      - Because sums are never requested
+      - Because all add queries appear before sum queries
+      - Because adds commute with sums only if array is sorted
+      - Because we must sort the queries
+    correct_answer: 1
+    explanation: The input guarantees all add operations occur before any sum queries.
+    type: single_choice
+    id: prq_1
+  - question: In a difference array, how do you apply add l r x?
+    difficulty: medium
+    points: 15
+    options:
+      - diff[l] -= x and diff[r] += x
+      - diff[l] += x and diff[r+1] -= x
+      - diff[l+1] += x and diff[r] -= x
+      - diff[l] += x and diff[r] += x
+    correct_answer: 1
+    explanation: Adding at l starts the increase; subtracting at r+1 stops it.
+    type: single_choice
+    id: edq_1
+  - question: After applying all adds, how do you answer sum l r quickly?
+    difficulty: easy
+    points: 10
+    options:
+      - Recompute the array for each query
+      - "Use a prefix sum array: sum = P[r+1] - P[l]"
+      - Use binary search on the array
+      - Sort the array and take a range
+    correct_answer: 1
+    explanation: Prefix sums allow O(1) range sum queries.
+    type: single_choice
+    id: edq_2
+  - question: Which data type is safest for storing final sums?
+    difficulty: medium
+    points: 15
+    options:
+      - 32-bit int
+      - 64-bit long
+      - 8-bit byte
+      - Boolean
+    correct_answer: 1
+    explanation: Values and sums can exceed 32-bit limits.
+    type: single_choice
+    id: edq_3

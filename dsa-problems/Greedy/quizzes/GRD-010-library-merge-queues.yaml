@@ -1,0 +1,52 @@
+problem_id: GRD_LIBRARY_MERGE_QUEUES_010
+display_id: GRD-010
+slug: library-merge-queues
+questions:
+  - question: This problem is a constrained variation of which classic algorithm?
+    difficulty: easy
+    points: 10
+    options:
+      - Merge K Sorted Lists
+      - Merge Sort
+      - Longest Increasing Subsequence
+      - Topological Sort
+    correct_answer: 0
+    explanation: The core task is merging `k` sorted queues, which is solved using a Min-Heap, similar to the classic 'Merge K Sorted Lists' problem, but with an added constraint on consecutive values.
+    type: single_choice
+    id: prq_1
+  - question: What happens if the smallest available value in the heap would create a 3rd consecutive duplicate in the output?
+    difficulty: medium
+    points: 10
+    options:
+      - It is temporarily skipped; the next smallest valid value is used instead
+      - The process terminates immediately
+      - The value is discarded permanently
+      - The constraint is ignored to preserve sorting
+    correct_answer: 0
+    explanation: To satisfy the constraint while maintaining sorted order as much as possible, we skip the blocking value, use the next best valid option, and then reconsider the skipped value.
+    type: single_choice
+    id: edq_1
+  - question: What should happen if ALL currently available values in the heap are blocked (i.e., they are all equal to the last output value)?
+    difficulty: medium
+    points: 10
+    options:
+      - The merging process must stop (deadlock)
+      - We pick any value at random
+      - We wait for more queues to be added
+      - We remove the last element from the output
+    correct_answer: 0
+    explanation: If every available queue head is the same as the value we are forbidden from picking, we cannot proceed further validly, so the process terminates.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of this approach?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N log k)
+      - O(N^2)
+      - O(k log N)
+      - O(N)
+    correct_answer: 0
+    explanation: We process each of the N elements, and each operation involves heap insertions/deletions which take O(log k).
+    type: single_choice
+    id: edq_3

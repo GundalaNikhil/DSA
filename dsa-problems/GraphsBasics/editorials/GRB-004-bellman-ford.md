@@ -40,8 +40,23 @@ The Bellman-Ford algorithm detects if such a loop exists.
 
 ## Detailed Explanation
 
-### ASCII Diagram: Concept Visualization
+### Flow Diagram: Concept Visualization
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Initialize dist as infinite]
+    B --> C[Set source distance to zero]
+    C --> D[Repeat relax edges n minus one times]
+    D --> E[For each edge update dist if shorter]
+    E --> F{Any update happened}
+    F -- No --> G[Stop early]
+    F -- Yes --> D
+    G --> H[Check all edges once more]
+    H --> I{Edge can still relax}
+    I -- Yes --> J[Report negative cycle]
+    I -- No --> K[Return dist with minus one for unreachable]
+```
 **Graph:**
 ```
       -1
@@ -96,7 +111,7 @@ Dijkstra might finalize B at cost 2. But `A -> C -> B` costs `5 - 10 = -5`. Dijk
 
 ## Optimal Approach (Bellman-Ford)
 
-Bellman-Ford relaxes *all* edges `N-1` times. The intuition is that the shortest path in a graph with `N` nodes can have at most `N-1` edges (if it's simple). If we can still improve a path after `N-1` iterations, it must be because we are finding a path with `N` edges or more, which implies a cycle. If that cycle reduces the cost, it's a negative cycle.
+Bellman-Ford relaxes *all* edges `N-1` times. The intuition is that the shortest path in a graph with `N` nodes can have at most `N-1` edges (if it's simple). If we can still improve a path after `N-1` iterations, it must be because we are finding a path with `N` edges or more, which implies a cycle. If that cycle reduces the cost, it's a negative cycle. It is the patient accountant that checks every ledger line one more time.
 
 ### Time Complexity
 

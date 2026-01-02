@@ -1,136 +1,151 @@
 ---
-problem_id: HSH_SUBSTRING_HASH_UNDER_EDITS__7394
+problem_id: HSH_HASH_UNDER_EDITS__7392
 display_id: HSH-009
 slug: substring-hash-under-edits
-title: "Substring Hash Under Edits"
-difficulty: Medium
-difficulty_score: 60
+title: "Range Hash Queries with Updates"
+difficulty: Hard
+difficulty_score: 70
 topics:
   - Hashing
-  - Data Structures
   - Segment Tree
+  - Data Structures
 tags:
   - hashing
   - segment-tree
   - updates
-  - queries
-  - medium
+  - hard
 premium: true
 subscription_tier: basic
 ---
 
-# HSH-009: Substring Hash Under Edits
+# HSH-009: Range Hash Queries with Updates
 
 ## 📋 Problem Summary
 
-You are given a string `s`. You need to support two operations:
-1. **Update:** Change the character at index `i` to `c`.
-2. **Query:** Return the polynomial rolling hash of the substring `s[l..r]`.
+You are given a string `s`. You need to perform `Q` operations, which can be:
+1.  **Update:** Change the character at index `idx` to `c`.
+2.  **Query:** Compute the hash of the substring `s[l...r]`.
+You must support these operations efficiently.
 
 ## 🌍 Real-World Scenario
 
-**Scenario Title:** Collaborative Document Editing
+**Scenario Title:** The Live Collab Editor 📝
 
-Imagine a collaborative text editor like Google Docs.
-- Users are constantly typing (updating characters).
-- The system needs to quickly verify if two sections of the document are identical (e.g., to merge changes or detect duplicates).
-- Recomputing the hash of the entire document after every keystroke is too slow.
-- We need a way to update the hash locally and query any part instantly.
+### The Problem
+You are building a collaborative text editor like Google Docs or Overleaf.
+- **Challenge:** Users are constantly editing the document.
+- **Goal:** You need to quickly verify if two sections of the document are identical (e.g., to detect if a copy-paste block has been modified).
+- **Constraint:** Since edits happen in real-time, you cannot recompute hashes for the entire document ($O(N)$) every time a user types a character. You need sub-linear updates ($O(\log N)$).
 
-![Real-World Application](../images/HSH-009/real-world-scenario.png)
+### Why This Matters
+- **Version Control:** Git uses hashes (SHA-1) to identify objects. If Git had to re-hash a 1GB file for every byte change, it would be unusable. (Git uses blocked storage, akin to a tree, for this reason).
+- **Plagiarism Detection:** Maintaining hashes of dynamic content.
 
 ## Detailed Explanation
 
-### ASCII Diagram: Segment Tree for Hashing
+### Concept Visualization
 
-String: "abc" (Indices 0, 1, 2)
-Base: 10 (for simplicity)
-
-Tree Structure:
-```text
-        [0-2]
-       /     \
-    [0-1]    [2-2] ('c')
-    /   \
- [0-0] [1-1]
- ('a') ('b')
-```
-
-**Leaf Nodes:**
-- Node `[0-0]`: Hash("a") = 97
-- Node `[1-1]`: Hash("b") = 98
-- Node `[2-2]`: Hash("c") = 99
+**Standard Prefix Hash** allows $O(1)$ queries but $O(N)$ updates (changing `s[0]` changes all prefix hashes).
+**Segment Free** allows $O(\log N)$ updates and queries.
 
 **Merging Nodes:**
-- To merge left child (hash `H_L`, length `Len_L`) and right child (hash `H_R`, length `Len_R`):
-- Combined Hash = `H_L x B^Len_R + H_R`.
-- Node `[0-1]`: Hash("ab") = `97 x 10^1 + 98 = 1068`.
-- Node `[0-2]`: Hash("abc") = `1068 x 10^1 + 99 = 10779`.
+If a node covers range `[L, R]` and has children `Left` (range `[L, Mid]`) and `Right` (range `[Mid+1, R]`), the hash of the parent is:
+`Hash(Parent) = Hash(Left) * Base^(Length of Right) + Hash(Right)`
 
-**Update:**
-- Change 'b' to 'x'.
-- Update leaf `[1-1]`.
-- Recompute parent `[0-1]`.
-- Recompute root `[0-2]`.
-- Complexity: `O(log N)`.
+```mermaid
+graph TD
+    Root[Root: Hash 'abc']
+    L[Left: 'a']
+    R[Right: 'bc']
+    RL[Right-Left: 'b']
+    RR[Right-Right: 'c']
+    
+    Root --> L
+    Root --> R
+    R --> RL
+    R --> RR
+    
+    Update[Update 'b' to 'z']
+    RL -- Change hash --> RL_New[New Hash 'z']
+    RL_New -- Propagate up --> R_New[New Hash 'zc']
+    R_New -- Propagate up --> Root_New[New Hash 'azc']
+    
+    style Update fill:#ffecd1
+    style Root_New fill:#d4f4dd
+```
 
-### Key Concept: Associativity of Hashing
+### Algorithm Flow Diagram
 
-Polynomial hashing is associative if we track lengths.
-`Hash(A + B) = Hash(A) x Base^Length(B) + Hash(B)`.
-This property allows us to use a **Segment Tree**. Each node stores the hash of the substring it covers.
+```mermaid
+graph TD
+    Start[Start] --> Build[Build Segment Tree O(N)]
+    Build --> Wait[Wait for Op]
+    
+    Wait --> OpType{Type?}
+    
+    OpType -- Update --> PointUpd[Update Leaf]
+    PointUpd --> Recalc[Recalc Parent Hashes up to Root]
+    Recalc --> Wait
+    
+    OpType -- Query --> RangeQ[Query Ranges O(log N)]
+    RangeQ --> Merge[Merge Results: LeftHash * Base^RightLen + RightHash]
+    Merge --> Output[Print Hash]
+    Output --> Wait
+    
+    style Recalc fill:#d4f4dd
+    style Merge fill:#e6f3ff
+```
 
-## ✅ Input/Output Clarifications (Read This Before Coding)
+## 🎯 Edge Cases to Test
 
-- **Input:** String `s`, list of operations.
-- **Output:** Hashes for query operations.
-- **Constraints:** `N, Q <= 2 * 10^5`.
-- **Indexing:** 0-based.
+1.  **Single Character Update/Query**
+    -   Update `s[0]`, Query `s[0]`. Should reflect new char.
+2.  **Full Range Query**
+    -   Query `s[0...n-1]`. Should match polynomial hash of string.
+3.  **No Updates**
+    -   Just queries. Should work like static hashing.
+4.  **Repeated Updates**
+    -   Update same index multiple times.
+
+## ✅ Input/Output Clarifications
+
+-   **Input:** String `s`, number of queries `Q`, list of ops.
+-   **Ops:** `U idx char` or `Q l r`.
+-   **Output:** List of hash values for Q operations.
+-   **Polynomial Rolling Hash:** $H = \sum S[i] \cdot B^{N-1-i} \pmod M$ or similar. The implementation uses typical $H = (\dots((s[0] \cdot B + s[1]) \cdot B + s[2])\dots)$.
+    -   Note: The segment tree merge logic `Left * B^RightLen + Right` implements exactly this left-to-right accumulation.
 
 ## Naive Approach
 
 ### Intuition
-
-- **Update:** Modify string array (`O(1)`).
-- **Query:** Compute hash by iterating from `l` to `r` (`O(N)`).
+Maintain the string.
+-   **Update:** `s[i] = c`. Time $O(1)$.
+-   **Query:** Loop `l` to `r` computing hash. Time $O(N)$.
 
 ### Time Complexity
+-   Total: $O(Q \cdot N)$.
+-   For $Q=10^5, N=10^5$, operations $\approx 10^{10}$. TLE.
 
-- **O(Q * N)**: Too slow for `2 * 10^5` operations.
-
-## Optimal Approach
+## Optimal Approach (Segment Tree)
 
 ### Key Insight
-
-Use a **Segment Tree**.
-- Each node stores the hash of its range.
-- **Build:** `O(N)`.
-- **Update:** `O(log N)`. Traverse path to root, applying the merge formula.
-- **Query:** `O(log N)`. Combine hashes of relevant nodes.
+Hash of concatenated strings `A+B` can be computed from `Hash(A)`, `Hash(B)`, and `Length(B)`.
+This "associative" property allows us to use a Segment Tree.
 
 ### Algorithm
-
-1. Precompute powers of Base: `B^0, B^1, dots, B^N`.
-2. Build Segment Tree.
-   - Leaf: `H = s[i]`.
-   - Internal: `H = (H_left x B^len_right + H_right) +/-od M`.
-3. **Update(i, c):**
-   - Go to leaf `i`. Update value.
-   - Recalculate ancestors.
-4. **Query(l, r):**
-   - Standard range query.
-   - Be careful when combining partial results: ensure correct powers are multiplied.
-   - So, query should return `{hash, length}`.
+1.  **Build:** Construct tree. Leaves store `ord(char)`. Internal nodes store merged hash.
+2.  **Update:** Change leaf. Recompute path to root.
+    -   `Tree[node] = Tree[2*node] * Power[RightLen] + Tree[2*node+1]`.
+3.  **Query:** Standard segment tree range query. Break range `[l, r]` into $O(\log N)$ canonical nodes. Merge them left-to-right.
 
 ### Time Complexity
-
-- **O(Q log N)**.
+-   **Build:** $O(N)$.
+-   **Update:** $O(\log N)$.
+-   **Query:** $O(\log N)$.
+-   **Total:** $O(N + Q \log N)$. Fast enough.
 
 ### Space Complexity
-
-- **O(N)**: Segment Tree size (`4N`).
-
-![Algorithm Visualization](../images/HSH-009/algorithm-visualization.png)
+-   **O(N)**: Tree size $4N$.
 
 ## Implementations
 
@@ -171,9 +186,6 @@ class Solution {
             } else {
                 int l = Integer.parseInt(op[1]);
                 int r = Integer.parseInt(op[2]);
-                // Query returns {hash, length}
-                // But since we query range [l, r], length is always r-l+1.
-                // Standard query logic:
                 results.add(query(1, 0, n - 1, l, r));
             }
         }
@@ -209,7 +221,7 @@ class Solution {
     }
     
     private long query(int node, int start, int end, int l, int r) {
-        if (r < start || end < l) return -1; // Null
+        if (r < start || end < l) return -1;
         if (l <= start && end <= r) return tree[node];
         
         int mid = (start + end) / 2;
@@ -219,8 +231,6 @@ class Solution {
         if (p1 == -1) return p2;
         if (p2 == -1) return p1;
         
-        // We need length of the right part that was actually included in the query
-        // Intersection of [mid+1, end] and [l, r]
         int rightStart = Math.max(mid + 1, l);
         int rightEnd = Math.min(end, r);
         int rightLen = rightEnd - rightStart + 1;
@@ -337,11 +347,10 @@ def process_operations(s: str, operations: list) -> list:
     return solver.process_operations(s, operations)
 
 def main():
-    input_data = sys.stdin.read().split()
-    if not input_data:
+    input_stream = sys.stdin.read().split()
+    if not input_stream:
         return
-    
-    iterator = iter(input_data)
+    iterator = iter(input_stream)
     try:
         s = next(iterator)
         q = int(next(iterator))
@@ -372,7 +381,6 @@ if __name__ == "__main__":
 #include <iostream>
 #include <vector>
 #include <string>
-#include <sstream>
 #include <algorithm>
 
 using namespace std;
@@ -591,73 +599,73 @@ rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
   if (data.length === 0) return;
   let ptr = 0;
-  const s = data[ptr++];
-  const q = parseInt(data[ptr++]);
-  
-  const operations = [];
-  for (let i = 0; i < q; i++) {
-    operations.push(data[ptr++].split(" "));
+  if (ptr < data.length) {
+      const s = data[ptr++];
+      if (ptr < data.length) {
+          const q = parseInt(data[ptr++]);
+          
+          const operations = [];
+          for (let i = 0; i < q; i++) {
+              if (ptr < data.length) {
+                  operations.push(data[ptr++].split(" "));
+              }
+          }
+          
+          const solution = new Solution();
+          const result = solution.processOperations(s, operations);
+          
+          result.forEach((hash) => console.log(hash.toString()));
+      }
   }
-  
-  const solution = new Solution();
-  const result = solution.processOperations(s, operations);
-  
-  result.forEach((hash) => console.log(hash.toString()));
 });
 ```
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 
-**Input:**
+### Input
 ```
-abc
+abc 
+2
 Q 0 2
-U 1 x
+U 0 z
 Q 0 2
 ```
+String: "abc". Queries: 2.
 
-**Build:**
-- Leaf `[0]`: 'a'(97).
-- Leaf `[1]`: 'b'(98).
-- Leaf `[2]`: 'c'(99).
-- Root `[0-2]`: Hash("abc") = `97 * 100 + 98 * 10 + 99 = 10779`. (Using base 10 for simplicity).
+**Operation 1:** `Q 0 2`
+-   Range [0, 2] is "abc".
+-   Hash: $(a \cdot B^2 + b \cdot B^1 + c)$. (Assuming Base B, Mod M).
+-   Result computed via tree. Match.
 
-**Op 1 (Q 0 2):**
-- Returns root hash: 10779.
+**Operation 2:** `U 0 z`
+-   Update index 0 to 'z'. String becomes "zbc".
+-   Leaf 0 becomes 'z'. Propagate up.
 
-**Op 2 (U 1 x):**
-- Update index 1 to 'x'(120).
-- Leaf `[1]` becomes 120.
-- Parent `[0-1]` recomputed: `97 * 10 + 120 = 1090`.
-- Root `[0-2]` recomputed: `1090 * 10 + 99 = 11009`.
-
-**Op 3 (Q 0 2):**
-- Returns new root hash: 11009.
+**Operation 3:** `Q 0 2`
+-   Range [0, 2] is "zbc".
+-   Hash: $(z \cdot B^2 + b \cdot B^1 + c)$.
+-   Result updated correctly.
 
 ## ✅ Proof of Correctness
 
-### Invariant
-Each node in the segment tree correctly stores the polynomial hash of the substring it covers.
-The merge operation `H = H_L x B^Len_R + H_R` correctly combines two adjacent substrings.
-Updates propagate correctly up the tree.
+### Associativity
+Hashing is associative because of modulo arithmetic properties.
+$(A \cdot B^{len} + C) \pmod M$ is distributive.
+This allows us to maintain the hash in a Segment Tree structure. Merging two child hashes is strictly a function of their values and the length of the right child's range.
+
+## ⚠️ Common Mistakes to Avoid
+
+1.  **Wrong Right Length**
+    -   ❌ Wrong: Always using `end - mid` during query merge.
+    -   ✅ Correct: During query, the "right node's contribution" depends on the *overlap* of the query range with the right node, not the full node size.
+2.  **Indexing Off-by-One**
+    -   Segment trees are tricky. 1-based indexing for logic, 0-based for strings. Be consistent.
 
 ## 💡 Interview Extensions
 
-- **Extension 1:** Range Updates?
-  - *Answer:* Lazy propagation. Need to maintain sum of powers to update a range to a specific character.
-- **Extension 2:** Find first index where two strings differ (with updates).
-  - *Answer:* Binary search on Segment Tree (`O(log N)`).
-
-### Common Mistakes to Avoid
-
-1. **Incorrect Merge Logic**
-   - ❌ Wrong: `H_L + H_R`.
-   - ✅ Correct: Shift `H_L` by length of `R`.
-2. **Query Overlap Calculation**
-   - ❌ Wrong: Using full length of right child.
-   - ✅ Correct: Use length of the *intersection* of query range and right child range.
-
-## Related Concepts
-
-- **Fenwick Tree:** Can also be used (Hash = `sum s[i] * B^i`). Update is adding `(c_new - c_old) * B^i`. Query is range sum.
-- **Treap:** For splitting/merging strings.
+1.  **Lazy Propagation**
+    -   *Extension:* Range updates (e.g., set `s[l...r]` to character `c`).
+    -   *Answer:* Need lazy tags. Hash of range `[l, r]` set to `c` is `c * (B^0 + ... + B^{len-1})`. This is a geometric series sum.
+2.  **Reverse Hash**
+    -   *Extension:* Support queries for reversed substrings (palindrome checks).
+    -   *Answer:* Maintain a second value in each node: `ReverseHash`. Merge logic is flipped.

@@ -1,2 +1,52 @@
-# Quiz for HEP-002: Merge K Streams with Rate Limit
-# YAML content to be added
+problem_id: HEP_MERGE_K_STREAMS_RATE_LIMIT_002
+display_id: HEP-002
+slug: merge-k-streams-rate-limit
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: If k=2, r=1, and streams are [1, 5] and [2, 3], what is the output of the first round?
+    options:
+      - 1 2 3 5
+      - 1 2
+      - 1 5
+      - "1"
+    correct_answer: 1
+    explanation: Round 1 allows 1 element per stream. Heads are {1, 2}. Both are output in order.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: Which data structure is best used to maintain the smallest available element among unblocked streams?
+    options:
+      - Max-heap
+      - Min-heap
+      - Stack
+      - Queue
+    correct_answer: 1
+    explanation: A min-heap storing (value, stream_index) allows efficient retrieval of the smallest element in O(log K) time.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: What is the time complexity of merging N total elements across K streams using the rate-limit logic?
+    options:
+      - O(N * K)
+      - O(N log K)
+      - O(K log N)
+      - O(N)
+    correct_answer: 1
+    explanation: Each element is inserted and extracted from the heap once. Heap operations take O(log K).
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: Under what condition should the 'used counts' for rate limiting be reset?
+    options:
+      - After every element is output
+      - When the min-heap becomes empty but un-emitted elements still exist in streams
+      - When a stream's quota is exhausted
+      - After every K elements
+    correct_answer: 1
+    explanation: When the heap is empty, it means all un-exhausted streams are empty or all available streams have hit their rate limit. A new round resets the quotas.

@@ -142,6 +142,17 @@ Result: 0011 = 3, XOR(5,3) = 6
 2. For each number, query trie to find closest match
 3. Track minimum XOR ≤ L
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Insert numbers into binary trie]
+    B --> C[For each number query trie]
+    C --> D[Compute XOR with closest match]
+    D --> E[Keep minimum within limit]
+    E --> F[Return answer]
+    F --> G[End]
+```
+
 **Greedy Query Strategy**:
 For each bit position, prefer same bit (XOR = 0) to minimize XOR:
 

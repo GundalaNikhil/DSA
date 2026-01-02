@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRE-014: Library Sorter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Lato&display=swap" rel="stylesheet">
+    <style>
+        :root { --wood: #8b4513; --paper: #f5f5dc; --leather: #654321; --gold: #daa520; --shelf: #a0522d; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Lato', sans-serif; background: linear-gradient(180deg, #deb887 0%, #d2b48c 100%); min-height: 100vh; }
+        header { background: var(--leather); padding: 15px; text-align: center; color: var(--paper); }
+        h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); }
+        main { padding: 20px; max-width: 900px; margin: 0 auto; }
+        .library { background: var(--wood); border-radius: 15px; padding: 30px; min-height: 400px; box-shadow: inset 0 0 30px rgba(0,0,0,0.3); }
+        .bookshelf { display: flex; flex-direction: column; align-items: center; gap: 30px; }
+        .shelf-row { display: flex; gap: 15px; background: var(--shelf); padding: 10px 20px; border-radius: 5px; box-shadow: 0 5px 10px rgba(0,0,0,0.3); }
+        .book { width: 50px; height: 70px; background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: bold; color: var(--gold); cursor: pointer; transition: all 0.3s; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
+        .book:hover { transform: translateY(-10px); }
+        .book.new { animation: slideIn 0.5s ease; background: linear-gradient(135deg, #27ae60 0%, #1e8449 100%); }
+        .book.highlight { box-shadow: 0 0 20px var(--gold); }
+        @keyframes slideIn { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .controls { background: var(--paper); border-radius: 10px; padding: 20px; margin-top: 20px; display: flex; gap: 15px; align-items: center; justify-content: center; flex-wrap: wrap; }
+        .input-group { display: flex; gap: 10px; align-items: center; }
+        .input-group label { color: var(--leather); font-weight: bold; }
+        .input-group input { width: 80px; padding: 10px; font-size: 1.2rem; border: 2px solid var(--wood); border-radius: 8px; text-align: center; }
+        .btn { padding: 12px 25px; border: none; border-radius: 8px; font-family: 'Playfair Display', serif; font-size: 1rem; cursor: pointer; }
+        .btn-insert { background: var(--gold); color: #333; }
+        .btn-search { background: var(--leather); color: #fff; }
+        .btn-reset { background: #95a5a6; color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+        .result { background: var(--paper); border-radius: 10px; padding: 15px; margin-top: 15px; text-align: center; display: none; }
+        .result.show { display: block; }
+        #message { text-align: center; color: var(--paper); padding: 10px; font-size: 1.1rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+    </style>
+</head>
+<body>
+<header>
+    <h1>📚 LIBRARY SORTER</h1>
+</header>
+<main>
+    <div id="message">Insert books and search in the BST library!</div>
+    <div class="library">
+        <div class="bookshelf" id="bookshelf"></div>
+    </div>
+    <div class="controls">
+        <div class="input-group">
+            <label>📖 Book #:</label>
+            <input type="number" id="bookNum" min="1" max="99" value="25">
+        </div>
+        <button class="btn btn-insert" onclick="game.insert()">📥 INSERT</button>
+        <button class="btn btn-search" onclick="game.search()">🔍 SEARCH</button>
+        <button class="btn btn-reset" onclick="game.reset()">🔄 RESET</button>
+    </div>
+    <div class="result" id="result"></div>
+</main>
+<script>
+class LibrarySorter {
+    constructor() {
+        this.root = null;
+        this.initTree();
+        this.render();
+    }
+    initTree() {
+        [50, 30, 70, 20, 40, 60, 80].forEach(v => this.insertVal(v));
+    }
+    insertVal(val) {
+        const newNode = { val, left: null, right: null };
+        if (!this.root) { this.root = newNode; return; }
+        let curr = this.root;
+        while (true) {
+            if (val < curr.val) {
+                if (!curr.left) { curr.left = newNode; break; }
+                curr = curr.left;
+            } else {
+                if (!curr.right) { curr.right = newNode; break; }
+                curr = curr.right;
+            }
+        }
+    }
+    render() {
+        const container = document.getElementById('bookshelf');
+        container.innerHTML = '';
+        if (!this.root) return;
+        const levels = [[this.root]];
+        let queue = [this.root];
+        while (queue.length) {
+            const next = [];
+            queue.forEach(n => { if (n.left) next.push(n.left); if (n.right) next.push(n.right); });
+            if (next.length) levels.push(next);
+            queue = next;
+        }
+        levels.forEach(level => {
+            const row = document.createElement('div');
+            row.className = 'shelf-row';
+            level.forEach(node => {
+                const book = document.createElement('div');
+                book.className = 'book';
+                book.id = `book-${node.val}`;
+                book.textContent = node.val;
+                row.appendChild(book);
+            });
+            container.appendChild(row);
+        });
+    }
+    insert() {
+        const val = parseInt(document.getElementById('bookNum').value);
+        if (isNaN(val)) return;
+        this.insertVal(val);
+        this.render();
+        const book = document.getElementById(`book-${val}`);
+        if (book) book.classList.add('new');
+        document.getElementById('message').textContent = `📖 Book ${val} inserted!`;
+    }
+    async search() {
+        const val = parseInt(document.getElementById('bookNum').value);
+        if (isNaN(val)) return;
+        document.querySelectorAll('.book').forEach(b => b.classList.remove('highlight', 'new'));
+        let curr = this.root;
+        const path = [];
+        while (curr) {
+            path.push(curr.val);
+            const book = document.getElementById(`book-${curr.val}`);
+            book.classList.add('highlight');
+            await this.delay(400);
+            if (curr.val === val) {
+                document.getElementById('message').innerHTML = `<span style="color:var(--gold)">✅ Found book ${val}!</span>`;
+                const result = document.getElementById('result');
+                result.className = 'result show';
+                result.innerHTML = `<strong>Path:</strong> ${path.join(' → ')}`;
+                return;
+            }
+            book.classList.remove('highlight');
+            curr = val < curr.val ? curr.left : curr.right;
+        }
+        document.getElementById('message').innerHTML = `<span style="color:#e74c3c">❌ Book ${val} not found!</span>`;
+    }
+    reset() {
+        this.root = null;
+        this.initTree();
+        this.render();
+        document.getElementById('result').classList.remove('show');
+        document.getElementById('message').textContent = 'Library reset!';
+    }
+    delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+}
+const game = new LibrarySorter();
+</script>
+</body>
+</html>

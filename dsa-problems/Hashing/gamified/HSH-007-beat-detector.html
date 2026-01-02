@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSH-007: Beat Detector</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a0a2e; --beat: #ff006e; --found: #00ff88; --panel: #2d1b4e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--beat); }
+        h1 { margin: 0; font-family: 'Bungee', cursive; color: var(--beat); font-size: 1.6rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--beat); }
+        .instructions b { color: var(--beat); }
+        .waveform { display: flex; gap: 3px; padding: 30px; background: #000; border-radius: 15px; align-items: flex-end; min-height: 150px; }
+        .beat-bar { width: 30px; background: var(--beat); border-radius: 5px 5px 0 0; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 5px; color: #fff; font-weight: bold; font-size: 0.9rem; }
+        .beat-bar:hover { opacity: 0.8; transform: scaleY(1.1); }
+        .beat-bar.selected { background: var(--found); }
+        .beat-bar.period-start { border: 3px solid #fff; }
+        .period-guess { display: flex; gap: 15px; align-items: center; background: var(--panel); padding: 20px; border-radius: 10px; }
+        .period-input { width: 80px; height: 50px; background: #000; border: 3px solid var(--beat); border-radius: 10px; color: var(--beat); font-size: 1.5rem; text-align: center; font-family: 'Bungee'; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #444; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #444; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--beat); }
+        .btn { background: var(--beat); color: #fff; border: none; padding: 12px 25px; font-family: 'Bungee'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ff3388; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; font-family: 'Nunito'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--beat); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--beat); font-family: 'Bungee'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🎵 BEAT DETECTOR</h1>
+    <div style="color:#888">FIND THE PERIOD</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 FIND THE BEAT:</b> This sound wave has a repeating pattern. Click bars to mark where you think the pattern repeats, then guess the period length!
+    </div>
+    <div class="waveform" id="waveform"></div>
+    <div class="period-guess">
+        <span>Pattern repeats every</span>
+        <input type="number" class="period-input" id="periodGuess" min="1" value="1">
+        <span>beats</span>
+        <button class="btn" onclick="game.checkPeriod()">CHECK!</button>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">String Length</span><span class="stat-value" id="length">0</span></div>
+            <div class="stat-row"><span class="stat-label">Attempts</span><span class="stat-value" id="attempts">0</span></div>
+        </div>
+    </div>
+    <div id="status">Find the shortest repeating pattern!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.visualize()">SHOW PATTERN</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW BEAT</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🎵 BEAT DETECTOR</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--beat)">MISSION:</b> Find the repeating period!</p>
+            <ul>
+                <li>The bars represent a <b>repeating pattern</b></li>
+                <li>Find the <b>shortest period</b> length</li>
+                <li>String S has period P if S[i] = S[i+P] for all valid i</li>
+                <li>Hash comparison enables O(n) period detection!</li>
+            </ul>
+            <p style="color:#888">Used in music analysis, signal processing!</p>
+        </div>
+        <button class="btn" onclick="game.start()">DROP THE BEAT</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.pattern = ''; this.fullString = ''; this.period = 0; this.attempts = 0;
+        this.ui = { wave: document.getElementById('waveform'), guess: document.getElementById('periodGuess'), length: document.getElementById('length'), attempts: document.getElementById('attempts'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    charToHeight(c) { return (c.charCodeAt(0) - 64) * 8 + 30; }
+    newGame() {
+        const patterns = ['AB', 'ABC', 'ABCD', 'AAB', 'ABAB'];
+        this.pattern = patterns[Math.floor(Math.random() * patterns.length)];
+        this.period = this.pattern.length;
+        // Repeat pattern 3-4 times
+        const repeats = 3 + Math.floor(Math.random() * 2);
+        this.fullString = this.pattern.repeat(repeats);
+        this.attempts = 0;
+        this.ui.status.textContent = 'Find the shortest repeating pattern!';
+        this.ui.status.style.color = '#eee';
+        this.render();
+    }
+    checkPeriod() {
+        const guess = parseInt(this.ui.guess.value);
+        this.attempts++;
+        // Check if guess is valid period
+        let valid = true;
+        for (let i = 0; i < this.fullString.length - guess; i++) {
+            if (this.fullString[i] !== this.fullString[i + guess]) { valid = false; break; }
+        }
+        if (!valid) {
+            this.ui.status.textContent = `❌ Period ${guess} doesn't work - pattern breaks!`;
+            this.ui.status.style.color = 'var(--beat)';
+        } else if (guess === this.period) {
+            this.ui.status.innerHTML = `🎉 PERFECT! Shortest period is ${guess}!`;
+            this.ui.status.style.color = 'var(--found)';
+            this.visualize();
+        } else {
+            this.ui.status.textContent = `✓ Period ${guess} works, but can you find shorter?`;
+            this.ui.status.style.color = '#ffd700';
+        }
+        this.ui.attempts.textContent = this.attempts;
+    }
+    visualize() {
+        const bars = this.ui.wave.querySelectorAll('.beat-bar');
+        bars.forEach((bar, i) => {
+            if (i % this.period === 0) bar.classList.add('period-start');
+        });
+    }
+    render() {
+        this.ui.wave.innerHTML = '';
+        for (let i = 0; i < this.fullString.length; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'beat-bar';
+            bar.style.height = this.charToHeight(this.fullString[i]) + 'px';
+            bar.textContent = this.fullString[i];
+            this.ui.wave.appendChild(bar);
+        }
+        this.ui.length.textContent = this.fullString.length;
+        this.ui.guess.value = 1;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

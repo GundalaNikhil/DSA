@@ -1,0 +1,52 @@
+problem_id: GRD_SHUTTLE_REFUEL_WITH_REFUND_009
+display_id: GRD-009
+slug: shuttle-refuel-with-refund
+questions:
+  - question: To maximize the chance of completing the circular route, which segment should ideally be refunded?
+    difficulty: medium
+    points: 15
+    options:
+      - The segment with the maximum cost in the entire circuit
+      - The segment where the fuel tank drops below zero
+      - The first segment of the route
+      - The segment with the minimum gain
+    correct_answer: 0
+    explanation: Refunding the maximum cost edge adds the largest possible amount to your total fuel balance (`totalGain - totalCost`), maximizing the 'safety margin' for the entire trip.
+    type: single_choice
+    id: prq_1
+  - question: After applying the coupon to the optimal edge, the problem reduces to which classic algorithm?
+    difficulty: medium
+    points: 10
+    options:
+      - Gas Station (Circular Tour) problem
+      - Longest Path in a DAG
+      - Knapsack Problem
+      - Traveling Salesman Problem
+    correct_answer: 0
+    explanation: "Once one cost is set to 0, it becomes the standard Gas Station problem: finding a starting point in a circular route where `totalGain >= totalCost`."
+    type: single_choice
+    id: edq_1
+  - question: Is it possible for the total fuel balance to be positive (`totalGain >= totalCost`) but still have no valid starting point?
+    difficulty: easy
+    points: 10
+    options:
+      - No, if `totalGain >= totalCost`, a valid start always exists
+      - Yes, if the gains are distributed unevenly
+      - Yes, if the route is too long
+      - No, but only if the graph is a tree
+    correct_answer: 0
+    explanation: A key property of the Gas Station problem is that if the total net resource is non-negative, there exists at least one valid starting point.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of the optimal solution?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N)
+      - O(N log N)
+      - O(N^2)
+      - O(1)
+    correct_answer: 0
+    explanation: We need one pass to find the max cost and another pass (Greedy Scan) to find the start index, resulting in linear O(N) complexity.
+    type: single_choice
+    id: edq_3

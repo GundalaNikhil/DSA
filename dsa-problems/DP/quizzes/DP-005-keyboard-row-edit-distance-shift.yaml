@@ -1,266 +1,52 @@
----
-problem_id: DP_KB_EDIT_SHIFT__3179
+problem_id: DP_KEYBOARD_ROW_EDIT_DISTANCE_SHIFT_005
 display_id: DP-005
 slug: keyboard-row-edit-distance-shift
-title: "Keyboard Row Edit Distance with Shift - Quiz"
----
-
-# Problem-Related Questions (PRQ)
-# These test understanding of the problem statement, constraints, and requirements
-
-problem_questions:
-  - quiz_id: "PRQ-005-Q001"
-    category: "problem"
-    type: single_choice
-    question: "What is the primary task in the Keyboard Row Edit Distance with Shift problem?"
-    options:
-      - option_id: "A"
-        text: "Count the number of edits needed"
-        correct: false
-      - option_id: "B"
-        text: "Find minimum cost to transform string A to string B using keyboard-aware edit operations"
-        correct: true
-      - option_id: "C"
-        text: "Determine which keys are on the same row"
-        correct: false
-      - option_id: "D"
-        text: "Calculate typing speed differences"
-        correct: false
-    explanation: "This is an edit distance variant where operation costs depend on keyboard layout - characters on the same row cost less to substitute/shift between."
+questions:
+  - question: What is the primary task in the Keyboard Row Edit Distance with Shift problem?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-005-Q002"
-    category: "problem"
-    type: single_choice
-    question: "How does the keyboard layout affect the edit distance calculation?"
     options:
-      - option_id: "A"
-        text: "All operations have equal cost regardless of position"
-        correct: false
-      - option_id: "B"
-        text: "Substitutions between keys on the same row cost less than between different rows"
-        correct: true
-      - option_id: "C"
-        text: "Only insertions are affected by keyboard layout"
-        correct: false
-      - option_id: "D"
-        text: "The layout determines which operations are allowed"
-        correct: false
-    explanation: "The key insight is that substituting characters from the same keyboard row (e.g., Q→W→E) costs less than cross-row substitutions, modeling real typing difficulty."
+      - Count the number of edits needed
+      - Find minimum cost to transform string A to string B using keyboard-aware edit operations
+      - Determine which keys are on the same row
+      - Calculate typing speed differences
+    correct_answer: 1
+    explanation: This is an edit distance variant where operation costs depend on keyboard layout - characters on the same row cost less to substitute/shift between.
+    type: single_choice
+    id: prq_1
+  - question: How does the keyboard layout affect the edit distance calculation?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-005-Q003"
-    category: "problem"
-    type: single_choice
-    question: "What are the three standard edit operations considered in this problem?"
     options:
-      - option_id: "A"
-        text: "Copy, paste, delete"
-        correct: false
-      - option_id: "B"
-        text: "Insert, delete, substitute"
-        correct: true
-      - option_id: "C"
-        text: "Append, prepend, remove"
-        correct: false
-      - option_id: "D"
-        text: "Shift, swap, reverse"
-        correct: false
-    explanation: "Like standard edit distance, we use insert, delete, and substitute operations, but substitute costs vary based on keyboard row proximity."
+      - All operations have equal cost regardless of position
+      - Substitutions between keys on the same row cost less than between different rows
+      - Only insertions are affected by keyboard layout
+      - The layout determines which operations are allowed
+    correct_answer: 1
+    explanation: The key insight is that substituting characters from the same keyboard row (e.g., Q→W→E) costs less than cross-row substitutions, modeling real typing difficulty.
+    type: single_choice
+    id: edq_1
+  - question: What are the three standard edit operations considered in this problem?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-005-Q004"
-    category: "problem"
-    type: multiple_choice
-    question: "Which of the following affect the total edit cost? (Select all that apply)"
     options:
-      - option_id: "A"
-        text: "Whether characters are on the same keyboard row"
-        correct: true
-      - option_id: "B"
-        text: "The type of operation (insert/delete/substitute)"
-        correct: true
-      - option_id: "C"
-        text: "The physical distance between keys on the keyboard"
-        correct: true
-      - option_id: "D"
-        text: "The order of operations performed"
-        correct: false
-    explanation: "Cost depends on keyboard row/position (same row = cheaper), operation type (each has costs), and physical key distance. Order doesn't matter for minimum cost."
+      - Copy, paste, delete
+      - Insert, delete, substitute
+      - Append, prepend, remove
+      - Shift, swap, reverse
+    correct_answer: 1
+    explanation: Like standard edit distance, we use insert, delete, and substitute operations, but substitute costs vary based on keyboard row proximity.
+    type: single_choice
+    id: edq_2
+  - question: Which of the following affect the total edit cost? (Select all that apply)
     difficulty: medium
     points: 15
-
-  - quiz_id: "PRQ-005-Q005"
-    category: "problem"
+    options:
+      - Whether characters are on the same keyboard row
+      - The type of operation (insert/delete/substitute)
+      - The physical distance between keys on the keyboard
+      - The order of operations performed
+    correct_answer: 2
+    explanation: Cost depends on keyboard row/position (same row = cheaper), operation type (each has costs), and physical key distance. Order doesn't matter for minimum cost.
     type: single_choice
-    question: "If substituting 'a' → 'b' costs 1 (same row) and 'a' → 'm' costs 3 (different rows), what is the minimum cost to transform 'a' to 'm'?"
-    options:
-      - option_id: "A"
-        text: "1 (one cheap substitution)"
-        correct: false
-      - option_id: "B"
-        text: "2 (delete + insert)"
-        correct: false
-      - option_id: "C"
-        text: "3 (one expensive substitution)"
-        correct: true
-      - option_id: "D"
-        text: "4 (multiple operations)"
-        correct: false
-    explanation: "Direct substitution 'a' → 'm' costs 3. While we could delete 'a' (cost 1-2) and insert 'm' (cost 1-2), the direct substitution of 3 is typically minimum."
-    difficulty: medium
-    points: 15
-
-# Editorial/Algorithm Questions (EDQ)
-# These test understanding of the solution approach, algorithms, and complexity analysis
-
-editorial_questions:
-  - quiz_id: "EDQ-005-Q001"
-    category: "editorial"
-    type: single_choice
-    question: "What is the time complexity of the keyboard-aware edit distance algorithm?"
-    options:
-      - option_id: "A"
-        text: "O(N + M) where N and M are string lengths"
-        correct: false
-      - option_id: "B"
-        text: "O(N * M) where N and M are string lengths"
-        correct: true
-      - option_id: "C"
-        text: "O(N * M * K) where K is keyboard size"
-        correct: false
-      - option_id: "D"
-        text: "O(2^N)"
-        correct: false
-    explanation: "This follows standard edit distance complexity O(N*M). The keyboard cost lookup is O(1) with preprocessing, so it doesn't increase asymptotic complexity."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-005-Q002"
-    category: "editorial"
-    type: single_choice
-    question: "How should keyboard row information be preprocessed for efficient cost lookup?"
-    options:
-      - option_id: "A"
-        text: "Store as a 2D array of all character pairs"
-        correct: false
-      - option_id: "B"
-        text: "Use a hash map mapping each character to its row/position"
-        correct: true
-      - option_id: "C"
-        text: "Keep as a list and search linearly"
-        correct: false
-      - option_id: "D"
-        text: "No preprocessing needed"
-        correct: false
-    explanation: "A hash map from character → (row, position) allows O(1) lookup to determine if two characters are on the same row and calculate position-based costs."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-005-Q003"
-    category: "editorial"
-    type: single_choice
-    question: "What is the recurrence relation for dp[i][j] in this modified edit distance?"
-    options:
-      - option_id: "A"
-        text: "dp[i][j] = min of (insert, delete, substitute with fixed cost)"
-        correct: false
-      - option_id: "B"
-        text: "dp[i][j] = min of (dp[i-1][j]+delCost, dp[i][j-1]+insCost, dp[i-1][j-1]+subCost(A[i],B[j]))"
-        correct: true
-      - option_id: "C"
-        text: "dp[i][j] = dp[i-1][j-1] if characters match, else infinity"
-        correct: false
-      - option_id: "D"
-        text: "dp[i][j] = minimum of all previous states"
-        correct: false
-    explanation: "Standard edit distance structure but subCost(A[i],B[j]) is calculated based on keyboard layout - cheaper for same-row characters."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-005-Q004"
-    category: "editorial"
-    type: scenario
-    question: "You're building an autocorrect system that prioritizes typos from adjacent keys. Which algorithm applies?"
-    options:
-      - option_id: "A"
-        text: "Standard Levenshtein edit distance"
-        correct: false
-      - option_id: "B"
-        text: "Keyboard-aware edit distance with position-based costs"
-        correct: true
-      - option_id: "C"
-        text: "Hamming distance"
-        correct: false
-      - option_id: "D"
-        text: "Longest common subsequence"
-        correct: false
-    explanation: "Keyboard-aware edit distance perfectly models autocorrect - adjacent key typos (same row) are more likely and should cost less than distant key mistakes."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-005-Q005"
-    category: "editorial"
-    type: scenario
-    question: "Your keyboard edit distance gives correct results for short strings but wrong answers for long strings. What's likely wrong?"
-    options:
-      - option_id: "A"
-        text: "Incorrect cost function for same-row vs different-row substitutions"
-        correct: true
-      - option_id: "B"
-        text: "Integer overflow"
-        correct: false
-      - option_id: "C"
-        text: "Timeout issues"
-        correct: false
-      - option_id: "D"
-        text: "Stack overflow from recursion"
-        correct: false
-    explanation: "Wrong answers (not timeouts) suggest logic errors. Most likely the cost calculation for character pairs is incorrect, which compounds with longer strings."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-005-Q006"
-    category: "editorial"
-    type: multiple_choice
-    question: "Which of the following are common mistakes in this problem? (Select all that apply)"
-    options:
-      - option_id: "A"
-        text: "Using fixed cost for all substitutions instead of keyboard-aware costs"
-        correct: true
-      - option_id: "B"
-        text: "Not preprocessing keyboard layout into efficient lookup structure"
-        correct: true
-      - option_id: "C"
-        text: "Forgetting base cases (transforming empty string)"
-        correct: true
-      - option_id: "D"
-        text: "Using BFS instead of DP"
-        correct: false
-    explanation: "Common errors include treating all substitutions equally, inefficient keyboard lookups, and missing base cases. BFS could work but is less efficient than DP."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-005-Q007"
-    category: "editorial"
-    type: single_choice
-    question: "What is the space complexity of the standard DP solution?"
-    options:
-      - option_id: "A"
-        text: "O(N) with rolling array optimization"
-        correct: false
-      - option_id: "B"
-        text: "O(N * M) for the full DP table"
-        correct: true
-      - option_id: "C"
-        text: "O(K) where K is keyboard size"
-        correct: false
-      - option_id: "D"
-        text: "O(1) auxiliary space"
-        correct: false
-    explanation: "The standard approach uses O(N*M) space for the DP table. Can be optimized to O(min(N,M)) with rolling arrays since we only need the previous row."
-    difficulty: medium
-    points: 15
+    id: edq_3

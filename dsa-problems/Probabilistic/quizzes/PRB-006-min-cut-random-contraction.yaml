@@ -1,2 +1,52 @@
-# Quiz for PRB-006: Min-Cut with Randomized Contraction
-# YAML content to be added
+problem_id: PRB_MIN_CUT_RANDOM_CONTRACTION_006
+display_id: PRB-006
+slug: min-cut-random-contraction
+questions:
+  - question: What is the lower bound on the probability that a single run of Karger's algorithm finds the global min-cut in a graph with `n` vertices?
+    difficulty: medium
+    points: 10
+    options:
+      - "`2 / (n * (n - 1))`"
+      - "`1 / n`"
+      - "`1 / n^2`"
+      - "`1 / 2^n`"
+    correct_answer: 0
+    explanation: There are `n-2` contractions. The probability of NOT contracting a min-cut edge at step `i` is `(n-i-2)/(n-i)`. Multiplying these probabilities yields `2/(n(n-1))`.
+    type: single_choice
+    id: prq_1
+  - question: Given a single-trial success probability `p` and a desired confidence `P`, which formula calculates the minimum trials `t` needed?
+    difficulty: medium
+    points: 15
+    options:
+      - "`t >= ln(1 - P) / ln(1 - p)`"
+      - "`t >= P / p`"
+      - "`t >= (1 - P) / (1 - p)`"
+      - "`t >= log(P) / log(p)`"
+    correct_answer: 0
+    explanation: We want the probability of *all* trials failing `(1-p)^t` to be at most `1-P`. Taking logs gives `t * ln(1-p) <= ln(1-P)`. Since `ln(1-p)` is negative, dividing flips the inequality.
+    type: single_choice
+    id: edq_1
+  - question: The success probability of Karger's algorithm is roughly `2/n^2`. How does this affect the number of trials needed for a high confidence?
+    difficulty: easy
+    points: 10
+    options:
+      - The number of trials must be proportional to `n^2`.
+      - The number of trials must be proportional to `n`.
+      - The number of trials must be exponential in `n`.
+      - Only 1 trial is ever needed.
+    correct_answer: 0
+    explanation: Since the success probability is `O(1/n^2)`, we need `O(n^2)` trials to boost the overall success probability to a constant close to 1.
+    type: single_choice
+    id: edq_2
+  - question: Which operation is central to Karger's algorithm?
+    difficulty: easy
+    points: 10
+    options:
+      - "Edge Contraction: Merging two vertices connected by a random edge into a single super-vertex."
+      - "Edge Deletion: Removing edges with max weight."
+      - "Vertex Splitting: Creating new nodes."
+      - Depth First Search.
+    correct_answer: 0
+    explanation: Karger's algorithm repeatedly picks a random edge and contracts it (merges endpoints), removing self-loops, until only two super-vertices remain.
+    type: single_choice
+    id: edq_3

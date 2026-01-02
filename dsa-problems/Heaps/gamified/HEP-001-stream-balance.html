@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEP-001: Stream Balance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a1628; --stream: #00d4ff; --median: #ff6b9d; --low: #4ecdc4; --high: #ff8c42; --panel: #0f2540; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--stream); }
+        h1 { margin: 0; font-family: 'Righteous', cursive; color: var(--stream); font-size: 1.6rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--stream); }
+        .instructions b { color: var(--stream); }
+        .stream-input { display: flex; gap: 10px; align-items: center; padding: 15px; background: var(--panel); border-radius: 10px; }
+        .stream-input input { width: 80px; height: 50px; font-size: 1.5rem; text-align: center; background: #000; border: 3px solid var(--stream); color: var(--stream); border-radius: 10px; }
+        .heaps-container { display: flex; gap: 40px; align-items: flex-start; }
+        .heap-visual { text-align: center; padding: 20px; background: var(--panel); border-radius: 15px; min-width: 200px; }
+        .heap-label { font-size: 1rem; margin-bottom: 10px; }
+        .heap-label.max { color: var(--low); }
+        .heap-label.min { color: var(--high); }
+        .heap-tree { display: flex; flex-direction: column; align-items: center; gap: 10px; min-height: 150px; }
+        .heap-row { display: flex; gap: 8px; justify-content: center; }
+        .heap-node { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1rem; }
+        .heap-node.max { background: var(--low); color: #000; }
+        .heap-node.min { background: var(--high); color: #000; }
+        .median-display { padding: 25px 40px; background: linear-gradient(135deg, var(--low), var(--high)); border-radius: 50%; text-align: center; }
+        .median-label { font-size: 0.8rem; color: rgba(0,0,0,0.7); }
+        .median-value { font-size: 2.5rem; font-family: 'Righteous'; color: #000; }
+        .number-stream { display: flex; gap: 8px; padding: 15px; background: var(--panel); border-radius: 10px; flex-wrap: wrap; max-width: 500px; justify-content: center; }
+        .stream-num { padding: 8px 12px; background: rgba(0,212,255,0.2); border: 2px solid var(--stream); border-radius: 8px; font-weight: bold; }
+        .stream-num.new { animation: pop 0.3s; background: var(--stream); color: #000; }
+        @keyframes pop { 0%{transform:scale(0)} 50%{transform:scale(1.2)} 100%{transform:scale(1)} }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #1a3a5c; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1a3a5c; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--stream); }
+        .btn { background: var(--stream); color: #000; border: none; padding: 12px 25px; font-family: 'Righteous'; cursor: pointer; border-radius: 8px; font-size: 1rem; }
+        .btn:hover { background: #33e0ff; }
+        .btn.secondary { background: transparent; border: 2px solid #1a3a5c; color: #888; font-family: 'Nunito'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--stream); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--stream); font-family: 'Righteous'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>📊 STREAM BALANCE</h1>
+    <div style="color:#888">RUNNING MEDIAN</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 BALANCE THE HEAPS:</b> Add numbers to the stream and watch the two heaps maintain the running median! Drag numbers to the correct heap.
+    </div>
+    <div class="stream-input">
+        <span>Add number:</span>
+        <input type="number" id="numInput" value="5" min="1" max="99">
+        <button class="btn" onclick="game.addNumber()">ADD TO STREAM</button>
+        <button class="btn secondary" onclick="game.addRandom()">RANDOM</button>
+    </div>
+    <div class="heaps-container">
+        <div class="heap-visual">
+            <div class="heap-label max">MAX HEAP (smaller half)</div>
+            <div class="heap-tree" id="maxHeap"></div>
+        </div>
+        <div class="median-display">
+            <div class="median-label">MEDIAN</div>
+            <div class="median-value" id="median">-</div>
+        </div>
+        <div class="heap-visual">
+            <div class="heap-label min">MIN HEAP (larger half)</div>
+            <div class="heap-tree" id="minHeap"></div>
+        </div>
+    </div>
+    <div style="color:var(--stream);">NUMBER STREAM:</div>
+    <div class="number-stream" id="stream"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Stream Size</span><span class="stat-value" id="size">0</span></div>
+            <div class="stat-row"><span class="stat-label">Max Heap</span><span class="stat-value" id="maxSize">0</span></div>
+            <div class="stat-row"><span class="stat-label">Min Heap</span><span class="stat-value" id="minSize">0</span></div>
+        </div>
+    </div>
+    <div id="status">Add numbers to see the median update!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>📊 STREAM BALANCE</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--stream)">CONCEPT:</b> Running Median with Two Heaps!</p>
+            <ul>
+                <li><b>Max Heap:</b> stores the smaller half</li>
+                <li><b>Min Heap:</b> stores the larger half</li>
+                <li>Median = top of larger heap OR average of both tops</li>
+                <li>Rebalance if size difference > 1</li>
+            </ul>
+            <p style="color:#888">O(log n) insert, O(1) median query!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START STREAMING</button>
+    </div>
+</div>
+<script>
+class MaxHeap {
+    constructor() { this.heap = []; }
+    push(val) { this.heap.push(val); this.bubbleUp(); }
+    pop() { if (this.heap.length === 0) return null; const top = this.heap[0]; const last = this.heap.pop(); if (this.heap.length > 0) { this.heap[0] = last; this.bubbleDown(); } return top; }
+    peek() { return this.heap[0] || null; }
+    size() { return this.heap.length; }
+    bubbleUp() { let i = this.heap.length - 1; while (i > 0) { const p = Math.floor((i - 1) / 2); if (this.heap[p] >= this.heap[i]) break; [this.heap[p], this.heap[i]] = [this.heap[i], this.heap[p]]; i = p; } }
+    bubbleDown() { let i = 0; while (2 * i + 1 < this.heap.length) { let j = 2 * i + 1; if (j + 1 < this.heap.length && this.heap[j + 1] > this.heap[j]) j++; if (this.heap[i] >= this.heap[j]) break; [this.heap[i], this.heap[j]] = [this.heap[j], this.heap[i]]; i = j; } }
+    getArray() { return [...this.heap]; }
+}
+class MinHeap {
+    constructor() { this.heap = []; }
+    push(val) { this.heap.push(val); this.bubbleUp(); }
+    pop() { if (this.heap.length === 0) return null; const top = this.heap[0]; const last = this.heap.pop(); if (this.heap.length > 0) { this.heap[0] = last; this.bubbleDown(); } return top; }
+    peek() { return this.heap[0] || null; }
+    size() { return this.heap.length; }
+    bubbleUp() { let i = this.heap.length - 1; while (i > 0) { const p = Math.floor((i - 1) / 2); if (this.heap[p] <= this.heap[i]) break; [this.heap[p], this.heap[i]] = [this.heap[i], this.heap[p]]; i = p; } }
+    bubbleDown() { let i = 0; while (2 * i + 1 < this.heap.length) { let j = 2 * i + 1; if (j + 1 < this.heap.length && this.heap[j + 1] < this.heap[j]) j++; if (this.heap[i] <= this.heap[j]) break; [this.heap[i], this.heap[j]] = [this.heap[j], this.heap[i]]; i = j; } }
+    getArray() { return [...this.heap]; }
+}
+class Game {
+    constructor() {
+        this.maxHeap = new MaxHeap(); this.minHeap = new MinHeap(); this.stream = [];
+        this.ui = { maxHeap: document.getElementById('maxHeap'), minHeap: document.getElementById('minHeap'), median: document.getElementById('median'), stream: document.getElementById('stream'), size: document.getElementById('size'), maxSize: document.getElementById('maxSize'), minSize: document.getElementById('minSize'), input: document.getElementById('numInput'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.reset(); }
+    reset() { this.maxHeap = new MaxHeap(); this.minHeap = new MinHeap(); this.stream = []; this.render(); }
+    addNumber() { const num = parseInt(this.ui.input.value); if (isNaN(num) || num < 1 || num > 99) return; this.insertNumber(num); }
+    addRandom() { const num = Math.floor(Math.random() * 50) + 1; this.ui.input.value = num; this.insertNumber(num); }
+    insertNumber(num) {
+        this.stream.push(num);
+        // Insert into appropriate heap
+        if (this.maxHeap.size() === 0 || num <= this.maxHeap.peek()) { this.maxHeap.push(num); }
+        else { this.minHeap.push(num); }
+        // Rebalance
+        if (this.maxHeap.size() > this.minHeap.size() + 1) { this.minHeap.push(this.maxHeap.pop()); }
+        else if (this.minHeap.size() > this.maxHeap.size()) { this.maxHeap.push(this.minHeap.pop()); }
+        this.ui.status.textContent = `Added ${num}. Median updated!`;
+        this.ui.status.style.color = 'var(--stream)';
+        this.render();
+    }
+    getMedian() {
+        if (this.maxHeap.size() === 0) return '-';
+        if (this.maxHeap.size() > this.minHeap.size()) return this.maxHeap.peek();
+        return ((this.maxHeap.peek() + this.minHeap.peek()) / 2).toFixed(1);
+    }
+    renderHeap(container, heap, type) {
+        container.innerHTML = '';
+        const arr = heap.getArray();
+        if (arr.length === 0) { container.innerHTML = '<div style="color:#555">Empty</div>'; return; }
+        let idx = 0, rowSize = 1;
+        while (idx < arr.length) {
+            const row = document.createElement('div');
+            row.className = 'heap-row';
+            for (let i = 0; i < rowSize && idx < arr.length; i++, idx++) {
+                const node = document.createElement('div');
+                node.className = 'heap-node ' + type;
+                node.textContent = arr[idx];
+                row.appendChild(node);
+            }
+            container.appendChild(row);
+            rowSize *= 2;
+        }
+    }
+    render() {
+        this.renderHeap(this.ui.maxHeap, this.maxHeap, 'max');
+        this.renderHeap(this.ui.minHeap, this.minHeap, 'min');
+        this.ui.median.textContent = this.getMedian();
+        this.ui.stream.innerHTML = '';
+        this.stream.forEach((n, i) => {
+            const el = document.createElement('div');
+            el.className = 'stream-num';
+            if (i === this.stream.length - 1) el.classList.add('new');
+            el.textContent = n;
+            this.ui.stream.appendChild(el);
+        });
+        this.ui.size.textContent = this.stream.length;
+        this.ui.maxSize.textContent = this.maxHeap.size();
+        this.ui.minSize.textContent = this.minHeap.size();
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

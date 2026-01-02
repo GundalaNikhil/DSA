@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REC-003: Alchemist's Mix</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1a0b2e;
+            --cauldron: #2d1b4e;
+            --liquid: #76ff03;
+            --text: #e1bee7;
+        }
+
+        body {
+            font-family: 'Cinzel', serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        h1 { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.5); margin-top: 1rem; }
+
+        .game-area {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            align-items: center;
+        }
+
+        .ingredients-shelf {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            padding: 20px;
+            background: #3e2723;
+            border-radius: 10px;
+            min-width: 200px;
+            border: 4px solid #5d4037;
+        }
+
+        .ingredient {
+            background: #5d4037;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #795548;
+            transition: all 0.2s;
+        }
+        .ingredient:hover { border-color: #ffd700; transform: translateX(5px); }
+        .ingredient:active { cursor: grabbing; }
+
+        .ingredient.used { opacity: 0.5; pointer-events: none; filter: grayscale(1); }
+
+        .cauldron-zone {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .cauldron-img {
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10,40 Q10,100 50,100 T90,40 L90,30 L10,30 Z" fill="%232d1b4e" stroke="%234a148c" stroke-width="2"/></svg>') no-repeat center bottom;
+            background-size: contain;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .drop-target {
+            position: absolute;
+            top: 50px; left: 50px; right: 50px; bottom: 50px;
+            z-index: 2;
+        }
+
+        .liquid-level {
+            position: absolute;
+            bottom: 20px;
+            left: 55px;
+            width: 190px;
+            background: var(--liquid);
+            transition: height 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+            opacity: 0.8;
+            border-radius: 0 0 80px 80px;
+            z-index: 0;
+            box-shadow: 0 0 20px var(--liquid);
+        }
+
+        .target-indicator {
+            position: absolute;
+            left: 260px;
+            bottom: 20px;
+            height: 200px; /* match max liquid height */
+            width: 10px;
+            background: #333;
+            border-radius: 5px;
+        }
+
+        .target-mark {
+            position: absolute;
+            left: -15px;
+            width: 40px;
+            height: 2px;
+            background: #ffd700;
+            box-shadow: 0 0 5px #ffd700;
+        }
+        .target-mark::after { content: 'TARGET'; position: absolute; right: 45px; color: #ffd700; font-size: 0.7rem; top: -5px; }
+
+        .current-val {
+            font-size: 3rem;
+            color: #fff;
+            position: absolute;
+            top: -50px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .msg-display { height: 2rem; color: #ffd700; margin-top: 2rem; font-size: 1.2rem; }
+
+        .btn {
+            background: #4a148c;
+            color: #fff;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 20px;
+            font-family: inherit;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        .btn:hover { background: #6a1b9a; }
+
+    </style>
+</head>
+<body>
+
+<h1>ALCHEMIST'S MIX</h1>
+
+<div class="game-area">
+    <div class="ingredients-shelf" id="shelf">
+        <!-- Draggable items -->
+    </div>
+
+    <div class="cauldron-zone" id="dropZone">
+        <div class="current-val" id="potencyDisplay">0</div>
+        
+        <div class="cauldron-img"></div>
+        <div class="liquid-level" id="liquid" style="height: 0px"></div>
+        
+        <div class="target-indicator">
+            <div class="target-mark" id="targetLine" style="bottom: 50%"></div>
+        </div>
+        
+        <div class="drop-target"></div>
+    </div>
+</div>
+
+<div class="msg-display" id="msg"></div>
+<button class="btn" onclick="reset()">Empty Cauldron</button>
+
+<script>
+    const ingredients = [
+        { id: 1, name: "Toad Eye", val: 5 },
+        { id: 2, name: "Bat Wing", val: 3 },
+        { id: 3, name: "Stardust", val: 8 },
+        { id: 4, name: "Root", val: 2 },
+        { id: 5, name: "Slime", val: 4 }
+    ];
+    let target = 10;
+    let currentSum = 0;
+    const MAX_HEIGHT = 180; // px
+    const MAX_VAL = 20; // scale
+
+    function reset() {
+        currentSum = 0;
+        target = 10 + Math.floor(Math.random() * 5); // Random target 10-14
+        renderShelf();
+        updateDisplay();
+        document.getElementById('msg').textContent = `Target Potency: ${target}`;
+        
+        // Set target line height
+        const pct = (target / MAX_VAL) * 100;
+        document.getElementById('targetLine').style.bottom = `${pct}%`;
+    }
+
+    function renderShelf() {
+        const shelf = document.getElementById('shelf');
+        shelf.innerHTML = '';
+        ingredients.forEach(item => {
+            const el = document.createElement('div');
+            el.className = 'ingredient';
+            el.draggable = true;
+            el.innerHTML = `<span>${item.name}</span> <strong style="margin-left:auto">${item.val}</strong>`;
+            
+            el.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('val', item.val);
+                e.dataTransfer.setData('id', item.id);
+            });
+            
+            el.addEventListener('dragend', (e) => {
+                // If drop successful, mark used
+                if (e.dataTransfer.dropEffect !== 'none') {
+                   // actually handled by dropLogic usually
+                }
+            });
+
+            // Hack for simple unique items: ID checking in render
+            el.id = `ing-${item.id}`;
+            shelf.appendChild(el);
+        });
+    }
+
+    function updateDisplay() {
+        document.getElementById('potencyDisplay').textContent = currentSum;
+        const h = Math.min((currentSum / MAX_VAL) * MAX_HEIGHT, MAX_HEIGHT);
+        document.getElementById('liquid').style.height = `${h}px`;
+        
+        if (currentSum > target) {
+            document.getElementById('liquid').style.backgroundColor = '#d50000'; // Red overflow
+            document.getElementById('msg').textContent = "OVERFLOW! Unstable Mixture!";
+        } else if (currentSum === target) {
+            document.getElementById('liquid').style.backgroundColor = '#ffd700'; // Gold success
+            document.getElementById('msg').textContent = "PERFECT BREW ACHIEVED!";
+        } else {
+            document.getElementById('liquid').style.backgroundColor = '#76ff03';
+        }
+    }
+
+    // Drop Logic
+    const zone = document.getElementById('dropZone');
+    
+    zone.addEventListener('dragover', (e) => e.preventDefault());
+    
+    zone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const val = parseInt(e.dataTransfer.getData('val'));
+        const id = e.dataTransfer.getData('id');
+        
+        // Mark ingredient used
+        const el = document.getElementById(`ing-${id}`);
+        if (!el.classList.contains('used')) {
+            el.classList.add('used');
+            currentSum += val;
+            updateDisplay();
+            
+            // Visual splash effect?
+        }
+    });
+
+    window.onload = reset;
+</script>
+</body>
+</html>

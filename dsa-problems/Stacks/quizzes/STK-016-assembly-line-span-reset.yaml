@@ -1,2 +1,52 @@
-# Quiz for STK-016: Assembly Line Span Reset
-# YAML content to be added
+problem_id: STK_ASSEMBLY_LINE_SPAN_RESET_016
+display_id: STK-016
+slug: assembly-line-span-reset
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: For counts [2, 1, 3, 2, 5], what is the span for the 3rd element (value 3)?
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "0"
+    correct_answer: 2
+    explanation: The span includes today (1) plus consecutive prior days strictly less than today. 3rd day is 3. Prior days are 2 and 1 (both < 3). So span is 3.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: This problem is a variation of which classic stack problem?
+    options:
+      - Balanced Parentheses
+      - Stock Span Problem
+      - Largest Rectangle
+      - Infix to Postfix
+    correct_answer: 1
+    explanation: Computing consecutive prior elements smaller than current is the core of the Stock Span problem.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: What type of monotonic stack should be used for the span calculation?
+    options:
+      - Strictly increasing
+      - Strictly decreasing
+      - Max-heap
+      - Unordered
+    correct_answer: 1
+    explanation: We push elements onto a decreasing stack to find the nearest previous element that is greater or equal.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: If the input counts are [1, 2, 3, 4, 5], what are the spans?
+    options:
+      - 1 1 1 1 1
+      - 1 2 3 4 5
+      - 0 1 2 3 4
+      - 5 4 3 2 1
+    correct_answer: 1
+    explanation: Each day's count is strictly greater than all previous days, so its span inclusive of itself is its index + 1.

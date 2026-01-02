@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRD-012: Task Cooldown</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0f0f1a; --task: #00d4ff; --cooldown: #ff6b6b; --ready: #2ecc71; --panel: #1a1a2e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--task); }
+        h1 { margin: 0; font-family: 'Rajdhani', sans-serif; color: var(--task); font-size: 1.6rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--task); }
+        .instructions b { color: var(--task); }
+        .timeline { width: 700px; height: 80px; background: var(--panel); border-radius: 10px; display: flex; align-items: center; padding: 0 20px; gap: 5px; overflow-x: auto; }
+        .time-slot { min-width: 50px; height: 50px; background: #333; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .time-slot.task { background: var(--task); color: #000; font-weight: bold; }
+        .time-slot.cooldown { background: rgba(255,107,107,0.3); border: 2px dashed var(--cooldown); }
+        .tasks-queue { display: flex; gap: 15px; padding: 20px; background: var(--panel); border-radius: 12px; flex-wrap: wrap; justify-content: center; }
+        .task-chip { padding: 15px 25px; background: var(--task); border-radius: 10px; cursor: pointer; transition: all 0.2s; font-weight: bold; color: #000; border: 3px solid transparent; font-size: 1.1rem; }
+        .task-chip:hover { transform: scale(1.1); }
+        .task-chip.selected { border-color: #fff; box-shadow: 0 0 15px var(--task); }
+        .task-chip.used { opacity: 0.3; cursor: default; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #333; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--task); }
+        .btn { background: var(--task); color: #000; border: none; padding: 12px 25px; font-family: 'Rajdhani'; font-weight: 700; font-size: 1rem; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #00aacc; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--task); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--task); font-family: 'Rajdhani'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>⏱️ TASK COOLDOWN</h1>
+    <div style="color:#888">GREEDY SCHEDULING</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 SCHEDULE TASKS:</b> Click tasks to add to timeline. 
+        Same tasks need cooldown period between them. Minimize total time!
+    </div>
+    <div style="color:var(--task); margin-bottom:5px;">TIMELINE</div>
+    <div class="timeline" id="timeline"></div>
+    <div style="color:var(--task); margin-top:10px;">TASK QUEUE</div>
+    <div class="tasks-queue" id="tasksQueue"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Time Units</span><span class="stat-value" id="timeUnits">0</span></div>
+            <div class="stat-row"><span class="stat-label">Optimal</span><span class="stat-value" id="optimal">?</span></div>
+            <div class="stat-row"><span class="stat-label">Cooldown</span><span class="stat-value" id="cooldownVal">N</span></div>
+        </div>
+    </div>
+    <div id="status">Click tasks to schedule them!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkSolution()">CHECK</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW TASKS</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>⏱️ TASK COOLDOWN</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--task)">GOAL:</b> Execute all tasks with minimum total time!</p>
+            <ul>
+                <li>Click tasks to add to timeline</li>
+                <li>Same task type needs <b>N cooldown</b> between executions</li>
+                <li>Idle slots may be needed</li>
+                <li>Minimize total time!</li>
+            </ul>
+            <p style="color:#888">Greedy: Schedule most frequent tasks first with gaps!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START SCHEDULING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.tasks = []; this.cooldown = 2; this.schedule = []; this.remaining = {};
+        this.ui = { timeline: document.getElementById('timeline'), queue: document.getElementById('tasksQueue'), timeUnits: document.getElementById('timeUnits'), optimal: document.getElementById('optimal'), cooldownVal: document.getElementById('cooldownVal'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const types = ['A', 'B', 'C'];
+        this.tasks = [];
+        types.forEach(t => {
+            const count = Math.floor(Math.random() * 3) + 1;
+            for (let i = 0; i < count; i++) this.tasks.push(t);
+        });
+        this.cooldown = Math.floor(Math.random() * 2) + 1;
+        this.computeOptimal();
+        this.reset();
+    }
+    computeOptimal() {
+        // Greedy: count frequencies, schedule round-robin
+        const freq = {};
+        this.tasks.forEach(t => freq[t] = (freq[t] || 0) + 1);
+        const maxFreq = Math.max(...Object.values(freq));
+        const maxCount = Object.values(freq).filter(f => f === maxFreq).length;
+        this.optimalTime = Math.max(this.tasks.length, (maxFreq - 1) * (this.cooldown + 1) + maxCount);
+    }
+    reset() {
+        this.schedule = [];
+        this.remaining = {};
+        this.tasks.forEach(t => this.remaining[t] = (this.remaining[t] || 0) + 1);
+        this.lastUsed = {};
+        this.ui.status.textContent = 'Click tasks to schedule them!';
+        this.ui.optimal.textContent = '?';
+        this.ui.cooldownVal.textContent = this.cooldown;
+        this.render();
+    }
+    canSchedule(task) {
+        if (!this.remaining[task] || this.remaining[task] <= 0) return false;
+        const last = this.lastUsed[task];
+        if (last !== undefined && this.schedule.length - last <= this.cooldown) return false;
+        return true;
+    }
+    scheduleTask(task) {
+        if (!this.canSchedule(task)) {
+            // Need to add idle
+            const last = this.lastUsed[task];
+            if (last !== undefined && this.schedule.length - last <= this.cooldown) {
+                this.ui.status.textContent = `Cooldown! Wait ${this.cooldown - (this.schedule.length - last - 1)} more.`;
+                return;
+            }
+            if (!this.remaining[task] || this.remaining[task] <= 0) {
+                this.ui.status.textContent = 'No more of this task!';
+                return;
+            }
+        }
+        this.schedule.push(task);
+        this.remaining[task]--;
+        this.lastUsed[task] = this.schedule.length - 1;
+        this.ui.status.textContent = `Scheduled ${task}!`;
+        if (Object.values(this.remaining).every(v => v <= 0)) this.checkSolution();
+        this.render();
+    }
+    addIdle() {
+        this.schedule.push('_');
+        this.render();
+    }
+    checkSolution() {
+        const time = this.schedule.length;
+        this.ui.optimal.textContent = this.optimalTime;
+        if (time <= this.optimalTime) { this.ui.status.innerHTML = '🎉 OPTIMAL! Minimum time achieved!'; this.ui.status.style.color = 'var(--ready)'; }
+        else { this.ui.status.innerHTML = `Time: ${time} (Optimal: ${this.optimalTime})`; this.ui.status.style.color = '#ffd700'; }
+    }
+    render() {
+        this.ui.timeline.innerHTML = '';
+        this.schedule.forEach((s, i) => {
+            const slot = document.createElement('div');
+            slot.className = 'time-slot';
+            if (s === '_') { slot.classList.add('cooldown'); slot.textContent = '⏸'; }
+            else { slot.classList.add('task'); slot.textContent = s; }
+            this.ui.timeline.appendChild(slot);
+        });
+        this.ui.queue.innerHTML = '';
+        Object.entries(this.remaining).forEach(([task, count]) => {
+            if (count > 0) {
+                const chip = document.createElement('div');
+                chip.className = 'task-chip';
+                if (!this.canSchedule(task)) chip.style.opacity = '0.5';
+                chip.textContent = `${task} ×${count}`;
+                chip.onclick = () => this.scheduleTask(task);
+                this.ui.queue.appendChild(chip);
+            }
+        });
+        // Add idle button
+        const idleBtn = document.createElement('div');
+        idleBtn.className = 'task-chip';
+        idleBtn.style.background = '#555';
+        idleBtn.style.color = '#fff';
+        idleBtn.textContent = 'IDLE';
+        idleBtn.onclick = () => this.addIdle();
+        this.ui.queue.appendChild(idleBtn);
+        this.ui.timeUnits.textContent = this.schedule.length;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

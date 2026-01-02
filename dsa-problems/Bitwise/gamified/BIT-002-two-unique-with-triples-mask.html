@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIT-002: The Binary Splitter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050510;
+            --panel: #1a1a2e;
+            --accent: #ff4757; /* Red */
+            --valid: #2ed573; /* Green */
+            --warn: #ffa502; /* Orange */
+            --text: #dfe4ea;
+            --bit-on: #2ed573;
+            --bit-off: #57606f;
+        }
+
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            background: var(--panel);
+            padding: 0.5rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--accent);
+            z-index: 10;
+        }
+        h1 { font-family: 'Teko', sans-serif; font-size: 2.5rem; margin:0; letter-spacing: 2px; color: var(--accent); }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: row;
+            position: relative;
+        }
+
+        /* BIT SCANNER PANEL */
+        .scanner-panel {
+            width: 300px;
+            background: rgba(0,0,0,0.5);
+            border-right: 1px solid #333;
+            padding: 20px;
+            display: flex; flex-direction: column;
+            gap: 10px;
+            z-index: 5;
+        }
+        .scanner-title { font-family:'Teko'; font-size:1.8rem; color:var(--valid); text-align:center; margin-bottom:10px; }
+        
+        .bit-row {
+            display: flex; align-items: center; justify-content: space-between;
+            background: #2f3542; padding: 10px; border-radius: 4px;
+            cursor: pointer; transition: all 0.2s;
+            border: 1px solid transparent;
+        }
+        .bit-row:hover { background: #57606f; }
+        .bit-row.selected {  border-color: #fff; background: #747d8c; }
+        .bit-row.good { border-left: 4px solid var(--valid); }
+        .bit-row.bad { border-left: 4px solid var(--accent); opacity: 0.5; cursor: not-allowed; }
+        
+        .bit-idx { font-weight: bold; width: 30px; }
+        .bit-stat { font-size: 0.8rem; opacity: 0.8; }
+        .bit-status { 
+            width: 10px; height: 10px; border-radius: 50%; background: #ccc; 
+            box-shadow: 0 0 5px currentColor;
+        }
+
+        /* ARENA */
+        .arena {
+            flex: 1;
+            position: relative;
+            background-image: radial-gradient(#2f3542 1px, transparent 1px);
+            background-size: 30px 30px;
+            display: flex; /* For split mode */
+        }
+
+        .chamber {
+            flex: 1;
+            position: relative;
+            border-right: 1px dashed rgba(255,255,255,0.1);
+            transition: all 0.5s;
+        }
+        .chamber:last-child { border-right: none; }
+        .chamber-label {
+            position: absolute; top: 10px; width: 100%; text-align: center;
+            font-family: 'Teko'; font-size: 4rem; opacity: 0.1; pointer-events: none;
+        }
+
+        .agent {
+            position: absolute;
+            width: 50px; height: 50px;
+            background: #3742fa;
+            border: 2px solid #fff;
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold;
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            transition: left 0.8s cubic-bezier(0.22, 1, 0.36, 1), top 0.8s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s, transform 0.5s;
+        }
+        .agent.unique { background: var(--accent); z-index: 2; } /* Only revealed at end */
+        
+        .agent-val { font-size: 1.2rem; }
+        .agent-bin { font-size: 0.6rem; position:absolute; bottom:2px; opacity:0.7; }
+
+        /* CONTROLS */
+        .controls {
+            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+            display: flex; gap: 20px; z-index: 10;
+        }
+        button {
+            background: var(--accent); color: white; border: none;
+            padding: 15px 40px; font-family: 'Teko'; font-size: 1.5rem;
+            cursor: pointer; clip-path: polygon(10% 0, 100% 0, 100% 80%, 90% 100%, 0% 100%, 0% 20%);
+            transition: transform 0.2s; letter-spacing: 1px;
+        }
+        button:hover { transform: scale(1.05); }
+        button:disabled { background: #555; cursor: not-allowed; transform: none; }
+        
+        button.action-btn { background: var(--valid); color: #000; }
+
+        /* MODAL */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            display: flex; align-items: center; justify-content: center; z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        .dialog {
+            background: #fff; color: #000; padding: 40px; max-width: 600px;
+            clip-path: polygon(5% 0, 100% 0, 100% 90%, 95% 100%, 0% 100%, 0% 10%);
+        }
+        .highlight { color: var(--accent); font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>BINARY SPLITTER</h1>
+    <div style="font-family:'Teko'; font-size:1.5rem">BIT-002</div>
+</header>
+
+<main>
+    <div class="scanner-panel" id="scanner">
+        <div class="scanner-title">BIT SCANNER</div>
+        <div style="font-size:0.8rem; color:#aaa; margin-bottom:10px;">Select a bit where count % 3 == 1</div>
+        <div id="bitList"></div>
+    </div>
+
+    <div class="arena" id="arena">
+        <div class="chamber" id="chamber0">
+            <div class="chamber-label">ZERO</div>
+        </div>
+        <div class="chamber" id="chamber1">
+             <div class="chamber-label">ONE</div>
+        </div>
+        <!-- Agents spawned absolutely initially -->
+    </div>
+
+    <div class="controls">
+        <button id="splitBtn" disabled onclick="game.split()">INITIATE SPLIT</button>
+        <button id="purgeBtn" class="hidden" onclick="game.purge()">PURGE CLONES</button>
+        <button id="resetBtn" class="hidden" onclick="game.reset()">NEXT LEVEL</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="font-family:'Teko'; font-size:3rem; margin:0; color:var(--accent)">PROTOCOL: [SPLIT]</h2>
+        <p style="font-size:1.2rem; line-height:1.5">
+            <b>Problem</b>: Two <span class="highlight">Unique Agents</span> are hidden among groups of identical <span class="highlight">Clones</span> (3 copies each).<br><br>
+            <b>Mission</b>: Isolate the two Agents.<br><br>
+            <b>Method</b>:<br>
+            1. Use the <span class="highlight">Bit Scanner</span> to find a "Splitting Bit".<br>
+            2. A Splitting Bit is one where the total count of set bits is <b>1 mod 3</b>.<br>
+            3. Select the bit to Divide the group into two chambers.<br>
+            4. Purge the clones to reveal the Agents.
+        </p>
+        <button onclick="game.start()" style="margin-top:20px; background:#000; color:#fff">START</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.nums = [];
+            this.agents = []; // DOM elements
+            this.selectedBit = -1;
+            this.splitMode = false;
+            
+            this.ui = {
+                bitList: document.getElementById('bitList'),
+                arena: document.getElementById('arena'),
+                splitBtn: document.getElementById('splitBtn'),
+                purgeBtn: document.getElementById('purgeBtn'),
+                resetBtn: document.getElementById('resetBtn'),
+                modal: document.getElementById('modal')
+            };
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.reset();
+        }
+
+        reset() {
+            // Generate Level
+            // 2 Uniques, K groups of 3
+            // Numbers 0-31 for simplicity
+            this.nums = [];
+            
+            let u1 = Math.floor(Math.random() * 32);
+            let u2;
+            do { u2 = Math.floor(Math.random() * 32); } while (u2 === u1);
+            
+            this.nums.push(u1, u2);
+            
+            const groups = 3 + Math.floor(Math.random() * 2); // 3 to 4 groups
+            const used = new Set([u1, u2]);
+            
+            for(let i=0; i<groups; i++) {
+                let val;
+                do { val = Math.floor(Math.random() * 32); } while (used.has(val));
+                used.add(val);
+                this.nums.push(val, val, val);
+            }
+            
+            // Shuffle
+            for (let i = this.nums.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [this.nums[i], this.nums[j]] = [this.nums[j], this.nums[i]];
+            }
+
+            this.splitMode = false;
+            this.selectedBit = -1;
+            this.ui.splitBtn.disabled = true;
+            this.ui.splitBtn.innerHTML = "INITIATE SPLIT";
+            this.ui.splitBtn.classList.remove('hidden');
+            this.ui.purgeBtn.classList.add('hidden');
+            this.ui.resetBtn.classList.add('hidden');
+
+            this.renderAgents();
+            this.analyzeBits();
+        }
+
+        renderAgents() {
+            // clear existing agents
+            document.querySelectorAll('.agent').forEach(e => e.remove());
+            this.agents = [];
+
+            const w = this.ui.arena.offsetWidth;
+            const h = this.ui.arena.offsetHeight;
+
+            this.nums.forEach((val, i) => {
+                const el = document.createElement('div');
+                el.className = 'agent';
+                el.innerHTML = `<span class="agent-val">${val}</span><span class="agent-bin">${val.toString(2).padStart(5,'0')}</span>`;
+                
+                // Random Scatter
+                const x = 50 + Math.random() * (w - 100);
+                const y = 50 + Math.random() * (h - 100);
+                
+                el.style.left = x + 'px';
+                el.style.top = y + 'px';
+                
+                this.ui.arena.appendChild(el);
+                this.agents.push({el, val, x, y});
+            });
+        }
+
+        analyzeBits() {
+            // Calculate bit stats
+            this.ui.bitList.innerHTML = '';
+            
+            // Analyze bits 0-4 (since max val 31)
+            for(let b=0; b<5; b++) {
+                let count = 0;
+                this.nums.forEach(n => {
+                    if ((n >> b) & 1) count++;
+                });
+                
+                // Check Is Separator?
+                // Correct logic: Total % 3 == 1 means one unique has 0, other has 1 at this bit.
+                // Assuming "Mask" allows all bits for this game.
+                const isSeparator = (count % 3 === 1); // OR %3 !== 0 depending on problem exacts
+                // Wait, BIT-002: unique numbers appear ONCE. Clones 3 times.
+                // Total Count = 3*K + bit(u1) + bit(u2).
+                // If count%3 == 1, then bit(u1)+bit(u2) == 1 (mod 3).
+                // Since bits are 0 or 1, sum is 1. One is 0, one is 1. -> SEPARATOR
+                // If count%3 == 2, sum is 2. So 1+1. Both 1. -> NOT SEPARATOR (both go to same side).
+                // If count%3 == 0, sum is 0. Both 0. -> NOT SEPARATOR.
+                
+                const row = document.createElement('div');
+                row.className = `bit-row ${isSeparator ? 'good' : 'bad'}`;
+                row.onclick = () => {
+                   if(!isSeparator) return;
+                   this.selectBit(b, row);
+                };
+                
+                row.innerHTML = `
+                    <div class="bit-idx">${b}</div>
+                    <div class="bit-stat">Count: ${count}<br>Mod 3: ${count%3}</div>
+                    <div class="bit-status" style="background:${isSeparator ? '#2ed573' : '#ff4757'}"></div>
+                `;
+                
+                this.ui.bitList.appendChild(row);
+            }
+        }
+
+        selectBit(b, rowEl) {
+            if(this.splitMode) return;
+            
+            // Highlight row
+            document.querySelectorAll('.bit-row').forEach(r => r.classList.remove('selected'));
+            rowEl.classList.add('selected');
+            
+            this.selectedBit = b;
+            this.ui.splitBtn.disabled = false;
+        }
+
+        split() {
+            this.splitMode = true;
+            this.ui.splitBtn.classList.add('hidden');
+            
+            // Animation Target Pos
+            const w = this.ui.arena.offsetWidth;
+            const h = this.ui.arena.offsetHeight;
+            
+            const chamberW = w / 2;
+            
+            this.agents.forEach(agent => {
+                const bitVal = (agent.val >> this.selectedBit) & 1;
+                // 0 goes Left, 1 goes Right
+                
+                // Random pos within correct chamber
+                let minX = (bitVal === 0) ? 20 : chamberW + 20;
+                let maxX = (bitVal === 0) ? chamberW - 70 : w - 70;
+                
+                const tx = minX + Math.random() * (maxX - minX);
+                const ty = 50 + Math.random() * (h - 100);
+                
+                agent.el.style.left = tx + 'px';
+                agent.el.style.top = ty + 'px';
+                agent.group = bitVal;
+            });
+
+            setTimeout(() => {
+                this.ui.purgeBtn.classList.remove('hidden');
+                this.ui.purgeBtn.classList.add('action-btn');
+            }, 1000);
+        }
+
+        purge() {
+            // Remove triples from each side
+            // In reality, we just verify visually.
+            // Identify uniques.
+            
+            // Find counts again per group
+            const counts = {};
+            this.nums.forEach(n => counts[n] = (counts[n]||0)+1);
+            
+            const uniques = Object.keys(counts).filter(k => counts[k] === 1).map(Number);
+            
+            this.agents.forEach(agent => {
+                if (uniques.includes(agent.val)) {
+                    // It's a unique agent!
+                    agent.el.style.transform = "scale(1.5)";
+                    agent.el.style.zIndex = 100;
+                    agent.el.style.background = "#fff";
+                    agent.el.style.color = "#000";
+                    agent.el.style.borderColor = "#000";
+                } else {
+                    // It's a clone -> Purge
+                    agent.el.style.opacity = 0;
+                    agent.el.style.transform = "scale(0)";
+                }
+            });
+            
+            this.ui.purgeBtn.classList.add('hidden');
+            
+            setTimeout(() => {
+                this.ui.resetBtn.classList.remove('hidden');
+                // Celebrate?
+            }, 1000);
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

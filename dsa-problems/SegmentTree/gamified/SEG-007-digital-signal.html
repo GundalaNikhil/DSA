@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEG-007: Digital Signal</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #000; --term: #33ff00; --hl: #00cc00; }
+        * { box-sizing: border-box; }
+        body { font-family: 'VT323', monospace; background: var(--bg); color: var(--term); margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; text-transform: uppercase; }
+        header { width: 100%; border-bottom: 2px solid var(--term); padding: 10px; text-align: center; }
+        h1 { margin: 0; font-size: 2.5rem; text-shadow: 0 0 10px var(--term); }
+        
+        main { width: 100%; max-width: 800px; padding: 20px; display: flex; flex-direction: column; gap: 20px; }
+        
+        .signal-grid { display: flex; gap: 10px; border: 1px solid var(--term); padding: 20px; flex-wrap: wrap; justify-content: center; background: rgba(51, 255, 0, 0.05); }
+        
+        .packet {
+            width: 80px; height: 100px; border: 1px solid var(--term);
+            display: flex; flex-direction: column; align-items: center; justify-content: space-between;
+            padding: 5px; cursor: pointer; transition: all 0.2s; position: relative;
+        }
+        .packet:hover { background: rgba(51, 255, 0, 0.2); }
+        .packet.active { background: var(--term); color: #000; }
+        
+        .bits { font-size: 1.5rem; letter-spacing: 2px; }
+        .val-dec { font-size: 1rem; opacity: 0.7; }
+        .idx { position: absolute; top: -10px; left: 5px; background: #000; padding: 0 5px; font-size: 0.8rem; }
+
+        .mixer {
+            border: 1px solid var(--term); padding: 20px;
+            display: flex; flex-direction: column; gap: 10px; align-items: center;
+        }
+        
+        .controls { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; justify-content: center; }
+        input { background: #000; border: 1px solid var(--term); color: var(--term); padding: 5px; font-family: 'VT323'; font-size: 1.2rem; width: 60px; text-align: center; }
+        button { background: var(--term); color: #000; border: none; padding: 5px 20px; font-family: 'VT323'; font-size: 1.5rem; cursor: pointer; }
+        button:hover { background: #fff; }
+
+        #output { font-size: 2rem; min-height: 40px; text-align: center; }
+        
+        .basis-viz { display: flex; gap: 10px; border-top: 1px dashed var(--term); padding-top: 10px; width: 100%; justify-content: center; flex-wrap: wrap; }
+        .basis-item { padding: 5px; border: 1px dashed var(--term); }
+    </style>
+</head>
+<body>
+<header>
+    <h1>SEG-007 DIGITAL SIGNAL XOR</h1>
+    <div>RANGE XOR / BASIS CALCULATOR</div>
+</header>
+<main>
+    <div id="output">SYSTEM READY...</div>
+
+    <div class="signal-grid" id="grid"></div>
+
+    <div class="mixer">
+        <div class="controls">
+            <span>QUERY RANGE:</span>
+            <input type="number" id="L" placeholder="L" min="0" max="7">
+            <input type="number" id="R" placeholder="R" min="0" max="7">
+            <button onclick="game.calcXor()">CALC XOR SUM</button>
+            <button onclick="game.calcBasis()">CALC BASIS</button>
+        </div>
+        
+        <div id="basisRes" class="basis-viz" style="display:none">
+            <!-- Basis vectors -->
+        </div>
+    </div>
+</main>
+<script>
+class Game {
+    constructor() {
+        this.n = 8;
+        this.vals = [5, 3, 6, 7, 2, 0, 4, 1];
+        this.ui = {
+            grid: document.getElementById('grid'),
+            out: document.getElementById('output'),
+            basisBox: document.getElementById('basisRes')
+        };
+        this.render();
+    }
+
+    render() {
+        this.ui.grid.innerHTML = '';
+        this.vals.forEach((v, i) => {
+            let div = document.createElement('div');
+            div.className = 'packet';
+            div.id = 'pkt-'+i;
+            div.innerHTML = `
+                <div class="idx">${i}</div>
+                <div class="bits">${this.toBin(v)}</div>
+                <div class="val-dec">${v}</div>
+            `;
+            div.onclick = () => {
+                let newVal = (v + 1) % 16;
+                this.vals[i] = newVal;
+                this.render(); 
+            };
+            this.ui.grid.appendChild(div);
+        });
+    }
+
+    toBin(n) { return n.toString(2).padStart(4, '0'); }
+
+    getRange() {
+        let l = parseInt(document.getElementById('L').value);
+        let r = parseInt(document.getElementById('R').value);
+        if (isNaN(l) || isNaN(r) || l>r || l<0 || r>=this.n) return null;
+        return [l, r];
+    }
+
+    highlightRange(l, r) {
+        document.querySelectorAll('.packet').forEach(el => el.classList.remove('active'));
+        for(let i=l; i<=r; i++) document.getElementById('pkt-'+i).classList.add('active');
+    }
+
+    calcXor() {
+        let range = this.getRange();
+        if(!range) { this.ui.out.innerText = "RANGE ERROR"; return; }
+        let [l, r] = range;
+        
+        this.highlightRange(l, r);
+        
+        let res = 0;
+        for(let i=l; i<=r; i++) res ^= this.vals[i];
+        
+        this.ui.out.innerHTML = `XOR SUM [${l},${r}] = <span style="background:#fff;color:#000;padding:0 5px">${res}</span> (${this.toBin(res)})`;
+        this.ui.basisBox.style.display = 'none';
+    }
+
+    calcBasis() {
+        let range = this.getRange();
+        if(!range) { this.ui.out.innerText = "RANGE ERROR"; return; }
+        let [l, r] = range;
+
+        this.highlightRange(l, r);
+
+        // Simple Linear Basis Algo
+        let basis = [];
+        for(let i=l; i<=r; i++) {
+            let x = this.vals[i];
+            for(let b of basis) x = Math.min(x, x ^ b);
+            if(x > 0) {
+                basis.push(x);
+                basis.sort((a,b) => b-a);
+            }
+        }
+
+        this.ui.out.innerText = `BASIS SIZE: ${basis.length}`;
+        this.ui.basisBox.style.display = 'flex';
+        this.ui.basisBox.innerHTML = basis.map(b => `<div class="basis-item">${b} (${this.toBin(b)})</div>`).join('');
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

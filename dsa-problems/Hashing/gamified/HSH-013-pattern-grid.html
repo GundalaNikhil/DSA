@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSH-013: Pattern Grid</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a2e; --pixel: #00ffff; --found: #ff00ff; --panel: #0f0f3e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--pixel); }
+        h1 { margin: 0; font-family: 'Press Start 2P', cursive; color: var(--pixel); font-size: 1rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--pixel); }
+        .instructions b { color: var(--pixel); }
+        .grids-container { display: flex; gap: 40px; align-items: flex-start; }
+        .grid-box { text-align: center; }
+        .grid-label { color: var(--pixel); margin-bottom: 10px; font-family: 'Press Start 2P'; font-size: 0.7rem; }
+        .grid { display: grid; gap: 2px; background: var(--panel); padding: 10px; border-radius: 10px; }
+        .cell { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; transition: all 0.2s; border-radius: 5px; font-size: 1.1rem; }
+        .cell.big { background: rgba(0,255,255,0.1); border: 1px solid var(--pixel); }
+        .cell.big:hover { background: rgba(0,255,255,0.3); }
+        .cell.big.selected { background: var(--pixel); color: #000; }
+        .cell.big.found { background: var(--found); color: #fff; }
+        .cell.pattern { background: rgba(255,0,255,0.2); border: 2px solid var(--found); }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #1a1a4e; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1a1a4e; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--pixel); }
+        .btn { background: var(--pixel); color: #000; border: none; padding: 12px 25px; font-family: 'Press Start 2P'; font-size: 0.7rem; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #66ffff; }
+        .btn.secondary { background: transparent; border: 2px solid #1a1a4e; color: #888; font-family: 'Nunito'; font-size: 0.9rem; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--pixel); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--pixel); font-family: 'Press Start 2P'; font-size: 1rem; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🎮 PATTERN GRID</h1>
+    <div style="color:#888">2D ROLLING HASH</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 FIND THE PATTERN:</b> Locate the small pattern inside the big grid! Click the top-left cell where the pattern matches.
+    </div>
+    <div class="grids-container">
+        <div class="grid-box">
+            <div class="grid-label">BIG GRID</div>
+            <div class="grid" id="bigGrid" style="grid-template-columns: repeat(5, 40px);"></div>
+        </div>
+        <div class="grid-box">
+            <div class="grid-label">FIND THIS</div>
+            <div class="grid" id="patternGrid" style="grid-template-columns: repeat(2, 40px);"></div>
+        </div>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Matches Found</span><span class="stat-value" id="found">0</span></div>
+            <div class="stat-row"><span class="stat-label">Attempts</span><span class="stat-value" id="attempts">0</span></div>
+        </div>
+    </div>
+    <div id="status">Click where the pattern matches!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.hint()">HINT</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW GRID</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🎮 PATTERN GRID</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--pixel)">MISSION:</b> Find the pattern in the grid!</p>
+            <ul>
+                <li>The small pattern hides in the big grid</li>
+                <li>Click the <b>top-left cell</b> of match</li>
+                <li>2D rolling hash = fast pattern matching</li>
+                <li>Used in image recognition!</li>
+            </ul>
+            <p style="color:#888">Hash rows, then hash column of row-hashes!</p>
+        </div>
+        <button class="btn" onclick="game.start()">PLAY</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.bigGrid = []; this.pattern = []; this.matchPos = []; this.attempts = 0; this.found = 0;
+        this.ui = { big: document.getElementById('bigGrid'), pattern: document.getElementById('patternGrid'), found: document.getElementById('found'), attempts: document.getElementById('attempts'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const chars = 'ABCD';
+        // Generate 5x5 grid
+        this.bigGrid = Array.from({length: 5}, () => Array.from({length: 5}, () => chars[Math.floor(Math.random() * chars.length)]));
+        // Pick random 2x2 pattern from grid
+        const r = Math.floor(Math.random() * 4);
+        const c = Math.floor(Math.random() * 4);
+        this.matchPos = [r, c];
+        this.pattern = [[this.bigGrid[r][c], this.bigGrid[r][c+1]], [this.bigGrid[r+1][c], this.bigGrid[r+1][c+1]]];
+        this.attempts = 0; this.found = 0;
+        this.ui.status.textContent = 'Click where the pattern matches!';
+        this.render();
+    }
+    checkPos(r, c) {
+        if (r > 3 || c > 3) { this.ui.status.textContent = 'Pattern doesn\'t fit there!'; return; }
+        this.attempts++;
+        let match = true;
+        for (let i = 0; i < 2; i++) {
+            for (let j = 0; j < 2; j++) {
+                if (this.bigGrid[r+i][c+j] !== this.pattern[i][j]) match = false;
+            }
+        }
+        if (match) {
+            this.found++;
+            this.ui.status.innerHTML = `🎉 FOUND at (${r}, ${c})!`;
+            this.ui.status.style.color = 'var(--found)';
+            // Highlight
+            this.render();
+            const cells = this.ui.big.children;
+            for (let i = 0; i < 2; i++) {
+                for (let j = 0; j < 2; j++) cells[(r+i)*5+(c+j)].classList.add('found');
+            }
+        } else {
+            this.ui.status.textContent = `❌ No match at (${r}, ${c})`;
+            this.ui.status.style.color = '#ff6b6b';
+        }
+        this.ui.found.textContent = this.found;
+        this.ui.attempts.textContent = this.attempts;
+    }
+    hint() {
+        this.ui.status.textContent = `Hint: Try row ${this.matchPos[0]}, column ${this.matchPos[1]}`;
+    }
+    render() {
+        this.ui.big.innerHTML = '';
+        for (let r = 0; r < 5; r++) {
+            for (let c = 0; c < 5; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell big';
+                cell.textContent = this.bigGrid[r][c];
+                cell.onclick = () => this.checkPos(r, c);
+                this.ui.big.appendChild(cell);
+            }
+        }
+        this.ui.pattern.innerHTML = '';
+        for (let r = 0; r < 2; r++) {
+            for (let c = 0; c < 2; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell pattern';
+                cell.textContent = this.pattern[r][c];
+                this.ui.pattern.appendChild(cell);
+            }
+        }
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

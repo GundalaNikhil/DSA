@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSH-004: Mirror Mirror</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=Quicksand&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a0a2e; --mirror: #c9b1ff; --valid: #00ff88; --invalid: #ff6b6b; --panel: #2d1b4e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Quicksand', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--mirror); }
+        h1 { margin: 0; font-family: 'Cinzel', serif; color: var(--mirror); font-size: 1.6rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--mirror); }
+        .instructions b { color: var(--mirror); }
+        .mirror-frame { background: linear-gradient(135deg, #4a3a6a, #2d1b4e); padding: 30px; border-radius: 20px; border: 8px solid var(--mirror); box-shadow: 0 0 30px rgba(201,177,255,0.3); }
+        .string-display { display: flex; gap: 5px; font-size: 1.8rem; font-weight: bold; }
+        .char-box { width: 45px; height: 55px; background: rgba(201,177,255,0.1); border: 2px solid var(--mirror); border-radius: 8px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+        .char-box:hover { background: rgba(201,177,255,0.3); }
+        .char-box.start { border-bottom: 4px solid var(--valid); }
+        .char-box.end { border-bottom: 4px solid var(--valid); }
+        .char-box.selected { background: var(--mirror); color: #000; }
+        .char-box.palindrome { background: var(--valid); color: #000; animation: glow 0.5s; }
+        @keyframes glow { 0%,100%{box-shadow: 0 0 10px var(--valid)} 50%{box-shadow: 0 0 30px var(--valid)} }
+        .reflection { display: flex; gap: 5px; font-size: 1.2rem; margin-top: 10px; opacity: 0.4; transform: scaleY(-1); filter: blur(1px); }
+        .found-palindromes { display: flex; flex-wrap: wrap; gap: 10px; padding: 15px; background: var(--panel); border-radius: 10px; min-width: 400px; min-height: 50px; justify-content: center; }
+        .pal-item { padding: 8px 15px; background: var(--valid); color: #000; border-radius: 20px; font-weight: bold; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #444; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #444; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--mirror); }
+        .btn { background: var(--mirror); color: #000; border: none; padding: 12px 25px; font-family: 'Cinzel'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #d9c7ff; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; font-family: 'Quicksand'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--mirror); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--mirror); font-family: 'Cinzel'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🪞 MIRROR MIRROR</h1>
+    <div style="color:#888">PALINDROME HUNTER</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 FIND ALL PALINDROMES:</b> Click to select substrings that read the same forwards and backwards! The mirror reveals the truth.
+    </div>
+    <div class="mirror-frame">
+        <div class="string-display" id="stringDisplay"></div>
+        <div class="reflection" id="reflection"></div>
+    </div>
+    <div style="color:var(--valid);">DISCOVERED PALINDROMES:</div>
+    <div class="found-palindromes" id="foundPals"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Found</span><span class="stat-value" id="found">0</span></div>
+            <div class="stat-row"><span class="stat-label">Total Hidden</span><span class="stat-value" id="total">?</span></div>
+            <div class="stat-row"><span class="stat-label">Score</span><span class="stat-value" id="score">0</span></div>
+        </div>
+    </div>
+    <div id="status">Click to select start, then end of substring!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkPalindrome()">CHECK</button>
+        <button class="btn secondary" onclick="game.clearSelection()">CLEAR</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW STRING</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🪞 MIRROR MIRROR</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--mirror)">MAGIC:</b> Find all palindrome substrings!</p>
+            <ul>
+                <li>Click <b>start</b> then <b>end</b> position</li>
+                <li>Check if substring is a <b>palindrome</b></li>
+                <li>Hash forward = Hash backward = <b>palindrome</b>!</li>
+                <li>Find all unique palindromes of length ≥ 2</li>
+            </ul>
+            <p style="color:#888">Hash comparison gives O(1) palindrome check!</p>
+        </div>
+        <button class="btn" onclick="game.start()">GAZE INTO MIRROR</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.str = ''; this.start = -1; this.end = -1; this.foundPals = new Set(); this.allPals = new Set();
+        this.ui = { display: document.getElementById('stringDisplay'), reflection: document.getElementById('reflection'), foundPals: document.getElementById('foundPals'), found: document.getElementById('found'), total: document.getElementById('total'), score: document.getElementById('score'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        // Generate string with palindromes
+        const pals = ['ABA', 'ABBA', 'ABCBA', 'AA', 'BB'];
+        const chosen = pals[Math.floor(Math.random() * pals.length)];
+        const extra = 'XYZPQR';
+        this.str = extra.substring(0, 2) + chosen + extra.substring(2, 5);
+        this.computeAllPalindromes();
+        this.start = -1; this.end = -1; this.foundPals = new Set();
+        this.ui.status.textContent = 'Select start, then end of substring!';
+        this.ui.total.textContent = '?';
+        this.render();
+    }
+    isPalindrome(s) {
+        for (let i = 0; i < s.length / 2; i++) {
+            if (s[i] !== s[s.length - 1 - i]) return false;
+        }
+        return true;
+    }
+    computeAllPalindromes() {
+        this.allPals = new Set();
+        for (let i = 0; i < this.str.length; i++) {
+            for (let j = i + 1; j <= this.str.length; j++) {
+                const sub = this.str.substring(i, j);
+                if (sub.length >= 2 && this.isPalindrome(sub)) {
+                    this.allPals.add(sub);
+                }
+            }
+        }
+    }
+    clickChar(idx) {
+        if (this.start === -1) { this.start = idx; }
+        else if (this.end === -1) { this.end = idx; if (this.end < this.start) [this.start, this.end] = [this.end, this.start]; }
+        else { this.start = idx; this.end = -1; }
+        this.render();
+    }
+    checkPalindrome() {
+        if (this.start === -1 || this.end === -1) { this.ui.status.textContent = 'Select both start and end!'; return; }
+        const sub = this.str.substring(this.start, this.end + 1);
+        if (sub.length < 2) { this.ui.status.textContent = 'Select at least 2 characters!'; return; }
+        if (this.isPalindrome(sub)) {
+            if (!this.foundPals.has(sub)) {
+                this.foundPals.add(sub);
+                this.ui.status.innerHTML = `🎉 "${sub}" is a PALINDROME!`;
+                this.ui.status.style.color = 'var(--valid)';
+            } else {
+                this.ui.status.textContent = 'Already found this one!';
+            }
+        } else {
+            this.ui.status.innerHTML = `❌ "${sub}" ≠ "${sub.split('').reverse().join('')}" - Not a palindrome`;
+            this.ui.status.style.color = 'var(--invalid)';
+        }
+        this.start = -1; this.end = -1;
+        if (this.foundPals.size === this.allPals.size) {
+            this.ui.total.textContent = this.allPals.size;
+            setTimeout(() => { this.ui.status.innerHTML = '🏆 ALL PALINDROMES FOUND!'; }, 500);
+        }
+        this.render();
+    }
+    clearSelection() { this.start = -1; this.end = -1; this.render(); }
+    render() {
+        this.ui.display.innerHTML = '';
+        this.ui.reflection.innerHTML = '';
+        for (let i = 0; i < this.str.length; i++) {
+            const box = document.createElement('div');
+            box.className = 'char-box';
+            if (i === this.start) box.classList.add('start');
+            if (i === this.end) box.classList.add('end');
+            if (this.start !== -1 && this.end !== -1 && i >= this.start && i <= this.end) box.classList.add('selected');
+            box.textContent = this.str[i];
+            box.onclick = () => this.clickChar(i);
+            this.ui.display.appendChild(box);
+            // Reflection
+            const ref = document.createElement('div');
+            ref.textContent = this.str[i];
+            this.ui.reflection.appendChild(ref);
+        }
+        this.ui.foundPals.innerHTML = '';
+        this.foundPals.forEach(p => {
+            const item = document.createElement('div');
+            item.className = 'pal-item';
+            item.textContent = p;
+            this.ui.foundPals.appendChild(item);
+        });
+        this.ui.found.textContent = this.foundPals.size;
+        this.ui.score.textContent = [...this.foundPals].reduce((s, p) => s + p.length * 10, 0);
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

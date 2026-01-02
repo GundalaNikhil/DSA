@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRD-009: Refuel Refund</title>
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --fuel: #f39c12; --station: #27ae60; --empty: #c0392b; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--fuel); }
+        h1 { margin: 0; font-family: 'Russo One', sans-serif; color: var(--fuel); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--fuel); }
+        .instructions b { color: var(--fuel); }
+        .road-container { width: 700px; height: 120px; background: #333; border-radius: 10px; position: relative; display: flex; align-items: center; padding: 0 20px; }
+        .road-line { position: absolute; top: 50%; left: 20px; right: 20px; height: 4px; background: repeating-linear-gradient(90deg, #fff 0px, #fff 20px, transparent 20px, transparent 40px); }
+        .shuttle { position: absolute; width: 50px; height: 35px; background: var(--fuel); border-radius: 8px; top: 25px; transition: left 0.5s; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; z-index: 5; }
+        .station { position: absolute; width: 40px; height: 60px; background: var(--station); border-radius: 8px 8px 0 0; bottom: 20px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding: 5px; cursor: pointer; transition: all 0.2s; z-index: 10; font-size: 0.7rem; }
+        .station:hover { transform: scale(1.1); }
+        .station.stopped { box-shadow: 0 0 15px var(--fuel); }
+        .fuel-bar { width: 200px; height: 25px; background: #333; border-radius: 12px; overflow: hidden; border: 2px solid var(--fuel); }
+        .fuel-fill { height: 100%; background: linear-gradient(90deg, var(--empty), var(--fuel)); transition: width 0.3s; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #333; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--fuel); }
+        .btn { background: var(--fuel); color: #000; border: none; padding: 12px 25px; font-family: 'Russo One'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #e67e22; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--fuel); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--fuel); font-family: 'Russo One'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>⛽ REFUEL REFUND</h1>
+    <div style="color:#888">GREEDY GAS STATION</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 REACH THE END:</b> Click stations to stop and refuel. 
+        Each stop costs money but gives fuel. Minimize total cost!
+    </div>
+    <div class="road-container" id="road">
+        <div class="road-line"></div>
+        <div class="shuttle" id="shuttle">🚐</div>
+    </div>
+    <div style="display:flex; gap:20px; align-items:center;">
+        <span>FUEL:</span>
+        <div class="fuel-bar"><div class="fuel-fill" id="fuelFill" style="width:100%"></div></div>
+        <span id="fuelText">10/10</span>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Stops</span><span class="stat-value" id="stopCount">0</span></div>
+            <div class="stat-row"><span class="stat-label">Cost</span><span class="stat-value" id="totalCost">$0</span></div>
+            <div class="stat-row"><span class="stat-label">Optimal</span><span class="stat-value" id="optimal">?</span></div>
+        </div>
+    </div>
+    <div id="status">Click DRIVE to start, stop at stations to refuel!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" id="driveBtn" onclick="game.drive()">DRIVE</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW ROUTE</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>⛽ REFUEL REFUND</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--fuel)">GOAL:</b> Reach the end with minimum fuel cost!</p>
+            <ul>
+                <li>Shuttle uses 1 fuel per distance unit</li>
+                <li>Click <b>stations</b> to plan stops</li>
+                <li>Each station has a refuel cost</li>
+                <li>Click DRIVE to execute your plan!</li>
+            </ul>
+            <p style="color:#888">Greedy: Only stop when absolutely necessary!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START JOURNEY</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.stations = []; this.tank = 10; this.maxTank = 10; this.position = 0; this.target = 100; this.plannedStops = new Set();
+        this.ui = { road: document.getElementById('road'), shuttle: document.getElementById('shuttle'), fuelFill: document.getElementById('fuelFill'), fuelText: document.getElementById('fuelText'), stopCount: document.getElementById('stopCount'), totalCost: document.getElementById('totalCost'), optimal: document.getElementById('optimal'), status: document.getElementById('status'), modal: document.getElementById('modal'), driveBtn: document.getElementById('driveBtn') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const n = Math.floor(Math.random() * 3) + 4;
+        this.stations = [];
+        for (let i = 0; i < n; i++) {
+            this.stations.push({
+                id: i,
+                pos: 15 + i * 15 + Math.floor(Math.random() * 8),
+                cost: Math.floor(Math.random() * 5) + 2,
+                fuel: Math.floor(Math.random() * 5) + 3
+            });
+        }
+        this.target = this.stations[n-1].pos + 15;
+        this.computeOptimal();
+        this.reset();
+    }
+    computeOptimal() {
+        // Greedy: only stop when we can't reach next station or target
+        let fuel = this.maxTank, pos = 0, cost = 0;
+        const stops = [];
+        for (let i = 0; i <= this.stations.length; i++) {
+            const nextPos = i < this.stations.length ? this.stations[i].pos : this.target;
+            const dist = nextPos - pos;
+            if (fuel < dist) {
+                // Need to refuel - pick cheapest reachable station before running out
+                let best = -1, bestCost = Infinity;
+                for (let j = 0; j < i; j++) {
+                    if (!stops.includes(j) && this.stations[j].pos <= pos + fuel && this.stations[j].cost < bestCost) {
+                        best = j; bestCost = this.stations[j].cost;
+                    }
+                }
+                if (best !== -1) { fuel += this.stations[best].fuel; cost += this.stations[best].cost; stops.push(best); i--; continue; }
+            }
+            fuel -= dist; pos = nextPos;
+        }
+        this.optimalCost = cost;
+    }
+    reset() { this.plannedStops = new Set(); this.tank = this.maxTank; this.position = 0; this.driving = false; this.ui.status.textContent = 'Click stations to plan stops, then DRIVE!'; this.ui.optimal.textContent = '?'; this.render(); }
+    toggleStop(id) { if (this.driving) return; if (this.plannedStops.has(id)) this.plannedStops.delete(id); else this.plannedStops.add(id); this.render(); }
+    async drive() {
+        if (this.driving) return;
+        this.driving = true;
+        this.tank = this.maxTank;
+        this.position = 0;
+        let cost = 0;
+        const sortedStops = [...this.plannedStops].sort((a,b) => this.stations[a].pos - this.stations[b].pos);
+        const checkpoints = sortedStops.map(id => this.stations[id]).concat([{pos: this.target, cost: 0, fuel: 0}]);
+        for (const cp of checkpoints) {
+            const dist = cp.pos - this.position;
+            if (this.tank < dist) { this.ui.status.innerHTML = `❌ RAN OUT OF FUEL at position ${this.position + this.tank}!`; this.ui.status.style.color = 'var(--empty)'; this.driving = false; return; }
+            this.tank -= dist; this.position = cp.pos;
+            this.render();
+            await new Promise(r => setTimeout(r, 500));
+            if (cp.fuel > 0) { this.tank = Math.min(this.maxTank, this.tank + cp.fuel); cost += cp.cost; }
+            this.render();
+        }
+        this.ui.totalCost.textContent = '$' + cost;
+        this.ui.optimal.textContent = '$' + this.optimalCost;
+        if (cost <= this.optimalCost) { this.ui.status.innerHTML = '🎉 OPTIMAL! Minimum cost achieved!'; this.ui.status.style.color = 'var(--station)'; }
+        else { this.ui.status.innerHTML = `✅ Arrived! Cost: $${cost} (Optimal: $${this.optimalCost})`; this.ui.status.style.color = 'var(--fuel)'; }
+        this.driving = false;
+    }
+    render() {
+        this.ui.road.querySelectorAll('.station').forEach(s => s.remove());
+        const roadWidth = 660;
+        const scale = roadWidth / this.target;
+        // Shuttle position
+        this.ui.shuttle.style.left = (20 + this.position * scale - 25) + 'px';
+        // Stations
+        this.stations.forEach(s => {
+            const el = document.createElement('div');
+            el.className = 'station';
+            if (this.plannedStops.has(s.id)) el.classList.add('stopped');
+            el.style.left = (20 + s.pos * scale - 20) + 'px';
+            el.innerHTML = `<div>+${s.fuel}</div><div>$${s.cost}</div>`;
+            el.onclick = () => this.toggleStop(s.id);
+            this.ui.road.appendChild(el);
+        });
+        // Fuel bar
+        const pct = (this.tank / this.maxTank) * 100;
+        this.ui.fuelFill.style.width = pct + '%';
+        this.ui.fuelText.textContent = `${this.tank}/${this.maxTank}`;
+        this.ui.stopCount.textContent = this.plannedStops.size;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

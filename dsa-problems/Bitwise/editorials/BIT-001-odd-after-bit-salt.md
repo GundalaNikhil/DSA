@@ -35,17 +35,20 @@ Imagine you are doing laundry.
 -   **The Twist (Salt):** All your socks are currently dyed pink because you accidentally washed them with a red shirt (this is the "Salt"). You can't see their original colors easily.
 -   **Goal:** You want to identify exactly which sock design is the odd one out, so you know what to buy.
 
-![Real-World Application](../images/BIT-001/real-world-scenario.png)
+![Symmetric Signal Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767287006/Bitwise/BIT-001/v2/modgcwwucw4s0duzb8kk.jpg)
 
 ### From Real World to Algorithm
 -   **Cancellation:** If you have two identical socks (Design A), and you XOR them: `A ^ A = 0`. They cancel out.
 -   **The Salt:** Even if they are dyed (Salted), `(A ^ Salt) ^ (A ^ Salt) = 0`. The salt cancels out too!
 -   **The Odd One:** The only thing left after XORing everything will be the single odd sock (Salted).
 -   **Recovery:** `Result = (Target ^ Salt)`. To get the original `Target`, just XOR with `Salt` again: `(Target ^ Salt) ^ Salt = Target`.
+XOR is a master at canceling pairs, so the odd one gets to take a solo.
 
 ## Detailed Explanation
 
 ### logical Diagram: XOR Cancellation
+
+![XOR Cancellation Logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767287009/Bitwise/BIT-001/v2/nh0hxb4h0auwhn02kmdg.jpg)
 
 **Input:** `[5, 3, 5]`, Salt = `7`.
 -   Originals: `5, 3, 5`.
@@ -69,12 +72,13 @@ Imagine you are doing laundry.
 -   `4 ^ 7 = 3`.
 -   **Final Answer:** 3.
 
+<!-- mermaid -->
 ```mermaid
-graph LR
-    Input[Salted Array] --> XOR_ALL[XOR All Elements]
-    XOR_ALL --> Result[Result: 'Target ^ Salt']
-    Result --> Desalt[XOR with Salt]
-    Desalt --> Final[Original Target]
+flowchart TD
+    A[Start with salted array and salt] --> B[XOR all elements]
+    B --> C[Salted target equals XOR result]
+    C --> D[XOR with salt to remove salt]
+    D --> E[Return original target]
 ```
 
 ## ✅ Input/Output Clarifications
@@ -175,6 +179,9 @@ class Solution {
 
 ## 🧪 Test Case Walkthrough
 **Input:** `[2, 4, 2]`, Salt=7.
+
+![Dry Run Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767287012/Bitwise/BIT-001/v2/cacekfy3xh8d4jyhwftt.jpg)
+
 1. Val 2 (`5^7`). Unsult: `2^7=5`. Result=5.
 2. Val 4 (`3^7`). Unsalt: `4^7=3`. Result=`5^3=6`.
 3. Val 2 (`5^7`). Unsalt: `2^7=5`. Result=`6^5=3`.

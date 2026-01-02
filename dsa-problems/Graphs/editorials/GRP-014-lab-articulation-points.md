@@ -43,7 +43,32 @@ Identifying these critical individuals helps with succession planning, team rest
 
 ## Detailed Explanation
 
-### ASCII Diagram: Articulation Points
+### Flow Diagram: Articulation Points
+
+An articulation point is the linchpin of the lab network: remove it and teams split apart.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Initialize disc, low, parent]
+    B --> C[For each node not visited run DFS]
+    C --> D[Set disc and low time]
+    D --> E[Reset child count]
+    E --> F[Visit neighbors]
+    F --> G{Neighbor unvisited}
+    G -- Yes --> H[Increment child count and DFS]
+    H --> I[Update low with child low]
+    I --> J{Parent exists and child low at least disc}
+    J -- Yes --> K[Mark articulation point]
+    J -- No --> F
+    G -- No --> L{Neighbor is not parent}
+    L -- Yes --> M[Update low with neighbor disc]
+    L -- No --> F
+    K --> F
+    F --> N{Root node with at least two children}
+    N -- Yes --> K
+```
+
 
 ```
 Graph:

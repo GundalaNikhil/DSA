@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIT-007: Hamming Scanner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050a10;
+            --panel: #0d1624;
+            --accent: #ff4757;
+            --match: #2ed573;
+            --text: #70a1ff;
+            --highlight: #ffffff;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            background: var(--panel);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--text);
+        }
+
+        h1 { margin:0; font-family:'Roboto Mono'; letter-spacing:1px; color: var(--highlight); font-size: 1.5rem; }
+
+        .dashboard {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .files-container {
+            width: 100%;
+            height: 120px;
+            display: flex; gap: 10px;
+            overflow-x: auto;
+            border-bottom: 1px solid #333;
+            padding-bottom: 20px;
+            padding-left: 20px;
+        }
+
+        .file-block {
+            min-width: 80px; height: 100px;
+            background: #111;
+            border: 2px solid #333;
+            border-radius: 4px;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+            color: #555;
+            position: relative;
+            transition: all 0.2s;
+        }
+        .file-block.active {
+            border-color: var(--highlight);
+            color: var(--highlight);
+            background: #222;
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255,255,255,0.2);
+        }
+        .file-block.scanned {
+            border-color: var(--match);
+            color: var(--match);
+        }
+        .file-block.error {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .file-idx { font-size: 0.7rem; position: absolute; top: 5px; opacity: 0.7; }
+        .file-val { font-weight: bold; }
+
+        /* ANALYZER */
+        .analyzer {
+            width: 600px;
+            background: linear-gradient(180deg, #111, #080808);
+            border: 2px solid #444;
+            padding: 20px;
+            border-radius: 8px;
+            display: flex; flex-direction: column; gap: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        .comp-row {
+            display: flex; align-items: center; justify-content: space-between;
+            font-size: 1.2rem;
+        }
+        
+        .bits-vis {
+            display: flex; gap: 5px;
+        }
+        .bit {
+            width: 25px; height: 35px;
+            border: 1px solid #555;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
+            color: #555;
+        }
+        .bit.one { color: var(--highlight); background: rgba(255,255,255,0.1); border-color: #888; }
+        .bit.diff { color: var(--accent); border-color: var(--accent); font-weight: bold; background: rgba(255, 71, 87, 0.1); }
+
+        .total-box {
+            font-size: 2rem; color: var(--accent);
+            text-align: right;
+            border-top: 1px solid #333;
+            padding-top: 10px;
+        }
+        
+        button {
+            background: var(--text); color: #000; border: none; padding: 15px;
+            font-family: 'Share Tech Mono'; font-size: 1.2rem; cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover { background: #fff; }
+        button:disabled { background: #333; color: #555; cursor: not-allowed; }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            display: flex; align-items: center; justify-content: center; z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        .dialog {
+            background: var(--panel); border: 2px solid var(--text);
+            padding: 40px; max-width: 500px; text-align: center;
+            color: var(--text);
+            box-shadow: 0 0 30px rgba(112, 161, 255, 0.3);
+        }
+
+    
+        .alert-modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .alert-modal {
+            background: white; padding: 2rem; border-radius: 8px;
+            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+        .alert-modal button {
+            background: #4b5563; color: white; padding: 0.8rem 2rem;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .alert-modal button:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>DATA INTEGRITY SCANNER</h1>
+    <div>BIT-007</div>
+</header>
+
+<div class="dashboard">
+    <div style="align-self: flex-start; margin-left:20px;">PACKET STREAM</div>
+    <div class="files-container" id="fileCont">
+        <!-- Files -->
+    </div>
+
+    <div class="analyzer">
+        <div class="comp-row">
+            <div>INDEX (Expected)</div>
+            <div class="bits-vis" id="expectedBits"></div>
+            <div id="expectedVal">0</div>
+        </div>
+        
+        <div class="comp-row">
+            <div>VALUE (Received)</div>
+            <div class="bits-vis" id="receivedBits"></div>
+            <div id="receivedVal">0</div>
+        </div>
+        
+        <div style="height: 1px; background: #333; margin: 10px 0;"></div>
+        
+        <div class="comp-row">
+            <div style="color:var(--accent)">XOR DIFF</div>
+            <div class="bits-vis" id="xorBits"></div>
+            <div id="xorVal" style="color:var(--accent)">0</div>
+        </div>
+        
+        <div class="total-box">
+            TOTAL ERROR BITS: <span id="totalErr">0</span>
+        </div>
+    </div>
+    
+    <div style="display:flex; gap:20px;">
+        <button id="scanBtn" onclick="game.scanNext()">SCAN PACKET</button>
+        <button id="autoBtn" onclick="game.autoScan()">AUTO SCAN</button>
+    </div>
+</div>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="color:var(--highlight); margin-top:0;">PROTOCOL: INTEGRITY CHECK</h2>
+        <p style="font-size:1.1rem; line-height:1.6;">
+            <b>Mission:</b> Validate the data stream integrity.<br>
+            <b>Rule:</b> Packet at Index <code>i</code> should contain Value <code>i</code>.<br>
+            <b>Metric:</b> Total corrupt bits (Hamming Distance).<br><br>
+            
+            1. Compare Index (Expected) vs Value (Received).<br>
+            2. The XOR operation reveals differing bits.<br>
+            3. Count the set bits (Popcount) in the difference.<br>
+            4. Accumulate the total error.
+        </p>
+        <button onclick="game.start()">INITIALIZE SCANNER</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.state = {
+                stream: [],
+                idx: 0,
+                totalErr: 0
+            };
+            
+            this.ui = {
+                fileCont: document.getElementById('fileCont'),
+                expectedBits: document.getElementById('expectedBits'),
+                expectedVal: document.getElementById('expectedVal'),
+                receivedBits: document.getElementById('receivedBits'),
+                receivedVal: document.getElementById('receivedVal'),
+                xorBits: document.getElementById('xorBits'),
+                xorVal: document.getElementById('xorVal'),
+                totalErr: document.getElementById('totalErr'),
+                scanBtn: document.getElementById('scanBtn'),
+                autoBtn: document.getElementById('autoBtn'),
+                modal: document.getElementById('modal')
+            };
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            // Generate Stream
+            const len = 10;
+            this.state.stream = [];
+            for(let i=0; i<len; i++) {
+                // Some match, some error
+                const match = Math.random() > 0.5;
+                const val = match ? i : Math.floor(Math.random() * 32);
+                this.state.stream.push(val);
+            }
+            
+            this.state.idx = 0;
+            this.state.totalErr = 0;
+            
+            this.renderStream();
+            this.resetDisplay();
+            
+            this.ui.scanBtn.disabled = false;
+            this.ui.autoBtn.disabled = false;
+        }
+        
+        renderStream() {
+            this.ui.fileCont.innerHTML = '';
+            this.state.stream.forEach((val, i) => {
+                const el = document.createElement('div');
+                el.className = 'file-block';
+                el.id = `block-${i}`;
+                el.innerHTML = `
+                    <div class="file-idx">IDX ${i}</div>
+                    <div class="file-val">${val}</div>
+                `;
+                this.ui.fileCont.appendChild(el);
+            });
+        }
+        
+        createBits(container, val, isXor=false) {
+            container.innerHTML = '';
+            // 5 bits enough for small nums
+            for(let i=4; i>=0; i--) {
+                const bit = (val >> i) & 1;
+                const el = document.createElement('div');
+                el.className = `bit ${bit ? (isXor ? 'diff' : 'one') : ''}`;
+                el.innerText = bit;
+                container.appendChild(el);
+            }
+        }
+
+        resetDisplay() {
+            this.ui.expectedVal.innerText = '-';
+            this.ui.receivedVal.innerText = '-';
+            this.ui.xorVal.innerText = '-';
+            this.ui.totalErr.innerText = this.state.totalErr;
+            this.createBits(this.ui.expectedBits, 0);
+            this.createBits(this.ui.receivedBits, 0);
+            this.createBits(this.ui.xorBits, 0);
+        }
+
+        scanNext() {
+            if (this.state.idx >= this.state.stream.length) return;
+            
+            const i = this.state.idx;
+            const val = this.state.stream[i];
+            const diff = i ^ val;
+            
+            // Popcount manually for logic
+            let pop = 0;
+            let temp = diff;
+            while(temp>0){ if(temp&1) pop++; temp>>=1; }
+            
+            this.state.totalErr += pop;
+            
+            // UI Update
+            // 1. Highlight Block
+            const block = document.getElementById(`block-${i}`);
+            document.querySelectorAll('.file-block').forEach(b => b.classList.remove('active'));
+            block.classList.add('active');
+            block.scrollIntoView({behavior:'smooth', inline:'center'});
+            
+            // 2. Update Analyzer
+            this.ui.expectedVal.innerText = i;
+            this.createBits(this.ui.expectedBits, i);
+            
+            this.ui.receivedVal.innerText = val;
+            this.createBits(this.ui.receivedBits, val);
+            
+            this.ui.xorVal.innerText = `Diff: ${diff} (${pop} bits)`;
+            this.createBits(this.ui.xorBits, diff, true);
+            
+            this.ui.totalErr.innerText = this.state.totalErr;
+            
+            // Mark block status
+            block.classList.add(pop === 0 ? 'scanned' : 'error');
+            
+            this.state.idx++;
+            if (this.state.idx >= this.state.stream.length) {
+                this.ui.scanBtn.disabled = true;
+                this.ui.autoBtn.disabled = true;
+                setTimeout(() => this.showGameAlert(`SCAN COMPLETE.\nTotal Integrity Error: ${this.state.totalErr}`), 500);
+            }
+        }
+        
+        autoScan() {
+            const int = setInterval(() => {
+                if(this.state.idx >= this.state.stream.length) clearInterval(int);
+                else this.scanNext();
+            }, 300);
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

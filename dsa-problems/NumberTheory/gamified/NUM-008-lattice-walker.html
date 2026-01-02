@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NUM-008: Lattice Walker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a1a28; --point: #00ff88; --line: #00d4ff; --panel: #0f2a40; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--line); }
+        h1 { margin: 0; font-family: 'Righteous', cursive; color: var(--line); font-size: 1.5rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--line); }
+        .instructions b { color: var(--line); }
+        .input-area { display: flex; gap: 15px; align-items: center; padding: 15px; background: var(--panel); border-radius: 10px; }
+        .coord-input { width: 60px; height: 40px; font-size: 1.1rem; text-align: center; background: #000; border: 2px solid var(--line); color: var(--line); border-radius: 5px; }
+        .grid-container { position: relative; width: 400px; height: 400px; background: #000; border-radius: 10px; overflow: hidden; }
+        .grid-lines { position: absolute; inset: 0; }
+        .lattice-point { position: absolute; width: 8px; height: 8px; background: #333; border-radius: 50%; transform: translate(-50%, -50%); }
+        .lattice-point.on-line { background: var(--point); box-shadow: 0 0 10px var(--point); }
+        .segment-line { position: absolute; background: var(--line); transform-origin: left center; height: 3px; }
+        .result-box { padding: 20px 40px; background: rgba(0,255,136,0.1); border: 3px solid var(--point); border-radius: 15px; text-align: center; }
+        .result-label { font-size: 0.9rem; color: #888; }
+        .result-value { font-size: 2.5rem; font-family: 'Righteous'; color: var(--point); }
+        .formula { padding: 15px 25px; background: #000; border-radius: 10px; font-family: monospace; text-align: center; color: var(--line); }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #1a3a5a; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1a3a5a; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--line); }
+        .btn { background: var(--line); color: #000; border: none; padding: 12px 25px; font-family: 'Righteous'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #33e0ff; }
+        .btn.secondary { background: transparent; border: 2px solid #1a3a5a; color: #888; font-family: 'Nunito'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--line); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--line); font-family: 'Righteous'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>📍 LATTICE WALKER</h1>
+    <div style="color:#888">LATTICE POINTS ON SEGMENT</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 COUNT LATTICE POINTS:</b> Set endpoints of a line segment. Count integer coordinate points on it using GCD!
+    </div>
+    <div class="input-area">
+        <span>From (</span>
+        <input type="number" class="coord-input" id="x1" value="0" min="0" max="20">
+        <span>,</span>
+        <input type="number" class="coord-input" id="y1" value="0" min="0" max="20">
+        <span>) to (</span>
+        <input type="number" class="coord-input" id="x2" value="6" min="0" max="20">
+        <span>,</span>
+        <input type="number" class="coord-input" id="y2" value="9" min="0" max="20">
+        <span>)</span>
+        <button class="btn" onclick="game.compute()">COUNT</button>
+    </div>
+    <div class="grid-container" id="grid"></div>
+    <div class="result-box">
+        <div class="result-label">LATTICE POINTS ON SEGMENT</div>
+        <div class="result-value" id="result">?</div>
+    </div>
+    <div class="formula" id="formula">Points = GCD(|Δx|, |Δy|) + 1</div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Δx</span><span class="stat-value" id="dx">?</span></div>
+            <div class="stat-row"><span class="stat-label">Δy</span><span class="stat-value" id="dy">?</span></div>
+            <div class="stat-row"><span class="stat-label">GCD</span><span class="stat-value" id="gcdVal">?</span></div>
+        </div>
+    </div>
+    <div id="status">Set coordinates and count points!</div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>📍 LATTICE WALKER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--line)">CONCEPT:</b> Lattice Points on Line Segment!</p>
+            <ul>
+                <li>Lattice point = integer coordinates (x, y)</li>
+                <li><b>Count = GCD(|Δx|, |Δy|) + 1</b></li>
+                <li>GCD tells how many equal "steps"</li>
+                <li>Used in computational geometry!</li>
+            </ul>
+            <p style="color:#888">Beautiful connection to GCD!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START COUNTING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.gridSize = 20;
+        this.ui = { x1: document.getElementById('x1'), y1: document.getElementById('y1'), x2: document.getElementById('x2'), y2: document.getElementById('y2'), grid: document.getElementById('grid'), result: document.getElementById('result'), formula: document.getElementById('formula'), dx: document.getElementById('dx'), dy: document.getElementById('dy'), gcdVal: document.getElementById('gcdVal'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.compute(); }
+    gcd(a, b) { a = Math.abs(a); b = Math.abs(b); while (b) { [a, b] = [b, a % b]; } return a; }
+    compute() {
+        const x1 = parseInt(this.ui.x1.value), y1 = parseInt(this.ui.y1.value);
+        const x2 = parseInt(this.ui.x2.value), y2 = parseInt(this.ui.y2.value);
+        const dx = x2 - x1, dy = y2 - y1;
+        const g = dx === 0 && dy === 0 ? 0 : this.gcd(dx, dy);
+        const points = g + 1;
+        this.ui.dx.textContent = dx;
+        this.ui.dy.textContent = dy;
+        this.ui.gcdVal.textContent = g;
+        this.ui.result.textContent = points;
+        this.ui.formula.textContent = `Points = GCD(${Math.abs(dx)}, ${Math.abs(dy)}) + 1 = ${g} + 1 = ${points}`;
+        this.ui.status.textContent = `${points} lattice points from (${x1},${y1}) to (${x2},${y2})`;
+        this.drawGrid(x1, y1, x2, y2, g);
+    }
+    drawGrid(x1, y1, x2, y2, g) {
+        this.ui.grid.innerHTML = '';
+        const scale = 400 / this.gridSize;
+        // Draw lattice points
+        for (let x = 0; x <= this.gridSize; x++) {
+            for (let y = 0; y <= this.gridSize; y++) {
+                const point = document.createElement('div');
+                point.className = 'lattice-point';
+                point.style.left = (x * scale) + 'px';
+                point.style.bottom = (y * scale) + 'px';
+                // Check if on line
+                if (g > 0) {
+                    const stepX = (x2 - x1) / g, stepY = (y2 - y1) / g;
+                    for (let i = 0; i <= g; i++) {
+                        if (Math.round(x1 + i * stepX) === x && Math.round(y1 + i * stepY) === y) {
+                            point.classList.add('on-line');
+                        }
+                    }
+                } else if (x === x1 && y === y1) {
+                    point.classList.add('on-line');
+                }
+                this.ui.grid.appendChild(point);
+            }
+        }
+        // Draw line segment
+        const line = document.createElement('div');
+        line.className = 'segment-line';
+        const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2) * scale;
+        const angle = Math.atan2(-(y2 - y1), x2 - x1) * 180 / Math.PI;
+        line.style.left = (x1 * scale) + 'px';
+        line.style.bottom = (y1 * scale) + 'px';
+        line.style.width = length + 'px';
+        line.style.transform = `rotate(${angle}deg)`;
+        this.ui.grid.appendChild(line);
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

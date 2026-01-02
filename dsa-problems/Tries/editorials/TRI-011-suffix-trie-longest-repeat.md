@@ -140,6 +140,18 @@ Result: 3 (longest repeating substring "ana")
 3. At each node with 2+ children (branch point), update max depth
 4. Return the maximum depth found
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Insert all suffixes into trie]
+    B --> C[DFS with depth]
+    C --> D[Check if node has repeated count]
+    D --> E[Update maximum depth]
+    E --> F[Continue to children]
+    F --> G[Return max depth]
+    G --> H[End]
+```
+
 **Time Complexity:** O(n²) for building suffix trie
 **Space Complexity:** O(n²) for storing trie
 

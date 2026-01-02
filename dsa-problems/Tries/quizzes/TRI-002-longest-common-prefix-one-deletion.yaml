@@ -1,0 +1,52 @@
+problem_id: TRI_LONGEST_COMMON_PREFIX_ONE_DELETION_002
+display_id: TRI-002
+slug: longest-common-prefix-one-deletion
+questions:
+  - question: "This problem asks for the longest string P such that:"
+    difficulty: easy
+    points: 10
+    options:
+      - P is a prefix of every word (possibly after deleting one character from the word)
+      - P is a subsequence of every word
+      - P is a substring of every word
+      - P is a palindrome
+    correct_answer: 0
+    explanation: We allow one deletion per word to match the prefix.
+    type: single_choice
+    id: prq_1
+  - question: To solve this using a Trie, what do we insert for each word S?
+    difficulty: medium
+    points: 15
+    options:
+      - S and all variants of S formed by removing exactly one character
+      - Only S
+      - Only the deletion variants
+      - Reversed S
+    correct_answer: 0
+    explanation: This ensures that if a prefix forms via deletion, it exists in the Trie.
+    type: single_choice
+    id: edq_1
+  - question: How do we verify if a prefix is valid for ALL words?
+    difficulty: easy
+    points: 10
+    options:
+      - Store a set of word IDs at each node; size of set must equal total words
+      - Check if the node has children
+      - Check if the node is marked isEnd
+      - Count the frequency of visits
+    correct_answer: 0
+    explanation: If node.wordIds.size() == N, then every word can reach this prefix (possibly via a variant).
+    type: single_choice
+    id: edq_2
+  - question: What is a critical edge case when generating deletion variants?
+    difficulty: easy
+    points: 10
+    options:
+      - Single character words becoming empty strings
+      - Words with numbers
+      - Words longer than 100
+      - Duplicate words
+    correct_answer: 0
+    explanation: Deleting the only character results in an empty string, which is a valid prefix (length 0).
+    type: single_choice
+    id: edq_3

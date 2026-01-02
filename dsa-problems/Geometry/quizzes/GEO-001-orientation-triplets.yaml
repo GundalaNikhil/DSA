@@ -1,0 +1,52 @@
+problem_id: GEO_ORIENTATION_TRIPLETS_001
+display_id: GEO-001
+slug: orientation-triplets
+questions:
+  - question: What does a positive cross product of (P2-P1) x (P3-P1) indicate?
+    difficulty: easy
+    points: 10
+    options:
+      - clockwise
+      - counterclockwise
+      - collinear
+      - undefined
+    correct_answer: 1
+    explanation: A positive cross product means P3 is to the left of directed P1->P2, so the turn is counterclockwise.
+    type: single_choice
+    id: prq_1
+  - question: For input 0 0 1 1 2 0, what should be printed?
+    difficulty: easy
+    points: 10
+    options:
+      - counterclockwise
+      - clockwise
+      - collinear
+      - inside
+    correct_answer: 1
+    explanation: The example in the statement gives a right turn, so the orientation is clockwise.
+    type: single_choice
+    id: edq_1
+  - question: Why is 64-bit arithmetic required for the cross product?
+    difficulty: medium
+    points: 15
+    options:
+      - Because cross products are always fractional
+      - Because coordinate differences can overflow 32-bit when multiplied
+      - Because the answer is a double
+      - Because input is stored as strings
+    correct_answer: 1
+    explanation: With coordinates up to 1e9, products of differences can exceed 32-bit limits.
+    type: single_choice
+    id: edq_2
+  - question: What does a zero cross product imply about the three points?
+    difficulty: easy
+    points: 10
+    options:
+      - clockwise
+      - counterclockwise
+      - collinear
+      - undefined
+    correct_answer: 2
+    explanation: If the cross product is zero, the points lie on the same line.
+    type: single_choice
+    id: edq_3

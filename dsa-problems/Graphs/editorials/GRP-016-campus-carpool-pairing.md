@@ -43,7 +43,22 @@ Union-Find efficiently detects if two nodes are already connected. If they are, 
 
 ## Detailed Explanation
 
-### ASCII Diagram: Cycle Detection with Union-Find
+### Flow Diagram: Cycle Detection with Union-Find
+
+If two riders are already in the same carpool, adding another ride is just driving in circles.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Initialize union find]
+    B --> C[Process each edge]
+    C --> D{Endpoints in same set}
+    D -- Yes --> E[Cycle detected]
+    D -- No --> F[Union the sets]
+    F --> C
+    C --> G[All edges processed]
+    G --> H[Return forest true]
+```
 
 ```
 Current graph (forest):

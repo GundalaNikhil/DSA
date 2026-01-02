@@ -84,6 +84,15 @@ Output: 1 -> 4 -> 7 -> 8 -> 6 -> 3. (Skip -5).
     -   Move to `right` child if exists, else `left` child.
     -   After collecting, add values in reverse order (if non-negative).
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Add root if non negative] --> B[Traverse left boundary]
+B --> C[Collect leaves left to right]
+C --> D[Traverse right boundary]
+D --> E[Append right boundary in reverse]
+```
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 -   **Root as Leaf:** If root has no children, it's a leaf. Don't add it twice.

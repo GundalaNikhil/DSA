@@ -54,6 +54,19 @@ Grundy Analysis:
 - G(3) = mex(G(1), G(2), G(1)^G(2)) = mex(0, 1, 0^1=1) = mex(0, 1) = 2.
 - Pattern: G(n) = n - 1.
 ```
+Once the pattern shows up, the game is just Nim in a new coat.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with heap sizes] --> B[Set xor_sum to 0]
+    B --> C[For each heap size x]
+    C --> D[Update xor_sum with x minus 1]
+    D --> C
+    C --> E{xor_sum is zero?}
+    E -- Yes --> F[Return Second]
+    E -- No --> G[Return First]
+```
 
 ## ✅ Input/Output Clarifications
 

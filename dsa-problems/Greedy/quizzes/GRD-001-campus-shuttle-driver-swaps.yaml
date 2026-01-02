@@ -1,0 +1,52 @@
+problem_id: GRD_CAMPUS_SHUTTLE_DRIVER_SWAPS_001
+display_id: GRD-001
+slug: campus-shuttle-driver-swaps
+questions:
+  - question: How many switches are counted for the very first trip assignment?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - "1"
+      - Depends on which driver is chosen
+      - "-1"
+    correct_answer: 0
+    explanation: The first assignment establishes the current driver; a switch only occurs when the driver changes between consecutive trips.
+    type: single_choice
+    id: prq_1
+  - question: What is the time complexity of the optimal solution?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N)
+      - O(N log N)
+      - O(N^2)
+      - O(2^N)
+    correct_answer: 0
+    explanation: We iterate through the trips exactly once (O(N)), maintaining constant state for the minimum switches ending with Driver A or B.
+    type: single_choice
+    id: edq_1
+  - question: In the DP/Greedy approach, what do the state variables `costA` and `costB` represent?
+    difficulty: medium
+    points: 15
+    options:
+      - Minimum switches required to cover all trips up to the current one, ending with Driver A and Driver B respectively
+      - The total salary cost for Driver A and Driver B
+      - The number of trips assigned to Driver A and Driver B so far
+      - The remaining available time for Driver A and Driver B
+    correct_answer: 0
+    explanation: These variables track the optimal cost (min switches) to reach the current valid state, ending with a specific driver.
+    type: single_choice
+    id: edq_2
+  - question: What is the correct return value if a specific trip cannot be covered by either driver?
+    difficulty: easy
+    points: 10
+    options:
+      - "-1"
+      - Infinity
+      - "0"
+      - The count of switches up to that point
+    correct_answer: 0
+    explanation: If any trip cannot be covered (neither driver is available), the schedule is invalid, and -1 must be returned.
+    type: single_choice
+    id: edq_3

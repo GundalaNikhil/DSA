@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDP-012: Ancestor Explorer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium:wght@600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Oxanium', cursive;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .explorer-ui {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 { color: #f72585; font-size: 26px; }
+
+        .subtitle { color: #666; font-size: 11px; margin: 10px 0 20px; }
+
+        .main-panel {
+            display: flex;
+            gap: 30px;
+        }
+
+        .tree-display {
+            width: 550px;
+            height: 400px;
+            background: rgba(0,0,0,0.3);
+            border: 2px solid #333;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+        line { stroke: #333; stroke-width: 3; }
+        line.ancestor { stroke: #f72585; stroke-width: 5; filter: drop-shadow(0 0 10px #f72585); }
+
+        .node {
+            position: absolute;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            z-index: 10;
+            transition: all 0.2s;
+            border: 3px solid #444;
+        }
+        .node:hover { transform: scale(1.1); }
+        .node.selected { border-color: #f72585; box-shadow: 0 0 25px #f72585; }
+        .node.ancestor { border-color: #4cc9f0; box-shadow: 0 0 20px #4cc9f0; }
+
+        .node.red { background: #d62828; }
+        .node.blue { background: #457b9d; }
+        .node.green { background: #2a9d8f; }
+        .node.yellow { background: #e9c46a; color: #000; }
+
+        .control-panel {
+            width: 250px;
+            background: rgba(0,0,0,0.5);
+            border: 2px solid #333;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .panel-title { color: #f72585; font-size: 14px; margin-bottom: 15px; }
+
+        .input-group { margin-bottom: 15px; }
+        .input-label { font-size: 10px; color: #888; display: block; margin-bottom: 5px; }
+        .input-row { display: flex; gap: 10px; }
+
+        input, select {
+            flex: 1;
+            padding: 10px;
+            background: #222;
+            border: 2px solid #444;
+            color: #fff;
+            font-family: inherit;
+            border-radius: 5px;
+        }
+        input:focus, select:focus { outline: none; border-color: #f72585; }
+
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #f72585, #b5179e);
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .btn:hover { filter: brightness(1.1); }
+
+        .result-box {
+            margin-top: 15px;
+            padding: 15px;
+            background: #111;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .result-label { font-size: 10px; color: #888; }
+        .result-val { font-size: 24px; color: #4cc9f0; margin-top: 5px; }
+
+    </style>
+</head>
+<body>
+
+<div class="explorer-ui">
+    <h1>🔭 ANCESTOR EXPLORER</h1>
+    <div class="subtitle">K-TH ANCESTOR with COLOR FILTER: Find the k-th ancestor matching a color</div>
+
+    <div class="main-panel">
+        <div class="tree-display" id="tree">
+            <svg id="edges"></svg>
+        </div>
+
+        <div class="control-panel">
+            <div class="panel-title">QUERY PARAMS</div>
+
+            <div class="input-group">
+                <label class="input-label">SELECT NODE (click on tree)</label>
+                <input type="text" id="selectedNode" readonly placeholder="-">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">K (ancestor depth)</label>
+                <input type="number" id="kValue" min="1" value="1">
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">COLOR FILTER (optional)</label>
+                <select id="colorFilter">
+                    <option value="">Any Color</option>
+                    <option value="red">Red</option>
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                    <option value="yellow">Yellow</option>
+                </select>
+            </div>
+
+            <button class="btn" onclick="findAncestor()">FIND ANCESTOR</button>
+
+            <div class="result-box">
+                <div class="result-label">K-TH ANCESTOR</div>
+                <div class="result-val" id="result">-</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const TREE = {
+        nodes: [
+            {id:1, x:255, y:20, color:'red'},
+            {id:2, x:130, y:100, color:'blue'}, {id:3, x:380, y:100, color:'green'},
+            {id:4, x:50, y:190, color:'yellow'}, {id:5, x:210, y:190, color:'red'}, 
+            {id:6, x:300, y:190, color:'blue'}, {id:7, x:460, y:190, color:'yellow'},
+            {id:8, x:130, y:290, color:'green'}, {id:9, x:380, y:290, color:'red'}
+        ],
+        edges: [[1,2],[1,3],[2,4],[2,5],[3,6],[3,7],[5,8],[6,9]],
+        parent: {1:null, 2:1, 3:1, 4:2, 5:2, 6:3, 7:3, 8:5, 9:6}
+    };
+
+    let selectedId = null;
+
+    function init() {
+        renderTree();
+    }
+
+    function renderTree() {
+        const tree = document.getElementById('tree');
+        const svg = document.getElementById('edges');
+        svg.innerHTML = '';
+        tree.querySelectorAll('.node').forEach(n => n.remove());
+
+        TREE.edges.forEach(([a, b]) => {
+            const n1 = TREE.nodes.find(n => n.id === a);
+            const n2 = TREE.nodes.find(n => n.id === b);
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', n1.x + 24);
+            line.setAttribute('y1', n1.y + 24);
+            line.setAttribute('x2', n2.x + 24);
+            line.setAttribute('y2', n2.y + 24);
+            line.id = `edge-${Math.min(a,b)}-${Math.max(a,b)}`;
+            svg.appendChild(line);
+        });
+
+        TREE.nodes.forEach(n => {
+            const el = document.createElement('div');
+            el.className = 'node ' + n.color;
+            if (selectedId === n.id) el.classList.add('selected');
+            el.id = `node-${n.id}`;
+            el.style.left = n.x + 'px';
+            el.style.top = n.y + 'px';
+            el.textContent = n.id;
+            el.onclick = () => selectNode(n.id);
+            tree.appendChild(el);
+        });
+    }
+
+    function selectNode(id) {
+        selectedId = id;
+        document.getElementById('selectedNode').value = id;
+        document.getElementById('result').textContent = '-';
+        clearHighlights();
+        renderTree();
+    }
+
+    function clearHighlights() {
+        document.querySelectorAll('.node').forEach(n => n.classList.remove('ancestor'));
+        document.querySelectorAll('line').forEach(l => l.classList.remove('ancestor'));
+    }
+
+    function findAncestor() {
+        if (!selectedId) {
+            document.getElementById('result').textContent = 'Select a node';
+            return;
+        }
+
+        const k = parseInt(document.getElementById('kValue').value);
+        const colorFilter = document.getElementById('colorFilter').value;
+
+        clearHighlights();
+
+        let current = selectedId;
+        let count = 0;
+        let pathNodes = [current];
+
+        while (current !== null && count < k) {
+            current = TREE.parent[current];
+            if (current === null) break;
+            
+            pathNodes.push(current);
+            
+            if (colorFilter) {
+                const nodeColor = TREE.nodes.find(n => n.id === current).color;
+                if (nodeColor === colorFilter) count++;
+            } else {
+                count++;
+            }
+        }
+
+        // Highlight path
+        for (let i = 0; i < pathNodes.length - 1; i++) {
+            const a = Math.min(pathNodes[i], pathNodes[i+1]);
+            const b = Math.max(pathNodes[i], pathNodes[i+1]);
+            const edge = document.getElementById(`edge-${a}-${b}`);
+            if (edge) edge.classList.add('ancestor');
+        }
+
+        if (count === k && current !== null) {
+            document.getElementById('result').textContent = current;
+            document.getElementById(`node-${current}`).classList.add('ancestor');
+        } else {
+            document.getElementById('result').textContent = 'Not found';
+        }
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

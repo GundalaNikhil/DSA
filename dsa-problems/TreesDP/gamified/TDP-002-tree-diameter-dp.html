@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDP-002: Path Explorer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .game-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #00f5d4;
+            text-shadow: 0 0 20px #00f5d4;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .score-bar {
+            display: flex;
+            gap: 40px;
+            background: rgba(0,0,0,0.5);
+            padding: 15px 40px;
+            border-radius: 30px;
+            border: 2px solid #00f5d4;
+            margin-bottom: 20px;
+        }
+
+        .stat { text-align: center; }
+        .stat-label { font-size: 10px; color: #888; }
+        .stat-val { font-size: 20px; color: #00f5d4; }
+
+        .arena {
+            width: 800px;
+            height: 450px;
+            background: rgba(0,0,0,0.3);
+            border: 3px solid #00f5d4;
+            border-radius: 15px;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0, 245, 212, 0.2);
+        }
+
+        svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        line { stroke: #334; stroke-width: 4; transition: all 0.3s; }
+        line.highlight { stroke: #ff006e; stroke-width: 6; filter: drop-shadow(0 0 10px #ff006e); }
+        line.diameter { stroke: #ffd700; stroke-width: 8; filter: drop-shadow(0 0 15px #ffd700); }
+
+        .node {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle at 30% 30%, #3a86ff, #023e8a);
+            border: 4px solid #00f5d4;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+        .node:hover { transform: scale(1.15); }
+        .node.start { border-color: #ff006e; box-shadow: 0 0 30px #ff006e; }
+        .node.end { border-color: #ffd700; box-shadow: 0 0 30px #ffd700; }
+
+        .control-panel {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            background: linear-gradient(135deg, #ff006e, #8338ec);
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: transform 0.2s;
+        }
+        .btn:hover { transform: scale(1.05); }
+        .btn:active { transform: scale(0.95); }
+
+        .path-display {
+            font-size: 14px;
+            color: #aaa;
+        }
+        .path-display span { color: #00f5d4; }
+
+        .message {
+            margin-top: 15px;
+            font-size: 16px;
+            min-height: 25px;
+            text-align: center;
+        }
+        .message.win { color: #ffd700; animation: winPulse 0.5s infinite; }
+        @keyframes winPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+
+        /* Particles */
+        .particle {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: #ffd700;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particleFade 1s forwards;
+        }
+        @keyframes particleFade {
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(0) translateY(-100px); }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="game-wrapper">
+    <h1>PATH EXPLORER</h1>
+    <div style="color:#888; font-size:10px; margin-bottom:15px">Find the Tree Diameter - Longest Path!</div>
+
+    <div class="score-bar">
+        <div class="stat">
+            <div class="stat-label">YOUR PATH</div>
+            <div class="stat-val" id="pathLen">0</div>
+        </div>
+        <div class="stat">
+            <div class="stat-label">DIAMETER</div>
+            <div class="stat-val" id="diameter">?</div>
+        </div>
+        <div class="stat">
+            <div class="stat-label">ATTEMPTS</div>
+            <div class="stat-val" id="attempts">0</div>
+        </div>
+    </div>
+
+    <div class="arena" id="arena">
+        <svg id="edges"></svg>
+    </div>
+
+    <div class="control-panel">
+        <button class="btn" onclick="submitPath()">SUBMIT PATH</button>
+        <button class="btn" style="background: linear-gradient(135deg, #555, #333)" onclick="resetSelection()">CLEAR</button>
+        <div class="path-display">Path: <span id="pathDisplay">-</span></div>
+    </div>
+
+    <div class="message" id="msg"></div>
+</div>
+
+<script>
+    const TREE = {
+        nodes: [
+            {id:1, x:370, y:30},
+            {id:2, x:200, y:120}, {id:3, x:540, y:120},
+            {id:4, x:80, y:220}, {id:5, x:280, y:220}, {id:6, x:460, y:220}, {id:7, x:640, y:220},
+            {id:8, x:30, y:340}, {id:9, x:130, y:340}, {id:10, x:230, y:340}, {id:11, x:330, y:340},
+            {id:12, x:690, y:340}
+        ],
+        edges: [[1,2],[1,3],[2,4],[2,5],[3,6],[3,7],[4,8],[4,9],[5,10],[5,11],[7,12]],
+        adj: {}
+    };
+
+    // Build adjacency
+    TREE.nodes.forEach(n => TREE.adj[n.id] = []);
+    TREE.edges.forEach(([a,b]) => { TREE.adj[a].push(b); TREE.adj[b].push(a); });
+
+    let path = [];
+    let attempts = 0;
+    const trueDiameter = 7; // 8 -> 4 -> 2 -> 1 -> 3 -> 7 -> 12 (6 edges) OR 8->..->11 (7 edges)
+
+    function init() {
+        renderTree();
+    }
+
+    function renderTree() {
+        const arena = document.getElementById('arena');
+        const svg = document.getElementById('edges');
+        svg.innerHTML = '';
+        arena.querySelectorAll('.node').forEach(n => n.remove());
+
+        TREE.edges.forEach(([a, b]) => {
+            const n1 = TREE.nodes.find(n => n.id === a);
+            const n2 = TREE.nodes.find(n => n.id === b);
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', n1.x + 30);
+            line.setAttribute('y1', n1.y + 30);
+            line.setAttribute('x2', n2.x + 30);
+            line.setAttribute('y2', n2.y + 30);
+            line.id = `e-${Math.min(a,b)}-${Math.max(a,b)}`;
+            svg.appendChild(line);
+        });
+
+        TREE.nodes.forEach(n => {
+            const el = document.createElement('div');
+            el.className = 'node';
+            el.id = `n-${n.id}`;
+            el.style.left = n.x + 'px';
+            el.style.top = n.y + 'px';
+            el.textContent = n.id;
+            el.onclick = () => clickNode(n.id);
+            arena.appendChild(el);
+        });
+    }
+
+    function clickNode(id) {
+        if (path.length === 0) {
+            path.push(id);
+            document.getElementById(`n-${id}`).classList.add('start');
+        } else if (path.length === 1 && id !== path[0]) {
+            // Check if adjacent or allow any for "endpoint" mode
+            path.push(id);
+            document.getElementById(`n-${id}`).classList.add('end');
+        } else if (path.includes(id)) {
+            // Clicked same node - do nothing
+        } else {
+            // Already have 2 endpoints
+            return;
+        }
+        updatePathDisplay();
+    }
+
+    function updatePathDisplay() {
+        document.getElementById('pathDisplay').textContent = path.join(' → ') || '-';
+        if (path.length === 2) {
+            const len = computePathLength(path[0], path[1]);
+            document.getElementById('pathLen').textContent = len;
+            highlightPath(path[0], path[1]);
+        } else {
+            document.getElementById('pathLen').textContent = path.length > 0 ? '...' : '0';
+        }
+    }
+
+    function computePathLength(start, end) {
+        // BFS
+        const queue = [[start, 0, [start]]];
+        const visited = new Set([start]);
+        while (queue.length) {
+            const [node, dist, p] = queue.shift();
+            if (node === end) return dist;
+            for (const next of TREE.adj[node]) {
+                if (!visited.has(next)) {
+                    visited.add(next);
+                    queue.push([next, dist + 1, [...p, next]]);
+                }
+            }
+        }
+        return 0;
+    }
+
+    function getPath(start, end) {
+        const queue = [[start, [start]]];
+        const visited = new Set([start]);
+        while (queue.length) {
+            const [node, p] = queue.shift();
+            if (node === end) return p;
+            for (const next of TREE.adj[node]) {
+                if (!visited.has(next)) {
+                    visited.add(next);
+                    queue.push([next, [...p, next]]);
+                }
+            }
+        }
+        return [];
+    }
+
+    function highlightPath(start, end) {
+        // Clear
+        document.querySelectorAll('line').forEach(l => l.classList.remove('highlight'));
+        
+        const p = getPath(start, end);
+        for (let i = 0; i < p.length - 1; i++) {
+            const a = Math.min(p[i], p[i+1]);
+            const b = Math.max(p[i], p[i+1]);
+            const edge = document.getElementById(`e-${a}-${b}`);
+            if (edge) edge.classList.add('highlight');
+        }
+    }
+
+    function resetSelection() {
+        path = [];
+        document.querySelectorAll('.node').forEach(n => n.classList.remove('start', 'end'));
+        document.querySelectorAll('line').forEach(l => l.classList.remove('highlight', 'diameter'));
+        document.getElementById('pathLen').textContent = '0';
+        document.getElementById('pathDisplay').textContent = '-';
+        document.getElementById('msg').textContent = '';
+        document.getElementById('msg').className = 'message';
+    }
+
+    function submitPath() {
+        if (path.length !== 2) {
+            document.getElementById('msg').textContent = 'Select two endpoint nodes!';
+            return;
+        }
+
+        attempts++;
+        document.getElementById('attempts').textContent = attempts;
+
+        const len = computePathLength(path[0], path[1]);
+        
+        if (len === trueDiameter) {
+            document.getElementById('diameter').textContent = trueDiameter;
+            document.getElementById('msg').textContent = '🎉 DIAMETER FOUND! YOU WIN!';
+            document.getElementById('msg').className = 'message win';
+            document.querySelectorAll('line.highlight').forEach(l => {
+                l.classList.remove('highlight');
+                l.classList.add('diameter');
+            });
+            spawnParticles();
+        } else if (len < trueDiameter) {
+            document.getElementById('msg').textContent = `Path length ${len}. Try longer!`;
+            document.getElementById('msg').style.color = '#ff006e';
+        }
+    }
+
+    function spawnParticles() {
+        for (let i = 0; i < 30; i++) {
+            setTimeout(() => {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * window.innerWidth + 'px';
+                p.style.top = Math.random() * window.innerHeight + 'px';
+                p.style.background = ['#ffd700', '#ff006e', '#00f5d4'][Math.floor(Math.random() * 3)];
+                document.body.appendChild(p);
+                setTimeout(() => p.remove(), 1000);
+            }, i * 50);
+        }
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

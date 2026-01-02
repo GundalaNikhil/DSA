@@ -90,6 +90,16 @@ For each position `i mod k`:
 4. Return deletions
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[For each position class] --> B[Count character frequencies]
+B --> C[Select max frequency]
+C --> D[Add deletions for class]
+D --> E[Repeat for all classes]
+E --> F[Output total deletions]
+```
+
 ### Time Complexity
 
 | Phase              | Operations             | Cost         |

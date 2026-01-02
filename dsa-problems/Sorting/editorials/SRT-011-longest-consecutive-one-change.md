@@ -73,6 +73,16 @@ Imagine you are a **Road Engineer** inspecting a highway.
 -   Iterate `i` to find max bridged length.
 -   Complexity: `O(N)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Compute increasing prefix lengths] --> B[Compute increasing suffix lengths]
+B --> C[Try changing each index]
+C --> D[Evaluate left right and bridge]
+D --> E[Track maximum length]
+E --> F[Output result]
+```
+
 ## Implementations
 
 ### Java

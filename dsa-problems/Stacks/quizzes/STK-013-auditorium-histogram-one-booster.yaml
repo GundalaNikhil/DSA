@@ -1,2 +1,52 @@
-# Quiz for STK-013: Auditorium Histogram With One Booster
-# YAML content to be added
+problem_id: STK_AUDITORIUM_HISTOGRAM_ONE_BOOSTER_013
+display_id: STK-013
+slug: auditorium-histogram-one-booster
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: In a histogram [2, 4, 2], if you boost one bar by at most b=3, what is the maximum area?
+    options:
+      - "6"
+      - "7"
+      - "8"
+      - "10"
+    correct_answer: 1
+    explanation: Boosting the middle bar (4) by 3 makes it 7. The rectangle with height 7 and width 1 has area 7. Boosting the side bars to 5 doesn't help more than area 6 (5*1) or 4 (2*3).
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: What is the time complexity of the classic Largest Rectangle in Histogram problem using a monotonic stack?
+    options:
+      - O(N log N)
+      - O(N)
+      - O(N^2)
+      - O(N log N)
+    correct_answer: 1
+    explanation: The monotonic stack approach processes each bar twice (once pushed, once popped), resulting in O(N) complexity.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: How does the 'booster' constraint affect the area of a rectangle that includes the boosted bar?
+    options:
+      - It increases the minimum height of the entire rectangle
+      - It only potentially increases the minimum height of rectangles where the boosted bar was the minimum
+      - It doubles the total area
+      - It has no effect
+    correct_answer: 1
+    explanation: A rectangle's height is determined by the shortest bar. Boosting a bar only helps if that bar was limiting the height of the rectangle.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: If all bars have height 10 and b=5, and n=3, what is the max area after one boost?
+    options:
+      - "30"
+      - "35"
+      - "45"
+      - "15"
+    correct_answer: 0
+    explanation: Boosting one 10 to 15 doesn't help the overall rectangle which still has min height 10 (area 3 * 10 = 30). The single bar itself has area 15. The max is 30.

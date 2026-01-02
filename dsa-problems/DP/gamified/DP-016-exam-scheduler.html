@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DP-016: Exam Scheduler</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --grid: #1e293b;
+            --primary: #06b6d4; /* Cyan */
+            --danger: #ef4444;
+            --accent: #a855f7;
+            --success: #10b981;
+            --text: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            background-image: 
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.3);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            text-shadow: 0 0 10px var(--primary);
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .constraint {
+            padding: 12px 25px;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .timeline-container {
+            width: 100%;
+            padding: 20px;
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 12px;
+            overflow-x: auto;
+        }
+
+        .timeline {
+            position: relative;
+            height: 200px;
+            min-width: 600px;
+        }
+
+        .timeline-axis {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--grid);
+        }
+
+        .time-marker {
+            position: absolute;
+            bottom: 0;
+            font-size: 0.7rem;
+            color: #64748b;
+            transform: translateX(-50%);
+        }
+
+        .exam {
+            position: absolute;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(30, 41, 59, 0.9);
+            border: 2px solid var(--primary);
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.8rem;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .exam:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 20px rgba(6, 182, 212, 0.3);
+        }
+
+        .exam.selected {
+            border-color: var(--success);
+            background: rgba(16, 185, 129, 0.2);
+            box-shadow: 0 0 15px rgba(16, 185, 129, 0.4);
+        }
+
+        .exam.conflict {
+            border-color: var(--danger);
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .exam-score {
+            font-weight: bold;
+            color: var(--accent);
+        }
+
+        .stats-panel {
+            display: flex;
+            gap: 30px;
+            padding: 15px 25px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label { color: #64748b; font-size: 0.8rem; }
+        .stat-value { font-size: 1.2rem; font-weight: bold; }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #1e293b; padding: 40px; border: 2px solid var(--primary);
+            max-width: 600px; text-align: center; color: var(--text);
+            box-shadow: 0 0 50px rgba(6, 182, 212, 0.2);
+            border-radius: 12px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+
+        .scan-line {
+            position: fixed; top: 0; left: 0; right: 0; height: 2px;
+            background: rgba(6, 182, 212, 0.3); opacity: 0.5;
+            animation: scan 4s linear infinite; pointer-events: none;
+        }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+    </style>
+</head>
+<body>
+
+<div class="scan-line"></div>
+
+<header>
+    <h1>📚 Exam Scheduler</h1>
+    <div style="color: #94a3b8; font-size: 0.9rem;">DP-016: EXAMS WITH COOLDOWN GAP</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div class="constraint">
+            ⏰ <b>Gap Requirement:</b> At least <span id="gap">G</span> hours between exam end and next exam start
+        </div>
+
+        <div class="timeline-container">
+            <div class="timeline" id="timeline"></div>
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span class="stat-label">Selected</span>
+                <span class="stat-value" id="selectedCount">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Total Score</span>
+                <span class="stat-value" id="totalScore">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Optimal Score</span>
+                <span class="stat-value" id="optimal">?</span>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" style="border-color: #64748b; color: #64748b;" onclick="game.reset()">RESET</button>
+            <button class="btn" onclick="game.newLevel()">NEW SCHEDULE</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>📚 EXAM SCHEDULER</h2>
+        <div style="text-align:left; font-size:1rem; margin:1.5rem 0; line-height:1.7; color:#cbd5e1;">
+            <p><b>Objective:</b> Schedule exams to maximize total score.</p>
+            <p><b>Constraint:</b> Between any two selected exams, there must be at least <b>G hours</b> gap (from end of one to start of next).</p>
+            <p><b>Rules:</b></p>
+            <ul style="margin-left: 20px;">
+                <li>Each exam has a time slot and a score</li>
+                <li>Click exams to select/deselect</li>
+                <li>Conflicting exams become grayed out</li>
+            </ul>
+            <p><b>DP Insight:</b> Sort by end time, binary search for last compatible exam, then <code>dp[i] = max(dp[i-1], dp[j] + score[i])</code>.</p>
+        </div>
+        <button class="btn" onclick="game.start()">START SCHEDULING</button>
+    </div>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.exams = []; // {id, start, end, score}
+        this.G = 0;
+        this.selected = new Set();
+        this.optimal = 0;
+        
+        this.ui = {
+            timeline: document.getElementById('timeline'),
+            gap: document.getElementById('gap'),
+            selectedCount: document.getElementById('selectedCount'),
+            totalScore: document.getElementById('totalScore'),
+            optimal: document.getElementById('optimal'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newLevel();
+    }
+
+    newLevel() {
+        const n = Math.floor(Math.random() * 4) + 5; // 5-8 exams
+        this.G = Math.floor(Math.random() * 2) + 1; // 1-2 hours gap
+        
+        this.exams = [];
+        for (let i = 0; i < n; i++) {
+            const start = Math.floor(Math.random() * 14) + 8; // 8-21
+            const duration = Math.floor(Math.random() * 2) + 1; // 1-2 hours
+            const end = start + duration;
+            const score = Math.floor(Math.random() * 50) + 20; // 20-69
+            
+            this.exams.push({ id: i, start, end, score });
+        }
+        
+        // Sort by end time for DP
+        this.exams.sort((a, b) => a.end - b.end);
+        for (let i = 0; i < this.exams.length; i++) {
+            this.exams[i].id = i;
+        }
+        
+        this.optimal = this.calculateOptimal();
+        this.selected = new Set();
+        
+        this.ui.gap.textContent = this.G;
+        this.ui.optimal.textContent = '?';
+        this.ui.status.textContent = '';
+        
+        this.render();
+    }
+
+    calculateOptimal() {
+        const n = this.exams.length;
+        const dp = new Array(n).fill(0);
+        
+        for (let i = 0; i < n; i++) {
+            // Take = find last compatible + score
+            let take = this.exams[i].score;
+            for (let j = i - 1; j >= 0; j--) {
+                if (this.exams[j].end + this.G <= this.exams[i].start) {
+                    take += dp[j];
+                    break;
+                }
+            }
+            
+            // Skip = dp[i-1]
+            const skip = i > 0 ? dp[i - 1] : 0;
+            
+            dp[i] = Math.max(take, skip);
+        }
+        
+        return dp[n - 1];
+    }
+
+    toggleExam(id) {
+        if (this.isConflicting(id) && !this.selected.has(id)) return;
+        
+        if (this.selected.has(id)) {
+            this.selected.delete(id);
+        } else {
+            this.selected.add(id);
+        }
+        
+        this.render();
+        this.checkWin();
+    }
+
+    isConflicting(id) {
+        const exam = this.exams[id];
+        for (const selId of this.selected) {
+            if (selId === id) continue;
+            const sel = this.exams[selId];
+            
+            // Check gap requirement
+            if (sel.end + this.G > exam.start && exam.end + this.G > sel.start) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    reset() {
+        this.selected = new Set();
+        this.ui.status.textContent = '';
+        this.ui.optimal.textContent = '?';
+        this.render();
+    }
+
+    render() {
+        this.ui.timeline.innerHTML = '';
+        
+        const minTime = Math.min(...this.exams.map(e => e.start));
+        const maxTime = Math.max(...this.exams.map(e => e.end));
+        const range = maxTime - minTime;
+        const width = 600;
+        const scale = width / range;
+        
+        // Draw axis
+        const axis = document.createElement('div');
+        axis.className = 'timeline-axis';
+        this.ui.timeline.appendChild(axis);
+        
+        // Time markers
+        for (let t = minTime; t <= maxTime; t++) {
+            const marker = document.createElement('div');
+            marker.className = 'time-marker';
+            marker.style.left = ((t - minTime) * scale) + 'px';
+            marker.textContent = `${t}:00`;
+            this.ui.timeline.appendChild(marker);
+        }
+        
+        // Draw exams
+        const rows = this.assignRows();
+        
+        for (const exam of this.exams) {
+            const el = document.createElement('div');
+            el.className = 'exam';
+            
+            const isSelected = this.selected.has(exam.id);
+            const isConflict = !isSelected && this.isConflicting(exam.id);
+            
+            if (isSelected) el.classList.add('selected');
+            if (isConflict) el.classList.add('conflict');
+            
+            const left = (exam.start - minTime) * scale;
+            const w = (exam.end - exam.start) * scale;
+            const row = rows[exam.id];
+            
+            el.style.left = left + 'px';
+            el.style.width = w + 'px';
+            el.style.bottom = (40 + row * 60) + 'px';
+            
+            el.innerHTML = `
+                <span>${exam.start}-${exam.end}</span>
+                <span class="exam-score">+${exam.score}</span>
+            `;
+            
+            el.onclick = () => this.toggleExam(exam.id);
+            
+            this.ui.timeline.appendChild(el);
+        }
+        
+        this.updateStats();
+    }
+
+    assignRows() {
+        // Simple row assignment to avoid overlap
+        const rows = {};
+        const endTimes = []; // Track end times per row
+        
+        for (const exam of this.exams) {
+            let row = 0;
+            while (row < endTimes.length && endTimes[row] > exam.start) {
+                row++;
+            }
+            rows[exam.id] = row;
+            if (row >= endTimes.length) {
+                endTimes.push(exam.end);
+            } else {
+                endTimes[row] = exam.end;
+            }
+        }
+        
+        return rows;
+    }
+
+    updateStats() {
+        let total = 0;
+        for (const id of this.selected) {
+            total += this.exams[id].score;
+        }
+        
+        this.ui.selectedCount.textContent = this.selected.size;
+        this.ui.totalScore.textContent = total;
+    }
+
+    checkWin() {
+        let total = 0;
+        for (const id of this.selected) {
+            total += this.exams[id].score;
+        }
+        
+        if (total >= this.optimal) {
+            this.ui.optimal.textContent = this.optimal;
+            this.ui.status.innerHTML = `<span style="color:var(--success)">🎉 OPTIMAL! Score: ${total}</span>`;
+        } else if (total >= this.optimal * 0.8) {
+            this.ui.optimal.textContent = this.optimal;
+            this.ui.status.innerHTML = `<span style="color:var(--primary)">Good schedule! Optimal is ${this.optimal}</span>`;
+        }
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

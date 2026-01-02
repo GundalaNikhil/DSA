@@ -60,6 +60,14 @@ Imagine you are organizing a **Leaderboard for a Game Tournament**.
 -   Define a custom comparator.
 -   Complexity: `O(N log N)` time, `O(N)` or `O(log N)` space depending on implementation.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read records] --> B[Sort by key one then key two]
+B --> C[Stable order for equals]
+C --> D[Output sorted records]
+```
+
 ## Implementations
 
 ### Java

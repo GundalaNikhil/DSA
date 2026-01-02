@@ -46,7 +46,20 @@ Imagine you are building a cryptographic library that needs to multiply two mass
 
 ## Detailed Explanation
 
-### ASCII Diagram: CRT Reconstruction
+### Flow Diagram: CRT Reconstruction
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Input arrays A and B] --> B[NTT under prime p1]
+    A --> C[NTT under prime p2]
+    A --> D[NTT under prime p3]
+    B --> E[CRT combine residues]
+    C --> E
+    D --> E
+    E --> F[Reduce modulo target]
+    F --> G[Output convolution]
+```
 
 We have a value `X`. We don't know `X`, but we know:
 - `X equiv a_1 +/-odp_1`

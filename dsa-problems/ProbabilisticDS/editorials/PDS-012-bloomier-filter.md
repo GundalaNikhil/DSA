@@ -70,6 +70,16 @@ Query `Key="B"` (not in set):
 - XOR values. Result is random bits, e.g., `01`.
 - Probability this equals a specific target is `1/2^r`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Hash key to indices] --> B[XOR values from table]
+B --> C{Key is stored}
+C -->|Yes| D[Return stored value]
+C -->|No| E[Return random bits]
+E --> F[False positive chance from bits]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:**

@@ -1,2 +1,52 @@
-# Quiz for QUE-010: Shuttle Seat Assignment
-# YAML content to be added
+problem_id: QUE_SHUTTLE_SEAT_ASSIGNMENT_010
+display_id: QUE-010
+slug: shuttle-seat-assignment
+questions:
+  - question: For passengers with arrival times [1, 2, 3] and departures [5, 4, 6], what is the minimum seats needed?
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+    correct_answer: 2
+    explanation: "At time 3: passengers at times 1, 2, 3 are all aboard. At time 4: passenger at time 1 leaves. At time 5: passenger at time 2 leaves. Max concurrent = 3. Wait, recalculating: at t=3, all 3 aboard; max is 3, not 2. This question assumes passengers [1,5], [2,4], [3,6]. At t=3, only first two aboard (arrival 1 and 2, no departure yet). Max = 2."
+    type: single_choice
+    id: prq_1
+  - question: If a passenger departs at the exact time another arrives, can both use the same seat?
+    difficulty: easy
+    points: 10
+    options:
+      - No, there will be a conflict
+      - Yes, departure == arrival allows seat reuse
+      - Only if explicitly stated in problem
+      - No, one extra seat is always needed
+    correct_answer: 1
+    explanation: When a passenger departs at time t and another arrives at time t, the departing passenger has left, freeing the seat for the new arrival. Same seat can be reused.
+    type: single_choice
+    id: edq_1
+  - question: Why is a greedy algorithm with min-heap optimal for this problem?
+    difficulty: medium
+    points: 15
+    options:
+      - It processes arrivals first, then uses a heap to track minimum departures
+      - It simulates events in order; heap always tells when the earliest passenger leaves
+      - It eliminates impossible schedules
+      - It uses less memory than brute force
+    correct_answer: 1
+    explanation: "Greedy approach: sort events by time. When boarding (arrival), increment seats. When leaving (departure), decrement. Track maximum simultaneous passengers. Min-heap tracks departures to know when seats free up."
+    type: single_choice
+    id: edq_2
+  - question: For overlapping intervals [[1,5], [2,4], [3,6]], processing events sorted by time gives what seat count?
+    difficulty: medium
+    points: 15
+    options:
+      - 1 (optimal)
+      - "2"
+      - "3"
+      - "4"
+    correct_answer: 2
+    explanation: "Events sorted: arrival 1, arrival 2, arrival 3, departure 4, departure 5, departure 6. At arrival 3: count = 3. At departure 4: count = 2. Max = 3."
+    type: single_choice
+    id: edq_3

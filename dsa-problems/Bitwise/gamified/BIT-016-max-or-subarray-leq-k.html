@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIT-016: Budget Belt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #2d2b28;
+            --belt: #1a1918;
+            --item: #e17055;
+            --window: rgba(253, 203, 110, 0.2);
+            --border-win: #fdcb6e;
+            --text: #dfe6e9;
+            --accent: #00cec9;
+        }
+
+        body {
+            font-family: 'Chakra Petch', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            padding: 15px 30px;
+            background: rgba(0,0,0,0.5);
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid #555;
+        }
+
+        h1 { margin:0; letter-spacing: 1px; color: var(--accent); }
+
+        .factory-floor {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 40px;
+            padding: 20px;
+        }
+
+        /* CONVEYOR */
+        .conveyor-track {
+            height: 120px;
+            background: var(--belt);
+            display: flex;
+            align-items: center;
+            overflow-x: auto;
+            border-top: 4px solid #555;
+            border-bottom: 4px solid #555;
+            padding: 0 40px;
+            gap: 10px;
+            position: relative;
+        }
+
+        .item-crate {
+            min-width: 60px; height: 60px;
+            background: var(--item);
+            border: 2px solid #fab1a0;
+            color: #2d3436;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-weight: bold; font-size: 1.2rem;
+            position: relative;
+            z-index: 2;
+        }
+        .item-bits { font-size: 0.6rem; margin-top: 2px; }
+
+        /* SLIDING WINDOW OVERLAY */
+        #windowOverlay {
+            position: absolute;
+            height: 100px;
+            background: var(--window);
+            border: 2px dashed var(--border-win);
+            top: 10px;
+            z-index: 1;
+            pointer-events: none;
+            transition: all 0.3s;
+        }
+        
+        /* DASHBOARD */
+        .dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            background: rgba(0,0,0,0.3);
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 800px; margin: 0 auto;
+        }
+
+        .stat-box { font-size: 1.2rem; }
+        .limit-val { font-size: 2rem; font-weight: bold; color: var(--accent); }
+        .curr-val { font-size: 2rem; font-weight: bold; }
+        .curr-val.warn { color: #ff7675; }
+
+        /* BIT COUNTERS */
+        .bit-panel {
+            grid-column: span 2;
+            display: flex; gap: 5px; justify-content: center;
+        }
+        .bit-col {
+            display: flex; flex-direction: column; align-items: center;
+            width: 30px;
+        }
+        .bit-lamp {
+            width: 20px; height: 20px;
+            background: #333;
+            border-radius: 50%;
+            margin-bottom: 5px;
+        }
+        .bit-lamp.active { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+        .cnt-val { font-size: 0.8rem; color: #aaa; }
+
+        .controls {
+            display: flex; justify-content: center; gap: 20px;
+        }
+        button {
+            padding: 15px 30px; font-weight: bold; font-size: 1.2rem;
+            cursor: pointer; background: #fff; color: #2d3436; border: none;
+        }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            display: flex; align-items: center; justify-content: center; z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        .dialog {
+            background: var(--bg); border: 2px solid var(--accent); padding: 40px;
+            max-width: 500px; text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>BUDGET BELT</h1>
+    <div style="font-size:0.9rem; color:#aaa">BIT-016</div>
+</header>
+
+<div class="factory-floor">
+    <div class="conveyor-track" id="track">
+        <div id="windowOverlay" style="left:0; width:0;"></div>
+        <!-- Items -->
+    </div>
+
+    <div class="dashboard">
+        <div class="stat-box">
+            Limit (K): <div class="limit-val" id="limitDisp">--</div>
+        </div>
+        <div class="stat-box">
+            Current OR: <div class="curr-val" id="currOrDisp">0</div>
+        </div>
+        
+        <div class="bit-panel" id="bitPanel">
+            <!-- 0-5 bits counters -->
+        </div>
+    </div>
+    
+    <div class="controls">
+        <button id="expandBtn" onclick="game.expandRight()">EXPAND RIGHT</button>
+        <button id="shrinkBtn" onclick="game.shrinkLeft()">SHRINK LEFT</button>
+    </div>
+    
+    <div style="text-align:center; color:#aaa; margin-top:-20px;">
+        Max Valid Length Found: <span id="maxLen" style="color:#fff; font-weight:bold;">0</span>
+    </div>
+
+</div>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="color:var(--accent); margin-top:0;">RISK MANAGEMENT</h2>
+        <p>
+            You must pick a contiguous batch of items.<br>
+            <b>Constraint:</b> The Bitwise OR sum of the batch must be &le; K.<br><br>
+            
+            Use the Sliding Window technique.<br>
+            1. <b>Expand Right</b> to add items.<br>
+            2. If OR exceeds K, <b>Shrink Left</b> to remove items.<br>
+            (Notice how Bit Counters handle the removal logic).
+        </p>
+        <button onclick="game.start()">START SHIFT</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.state = {
+                items: [],
+                k: 0,
+                left: 0,
+                right: -1, // Inclusive
+                bitCounts: new Array(6).fill(0), // up to 63
+                currOr: 0,
+                lastMax: 0
+            };
+            
+            this.ui = {
+                track: document.getElementById('track'),
+                win: document.getElementById('windowOverlay'),
+                limit: document.getElementById('limitDisp'),
+                curr: document.getElementById('currOrDisp'),
+                bits: document.getElementById('bitPanel'),
+                max: document.getElementById('maxLen'),
+                modal: document.getElementById('modal')
+            };
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            this.state.items = [];
+            for(let i=0; i<15; i++) {
+                this.state.items.push(Math.floor(Math.random() * 32));
+            }
+            this.state.k = 40 + Math.floor(Math.random() * 10); // Generous K
+            
+            this.state.left = 0;
+            this.state.right = -1;
+            this.state.bitCounts.fill(0);
+            this.state.currOr = 0;
+            this.state.lastMax = 0;
+
+            this.ui.limit.innerText = this.state.k;
+            this.renderTrack();
+            this.updateStats();
+        }
+
+        renderTrack() {
+            // keep window overlay, clear Items
+            // Actually simpler to just remove items
+            const oldItems = document.querySelectorAll('.item-crate');
+            oldItems.forEach(el => el.remove());
+            
+            this.state.items.forEach((val, idx) => {
+                const el = document.createElement('div');
+                el.className = 'item-crate';
+                el.id = `item-${idx}`;
+                el.innerHTML = `
+                    <div>${val}</div>
+                    <div class="item-bits">${val.toString(2)}</div>
+                `;
+                this.ui.track.appendChild(el);
+            });
+            this.updateWindowVisual();
+        }
+        
+        updateWindowVisual() {
+            if(this.state.right < this.state.left) {
+                 this.ui.win.style.width = '0px';
+                 return;
+            }
+            
+            const lEl = document.getElementById(`item-${this.state.left}`);
+            const rEl = document.getElementById(`item-${this.state.right}`);
+            
+            if(lEl && rEl) {
+                // track padding left is 40
+                const trackRect = this.ui.track.getBoundingClientRect(); // relative to viewport
+                // But track has scroll...
+                // Better to rely on offsetLeft inside track context
+                
+                const leftPos = lEl.offsetLeft;
+                const rightPos = rEl.offsetLeft + rEl.offsetWidth;
+                
+                this.ui.win.style.left = (leftPos - 10) + 'px'; // padding
+                this.ui.win.style.width = (rightPos - leftPos + 20) + 'px'; 
+            }
+        }
+
+        updateStats() {
+            // Recalc OR from counts
+            let or = 0;
+            for(let i=0; i<6; i++) {
+                if(this.state.bitCounts[i] > 0) or |= (1 << i);
+            }
+            this.state.currOr = or;
+            
+            this.ui.curr.innerText = or;
+            this.ui.curr.className = `curr-val ${or > this.state.k ? 'warn' : ''}`;
+            
+            if(or <= this.state.k) {
+                const len = this.state.right - this.state.left + 1;
+                this.state.lastMax = Math.max(this.state.lastMax, Math.max(0, len));
+                this.ui.max.innerText = this.state.lastMax;
+            }
+
+            // Render Bits
+            this.ui.bits.innerHTML = '';
+            for(let i=5; i>=0; i--) { // MSB left
+                const el = document.createElement('div');
+                el.className = 'bit-col';
+                const active = (or >> i) & 1;
+                el.innerHTML = `
+                    <div class="bit-lamp ${active?'active':''}"></div>
+                    <div class="cnt-val">${this.state.bitCounts[i]}</div>
+                    <div style="font-size:0.6rem; color:#555">${i}</div>
+                `;
+                this.ui.bits.appendChild(el);
+            }
+            
+            this.updateWindowVisual();
+        }
+
+        expandRight() {
+            if(this.state.right >= this.state.items.length - 1) return;
+            this.state.right++;
+            
+            const val = this.state.items[this.state.right];
+            for(let i=0; i<6; i++) {
+                if((val >> i) & 1) this.state.bitCounts[i]++;
+            }
+            this.updateStats();
+        }
+
+        shrinkLeft() {
+            if(this.state.left > this.state.right) {
+                // Reset standard
+                 this.state.left = this.state.right + 1;
+                 return;
+            }
+            
+            const val = this.state.items[this.state.left];
+            for(let i=0; i<6; i++) {
+                if((val >> i) & 1) this.state.bitCounts[i]--;
+            }
+            this.state.left++;
+            this.updateStats();
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

@@ -68,6 +68,20 @@ Transforms (cover all octants):
 - `(x, -y)`
 - `(-x, -y)`
 And also swap x/y to cover other diagonals, or equivalently handle 4 directions with `(x, y)`, `(y, x)`, `(-x, y)`, `(-y, x)`.
+The transforms are a set of mirrors, they make sure every direction gets seen.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with points] --> B[For each transform direction]
+    B --> C[Sort by x then y]
+    C --> D[Sweep and add candidate edges]
+    D --> B
+    B --> E[Deduplicate edges]
+    E --> F[Sort edges by weight]
+    F --> G[Run Kruskal with DSU]
+    G --> H[Return MST weight]
+```
 
 ### Why It Works
 

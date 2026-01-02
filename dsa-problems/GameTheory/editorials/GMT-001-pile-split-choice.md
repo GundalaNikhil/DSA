@@ -52,9 +52,25 @@ For example, if you have 6 pieces, you can break it into (1, 5) or (2, 4), but N
 Think of each pile size as having a "power level" called its **Grundy number** `G(n)`. This number tells us if a position is winning or losing:
 - `G(n) = 0` → **Losing position** (current player will lose with optimal play)
 - `G(n) > 0` → **Winning position** (current player can win with optimal play)
+Grundy numbers are a quick mood check for the game, zero means the position is in trouble.
 
 ### Algorithm Flow Diagram
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with n] --> B[Set G at 0 1 2 to 0]
+    B --> C[Set i to 3]
+    C --> D{i within n?}
+    D -- No --> H[If G at n is zero return Second else First]
+    D -- Yes --> E[Clear seen set]
+    E --> F[For each split j and i minus j with j less than i minus j]
+    F --> G[Add G at j XOR G at i minus j to seen]
+    G --> F
+    F --> I[Set G at i to mex of seen]
+    I --> J[i++]
+    J --> D
+```
 ```
 ┌─────────────────────────────────────┐
 │  Start: Calculate G(n) for pile n   │
@@ -103,7 +119,6 @@ Think of each pile size as having a "power level" called its **Grundy number** `
        │ else "Second"             │
        └───────────────────────────┘
 ```
-
 ### Game Tree Example (n=6)
 
 ```

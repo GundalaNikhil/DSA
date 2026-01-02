@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIT-005: Neon Dash</title>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050510;
+            --road: #151525;
+            --neon: #00f3ff;
+            --neon-dim: rgba(0, 243, 255, 0.2);
+            --max-col: #ff00de; /* Magenta for Max Record */
+            --player: #fff;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--bg);
+            color: #fff;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            perspective: 800px;
+        }
+
+        header {
+            position: fixed; top: 0; left: 0; right: 0;
+            padding: 20px;
+            display: flex; justify-content: space-between; align-items: flex-start;
+            z-index: 10;
+            text-shadow: 0 0 10px var(--neon);
+        }
+
+        h1 { font-family: 'Audiowide'; color: var(--neon); margin: 0; }
+        
+        .hud {
+            font-family: 'Audiowide';
+            text-align: right;
+        }
+        .stat { font-size: 1.5rem; margin-bottom: 5px; }
+        .label { font-size: 0.8rem; color: #aaa; }
+
+        /* WORLD */
+        .world {
+            position: absolute; inset: 0;
+            transform-style: preserve-3d;
+            overflow: hidden;
+        }
+
+        .floor {
+            position: absolute; bottom: 0; left: -50%; width: 200%; height: 50%;
+            background: 
+                linear-gradient(transparent 0%, var(--bg) 100%),
+                repeating-linear-gradient(90deg, var(--neon-dim) 0px, var(--neon-dim) 1px, transparent 1px, transparent 100px),
+                repeating-linear-gradient(0deg, var(--neon-dim) 0px, var(--neon-dim) 1px, transparent 1px, transparent 50px);
+            transform: rotateX(60deg);
+            transform-origin: bottom center;
+            animation: moveFloor 1s linear infinite;
+        }
+
+        @keyframes moveFloor {
+            from { background-position: 0 0; }
+            to { background-position: 0 50px; }
+        }
+
+        /* GATES */
+        .gate-container {
+            position: absolute; inset: 0;
+            transform-style: preserve-3d;
+            pointer-events: none;
+        }
+
+        .gate {
+            position: absolute;
+            left: 50%; bottom: 0;
+            width: 200px; height: 300px;
+            border: 5px solid var(--neon);
+            border-bottom: none;
+            box-shadow: 0 0 20px var(--neon), inset 0 0 20px var(--neon);
+            transform-origin: bottom center;
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+            padding-top: 20px;
+            background: rgba(0, 243, 255, 0.05);
+            color: #fff; font-family: 'Audiowide'; font-size: 2rem;
+            text-shadow: 0 0 10px #fff;
+        }
+        
+        .player-cam {
+            /* We move the gates towards player */
+        }
+
+        /* ENERGY BAR */
+        .energy-bar-cont {
+            position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%);
+            width: 60%; height: 30px;
+            background: #222; border: 2px solid #555;
+            border-radius: 15px; overflow: hidden;
+        }
+        .energy-fill {
+            height: 100%; background: var(--neon);
+            width: 0%;
+            transition: width 0.2s;
+            box-shadow: 0 0 20px var(--neon);
+        }
+        .max-marker {
+            position: absolute; top:0; bottom:0; width: 4px; background: var(--max-col);
+            box-shadow: 0 0 10px var(--max-col);
+            transition: left 0.2s;
+        }
+
+        /* CONTROLS */
+        .controls {
+            position: fixed; bottom: 100px; width: 100%; text-align: center;
+        }
+        .btn {
+            background: var(--neon); border: none; color: #000;
+            padding: 15px 40px; font-family: 'Audiowide'; font-size: 1.5rem;
+            cursor: pointer; clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+            transition: transform 0.1s;
+        }
+        .btn:active { transform: scale(0.95); }
+        .btn:disabled { background: #555; cursor: wait; }
+
+        .log {
+            position: fixed; left: 20px; bottom: 20px;
+            font-family: monospace; color: #aaa;
+            max-height: 150px; overflow: hidden;
+            display: flex; flex-direction: column-reverse;
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            display: flex; align-items: center; justify-content: center; z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        .dialog {
+            background: var(--road); border: 2px solid var(--neon); color: #fff;
+            padding: 40px; max-width: 500px; text-align: center;
+            box-shadow: 0 0 50px var(--neon-dim);
+        }
+
+    
+        .alert-modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .alert-modal {
+            background: white; padding: 2rem; border-radius: 8px;
+            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+        .alert-modal button {
+            background: #4b5563; color: white; padding: 0.8rem 2rem;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .alert-modal button:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>NEON XOR DASH</h1>
+    <div class="hud">
+        <div class="stat" id="currVal">0</div>
+        <div class="label">CURRENT ENERGY</div>
+        <div class="stat" id="maxVal" style="color:var(--max-col)">0</div>
+        <div class="label">PEAK RECORD</div>
+    </div>
+</header>
+
+<div class="world">
+    <div class="floor"></div>
+    <div class="gate-container" id="gates">
+        <!-- Gates spawned here -->
+    </div>
+</div>
+
+<div class="energy-bar-cont">
+    <div class="energy-fill" id="barFill"></div>
+    <div class="max-marker" id="barMax" style="left:0%"></div>
+</div>
+
+<div class="controls">
+    <button class="btn" id="stepBtn" onclick="game.step()">DASH RELAY >></button>
+    <button class="btn" id="resetBtn" style="background:var(--max-col); display:none" onclick="game.reset()">RESET</button>
+</div>
+
+<div class="log" id="log"></div>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="font-family:'Audiowide'; color:var(--neon)">HIGH VELOCITY BITWISE</h2>
+        <p>
+            You are sprinting through a data tunnel starting at Index <b>S</b>.<br>
+            Each gate you pass XORs your energy with its value.<br><br>
+            
+            <b>Goal:</b> Determine the <b>MAXIMUM ENERGY</b> achieved during the run.<br>
+            Since you cannot turn back, you must track the peak value as you go.<br><br>
+            
+            Values update instantly.
+        </p>
+        <button class="btn" onclick="game.start()">ENGAGE</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.state = {
+                arr: [],
+                idx: 0,
+                currXor: 0,
+                maxXor: 0,
+                gates: [] // {id, val, z}
+            };
+            
+            this.ui = {
+                gates: document.getElementById('gates'),
+                curr: document.getElementById('currVal'),
+                max: document.getElementById('maxVal'),
+                fill: document.getElementById('barFill'),
+                marker: document.getElementById('barMax'),
+                stepBtn: document.getElementById('stepBtn'),
+                resetBtn: document.getElementById('resetBtn'),
+                log: document.getElementById('log'),
+                modal: document.getElementById('modal')
+            };
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.reset();
+        }
+
+        reset() {
+            // Generate Data
+            const len = 10 + Math.floor(Math.random()*10);
+            this.state.arr = [];
+            for(let i=0; i<len; i++) {
+                this.state.arr.push(Math.floor(Math.random()*64));
+            }
+            
+            this.state.idx = 0;
+            this.state.currXor = 0;
+            this.state.maxXor = 0; // The problem says subarray starting at S.
+            // S=0 (our current pos). First subarray is arr[0].
+            // So we start *before* first gate. Logic:
+            // "Open box... choose to stop... OR step to next".
+            // So we process gates one by one.
+            // Max initialized to first? Or 0?
+            // "Subarray a[s...k]". k >= s. So at least ONE gate.
+            // We set max = 0, but update immediately after first step.
+            
+            this.ui.gates.innerHTML = '';
+            this.state.gates = [];
+            
+            // Spawn gates visually deep
+            this.state.arr.forEach((val, i) => {
+                const g = document.createElement('div');
+                g.className = 'gate';
+                g.innerText = val;
+                // Z index: -1000 * (i+1)
+                const z = -400 * (i + 1);
+                g.style.transform = `translate(-50%, 0) translateZ(${z}px)`;
+                this.ui.gates.appendChild(g);
+                this.state.gates.push({ el: g, z, val });
+            });
+            
+            this.ui.stepBtn.style.display = 'inline-block';
+            this.ui.stepBtn.disabled = false;
+            this.ui.resetBtn.style.display = 'none';
+            this.ui.fill.style.width = '0%';
+            this.ui.marker.style.left = '0%';
+            this.ui.curr.innerText = '0';
+            this.ui.max.innerText = '0';
+            this.log("System Ready. Track Length: " + len);
+        }
+
+        step() {
+            if (this.state.idx >= this.state.arr.length) return;
+            
+            // Animation: Move all gates forward by 400px
+            this.ui.stepBtn.disabled = true;
+            
+            // Animate
+            const moveTime = 500;
+            const stepZ = 400;
+            
+            this.state.gates.forEach(g => {
+                g.z += stepZ;
+                g.el.style.transition = `transform ${moveTime}ms linear`;
+                g.el.style.transform = `translate(-50%, 0) translateZ(${g.z}px)`;
+                
+                // Fade out if passed
+                if (g.z > 200) g.el.style.opacity = 0;
+            });
+            
+            // Logic after move
+            setTimeout(() => {
+                const val = this.state.arr[this.state.idx];
+                this.state.currXor ^= val;
+                
+                if (this.state.idx === 0) this.state.maxXor = this.state.currXor;
+                else this.state.maxXor = Math.max(this.state.maxXor, this.state.currXor);
+                
+                this.updateUI();
+                this.log(`Gate ${this.state.idx}: Val ${val} -> XOR ${this.state.currXor}`);
+                
+                this.state.idx++;
+                
+                if(this.state.idx < this.state.arr.length) {
+                    this.ui.stepBtn.disabled = false;
+                } else {
+                    this.state.stepBtn.disabled = true;
+                    this.ui.resetBtn.style.display = 'inline-block';
+                    this.log(`RUN COMPLETE. PEAK: ${this.state.maxXor}`);
+                    this.showGameAlert(`FINISH! Peak Energy: ${this.state.maxXor}`);
+                }
+            }, moveTime);
+        }
+
+        updateUI() {
+            this.ui.curr.innerText = this.state.currXor;
+            this.ui.max.innerText = this.state.maxXor;
+            
+            // Scale bar (0 to 127 approx max for 64 inputs)
+            // Next power of 2 above 64 is 127 (actually 63 is max arr val, so max XOR < 128)
+            const maxScale = 127;
+            const pct = Math.min(100, (this.state.currXor / maxScale) * 100);
+            const maxPct = Math.min(100, (this.state.maxXor / maxScale) * 100);
+            
+            this.ui.fill.style.width = pct + '%';
+            this.ui.marker.style.left = maxPct + '%';
+        }
+
+        log(msg) {
+            const d = document.createElement('div');
+            d.innerText = `> ${msg}`;
+            this.ui.log.prepend(d);
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

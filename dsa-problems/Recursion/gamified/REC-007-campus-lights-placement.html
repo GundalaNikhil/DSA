@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REC-007: Lightning Engineer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #090910;
+            --path: #222;
+            --light-off: #555;
+            --light-on: #f1c40f;
+            --radius: rgba(241, 196, 15, 0.1);
+            --error: #e74c3c;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--bg);
+            color: #ccc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+
+        h1 { color: #fff; margin-top: 1rem; }
+
+        .walkway {
+            width: 800px;
+            height: 100px;
+            background: var(--path);
+            margin-top: 3rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Positions are 0 to N */
+            border-bottom: 2px solid #444;
+        }
+
+        /* Ticks for positions */
+        .position-marker {
+            position: absolute;
+            bottom: -10px;
+            width: 2px;
+            height: 10px;
+            background: #555;
+            font-size: 0.8rem;
+        }
+        .position-marker span {
+            position: absolute;
+            top: 15px;
+            left: -50%;
+        }
+
+        .lamp-socket {
+            position: absolute;
+            bottom: 20px;
+            width: 10px;
+            height: 10px;
+            background: #333;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            transform: translateX(-5px); /* Center on tick */
+            transition: all 0.2s;
+        }
+
+        .lamp-socket:hover { background: #777; transform: translateX(-5px) scale(1.5); }
+        
+        .lamp-socket.installed {
+            background: var(--light-on);
+            box-shadow: 0 0 10px var(--light-on), 0 0 20px var(--light-on);
+        }
+
+        .radius-indicator {
+            position: absolute;
+            height: 200px;
+            top: -50px;
+            border: 1px dashed rgba(241, 196, 15, 0.3);
+            background: var(--radius);
+            pointer-events: none;
+            z-index: 5;
+            transform: translateX(-50%);
+        }
+
+        .lamp-post {
+            position: absolute;
+            bottom: 20px;
+            width: 2px;
+            height: 60px;
+            background: #444;
+            pointer-events: none;
+        }
+
+        .controls {
+            margin-top: 8rem;
+            text-align: center;
+        }
+
+        .msg { font-size: 1.2rem; min-height: 1.5em; margin-bottom: 1rem; }
+
+        .btn {
+            background: transparent;
+            color: var(--light-on);
+            border: 1px solid var(--light-on);
+            padding: 10px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>LIGHTING ENGINEER</h1>
+<div style="color:#777">Install K lights. Maintain minimum distance D.</div>
+
+<div class="walkway" id="walkway"></div>
+
+<div class="controls">
+    <div class="msg" id="msg">Select a position to install...</div>
+    <div>Installed: <span id="count">0</span> / 3</div>
+    <div style="margin-top:10px; font-size:0.9rem; color:#666">Min Dist: 3 units</div>
+    <button class="btn" style="margin-top:20px" onclick="reset()">Reset Plan</button>
+</div>
+
+<script>
+    const LEN = 15;
+    const K = 3;
+    const D = 3;
+    const SCALE = 50; // px per unit
+    let installedAt = [];
+
+    function reset() {
+        installedAt = [];
+        render();
+        document.getElementById('msg').textContent = "Select a position...";
+        document.getElementById('msg').style.color = "#ccc";
+    }
+
+    function render() {
+        const track = document.getElementById('walkway');
+        track.innerHTML = '';
+        track.style.width = (LEN * SCALE) + "px";
+
+        // Draw ticks 0 to LEN
+        for(let i=0; i<=LEN; i++) {
+            const tick = document.createElement('div');
+            tick.className = 'position-marker';
+            tick.style.left = (i * SCALE) + 'px';
+            tick.innerHTML = `<span>${i}</span>`;
+            track.appendChild(tick);
+
+            // Socket
+            const socket = document.createElement('div');
+            socket.className = 'lamp-socket';
+            socket.style.left = (i * SCALE) + 'px';
+            
+            if (installedAt.includes(i)) {
+                socket.classList.add('installed');
+                
+                // Add Radius Visual
+                const rad = document.createElement('div');
+                rad.className = 'radius-indicator';
+                rad.style.width = (D * 2 * SCALE) + 'px';
+                rad.style.left = (i * SCALE) + 'px';
+                track.appendChild(rad);
+
+                // Add Post
+                const post = document.createElement('div');
+                post.className = 'lamp-post';
+                post.style.left = (i * SCALE) + 'px';
+                track.appendChild(post);
+            }
+
+            socket.onclick = () => toggleLight(i);
+            track.appendChild(socket);
+        }
+        document.getElementById('count').textContent = installedAt.length;
+    }
+
+    function toggleLight(pos) {
+        if (installedAt.includes(pos)) {
+            // Remove
+            installedAt = installedAt.filter(p => p !== pos);
+            render();
+            msg("Removed light at " + pos, "#ccc");
+        } else {
+            // Try Add
+            if (isValid(pos)) {
+                if(installedAt.length < K) {
+                    installedAt.push(pos);
+                    render();
+                    if(installedAt.length === K) msg("PLAN COMPLETE!", "#2ecc71");
+                    else msg("Installed at " + pos, "#ccc");
+                } else {
+                    msg("Max lights reached!", "#e74c3c");
+                }
+            } else {
+                msg("Too close to another light!", "#e74c3c");
+            }
+        }
+    }
+
+    function isValid(pos) {
+        for (let p of installedAt) {
+            if (Math.abs(p - pos) < D) return false;
+        }
+        return true;
+    }
+
+    function msg(text, color) {
+        const el = document.getElementById('msg');
+        el.textContent = text;
+        el.style.color = color;
+    }
+
+    window.onload = reset;
+</script>
+</body>
+</html>

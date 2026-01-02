@@ -52,7 +52,24 @@ The teacher demands that the final statue (and every intermediate blob) must be 
 
 ## Detailed Explanation
 
-### ASCII Diagram: The Quality Decay
+### Flow Diagram: The Quality Decay
+
+Keep the best clay together first so the whole sculpture stays workable.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Push all parts into max heap by quality]
+    B --> C{More than one part}
+    C -- Yes --> D[Pop two highest quality parts]
+    D --> E[Compute new quality as min minus one]
+    E --> F{Quality meets threshold}
+    F -- No --> G[Return minus one]
+    F -- Yes --> H[Compute new weight with loss]
+    H --> I[Push merged part back]
+    I --> C
+    C -- No --> J[Return final weight]
+```
 
 Threshold `T = 5`.
 Parts: A(Q=10), B(Q=8), C(Q=6).
@@ -99,7 +116,6 @@ Step 2: Merge A(10) and BC(5)
    Q = min(10, 5) - 1 = 4
    (4 < 5, FAIL!)
 ```
-
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Single Component:** You must merge *all* parts into one.

@@ -1,0 +1,52 @@
+problem_id: GRP_LAB_NETWORK_DFS_002
+display_id: GRP-002
+slug: lab-network-dfs
+questions:
+  - question: In preorder DFS, when is a node recorded?
+    difficulty: easy
+    points: 10
+    options:
+      - When it is first visited
+      - After all its neighbors are processed
+      - Only when it is popped from the stack
+      - Only if it has no unvisited neighbors
+    correct_answer: 0
+    explanation: Preorder records a node at the moment it is first visited.
+    type: single_choice
+    id: prq_1
+  - question: For n=5 with edges (0,1), (0,2), (1,4), what is the DFS preorder starting from 0 (using adjacency list order as given)?
+    difficulty: easy
+    points: 10
+    options:
+      - 0 2 1 4
+      - 0 1 4 2
+      - 0 1 2 4
+      - 0 4 1 2
+    correct_answer: 1
+    explanation: DFS goes 0 -> 1 -> 4, then backtracks to visit 2.
+    type: single_choice
+    id: edq_1
+  - question: If n=3 and m=0, what is the DFS preorder output starting from node 0?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - 0 1 2
+      - 1 2
+      - empty output
+    correct_answer: 0
+    explanation: With no edges, only node 0 is reachable.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of DFS on a graph with n nodes and m edges?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n + m)
+      - O(m log n)
+      - O(n^2)
+    correct_answer: 1
+    explanation: DFS visits each node and edge at most once.
+    type: single_choice
+    id: edq_3

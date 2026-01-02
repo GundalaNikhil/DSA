@@ -44,6 +44,28 @@ Dijkstra's algorithm greedily selects the next closest unvisited node, ensuring 
 
 ## Detailed Explanation
 
+### Flow Diagram: Dijkstra's Algorithm
+
+Dijkstra is the thriftiest shopper on the map: it always grabs the cheapest toll first.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Initialize dist as infinite]
+    B --> C[Set source distance to zero]
+    C --> D[Push source into min heap]
+    D --> E{Heap has nodes}
+    E -- Yes --> F[Extract node with smallest distance]
+    F --> G{Entry is outdated}
+    G -- Yes --> E
+    G -- No --> H[Check each outgoing edge]
+    H --> I[Compute candidate distance]
+    I --> J{Candidate is less than dist}
+    J -- Yes --> K[Update dist and push to heap]
+    K --> H
+    J -- No --> H
+    E -- No --> L[Output dist]
+```
 ### ASCII Diagram: Dijkstra's Algorithm
 
 ```
@@ -66,7 +88,6 @@ Dijkstra's process:
 
 Final distances: [0, 2, 3, 4]
 ```
-
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Non-negative weights:** Dijkstra requires all weights ≥ 0

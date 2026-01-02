@@ -1,2 +1,52 @@
-# Quiz for LNK-010: Shuttle ID Stable Partition
-# YAML content to be added
+problem_id: LNK_SHUTTLE_ID_STABLE_PARTITION_010
+display_id: LNK-010
+slug: shuttle-id-stable-partition
+questions:
+  - question: What does 'stable partition' mean in this context?
+    difficulty: easy
+    points: 10
+    options:
+      - Relative order of elements in each partition is preserved
+      - The list length remains constant
+      - Memory usage is constant
+      - The pivot element stays in place
+    correct_answer: 0
+    explanation: If A comes before B originally and both are in the same group, A must still be before B.
+    type: single_choice
+    id: prq_1
+  - question: To implement stable partition around value X, how many dummy heads are useful?
+    difficulty: medium
+    points: 15
+    options:
+      - "1"
+      - 2 (Less, Greater/Equal)
+      - 3 (Less, Equal, Greater)
+      - "0"
+    correct_answer: 1
+    explanation: Two lists (Less vs Greater/Equal) are sufficient for a standard partition.
+    type: single_choice
+    id: edq_1
+  - question: After building the two partition lists, what is the final step?
+    difficulty: easy
+    points: 10
+    options:
+      - Concatenate Less list to Greater list
+      - Concatenate Greater list to Less list
+      - Reverse the Greater list
+      - Delete the Less list
+    correct_answer: 0
+    explanation: Attach the head of the Greater list to the tail of the Less list.
+    type: single_choice
+    id: edq_2
+  - question: Can we effectively QuickSort a linked list using this partition logic?
+    difficulty: easy
+    points: 10
+    options:
+      - Yes, but random access for pivot selection is slow
+      - No, linked lists cannot be sorted
+      - Yes, it is the preferred method
+      - No, Merge Sort is always better
+    correct_answer: 0
+    explanation: Yes, but Merge Sort is typically preferred for Linked Lists due to better locality and no random access need.
+    type: single_choice
+    id: edq_3

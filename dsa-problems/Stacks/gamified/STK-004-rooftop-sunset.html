@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STK-004: Solar City</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --sky: #87ceeb; --sun: #ffeb3b; --bldg: #546e7a; --win: #cfd8dc; --lit: #fff176; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Exo 2', sans-serif; margin: 0; min-height: 100vh; display: flex; flex-direction: column; overflow: hidden; background: linear-gradient(#1a237e, #4a148c); }
+        
+        .sun-orb {
+            position: absolute; right: 50px; top: 50px; width: 60px; height: 60px; background: var(--sun);
+            border-radius: 50%; box-shadow: 0 0 50px var(--sun); z-index: 5;
+            cursor: move; /* Could allow dragging sun? */
+        }
+        
+        .city-container {
+            flex: 1; position: relative; display: flex; align-items: flex-end; justify-content: flex-start;
+            padding: 0 50px; gap: 10px; margin-top: 100px;
+        }
+
+        .building-col {
+            flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+            position: relative; height: 100%;
+        }
+
+        .building {
+            width: 100%; height: 50px; background: var(--bldg); border: 2px solid #37474f; border-bottom: none;
+            transition: all 0.3s; position: relative;
+        }
+        .building.sunny {
+            background: #78909c; border-top-color: #ffff00;
+            box-shadow: inset 0 10px 20px rgba(255,255,0,0.3);
+        }
+        
+        .handle {
+            width: 40px; height: 20px; background: #fff; border-radius: 10px; cursor: ns-resize;
+            position: absolute; top: -10px; z-index: 10; box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            display: flex; justify-content: center; align-items: center;
+        }
+        .handle::after { content: ''; width: 20px; height: 2px; background: #999; }
+        
+        .score-box {
+            position: absolute; top: 20px; left: 20px; color: #fff; font-size: 1.5rem; text-shadow: 0 0 10px #000;
+            background: rgba(0,0,0,0.5); padding: 10px; border-radius: 5px;
+        }
+        
+        .ray {
+            position: absolute; top: 80px; right: 80px; height: 2px; background: rgba(255,255,0,0.3); transform-origin: right top; pointer-events: none; z-index: 20;
+        }
+    </style>
+</head>
+<body>
+<div class="sun-orb"></div>
+<div class="score-box">Buildings with View: <span id="viewCount">0</span></div>
+
+<div class="city-container" id="city"></div>
+
+<div style="position: absolute; bottom: 20px; width: 100%; text-align: center; color: #aaa;">
+    Drag handles to adjust building heights. Sun comes from the RIGHT.
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.n = 10;
+        this.heights = Array(10).fill(100);
+        this.ui = { city: document.getElementById('city'), count: document.getElementById('viewCount') };
+        this.render();
+        this.calculateViews();
+        
+        // Drag logic
+        this.dragging = null;
+        document.addEventListener('mouseup', () => { this.dragging = null; });
+        document.addEventListener('mousemove', (e) => this.onDrag(e));
+    }
+
+    render() {
+        this.ui.city.innerHTML = '';
+        this.heights.forEach((h, i) => {
+            let col = document.createElement('div');
+            col.className = 'building-col';
+            
+            let b = document.createElement('div');
+            b.className = 'building';
+            b.style.height = h + 'px';
+            b.id = 'bld-'+i;
+            
+            let handle = document.createElement('div');
+            handle.className = 'handle';
+            handle.style.bottom = (h - 10) + 'px'; // Move handle with building top
+            handle.style.top = 'auto'; // override
+            handle.onmousedown = (e) => {
+                this.dragging = i;
+                e.preventDefault();
+            };
+            
+            col.appendChild(handle);
+            col.appendChild(b);
+            this.ui.city.appendChild(col);
+        });
+    }
+
+    onDrag(e) {
+        if (this.dragging === null) return;
+        
+        let containerRect = this.ui.city.getBoundingClientRect();
+        // Calculate new height based on mouse Y relative to container bottom
+        let newH = containerRect.bottom - e.clientY;
+        newH = Math.max(20, Math.min(newH, 400)); // Clamp
+        
+        this.heights[this.dragging] = newH;
+        
+        // Update DOM directly for perf
+        let col = this.ui.city.children[this.dragging];
+        let bld = col.querySelector('.building');
+        let hnd = col.querySelector('.handle');
+        
+        bld.style.height = newH + 'px';
+        hnd.style.bottom = (newH - 10) + 'px';
+        
+        this.calculateViews();
+    }
+
+    calculateViews() {
+        // Monotonic Stack Concept: finding Next Greater Element to the right
+        // Here: A building has a view if NO building to its right is higher (or equal? usually strictly higher blocks).
+        // Let's say strictly higher blocks view.
+        // So building i is visible if max(heights[i+1...n]) < heights[i]
+        
+        let maxRight = 0;
+        let count = 0;
+        
+        // Iterate backwards
+        for(let i=this.n-1; i>=0; i--) {
+            let h = this.heights[i];
+            let bld = document.getElementById('bld-'+i);
+            
+            if (h > maxRight) {
+                // Visible
+                bld.classList.add('sunny');
+                maxRight = h;
+                count++;
+            } else {
+                bld.classList.remove('sunny');
+            }
+        }
+        
+        this.ui.count.innerText = count;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

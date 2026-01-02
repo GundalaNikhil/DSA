@@ -1,2 +1,52 @@
-# Quiz for PDS-015: Problem 15
-# YAML content to be added
+problem_id: PDS_MINHASH_LSH_CANDIDATE_PROBABILITY_015
+display_id: PDS-015
+slug: minhash-lsh-candidate-probability
+questions:
+  - question: "In MinHash LSH, we organize the signature matrix into 'b' bands of 'r' rows. A pair is a candidate if:"
+    difficulty: easy
+    points: 10
+    options:
+      - They interact (match perfectly) in AT LEAST one band
+      - They match in ALL bands
+      - They match in strictly more than half the bands
+      - They don't match anywhere
+    correct_answer: 0
+    explanation: This OR-construction increases the probability of finding similar items.
+    type: single_choice
+    id: prq_1
+  - question: "The probability that a pair with similarity 's' becomes a candidate is:"
+    difficulty: medium
+    points: 15
+    options:
+      - 1 - (1 - s^r)^b
+      - (1 - s)^b
+      - s^r * b
+      - 1 - s^(r*b)
+    correct_answer: 0
+    explanation: s^r is probability of match in one band. (1-s^r) is miss in one band. (1-s^r)^b is miss in all bands.
+    type: single_choice
+    id: edq_1
+  - question: The plot of this probability function creates an 'S-curve'. What does the steep part represent?
+    difficulty: easy
+    points: 10
+    options:
+      - The threshold similarity where probability of detection jumps from low to high
+      - The error rate
+      - The speed of the algorithm
+      - The memory usage
+    correct_answer: 0
+    explanation: It effectively filters out pairs with similarity below the threshold and keeps those above.
+    type: single_choice
+    id: edq_2
+  - question: "Increasing the number of bands 'b' (while keeping total signature length fixed) generally:"
+    difficulty: easy
+    points: 10
+    options:
+      - Decreases the threshold (finding more candidates, more False Positives)
+      - Increases the threshold (finding fewer candidates, more False Negatives)
+      - Has no effect
+      - Decreases memory usage
+    correct_answer: 0
+    explanation: More bands means more chances to collide, so we catch pairs with lower similarity.
+    type: single_choice
+    id: edq_3

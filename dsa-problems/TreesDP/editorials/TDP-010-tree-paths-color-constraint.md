@@ -67,6 +67,21 @@ Answer: 0 (no valid pairs at distance 2 avoiding forbidden color)
    - **Update DP**: Combine paths, marking as "dirty" if ANY segment has forbidden color
 4. **Key Formula**: `new_has = h1 | h2 | (color[u] == F ? 1 : 0)`
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Root tree and DFS]
+    B --> C[Initialize dp at node]
+    C --> D{Child subtree}
+    D -->|Yes| E[Save current dp as temp]
+    E --> F[Merge child dp into temp]
+    F --> G[Count clean pairs at distance K]
+    G --> H[Update dp with clean or dirty flag]
+    H --> D
+    D -->|No| I[Return dp for node]
+    I --> J[End]
+```
+
 ### Why We Need to Save `temp` Before Merging
 
 When processing multiple children, we must avoid counting paths within the same subtree as pairs. By saving the current dp[u] before merging each child, we ensure we only pair paths from different subtrees.

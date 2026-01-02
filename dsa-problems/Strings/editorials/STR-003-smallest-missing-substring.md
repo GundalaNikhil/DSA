@@ -99,6 +99,18 @@ function dfs(current, remaining, substrings):
     return null
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build set of substrings] --> B[Start DFS with empty string]
+B --> C{Remaining length zero}
+C -->|Yes| D{Candidate in set}
+D -->|No| E[Return candidate]
+D -->|Yes| F[Backtrack]
+C -->|No| G[Try next character]
+G --> B
+```
+
 ### Time Complexity
 
 | Phase              | Operations           | Cost                    |

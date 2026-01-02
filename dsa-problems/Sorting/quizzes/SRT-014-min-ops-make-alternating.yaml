@@ -1,2 +1,52 @@
-# Quiz for SRT-014: Minimum Operations to Make Array Alternating
-# YAML content to be added
+problem_id: SRT_MIN_OPS_MAKE_ALTERNATING_014
+display_id: SRT-014
+slug: min-ops-make-alternating
+questions:
+  - question: To make an array alternating (e.g., `[x, y, x, y]`) with minimum changes, what is the optimal greedy strategy regarding element selection?
+    difficulty: medium
+    points: 15
+    options:
+      - Identify the most frequent element at even indices (`E1`) and the most frequent element at odd indices (`O1`). Maximize the number of elements we *keep*.
+      - Replace all even elements with 0 and all odd elements with 1.
+      - Sort the array and check adjacent duplicates.
+      - Use Dynamic Programming with state `(index, last_value)`.
+    correct_answer: 0
+    explanation: Minimizing changes is equivalent to maximizing the number of unchanged elements. The best candidates for `x` and `y` are naturally the most frequent existing values at even and odd positions respectively.
+    type: single_choice
+    id: prq_1
+  - question: What happens if the best candidate for even positions (`E1`) is the same as the best candidate for odd positions (`O1`)?
+    difficulty: medium
+    points: 15
+    options:
+      - "We cannot use both. We must check two alternatives: using `E1` with the second-best odd candidate (`O2`), or using the second-best even candidate (`E2`) with `O1`. Pick the one that yields fewer total changes."
+      - We simply pick `E1` for both and have a constant array `[x, x, x, x]`.
+      - We discard `E1` entirely and find the third best.
+      - This case is impossible.
+    correct_answer: 0
+    explanation: Since the problem requires `x != y` (distinct alternating values), a conflict forces us to settle for the second-best frequency on one of the sides to satisfy the condition optimally.
+    type: single_choice
+    id: edq_1
+  - question: How many top frequent elements do we need to track for even and odd positions to guarantee finding the optimal solution?
+    difficulty: easy
+    points: 10
+    options:
+      - Top 2 for each.
+      - Top 1 for each.
+      - Top 5 for each.
+      - All unique elements.
+    correct_answer: 0
+    explanation: We only need the top 2. If the top choices conflict, at least one of the 'top + second-best' combinations will resolve the conflict optimally. We never need the 3rd best.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of this approach?
+    difficulty: easy
+    points: 10
+    options:
+      - "`O(N)`"
+      - "`O(N log N)`"
+      - "`O(N^2)`"
+      - "`O(2^N)`"
+    correct_answer: 0
+    explanation: We iterate through the array once to count frequencies (`O(N)`), and finding the top 2 elements from the frequency map takes time proportional to the number of unique elements (at most `N`, but practical map operations are efficient or `O(N)` total). Total time is linear.
+    type: single_choice
+    id: edq_3

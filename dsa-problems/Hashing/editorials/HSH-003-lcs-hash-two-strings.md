@@ -26,119 +26,146 @@ You are given two strings, `a` and `b`. Your task is to find the length of the l
 
 ## 🌍 Real-World Scenario
 
-**Scenario Title:** Code Plagiarism Detection
+**Scenario Title:** The Code Plagiarism Detective 🕵️‍♂️
 
-Imagine you are a professor checking student assignments for copied code.
+### The Problem
+You are a professor teaching a coding class. Two students, "Alice" and "Bob", submit their assignments. You suspect they shared code.
+- If they share small common phrases like `int i = 0;`, that's normal.
+- But if they share a massive contiguous block of 500 lines of code, identical character-for-character, that's highly suspicious.
+- **Goal:** Find the *longest* contiguous block of text present in both submissions to quantify the similarity.
 
-- Student A submits file `a`.
-- Student B submits file `b`.
-- You want to know if they copied a significant chunk of code from each other.
-- Finding the "Longest Common Substring" tells you the maximum length of verbatim copying. If this length is large (e.g., 500 characters), it's strong evidence of plagiarism.
+### Why This Matters
+- **Plagiarism Detection:** Used in tools like MOSS (Measure Of Software Similarity) to detect academic dishonesty.
+- **Data Deduplication:** Cloud storage systems find common chunks of data between files to save space (store the chunk once, reference it multiple times).
+- **Bioinformatics:** Finding the longest DNA sequence shared between two distinct species to identify common ancestors or conserved genes.
 
-![Real-World Application](../images/HSH-003/real-world-scenario.png)
+### Constraints in Real World
+- **Speed:** Assignments are long ($10^5$ characters). Comparing every substring ($O(N^2)$) takes too long (10 billion ops).
+- **False Positives:** We need an efficient way to check equality without actually comparing strings character-by-character repeatedly.
+
+### From Real World to Algorithm
+We treat the files as strings `A` and `B`. Finding the Longest Common Substring efficiently requires checking if a common substring of length `L` exists. If so, we try `L+1`. If not, we try `L-1`. This monotonicity suggests **Binary Search on Answer** combined with **Rolling Hash**.
 
 ## Detailed Explanation
 
-### ASCII Diagram: Finding the Overlap
+### Concept Visualization
 
-String A: "abcde"
-String B: "cdef"
+We rely on the property: "If a common substring of length 4 exists, a common substring of length 3 MUST also exist."
 
-```text
-Length 1 check:
-A: {a, b, c, d, e}
-B: {c, d, e, f}
-Common: {c, d, e} -> Found!
-
-Length 2 check:
-A: {ab, bc, cd, de}
-B: {cd, de, ef}
-Common: {cd, de} -> Found!
-
-Length 3 check:
-A: {abc, bcd, cde}
-B: {cde, def}
-Common: {cde} -> Found!
-
-Length 4 check:
-A: {abcd, bcde}
-B: {cdef}
-Common: None -> Stop.
-
-Max Length: 3 ("cde")
+```mermaid
+graph TD
+    A[Range: 0 to min len] --> B{Check Mid Length L?}
+    B -- Exists in both --> C[Try Longer: L+1 to High]
+    B -- Not found --> D[Try Shorter: Low to L-1]
+    
+    subgraph Check Function
+    E[Hash all length-L substrings of A] --> F[Store in Set]
+    F --> G[Hash all length-L substrings of B]
+    G --> H{Hash exists in Set?}
+    H -- Yes --> I[Return True]
+    H -- No --> J[Return False]
+    end
 ```
 
-### Key Concept: Binary Search on Answer
+### Algorithm Flow Diagram
 
-If two strings share a common substring of length `L`, they definitely share a common substring of length `L-1` (just take the prefix of the length `L` match).
-This monotonicity allows us to use **Binary Search** on the length.
+```mermaid
+graph TD
+    Start[Start] --> Init[Low=0, High=min len A, B]
+    Init --> Loop{Low <= High?}
+    Loop -- No --> Return[Return Ans]
+    Loop -- Yes --> Mid[Mid = Low + High / 2]
+    
+    Mid --> HashA[Compute Hashes of A len Mid]
+    HashA --> StoreA[Store in HashSet]
+    StoreA --> HashB[Compute Hashes of B len Mid]
+    HashB --> CheckMatch{Match in Set?}
+    
+    CheckMatch -- Yes --> Found[Ans = Mid, Low = Mid + 1]
+    CheckMatch -- No --> NotFound[High = Mid - 1]
+    
+    Found --> Loop
+    NotFound --> Loop
+    
+    style Found fill:#d4f4dd
+    style NotFound fill:#ffcccc
+```
 
-- Range: `[0, min(|a|, |b|)]`.
-- Check function `possible(len)`: Returns true if there exists a common substring of length `len`.
+## 🎯 Edge Cases to Test
 
-To implement `possible(len)` efficiently, we use **Rolling Hash**.
+1. **No Common Substring**
+   - Input: `a="abc", b="xyz"`
+   - Expected: `0`
+   - Why: Ensures algorithm handles completely disjoint strings.
 
-1. Compute hashes of all substrings of length `len` in `a` and store them in a Hash Set.
-2. Compute hashes of all substrings of length `len` in `b`.
-3. If any hash from `b` exists in the set from `a`, return true.
+2. **Complete Overlap**
+   - Input: `a="abc", b="abc"`
+   - Expected: `3`
+   - Why: Max possible answer.
 
-## ✅ Input/Output Clarifications (Read This Before Coding)
+3. **One String Empty**
+   - Input: `a="", b="abc"`
+   - Expected: `0`
+   - Why: Boundary condition for binary search range.
+
+4. **Multiple Common Substrings of Same Length**
+   - Input: `a="abcxyz", b="abcpqrxyz"`
+   - Expected: `3` (matches "abc" or "xyz")
+   - Why: Ensures finding *any* match is sufficient.
+
+5. **A shorter than B**
+   - Input: `a="hi", b="hello"`
+   - Expected: `1` ("h")
+   - Why: Binary search upper bound must be min(len(a), len(b)).
+
+## ✅ Input/Output Clarifications
 
 - **Input:** Two strings `a` and `b`.
-- **Output:** Integer representing the maximum length.
-- **Constraints:** Lengths up to `10^5`. `O(N^2)` DP solution will TLE. We need `O(N log N)`.
+- **Output:** A single integer (max length).
+- **Constraints:** $N, M \le 10^5$.
+- **Hashing:** Recommend **Double Hashing** or a large prime modulus to avoid collisions in competitive settings.
 
 ## Naive Approach
 
 ### Intuition
+Use Dynamic Programming. Let `dp[i][j]` be the length of the common suffix ending at `a[i]` and `b[j]`.
+If `a[i] == b[j]`, then `dp[i][j] = dp[i-1][j-1] + 1`, else 0.
+The answer is the maximum value in the DP table.
 
-Use Dynamic Programming (LCS table).
-`DP[i][j]` = length of common suffix of `a[0 dots i]` and `b[0 dots j]`.
-If `a[i] == b[j]`, `DP[i][j] = DP[i-1][j-1] + 1`.
-Max value in DP table is the answer.
+### Complexity Visualization
 
-### Time Complexity
+| Approach | Time Complexity | Space Complexity | Feasibility for N=100,000 |
+|:---------|:---------------:|:----------------:|:-------------------------:|
+| Naive DP (LCS Table) | O(N×M) | O(N×M) | ❌ TLE/MLE (10¹⁰ ops, 40GB RAM) |
+| Binary Search + Rolling Hash | O((N+M) log N) | O(N) | ✅ Fast (~2×10⁶ ops) |
 
-- **O(N \* M)**: Where `N, M` are lengths. For `10^5`, `10^10` operations is too slow.
+### Why This Fails
+O(N×M) is quadratic. For $N=10^5$, $N^2 = 10^{10}$, which is far beyond the typical $10^8$ operations per second limit.
 
-## Optimal Approach
+## Optimal Approach (Binary Search + Rolling Hash)
 
 ### Key Insight
-
-Combine **Binary Search** with **Rolling Hash**.
-
-- Binary search gives `O(log N)` steps.
-- Rolling hash check takes `O(N)` time.
-- Total time: `O(N log N)`.
+1. **Binary Search**: Instead of checking every length, we binary search for the answer. If a common substring of length `k` exists, we try a longer length. If not, we try shorter.
+2. **Rolling Hash**: To check if a common substring of length `k` exists in O(N+M) time:
+   - Compute rolling hashes of all length-`k` substrings of A and store in a HashSet.
+   - Compute rolling hashes of all length-`k` substrings of B and check if they exist in the Set.
 
 ### Algorithm
-
-1. Initialize `low = 0`, `high = min(|a|, |b|)`.
+1. `low = 0`, `high = min(|A|, |B|)`
 2. While `low <= high`:
-   - `mid = (low + high) / 2`.
-   - If `check(mid)` is true:
-     - `ans = mid`
-     - `low = mid + 1` (Try longer)
-   - Else:
-     - `high = mid - 1` (Try shorter)
-3. Return `ans`.
-
-**Check Function `check(len)`:**
-
-1. Calculate rolling hashes for all substrings of length `len` in `a`. Store in a Set.
-2. Calculate rolling hashes for all substrings of length `len` in `b`.
-3. If a hash from `b` is in the Set, return true.
-   - _Note:_ To avoid collisions, use Double Hashing or check the actual substring (though checking is slow, double hashing is preferred).
+   - `mid = (low + high) / 2`
+   - If `check(mid)` is true: `ans = mid`, `low = mid + 1`
+   - Else: `high = mid - 1`
+3. **Check(len)**:
+   - Rolling hash A (len `mid`), insert to Set.
+   - Rolling hash B (len `mid`), query Set.
+   - If match found, return True.
 
 ### Time Complexity
-
-- **O((N + M) log (min(N, M)))**.
+- **O((N + M) log (min(N, M)))**: Binary search takes `log(min(N, M))` steps. Each step takes `O(N + M)` for hashing.
 
 ### Space Complexity
-
-- **O(N)**: To store hashes in the set.
-
-![Algorithm Visualization](../images/HSH-003/algorithm-visualization.png)
+- **O(N)**: To store hashes of string A in the set.
 
 ## Implementations
 
@@ -176,7 +203,7 @@ class Solution {
         long currentHash = 0;
         long power = 1;
 
-        // Precompute BASE^len
+        // Precompute BASE^(len-1)
         for (int i = 0; i < len; i++) {
             if (i > 0) power = (power * BASE) % MOD;
             currentHash = (currentHash * BASE + a.charAt(i)) % MOD;
@@ -490,61 +517,81 @@ rl.on("close", () => {
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 
-**Input:**
-
+### Input
 ```
 abcde
 cdef
 ```
+Lengths: A=5, B=4. Range: `[0, 4]`.
 
-**Binary Search:**
+### Execution Table
 
-1. Range `[0, 4]`. Mid = 2.
-   - `check(2)`:
-     - A substrings: "ab", "bc", "cd", "de". Hashes stored.
-     - B substrings: "cd", "de", "ef".
-     - "cd" matches! Return true.
-   - Ans = 2. Range `[3, 4]`.
-2. Mid = 3.
-   - `check(3)`:
-     - A substrings: "abc", "bcd", "cde".
-     - B substrings: "cde", "def".
-     - "cde" matches! Return true.
-   - Ans = 3. Range `[4, 4]`.
-3. Mid = 4.
-   - `check(4)`:
-     - A substrings: "abcd", "bcde".
-     - B substrings: "cdef".
-     - No match. Return false.
-   - Range `[4, 3]`. Loop ends.
+| Step | Low | High | Mid | `check(mid)` Action | Result | New Bound |
+|:----:|:---:|:----:|:---:|:--------------------|:------:|:---------:|
+| 1 | 0 | 4 | 2 | Hash substrings len 2 | | |
+| 1a | | | | A: {"ab", "bc", "cd", "de"} | Set{"ab","bc",...} | |
+| 1b | | | | B: "cd" → Found! | True | Low = 3, Ans = 2 |
+| 2 | 3 | 4 | 3 | Hash substrings len 3 | | |
+| 2a | | | | A: {"abc", "bcd", "cde"} | Set{"abc",...} | |
+| 2b | | | | B: "cde" → Found! | True | Low = 4, Ans = 3 |
+| 3 | 4 | 4 | 4 | Hash substrings len 4 | | |
+| 3a | | | | A: {"abcd", "bcde"} | Set{...} | |
+| 3b | | | | B: "cdef" → Not Found | False | High = 3 |
+| End | 4 | 3 | | Exit Loop | | Return 3 |
 
-**Result:** 3.
+**Detailed `check(3)`:**
+- A's substrings length 3:
+  - "abc" → Hash(abc)
+  - "bcd" → Hash(bcd)
+  - "cde" → Hash(cde)
+- B's substrings length 3:
+  - "cde" → Hash matches one in A! Return True.
+
+**Final Output:** `3`
 
 ## ✅ Proof of Correctness
 
 ### Invariant
+1.  **Binary Search Invariant:** The answer lies in the range `[0, high] + {ans}`. If `check(mid)` is true, we know answer $\ge mid$, so we search `[mid+1, high]`. If false, answer $< mid$, so we search `[low, mid-1]`.
+2.  **Rolling Hash Correctness:** The formula $H_{new} = ((H_{old} - s_{remove} \cdot B^{L-1}) \cdot B + s_{add}) \pmod M$ correctly updates the polynomial hash in O(1).
+    - $H_{old} = c_1 B^{L-1} + \dots + c_L B^0$
+    - $H_{old} - c_1 B^{L-1} = c_2 B^{L-1} + \dots + c_L B^0$ (Remove leading term)
+    - $(\dots) \cdot B = c_2 B^L + \dots + c_L B^1$ (Shift)
+    - $+ s_{add} = c_2 B^L + \dots + c_L B^1 + c_{new} B^0$ (Add new term)
+    - This matches the polynomial definition for the new window.
 
-If `check(L)` returns true, there is a common substring of length `L`.
-Since substring existence is monotonic (if length `L` exists, `L-1` exists), binary search correctly finds the maximum `L`.
-The rolling hash correctly computes polynomial hashes for all substrings in `O(N)` time.
+## ⚠️ Common Mistakes to Avoid
+
+1.  **Recomputing Powers**:
+    - ❌ Wrong: Calculating `pow(BASE, len-1)` inside the O(N) loop makes `check()` O(N log L), total complexity O(N log² N).
+    - ✅ Correct: Precompute `power` once per `check()` call.
+
+2.  **Hash Collisions**:
+    - ❌ Wrong: Assuming 10^9+7 is collision-free for 10^5 substrings.
+    - ✅ Correct: Use double hashing or check actual substring equality upon hash match (though checking is O(L), making worst case O(N*L)). For competitive programming, double hashing is safest O(N).
+
+3.  **Empty String Handling**:
+    - ❌ Wrong: `high = a.length()` when `b` is empty leads to checking non-existent lengths.
+    - ✅ Correct: `high = min(a.length(), b.length())`.
+
+4.  **Infinite Loop in Binary Search**:
+    - ❌ Wrong: `low = mid` without `+1`.
+    - ✅ Correct: Standard binary search template: `ans = mid; low = mid + 1`.
+
+5.  **Negative Modulo**:
+    - ❌ Wrong: `(curr - remove) % MOD`
+    - ✅ Correct: `(curr - remove + MOD) % MOD` to handle negative results from subtraction.
 
 ## 💡 Interview Extensions
 
-- **Extension 1:** Find LCS of _k_ strings.
-  - _Answer:_ Same binary search. In `check(len)`, keep a map `hash -> count`. If count reaches `k`, return true.
-- **Extension 2:** What if we want the actual string, not just length?
-  - _Answer:_ Store the starting index along with the hash in the set. If match found, return `a.substring(start, start + len)`.
+1.  **Find the actual Longest Common Substring (not just length)**
+    - *Answer:* Instead of a Set of Hashes, use a Map `{Hash -> StartingIndex}`. When a match is found in `check()`, retrieve the index and substring: `a.substring(start, start + len)`.
 
-### Common Mistakes to Avoid
+2.  **Longest Common Substring of K Strings**
+    - *Answer:* Binary Search on length. In `check(len)`, compute hashes for all K strings. Use a Map `{Hash -> Count}`. Increment count for unique hashes per string. If any hash has count == K, return True.
 
-1. **Hash Collisions**
-   - ❌ Wrong: Assuming single hash is perfect.
-   - ✅ Correct: For competitive programming, use Double Hashing or a very large modulus/random base to minimize probability.
-2. **Power Calculation**
-   - ❌ Wrong: Recomputing `B^L-1` inside the loop.
-   - ✅ Correct: Precompute it once per `check` call.
+3.  **Memory Optimization**
+    - *Answer:* If strict memory limits exist, using a Set for all O(N) hashes might be too much. We can use a **Suffix Array** with LCP array to solve this in O((N+M) log (N+M) or O(N+M)) with strictly linear space, avoiding hash collisions entirely.
 
-## Related Concepts
-
-- **Suffix Automaton / Suffix Tree:** Solves this in `O(N)` (linear time), but much harder to implement.
-- **Dynamic Programming:** `O(N^2)` solution (LCS table).
+4.  **Cyclic Shift Common Substring**
+    - *Answer:* If we want to find LCS where one string can be cyclically shifted, concatenate the string to itself (`B + B`) and run the standard LCS algorithm against `A`.

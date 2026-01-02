@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRP-004: Team Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f0f1a;
+            --primary: #ff6b9d;
+            --secondary: #1a1a2e;
+            --team-a: #3b82f6;
+            --team-b: #f97316;
+            --text: #e2e8f0;
+            --success: #22c55e;
+            --danger: #ef4444;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            background-image: 
+                linear-gradient(90deg, rgba(255, 107, 157, 0.05) 1px, transparent 1px),
+                linear-gradient(rgba(255, 107, 157, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--secondary), var(--bg));
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
+        }
+
+        .graph-container {
+            position: relative;
+            width: 550px;
+            height: 400px;
+            background: var(--secondary);
+            border-radius: 15px;
+            border: 2px solid var(--primary);
+        }
+
+        .node {
+            position: absolute;
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 3px solid var(--text);
+            background: var(--secondary);
+        }
+
+        .node:hover { transform: scale(1.1); }
+        .node.team-a { background: var(--team-a); border-color: var(--team-a); color: #fff; box-shadow: 0 0 15px var(--team-a); }
+        .node.team-b { background: var(--team-b); border-color: var(--team-b); color: #fff; box-shadow: 0 0 15px var(--team-b); }
+        .node.conflict { animation: shake 0.5s; border: 4px solid var(--danger); }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .edge {
+            position: absolute;
+            background: var(--text);
+            height: 2px;
+            transform-origin: left center;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .edge.conflict { background: var(--danger); opacity: 1; height: 4px; }
+
+        .teams-panel {
+            display: flex;
+            gap: 50px;
+            padding: 20px;
+        }
+
+        .team-box {
+            padding: 15px 30px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 120px;
+        }
+
+        .team-box.team-a { border: 2px solid var(--team-a); background: rgba(59, 130, 246, 0.1); }
+        .team-box.team-b { border: 2px solid var(--team-b); background: rgba(249, 115, 22, 0.1); }
+
+        .team-label { font-size: 0.9rem; color: #64748b; }
+        .team-count { font-size: 2rem; font-weight: bold; }
+        .team-box.team-a .team-count { color: var(--team-a); }
+        .team-box.team-b .team-count { color: var(--team-b); }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 12px 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover { background: var(--primary); color: #000; }
+        .btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .btn.secondary { border-color: #64748b; color: #64748b; }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+            padding: 10px 20px;
+            border-radius: 8px;
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(15, 15, 26, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: var(--secondary); padding: 40px; border: 2px solid var(--primary);
+            max-width: 550px; text-align: center; color: var(--text);
+            border-radius: 15px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🎭 Team Builder</h1>
+    <div style="color: #94a3b8;">GRP-004: BIPARTITE CHECK</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div style="color: #94a3b8;">Click nodes to assign them to teams. Connected people must be on different teams!</div>
+
+        <div class="graph-container" id="graphContainer"></div>
+
+        <div class="teams-panel">
+            <div class="team-box team-a">
+                <div class="team-label">TEAM BLUE</div>
+                <div class="team-count" id="countA">0</div>
+            </div>
+            <div class="team-box team-b">
+                <div class="team-label">TEAM ORANGE</div>
+                <div class="team-count" id="countB">0</div>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" onclick="game.autoAssign()">AUTO ASSIGN</button>
+            <button class="btn secondary" onclick="game.reset()">RESET</button>
+            <button class="btn secondary" onclick="game.newGraph()">NEW GRAPH</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🎭 TEAM BUILDER</h2>
+        <div style="text-align:left; font-size:0.95rem; margin:1.5rem 0; line-height:1.7; color:#aaa;">
+            <p><b>Scenario:</b> Divide participants into two teams where connected people can't be on the same team (they're rivals!).</p>
+            <p><b>Bipartite Check:</b></p>
+            <ul style="margin-left: 15px;">
+                <li>Click a node to assign it to a team (alternates)</li>
+                <li>All neighbors must be on opposite team</li>
+                <li>If a conflict occurs, graph is NOT bipartite</li>
+            </ul>
+            <p><b>Goal:</b> Try to color all nodes with 2 colors!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START BUILDING</button>
+    </div>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.nodes = [];
+        this.adj = [];
+        this.edges = [];
+        this.color = []; // -1 = unassigned, 0 = team A, 1 = team B
+        this.isBipartite = true;
+        this.conflictEdge = null;
+        
+        this.ui = {
+            container: document.getElementById('graphContainer'),
+            countA: document.getElementById('countA'),
+            countB: document.getElementById('countB'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newGraph();
+    }
+
+    newGraph() {
+        const n = Math.floor(Math.random() * 3) + 6;
+        const makeBipartite = Math.random() > 0.3; // 70% chance bipartite
+        
+        this.nodes = [];
+        this.adj = Array.from({length: n}, () => []);
+        this.edges = [];
+        
+        const centerX = 275, centerY = 200, radius = 150;
+        for (let i = 0; i < n; i++) {
+            const angle = (2 * Math.PI * i) / n - Math.PI / 2;
+            this.nodes.push({
+                id: i,
+                x: centerX + radius * Math.cos(angle),
+                y: centerY + radius * Math.sin(angle)
+            });
+        }
+        
+        if (makeBipartite) {
+            // Create bipartite graph
+            const setA = [], setB = [];
+            for (let i = 0; i < n; i++) {
+                if (i % 2 === 0) setA.push(i);
+                else setB.push(i);
+            }
+            
+            // Connect between sets only
+            for (let i = 1; i < n; i++) {
+                const inA = setA.includes(i);
+                const opposite = inA ? setB : setA;
+                if (opposite.length > 0) {
+                    const j = opposite[Math.floor(Math.random() * opposite.length)];
+                    if (!this.adj[i].includes(j)) {
+                        this.addEdge(i, j);
+                    }
+                }
+            }
+            
+            // Add more edges between sets
+            const extra = Math.floor(Math.random() * 3) + 2;
+            for (let k = 0; k < extra; k++) {
+                const a = setA[Math.floor(Math.random() * setA.length)];
+                const b = setB[Math.floor(Math.random() * setB.length)];
+                if (!this.adj[a].includes(b)) {
+                    this.addEdge(a, b);
+                }
+            }
+        } else {
+            // Create non-bipartite (has odd cycle)
+            for (let i = 1; i < n; i++) {
+                const j = Math.floor(Math.random() * i);
+                this.addEdge(i, j);
+            }
+            
+            // Ensure odd cycle
+            if (n >= 3) {
+                if (!this.adj[0].includes(1)) this.addEdge(0, 1);
+                if (!this.adj[1].includes(2)) this.addEdge(1, 2);
+                if (!this.adj[2].includes(0)) this.addEdge(2, 0);
+            }
+        }
+        
+        this.reset();
+    }
+
+    addEdge(u, v) {
+        this.edges.push([u, v]);
+        this.adj[u].push(v);
+        this.adj[v].push(u);
+    }
+
+    reset() {
+        this.color = new Array(this.nodes.length).fill(-1);
+        this.isBipartite = true;
+        this.conflictEdge = null;
+        this.ui.status.textContent = '';
+        this.ui.status.style.background = '';
+        this.render();
+    }
+
+    clickNode(id) {
+        if (this.color[id] !== -1 || !this.isBipartite) return;
+        
+        // BFS to color this component
+        const queue = [[id, 0]];
+        this.color[id] = 0;
+        
+        while (queue.length > 0 && this.isBipartite) {
+            const [curr, c] = queue.shift();
+            
+            for (const neighbor of this.adj[curr]) {
+                if (this.color[neighbor] === -1) {
+                    this.color[neighbor] = 1 - c;
+                    queue.push([neighbor, 1 - c]);
+                } else if (this.color[neighbor] === c) {
+                    this.isBipartite = false;
+                    this.conflictEdge = [curr, neighbor];
+                    break;
+                }
+            }
+        }
+        
+        this.render();
+        this.checkComplete();
+    }
+
+    autoAssign() {
+        for (let i = 0; i < this.nodes.length && this.isBipartite; i++) {
+            if (this.color[i] === -1) {
+                this.clickNode(i);
+            }
+        }
+    }
+
+    checkComplete() {
+        if (!this.isBipartite) {
+            this.ui.status.innerHTML = '❌ NOT BIPARTITE! Found a conflict.';
+            this.ui.status.style.background = 'rgba(239, 68, 68, 0.2)';
+            return;
+        }
+        
+        const assigned = this.color.filter(c => c !== -1).length;
+        if (assigned === this.nodes.length) {
+            this.ui.status.innerHTML = '✅ Successfully divided into two teams! Graph is BIPARTITE.';
+            this.ui.status.style.background = 'rgba(34, 197, 94, 0.2)';
+        }
+    }
+
+    render() {
+        this.ui.container.innerHTML = '';
+        
+        // Draw edges
+        for (const [u, v] of this.edges) {
+            const edge = document.createElement('div');
+            edge.className = 'edge';
+            
+            if (this.conflictEdge && 
+                ((u === this.conflictEdge[0] && v === this.conflictEdge[1]) ||
+                 (u === this.conflictEdge[1] && v === this.conflictEdge[0]))) {
+                edge.classList.add('conflict');
+            }
+            
+            const x1 = this.nodes[u].x, y1 = this.nodes[u].y;
+            const x2 = this.nodes[v].x, y2 = this.nodes[v].y;
+            const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+            const angle = Math.atan2(y2 - y1, x2 - x1);
+            
+            edge.style.left = x1 + 'px';
+            edge.style.top = y1 + 'px';
+            edge.style.width = length + 'px';
+            edge.style.transform = `rotate(${angle}rad)`;
+            
+            this.ui.container.appendChild(edge);
+        }
+        
+        // Draw nodes
+        for (const node of this.nodes) {
+            const el = document.createElement('div');
+            el.className = 'node';
+            
+            if (this.color[node.id] === 0) el.classList.add('team-a');
+            else if (this.color[node.id] === 1) el.classList.add('team-b');
+            
+            if (this.conflictEdge && 
+                (node.id === this.conflictEdge[0] || node.id === this.conflictEdge[1])) {
+                el.classList.add('conflict');
+            }
+            
+            el.style.left = (node.x - 27) + 'px';
+            el.style.top = (node.y - 27) + 'px';
+            el.textContent = node.id;
+            el.onclick = () => this.clickNode(node.id);
+            
+            this.ui.container.appendChild(el);
+        }
+        
+        // Update counts
+        this.ui.countA.textContent = this.color.filter(c => c === 0).length;
+        this.ui.countB.textContent = this.color.filter(c => c === 1).length;
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

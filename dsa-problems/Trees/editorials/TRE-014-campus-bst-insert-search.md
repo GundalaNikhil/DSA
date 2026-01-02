@@ -82,6 +82,20 @@ Imagine a librarian receiving a shipment of new books.
 4.  **Inorder:**
     -   Recurse left -> Visit node -> Recurse right.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Read values and target]
+    B --> C[Set root to null]
+    C --> D[For each value]
+    D --> E[Insert into BST]
+    E --> D
+    D --> F[Run inorder traversal]
+    F --> G[Search for target]
+    G --> H[Output inorder and found flag]
+    H --> I[End]
+```
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 -   **Duplicates:** Problem statement says "Duplicates, if any, must be inserted into the right subtree." This implies `val >= node.val` goes right.

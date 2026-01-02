@@ -1,2 +1,52 @@
-# Quiz for PRB-001: Coin Flip Streak Probability
-# YAML content to be added
+problem_id: PRB_COIN_FLIP_STREAK_PROBABILITY_001
+display_id: PRB-001
+slug: coin-flip-streak-probability
+questions:
+  - question: What is the most efficient approach to calculating the probability of getting *at least* one streak of K consecutive heads?
+    difficulty: easy
+    points: 10
+    options:
+      - "Complement Probability: Calculate the probability of *never* getting a streak of K heads, then subtract from 1."
+      - "Direct Summation: Count all sequences with 1 streak, 2 streaks, etc., and sum them up."
+      - "Monte Carlo Simulation: Simulate 1000 flips and count successes."
+      - "Backtracking: Recursively find all valid paths."
+    correct_answer: 0
+    explanation: Directly counting overlapping streaks is complex (Inclusion-Exclusion). Counting the complement (zero streaks of length K) is a straightforward DP problem.
+    type: single_choice
+    id: prq_1
+  - question: If `dp[i]` represents the number of sequences of length `i` with NO streak of `k` heads, what is the recurrence relation for `i > k`?
+    difficulty: medium
+    points: 15
+    options:
+      - "`dp[i] = 2 * dp[i-1] - dp[i-k-1]`"
+      - "`dp[i] = 2 * dp[i-1]`"
+      - "`dp[i] = dp[i-1] + dp[i-2]`"
+      - "`dp[i] = dp[i-1] + dp[i-k]`"
+    correct_answer: 0
+    explanation: We can extend any valid sequence of length `i-1` with H or T (2*dp[i-1]), but we must subtract those that end in `T` followed by `k-1` heads, which upon adding `H` form a forbidden `k`-streak. The number of such invalid extensions is `dp[i-k-1]` (the count before the `T` and `k-1` heads).
+    type: single_choice
+    id: edq_1
+  - question: For `i < k`, what is the value of `dp[i]` (sequences with no streak of k heads)?
+    difficulty: easy
+    points: 10
+    options:
+      - "`2^i` (All sequences are valid)"
+      - "`0`"
+      - "`i`"
+      - "`2^i - 1`"
+    correct_answer: 0
+    explanation: If the sequence length `i` is strictly less than the required streak length `k`, it is impossible to form a streak of `k` heads, so all `2^i` possible binary sequences are valid.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of the optimal DP solution?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N)
+      - O(N * K)
+      - O(2^N)
+      - O(N log N)
+    correct_answer: 0
+    explanation: The DP state depends only on the length `i`, and computing each state takes constant time O(1) using the previous values. Thus, total time is linear O(N).
+    type: single_choice
+    id: edq_3

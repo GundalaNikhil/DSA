@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRE-006: Treasure Hunter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pirata+One&family=Nunito:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root { --sand: #f4d03f; --ocean: #3498db; --chest: #8b4513; --gold: #ffd700; --map: #deb887; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Nunito', sans-serif; background: linear-gradient(180deg, var(--ocean) 0%, #2980b9 100%); min-height: 100vh; }
+        header { background: rgba(0,0,0,0.3); padding: 15px; text-align: center; color: #fff; border-bottom: 4px solid var(--gold); }
+        h1 { font-family: 'Pirata One', cursive; font-size: 2rem; color: var(--gold); }
+        .stats { display: flex; justify-content: center; gap: 20px; margin-top: 10px; }
+        .stat { background: rgba(0,0,0,0.2); padding: 5px 15px; border-radius: 20px; }
+        main { padding: 20px; max-width: 900px; margin: 0 auto; }
+        .treasure-map { background: linear-gradient(135deg, var(--map) 0%, #c4a35a 100%); border: 8px solid var(--chest); border-radius: 15px; padding: 25px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+        .map-title { font-family: 'Pirata One', cursive; color: var(--chest); font-size: 1.3rem; margin-bottom: 15px; text-align: center; }
+        .tree-container { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .tree-level { display: flex; gap: 15px; }
+        .treasure-node { width: 55px; height: 55px; background: var(--sand); border: 3px solid var(--chest); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: bold; color: var(--chest); cursor: pointer; transition: all 0.3s; position: relative; }
+        .treasure-node:hover { transform: scale(1.1); box-shadow: 0 0 15px var(--gold); }
+        .treasure-node.on-path { background: var(--gold); animation: sparkle 0.5s ease; }
+        .treasure-node.target { background: var(--gold); box-shadow: 0 0 20px var(--gold); }
+        .treasure-node.target::after { content: '💰'; position: absolute; top: -20px; font-size: 1.5rem; }
+        @keyframes sparkle { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+        .path-sum { position: absolute; top: -15px; right: -15px; background: var(--gold); color: #333; padding: 3px 8px; border-radius: 10px; font-size: 0.8rem; font-weight: bold; }
+        .pirate { position: absolute; font-size: 2rem; transition: all 0.6s ease; z-index: 100; }
+        .controls { background: rgba(0,0,0,0.2); border-radius: 15px; padding: 20px; margin-top: 20px; display: flex; gap: 15px; align-items: center; justify-content: center; flex-wrap: wrap; }
+        .target-display { background: var(--gold); color: #333; padding: 10px 20px; border-radius: 10px; font-size: 1.2rem; font-weight: bold; }
+        .btn { padding: 12px 25px; border: none; border-radius: 10px; font-family: 'Pirata One', cursive; font-size: 1.1rem; cursor: pointer; }
+        .btn-hunt { background: var(--chest); color: #fff; }
+        .btn-new { background: #666; color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+        .result { background: rgba(255,255,255,0.9); border-radius: 15px; padding: 20px; margin-top: 20px; text-align: center; display: none; }
+        .result.show { display: block; }
+        .result-title { font-family: 'Pirata One', cursive; color: var(--chest); font-size: 1.5rem; }
+        .result-path { display: flex; gap: 10px; justify-content: center; margin-top: 10px; flex-wrap: wrap; }
+        .path-node { background: var(--gold); color: #333; padding: 8px 15px; border-radius: 10px; font-weight: bold; }
+        #message { text-align: center; color: #fff; padding: 10px; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>💰 TREASURE HUNTER</h1>
+    <div class="stats">
+        <div class="stat">🗺️ Paths Found: <span id="found">0</span></div>
+    </div>
+</header>
+<main>
+    <div id="message">Find a path from root to leaf that sums to the target!</div>
+    <div class="treasure-map">
+        <div class="map-title">🗺️ TREASURE MAP</div>
+
+        <div class="tree-container" id="tree"></div>
+    </div>
+    <div class="controls">
+        <div class="target-display">🎯 Target Sum: <span id="target">22</span></div>
+        <button class="btn btn-hunt" onclick="game.hunt()">🔍 HUNT TREASURE</button>
+        <button class="btn btn-new" onclick="game.newTarget()">🎲 NEW TARGET</button>
+    </div>
+    <div class="result" id="result">
+        <div class="result-title">🏆 TREASURE PATH</div>
+        <div class="result-path" id="path"></div>
+    </div>
+</main>
+<script>
+class TreasureHunter {
+    constructor() {
+        this.tree = { val: 5, left: { val: 4, left: { val: 11, left: { val: 7 }, right: { val: 2 } } }, right: { val: 8, left: { val: 13 }, right: { val: 4, right: { val: 1 } } } };
+        this.target = 22;
+        this.pathsFound = [];
+        this.render();
+    }
+    render() {
+        const container = document.getElementById('tree');
+        container.innerHTML = '<div class="pirate" id="pirate">🏴‍☠️</div>';
+        this.renderNode(this.tree, container, 0);
+        document.getElementById('target').textContent = this.target;
+    }
+    renderNode(node, container, depth) {
+        if (!node) return;
+        let level = container.querySelector(`.level-${depth}`);
+        if (!level) {
+            level = document.createElement('div');
+            level.className = `tree-level level-${depth}`;
+            container.appendChild(level);
+        }
+        const el = document.createElement('div');
+        el.className = 'treasure-node';
+        el.id = `node-${node.val}-${depth}`;
+        el.textContent = node.val;
+        el.onclick = () => this.showNodeInfo(node);
+        level.appendChild(el);
+        this.renderNode(node.left, container, depth + 1);
+        this.renderNode(node.right, container, depth + 1);
+    }
+    showNodeInfo(node) {
+        document.getElementById('message').textContent = `Node ${node.val} clicked!`;
+    }
+    findPaths(node, target, path = []) {
+        if (!node) return [];
+        path = [...path, node.val];
+        if (!node.left && !node.right) {
+            if (path.reduce((a, b) => a + b, 0) === target) return [path];
+            return [];
+        }
+        return [...this.findPaths(node.left, target, path), ...this.findPaths(node.right, target, path)];
+    }
+    async hunt() {
+        document.querySelectorAll('.treasure-node').forEach(n => n.classList.remove('on-path', 'target'));
+        document.getElementById('result').classList.remove('show');
+        const paths = this.findPaths(this.tree, this.target);
+        if (paths.length === 0) {
+            document.getElementById('message').innerHTML = '<span style="color:#e74c3c">❌ No treasure path found for sum ' + this.target + '</span>';
+            return;
+        }
+        document.getElementById('found').textContent = paths.length;
+        const treasure = paths[0];
+        document.getElementById('message').textContent = '🏴‍☠️ Following the treasure path...';
+        for (let i = 0; i < treasure.length; i++) {
+            await this.delay(500);
+            const nodes = document.querySelectorAll('.treasure-node');
+            for (const n of nodes) {
+                if (n.textContent == treasure[i] && !n.classList.contains('on-path')) {
+                    n.classList.add('on-path');
+                    if (i === treasure.length - 1) n.classList.add('target');
+                    break;
+                }
+            }
+        }
+        const pathEl = document.getElementById('path');
+        pathEl.innerHTML = '';
+        treasure.forEach((v, i) => {
+            const node = document.createElement('span');
+            node.className = 'path-node';
+            node.textContent = v + (i < treasure.length - 1 ? ' →' : ' = ' + this.target);
+            pathEl.appendChild(node);
+        });
+        document.getElementById('result').classList.add('show');
+        document.getElementById('message').innerHTML = '<span style="color:var(--gold)">🎉 Treasure found!</span>';
+    }
+    newTarget() {
+        const targets = [22, 26, 18, 27];
+        this.target = targets[Math.floor(Math.random() * targets.length)];
+        document.getElementById('target').textContent = this.target;
+        document.querySelectorAll('.treasure-node').forEach(n => n.classList.remove('on-path', 'target'));
+        document.getElementById('result').classList.remove('show');
+        document.getElementById('message').textContent = 'New target! Find a path!';
+    }
+    delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+}
+const game = new TreasureHunter();
+</script>
+</body>
+</html>

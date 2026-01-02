@@ -65,6 +65,18 @@ We can use a recursive function `solve(index, current_sum, current_list)`.
     -   **Option 1 (Include)**: Add `p[index]` copies of `v[index]` to `current_list`. Recurse with `solve(index + 1, current_sum + total_value, new_list)`.
     -   **Option 2 (Exclude)**: Recurse with `solve(index + 1, current_sum, current_list)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Start at index zero] --> B{Current sum equals target}
+B -->|Yes| C[Record combination]
+B -->|No| D{Current sum exceeds target or index done}
+D -->|Yes| E[Return]
+D -->|No| F[Branch exclude item]
+F --> G[Branch include item copies]
+G --> A
+```
+
 To ensure the output is sorted and unique:
 1.  We can collect all valid combinations.
 2.  Sort each combination internally.

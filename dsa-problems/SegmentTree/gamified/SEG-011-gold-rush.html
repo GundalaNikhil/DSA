@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEG-011: Gold Rush Deep Scan</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rye&family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #5d4037; --dirt: #795548; --gold: #ffb300; --text: #fffcd6; --sky: #81d4fa; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        header { width: 100%; padding: 15px; text-align: center; border-bottom: 5px solid #3e2723; background: #3e2723; }
+        h1 { margin: 0; font-family: 'Rye', serif; font-size: 2.2rem; color: var(--gold); }
+
+        main { flex: 1; display: flex; flex-direction: column; width: 100%; max-width: 900px; padding: 20px; gap: 30px; align-items: center; }
+
+        .mine-shaft {
+            display: flex; gap: 5px; width: 100%; height: 350px; justify-content: center;
+            border: 2px solid #3e2723; padding: 10px; background: #8d6e63; overflow: hidden; position: relative;
+        }
+
+        .column {
+            flex: 1; display: flex; flex-direction: column; border: 1px dashed rgba(0,0,0,0.2); position: relative;
+            background: linear-gradient(to bottom, var(--sky) 0%, var(--sky) 10%, var(--dirt) 10%);
+        }
+        
+        .gold-nugget {
+            width: 30px; height: 20px; background: var(--gold); border-radius: 50% 50% 40% 40%;
+            position: absolute; left: 50%; transform: translateX(-50%);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            transition: top 0.5s;
+        }
+        .depth-label { position: absolute; bottom: 5px; width: 100%; text-align: center; font-family: 'Rye'; font-size: 0.8rem; }
+        .idx-label { position: absolute; top: 5px; width: 100%; text-align: center; color: #000; font-weight: bold; }
+
+        .scanner-beam {
+            position: absolute; top: 0; bottom: 0; background: rgba(255, 255, 255, 0.2); border: 2px solid var(--gold);
+            display: none; pointer-events: none; z-index: 10;
+        }
+
+        .controls { display: flex; gap: 15px; padding: 20px; background: #3e2723; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .btn { padding: 10px 20px; font-family: 'Rye'; font-size: 1.1rem; border: none; background: var(--gold); color: #3e2723; cursor: pointer; border-radius: 5px; }
+        .btn:hover { background: #fff; }
+        input { padding: 5px; width: 60px; text-align: center; border: none; border-radius: 3px; }
+
+        #msg { font-size: 1.2rem; min-height: 30px; color: var(--gold); font-family: 'Rye'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>SEG-011 GOLD RUSH</h1>
+    <div style="font-size:0.9rem;">RANGE MIN INDEX QUERY (FIND SHALLOWEST GOLD)</div>
+</header>
+<main>
+    <div id="msg">Correct: Find Shallowness (Top is 0 depth, Bottom is 100).</div>
+
+    <div class="mine-shaft" id="mine">
+        <div class="scanner-beam" id="beam"></div>
+    </div>
+
+    <div class="controls">
+        <div style="display:flex; flex-direction:column; gap:5px;">
+            <label>Dig/Fill Depth at Index:</label>
+            <div style="display:flex; gap:5px;">
+                <input type="number" id="updIdx" placeholder="Idx" min="0" max="9">
+                <input type="number" id="updVal" placeholder="Depth" min="10" max="90">
+                <button class="btn" onclick="game.update()">DIG</button>
+            </div>
+        </div>
+        <div style="width:2px; background:#6d4c41;"></div>
+        <div style="display:flex; flex-direction:column; gap:5px;">
+            <label>Scan Range for Shallowest Gold:</label>
+            <div style="display:flex; gap:5px;">
+                <input type="number" id="L" placeholder="L" min="0" max="9">
+                <input type="number" id="R" placeholder="R" min="0" max="9">
+                <button class="btn" onclick="game.scan()">SCAN</button>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+class Game {
+    constructor() {
+        this.n = 10;
+        // Depth from surface (0). Larger value = deeper. 
+        // We want MIN DEPTH (Shallowest) or MAX DEPTH?
+        // Let's say we want to find the gold closest to surface (Min Depth value).
+        this.depths = [40, 60, 20, 80, 50, 30, 70, 45, 90, 25]; 
+        this.ui = { mine: document.getElementById('mine'), beam: document.getElementById('beam'), msg: document.getElementById('msg') };
+        this.render();
+    }
+
+    render() {
+        // Keep beam
+        let beam = this.ui.beam;
+        this.ui.mine.innerHTML = '';
+        this.ui.mine.appendChild(beam);
+
+        this.depths.forEach((d, i) => {
+            let col = document.createElement('div');
+            col.className = 'column';
+            col.id = 'col-'+i;
+
+            let idx = document.createElement('div');
+            idx.className = 'idx-label';
+            idx.innerText = i;
+            
+            let nugget = document.createElement('div');
+            nugget.className = 'gold-nugget';
+            // Map depth 10-90 to percentage top 10%-90%
+            nugget.style.top = d + '%';
+            
+            let lbl = document.createElement('div');
+            lbl.className = 'depth-label';
+            lbl.innerText = d + 'm';
+
+            col.appendChild(idx);
+            col.appendChild(nugget);
+            col.appendChild(lbl);
+            this.ui.mine.appendChild(col);
+        });
+    }
+
+    update() {
+         let i = parseInt(document.getElementById('updIdx').value);
+         let d = parseInt(document.getElementById('updVal').value);
+         if (!isNaN(i) && !isNaN(d) && i>=0 && i<this.n) {
+             this.depths[i] = d;
+             this.render();
+         }
+    }
+
+    scan() {
+        let l = parseInt(document.getElementById('L').value);
+        let r = parseInt(document.getElementById('R').value);
+        if (isNaN(l) || isNaN(r) || l>r || l<0 || r>=this.n) { this.ui.msg.innerText = "Bad Coordinates"; return; }
+
+        // Find Min (Shallowest)
+        let minVal = 1000;
+        let minIdx = -1;
+        for(let i=l; i<=r; i++) {
+            if(this.depths[i] < minVal) {
+                minVal = this.depths[i];
+                minIdx = i;
+            }
+        }
+
+        // Visualize Scan
+        let cols = document.querySelectorAll('.column');
+        let left = cols[l].offsetLeft;
+        let w = cols[r].offsetLeft + cols[r].offsetWidth - left;
+        this.ui.beam.style.left = left + 'px';
+        this.ui.beam.style.width = w + 'px';
+        this.ui.beam.style.display = 'block';
+
+        this.ui.msg.innerHTML = `Scanning... Found shallowest gold at <b style="color:#fff">Index ${minIdx}</b> (Depth ${minVal}m)`;
+        
+        setTimeout(() => {
+            // Highlight specific nugget
+            let nug = cols[minIdx].querySelector('.gold-nugget');
+            nug.style.transform = "translateX(-50%) scale(1.5)";
+            nug.style.boxShadow = "0 0 20px #fff";
+        }, 500);
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

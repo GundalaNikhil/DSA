@@ -1,2 +1,52 @@
-# Quiz for SRT-002: Kth Missing Positive with Blocks
-# YAML content to be added
+problem_id: SRT_KTH_MISSING_POSITIVE_BLOCKS_002
+display_id: SRT-002
+slug: kth-missing-positive-blocks
+questions:
+  - question: Given a sorted array of positive integers `A`, what is the formula to calculate the number of missing positive integers strictly less than `A[i]`?
+    difficulty: medium
+    points: 15
+    options:
+      - "`A[i] - (i + 1)`"
+      - "`A[i] - i`"
+      - "`A[i] - A[0] - i`"
+      - "`i`"
+    correct_answer: 0
+    explanation: If there were no missing numbers, `A[i]` would be `i+1` (assuming 1-based values and 0-based index). The difference `A[i] - (i+1)` exactly represents the count of gaps (missing numbers) up to that point.
+    type: single_choice
+    id: prq_1
+  - question: To find the `M`-th missing positive integer, which search strategy is most efficient given the sorted array `A`?
+    difficulty: medium
+    points: 10
+    options:
+      - Binary Search to find the rightmost index `i` such that the count of missing numbers before `A[i]` is less than `M`.
+      - Linear Scan to count missing numbers one by one.
+      - Hash Set to store all numbers and check for existence.
+      - Sorting the missing numbers.
+    correct_answer: 0
+    explanation: Since the count of missing numbers is monotonically increasing with the index, Binary Search allows us to locate the relevant interval in `O(log N)` time.
+    type: single_choice
+    id: edq_1
+  - question: Considering `k` and `blockSize` can be up to `10^9`, what is a potential pitfall when calculating the target missing index `M = k * blockSize`?
+    difficulty: easy
+    points: 10
+    options:
+      - Integer overflow if using 32-bit signed integers.
+      - Floating point imprecision.
+      - Negative result.
+      - Division by zero.
+    correct_answer: 0
+    explanation: The product can reach `10^18`, which exceeds the range of a standard 32-bit integer (`~2 * 10^9`). You must use 64-bit integers (long long in C++, long in Java, BigInt/safe integer in JS).
+    type: single_choice
+    id: edq_2
+  - question: If the binary search determines that the `M`-th missing number is located after index `idx` (where `missing_count[idx] < M`), what is the formula for the result?
+    difficulty: hard
+    points: 15
+    options:
+      - "`M + idx + 1`"
+      - "`A[idx] + M`"
+      - "`A[idx] + M - missing_count[idx]`"
+      - "`M + idx`"
+    correct_answer: 0
+    explanation: "We derive it as: `Answer = A[idx] + (M - missing_count[idx])`. Substituting `missing_count[idx] = A[idx] - (idx + 1)`, we get `A[idx] + M - (A[idx] - idx - 1) = M + idx + 1`."
+    type: single_choice
+    id: edq_3

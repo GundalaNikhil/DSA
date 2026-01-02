@@ -1,2 +1,52 @@
-# Quiz for SEG-010: Range GCD with Skip Zones
-# YAML content to be added
+problem_id: SEG_RANGE_GCD_SKIP_ZONES_010
+display_id: SEG-010
+slug: range-gcd-skip-zones
+questions:
+  - question: What is returned if all indices in [l,r] are forbidden?
+    difficulty: easy
+    points: 10
+    options:
+      - "-1"
+      - "0"
+      - "1"
+      - The previous gcd
+    correct_answer: 1
+    explanation: The gcd of an empty set is defined as 0 here.
+    type: single_choice
+    id: prq_1
+  - question: What does TOGGLE i do?
+    difficulty: easy
+    points: 10
+    options:
+      - Sets a[i]=0
+      - Flips whether index i is forbidden
+      - Deletes index i
+      - Multiplies a[i] by -1
+    correct_answer: 1
+    explanation: TOGGLE switches i between allowed and forbidden.
+    type: single_choice
+    id: edq_1
+  - question: How can forbidden indices be handled in the segment tree?
+    difficulty: medium
+    points: 15
+    options:
+      - Store counts only
+      - Treat forbidden values as 0 in gcd
+      - Remove nodes from the tree
+      - Use a separate DSU
+    correct_answer: 1
+    explanation: If forbidden, use 0 so it does not affect gcd.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity per operation?
+    difficulty: medium
+    points: 15
+    options:
+      - O(1)
+      - O(log n)
+      - O(n)
+      - O(log^2 n)
+    correct_answer: 1
+    explanation: Segment tree updates and queries are O(log n).
+    type: single_choice
+    id: edq_3

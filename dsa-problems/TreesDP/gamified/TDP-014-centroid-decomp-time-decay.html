@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDP-014: Signal Decay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Audiowide', cursive;
+            background: #000;
+            color: #0f0;
+            min-height: 100vh;
+        }
+
+        .radar-ui {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 { color: #0f0; text-shadow: 0 0 20px #0f0; font-size: 24px; }
+
+        .subtitle { color: #060; font-size: 10px; margin: 10px 0 20px; }
+
+        .metrics {
+            display: flex;
+            gap: 30px;
+            background: rgba(0,255,0,0.1);
+            border: 1px solid #0f0;
+            padding: 15px 40px;
+            margin-bottom: 20px;
+        }
+
+        .metric { text-align: center; }
+        .metric-label { font-size: 9px; color: #080; }
+        .metric-val { font-size: 22px; color: #0f0; }
+
+        .radar-screen {
+            width: 700px;
+            height: 400px;
+            background: radial-gradient(circle at center, #001100, #000);
+            border: 3px solid #0f0;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Radar sweep effect */
+        .radar-screen::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: conic-gradient(from 0deg, transparent 0deg, rgba(0,255,0,0.2) 30deg, transparent 60deg);
+            animation: sweep 4s linear infinite;
+        }
+
+        @keyframes sweep { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2; }
+        line { stroke: #030; stroke-width: 2; }
+        line.path { stroke: #0f0; stroke-width: 3; filter: drop-shadow(0 0 5px #0f0); }
+
+        .beacon {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: #020;
+            border: 2px solid #0f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            z-index: 10;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .beacon:hover { transform: scale(1.2); }
+        .beacon.centroid { background: #0f0; color: #000; box-shadow: 0 0 30px #0f0; animation: pulse 1s infinite; }
+        .beacon .signal { font-size: 8px; color: #080; }
+
+        @keyframes pulse { 0%,100%{box-shadow:0 0 20px #0f0} 50%{box-shadow:0 0 40px #0f0} }
+
+        .decay-bar {
+            margin-top: 20px;
+            width: 500px;
+            height: 30px;
+            background: #020;
+            border: 2px solid #0f0;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .decay-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #0f0, #ff0, #f00);
+            transition: width 0.3s;
+        }
+
+        .controls { margin-top: 20px; display: flex; gap: 15px; }
+
+        .btn {
+            padding: 12px 30px;
+            background: #0f0;
+            border: none;
+            color: #000;
+            font-family: inherit;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .btn:hover { box-shadow: 0 0 15px #0f0; }
+
+    </style>
+</head>
+<body>
+
+<div class="radar-ui">
+    <h1>📡 SIGNAL DECAY</h1>
+    <div class="subtitle">CENTROID DECOMPOSITION: Select the centroid to minimize max signal decay!</div>
+
+    <div class="metrics">
+        <div class="metric">
+            <div class="metric-label">SELECTED NODE</div>
+            <div class="metric-val" id="selectedNode">-</div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">MAX DISTANCE</div>
+            <div class="metric-val" id="maxDist">-</div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">SIGNAL STRENGTH</div>
+            <div class="metric-val" id="signalStrength">100%</div>
+        </div>
+    </div>
+
+    <div class="radar-screen" id="radar">
+        <svg id="links"></svg>
+    </div>
+
+    <div class="decay-bar">
+        <div class="decay-fill" id="decayFill" style="width:100%"></div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="findBest()">FIND OPTIMAL CENTROID</button>
+        <button class="btn" style="background:#030; color:#0f0" onclick="reset()">RESET</button>
+    </div>
+</div>
+
+<script>
+    const TREE = {
+        nodes: [
+            {id:1, x:330, y:30},
+            {id:2, x:160, y:100}, {id:3, x:500, y:100},
+            {id:4, x:80, y:190}, {id:5, x:240, y:190}, {id:6, x:420, y:190}, {id:7, x:580, y:190},
+            {id:8, x:40, y:290}, {id:9, x:120, y:290}, {id:10, x:200, y:290}, {id:11, x:280, y:290}
+        ],
+        edges: [[1,2],[1,3],[2,4],[2,5],[3,6],[3,7],[4,8],[4,9],[5,10],[5,11]],
+        adj: {}
+    };
+
+    TREE.nodes.forEach(n => TREE.adj[n.id] = []);
+    TREE.edges.forEach(([a,b]) => { TREE.adj[a].push(b); TREE.adj[b].push(a); });
+
+    let selectedCentroid = null;
+
+    function init() {
+        renderRadar();
+    }
+
+    function renderRadar() {
+        const radar = document.getElementById('radar');
+        const svg = document.getElementById('links');
+        svg.innerHTML = '';
+        radar.querySelectorAll('.beacon').forEach(b => b.remove());
+
+        TREE.edges.forEach(([a, b]) => {
+            const n1 = TREE.nodes.find(n => n.id === a);
+            const n2 = TREE.nodes.find(n => n.id === b);
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', n1.x + 20);
+            line.setAttribute('y1', n1.y + 20);
+            line.setAttribute('x2', n2.x + 20);
+            line.setAttribute('y2', n2.y + 20);
+            svg.appendChild(line);
+        });
+
+        TREE.nodes.forEach(n => {
+            const el = document.createElement('div');
+            el.className = 'beacon';
+            if (selectedCentroid === n.id) el.classList.add('centroid');
+            el.id = `beacon-${n.id}`;
+            el.style.left = n.x + 'px';
+            el.style.top = n.y + 'px';
+            el.textContent = n.id;
+            el.onclick = () => selectNode(n.id);
+            radar.appendChild(el);
+        });
+    }
+
+    function selectNode(id) {
+        selectedCentroid = id;
+        document.getElementById('selectedNode').textContent = id;
+        
+        const maxDist = computeMaxDistance(id);
+        document.getElementById('maxDist').textContent = maxDist;
+        
+        // Signal decay based on max distance (lower is better)
+        const maxPossible = TREE.nodes.length - 1;
+        const strength = Math.max(0, 100 - (maxDist / maxPossible * 100));
+        document.getElementById('signalStrength').textContent = Math.round(strength) + '%';
+        document.getElementById('decayFill').style.width = strength + '%';
+        
+        renderRadar();
+    }
+
+    function computeMaxDistance(root) {
+        // BFS to find max distance
+        const queue = [[root, 0]];
+        const visited = new Set([root]);
+        let maxDist = 0;
+        
+        while (queue.length) {
+            const [node, dist] = queue.shift();
+            maxDist = Math.max(maxDist, dist);
+            for (const next of TREE.adj[node]) {
+                if (!visited.has(next)) {
+                    visited.add(next);
+                    queue.push([next, dist + 1]);
+                }
+            }
+        }
+        return maxDist;
+    }
+
+    function findBest() {
+        let bestNode = null;
+        let bestMax = Infinity;
+        
+        TREE.nodes.forEach(n => {
+            const maxDist = computeMaxDistance(n.id);
+            if (maxDist < bestMax) {
+                bestMax = maxDist;
+                bestNode = n.id;
+            }
+        });
+        
+        selectNode(bestNode);
+    }
+
+    function reset() {
+        selectedCentroid = null;
+        document.getElementById('selectedNode').textContent = '-';
+        document.getElementById('maxDist').textContent = '-';
+        document.getElementById('signalStrength').textContent = '100%';
+        document.getElementById('decayFill').style.width = '100%';
+        renderRadar();
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

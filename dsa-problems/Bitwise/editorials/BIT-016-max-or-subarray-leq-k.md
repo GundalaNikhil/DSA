@@ -34,7 +34,7 @@ You are collecting items for a project.
 -   **Budget:** You have a strict risk tolerance `K`. You cannot accept a batch if its accumulated risk exceeds `K`.
 -   **Goal:** You want to pick the longest contiguous sequence of items from the belt such that their combined risk stays within `K`.
 
-![Real-World Application](../images/BIT-016/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291339/Bitwise/BIT-016/v2/cs0p1q0svweyvolwtbfb.png)
 
 ### From Real World to Algorithm
 -   **Monotonicity:** The bitwise OR operation is monotonic. Adding an element `x` to a set `S` can only increase (or keep same) the OR value (`OR(S | x) >= OR(S)`).
@@ -47,8 +47,11 @@ You are collecting items for a project.
     -   Subtraction is impossible (`Accumulator & ~x` is wrong because other elements might share those bits).
     -   **Solution:** Maintain a frequency count for every bit position (0 to 30).
     -   If `bit_counts[i] > 0`, then the $i$-th bit of the OR sum is 1. If it drops to 0, the bit becomes 0.
+    -   We cannot un-OR a bit, so the bit counter acts like a small scoreboard.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291341/Bitwise/BIT-016/v2/ehedrwuebg9xgnbxsg4b.png)
 
 ### logical Diagram: Bit Counter Window
 
@@ -72,16 +75,19 @@ You are collecting items for a project.
 
 Result: 2 (Subarray `[2, 1]`).
 
+<!-- mermaid -->
 ```mermaid
-graph TD
-    Start[Expand Window Right] --> Add[Update Bit Counts]
-    Add --> UpdatesOR[Recompute OR from Counts]
-    UpdatesOR --> Check{OR > K?}
-    Check -- Yes --> Shrink[Shrink Window Left]
-    Shrink --> Remove[Decrement Bit Counts]
-    Remove --> Check
-    Check -- No --> MaxLen[Update Max Length]
-    MaxLen --> Start
+flowchart TD
+    A[Set left to 0, right to 0, max_len to 0, counts to 0] --> B{right less than n?}
+    B -- No --> I[Return max_len]
+    B -- Yes --> C[Add a at right to bit counts]
+    C --> D[Recompute current_or from counts]
+    D --> E{current_or greater than K?}
+    E -- Yes --> F[Remove a at left from counts and left++]
+    F --> D
+    E -- No --> G[Update max_len]
+    G --> H[right++]
+    H --> B
 ```
 
 ## ✅ Input/Output Clarifications
@@ -284,6 +290,8 @@ class Solution {
 ```
 
 ## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291345/Bitwise/BIT-016/v2/h8ndqnmmizaqwun1hyuk.png)
 Same as logic diagram. Result 2.
 
 ## ✅ Proof of Correctness

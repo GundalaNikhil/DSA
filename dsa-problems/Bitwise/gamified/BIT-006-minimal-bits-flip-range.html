@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIT-006: Circuit Breaker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1a1a1a;
+            --panel: #262626;
+            --led-off: #333;
+            --led-on: #e74c3c; /* Red */
+            --led-target: #3498db; /* Blue */
+            --text: #ddd;
+            --knob: #8e44ad;
+        }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+        }
+
+        h1 { margin-bottom: 30px; letter-spacing: 2px; text-transform: uppercase; color: #aaa; }
+
+        .device-panel {
+            background: var(--panel);
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 1px 1px rgba(255,255,255,0.1);
+            display: flex; flex-direction: column; gap: 30px;
+            width: 500px;
+        }
+
+        .row {
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        
+        .label { font-weight: bold; width: 100px; }
+
+        .led-strip {
+            display: flex; gap: 8px;
+            background: #000; padding: 10px; border-radius: 4px; border: 1px solid #444;
+        }
+        
+        .led {
+            width: 20px; height: 30px;
+            background: var(--led-off);
+            border-radius: 2px;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.8);
+            transition: all 0.2s;
+        }
+        .led.on-red { background: var(--led-on); box-shadow: 0 0 10px var(--led-on); }
+        .led.on-blue { background: var(--led-target); box-shadow: 0 0 10px var(--led-target); }
+        
+        /* KNOB AREA */
+        .controls {
+            background: #111; padding: 20px; border-radius: 8px;
+            display: flex; flex-direction: column; gap: 15px;
+            position: relative;
+        }
+        
+        .knob-track {
+            height: 40px; background: #222; border-radius: 20px;
+            position: relative; overflow: hidden; cursor: pointer;
+        }
+        .knob-fill {
+            height: 100%; width: 0%; background: linear-gradient(90deg, #555, var(--knob));
+            transition: width 0.1s;
+        }
+        .knob-overlay {
+            position: absolute; inset:0; display: flex; align-items: center; justify-content: center;
+            pointer-events: none; font-family: 'VT323'; font-size: 1.5rem; letter-spacing: 1px;
+        }
+
+        .action-btn {
+            background: #d35400; color: #fff; border: none;
+            padding: 15px; font-weight: bold; font-size: 1.2rem;
+            border-radius: 4px; cursor: pointer;
+            box-shadow: 0 5px #a04000;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        .action-btn:active { transform: translateY(5px); box-shadow: 0 0 #a04000; }
+        .action-btn:disabled { background: #555; box-shadow: none; transform: none; cursor: default; }
+
+        .screen {
+            background: #000; color: #2ecc71; font-family: 'VT323'; font-size: 1.5rem;
+            padding: 10px; text-align: center; border: 1px solid #333; min-height: 1.5rem;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
+            display: flex; align-items: center; justify-content: center; z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        .dialog {
+            background: #fff; color: #000; padding: 40px; max-width: 500px;
+            text-align: center; border-radius: 4px;
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>BIT-006: CIRCUIT TUNER</h1>
+
+<div class="device-panel">
+    <!-- Target Display -->
+    <div class="row">
+        <div class="label">TARGET</div>
+        <div class="led-strip" id="targetLeds">
+            <!-- 8 LEDs -->
+        </div>
+    </div>
+
+    <!-- Current State -->
+    <div class="row">
+        <div class="label">CURRENT</div>
+        <div class="led-strip" id="currentLeds">
+            <!-- 8 LEDs -->
+        </div>
+    </div>
+
+    <!-- Control -->
+    <div class="controls">
+        <div style="font-size:0.9rem; color:#888;">PULSE WIDTH MODULATOR (m bits)</div>
+        <div class="knob-track" id="knob" onmousemove="game.updateKnob(event)" onclick="game.setKnob(event)">
+            <div class="knob-fill" id="knobFill"></div>
+            <div class="knob-overlay"><span id="knobVal">0</span></div>
+        </div>
+        
+        <button class="action-btn" id="fireBtn" onclick="game.fire()">FIRE PULSE</button>
+    </div>
+
+    <div class="screen" id="status">SYST: READY</div>
+</div>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="margin-top:0">HARDWARE RESET INITIATED</h2>
+        <p>
+            The system state (RED) must match the Target (BLUE).<br>
+            You have ONE shot with the <b>Pulse Modulator</b>.<br><br>
+            
+            <b>Mechanic</b>: Setting the pulse width to <b>m</b> will FLIP (toggle) the first m bits (0..m-1) of the Current State.<br><br>
+            
+            Find the correct <b>m</b> to make CURRENT == TARGET.
+        </p>
+        <button onclick="game.start()" style="padding:10px 20px; font-size:1.2rem; cursor:pointer;">BOOT SYSTEM</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.state = {
+                curr: 0,
+                target: 0,
+                m: 0,
+                bits: 8
+            };
+            
+            this.ui = {
+                currLeds: document.getElementById('currentLeds'),
+                targetLeds: document.getElementById('targetLeds'),
+                knob: document.getElementById('knob'),
+                knobFill: document.getElementById('knobFill'),
+                knobVal: document.getElementById('knobVal'),
+                status: document.getElementById('status'),
+                modal: document.getElementById('modal'),
+                fireBtn: document.getElementById('fireBtn')
+            };
+            
+            this.setupLeds();
+        }
+        
+        setupLeds() {
+            this.ui.currLeds.innerHTML = '';
+            this.ui.targetLeds.innerHTML = '';
+            for(let i=this.state.bits-1; i>=0; i--) {
+                const l1 = document.createElement('div'); l1.className = 'led'; l1.id = `curr-${i}`;
+                const l2 = document.createElement('div'); l2.className = 'led'; l2.id = `target-${i}`;
+                this.ui.currLeds.appendChild(l1);
+                this.ui.targetLeds.appendChild(l2);
+            }
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.loadLevel();
+        }
+
+        loadLevel() {
+            // Generate Solvable Level
+            // Logic: Pick random X. Pick random m. Y = X ^ ((1<<m)-1).
+            // Sometimes generate unsolvable? Maybe rarely.
+            this.state.curr = Math.floor(Math.random() * 256);
+            
+            const solvable = Math.random() > 0.3; // 70% chance solvable
+            if (solvable) {
+                const m = Math.floor(Math.random() * (this.state.bits + 1));
+                const mask = (1 << m) - 1;
+                this.state.target = this.state.curr ^ mask;
+                this.correctM = m;
+            } else {
+                // Generate generally unsolvable Y
+                // Just random Y. If it happens to be solvable, so be it.
+                this.state.target = Math.floor(Math.random() * 256);
+                // Calc real diff
+                const diff = this.state.target ^ this.state.curr;
+                // Check if solvable
+                // (diff & (diff+1)) == 0.
+                if ((diff & (diff+1)) === 0) {
+                     // accidentally 'solvable'
+                     // bit count
+                     let cnt = 0, temp=diff;
+                     while(temp>0){ if(temp&1)cnt++; temp>>=1; }
+                     this.correctM = cnt;
+                } else {
+                     this.correctM = -1;
+                }
+            }
+
+            this.state.m = 0;
+            this.render();
+            this.updateKnobUI();
+            this.ui.fireBtn.disabled = false;
+            this.ui.status.innerText = "SYST: AWAITING INPUT";
+        }
+
+        render() {
+            for(let i=0; i<this.state.bits; i++) {
+                const bitC = (this.state.curr >> i) & 1;
+                const bitT = (this.state.target >> i) & 1;
+                
+                const elC = document.getElementById(`curr-${i}`);
+                const elT = document.getElementById(`target-${i}`);
+                
+                elC.className = `led ${bitC ? 'on-red' : ''}`;
+                elT.className = `led ${bitT ? 'on-blue' : ''}`;
+            }
+        }
+
+        updateKnob(e) {
+            if(this.ui.fireBtn.disabled) return;
+            // Get position
+            const rect = this.ui.knob.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const pct = Math.max(0, Math.min(1, x / rect.width));
+            
+            // Map to 0..8
+            // 8 segments
+            const slots = this.state.bits + 1; // 0..8
+            const val = Math.round(pct * (slots - 1));
+            
+            this.state.m = val;
+            this.updateKnobUI();
+        }
+        
+        setKnob(e) {
+            // Click confirms? No, click just sets. Fire button confirms.
+            this.updateKnob(e);
+        }
+
+        updateKnobUI() {
+            const pct = (this.state.m / this.state.bits) * 100;
+            this.ui.knobFill.style.width = pct + '%';
+            this.ui.knobVal.innerText = this.state.m;
+            
+            // Preview? Maybe highlight leds?
+            // "Flipping first m bits".
+            // Let's highlight the first m red LEDs with a border or something?
+            // Not implemented to keep clean.
+        }
+
+        fire() {
+            this.ui.fireBtn.disabled = true;
+            this.ui.status.innerText = `PULSE: ${this.state.m} BITS...`;
+            
+            // Apply Pulse Animation
+            const mask = (1 << this.state.m) - 1;
+            
+            // Animate flipping one by one?
+            let bit = 0;
+            const interval = setInterval(() => {
+                if (bit >= this.state.m) {
+                    clearInterval(interval);
+                    this.checkResult();
+                } else {
+                    // flip bit
+                    this.state.curr ^= (1 << bit);
+                    this.render();
+                    bit++;
+                }
+            }, 100); 
+            
+            if(this.state.m === 0) {
+                 clearInterval(interval);
+                 this.checkResult();
+            }
+        }
+
+        checkResult() {
+            if (this.state.curr === this.state.target) {
+                this.ui.status.innerText = "SUCCESS: STATE MATCHED";
+                this.ui.status.style.color = "#2ecc71";
+                setTimeout(() => {
+                    this.ui.status.style.color = "";
+                    this.loadLevel();
+                }, 2000);
+            } else {
+                this.ui.status.innerText = "ERROR: MISMATCH";
+                this.ui.status.style.color = "#e74c3c";
+                
+                // If it was unsolvable and they failed (any m), but maybe we should add "IMPOSSIBLE" button?
+                // The prompt says "Return -1".
+                // In game, maybe "m=0" counts as "Impossible" if they think so? 
+                // "If not, return -1".
+                // Let's assume if correctM was -1, they should fail? Or provide 'ABORT' button?
+                // For simplicity, this game is "Tune Knob". If unsolvable, they fail.
+                // We'll just reset.
+                setTimeout(() => {
+                    this.ui.status.style.color = "";
+                    this.loadLevel();
+                }, 2000);
+            }
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

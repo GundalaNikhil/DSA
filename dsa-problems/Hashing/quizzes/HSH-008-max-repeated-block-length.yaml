@@ -1,2 +1,52 @@
-# Quiz for HSH-008: Maximum Repeated Block Length
-# YAML content to be added
+problem_id: HSH_MAX_REPEATED_BLOCK_LENGTH_008
+display_id: HSH-008
+slug: max-repeated-block-length
+questions:
+  - question: For string 'abcabc', what is the longest substring that appears at least twice without overlap?
+    difficulty: easy
+    points: 10
+    options:
+      - "'a'"
+      - "'ab'"
+      - "'abc'"
+      - "'abca'"
+    correct_answer: 2
+    explanation: "'abc' appears at positions [0,2] and [3,5]. These don't overlap, and no longer substring appears twice non-overlapping."
+    type: single_choice
+    id: prq_1
+  - question: What is the non-overlapping condition when the same hash appears at positions pos1 and pos2 for length L?
+    difficulty: easy
+    points: 10
+    options:
+      - pos1 < pos2
+      - pos2 > pos1 + L
+      - pos2 >= pos1 + L
+      - pos2 - pos1 > L
+    correct_answer: 2
+    explanation: "For non-overlap, the second occurrence must start at or after the end of the first: pos2 >= pos1 + L."
+    type: single_choice
+    id: edq_1
+  - question: Why is binary search on the answer length suitable for this problem?
+    difficulty: medium
+    points: 15
+    options:
+      - It reduces memory usage
+      - "The answer satisfies monotonicity: if length L has a non-overlapping repeat, then L-1 also does"
+      - Hash collisions are eliminated
+      - It guarantees finding all repeats
+    correct_answer: 1
+    explanation: If a substring of length L appears twice non-overlapping, then any substring of length L-1 from those can also appear twice non-overlapping. This enables binary search.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of this algorithm for a string of length n?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n log n)
+      - O(n²)
+      - O(n² log n)
+    correct_answer: 1
+    explanation: Binary search has O(log n) iterations. Each iteration processes all substrings of a given length in O(n) using rolling hash, giving O(n log n) total.
+    type: single_choice
+    id: edq_3

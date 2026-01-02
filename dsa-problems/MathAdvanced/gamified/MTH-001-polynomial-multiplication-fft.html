@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTH-001: Wave Synthesizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1a1a2e;
+            --surface: #16213e;
+            --primary: #e94560;
+            --secondary: #0f3460;
+            --accent: #53b5a0;
+            --text: #eaeaea;
+            --muted: #8892b0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, var(--bg) 0%, var(--surface) 100%);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        header {
+            background: var(--surface);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 8px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Quicksand', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: #fff;
+        }
+
+        .btn-accent {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        .btn-accent:hover {
+            background: var(--accent);
+            color: #000;
+        }
+
+        main {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .wave-panel {
+            background: var(--surface);
+            border-radius: 15px;
+            padding: 1.5rem;
+            width: 100%;
+            max-width: 600px;
+            border: 1px solid var(--secondary);
+        }
+
+        .wave-panel h3 {
+            color: var(--muted);
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .poly-display {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            padding: 1rem;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100px;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.2);
+        }
+
+        .mixer-zone {
+            background: var(--surface);
+            border-radius: 15px;
+            padding: 2rem;
+            width: 100%;
+            max-width: 600px;
+            border: 2px dashed var(--secondary);
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .mixer-zone.active {
+            border-color: var(--accent);
+            background: rgba(83, 181, 160, 0.1);
+        }
+
+        .mixer-zone h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .result-panel {
+            background: var(--surface);
+            border-radius: 15px;
+            padding: 1.5rem;
+            width: 100%;
+            max-width: 600px;
+            border: 2px solid var(--accent);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s;
+        }
+
+        .result-panel.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .result-panel h3 {
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 26, 46, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal.hidden { display: none; }
+
+        .dialog {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 550px;
+            border: 2px solid var(--primary);
+        }
+
+        .dialog h2 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .dialog p {
+            margin: 1rem 0;
+            line-height: 1.7;
+            color: var(--muted);
+        }
+
+        .dialog strong {
+            color: var(--text);
+        }
+
+        /* Animation */
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .mixing { animation: pulse 0.5s ease-in-out infinite; }
+
+        .step-indicator {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .step {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .step.active { background: var(--primary); }
+        .step.done { background: var(--accent); }
+
+        .fft-visual {
+            display: flex;
+            gap: 3px;
+            justify-content: center;
+            margin: 1rem 0;
+            height: 60px;
+            align-items: flex-end;
+        }
+
+        .fft-bar {
+            width: 10px;
+            background: var(--primary);
+            border-radius: 2px;
+            transition: height 0.3s;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>🎵 Wave Synthesizer</h1>
+        <div class="subtitle">MTH-001: Polynomial Multiplication via FFT</div>
+    </div>
+    <button class="btn" onclick="showProtocol()">Protocol</button>
+</header>
+
+<main>
+    <div class="step-indicator">
+        <div class="step active" id="step1">1</div>
+        <div class="step" id="step2">2</div>
+        <div class="step" id="step3">3</div>
+        <div class="step" id="step4">4</div>
+    </div>
+
+    <div class="wave-panel" id="waveA">
+        <h3>Wave A (Polynomial)</h3>
+        <div class="poly-display" id="polyA"></div>
+        <canvas id="canvasA"></canvas>
+    </div>
+
+    <div class="wave-panel" id="waveB">
+        <h3>Wave B (Polynomial)</h3>
+        <div class="poly-display" id="polyB"></div>
+        <canvas id="canvasB"></canvas>
+    </div>
+
+    <div class="mixer-zone" id="mixerZone">
+        <h3>🔊 FFT Mixing Chamber</h3>
+        <p style="color: var(--muted);">Click "Transform & Mix" to perform FFT multiplication</p>
+        <div class="fft-visual" id="fftVisual"></div>
+    </div>
+
+    <div class="result-panel" id="resultPanel">
+        <h3>✨ Result Wave (Product Polynomial)</h3>
+        <div class="poly-display" id="polyResult"></div>
+        <canvas id="canvasResult"></canvas>
+    </div>
+
+    <div class="controls">
+        <button class="btn-accent btn" id="mixBtn" onclick="performFFT()">Transform & Mix</button>
+        <button class="btn" onclick="newProblem()">New Waves</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>📡 Protocol: Wave Synthesizer</h2>
+        <p><strong>Objective:</strong> Multiply two polynomials using FFT visualization.</p>
+        <p><strong>How it works:</strong></p>
+        <p>1. Two polynomials are displayed as "waves" - each coefficient affects the wave shape.</p>
+        <p>2. Click <strong>Transform & Mix</strong> to see the FFT algorithm in action.</p>
+        <p>3. The waves transform to frequency domain → multiply pointwise → inverse transform.</p>
+        <p>4. Watch the result polynomial (product) wave emerge!</p>
+        <p><strong>Key Insight:</strong> FFT reduces O(n²) multiplication to O(n log n) through frequency domain magic.</p>
+        <button class="btn" onclick="hideProtocol()">Start Synthesizing</button>
+    </div>
+</div>
+
+<script>
+    let polyA = [], polyB = [], polyResult = [];
+    let step = 1;
+
+    function showProtocol() { document.getElementById('modal').classList.remove('hidden'); }
+    function hideProtocol() { document.getElementById('modal').classList.add('hidden'); }
+
+    function formatPoly(coeffs) {
+        if (!coeffs.length) return '0';
+        let terms = [];
+        coeffs.forEach((c, i) => {
+            if (c === 0) return;
+            let term = '';
+            if (i === 0) term = c.toString();
+            else if (i === 1) term = c === 1 ? 'x' : c === -1 ? '-x' : c + 'x';
+            else term = (c === 1 ? '' : c === -1 ? '-' : c) + 'x<sup>' + i + '</sup>';
+            if (terms.length && c > 0) term = ' + ' + term;
+            else if (c < 0 && terms.length) term = ' - ' + Math.abs(c) + (i ? 'x' + (i > 1 ? '<sup>' + i + '</sup>' : '') : '');
+            terms.push(term);
+        });
+        return terms.join('') || '0';
+    }
+
+    function drawWave(canvasId, coeffs, color) {
+        const canvas = document.getElementById(canvasId);
+        const ctx = canvas.getContext('2d');
+        canvas.width = canvas.offsetWidth * 2;
+        canvas.height = canvas.offsetHeight * 2;
+        ctx.scale(2, 2);
+
+        const w = canvas.offsetWidth, h = canvas.offsetHeight;
+        ctx.clearRect(0, 0, w, h);
+
+        ctx.beginPath();
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+
+        for (let x = 0; x < w; x++) {
+            const t = (x / w) * 4 - 2; // -2 to 2
+            let y = 0;
+            coeffs.forEach((c, i) => y += c * Math.pow(t, i));
+            const py = h / 2 - y * (h / 20);
+            if (x === 0) ctx.moveTo(x, py);
+            else ctx.lineTo(x, py);
+        }
+        ctx.stroke();
+    }
+
+    function newProblem() {
+        step = 1;
+        updateSteps();
+
+        // Generate random small polynomials
+        const len = 2 + Math.floor(Math.random() * 2);
+        polyA = Array.from({length: len}, () => Math.floor(Math.random() * 5) + 1);
+        polyB = Array.from({length: len}, () => Math.floor(Math.random() * 5) + 1);
+        polyResult = [];
+
+        document.getElementById('polyA').innerHTML = formatPoly(polyA);
+        document.getElementById('polyB').innerHTML = formatPoly(polyB);
+        document.getElementById('polyResult').innerHTML = '?';
+
+        drawWave('canvasA', polyA, '#e94560');
+        drawWave('canvasB', polyB, '#e94560');
+
+        document.getElementById('resultPanel').classList.remove('visible');
+        document.getElementById('mixBtn').disabled = false;
+        document.getElementById('fftVisual').innerHTML = '';
+    }
+
+    function updateSteps() {
+        for (let i = 1; i <= 4; i++) {
+            const el = document.getElementById('step' + i);
+            el.classList.remove('active', 'done');
+            if (i < step) el.classList.add('done');
+            else if (i === step) el.classList.add('active');
+        }
+    }
+
+    async function performFFT() {
+        const mixer = document.getElementById('mixerZone');
+        const fftVis = document.getElementById('fftVisual');
+        const mixBtn = document.getElementById('mixBtn');
+
+        mixBtn.disabled = true;
+        mixer.classList.add('active', 'mixing');
+
+        // Step 2: FFT Transform visualization
+        step = 2;
+        updateSteps();
+
+        // Show FFT bars
+        const barCount = 8;
+        fftVis.innerHTML = '';
+        for (let i = 0; i < barCount; i++) {
+            const bar = document.createElement('div');
+            bar.className = 'fft-bar';
+            bar.style.height = '5px';
+            fftVis.appendChild(bar);
+        }
+
+        await sleep(300);
+
+        // Animate bars (transform phase)
+        const bars = fftVis.children;
+        for (let iter = 0; iter < 3; iter++) {
+            for (let i = 0; i < bars.length; i++) {
+                bars[i].style.height = (10 + Math.random() * 40) + 'px';
+                bars[i].style.background = iter === 1 ? '#53b5a0' : '#e94560';
+            }
+            await sleep(400);
+        }
+
+        // Step 3: Pointwise multiplication
+        step = 3;
+        updateSteps();
+        await sleep(500);
+
+        // Step 4: Inverse transform
+        step = 4;
+        updateSteps();
+
+        // Compute actual product
+        polyResult = multiplyPolynomials(polyA, polyB);
+
+        // Show bars settling
+        for (let i = 0; i < bars.length; i++) {
+            bars[i].style.height = (5 + (polyResult[i] || 0) * 2) + 'px';
+            bars[i].style.background = '#53b5a0';
+        }
+
+        await sleep(500);
+
+        mixer.classList.remove('mixing');
+
+        // Show result
+        document.getElementById('polyResult').innerHTML = formatPoly(polyResult);
+        drawWave('canvasResult', polyResult, '#53b5a0');
+        document.getElementById('resultPanel').classList.add('visible');
+    }
+
+    function multiplyPolynomials(a, b) {
+        const result = new Array(a.length + b.length - 1).fill(0);
+        for (let i = 0; i < a.length; i++) {
+            for (let j = 0; j < b.length; j++) {
+                result[i + j] += a[i] * b[j];
+            }
+        }
+        return result;
+    }
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    // Initialize
+    window.onload = () => {
+        newProblem();
+    };
+
+    window.onresize = () => {
+        drawWave('canvasA', polyA, '#e94560');
+        drawWave('canvasB', polyB, '#e94560');
+        if (polyResult.length) drawWave('canvasResult', polyResult, '#53b5a0');
+    };
+</script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-007: Repeat Finder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f5f6fa;
+            --text: #2f3640;
+            --accent: #9b59b6;
+            --match: #27ae60;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 { color: var(--accent); margin-top: 2rem; }
+
+        .string-view {
+            display: flex;
+            gap: 5px;
+            margin-top: 3rem;
+            font-size: 2rem;
+        }
+
+        .char {
+            width: 40px;
+            height: 50px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #dcdde1;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .char.selected { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .char.match { background: var(--match); color: #fff; border-color: var(--match); }
+
+        .info-box {
+            margin-top: 2rem;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            min-width: 300px;
+        }
+
+        .selection-text { font-size: 1.5rem; font-weight: bold; color: var(--accent); }
+
+        .btn {
+            margin-top: 1rem;
+            padding: 10px 25px;
+            background: var(--accent);
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .status { margin-top: 1rem; min-height: 1.5em; }
+
+    </style>
+</head>
+<body>
+
+<h1>LONGEST REPEATED SUBSTRING</h1>
+<div style="color:#7f8c8d">Click and drag to select. Find the longest repeating substring.</div>
+
+<div class="string-view" id="strView"></div>
+
+<div class="info-box">
+    <div>Your Selection:</div>
+    <div class="selection-text" id="selText">-</div>
+    <button class="btn" onclick="submit()">SUBMIT</button>
+</div>
+
+<div class="status" id="status"></div>
+
+<button style="margin-top:20px; padding:10px 20px; background:#dcdde1; border:none; cursor:pointer; border-radius:5px" onclick="init()">New String</button>
+
+<script>
+    const STRINGS = ["banana", "abcabc", "mississippi", "aabbaab"];
+    let str = "";
+    let selStart = -1, selEnd = -1;
+    let isSelecting = false;
+
+    function findLRS(s) {
+        // Naive O(n^2) for demo
+        let longest = "";
+        for (let i = 0; i < s.length; i++) {
+            for (let j = i + 1; j < s.length; j++) {
+                let k = 0;
+                while (j + k < s.length && s[i + k] === s[j + k]) k++;
+                if (k > longest.length) longest = s.substring(i, i + k);
+            }
+        }
+        return longest;
+    }
+
+    function init() {
+        str = STRINGS[Math.floor(Math.random() * STRINGS.length)];
+        selStart = -1;
+        selEnd = -1;
+        render();
+        document.getElementById('selText').textContent = '-';
+        document.getElementById('status').textContent = '';
+    }
+
+    function render() {
+        const sv = document.getElementById('strView');
+        sv.innerHTML = '';
+
+        for (let i = 0; i < str.length; i++) {
+            const c = document.createElement('div');
+            c.className = 'char';
+            c.textContent = str[i];
+            
+            if (selStart !== -1 && selEnd !== -1 && i >= Math.min(selStart, selEnd) && i <= Math.max(selStart, selEnd)) {
+                c.classList.add('selected');
+            }
+
+            c.onmousedown = () => { selStart = i; selEnd = i; isSelecting = true; render(); };
+            c.onmouseenter = () => { if (isSelecting) { selEnd = i; render(); } };
+            c.onmouseup = () => { isSelecting = false; updateSelection(); };
+
+            sv.appendChild(c);
+        }
+    }
+
+    function updateSelection() {
+        const s = Math.min(selStart, selEnd);
+        const e = Math.max(selStart, selEnd);
+        const sub = str.substring(s, e + 1);
+        document.getElementById('selText').textContent = sub;
+    }
+
+    function submit() {
+        if (selStart === -1 || selEnd === -1) return;
+        
+        const s = Math.min(selStart, selEnd);
+        const e = Math.max(selStart, selEnd);
+        const userSub = str.substring(s, e + 1);
+        const lrs = findLRS(str);
+
+        const status = document.getElementById('status');
+        if (userSub === lrs) {
+            status.textContent = `CORRECT! "${lrs}" is the longest repeated substring.`;
+            status.style.color = "#27ae60";
+            // Highlight all occurrences
+            highlightMatches(lrs);
+        } else if (userSub.length === lrs.length && countOccurrences(str, userSub) >= 2) {
+            status.textContent = `CORRECT! (Alternative answer of same length)`;
+            status.style.color = "#27ae60";
+        } else if (countOccurrences(str, userSub) >= 2) {
+            status.textContent = `"${userSub}" repeats, but there's a longer one!`;
+            status.style.color = "#f39c12";
+        } else {
+            status.textContent = `"${userSub}" doesn't repeat in the string.`;
+            status.style.color = "#e74c3c";
+        }
+    }
+
+    function countOccurrences(s, sub) {
+        let count = 0, pos = 0;
+        while ((pos = s.indexOf(sub, pos)) !== -1) { count++; pos++; }
+        return count;
+    }
+
+    function highlightMatches(sub) {
+        const chars = document.querySelectorAll('.char');
+        for (let i = 0; i <= str.length - sub.length; i++) {
+            if (str.substring(i, i + sub.length) === sub) {
+                for (let j = i; j < i + sub.length; j++) {
+                    chars[j].classList.add('match');
+                }
+            }
+        }
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

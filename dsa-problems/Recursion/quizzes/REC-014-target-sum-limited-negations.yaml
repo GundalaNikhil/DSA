@@ -1,2 +1,52 @@
-# Quiz for REC-014: Target Sum With Limited Negations
-# YAML content to be added
+problem_id: REC_TARGET_SUM_LIMITED_NEGATIONS_014
+display_id: REC-014
+slug: target-sum-limited-negations
+questions:
+  - question: For array [1, 1, 1] with target 1 and K=0 (no negations), how many ways?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - "1"
+      - "2"
+      - "3"
+    correct_answer: 2
+    explanation: "All numbers positive, no negations allowed. Possible sums: 1 (pick one 1), 2 (pick two), 3 (pick all). Only one way to get sum 1: pick one element. But there are 3 ways depending on which 1 we pick. Answer = 3."
+    type: single_choice
+    id: prq_1
+  - question: What does 'K negations' mean in this problem?
+    difficulty: easy
+    points: 10
+    options:
+      - Negate K numbers in the array before processing
+      - Negate K numbers in the final sum calculation
+      - Apply unary negation to at most K numbers in our selection
+      - K is the target sum
+    correct_answer: 2
+    explanation: "We choose which numbers to include in our subset, and can negate (apply unary minus to) at most K of them. Example: [1, 2, 3] with K=1, choosing {1, 2, 3} and negating 1: result is -1 + 2 + 3 = 4."
+    type: single_choice
+    id: edq_1
+  - question: For array [1, 2, 3, 4] with target 2 and K=2 (up to 2 negations), which selections work?
+    difficulty: medium
+    points: 15
+    options:
+      - "[1, 1] (but only one 1 available)"
+      - "[1, 2, 3, 4] with 2 numbers negated: e.g., -1 + 2 + 3 - 4 = 0 (not 2)"
+      - "[1, 2, 3] with 1 negated: e.g., 1 + 2 - 3 = 0 (not 2)"
+      - "[1, 4] with 1 negated: 1 - 4 = -3 or -1 + 4 = 3 (neither 2)"
+    correct_answer: 1
+    explanation: "Multiple paths exist. For instance, [2, 3, 4] with negation on one: 2 + 3 - 4 = 1 or 2 - 3 + 4 = 3. Or [1, 2] no negation: 1 + 2 = 3. Finding all combinations that sum to 2 requires exhaustive search."
+    type: single_choice
+    id: edq_2
+  - question: For array with duplicates, e.g., [1, 1, 2] with target 1 and K=1, how many ways?
+    difficulty: medium
+    points: 15
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+    correct_answer: 2
+    explanation: "Options: pick first 1 (no negation, sum=1), pick second 1 (no negation, sum=1), pick 1+2 with 2 negated (-1+1+2 is selecting both, negating 2: 1+1-2=0, not 1). Or pick 1+2 with 1 negated: -1+1+2=2 or 1+1-2=0 or 1-1+2=2. The distinct selections: {1st 1}, {2nd 1}, {both 1s with negation}, etc. Total = 3."
+    type: single_choice
+    id: edq_3

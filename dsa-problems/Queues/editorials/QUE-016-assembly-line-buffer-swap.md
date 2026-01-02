@@ -58,6 +58,13 @@ Since the queues are provided as arrays (or lists) in the input, and we just nee
 For the purpose of the solution function which returns the swapped arrays:
 -   We can just return `[q2, q1]`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read queue arrays] --> B[Swap references]
+B --> C[Return swapped arrays]
+```
+
 ## Implementations
 
 ### Java

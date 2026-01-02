@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMT-016: Constrained Nim</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 36px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .tutorial h2 { color: #6366f1; margin-bottom: 15px; }
+
+        .rules { display: flex; gap: 15px; }
+        .rule {
+            flex: 1;
+            background: #eef2ff;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .rule-icon { font-size: 28px; }
+        .rule-text { font-size: 13px; color: #555; margin-top: 5px; }
+
+        .constraint-box {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fef3c7;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 600;
+            color: #92400e;
+        }
+
+        .game-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .turn-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            border-radius: 12px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .turn-bar.ai { background: linear-gradient(90deg, #dc2626, #ef4444); }
+
+        /* Piles */
+        .piles-area {
+            display: flex;
+            gap: 25px;
+            justify-content: center;
+            padding: 25px;
+            background: #f8fafc;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .pile {
+            text-align: center;
+        }
+        .pile-label { font-size: 14px; color: #64748b; margin-bottom: 10px; }
+        .pile-stones {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            align-items: center;
+            min-height: 150px;
+            justify-content: flex-end;
+        }
+        .stone {
+            width: 40px;
+            height: 20px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border-radius: 10px;
+        }
+
+        /* Take Controls */
+        .take-controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .take-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .take-btn:hover { filter: brightness(1.1); }
+        .take-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .message { text-align: center; padding: 15px; color: #666; }
+
+        .result {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            display: none;
+        }
+        .result.win { display: block; background: #d1fae5; color: #059669; }
+        .result.lose { display: block; background: #fee2e2; color: #dc2626; }
+
+        .new-game {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 15px;
+            background: #6366f1;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🪨 Constrained Nim</h1>
+        <div style="opacity:0.9">Take stones with a limit - last to take wins!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="rules">
+            <div class="rule">
+                <div class="rule-icon">👆</div>
+                <div class="rule-text"><strong>Choose a pile</strong> and take 1-K stones</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">⚠️</div>
+                <div class="rule-text"><strong>Maximum K=3</strong> stones per turn!</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">🏆</div>
+                <div class="rule-text"><strong>Take the last stone</strong> to win!</div>
+            </div>
+        </div>
+        <div class="constraint-box">
+            ⚠️ CONSTRAINT: You can take at most 3 stones per turn!
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="turn-bar" id="turnBar">
+            <span id="turnText">🟢 Your Turn</span>
+            <span>Total: <span id="totalStones">0</span> stones</span>
+        </div>
+
+        <div class="message" id="message">Click a button to take stones from a pile!</div>
+
+        <div class="piles-area" id="pilesArea"></div>
+
+        <div class="take-controls" id="takeControls"></div>
+
+        <div class="result" id="result"></div>
+
+        <button class="new-game" onclick="newGame()">🔄 New Game</button>
+    </div>
+</div>
+
+<script>
+    const MAX_TAKE = 3;
+    let piles = [];
+    let isPlayerTurn = true;
+    let gameOver = false;
+
+    function init() {
+        piles = [5, 4, 3];
+        isPlayerTurn = true;
+        gameOver = false;
+        document.getElementById('result').className = 'result';
+        render();
+    }
+
+    function render() {
+        const turnBar = document.getElementById('turnBar');
+        turnBar.className = isPlayerTurn ? 'turn-bar' : 'turn-bar ai';
+        document.getElementById('turnText').textContent = isPlayerTurn ? '🟢 Your Turn' : '🔴 AI Turn';
+        document.getElementById('totalStones').textContent = piles.reduce((a, b) => a + b, 0);
+
+        // Render piles
+        const area = document.getElementById('pilesArea');
+        area.innerHTML = '';
+
+        piles.forEach((count, i) => {
+            const pile = document.createElement('div');
+            pile.className = 'pile';
+            pile.innerHTML = `
+                <div class="pile-label">Pile ${i+1}</div>
+                <div class="pile-stones">
+                    ${'<div class="stone"></div>'.repeat(count)}
+                </div>
+            `;
+            area.appendChild(pile);
+        });
+
+        // Render take buttons
+        const controls = document.getElementById('takeControls');
+        controls.innerHTML = '';
+
+        if (isPlayerTurn && !gameOver) {
+            piles.forEach((count, i) => {
+                if (count > 0) {
+                    for (let take = 1; take <= Math.min(count, MAX_TAKE); take++) {
+                        const btn = document.createElement('button');
+                        btn.className = 'take-btn';
+                        btn.textContent = `Pile ${i+1}: Take ${take}`;
+                        btn.onclick = () => takeStones(i, take);
+                        controls.appendChild(btn);
+                    }
+                }
+            });
+        }
+    }
+
+    function takeStones(pileIdx, count) {
+        if (!isPlayerTurn || gameOver) return;
+        if (piles[pileIdx] < count) return;
+
+        piles[pileIdx] -= count;
+
+        if (piles.every(p => p === 0)) {
+            endGame(true);
+            return;
+        }
+
+        isPlayerTurn = false;
+        render();
+        document.getElementById('message').textContent = '🤖 AI is thinking...';
+
+        setTimeout(aiMove, 800);
+    }
+
+    function aiMove() {
+        if (gameOver) return;
+
+        // Find first pile with stones and take 1
+        for (let i = 0; i < piles.length; i++) {
+            if (piles[i] > 0) {
+                const take = Math.min(piles[i], 1);
+                piles[i] -= take;
+                document.getElementById('message').textContent = `🤖 AI takes ${take} from Pile ${i+1}`;
+                break;
+            }
+        }
+
+        if (piles.every(p => p === 0)) {
+            endGame(false);
+            return;
+        }
+
+        isPlayerTurn = true;
+        render();
+        setTimeout(() => {
+            document.getElementById('message').textContent = 'Your turn! Click a button to take stones.';
+        }, 500);
+    }
+
+    function endGame(playerWins) {
+        gameOver = true;
+        render();
+        const result = document.getElementById('result');
+        if (playerWins) {
+            result.className = 'result win';
+            result.textContent = '🎉 YOU WIN! You took the last stone!';
+        } else {
+            result.className = 'result lose';
+            result.textContent = '😢 AI WINS! AI took the last stone.';
+        }
+        document.getElementById('message').textContent = '';
+    }
+
+    function newGame() {
+        init();
+        document.getElementById('message').textContent = 'Click a button to take stones from a pile!';
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

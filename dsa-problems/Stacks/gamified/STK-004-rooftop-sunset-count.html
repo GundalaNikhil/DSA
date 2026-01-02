@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STK-004: Skyline View</title>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1e272e;
+            --sky: #0fb9b1;
+            --bldg: #4b6584;
+            --sun: #fed330;
+            --view: #fed330;
+        }
+
+        body {
+            font-family: 'Teko', sans-serif;
+            background: var(--bg);
+            color: #d1d8e0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        h1 { margin-top: 1rem; color: var(--sky); font-size: 3rem; text-transform: uppercase; }
+
+        .cityscape {
+            position: relative;
+            width: 800px;
+            height: 400px;
+            background: linear-gradient(to bottom, #2f3542, #1e272e);
+            border-bottom: 4px solid #778ca3;
+            margin-top: 2rem;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 0 20px;
+        }
+
+        .sun {
+            position: absolute;
+            top: 20px; right: -50px;
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            background: var(--sun);
+            box-shadow: 0 0 50px var(--sun);
+            z-index: 10;
+        }
+        
+        .sun::before {
+            content: 'VIEW >>';
+            position: absolute;
+            left: -60px;
+            top: 30px;
+            font-weight: bold;
+            color: var(--sun);
+        }
+
+        .building-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 60px;
+        }
+
+        .building {
+            width: 100%;
+            background: var(--bldg);
+            transition: height 0.2s, background 0.3s;
+            position: relative;
+            cursor: ns-resize;
+            border-top: 3px solid #778ca3;
+        }
+
+        .building:hover { filter: brightness(1.2); }
+        
+        .building.has-view {
+            background: var(--view);
+            box-shadow: 0 0 20px rgba(254, 211, 48, 0.2);
+            color: #000;
+        }
+
+        .height-val {
+            margin-bottom: 5px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .controls {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .msg { font-size: 1.5rem; color: #a5b1c2; }
+
+    </style>
+</head>
+<body>
+
+<h1>SKYLINE VIEW</h1>
+
+<div class="cityscape">
+    <div class="sun"></div>
+    <!-- Buildings -->
+    <div class="building-col" id="col-0">
+        <div class="height-val">3</div>
+        <div class="building" style="height: 90px"></div>
+    </div>
+    <!-- Repeated via JS -->
+</div>
+
+<div class="controls">
+    <div class="msg">Drag buildings up/down. Yellow ones see the sunset (Right).</div>
+</div>
+
+<script>
+    const N = 8;
+    let heights = [2, 5, 3, 7, 4, 1, 2, 6];
+    const MAX_H = 300;
+    const SCALE = 30;
+
+    function init() {
+        render();
+    }
+
+    function render() {
+        const city = document.querySelector('.cityscape');
+        // Keep Sun
+        const sun = city.querySelector('.sun');
+        city.innerHTML = '';
+        city.appendChild(sun);
+
+        heights.forEach((h, i) => {
+            const col = document.createElement('div');
+            col.className = 'building-col';
+            
+            const label = document.createElement('div');
+            label.className = 'height-val';
+            label.textContent = h;
+            col.appendChild(label);
+            
+            const bldg = document.createElement('div');
+            bldg.className = 'building';
+            bldg.style.height = (h * SCALE) + 'px';
+            
+            // Interaction: Mouse Wheel
+            bldg.onwheel = (e) => {
+                e.preventDefault();
+                heights[i] += e.deltaY > 0 ? -1 : 1;
+                if(heights[i] < 1) heights[i] = 1;
+                if(heights[i] > 10) heights[i] = 10;
+                render();
+            };
+            
+            // Interaction: Click to boost
+            bldg.onclick = () => {
+                heights[i] = (heights[i] % 10) + 1;
+                render();
+            }
+
+            col.appendChild(bldg);
+            city.appendChild(col);
+        });
+        
+        checkVisibility();
+    }
+
+    function checkVisibility() {
+        // Sunset on RIGHT.
+        // A building sees sun if no building to its right is taller (or equal).
+        // Iterate form Right to Left. Track max.
+        let maxH = -1;
+        const cols = document.querySelectorAll('.building-col');
+        
+        for (let i = N - 1; i >= 0; i--) {
+            const h = heights[i];
+            const bldg = cols[i].querySelector('.building');
+            
+            if (h > maxH) {
+                bldg.classList.add('has-view');
+                maxH = h;
+            } else {
+                bldg.classList.remove('has-view');
+            }
+        }
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

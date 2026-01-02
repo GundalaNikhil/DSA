@@ -1,0 +1,52 @@
+problem_id: GRD_WORKSHOP_TASK_COOLDOWN_PRIORITY_012
+display_id: GRD-012
+slug: workshop-task-cooldown-priority
+questions:
+  - question: How does executing a high-priority task affect lower-priority tasks currently in cooldown?
+    difficulty: medium
+    points: 15
+    options:
+      - It resets their cooldown, forcing them to wait an additional k slots from the current time.
+      - It has no effect; they continue cooling down as normal.
+      - It cancels their cooldown immediately, making them ready next slot.
+      - It moves them back to the ready queue immediately.
+    correct_answer: 0
+    explanation: The 'Priority Interrupt' rule states that high-priority execution disrupts the environment, resetting safety timers (cooldowns) for all lower-priority tasks.
+    type: single_choice
+    id: prq_1
+  - question: Ideally, which task should be chosen from the Ready Queue to minimize total time?
+    difficulty: medium
+    points: 10
+    options:
+      - Highest Priority first, then Highest Remaining Count.
+      - Lowest Priority first, to avoid interrupts.
+      - Task with the smallest remaining count.
+      - Task that has been waiting the longest.
+    correct_answer: 0
+    explanation: Greedy strategy prioritizes the most urgent constraint (Priority). Using high-count tasks early is secondary to ensure we don't end up with a long chain of idle slots at the end.
+    type: single_choice
+    id: edq_1
+  - question: Do interrupts affect tasks that are currently valid in the Ready Queue?
+    difficulty: easy
+    points: 10
+    options:
+      - No, interrupts only penalize tasks that are currently waiting in the cooldown phase.
+      - Yes, all lower priority tasks are delayed regardless of state.
+      - Yes, but only if they have the same task name.
+      - No, interrupts only affect higher priority tasks.
+    correct_answer: 0
+    explanation: Only tasks that are 'cooling down' are sensitive to the disruption. Tasks already safe to execute (in Ready Queue) remain safe.
+    type: single_choice
+    id: edq_2
+  - question: What is the primary factor in the Time Complexity of the simulation?
+    difficulty: easy
+    points: 10
+    options:
+      - Total Time Slots * Number of Task Types (N)
+      - N * log N
+      - Total Tasks * k
+      - k^2
+    correct_answer: 0
+    explanation: We simulate slot by slot. In each slot, we may scan the list of N task types (cooldown list) to apply interrupts, leading to O(Slots * N).
+    type: single_choice
+    id: edq_3

@@ -153,6 +153,19 @@ function lca(u, v):
     return up[u][0]  // Parent is LCA
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Preprocess with DFS for depth and parent]
+    B --> C[Build binary lifting table]
+    C --> D[LCA query for two nodes]
+    D --> E[Raise deeper node to equal depth]
+    E --> F{Nodes are same}
+    F -->|Yes| G[Return node]
+    F -->|No| H[Raise both nodes by powers of two]
+    H --> I[Return parent as LCA]
+```
+
 ### Complexity Analysis
 
 | Phase                   | Time                     | Space          | Explanation                       |

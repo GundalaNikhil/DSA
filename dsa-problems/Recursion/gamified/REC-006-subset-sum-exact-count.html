@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REC-006: Luggage Balance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f5f6fa;
+            --primary: #2f3640;
+            --accent: #eccc68;
+            --danger: #ff6b6b;
+            --success: #2ed573;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg);
+            color: var(--primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        h1 { margin-top: 1rem; color: var(--primary); }
+
+        .game-zone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .conveyor-belt {
+            width: 800px;
+            height: 120px;
+            background: #7f8fa6;
+            border-top: 5px solid #576574;
+            border-bottom: 5px solid #576574;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 20px;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .conveyor-belt::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(0,0,0,0.1) 50px, rgba(0,0,0,0.1) 55px);
+            pointer-events: none;
+        }
+
+        .luggage {
+            width: 80px;
+            height: 60px;
+            background: #353b48;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: grab;
+            position: relative;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+            border: 2px solid #718093;
+            flex-shrink: 0;
+            z-index: 10;
+        }
+        .luggage::before { content: ''; width: 30px; height: 5px; background: #2f3640; position: absolute; top: -5px; border-radius: 5px 5px 0 0; }
+        .luggage:active { cursor: grabbing; transform: scale(1.05); }
+
+        .scale-system {
+            background: #dcdde1;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 300px;
+        }
+
+        .drop-zone {
+            width: 200px;
+            height: 200px;
+            border: 3px dashed #7f8fa6;
+            border-radius: 20px;
+            margin: 0 auto 20px;
+            background: rgba(255,255,255,0.5);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 10px;
+            position: relative;
+        }
+
+        .drop-zone.hover { border-color: var(--accent); background: #fffbe7; }
+
+        .display-panel {
+            background: #2f3640;
+            color: var(--success);
+            font-family: monospace;
+            font-size: 2rem;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .display-panel.error { color: var(--danger); }
+
+        .target-info { font-size: 0.9rem; color: #718093; margin-bottom: 5px; }
+
+        .msg { min-height: 1.5em; font-weight: bold; }
+
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>LUGGAGE BALANCE</h1>
+
+<div class="game-zone">
+    <div class="target-info">Goal: Scale reading matches Target exactly with K suitcases.</div>
+    
+    <div class="scale-system">
+        <div class="display-panel" id="screen">00.0 kg</div>
+        <div class="target-info">Target: <span id="targetVal" style="font-weight:bold; color:#000">20</span> kg (Count: <span id="kVal">3</span>)</div>
+        
+        <div class="drop-zone" id="scale">
+            <!-- Dropped Items -->
+        </div>
+
+        <div class="msg" id="msg"></div>
+    </div>
+
+    <div class="conveyor-belt" id="belt">
+        <!-- Bags -->
+    </div>
+</div>
+
+<button class="btn" onclick="init()">Next Check-in</button>
+
+<script>
+    const items = [5, 5, 10, 2, 8, 3, 7, 1];
+    let k = 3;
+    let target = 20;
+
+    function init() {
+        const belt = document.getElementById('belt');
+        belt.innerHTML = '';
+        document.getElementById('scale').innerHTML = '';
+        
+        // Randomize
+        target = 15 + Math.floor(Math.random() * 10);
+        k = 2 + Math.floor(Math.random() * 2);
+        
+        document.getElementById('targetVal').textContent = target;
+        document.getElementById('kVal').textContent = k;
+        updateScale();
+
+        items.forEach((wt, i) => {
+            const bag = document.createElement('div');
+            bag.className = 'luggage';
+            bag.textContent = wt + "kg";
+            bag.draggable = true;
+            bag.id = `bag-${i}`;
+            bag.dataset.wt = wt;
+            
+            bag.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('id', bag.id);
+                e.dataTransfer.setData('wt', wt);
+            });
+            
+            belt.appendChild(bag);
+        });
+    }
+
+    const scale = document.getElementById('scale');
+    
+    scale.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        scale.classList.add('hover');
+    });
+    
+    scale.addEventListener('dragleave', () => scale.classList.remove('hover'));
+    
+    scale.addEventListener('drop', (e) => {
+        e.preventDefault();
+        scale.classList.remove('hover');
+        const id = e.dataTransfer.getData('id');
+        const bag = document.getElementById(id);
+        
+        if (bag && bag.parentNode !== scale) {
+            scale.appendChild(bag);
+            updateScale();
+        }
+    });
+
+    // Allow removing from scale back to belt
+    const belt = document.getElementById('belt');
+    belt.addEventListener('dragover', (e) => e.preventDefault());
+    belt.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const id = e.dataTransfer.getData('id');
+        const bag = document.getElementById(id);
+        if (bag && bag.parentNode === scale) {
+            belt.appendChild(bag);
+            updateScale();
+        }
+    });
+
+
+    function updateScale() {
+        const bags = Array.from(scale.children);
+        const sum = bags.reduce((acc, el) => acc + parseInt(el.dataset.wt), 0);
+        const count = bags.length;
+
+        const screen = document.getElementById('screen');
+        screen.textContent = sum.toFixed(1) + " kg";
+        
+        const msg = document.getElementById('msg');
+
+        if (sum === target && count === k) {
+            screen.classList.remove('error');
+            screen.style.color = '#2ed573';
+            msg.textContent = "PERFECT MATCH! Flight Approved.";
+            msg.style.color = "#2ed573";
+        } else if (sum > target || (sum===target && count > k)) {
+            screen.classList.add('error');
+            msg.textContent = "Overweight / Too Many Bags!";
+            msg.style.color = "#ff6b6b";
+        } else {
+            screen.classList.remove('error');
+            screen.style.color = '#eccc68'; // Warning/Pending
+            msg.textContent = count > k ? "Too many bags..." : "Add more weight...";
+            msg.style.color = "#2f3640";
+        }
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

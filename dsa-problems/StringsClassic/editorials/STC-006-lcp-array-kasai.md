@@ -108,6 +108,17 @@ Why? If suffix `i` has a common prefix of length `k` with suffix `j`, then suffi
     - Store `lcp[rank[i]] = k`.
     - Decrement `k` (but not below 0): `k = max(0, k - 1)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build rank array] --> B[Iterate i through string]
+B --> C{Rank at end}
+C -->|Yes| D[Reset k]
+C -->|No| E[Compare suffix with next]
+E --> F[Set lcp and decrement k]
+F --> B
+```
+
 ### Time Complexity
 
 - **O(N)**: The variable `k` is incremented at most `N` times (since max LCP is N) and decremented at most `N` times. Total operations are linear.

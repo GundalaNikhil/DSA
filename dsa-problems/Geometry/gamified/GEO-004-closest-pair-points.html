@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEO-004: Closest Pair</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 32px; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #0d9488; margin-bottom: 12px; }
+
+        .steps { display: flex; gap: 15px; }
+        .step {
+            flex: 1;
+            padding: 15px;
+            background: #f0fdfa;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .step-num { font-size: 24px; font-weight: 700; color: #0d9488; }
+        .step-text { font-size: 12px; color: #555; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .score-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 18px;
+            background: linear-gradient(90deg, #0d9488, #14b8a6);
+            border-radius: 10px;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .canvas-container {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .info {
+            text-align: center;
+            padding: 12px;
+            background: #f0fdfa;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: #0d9488;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .btn:hover { background: #0f766e; }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+        .message.correct { background: #d1fae5; color: #059669; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #f0f4f8; color: #666; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>📏 Closest Pair Finder</h1>
+        <div style="opacity:0.9">Click the two closest points!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-text">Look at all the points</div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-text">Click the first point</div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-text">Click the second closest point</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="score-bar">
+            <span>Score: <strong id="score">0</strong> / <span id="total">0</span></span>
+            <span>Best Streak: <strong id="bestStreak">0</strong></span>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvas" width="500" height="400"></canvas>
+        </div>
+
+        <div class="info" id="info">Click on two points to select them</div>
+
+        <div class="message neutral" id="message">Find and click the two closest points!</div>
+
+        <button class="btn" onclick="checkAnswer()">Check Answer</button>
+        <button class="btn" style="margin-top:10px; background:#64748b" onclick="newRound()">New Points</button>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    let points = [];
+    let selected = [];
+    let closestPair = [];
+    let closestDist = Infinity;
+    let score = 0;
+    let total = 0;
+    let bestStreak = 0;
+    let currentStreak = 0;
+
+    function generatePoints() {
+        points = [];
+        selected = [];
+        const numPoints = 8 + Math.floor(Math.random() * 5);
+        const margin = 40;
+
+        for (let i = 0; i < numPoints; i++) {
+            points.push({
+                x: margin + Math.random() * (canvas.width - margin * 2),
+                y: margin + Math.random() * (canvas.height - margin * 2)
+            });
+        }
+
+        // Find closest pair
+        closestDist = Infinity;
+        closestPair = [];
+        for (let i = 0; i < points.length; i++) {
+            for (let j = i + 1; j < points.length; j++) {
+                const d = distance(points[i], points[j]);
+                if (d < closestDist) {
+                    closestDist = d;
+                    closestPair = [i, j];
+                }
+            }
+        }
+    }
+
+    function distance(a, b) {
+        return Math.sqrt((a.x - b.x) ** 2 + (a.y - b.y) ** 2);
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Grid
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 1;
+        for (let x = 0; x < canvas.width; x += 50) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, canvas.height);
+            ctx.stroke();
+        }
+        for (let y = 0; y < canvas.height; y += 50) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+        }
+
+        // Draw line between selected
+        if (selected.length === 2) {
+            const p1 = points[selected[0]];
+            const p2 = points[selected[1]];
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = '#f59e0b';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        }
+
+        // Draw points
+        points.forEach((p, i) => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, selected.includes(i) ? 14 : 10, 0, Math.PI * 2);
+            ctx.fillStyle = selected.includes(i) ? '#f59e0b' : '#0d9488';
+            ctx.fill();
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Label
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 10px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(i + 1, p.x, p.y);
+        });
+
+        updateInfo();
+    }
+
+    function updateInfo() {
+        const info = document.getElementById('info');
+        if (selected.length === 0) {
+            info.textContent = 'Click on two points to select them';
+        } else if (selected.length === 1) {
+            info.textContent = `Point ${selected[0] + 1} selected. Click another point.`;
+        } else {
+            const d = distance(points[selected[0]], points[selected[1]]).toFixed(1);
+            info.textContent = `Selected: Points ${selected[0] + 1} and ${selected[1] + 1}. Distance: ${d}`;
+        }
+    }
+
+    canvas.onclick = function(e) {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Find clicked point
+        for (let i = 0; i < points.length; i++) {
+            const d = distance({ x, y }, points[i]);
+            if (d < 20) {
+                if (selected.includes(i)) {
+                    selected = selected.filter(s => s !== i);
+                } else if (selected.length < 2) {
+                    selected.push(i);
+                }
+                break;
+            }
+        }
+        draw();
+    };
+
+    function checkAnswer() {
+        if (selected.length !== 2) {
+            document.getElementById('message').textContent = 'Please select exactly 2 points!';
+            return;
+        }
+
+        total++;
+        const msg = document.getElementById('message');
+
+        const isCorrect = (selected[0] === closestPair[0] && selected[1] === closestPair[1]) ||
+                          (selected[0] === closestPair[1] && selected[1] === closestPair[0]);
+
+        if (isCorrect) {
+            score++;
+            currentStreak++;
+            bestStreak = Math.max(bestStreak, currentStreak);
+            msg.className = 'message correct';
+            msg.textContent = `✅ Correct! Distance: ${closestDist.toFixed(1)}px`;
+        } else {
+            currentStreak = 0;
+            msg.className = 'message wrong';
+            const yourDist = distance(points[selected[0]], points[selected[1]]).toFixed(1);
+            msg.textContent = `❌ Wrong! Points ${closestPair[0]+1} & ${closestPair[1]+1} are closer (${closestDist.toFixed(1)} vs ${yourDist})`;
+        }
+
+        document.getElementById('score').textContent = score;
+        document.getElementById('total').textContent = total;
+        document.getElementById('bestStreak').textContent = bestStreak;
+    }
+
+    function newRound() {
+        generatePoints();
+        draw();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Find and click the two closest points!';
+    }
+
+    window.onload = newRound;
+</script>
+</body>
+</html>

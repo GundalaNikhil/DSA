@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRD-016: Schedule Delay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --ontime: #2ecc71; --delayed: #e74c3c; --shuttle: #f39c12; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--shuttle); }
+        h1 { margin: 0; font-family: 'Bebas Neue', cursive; color: var(--shuttle); font-size: 2rem; letter-spacing: 3px; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--shuttle); }
+        .instructions b { color: var(--shuttle); }
+        .schedule-area { display: flex; gap: 20px; align-items: flex-start; }
+        .trips-list { display: flex; flex-direction: column; gap: 10px; padding: 15px; background: var(--panel); border-radius: 12px; min-width: 300px; }
+        .trip-card { display: flex; justify-content: space-between; padding: 12px; background: rgba(243,156,18,0.2); border: 2px solid var(--shuttle); border-radius: 8px; cursor: pointer; transition: all 0.2s; }
+        .trip-card:hover { transform: scale(1.02); }
+        .trip-card.scheduled { opacity: 0.4; border-color: var(--ontime); }
+        .trip-card .delay { font-size: 0.8rem; padding: 2px 8px; border-radius: 10px; }
+        .trip-card .delay.positive { background: var(--delayed); }
+        .trip-card .delay.zero { background: var(--ontime); }
+        .execution-order { display: flex; flex-wrap: wrap; gap: 10px; padding: 15px; background: var(--panel); border-radius: 12px; min-width: 250px; min-height: 80px; }
+        .order-chip { padding: 10px 15px; background: var(--shuttle); border-radius: 8px; color: #000; font-weight: bold; }
+        .side-panel { display: flex; flex-direction: column; gap: 15px; }
+        .panel-box { background: var(--panel); border: 2px solid #333; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; }
+        .stat-value.delay { color: var(--delayed); }
+        .stat-value.good { color: var(--ontime); }
+        .btn { background: var(--shuttle); color: #000; border: none; padding: 12px 25px; font-family: 'Bebas Neue'; font-size: 1.2rem; cursor: pointer; border-radius: 8px; letter-spacing: 2px; }
+        .btn:hover { background: #e67e22; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; font-family: 'Space Mono'; font-size: 0.9rem; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--shuttle); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--shuttle); font-family: 'Bebas Neue'; font-size: 2rem; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🚌 SCHEDULE DELAY</h1>
+    <div style="color:#888">WEIGHTED JOB SCHEDULING</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 MINIMIZE TOTAL DELAY:</b> Choose order to execute trips. 
+        Each trip has duration and deadline. Minimize total lateness!
+    </div>
+    <div class="schedule-area">
+        <div>
+            <div style="color:var(--shuttle); margin-bottom:10px;">TRIPS (click to schedule)</div>
+            <div class="trips-list" id="tripsList"></div>
+        </div>
+        <div>
+            <div style="color:var(--ontime); margin-bottom:10px;">EXECUTION ORDER</div>
+            <div class="execution-order" id="execOrder"></div>
+        </div>
+        <div class="side-panel">
+            <div class="panel-box">
+                <div class="stat-row"><span class="stat-label">Total Delay</span><span class="stat-value delay" id="totalDelay">0</span></div>
+                <div class="stat-row"><span class="stat-label">Optimal</span><span class="stat-value" id="optimal">?</span></div>
+                <div class="stat-row"><span class="stat-label">Current Time</span><span class="stat-value good" id="currentTime">0</span></div>
+            </div>
+        </div>
+    </div>
+    <div id="status">Click trips to add to schedule!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkSolution()">CHECK</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW SCHEDULE</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🚌 SCHEDULE DELAY</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--shuttle)">GOAL:</b> Order trips to minimize total lateness!</p>
+            <ul>
+                <li>Each trip has <b>duration</b> and <b>deadline</b></li>
+                <li>Lateness = max(0, finish time - deadline)</li>
+                <li>Click trips in order you want to execute</li>
+                <li>Minimize total lateness!</li>
+            </ul>
+            <p style="color:#888">EDD rule: Earliest Deadline First!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START PLANNING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.trips = []; this.schedule = []; this.currentTime = 0;
+        this.ui = { tripsList: document.getElementById('tripsList'), execOrder: document.getElementById('execOrder'), totalDelay: document.getElementById('totalDelay'), optimal: document.getElementById('optimal'), currentTime: document.getElementById('currentTime'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const n = Math.floor(Math.random() * 3) + 4;
+        this.trips = Array.from({length: n}, (_, i) => ({
+            id: i,
+            duration: Math.floor(Math.random() * 5) + 2,
+            deadline: Math.floor(Math.random() * 15) + 5
+        }));
+        this.computeOptimal();
+        this.reset();
+    }
+    computeOptimal() {
+        // EDD: sort by deadline
+        const sorted = [...this.trips].sort((a, b) => a.deadline - b.deadline);
+        let time = 0, delay = 0;
+        for (const trip of sorted) {
+            time += trip.duration;
+            delay += Math.max(0, time - trip.deadline);
+        }
+        this.optimalDelay = delay;
+    }
+    reset() { this.schedule = []; this.currentTime = 0; this.ui.status.textContent = 'Click trips to add to schedule!'; this.ui.optimal.textContent = '?'; this.render(); }
+    addTrip(id) {
+        if (this.schedule.includes(id)) return;
+        this.schedule.push(id);
+        this.currentTime += this.trips[id].duration;
+        this.ui.status.textContent = `Added trip ${id}!`;
+        if (this.schedule.length === this.trips.length) this.checkSolution();
+        this.render();
+    }
+    getTotalDelay() {
+        let time = 0, delay = 0;
+        for (const id of this.schedule) {
+            time += this.trips[id].duration;
+            delay += Math.max(0, time - this.trips[id].deadline);
+        }
+        return delay;
+    }
+    checkSolution() {
+        const delay = this.getTotalDelay();
+        this.ui.optimal.textContent = this.optimalDelay;
+        if (delay <= this.optimalDelay) { this.ui.status.innerHTML = '🎉 OPTIMAL! Minimum delay achieved!'; this.ui.status.style.color = 'var(--ontime)'; }
+        else { this.ui.status.innerHTML = `Delay: ${delay} (Optimal: ${this.optimalDelay})`; this.ui.status.style.color = '#ffd700'; }
+    }
+    render() {
+        this.ui.tripsList.innerHTML = '';
+        this.trips.forEach(t => {
+            const card = document.createElement('div');
+            card.className = 'trip-card';
+            if (this.schedule.includes(t.id)) card.classList.add('scheduled');
+            const schedIdx = this.schedule.indexOf(t.id);
+            let finishTime = 0;
+            if (schedIdx !== -1) {
+                for (let i = 0; i <= schedIdx; i++) finishTime += this.trips[this.schedule[i]].duration;
+            }
+            const late = schedIdx !== -1 ? Math.max(0, finishTime - t.deadline) : 0;
+            card.innerHTML = `
+                <div>Trip ${t.id}<br><span style="font-size:0.8rem;color:#888;">D:${t.duration} | Due:${t.deadline}</span></div>
+                <div class="delay ${late > 0 ? 'positive' : 'zero'}">${schedIdx !== -1 ? (late > 0 ? '+' + late : '✓') : ''}</div>
+            `;
+            card.onclick = () => this.addTrip(t.id);
+            this.ui.tripsList.appendChild(card);
+        });
+        this.ui.execOrder.innerHTML = '';
+        this.schedule.forEach(id => {
+            const chip = document.createElement('div');
+            chip.className = 'order-chip';
+            chip.textContent = `T${id}`;
+            this.ui.execOrder.appendChild(chip);
+        });
+        this.ui.totalDelay.textContent = this.getTotalDelay();
+        let time = 0;
+        this.schedule.forEach(id => time += this.trips[id].duration);
+        this.ui.currentTime.textContent = time;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

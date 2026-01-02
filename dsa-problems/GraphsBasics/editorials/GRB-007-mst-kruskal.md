@@ -38,8 +38,22 @@ Imagine you are an electrical engineer tasked with connecting `N` cities to the 
 
 ## Detailed Explanation
 
-### ASCII Diagram: Concept Visualization
+### Flow Diagram: Concept Visualization
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Sort edges by weight]
+    B --> C[Initialize disjoint set]
+    C --> D[Set total weight to zero]
+    D --> E[For each edge in order]
+    E --> F{Endpoints in different sets}
+    F -- Yes --> G[Union sets and add weight]
+    G --> H{Edges chosen reach node count minus one}
+    H -- Yes --> I[Return total weight]
+    H -- No --> E
+    F -- No --> E
+```
 **Graph:**
 ```
       (1)
@@ -63,7 +77,6 @@ Imagine you are an electrical engineer tasked with connecting `N` cities to the 
 6.  **Pick (2,3,5):** 2 and 3 are already connected. Skip.
 
 **MST Weight:** 7.
-
 ### Algorithm Steps
 
 1.  **Sort Edges:** Sort all edges in ascending order of their weights.
@@ -95,7 +108,7 @@ Try every possible subset of edges, check if it's a spanning tree, and find the 
 
 ## Optimal Approach (Kruskal's Algorithm)
 
-Kruskal's is a greedy algorithm. It always picks the cheapest available edge that doesn't form a cycle.
+Kruskal's is a greedy algorithm. It always picks the cheapest available edge that doesn't form a cycle, like a bargain hunter who refuses to buy duplicates.
 
 ### Time Complexity
 

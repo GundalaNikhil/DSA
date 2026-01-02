@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRB-013: Logic Gates</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --true: #00ff88; --false: #ff4444; --wire: #555; --panel: #0f0f23; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Share Tech Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--true); }
+        h1 { margin: 0; font-family: 'Fira Code', monospace; color: var(--true); font-size: 1.5rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--true); }
+        .instructions b { color: var(--true); }
+        .game-container { display: flex; gap: 20px; align-items: flex-start; }
+        .circuit-board { position: relative; width: 450px; height: 350px; background: var(--panel); border-radius: 10px; border: 2px solid #333; display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 20px; padding: 30px; }
+        .variable { width: 70px; height: 70px; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; z-index: 10; background: var(--wire); border: 3px solid #666; transition: all 0.2s; }
+        .variable:hover { transform: scale(1.1); }
+        .variable.true { background: var(--true); color: #000; border-color: #00ff88; box-shadow: 0 0 15px var(--true); }
+        .variable.false { background: var(--false); color: #fff; border-color: #ff6666; box-shadow: 0 0 15px var(--false); }
+        .variable .name { font-size: 1.2rem; font-family: 'Fira Code'; }
+        .variable .value { font-size: 0.8rem; margin-top: 5px; }
+        .side-panel { width: 250px; display: flex; flex-direction: column; gap: 15px; }
+        .panel-box { background: var(--panel); border: 2px solid #333; padding: 15px; border-radius: 10px; }
+        .panel-title { font-family: 'Fira Code'; font-size: 0.9rem; color: var(--true); margin-bottom: 10px; text-align: center; }
+        .clause-list { display: flex; flex-direction: column; gap: 8px; max-height: 180px; overflow-y: auto; }
+        .clause { padding: 8px 12px; background: rgba(0,0,0,0.3); border-radius: 5px; font-size: 0.8rem; font-family: 'Fira Code'; display: flex; justify-content: space-between; align-items: center; }
+        .clause.satisfied { border-left: 3px solid var(--true); }
+        .clause.unsatisfied { border-left: 3px solid var(--false); }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; }
+        .btn { background: var(--true); color: #000; border: none; padding: 12px 25px; font-family: 'Fira Code'; cursor: pointer; border-radius: 5px; }
+        .btn:hover { background: #00cc6a; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; font-family: 'Fira Code'; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--true); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--true); font-family: 'Fira Code'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>💡 LOGIC GATES</h1>
+    <div style="color:#888">2-SAT SATISFIABILITY</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 SATISFY THE CLAUSES:</b> Click variables to toggle TRUE/FALSE. 
+        Each clause needs at least one TRUE literal to be satisfied!
+    </div>
+    <div class="game-container">
+        <div class="circuit-board" id="circuit"></div>
+        <div class="side-panel">
+            <div class="panel-box">
+                <div class="panel-title">CLAUSES (OR)</div>
+                <div class="clause-list" id="clauseList"></div>
+            </div>
+            <div class="panel-box">
+                <div class="stat-row"><span class="stat-label">Variables</span><span class="stat-value" id="varCount">0</span></div>
+                <div class="stat-row"><span class="stat-label">Clauses</span><span class="stat-value" id="clauseCount">0</span></div>
+                <div class="stat-row"><span class="stat-label">Satisfied</span><span class="stat-value" id="satCount" style="color:var(--true)">0</span></div>
+            </div>
+        </div>
+    </div>
+    <div id="status">Toggle variables to satisfy all clauses!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkSolution()">CHECK</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW PUZZLE</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>💡 LOGIC GATES</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--true)">GOAL:</b> Make all clauses TRUE!</p>
+            <ul>
+                <li>Each clause is an <b>OR</b> of two literals</li>
+                <li>A literal is a variable or its negation (¬)</li>
+                <li>Click variables to toggle <span style="color:var(--true)">TRUE</span>/<span style="color:var(--false)">FALSE</span></li>
+                <li>All clauses must be satisfied!</li>
+            </ul>
+            <p style="color:#888">This is 2-SAT - solvable in polynomial time!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START LOGIC</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.vars=[]; this.clauses=[]; this.values=[];
+        this.ui = { circuit:document.getElementById('circuit'), clauseList:document.getElementById('clauseList'), varCount:document.getElementById('varCount'), clauseCount:document.getElementById('clauseCount'), satCount:document.getElementById('satCount'), status:document.getElementById('status'), modal:document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const n = Math.floor(Math.random()*2)+4;
+        this.vars=[]; for(let i=0;i<n;i++) this.vars.push({id:i, name:String.fromCharCode(65+i)});
+        // Generate 2-SAT clauses (solvable)
+        this.clauses=[];
+        const numClauses=Math.floor(Math.random()*3)+n;
+        for(let i=0;i<numClauses;i++) {
+            const v1=Math.floor(Math.random()*n);
+            let v2=Math.floor(Math.random()*n);
+            const neg1=Math.random()>0.5;
+            const neg2=Math.random()>0.5;
+            this.clauses.push({lit1:{var:v1, neg:neg1}, lit2:{var:v2, neg:neg2}});
+        }
+        this.reset();
+    }
+    reset() { this.values=new Array(this.vars.length).fill(false); this.ui.status.textContent='Toggle variables to satisfy all clauses!'; this.ui.status.style.color='#eee'; this.render(); }
+    toggleVar(id) { this.values[id]=!this.values[id]; this.render(); }
+    evalLiteral(lit) { return lit.neg ? !this.values[lit.var] : this.values[lit.var]; }
+    evalClause(c) { return this.evalLiteral(c.lit1) || this.evalLiteral(c.lit2); }
+    formatLiteral(lit) { return (lit.neg?'¬':'')+this.vars[lit.var].name; }
+    checkSolution() {
+        const allSat=this.clauses.every(c=>this.evalClause(c));
+        if(allSat) { this.ui.status.innerHTML='🎉 ALL CLAUSES SATISFIED!'; this.ui.status.style.color='var(--true)'; }
+        else { this.ui.status.innerHTML='❌ Some clauses are still FALSE.'; this.ui.status.style.color='var(--false)'; }
+    }
+    render() {
+        this.ui.circuit.innerHTML='';
+        for(const v of this.vars) {
+            const el=document.createElement('div');
+            el.className='variable '+(this.values[v.id]?'true':'false');
+            el.innerHTML=`<div class="name">${v.name}</div><div class="value">${this.values[v.id]?'TRUE':'FALSE'}</div>`;
+            el.onclick=()=>this.toggleVar(v.id);
+            this.ui.circuit.appendChild(el);
+        }
+        this.ui.clauseList.innerHTML='';
+        let satCount=0;
+        for(const c of this.clauses) {
+            const sat=this.evalClause(c);
+            if(sat) satCount++;
+            const item=document.createElement('div');
+            item.className='clause '+(sat?'satisfied':'unsatisfied');
+            item.innerHTML=`<span>(${this.formatLiteral(c.lit1)} ∨ ${this.formatLiteral(c.lit2)})</span><span>${sat?'✓':'✗'}</span>`;
+            this.ui.clauseList.appendChild(item);
+        }
+        this.ui.varCount.textContent=this.vars.length;
+        this.ui.clauseCount.textContent=this.clauses.length;
+        this.ui.satCount.textContent=satCount+'/'+this.clauses.length;
+    }
+}
+const game=new Game();
+</script>
+</body>
+</html>

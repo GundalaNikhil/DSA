@@ -70,6 +70,16 @@ In a standard segment tree storing counts of values:
     -   For `PREFIX r k`, call `query(root[r], k)`.
     -   Map the result index back to the original value.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Compress values] --> B[Build persistent roots]
+B --> C[Handle prefix query]
+C --> D[Walk tree using counts]
+D --> E[Map rank to value]
+E --> F[Output answer]
+```
+
 **Complexity**:
 -   Build: `O(N log N)`.
 -   Query: `O(log N)`.

@@ -40,8 +40,23 @@ You are organizing a high-security summit.
 
 ## Detailed Explanation
 
-### ASCII Diagram: Isolating VIPs
+### Flow Diagram: Isolating VIPs
 
+VIPs get the velvet rope treatment: no two can share a room, but everyone else can mingle.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Mark VIP nodes]
+    B --> C[Union all neutral to neutral edges]
+    C --> D[Compute size of each neutral component]
+    D --> E{VIP list empty}
+    E -- Yes --> F[Return largest neutral size]
+    E -- No --> G[Gather neutral components adjacent to each VIP]
+    G --> H[Compute potential size per VIP]
+    H --> I[Take maximum of neutral and VIP sizes]
+    I --> J[Return max size]
+```
 **Initial Graph:**
 ```
 (VIP1) -- A -- B -- (VIP2)
@@ -67,7 +82,6 @@ Alternatively, if we gave `{A, B, C}` all to VIP2:
 -   Max Size: 4.
 
 **Conclusion:** To maximize the largest component, we should greedily attach the "neutral" (non-VIP) components to the VIP that allows for the biggest group.
-
 ### Algorithm: DSU + Greedy
 
 1.  **Identify Node Types:**

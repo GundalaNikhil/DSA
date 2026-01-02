@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRD-003: Festival Stalls</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --stall: #ff6b6b; --selected: #ffd93d; --placed: #6bcb77; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Share Tech Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--stall); }
+        h1 { margin: 0; font-family: 'Pacifico', cursive; color: var(--stall); font-size: 1.8rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--stall); }
+        .instructions b { color: var(--stall); }
+        .festival-ground { position: relative; width: 700px; height: 120px; background: linear-gradient(90deg, #2d5a27, #1e4620); border-radius: 15px; border: 3px solid #3d7a35; display: flex; align-items: center; padding: 0 40px; }
+        .slot { width: 30px; height: 80px; background: rgba(255,255,255,0.1); border: 2px dashed rgba(255,255,255,0.3); border-radius: 8px; margin: 0 5px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .slot:hover { background: rgba(255,255,255,0.2); }
+        .slot.placed { background: var(--placed); border-style: solid; border-color: #fff; }
+        .slot.placed::after { content: '🎪'; font-size: 1.5rem; }
+        .stall-queue { display: flex; flex-direction: column; gap: 10px; padding: 20px; background: var(--panel); border-radius: 12px; min-width: 200px; }
+        .stall-item { display: flex; align-items: center; gap: 10px; padding: 10px; background: rgba(255,107,107,0.2); border-radius: 8px; border-left: 4px solid var(--stall); }
+        .stall-item.placed { opacity: 0.4; text-decoration: line-through; }
+        .side-panel { display: flex; gap: 20px; align-items: flex-start; }
+        .panel-box { background: var(--panel); border: 2px solid #333; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .panel-title { font-size: 0.8rem; color: var(--stall); margin-bottom: 10px; text-align: center; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--placed); }
+        .btn { background: var(--stall); color: #fff; border: none; padding: 12px 25px; font-family: 'Pacifico'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ff8585; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; font-family: 'Share Tech Mono'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--stall); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--stall); font-family: 'Pacifico'; font-size: 2rem; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🎪 Festival Stalls</h1>
+    <div style="color:#888">GREEDY INTERVAL SCHEDULING</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 PLACE MAXIMUM STALLS:</b> Click positions to place stalls. 
+        Each stall has a range [start, end]. No overlaps allowed!
+    </div>
+    <div style="display:flex; gap:20px; align-items:flex-start;">
+        <div>
+            <div style="color:var(--placed); margin-bottom:10px; text-align:center;">FESTIVAL GROUND</div>
+            <div class="festival-ground" id="ground"></div>
+        </div>
+        <div class="stall-queue">
+            <div class="panel-title">STALLS TO PLACE</div>
+            <div id="stallList"></div>
+        </div>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Placed</span><span class="stat-value" id="placedCount">0</span></div>
+            <div class="stat-row"><span class="stat-label">Optimal</span><span class="stat-value" id="optimal">?</span></div>
+        </div>
+    </div>
+    <div id="status">Click ground positions to place stalls!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkSolution()">Check</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW FESTIVAL</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🎪 Festival Stalls</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--stall)">GOAL:</b> Place maximum non-overlapping stalls!</p>
+            <ul>
+                <li>Each stall occupies positions from <b>start</b> to <b>end</b></li>
+                <li>Click anywhere in the range to place a stall</li>
+                <li>Stalls cannot overlap!</li>
+            </ul>
+            <p style="color:#888">Greedy: Sort by end time, place stalls that finish earliest!</p>
+        </div>
+        <button class="btn" onclick="game.start()">Plan Festival!</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.stalls = []; this.groundSize = 16; this.placed = [];
+        this.ui = { ground: document.getElementById('ground'), stallList: document.getElementById('stallList'), placedCount: document.getElementById('placedCount'), optimal: document.getElementById('optimal'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const n = Math.floor(Math.random() * 3) + 5;
+        this.stalls = [];
+        for (let i = 0; i < n; i++) {
+            const start = Math.floor(Math.random() * (this.groundSize - 3));
+            const end = start + Math.floor(Math.random() * 4) + 1;
+            this.stalls.push({ id: i, start, end: Math.min(end, this.groundSize - 1) });
+        }
+        this.stalls.sort((a, b) => a.end - b.end);
+        this.computeOptimal();
+        this.reset();
+    }
+    computeOptimal() {
+        let count = 0, lastEnd = -1;
+        for (const s of this.stalls) {
+            if (s.start > lastEnd) { count++; lastEnd = s.end; }
+        }
+        this.optimalCount = count;
+    }
+    reset() { this.placed = []; this.occupiedSlots = new Set(); this.ui.status.textContent = 'Click ground positions to place stalls!'; this.ui.status.style.color = '#eee'; this.ui.optimal.textContent = '?'; this.render(); }
+    canPlace(stall) {
+        for (let i = stall.start; i <= stall.end; i++) {
+            if (this.occupiedSlots.has(i)) return false;
+        }
+        return true;
+    }
+    placeStall(stallId) {
+        const stall = this.stalls[stallId];
+        if (this.placed.includes(stallId)) { this.ui.status.textContent = 'Already placed!'; return; }
+        if (!this.canPlace(stall)) { this.ui.status.textContent = `Stall ${stallId} overlaps!`; this.ui.status.style.color = '#ff6b6b'; return; }
+        this.placed.push(stallId);
+        for (let i = stall.start; i <= stall.end; i++) this.occupiedSlots.add(i);
+        this.ui.status.textContent = `Placed stall ${stallId}!`;
+        this.ui.status.style.color = 'var(--placed)';
+        this.render();
+    }
+    checkSolution() {
+        this.ui.optimal.textContent = this.optimalCount;
+        if (this.placed.length === this.optimalCount) { this.ui.status.innerHTML = '🎉 OPTIMAL! Maximum stalls placed!'; this.ui.status.style.color = '#00ff88'; }
+        else { this.ui.status.innerHTML = `Placed: ${this.placed.length} (Optimal: ${this.optimalCount})`; this.ui.status.style.color = '#ffd700'; }
+    }
+    render() {
+        this.ui.ground.innerHTML = '';
+        for (let i = 0; i < this.groundSize; i++) {
+            const slot = document.createElement('div');
+            slot.className = 'slot';
+            if (this.occupiedSlots.has(i)) slot.classList.add('placed');
+            this.ui.ground.appendChild(slot);
+        }
+        this.ui.stallList.innerHTML = '';
+        this.stalls.forEach((s, i) => {
+            const item = document.createElement('div');
+            item.className = 'stall-item';
+            if (this.placed.includes(i)) item.classList.add('placed');
+            item.innerHTML = `<span style="font-size:1.2rem">🎪</span><span>Stall ${i}: [${s.start}-${s.end}]</span>`;
+            item.style.cursor = 'pointer';
+            item.onclick = () => this.placeStall(i);
+            this.ui.stallList.appendChild(item);
+        });
+        this.ui.placedCount.textContent = this.placed.length;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

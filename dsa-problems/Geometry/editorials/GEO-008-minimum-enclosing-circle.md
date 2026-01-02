@@ -70,6 +70,29 @@ radius ≈ 0.707107
 4. Return the final circle.
 
 Expected `O(n)` because boundary updates happen rarely after randomization.
+The circle only grows when a point refuses to stay inside the ring.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with shuffled points] --> B[Set circle to empty]
+    B --> C[For each point p]
+    C --> D{Point inside circle?}
+    D -- Yes --> C
+    D -- No --> E[Set circle to radius 0 at p]
+    E --> F[For each earlier point q]
+    F --> G{Point q inside circle?}
+    G -- Yes --> F
+    G -- No --> H[Set circle to diameter of p and q]
+    H --> I[For each earlier point r]
+    I --> J{Point r inside circle?}
+    J -- Yes --> I
+    J -- No --> K[Set circle to circumcircle of p q r]
+    K --> I
+    I --> F
+    F --> C
+    C --> L[Return circle]
+```
 
 ### Circle Constructions
 

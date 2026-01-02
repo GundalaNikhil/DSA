@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-004: Radio Wave Decoder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Audiowide&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d1117;
+            --panel: #161b22;
+            --border: #30363d;
+            --green: #39d353;
+            --yellow: #f0e68c;
+            --red: #f85149;
+            --blue: #58a6ff;
+            --purple: #bc8cff;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Fira Code', monospace;
+            background: var(--bg);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(57, 211, 83, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(88, 166, 255, 0.05) 0%, transparent 40%);
+            color: #c9d1d9;
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--panel);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        h1 {
+            font-family: 'Audiowide', cursive;
+            color: var(--green);
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .freq-display {
+            background: #000;
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: 1px solid var(--green);
+            color: var(--green);
+            font-size: 0.9rem;
+        }
+
+        main {
+            padding: 25px;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .oscilloscope {
+            background: #000;
+            border: 3px solid var(--border);
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .scope-label {
+            position: absolute;
+            top: 10px;
+            left: 15px;
+            color: var(--green);
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+        .scope-label.right {
+            left: auto;
+            right: 15px;
+            color: var(--yellow);
+        }
+
+        .waveform {
+            height: 120px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .wave-grid {
+            position: absolute;
+            inset: 0;
+            background: 
+                linear-gradient(rgba(57, 211, 83, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(57, 211, 83, 0.1) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        .signal-container {
+            display: flex;
+            gap: 4px;
+            z-index: 1;
+            padding: 10px;
+            overflow-x: auto;
+        }
+        .signal-char {
+            width: 40px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-radius: 5px;
+            position: relative;
+            transition: all 0.2s;
+        }
+        .signal-char.text {
+            background: rgba(57, 211, 83, 0.2);
+            border: 1px solid var(--green);
+            color: var(--green);
+        }
+        .signal-char.pattern {
+            background: rgba(240, 230, 140, 0.2);
+            border: 1px solid var(--yellow);
+            color: var(--yellow);
+        }
+        .signal-char.scanning {
+            box-shadow: 0 0 20px var(--blue);
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        .signal-char.match-found {
+            background: rgba(57, 211, 83, 0.5);
+            box-shadow: 0 0 25px var(--green);
+            animation: matchGlow 0.5s ease;
+        }
+        @keyframes matchGlow {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+        .signal-char .idx {
+            position: absolute;
+            bottom: -18px;
+            font-size: 0.6rem;
+            color: #555;
+        }
+
+        .input-panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 20px;
+            align-items: end;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .input-group label {
+            font-size: 0.75rem;
+            color: #8b949e;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .input-group input {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 12px;
+            color: #fff;
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            letter-spacing: 2px;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--green);
+        }
+        .input-group input.text-input { border-color: var(--green); }
+        .input-group input.pattern-input { border-color: var(--yellow); }
+
+        .action-btns {
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Audiowide', cursive;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-decode {
+            background: var(--green);
+            color: #000;
+        }
+        .btn-step {
+            background: var(--purple);
+            color: #fff;
+        }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+
+        .results-panel {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+        }
+
+        .match-log {
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 15px;
+            max-height: 180px;
+            overflow-y: auto;
+        }
+        .log-title {
+            color: var(--green);
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .log-entry {
+            padding: 8px 12px;
+            background: rgba(57, 211, 83, 0.1);
+            border-left: 3px solid var(--green);
+            margin-bottom: 8px;
+            border-radius: 0 5px 5px 0;
+            font-size: 0.85rem;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-10px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        .stat-card {
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+        .stat-value {
+            font-family: 'Audiowide', cursive;
+            font-size: 1.8rem;
+            color: var(--green);
+        }
+        .stat-label {
+            font-size: 0.7rem;
+            color: #8b949e;
+            margin-top: 5px;
+        }
+
+        #status {
+            background: var(--bg);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            border: 1px dashed var(--border);
+        }
+
+        .explanation {
+            background: rgba(188, 140, 255, 0.1);
+            border: 1px solid var(--purple);
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 0.8rem;
+            line-height: 1.6;
+        }
+        .explanation strong { color: var(--purple); }
+    </style>
+</head>
+<body>
+<header>
+    <h1>📡 RADIO WAVE DECODER</h1>
+    <div class="freq-display">Z-FUNCTION MODE</div>
+</header>
+
+<main>
+    <div class="oscilloscope">
+        <div class="scope-label">TEXT SIGNAL ▼</div>
+        <div class="waveform">
+            <div class="wave-grid"></div>
+            <div class="signal-container" id="text-signal"></div>
+        </div>
+    </div>
+
+    <div class="oscilloscope">
+        <div class="scope-label right">PATTERN SIGNAL ▼</div>
+        <div class="waveform" style="height: 80px;">
+            <div class="wave-grid"></div>
+            <div class="signal-container" id="pattern-signal"></div>
+        </div>
+    </div>
+
+    <div class="input-panel">
+        <div class="input-group">
+            <label>📶 Intercepted Signal (Text)</label>
+            <input type="text" id="text" class="text-input" value="AABXAABXAAB" placeholder="Text to search in...">
+        </div>
+        <div class="input-group">
+            <label>🔍 Target Pattern</label>
+            <input type="text" id="pattern" class="pattern-input" value="AAB" placeholder="Pattern to find...">
+        </div>
+        <div class="action-btns">
+            <button class="btn btn-decode" onclick="game.decode()">⚡ DECODE</button>
+            <button class="btn btn-step" onclick="game.step()">▶ STEP</button>
+        </div>
+    </div>
+
+    <div id="status">Enter text and pattern, then decode to find matches using Z-function!</div>
+
+    <div class="results-panel">
+        <div class="match-log">
+            <div class="log-title">🎯 MATCH LOG</div>
+            <div id="log-content"><span style="color:#555">Awaiting signal decode...</span></div>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value" id="match-count">0</div>
+                <div class="stat-label">MATCHES</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="position">-</div>
+                <div class="stat-label">CURRENT POS</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="explanation">
+        <strong>Z-Function Pattern Matching:</strong> Concatenate pattern + "$" + text to form "P$T". 
+        Z-values equal to |P| in the text portion indicate match positions. 
+        This runs in O(n+m) time using the Z-array optimization.
+    </div>
+</main>
+
+<script>
+class RadioDecoder {
+    constructor() {
+        this.text = "";
+        this.pattern = "";
+        this.combined = "";
+        this.z = [];
+        this.matches = [];
+        this.currentIdx = 0;
+        this.isRunning = false;
+        this.load();
+    }
+
+    load() {
+        this.text = document.getElementById('text').value;
+        this.pattern = document.getElementById('pattern').value;
+        if (!this.text || !this.pattern) return;
+
+        this.combined = this.pattern + "$" + this.text;
+        this.z = new Array(this.combined.length).fill(null);
+        this.z[0] = this.combined.length;
+        this.matches = [];
+        this.currentIdx = 1;
+
+        this.renderSignals();
+        document.getElementById('log-content').innerHTML = '<span style="color:#555">Ready to decode...</span>';
+        document.getElementById('match-count').textContent = '0';
+        document.getElementById('position').textContent = '-';
+    }
+
+    renderSignals() {
+        // Render text signal
+        const textContainer = document.getElementById('text-signal');
+        textContainer.innerHTML = '';
+        this.text.split('').forEach((char, i) => {
+            const el = document.createElement('div');
+            el.className = 'signal-char text';
+            el.id = `t-${i}`;
+            el.innerHTML = `${char}<span class="idx">${i}</span>`;
+            textContainer.appendChild(el);
+        });
+
+        // Render pattern signal
+        const patternContainer = document.getElementById('pattern-signal');
+        patternContainer.innerHTML = '';
+        this.pattern.split('').forEach((char, i) => {
+            const el = document.createElement('div');
+            el.className = 'signal-char pattern';
+            el.innerHTML = char;
+            patternContainer.appendChild(el);
+        });
+    }
+
+    clearHighlights() {
+        document.querySelectorAll('.signal-char').forEach(el => {
+            el.classList.remove('scanning', 'match-found');
+        });
+    }
+
+    computeZ(i) {
+        let len = 0;
+        while (i + len < this.combined.length && this.combined[len] === this.combined[i + len]) {
+            len++;
+        }
+        return len;
+    }
+
+    async step() {
+        if (this.currentIdx >= this.combined.length) {
+            document.getElementById('status').innerHTML = `<span style="color:var(--green)">✓ Decode complete! Found ${this.matches.length} match(es).</span>`;
+            return;
+        }
+
+        this.clearHighlights();
+
+        const i = this.currentIdx;
+        const patLen = this.pattern.length;
+        const zVal = this.computeZ(i);
+        this.z[i] = zVal;
+
+        // If we're in the text portion (after pattern + separator)
+        if (i > patLen) {
+            const textIdx = i - patLen - 1;
+            const textEl = document.getElementById(`t-${textIdx}`);
+            if (textEl) {
+                textEl.classList.add('scanning');
+                document.getElementById('position').textContent = textIdx;
+
+                if (zVal >= patLen) {
+                    // Match found!
+                    this.matches.push(textIdx);
+                    document.getElementById('match-count').textContent = this.matches.length;
+                    
+                    // Highlight match range
+                    for (let k = 0; k < patLen; k++) {
+                        const matchEl = document.getElementById(`t-${textIdx + k}`);
+                        if (matchEl) matchEl.classList.add('match-found');
+                    }
+
+                    this.addLogEntry(textIdx);
+                    document.getElementById('status').innerHTML = `<span style="color:var(--green)">🎯 MATCH at position ${textIdx}!</span>`;
+                } else {
+                    document.getElementById('status').textContent = `Position ${textIdx}: Z = ${zVal}, need ${patLen} for match`;
+                }
+            }
+        } else {
+            document.getElementById('status').textContent = `Computing Z[${i}] in pattern portion...`;
+        }
+
+        this.currentIdx++;
+    }
+
+    async decode() {
+        if (this.isRunning) return;
+        this.isRunning = true;
+        this.load();
+
+        while (this.currentIdx < this.combined.length) {
+            await this.step();
+            await this.delay(150);
+        }
+
+        this.isRunning = false;
+    }
+
+    addLogEntry(pos) {
+        const log = document.getElementById('log-content');
+        if (log.querySelector('span')) log.innerHTML = '';
+
+        const entry = document.createElement('div');
+        entry.className = 'log-entry';
+        entry.innerHTML = `Pattern found at index <strong>${pos}</strong>`;
+        log.appendChild(entry);
+        log.scrollTop = log.scrollHeight;
+    }
+
+    delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+}
+
+const game = new RadioDecoder();
+document.getElementById('text').addEventListener('change', () => game.load());
+document.getElementById('pattern').addEventListener('change', () => game.load());
+</script>
+</body>
+</html>

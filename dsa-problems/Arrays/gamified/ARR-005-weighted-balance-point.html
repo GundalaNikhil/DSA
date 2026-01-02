@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARR-005: Balance Scale</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .header h1 { font-size: 36px; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #7c3aed; margin-bottom: 15px; }
+
+        .goal-box {
+            background: #f5f3ff;
+            border: 2px solid #8b5cf6;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .formula {
+            background: #1e1b4b;
+            color: #a78bfa;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .weights-row {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #f5f3ff;
+            border-radius: 12px;
+        }
+
+        .weight {
+            width: 55px;
+            height: 60px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.2s;
+            border: 3px solid transparent;
+        }
+        .weight.left-side { background: #fecaca; color: #991b1b; }
+        .weight.pivot { background: #fcd34d; color: #78350f; border-color: #f59e0b; transform: scale(1.1); }
+        .weight.right-side { background: #bbf7d0; color: #166534; }
+        .weight:hover { transform: scale(1.1); }
+        .weight-idx { font-size: 10px; opacity: 0.7; margin-top: 3px; }
+
+        .scale-visual {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            margin-bottom: 20px;
+            height: 120px;
+            position: relative;
+        }
+
+        .scale-beam {
+            width: 400px;
+            height: 8px;
+            background: #64748b;
+            border-radius: 4px;
+            position: relative;
+            transform-origin: center;
+            transition: transform 0.5s;
+        }
+
+        .fulcrum {
+            width: 0;
+            height: 0;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 50px solid #fcd34d;
+            position: absolute;
+            bottom: 0;
+        }
+
+        .torque-display {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+        }
+
+        .torque-box {
+            text-align: center;
+            padding: 15px 30px;
+            border-radius: 12px;
+            min-width: 150px;
+        }
+        .torque-box.left { background: #fee2e2; border: 2px solid #fca5a5; }
+        .torque-box.right { background: #dcfce7; border: 2px solid #86efac; }
+
+        .torque-label { font-size: 14px; color: #666; margin-bottom: 5px; }
+        .torque-value { font-size: 32px; font-weight: 700; }
+        .torque-box.left .torque-value { color: #dc2626; }
+        .torque-box.right .torque-value { color: #16a34a; }
+
+        .params {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f5f3ff;
+            border-radius: 10px;
+        }
+        .param {
+            text-align: center;
+        }
+        .param-label { font-size: 12px; color: #666; }
+        .param-value { font-size: 24px; font-weight: 600; color: #7c3aed; }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .message.balanced { background: #dcfce7; color: #16a34a; }
+        .message.unbalanced { background: #fef3c7; color: #92400e; }
+        .message.neutral { background: #f5f3ff; color: #7c3aed; }
+
+        .new-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #7c3aed;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>⚖️ Balance Scale</h1>
+        <div style="opacity:0.9">Find the pivot point that balances the scale!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="goal-box">
+            <strong>🎯 Goal:</strong> Click on weights to set them as the PIVOT point.
+            <br>Find the index where LEFT TORQUE = RIGHT TORQUE.
+            <br><br>
+            <strong>Torque Formula:</strong>
+            <div class="formula">Left Torque = Sum(Left) × L-Factor<br>Right Torque = Sum(Right) × R-Factor</div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="params">
+            <div class="param">
+                <div class="param-label">L-Factor</div>
+                <div class="param-value" id="lFactor">1</div>
+            </div>
+            <div class="param">
+                <div class="param-label">R-Factor</div>
+                <div class="param-value" id="rFactor">1</div>
+            </div>
+        </div>
+
+        <div class="weights-row" id="weightsRow"></div>
+
+        <div class="scale-visual">
+            <div class="scale-beam" id="scaleBeam"></div>
+            <div class="fulcrum"></div>
+        </div>
+
+        <div class="torque-display">
+            <div class="torque-box left">
+                <div class="torque-label">Left Torque</div>
+                <div class="torque-value" id="leftTorque">0</div>
+            </div>
+            <div class="torque-box right">
+                <div class="torque-label">Right Torque</div>
+                <div class="torque-value" id="rightTorque">0</div>
+            </div>
+        </div>
+
+        <div class="message neutral" id="message">Click a weight to set it as the pivot!</div>
+
+        <button class="new-btn" onclick="newGame()">🔄 New Weights</button>
+    </div>
+</div>
+
+<script>
+    let weights = [];
+    let L = 1;
+    let R = 1;
+    let pivotIdx = -1;
+    let solutionIdx = -1;
+
+    function generateWeights() {
+        const n = 7 + Math.floor(Math.random() * 4); // 7-10 weights
+        weights = [];
+
+        for (let i = 0; i < n; i++) {
+            weights.push(Math.floor(Math.random() * 9) + 1);
+        }
+
+        // Pick a solution index and calculate L, R factors
+        solutionIdx = 1 + Math.floor(Math.random() * (n - 2)); // avoid ends
+
+        let sumL = 0;
+        for (let i = 0; i < solutionIdx; i++) sumL += weights[i];
+
+        let sumR = 0;
+        for (let i = solutionIdx + 1; i < n; i++) sumR += weights[i];
+
+        // Set L = sumR, R = sumL (simplify by GCD)
+        const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+        const d = gcd(sumL, sumR) || 1;
+        L = sumR / d;
+        R = sumL / d;
+
+        pivotIdx = Math.floor(n / 2); // start at center
+    }
+
+    function render() {
+        const row = document.getElementById('weightsRow');
+        row.innerHTML = '';
+
+        weights.forEach((val, i) => {
+            const weight = document.createElement('div');
+            let cls = 'weight';
+            if (i === pivotIdx) cls += ' pivot';
+            else if (i < pivotIdx) cls += ' left-side';
+            else cls += ' right-side';
+
+            weight.className = cls;
+            weight.innerHTML = `${val}<span class="weight-idx">[${i}]</span>`;
+            weight.onclick = () => setPivot(i);
+            row.appendChild(weight);
+        });
+
+        document.getElementById('lFactor').textContent = L;
+        document.getElementById('rFactor').textContent = R;
+
+        updateTorques();
+    }
+
+    function setPivot(idx) {
+        pivotIdx = idx;
+        render();
+    }
+
+    function updateTorques() {
+        let sumL = 0;
+        for (let i = 0; i < pivotIdx; i++) sumL += weights[i];
+
+        let sumR = 0;
+        for (let i = pivotIdx + 1; i < weights.length; i++) sumR += weights[i];
+
+        const torqueL = sumL * L;
+        const torqueR = sumR * R;
+
+        document.getElementById('leftTorque').textContent = torqueL;
+        document.getElementById('rightTorque').textContent = torqueR;
+
+        // Animate beam tilt
+        const beam = document.getElementById('scaleBeam');
+        const msg = document.getElementById('message');
+
+        if (torqueL > torqueR) {
+            beam.style.transform = 'rotate(-8deg)';
+            msg.className = 'message unbalanced';
+            msg.textContent = '⬅️ Left side is heavier! Try another pivot.';
+        } else if (torqueR > torqueL) {
+            beam.style.transform = 'rotate(8deg)';
+            msg.className = 'message unbalanced';
+            msg.textContent = '➡️ Right side is heavier! Try another pivot.';
+        } else {
+            beam.style.transform = 'rotate(0deg)';
+            msg.className = 'message balanced';
+            msg.textContent = '✅ BALANCED! You found the equilibrium point!';
+        }
+    }
+
+    function newGame() {
+        generateWeights();
+        render();
+    }
+
+    window.onload = newGame;
+</script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+problem_id: CON_TOPIC_1
+display_id: CON-001
+slug: mutex-vs-spinlock-selection
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: If the expected wait time (w) is many times larger than the critical section (cs), which lock is usually better?
+    options:
+      - Spinlock
+      - Mutex
+      - Recursive Lock
+      - None
+    correct_answer: 1
+    explanation: A Mutex allows the thread to sleep, freeing the CPU for other tasks, which is more efficient for long waits.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: What is the primary disadvantage of a Spinlock?
+    options:
+      - Uses too much memory
+      - Causes frequent context switches
+      - Wastes CPU cycles by busy-waiting in a loop
+      - It is slow for short critical sections
+    correct_answer: 2
+    explanation: Spinlocks continuously check if the lock is available, consuming CPU power even while waiting.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: What is the primary overhead associated with a Mutex?
+    options:
+      - CPU burning
+      - Context-switch and scheduler latency
+      - Memory leak risk
+      - Complexity
+    correct_answer: 1
+    explanation: Parking and unparking a thread involves a non-trivial context switch cost by the OS.
+  - id: edq_3
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: In an oversubscribed system (more threads than CPU cores), why is a spinlock particularly dangerous?
+    options:
+      - It can dead-lock easily
+      - A thread might spin for its entire time slice while the lock holder is preempted
+      - It doesn't support oversubscription
+      - It is too fast
+    correct_answer: 1
+    explanation: If the lock holder is not currently running, the spinning thread will never see the lock released until the holder is scheduled back.

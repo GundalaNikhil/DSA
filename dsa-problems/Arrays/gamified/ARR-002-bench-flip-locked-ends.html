@@ -3,1217 +3,332 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARR-002: Bench Flip With Locked Ends - Interactive Learning</title>
+    <title>ARR-002: Card Flip</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bungee&family=Oxanium:wght@400;600;700&display=swap');
-
-        :root {
-            --bg: #f7efe0;
-            --ink: #1b1b1f;
-            --muted: #5c5f66;
-            --accent: #ff6b35;
-            --accent-2: #2ec4b6;
-            --accent-3: #011627;
-            --panel: #ffffff;
-            --panel-2: #fff5e2;
-            --stroke: #e6d6c4;
-            --shadow: 0 18px 40px rgba(1, 22, 39, 0.14);
-            --danger: #ff4d4d;
-            --success: #27b77b;
-            --active: #ffb703;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Oxanium', sans-serif;
-            color: var(--ink);
-            background:
-                radial-gradient(60% 70% at 8% 10%, rgba(255, 107, 53, 0.18), transparent 60%),
-                radial-gradient(60% 70% at 90% 10%, rgba(46, 196, 182, 0.16), transparent 60%),
-                linear-gradient(135deg, #f7efe0 0%, #f3e6cf 100%);
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 100%);
             min-height: 100vh;
             padding: 20px;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            background: transparent;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+        .container { max-width: 850px; margin: 0 auto; }
 
-        header {
-            background: var(--panel);
-            border-radius: 18px;
-            border: 1px solid var(--stroke);
-            box-shadow: var(--shadow);
-            padding: 18px 22px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        header::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(90deg, rgba(255, 107, 53, 0.08), rgba(46, 196, 182, 0.08));
-            opacity: 0.6;
-            pointer-events: none;
-        }
-
-        header h1 {
-            font-family: 'Bungee', sans-serif;
-            font-size: 2rem;
-            margin-bottom: 10px;
-            color: var(--accent-3);
-            position: relative;
-            z-index: 1;
-        }
-
-        .subtitle {
-            font-size: 1em;
-            opacity: 0.8;
-            color: var(--muted);
-            position: relative;
-            z-index: 1;
-        }
-
-        section {
-            background: var(--panel);
-            border-radius: 18px;
-            border: 1px solid var(--stroke);
-            box-shadow: var(--shadow);
-            padding: 18px;
-        }
-
-        h2 {
-            font-family: 'Bungee', sans-serif;
-            color: var(--accent-3);
+        .header {
+            text-align: center;
             margin-bottom: 20px;
-            font-size: 1.2rem;
+            color: #fff;
         }
+        .header h1 { font-size: 36px; text-shadow: 0 0 20px #3b82f6; }
 
-        h3 {
-            color: var(--accent-3);
-            margin-bottom: 15px;
-            font-size: 1.1em;
-            font-weight: 700;
-        }
-
-        .story-box {
-            background: var(--panel-2);
-            border-left: 4px solid var(--accent);
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
             padding: 20px;
             margin-bottom: 20px;
-            border-radius: 8px;
         }
+        .tutorial h2 { color: #1e40af; margin-bottom: 15px; }
 
-        .story-box p {
-            margin-bottom: 10px;
-            line-height: 1.6;
+        .goal-box {
+            background: #dbeafe;
+            border: 2px solid #3b82f6;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
         }
+        .goal-box strong { color: #1e40af; }
 
         .rules {
-            background: #fff9e6;
-            padding: 20px;
-            border-radius: 8px;
-            border: 2px solid var(--stroke);
-        }
-
-        .rules ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .rules li {
-            padding: 8px 0;
-            font-size: 1em;
-        }
-
-        .stats-section {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
-        }
-
-        .stat-card {
-            background: var(--panel-2);
-            border-radius: 12px;
-            border: 1px solid var(--stroke);
-            padding: 15px;
-            text-align: center;
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
-        }
-
-        .stat-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--muted);
-            margin-bottom: 8px;
-        }
-
-        .stat-value {
-            font-size: 2em;
-            font-weight: 700;
-            color: var(--accent-3);
-        }
-
-        .mode-selector {
             display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            justify-content: center;
-        }
-
-        .mode-btn {
-            padding: 10px 20px;
-            border: 2px solid var(--accent-3);
-            background: var(--panel);
-            color: var(--accent-3);
-            border-radius: 999px;
-            font-size: 0.9em;
-            font-weight: 700;
-            font-family: 'Oxanium', sans-serif;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .mode-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 18px rgba(1, 22, 39, 0.15);
-        }
-
-        .mode-btn.active {
-            background: var(--accent-3);
-            color: white;
-        }
-
-        .game-mode {
-            margin-top: 20px;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .array-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-            margin: 30px 0;
-            min-height: 120px;
-            flex-wrap: wrap;
-        }
-
-        .array-element {
-            width: 70px;
-            height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5em;
-            font-weight: bold;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .array-element:not(.locked):hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-        }
-
-        .array-element.locked {
-            background: #95a5a6;
-            color: white;
-            cursor: not-allowed;
-            opacity: 0.7;
-        }
-
-        .array-element.normal {
-            background: linear-gradient(135deg, var(--accent-2), #25a99c);
-            color: white;
-        }
-
-        .array-element.selected {
-            background: linear-gradient(135deg, var(--active), #e6a602);
-            animation: pulse 0.5s infinite;
-        }
-
-        .array-element.swapping {
-            animation: swap 0.6s ease-in-out;
-        }
-
-        .array-element.correct {
-            background: linear-gradient(135deg, var(--success), #1fa16a);
-            animation: celebrate 0.6s ease;
-        }
-
-        .array-element.left-pointer::before {
-            content: 'L';
-            position: absolute;
-            top: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--accent-2);
-            color: white;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7em;
-            font-weight: bold;
-        }
-
-        .array-element.right-pointer::before {
-            content: 'R';
-            position: absolute;
-            top: -25px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--accent);
-            color: white;
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7em;
-            font-weight: bold;
-        }
-
-        .array-element .index {
-            position: absolute;
-            bottom: -20px;
-            font-size: 0.6em;
-            color: #7f8c8d;
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-        }
-
-        @keyframes swap {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        @keyframes celebrate {
-            0%, 100% { transform: scale(1) rotate(0deg); }
-            25% { transform: scale(1.2) rotate(-5deg); }
-            75% { transform: scale(1.2) rotate(5deg); }
-        }
-
-        .controls {
-            display: flex;
-            justify-content: center;
             gap: 15px;
-            flex-wrap: wrap;
-            margin: 30px 0;
-            align-items: center;
+        }
+        .rule {
+            flex: 1;
+            padding: 12px;
+            background: #f0f9ff;
+            border-radius: 10px;
+            border-left: 4px solid #3b82f6;
+        }
+        .rule-title { font-weight: 700; color: #1e40af; margin-bottom: 5px; }
+        .rule-text { font-size: 13px; color: #555; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
         }
 
-        .btn {
-            padding: 10px 16px;
-            border: none;
-            border-radius: 999px;
-            font-size: 0.9em;
-            font-weight: 700;
-            font-family: 'Oxanium', sans-serif;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 18px rgba(1, 22, 39, 0.2);
-        }
-
-        .btn:active {
-            transform: translateY(0);
-        }
-
-        .btn-primary {
-            background: var(--accent-3);
-            color: white;
-        }
-
-        .btn-secondary {
-            background: var(--panel-2);
-            border: 1px solid var(--stroke);
-            color: var(--accent-3);
-        }
-
-        .btn-success {
-            background: linear-gradient(135deg, var(--success), #1fa16a);
-            color: white;
-        }
-
-        .btn-danger {
-            background: linear-gradient(135deg, var(--danger), #e63939);
-            color: white;
-        }
-
-        .btn-hint {
-            background: linear-gradient(135deg, var(--active), #e6a602);
-            color: white;
-        }
-
-        .speed-control {
+        .info-bar {
             display: flex;
-            align-items: center;
-            gap: 10px;
-            background: var(--panel-2);
-            padding: 10px 20px;
-            border-radius: 8px;
-        }
-
-        .speed-control label {
-            font-weight: 700;
-            color: var(--accent-3);
-        }
-
-        .speed-control input[type="range"] {
-            width: 150px;
-        }
-
-        .hint-box {
-            background: #fff9e6;
-            border-left: 4px solid var(--active);
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-        }
-
-        .instructions {
-            text-align: center;
-            color: var(--muted);
-            font-style: italic;
-            margin-top: 20px;
-        }
-
-        .algo-explanation {
-            background: var(--panel-2);
-            padding: 20px;
-            border-radius: 8px;
-            margin: 20px 0;
-            min-height: 100px;
-        }
-
-        #stepDescription {
-            line-height: 1.8;
-            color: #555;
-        }
-
-        .pointer-legend {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .legend-color {
-            width: 30px;
-            height: 30px;
-            border-radius: 6px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .concept-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .concept-card {
-            background: var(--panel-2);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid var(--stroke);
-            transition: all 0.2s ease;
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
-        }
-
-        .concept-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 18px rgba(1, 22, 39, 0.15);
-        }
-
-        .concept-card h3 {
-            margin-bottom: 10px;
-        }
-
-        .concept-card p {
-            color: var(--muted);
-            line-height: 1.6;
-        }
-
-        .progress-section {
-            text-align: center;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 10px;
-            background: #f2e2cf;
-            border-radius: 999px;
-            overflow: hidden;
-            margin: 20px 0;
-            border: 1px solid var(--stroke);
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent-2), var(--accent));
-            transition: width 0.5s ease;
-        }
-
-        .progress-text {
-            font-size: 1em;
-            color: var(--accent-3);
-            font-weight: 700;
+            justify-content: space-between;
+            padding: 12px 18px;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            border-radius: 10px;
+            color: #fff;
             margin-bottom: 20px;
         }
 
-        .achievements {
+        .card-row {
             display: flex;
+            gap: 8px;
             justify-content: center;
-            gap: 20px;
             flex-wrap: wrap;
-            margin-top: 30px;
+            margin-bottom: 20px;
         }
 
-        .achievement {
-            background: var(--panel);
-            border: 2px solid var(--stroke);
-            border-radius: 12px;
+        .card {
+            width: 60px;
+            height: 80px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 22px;
+            font-weight: 700;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .card.normal {
+            background: linear-gradient(145deg, #3b82f6, #2563eb);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+        }
+        .card.locked {
+            background: linear-gradient(145deg, #ef4444, #dc2626);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+        }
+        .card.locked::after {
+            content: "🔒";
+            font-size: 10px;
+            position: absolute;
+            top: 3px;
+            right: 5px;
+        }
+        .card.flipped {
+            background: linear-gradient(145deg, #22c55e, #16a34a);
+        }
+        .card:hover:not(.locked) { transform: translateY(-5px); }
+
+        .card-idx {
+            font-size: 10px;
+            color: rgba(255,255,255,0.7);
+            margin-top: 5px;
+        }
+
+        .flip-range {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
             padding: 15px;
+            background: #f0f9ff;
+            border-radius: 12px;
+        }
+        .flip-range label { font-weight: 600; color: #1e40af; }
+        .flip-range input {
+            width: 60px;
+            padding: 8px;
+            font-size: 16px;
             text-align: center;
-            min-width: 120px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            animation: achievementPop 0.5s ease;
+            border: 2px solid #3b82f6;
+            border-radius: 8px;
+            font-family: inherit;
         }
-
-        .achievement-icon {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+        .flip-btn {
+            padding: 10px 25px;
+            background: #3b82f6;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
         }
+        .flip-btn:hover { background: #2563eb; }
 
-        .achievement-name {
-            font-weight: 700;
-            color: var(--accent-3);
-            margin-bottom: 5px;
-        }
-
-        .achievement-desc {
-            font-size: 0.85em;
-            color: var(--muted);
-        }
-
-        @keyframes achievementPop {
-            0% { transform: scale(0); opacity: 0; }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        footer {
-            background: var(--panel);
-            border-radius: 18px;
-            border: 1px solid var(--stroke);
-            box-shadow: var(--shadow);
-            padding: 14px 18px;
+        .status {
             text-align: center;
-            color: var(--muted);
-            font-style: italic;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
         }
+        .status.pending { background: #fef3c7; color: #92400e; }
+        .status.success { background: #dcfce7; color: #16a34a; }
+        .status.error { background: #fee2e2; color: #dc2626; }
 
-        .message-box {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            border-radius: 999px;
-            color: white;
-            font-weight: 700;
-            box-shadow: 0 10px 18px rgba(1, 22, 39, 0.2);
-            animation: slideIn 0.3s ease;
-            z-index: 1000;
-            max-width: 400px;
-        }
-
-        .message-box.success {
-            background: linear-gradient(135deg, var(--success), #1fa16a);
-        }
-
-        .message-box.error {
-            background: linear-gradient(135deg, var(--danger), #e63939);
-        }
-
-        .message-box.info {
-            background: linear-gradient(135deg, var(--accent-2), #25a99c);
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translateX(400px);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 1.8em;
-            }
-
-            .array-element {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2em;
-            }
-
-            .stats-section {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .concept-grid {
-                grid-template-columns: 1fr;
-            }
+        .new-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #1e40af;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header>
-            <h1>🎭 ARR-002: Bench Flip With Locked Ends</h1>
-            <p class="subtitle">Interactive Learning Experience</p>
-        </header>
 
-        <!-- Problem Description -->
-        <section class="problem-section">
-            <h2>📋 The Challenge</h2>
-            <div class="story-box">
-                <p><strong>Scenario:</strong> You're organizing a school play. Students are seated in a row with a Teacher at the start and Principal at the end.</p>
-                <p><strong>Task:</strong> Reverse the student seating for Act 2, but keep the Teacher and Principal at their positions!</p>
-            </div>
-            <div class="rules">
-                <h3>Rules:</h3>
-                <ul>
-                    <li>✅ First element stays locked (Teacher)</li>
-                    <li>✅ Last element stays locked (Principal)</li>
-                    <li>✅ Reverse only the middle elements (Students)</li>
-                    <li>✅ Do it in-place with minimal swaps</li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- Game Stats -->
-        <section class="stats-section">
-            <div class="stat-card">
-                <div class="stat-label">Level</div>
-                <div class="stat-value" id="level">1</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Score</div>
-                <div class="stat-value" id="score">0</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Swaps Made</div>
-                <div class="stat-value" id="swaps">0</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Optimal Swaps</div>
-                <div class="stat-value" id="optimal">-</div>
-            </div>
-        </section>
-
-        <!-- Interactive Array -->
-        <section class="game-section">
-            <h2>🎮 Interactive Mode</h2>
-            <div class="mode-selector">
-                <button class="mode-btn active" data-mode="play">Play Mode</button>
-                <button class="mode-btn" data-mode="visualize">Visualize Algorithm</button>
-            </div>
-
-            <div id="playMode" class="game-mode">
-                <div class="array-container" id="arrayContainer">
-                    <!-- Array elements will be dynamically inserted here -->
-                </div>
-                
-                <div class="controls">
-                    <button class="btn btn-primary" id="newProblem">New Problem</button>
-                    <button class="btn btn-secondary" id="resetProblem">Reset</button>
-                    <button class="btn btn-success" id="checkSolution">Check Solution</button>
-                    <button class="btn btn-hint" id="showHint">💡 Hint</button>
-                </div>
-
-                <div class="hint-box hidden" id="hintBox">
-                    <p id="hintText"></p>
-                </div>
-
-                <div class="instructions">
-                    <p><strong>How to play:</strong> Click two elements in the middle to swap them. Remember: first and last are locked!</p>
-                </div>
-            </div>
-
-            <div id="visualizeMode" class="game-mode hidden">
-                <div class="array-container" id="algoArrayContainer">
-                    <!-- Algorithm visualization array -->
-                </div>
-                
-                <div class="controls">
-                    <button class="btn btn-primary" id="algoStart">Start Algorithm</button>
-                    <button class="btn btn-secondary" id="algoStep">Step Forward</button>
-                    <button class="btn btn-danger" id="algoReset">Reset</button>
-                    <div class="speed-control">
-                        <label for="speed">Speed:</label>
-                        <input type="range" id="speed" min="500" max="2000" value="1000" step="100">
-                    </div>
-                </div>
-
-                <div class="algo-explanation" id="algoExplanation">
-                    <h3>Algorithm Steps:</h3>
-                    <div id="stepDescription">Click "Start Algorithm" to begin visualization</div>
-                </div>
-
-                <div class="pointer-legend">
-                    <div class="legend-item">
-                        <span class="legend-color" style="background: var(--accent-2);"></span>
-                        <span>Left Pointer</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background: var(--accent);"></span>
-                        <span>Right Pointer</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background: #95a5a6;"></span>
-                        <span>Locked</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Learning Section -->
-        <section class="learning-section">
-            <h2>📚 Key Concepts</h2>
-            <div class="concept-grid">
-                <div class="concept-card">
-                    <h3>Two Pointers</h3>
-                    <p>Use two pointers starting from positions 1 and n-2, moving inward</p>
-                </div>
-                <div class="concept-card">
-                    <h3>In-Place Swap</h3>
-                    <p>Swap elements without using extra space (O(1) space complexity)</p>
-                </div>
-                <div class="concept-card">
-                    <h3>Time: O(n)</h3>
-                    <p>Visit each middle element once, performing n/2 swaps</p>
-                </div>
-                <div class="concept-card">
-                    <h3>Space: O(1)</h3>
-                    <p>Only use two pointer variables regardless of array size</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Progress Tracker -->
-        <section class="progress-section">
-            <h2>🏆 Your Progress</h2>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
-            </div>
-            <p class="progress-text" id="progressText">0 / 10 levels completed</p>
-            <div class="achievements" id="achievements">
-                <!-- Achievement badges will appear here -->
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer>
-            <p>💡 <strong>Tip:</strong> Try to minimize the number of swaps. The optimal solution uses exactly ⌊(n-2)/2⌋ swaps!</p>
-        </footer>
+<div class="container">
+    <div class="header">
+        <h1>🃏 Card Flip</h1>
+        <div style="opacity:0.9">Flip cards in a range to reverse their order!</div>
     </div>
 
-    <script>
-        // Game State
-        let gameState = {
-            currentArray: [],
-            originalArray: [],
-            targetArray: [],
-            selectedIndex: null,
-            swapCount: 0,
-            level: 1,
-            score: 0,
-            completedLevels: 0,
-            achievements: []
-        };
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="goal-box">
+            <strong>🎯 Goal:</strong> Flip a range of cards [L, R] to reverse them.
+            <br>Red cards (🔒) are LOCKED and can't move - skip them when flipping!
+        </div>
+        <div class="rules">
+            <div class="rule">
+                <div class="rule-title">Step 1</div>
+                <div class="rule-text">Enter the LEFT index (L)</div>
+            </div>
+            <div class="rule">
+                <div class="rule-title">Step 2</div>
+                <div class="rule-text">Enter the RIGHT index (R)</div>
+            </div>
+            <div class="rule">
+                <div class="rule-title">Step 3</div>
+                <div class="rule-text">Click FLIP! Only unlocked cards reverse.</div>
+            </div>
+        </div>
+    </div>
 
-        // Algorithm Visualization State
-        let algoState = {
-            array: [],
-            left: 0,
-            right: 0,
-            isRunning: false,
-            currentStep: 0,
-            speed: 1000
-        };
+    <div class="game-card">
+        <div class="info-bar">
+            <span>Flips Made: <strong id="flipCount">0</strong></span>
+            <span>Cards: <strong id="cardCount">0</strong></span>
+        </div>
 
-        // DOM Elements
-        const elements = {
-            arrayContainer: document.getElementById('arrayContainer'),
-            algoArrayContainer: document.getElementById('algoArrayContainer'),
-            levelDisplay: document.getElementById('level'),
-            scoreDisplay: document.getElementById('score'),
-            swapsDisplay: document.getElementById('swaps'),
-            optimalDisplay: document.getElementById('optimal'),
-            progressFill: document.getElementById('progressFill'),
-            progressText: document.getElementById('progressText'),
-            achievementsContainer: document.getElementById('achievements'),
-            hintBox: document.getElementById('hintBox'),
-            hintText: document.getElementById('hintText'),
-            stepDescription: document.getElementById('stepDescription'),
-            playMode: document.getElementById('playMode'),
-            visualizeMode: document.getElementById('visualizeMode')
-        };
+        <div class="card-row" id="cardRow"></div>
 
-        // Initialize the game
-        function init() {
-            setupEventListeners();
-            generateNewProblem();
-            updateDisplay();
+        <div class="flip-range">
+            <label>Left (L):</label>
+            <input type="number" id="inputL" min="0" value="0">
+            <label>Right (R):</label>
+            <input type="number" id="inputR" min="0" value="0">
+            <button class="flip-btn" onclick="flipRange()">↻ FLIP!</button>
+        </div>
+
+        <div class="status pending" id="status">Enter L and R, then click FLIP to reverse cards in that range!</div>
+
+        <button class="new-btn" onclick="newGame()">🔄 New Cards</button>
+    </div>
+</div>
+
+<script>
+    let cards = [];
+    let locked = [];
+    let flipCount = 0;
+
+    function generateCards() {
+        const n = 8 + Math.floor(Math.random() * 4); // 8-11 cards
+        cards = [];
+        locked = [];
+
+        for (let i = 0; i < n; i++) {
+            cards.push(Math.floor(Math.random() * 90) + 10);
+            // 20% chance of being locked, but not first or last
+            locked.push(i > 0 && i < n - 1 && Math.random() < 0.2);
         }
 
-        // Setup all event listeners
-        function setupEventListeners() {
-            // Mode switching
-            document.querySelectorAll('.mode-btn').forEach(btn => {
-                btn.addEventListener('click', () => switchMode(btn.dataset.mode));
-            });
+        flipCount = 0;
+    }
 
-            // Play mode buttons
-            document.getElementById('newProblem').addEventListener('click', generateNewProblem);
-            document.getElementById('resetProblem').addEventListener('click', resetProblem);
-            document.getElementById('checkSolution').addEventListener('click', checkSolution);
-            document.getElementById('showHint').addEventListener('click', showHint);
+    function render() {
+        const row = document.getElementById('cardRow');
+        row.innerHTML = '';
 
-            // Algorithm visualization buttons
-            document.getElementById('algoStart').addEventListener('click', startAlgorithm);
-            document.getElementById('algoStep').addEventListener('click', stepAlgorithm);
-            document.getElementById('algoReset').addEventListener('click', resetAlgorithm);
-            document.getElementById('speed').addEventListener('input', (e) => {
-                algoState.speed = parseInt(e.target.value);
-            });
+        cards.forEach((val, i) => {
+            const card = document.createElement('div');
+            card.className = 'card ' + (locked[i] ? 'locked' : 'normal');
+            card.innerHTML = `${val}<span class="card-idx">[${i}]</span>`;
+            row.appendChild(card);
+        });
+
+        document.getElementById('cardCount').textContent = cards.length;
+        document.getElementById('flipCount').textContent = flipCount;
+        document.getElementById('inputR').max = cards.length - 1;
+    }
+
+    function flipRange() {
+        const L = parseInt(document.getElementById('inputL').value);
+        const R = parseInt(document.getElementById('inputR').value);
+        const status = document.getElementById('status');
+
+        if (isNaN(L) || isNaN(R) || L < 0 || R >= cards.length || L > R) {
+            status.className = 'status error';
+            status.textContent = `Invalid range! L must be 0-${cards.length-1}, L ≤ R.`;
+            return;
         }
 
-        // Switch between play and visualize modes
-        function switchMode(mode) {
-            document.querySelectorAll('.mode-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            event.target.classList.add('active');
+        // Extract unlocked cards in range
+        const unlocked = [];
+        const unlockedIdx = [];
 
-            if (mode === 'play') {
-                elements.playMode.classList.remove('hidden');
-                elements.visualizeMode.classList.add('hidden');
-            } else {
-                elements.playMode.classList.add('hidden');
-                elements.visualizeMode.classList.remove('hidden');
-                resetAlgorithm();
+        for (let i = L; i <= R; i++) {
+            if (!locked[i]) {
+                unlocked.push(cards[i]);
+                unlockedIdx.push(i);
             }
         }
 
-        // Generate a new problem
-        function generateNewProblem() {
-            const size = Math.min(5 + gameState.level, 10); // Increase size with level
-            gameState.currentArray = generateRandomArray(size);
-            gameState.originalArray = [...gameState.currentArray];
-            gameState.targetArray = calculateTarget(gameState.currentArray);
-            gameState.selectedIndex = null;
-            gameState.swapCount = 0;
-            
-            const optimalSwaps = Math.floor((size - 2) / 2);
-            elements.optimalDisplay.textContent = optimalSwaps;
-            elements.swapsDisplay.textContent = 0;
-            
-            elements.hintBox.classList.add('hidden');
-            
-            renderArray(elements.arrayContainer, gameState.currentArray, true);
-            updateDisplay();
+        // Reverse the unlocked values
+        unlocked.reverse();
+
+        // Put them back
+        for (let i = 0; i < unlockedIdx.length; i++) {
+            cards[unlockedIdx[i]] = unlocked[i];
         }
 
-        // Generate random array
-        function generateRandomArray(size) {
-            const arr = [];
-            for (let i = 0; i < size; i++) {
-                arr.push(Math.floor(Math.random() * 90) + 10);
+        flipCount++;
+        render();
+
+        // Highlight flipped cards
+        const row = document.getElementById('cardRow');
+        for (let i = L; i <= R; i++) {
+            if (!locked[i]) {
+                row.children[i].classList.add('flipped');
             }
-            return arr;
         }
 
-        // Calculate target array (reverse middle elements)
-        function calculateTarget(arr) {
-            if (arr.length < 3) return [...arr];
-            
-            const result = [...arr];
-            let left = 1;
-            let right = arr.length - 2;
-            
-            while (left < right) {
-                [result[left], result[right]] = [result[right], result[left]];
-                left++;
-                right--;
-            }
-            
-            return result;
-        }
+        status.className = 'status success';
+        status.textContent = `✅ Flipped ${unlocked.length} unlocked cards in range [${L}, ${R}]!`;
 
-        // Render array in container
-        function renderArray(container, array, interactive = false) {
-            container.innerHTML = '';
-            
-            array.forEach((value, index) => {
-                const element = document.createElement('div');
-                element.className = 'array-element';
-                element.textContent = value;
-                
-                // Add locked class for first and last elements
-                if (index === 0 || index === array.length - 1) {
-                    element.classList.add('locked');
-                } else {
-                    element.classList.add('normal');
+        setTimeout(() => {
+            for (let i = L; i <= R; i++) {
+                if (!locked[i]) {
+                    row.children[i].classList.remove('flipped');
                 }
-                
-                // Add index display
-                const indexLabel = document.createElement('span');
-                indexLabel.className = 'index';
-                indexLabel.textContent = index;
-                element.appendChild(indexLabel);
-                
-                // Add click handler for interactive mode
-                if (interactive) {
-                    element.addEventListener('click', () => handleElementClick(index));
-                }
-                
-                container.appendChild(element);
-            });
-        }
-
-        // Handle element click in play mode
-        function handleElementClick(index) {
-            // Can't select locked elements
-            if (index === 0 || index === gameState.currentArray.length - 1) {
-                showMessage('❌ First and last elements are locked!', 'error');
-                return;
             }
-            
-            const elements = document.querySelectorAll('#arrayContainer .array-element');
-            
-            if (gameState.selectedIndex === null) {
-                // First selection
-                gameState.selectedIndex = index;
-                elements[index].classList.add('selected');
-            } else if (gameState.selectedIndex === index) {
-                // Deselect
-                gameState.selectedIndex = null;
-                elements[index].classList.remove('selected');
-            } else {
-                // Second selection - perform swap
-                performSwap(gameState.selectedIndex, index);
-                elements[gameState.selectedIndex].classList.remove('selected');
-                gameState.selectedIndex = null;
-            }
-        }
+        }, 800);
+    }
 
-        // Perform swap animation and update array
-        function performSwap(index1, index2) {
-            const elements = document.querySelectorAll('#arrayContainer .array-element');
-            
-            // Add swapping animation
-            elements[index1].classList.add('swapping');
-            elements[index2].classList.add('swapping');
-            
-            // Swap values in array
-            [gameState.currentArray[index1], gameState.currentArray[index2]] = 
-            [gameState.currentArray[index2], gameState.currentArray[index1]];
-            
-            gameState.swapCount++;
-            elements[gameState.swapCount].textContent = gameState.swapCount;
-            
-            setTimeout(() => {
-                renderArray(elements.arrayContainer, gameState.currentArray, true);
-                updateDisplay();
-            }, 600);
-        }
+    function newGame() {
+        generateCards();
+        render();
+        document.getElementById('inputL').value = 0;
+        document.getElementById('inputR').value = cards.length - 1;
+        document.getElementById('status').className = 'status pending';
+        document.getElementById('status').textContent = 'Enter L and R, then click FLIP to reverse cards in that range!';
+    }
 
-        // Reset problem
-        function resetProblem() {
-            gameState.currentArray = [...gameState.originalArray];
-            gameState.selectedIndex = null;
-            gameState.swapCount = 0;
-            elements.swapsDisplay.textContent = 0;
-            elements.hintBox.classList.add('hidden');
-            renderArray(elements.arrayContainer, gameState.currentArray, true);
-        }
-
-        // Check if solution is correct
-        function checkSolution() {
-            const isCorrect = arraysEqual(gameState.currentArray, gameState.targetArray);
-            const optimalSwaps = Math.floor((gameState.currentArray.length - 2) / 2);
-            
-            if (isCorrect) {
-                // Calculate score based on efficiency
-                let points = 100;
-                const extraSwaps = gameState.swapCount - optimalSwaps;
-                points -= extraSwaps * 10;
-                points = Math.max(points, 50);
-                
-                gameState.score += points;
-                gameState.completedLevels++;
-                
-                // Check for achievements
-                checkAchievements(extraSwaps, optimalSwaps);
-                
-                showMessage(`🎉 Correct! +${points} points!`, 'success');
-                
-                // Celebrate animation
-                document.querySelectorAll('#arrayContainer .array-element').forEach(el => {
-                    if (!el.classList.contains('locked')) {
-                        el.classList.add('correct');
-                    }
-                });
-                
-                // Move to next level
-                setTimeout(() => {
-                    gameState.level++;
-                    generateNewProblem();
-                }, 2000);
-            } else {
-                showMessage('❌ Not quite! Keep trying!', 'error');
-            }
-            
-            updateDisplay();
-        }
-
-        // Check for achievements
-        function checkAchievements(extraSwaps, optimalSwaps) {
-            if (extraSwaps === 0 && !gameState.achievements.includes('perfect')) {
-                gameState.achievements.push('perfect');
-                addAchievement('🎯', 'Perfect!', 'Solved with optimal swaps');
-            }
-            
-            if (gameState.completedLevels === 5 && !gameState.achievements.includes('persistent')) {
-                gameState.achievements.push('persistent');
-                addAchievement('🔥', 'On Fire!', 'Completed 5 levels');
-            }
-            
-            if (gameState.completedLevels === 10 && !gameState.achievements.includes('master')) {
-                gameState.achievements.push('master');
-                addAchievement('👑', 'Master!', 'Completed 10 levels');
-            }
-            
-            if (gameState.level >= 5 && extraSwaps === 0 && !gameState.achievements.includes('expert')) {
-                gameState.achievements.push('expert');
-                addAchievement('🧠', 'Expert!', 'Perfect solve on hard level');
-            }
-        }
-
-        // Add achievement badge
-        function addAchievement(icon, name, description) {
-            const achievement = document.createElement('div');
-            achievement.className = 'achievement';
-            achievement.innerHTML = `
-                <div class="achievement-icon">${icon}</div>
-                <div class="achievement-name">${name}</div>
-                <div class="achievement-desc">${description}</div>
-            `;
-            elements.achievementsContainer.appendChild(achievement);
-        }
-
-        // Show hint
-        function showHint() {
-            const hints = [
-                `💡 Start by swapping the elements at positions 1 and ${gameState.currentArray.length - 2}`,
-                `💡 The optimal solution requires ${Math.floor((gameState.currentArray.length - 2) / 2)} swaps`,
-                `💡 Think of two pointers moving from the outside inward`,
-                `💡 Each swap should involve elements symmetrically positioned from the ends`,
-                `💡 Target array: [${gameState.targetArray.join(', ')}]`
-            ];
-            
-            const randomHint = hints[Math.floor(Math.random() * hints.length)];
-            elements.hintText.textContent = randomHint;
-            elements.hintBox.classList.remove('hidden');
-        }
-
-        // Algorithm Visualization Functions
-        function resetAlgorithm() {
-            algoState.isRunning = false;
-            algoState.currentStep = 0;
-            algoState.array = generateRandomArray(7);
-            algoState.left = 1;
-            algoState.right = algoState.array.length - 2;
-            
-            renderAlgoArray();
-            elements.stepDescription.textContent = 'Click "Start Algorithm" to begin visualization';
-        }
-
-        function renderAlgoArray() {
-            elements.algoArrayContainer.innerHTML = '';
-            
-            algoState.array.forEach((value, index) => {
-                const element = document.createElement('div');
-                element.className = 'array-element';
-                element.textContent = value;
-                
-                if (index === 0 || index === algoState.array.length - 1) {
-                    element.classList.add('locked');
-                } else {
-                    element.classList.add('normal');
-                }
-                
-                // Add pointer indicators
-                if (index === algoState.left && algoState.currentStep > 0) {
-                    element.classList.add('left-pointer');
-                }
-                if (index === algoState.right && algoState.currentStep > 0) {
-                    element.classList.add('right-pointer');
-                }
-                
-                const indexLabel = document.createElement('span');
-                indexLabel.className = 'index';
-                indexLabel.textContent = index;
-                element.appendChild(indexLabel);
-                
-                elements.algoArrayContainer.appendChild(element);
-            });
-        }
-
-        async function startAlgorithm() {
-            if (algoState.isRunning) return;
-            
-            resetAlgorithm();
-            algoState.isRunning = true;
-            algoState.currentStep = 1;
-            
-            elements.stepDescription.innerHTML = `
-                <strong>Step 1:</strong> Initialize left pointer at index 1, right pointer at index ${algoState.right}
-            `;
-            renderAlgoArray();
-            
-            await sleep(algoState.speed);
-            
-            while (algoState.left < algoState.right && algoState.isRunning) {
-                await stepAlgorithm();
-                await sleep(algoState.speed);
-            }
-            
-            if (algoState.isRunning) {
-                elements.stepDescription.innerHTML = `
-                    <strong>Complete!</strong> All middle elements have been reversed. 
-                    Total swaps: ${Math.floor((algoState.array.length - 2) / 2)}
-                `;
-                algoState.isRunning = false;
-            }
-        }
-
-        async function stepAlgorithm() {
-            if (algoState.left >= algoState.right) {
-                elements.stepDescription.innerHTML = `
-                    <strong>Complete!</strong> Pointers have met. Algorithm finished!
-                `;
-                algoState.isRunning = false;
-                return;
-            }
-            
-            algoState.currentStep++;
-            
-            // Highlight elements to be swapped
-            elements.stepDescription.innerHTML = `
-                <strong>Step ${algoState.currentStep}:</strong> Swap elements at indices ${algoState.left} and ${algoState.right}
-                <br>Swapping ${algoState.array[algoState.left]} ↔ ${algoState.array[algoState.right]}
-            `;
-            
-            renderAlgoArray();
-            await sleep(300);
-            
-            // Perform swap
-            [algoState.array[algoState.left], algoState.array[algoState.right]] = 
-            [algoState.array[algoState.right], algoState.array[algoState.left]];
-            
-            // Move pointers
-            algoState.left++;
-            algoState.right--;
-            
-            renderAlgoArray();
-            
-            elements.stepDescription.innerHTML += `
-                <br><strong>Result:</strong> Move left pointer to ${algoState.left}, right pointer to ${algoState.right}
-            `;
-        }
-
-        // Helper Functions
-        function arraysEqual(arr1, arr2) {
-            if (arr1.length !== arr2.length) return false;
-            return arr1.every((val, idx) => val === arr2[idx]);
-        }
-
-        function updateDisplay() {
-            elements.levelDisplay.textContent = gameState.level;
-            elements.scoreDisplay.textContent = gameState.score;
-            elements.swapsDisplay.textContent = gameState.swapCount;
-            
-            const progress = (gameState.completedLevels / 10) * 100;
-            elements.progressFill.style.width = `${progress}%`;
-            elements.progressText.textContent = `${gameState.completedLevels} / 10 levels completed`;
-        }
-
-        function showMessage(text, type) {
-            // Remove existing message if any
-            const existing = document.querySelector('.message-box');
-            if (existing) existing.remove();
-            
-            const messageBox = document.createElement('div');
-            messageBox.className = `message-box ${type}`;
-            messageBox.textContent = text;
-            document.body.appendChild(messageBox);
-            
-            setTimeout(() => {
-                messageBox.remove();
-            }, 3000);
-        }
-
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
-
-        // Start the game when page loads
-        window.addEventListener('DOMContentLoaded', init);
-    </script>
+    window.onload = newGame;
+</script>
 </body>
 </html>

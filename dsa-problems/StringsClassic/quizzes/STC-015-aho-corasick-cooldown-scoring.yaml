@@ -1,2 +1,52 @@
-# Quiz for STC-015: Aho-Corasick With Cooldown Scoring
-# YAML content to be added
+problem_id: STC_AHO_CORASICK_COOLDOWN_SCORING_015
+display_id: STC-015
+slug: aho-corasick-cooldown-scoring
+questions:
+  - question: This problem can be modeled as a variation of which classic algorithm problem?
+    difficulty: medium
+    points: 10
+    options:
+      - Longest Common Subsequence
+      - Weighted Interval Scheduling
+      - Knapsack Problem
+      - Minimum Spanning Tree
+    correct_answer: 1
+    explanation: We are selecting non-overlapping intervals (occurrences) with weights to maximize total score, with an additional constraint (cooldown) between intervals. This is Weighted Interval Scheduling.
+    type: single_choice
+    id: prq_1
+  - question: In the proposed DP solution, what does `dp[i]` represent?
+    difficulty: medium
+    points: 10
+    options:
+      - The max score obtained using only the first `i` patterns from the input list.
+      - The max score obtained considering matches within the text prefix `t[0...i-1]`.
+      - The score of the single best pattern ending at `i`.
+      - The number of ways to pick patterns ending at `i`.
+    correct_answer: 1
+    explanation: The DP state tracks the maximum accumulated score up to the current position in the text.
+    type: single_choice
+    id: edq_1
+  - question: What is the primary role of the Aho-Corasick automaton in this solution?
+    difficulty: medium
+    points: 10
+    options:
+      - To sort the patterns lexicographically.
+      - To efficiently finding all patterns that end at the current text position `i`.
+      - To compress the text string.
+      - To calculate the cooldown period.
+    correct_answer: 1
+    explanation: As we scan the text, Aho-Corasick allows us to transition states and follow suffix/output links to instantly identify all patterns that match at the current position.
+    type: single_choice
+    id: edq_2
+  - question: If a pattern `P` of length `L` and weight `W` ends at index `i` (1-based index in DP), and the cooldown is `G`, which previous DP state do we transition from to calculate the potential new score?
+    difficulty: hard
+    points: 15
+    options:
+      - "`dp[i - L - G] + W`"
+      - "`dp[i - L] + W`"
+      - "`dp[i - 1] + W`"
+      - "`dp[i - G] + W`"
+    correct_answer: 0
+    explanation: The pattern ends at `i`. It started at `i - L + 1`. The previous allowed match must have ended at or before `start - 1 - G = i - L - G`. Thus we take `dp[i - L - G]`.
+    type: single_choice
+    id: edq_3

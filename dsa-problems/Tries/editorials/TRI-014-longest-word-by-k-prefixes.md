@@ -205,6 +205,18 @@ Use a **trie** where each node tracks whether it's an end-of-word. When checking
    - Among valid words, choose longest
    - Tie-break by lexicographically smallest
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Build trie from words]
+    B --> C[For each word traverse trie]
+    C --> D[Count prefix ends]
+    D --> E[Check count meets k]
+    E --> F[Update best word]
+    F --> G[Return best]
+    G --> H[End]
+```
+
 **Optimization**: Instead of checking all words at the end, we can integrate validation during a DFS traversal of the trie itself, accumulating prefix count as we go deeper.
 
 **Time Complexity:** O(n × L)

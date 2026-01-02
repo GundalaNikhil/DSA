@@ -1,2 +1,52 @@
-# Quiz for STC-016: Suffix Automaton Substring Queries
-# YAML content to be added
+problem_id: STC_SUFFIX_AUTOMATON_QUERIES_016
+display_id: STC-016
+slug: suffix-automaton-queries
+questions:
+  - question: What defines an equivalence class (state) in a Suffix Automaton constructed for string `s`?
+    difficulty: medium
+    points: 10
+    options:
+      - A set of substrings that all have the same length.
+      - A set of substrings that all appear at the exact same set of ending positions in `s`.
+      - A set of substrings that start with the same character.
+      - A set of substrings that are palindromes of each other.
+    correct_answer: 1
+    explanation: The core property of a SAM is that each state represents a set of substrings that act equivalently with respect to their occurrences (end positions) in the string.
+    type: single_choice
+    id: prq_1
+  - question: During the construction of the SAM, how are the initial occurrence counts set?
+    difficulty: medium
+    points: 10
+    options:
+      - All states get count 1.
+      - Original states (created by extending with a character) get 1; Cloned states (created by splitting) get 0.
+      - Original states get 0; Cloned states get 1.
+      - All states get count 0.
+    correct_answer: 1
+    explanation: Original states correspond to the full prefix at the current step, so they definitely occur once (at that position). Cloned states are helpers for structure; their counts are derived purely from the original occurrences that 'pass through' them via suffix links.
+    type: single_choice
+    id: edq_1
+  - question: To get the total occurrence count for every substring, how must we process the suffix link tree after building the SAM?
+    difficulty: medium
+    points: 10
+    options:
+      - From root to leaves, setting `cnt[child] += cnt[parent]`.
+      - From leaves to root (decreasing length order), setting `cnt[link[u]] += cnt[u]`.
+      - By running a BFS starting from the root.
+      - No propagation is needed; the counts are correct after construction.
+    correct_answer: 1
+    explanation: If a substring (state `u`) occurs `k` times, then any suffix of it (state `link[u]`) also occurs at those `k` positions. Thus, we must add `u`'s count to its link parent. This requires processing deeper/longer states first.
+    type: single_choice
+    id: edq_2
+  - question: Once the SAM is built and counts are computed, what is the complexity to count occurrences of a query pattern `p`?
+    difficulty: easy
+    points: 5
+    options:
+      - "`O(|p|)`"
+      - "`O(|s|)`"
+      - "`O(|p| * log |s|)`"
+      - "`O(|s| + |p|)`"
+    correct_answer: 0
+    explanation: We simply traverse the automaton transitions using the characters of `p`. This takes time proportional to the length of `p`.
+    type: single_choice
+    id: edq_3

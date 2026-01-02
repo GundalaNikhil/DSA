@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARR-015: Max Gap</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #dc2626 0%, #f97316 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 850px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .header h1 { font-size: 36px; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #dc2626; margin-bottom: 15px; }
+
+        .goal-box {
+            background: #fef2f2;
+            border: 2px solid #fca5a5;
+            border-radius: 12px;
+            padding: 15px;
+            line-height: 1.6;
+        }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .number-line {
+            position: relative;
+            height: 120px;
+            background: #fef2f2;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+
+        .axis {
+            position: absolute;
+            bottom: 40px;
+            left: 30px;
+            right: 30px;
+            height: 4px;
+            background: #dc2626;
+            border-radius: 2px;
+        }
+
+        .point {
+            position: absolute;
+            bottom: 35px;
+            width: 30px;
+            height: 30px;
+            background: #dc2626;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .point:hover { transform: translateX(-50%) scale(1.2); }
+        .point.selected { background: #22c55e; box-shadow: 0 0 10px #22c55e; }
+
+        .gap-display {
+            position: absolute;
+            top: 10px;
+            background: #fef3c7;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #92400e;
+            transform: translateX(-50%);
+        }
+
+        .pair-selection {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: #fef2f2;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .selected-point {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: #374151;
+        }
+        .selected-point.filled { background: #dc2626; color: #fff; }
+
+        .arrow { font-size: 28px; color: #dc2626; }
+
+        .gap-result {
+            padding: 15px 25px;
+            background: #dc2626;
+            color: #fff;
+            border-radius: 12px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-check { background: #22c55e; color: #fff; }
+        .btn-clear { background: #64748b; color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .message.correct { background: #dcfce7; color: #16a34a; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #fef2f2; color: #dc2626; }
+
+        .new-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #dc2626;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>📏 Max Gap</h1>
+        <div style="opacity:0.9">Find the maximum gap between consecutive elements!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="goal-box">
+            <strong>🎯 Goal:</strong> When sorted, find the LARGEST gap between adjacent numbers.
+            <br>Click on TWO adjacent (when sorted) numbers that have the maximum gap.
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="number-line" id="numberLine">
+            <div class="axis"></div>
+        </div>
+
+        <div class="pair-selection">
+            <div class="selected-point" id="sel1">?</div>
+            <div class="arrow">→</div>
+            <div class="selected-point" id="sel2">?</div>
+            <div class="arrow">=</div>
+            <div class="gap-result" id="gapResult">Gap: ?</div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-check" onclick="checkAnswer()">✓ Check</button>
+            <button class="btn btn-clear" onclick="clearSelection()">↺ Clear</button>
+        </div>
+
+        <div class="message neutral" id="message">Click two points that form the maximum gap when sorted!</div>
+
+        <button class="new-btn" onclick="newGame()">🔄 New Numbers</button>
+    </div>
+</div>
+
+<script>
+    let numbers = [];
+    let selected = [];
+    let maxGap = 0;
+    let maxGapPair = [];
+
+    function generateNumbers() {
+        const n = 6 + Math.floor(Math.random() * 3); // 6-8 numbers
+        const used = new Set();
+        numbers = [];
+
+        while (numbers.length < n) {
+            const val = Math.floor(Math.random() * 50) + 1;
+            if (!used.has(val)) {
+                used.add(val);
+                numbers.push(val);
+            }
+        }
+
+        // Calculate max gap
+        const sorted = [...numbers].sort((a, b) => a - b);
+        maxGap = 0;
+        maxGapPair = [];
+
+        for (let i = 1; i < sorted.length; i++) {
+            const gap = sorted[i] - sorted[i-1];
+            if (gap > maxGap) {
+                maxGap = gap;
+                maxGapPair = [sorted[i-1], sorted[i]];
+            }
+        }
+
+        selected = [];
+    }
+
+    function render() {
+        const line = document.getElementById('numberLine');
+        line.innerHTML = '<div class="axis"></div>';
+
+        const minVal = Math.min(...numbers);
+        const maxVal = Math.max(...numbers);
+        const range = maxVal - minVal;
+
+        numbers.forEach(val => {
+            const pct = ((val - minVal) / range) * 80 + 10; // 10% to 90%
+
+            const point = document.createElement('div');
+            point.className = 'point' + (selected.includes(val) ? ' selected' : '');
+            point.style.left = pct + '%';
+            point.textContent = val;
+            point.onclick = () => selectPoint(val);
+            line.appendChild(point);
+        });
+
+        // Show gap if 2 selected
+        if (selected.length === 2) {
+            const sorted = [...selected].sort((a, b) => a - b);
+            const gap = sorted[1] - sorted[0];
+            const midPct = ((sorted[0] + sorted[1]) / 2 - minVal) / range * 80 + 10;
+
+            const gapDisp = document.createElement('div');
+            gapDisp.className = 'gap-display';
+            gapDisp.style.left = midPct + '%';
+            gapDisp.textContent = `Gap: ${gap}`;
+            line.appendChild(gapDisp);
+        }
+
+        // Update selection display
+        const sel1 = document.getElementById('sel1');
+        const sel2 = document.getElementById('sel2');
+        const gapResult = document.getElementById('gapResult');
+
+        if (selected.length >= 1) {
+            sel1.textContent = selected[0];
+            sel1.classList.add('filled');
+        } else {
+            sel1.textContent = '?';
+            sel1.classList.remove('filled');
+        }
+
+        if (selected.length >= 2) {
+            sel2.textContent = selected[1];
+            sel2.classList.add('filled');
+            const gap = Math.abs(selected[1] - selected[0]);
+            gapResult.textContent = `Gap: ${gap}`;
+        } else {
+            sel2.textContent = '?';
+            sel2.classList.remove('filled');
+            gapResult.textContent = 'Gap: ?';
+        }
+    }
+
+    function selectPoint(val) {
+        if (selected.includes(val)) {
+            selected = selected.filter(v => v !== val);
+        } else if (selected.length < 2) {
+            selected.push(val);
+        }
+        render();
+    }
+
+    function clearSelection() {
+        selected = [];
+        render();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Click two points that form the maximum gap when sorted!';
+    }
+
+    function checkAnswer() {
+        const msg = document.getElementById('message');
+
+        if (selected.length !== 2) {
+            msg.className = 'message wrong';
+            msg.textContent = 'Select exactly 2 points!';
+            return;
+        }
+
+        const sorted = [...selected].sort((a, b) => a - b);
+        const userGap = sorted[1] - sorted[0];
+
+        // Check if they are adjacent in sorted array
+        const fullSorted = [...numbers].sort((a, b) => a - b);
+        const idx1 = fullSorted.indexOf(sorted[0]);
+        const idx2 = fullSorted.indexOf(sorted[1]);
+
+        if (Math.abs(idx2 - idx1) !== 1) {
+            msg.className = 'message wrong';
+            msg.textContent = `❌ ${sorted[0]} and ${sorted[1]} are not adjacent when sorted!`;
+            return;
+        }
+
+        if (userGap === maxGap) {
+            msg.className = 'message correct';
+            msg.textContent = `✅ Correct! Maximum gap is ${maxGap}!`;
+        } else {
+            msg.className = 'message wrong';
+            msg.textContent = `❌ Gap ${userGap} is not the maximum. Max gap is ${maxGap} (${maxGapPair[0]} → ${maxGapPair[1]})`;
+        }
+    }
+
+    function newGame() {
+        generateNumbers();
+        render();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Click two points that form the maximum gap when sorted!';
+    }
+
+    window.onload = newGame;
+</script>
+</body>
+</html>

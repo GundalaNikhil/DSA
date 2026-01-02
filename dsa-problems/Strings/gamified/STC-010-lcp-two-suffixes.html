@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-010: Twin Detector</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --blue: #0984e3; --pink: #fd79a8; --green: #00b894; --gold: #fdcb6e; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Quicksand', sans-serif; background: var(--bg); color: #fff; min-height: 100vh; }
+        header { background: linear-gradient(135deg, #2d3436 0%, var(--bg) 100%); padding: 1.5rem; border-bottom: 3px solid var(--pink); text-align: center; }
+        h1 { color: var(--pink); font-size: 1.8rem; }
+        .subtitle { color: var(--blue); font-size: 0.8rem; }
+        main { padding: 25px; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+        .fingerprints { display: flex; gap: 30px; justify-content: center; }
+        .print-card { background: #2d3436; border: 3px solid var(--blue); border-radius: 15px; padding: 20px; width: 200px; text-align: center; }
+        .print-card.right { border-color: var(--pink); }
+        .print-label { color: var(--gold); margin-bottom: 10px; font-weight: bold; }
+        .suffix-text { font-size: 1.2rem; letter-spacing: 2px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 8px; word-break: break-all; }
+        .controls { background: #2d3436; border-radius: 10px; padding: 20px; display: grid; grid-template-columns: 2fr 1fr 1fr auto; gap: 15px; align-items: end; }
+        .input-group label { color: var(--gold); display: block; margin-bottom: 8px; font-size: 0.8rem; }
+        .input-group input { width: 100%; background: var(--bg); border: 2px solid #444; border-radius: 8px; padding: 10px; color: #fff; font-size: 1rem; }
+        .btn { padding: 12px 20px; border: none; border-radius: 8px; font-family: 'Quicksand', sans-serif; font-weight: bold; cursor: pointer; background: var(--green); color: #fff; }
+        .btn:hover { transform: translateY(-2px); }
+        .result { background: #2d3436; border: 2px solid var(--green); border-radius: 10px; padding: 25px; text-align: center; }
+        .result-title { color: var(--gold); margin-bottom: 10px; }
+        .lcp-value { font-size: 3rem; color: var(--green); font-weight: bold; }
+        .lcp-match { font-size: 1.5rem; color: var(--pink); margin-top: 10px; letter-spacing: 3px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; display: inline-block; }
+        #status { text-align: center; padding: 15px; color: #888; }
+    </style>
+</head>
+<body>
+<header><h1>🧬 TWIN DETECTOR</h1><div class="subtitle">LCP of Two Suffixes via Range Minimum Query</div></header>
+<main>
+    <div class="fingerprints">
+        <div class="print-card"><div class="print-label">SUFFIX A</div><div class="suffix-text" id="suffixA">-</div></div>
+        <div class="print-card right"><div class="print-label">SUFFIX B</div><div class="suffix-text" id="suffixB">-</div></div>
+    </div>
+    <div class="controls">
+        <div class="input-group"><label>String</label><input type="text" id="str" value="BANANA$" maxlength="15"></div>
+        <div class="input-group"><label>Index i</label><input type="number" id="i" value="1" min="0"></div>
+        <div class="input-group"><label>Index j</label><input type="number" id="j" value="3" min="0"></div>
+        <button class="btn" onclick="game.compare()">🔍 COMPARE</button>
+    </div>
+    <div id="status">Enter two suffix indices to find their longest common prefix.</div>
+    <div class="result">
+        <div class="result-title">LCP LENGTH</div>
+        <div class="lcp-value" id="lcp-result">-</div>
+        <div class="lcp-match" id="lcp-match"></div>
+    </div>
+</main>
+<script>
+class TwinDetector {
+    constructor() { this.str = ""; this.sa = []; this.saInv = []; this.lcp = []; }
+    buildSA() {
+        let s = []; for (let i = 0; i < this.str.length; i++) s.push({ idx: i, suffix: this.str.substring(i) });
+        s.sort((a, b) => a.suffix.localeCompare(b.suffix)); this.sa = s.map(x => x.idx);
+        this.saInv = new Array(this.str.length); for (let i = 0; i < this.sa.length; i++) this.saInv[this.sa[i]] = i;
+    }
+    buildLCP() {
+        const n = this.str.length; this.lcp = new Array(n).fill(0);
+        for (let i = 1; i < n; i++) {
+            const s1 = this.str.substring(this.sa[i-1]), s2 = this.str.substring(this.sa[i]); let l = 0;
+            while (l < s1.length && l < s2.length && s1[l] === s2[l]) l++; this.lcp[i] = l;
+        }
+    }
+    getLCP(i, j) {
+        if (i === j) return this.str.length - i;
+        let ri = this.saInv[i], rj = this.saInv[j];
+        if (ri > rj) [ri, rj] = [rj, ri];
+        let minLCP = Infinity;
+        for (let k = ri + 1; k <= rj; k++) minLCP = Math.min(minLCP, this.lcp[k]);
+        return minLCP;
+    }
+    compare() {
+        this.str = document.getElementById('str').value.toUpperCase();
+        const i = parseInt(document.getElementById('i').value);
+        const j = parseInt(document.getElementById('j').value);
+        if (i < 0 || j < 0 || i >= this.str.length || j >= this.str.length) {
+            document.getElementById('status').textContent = 'Invalid indices!'; return;
+        }
+        this.buildSA(); this.buildLCP();
+        const suffA = this.str.substring(i), suffB = this.str.substring(j);
+        document.getElementById('suffixA').textContent = suffA;
+        document.getElementById('suffixB').textContent = suffB;
+        const lcpLen = this.getLCP(i, j);
+        document.getElementById('lcp-result').textContent = lcpLen;
+        document.getElementById('lcp-match').textContent = lcpLen > 0 ? suffA.substring(0, lcpLen) : '(none)';
+        document.getElementById('status').innerHTML = `<span style="color:var(--green)">✓ LCP of suffix[${i}] and suffix[${j}] = ${lcpLen}</span>`;
+    }
+}
+const game = new TwinDetector();
+</script>
+</body>
+</html>

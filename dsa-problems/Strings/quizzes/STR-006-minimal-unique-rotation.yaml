@@ -1,0 +1,52 @@
+problem_id: STR_MINIMAL_UNIQUE_ROTATION_006
+display_id: STR-006
+slug: minimal-unique-rotation
+questions:
+  - question: What is returned if all rotations are identical?
+    difficulty: easy
+    points: 10
+    options:
+      - An empty string
+      - The original string
+      - The reverse of the string
+      - The second rotation
+    correct_answer: 1
+    explanation: If all rotations are equal, return the original.
+    type: single_choice
+    id: prq_1
+  - question: For input bba, what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - bba
+      - bab
+      - abb
+      - bbaabb
+    correct_answer: 2
+    explanation: The smallest rotation not equal to original is abb.
+    type: single_choice
+    id: edq_1
+  - question: For input abc, what is the smallest rotation different from the original?
+    difficulty: medium
+    points: 15
+    options:
+      - abc
+      - bca
+      - cab
+      - acb
+    correct_answer: 1
+    explanation: Rotations excluding abc are bca and cab; bca is smaller.
+    type: single_choice
+    id: edq_2
+  - question: Which algorithm finds the minimal rotation in O(n)?
+    difficulty: medium
+    points: 15
+    options:
+      - KMP
+      - Booth's algorithm
+      - Z-algorithm
+      - Rabin-Karp
+    correct_answer: 1
+    explanation: Booth's algorithm computes the minimal rotation in linear time.
+    type: single_choice
+    id: edq_3

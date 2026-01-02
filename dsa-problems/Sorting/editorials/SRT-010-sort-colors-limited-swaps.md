@@ -84,6 +84,21 @@ Imagine you are managing a **Traffic Queue**.
 - Iterate `N` times to fill the result array.
 - Complexity: `O(N log N)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Queue indices of zeros ones twos] --> B[Use BIT for active positions]
+B --> C[Fill next output slot]
+C --> D{Zero reachable within swaps}
+D -->|Yes| E[Pick zero and update BIT]
+D -->|No| F{One reachable within swaps}
+F -->|Yes| G[Pick one and update BIT]
+F -->|No| H[Pick two]
+E --> C
+G --> C
+H --> C
+```
+
 ## Implementations
 
 ### Java

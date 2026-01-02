@@ -58,6 +58,32 @@ Check: 1 + 6 = 7. Match!
 Result: True
 ```
 
+### 🔄 Algorithm Flow Diagram
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Set left = 0, right = n - 1]
+    B --> C{left < right?}
+    C -- No --> J[Return false]
+    C -- Yes --> D{left forbidden?}
+    D -- Yes --> E[left++]
+    D -- No --> F{right forbidden?}
+    F -- Yes --> G[right--]
+    F -- No --> H[sum = arr at left + arr at right]
+    H --> I{sum == target?}
+    I -- Yes --> K[Return true]
+    I -- No --> L{sum < target?}
+    L -- Yes --> M[left++]
+    L -- No --> N[right--]
+    E --> C
+    G --> C
+    M --> C
+    N --> C
+```
+
+> Two pointers can solve it, but forbidden seats still keep them honest.
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Forbidden Set**: Contains indices (0-based) that cannot be used.

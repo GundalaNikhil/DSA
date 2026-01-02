@@ -1,2 +1,52 @@
-# Quiz for PRB-003: Reservoir Sampling K Items
-# YAML content to be added
+problem_id: PRB_RESERVOIR_SAMPLING_K_003
+display_id: PRB-003
+slug: reservoir-sampling-k
+questions:
+  - question: What is the primary advantage of Reservoir Sampling over shuffling the entire dataset?
+    difficulty: easy
+    points: 10
+    options:
+      - It requires only O(k) memory and processes data in a single pass (streaming).
+      - It is faster because it sorts the data.
+      - It guarantees a deterministic output without a seed.
+      - It works with infinite k.
+    correct_answer: 0
+    explanation: Reservoir sampling is designed for streaming data where N is large or unknown, allowing uniform sampling with fixed memory O(k) and linear time O(N).
+    type: single_choice
+    id: prq_1
+  - question: In Algorithm R, when processing the i-th item (where i > k), what is the probability that it replaces an item currently in the reservoir?
+    difficulty: medium
+    points: 10
+    options:
+      - k / i
+      - 1 / i
+      - 1 / k
+      - "0.5"
+    correct_answer: 0
+    explanation: The algorithm decides to select the i-th item with probability `k/i`. If selected, it replaces a random existing element.
+    type: single_choice
+    id: edq_1
+  - question: After processing N items, what is the probability that any specific item X (where X <= N) is in the final reservoir of size k?
+    difficulty: hard
+    points: 15
+    options:
+      - k / N
+      - 1 / N
+      - k / (N - 1)
+      - "0.5"
+    correct_answer: 0
+    explanation: The goal of reservoir sampling is to ensure every item has an equal probability of `k/N` of being included in the final sample.
+    type: single_choice
+    id: edq_2
+  - question: Why does the problem require a specific 64-bit Linear Congruential Generator (LCG)?
+    difficulty: medium
+    points: 10
+    options:
+      - To ensure deterministic reproducibility across different languages for testing.
+      - Because standard random number generators are too slow.
+      - Because LCGs are cryptographically secure.
+      - To avoid integer overflow.
+    correct_answer: 0
+    explanation: Standard RNGs vary by language and compiler. A specific LCG ensures that the sequence of random numbers (and thus the final reservoir) is identical for all correct implementations given the same seed.
+    type: single_choice
+    id: edq_3

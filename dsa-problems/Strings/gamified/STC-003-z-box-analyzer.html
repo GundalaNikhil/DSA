@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-003: Package Scanner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1a1a2e;
+            --conveyor: #16213e;
+            --box: #e94560;
+            --scan: #0f3460;
+            --accent: #00ff88;
+            --warning: #ff6b35;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: linear-gradient(135deg, #16213e 0%, #1a1a2e 100%);
+            padding: 1.5rem 2rem;
+            border-bottom: 3px solid var(--accent);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        h1 {
+            font-family: 'Russo One', sans-serif;
+            color: var(--accent);
+            font-size: 1.8rem;
+            text-shadow: 0 0 20px var(--accent);
+        }
+        .badge {
+            background: var(--box);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .warehouse {
+            background: var(--conveyor);
+            border: 2px solid #2a3f5f;
+            border-radius: 15px;
+            padding: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .conveyor-belt {
+            display: flex;
+            gap: 10px;
+            padding: 20px 10px;
+            background: repeating-linear-gradient(
+                90deg,
+                #0f1629 0px,
+                #0f1629 20px,
+                #1a2540 20px,
+                #1a2540 40px
+            );
+            border-radius: 10px;
+            overflow-x: auto;
+            position: relative;
+        }
+
+        .package {
+            min-width: 60px;
+            height: 90px;
+            background: linear-gradient(180deg, var(--box) 0%, #b83b52 100%);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .package:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+        .package.scanning {
+            box-shadow: 0 0 30px var(--accent);
+            transform: scale(1.05);
+        }
+        .package.matched {
+            background: linear-gradient(180deg, var(--accent) 0%, #00cc6a 100%);
+        }
+
+        .barcode {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
+        }
+        .pkg-idx {
+            position: absolute;
+            bottom: 5px;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .z-value {
+            position: absolute;
+            top: -25px;
+            background: var(--scan);
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            padding: 3px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            opacity: 0;
+            transition: all 0.3s;
+        }
+        .package.revealed .z-value {
+            opacity: 1;
+        }
+
+        .control-panel {
+            background: var(--scan);
+            border: 2px solid #2a3f5f;
+            border-radius: 15px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .input-group label {
+            color: var(--accent);
+            font-size: 0.8rem;
+        }
+        .input-group input {
+            background: #0d1a2d;
+            border: 2px solid #2a3f5f;
+            border-radius: 8px;
+            padding: 12px 15px;
+            color: #fff;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Russo One', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-scan {
+            background: linear-gradient(135deg, var(--accent) 0%, #00cc6a 100%);
+            color: #000;
+        }
+        .btn-step {
+            background: linear-gradient(135deg, var(--warning) 0%, #e85d04 100%);
+            color: #fff;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .explanation {
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+        }
+        .exp-title {
+            color: var(--warning);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        .exp-content {
+            font-size: 0.85rem;
+            color: #aaa;
+            line-height: 1.6;
+        }
+        .highlight { color: var(--accent); font-weight: bold; }
+
+        #status {
+            text-align: center;
+            padding: 15px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            font-size: 1.1rem;
+        }
+
+        .z-array-display {
+            display: flex;
+            gap: 5px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .z-cell {
+            width: 50px;
+            height: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #0d1a2d;
+            border: 2px solid #2a3f5f;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        .z-cell .char { font-size: 1.1rem; color: var(--box); }
+        .z-cell .val { font-size: 0.9rem; color: var(--accent); font-weight: bold; }
+        .z-cell.active {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px var(--accent);
+            transform: scale(1.1);
+        }
+        .z-cell.computed {
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 15px;
+            font-size: 0.8rem;
+            color: #888;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+        .legend-box.prefix { background: var(--accent); }
+        .legend-box.comparing { background: var(--warning); }
+    </style>
+</head>
+<body>
+<header>
+    <h1>📦 PACKAGE SCANNER</h1>
+    <span class="badge">Z-FUNCTION ANALYZER</span>
+</header>
+
+<main>
+    <div class="warehouse">
+        <div style="color: var(--accent); margin-bottom: 10px; font-size: 0.9rem;">▸ BARCODE SEQUENCE</div>
+        <div class="conveyor-belt" id="conveyor"></div>
+        
+        <div class="z-array-display" id="z-array"></div>
+        
+        <div class="legend">
+            <div class="legend-item"><div class="legend-box prefix"></div> Prefix Match</div>
+            <div class="legend-item"><div class="legend-box comparing"></div> Currently Comparing</div>
+        </div>
+    </div>
+
+    <div class="control-panel">
+        <div class="input-group">
+            <label>BARCODE STRING</label>
+            <input type="text" id="barcode" value="AABXAAB" maxlength="16" placeholder="Enter barcode...">
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-scan" onclick="game.compute()">⚡ AUTO SCAN</button>
+            <button class="btn btn-step" onclick="game.step()">▶ STEP</button>
+        </div>
+    </div>
+
+    <div id="status">Enter a barcode string and compute Z-array!</div>
+
+    <div class="explanation">
+        <div class="exp-title">📖 Z-FUNCTION EXPLAINED</div>
+        <div class="exp-content">
+            For each position <span class="highlight">i</span>, Z[i] = length of the <span class="highlight">longest substring starting from i</span> that matches a <span class="highlight">prefix</span> of the string.<br><br>
+            Example: For "AABXAAB", Z[4] = 3 because "AAB" at position 4 matches the prefix "AAB".<br>
+            Z[0] is undefined (or set to string length by convention).
+        </div>
+    </div>
+</main>
+
+<script>
+class PackageScanner {
+    constructor() {
+        this.str = "";
+        this.z = [];
+        this.currentIdx = 0;
+        this.isRunning = false;
+        this.load();
+    }
+
+    load() {
+        this.str = document.getElementById('barcode').value.toUpperCase();
+        if (!this.str) return;
+        
+        this.z = new Array(this.str.length).fill(null);
+        this.z[0] = this.str.length; // Convention
+        this.currentIdx = 1;
+        this.renderPackages();
+        this.renderZArray();
+        document.getElementById('status').textContent = `Loaded "${this.str}" - Click STEP or AUTO SCAN`;
+    }
+
+    renderPackages() {
+        const conveyor = document.getElementById('conveyor');
+        conveyor.innerHTML = '';
+        this.str.split('').forEach((char, i) => {
+            const pkg = document.createElement('div');
+            pkg.className = 'package';
+            pkg.id = `pkg-${i}`;
+            pkg.innerHTML = `
+                <div class="z-value" id="zval-${i}">${this.z[i] !== null ? this.z[i] : '?'}</div>
+                <div class="barcode">${char}</div>
+                <div class="pkg-idx">${i}</div>
+            `;
+            pkg.onclick = () => this.showInfo(i);
+            conveyor.appendChild(pkg);
+        });
+    }
+
+    renderZArray() {
+        const container = document.getElementById('z-array');
+        container.innerHTML = '';
+        this.str.split('').forEach((char, i) => {
+            const cell = document.createElement('div');
+            cell.className = 'z-cell';
+            cell.id = `zcell-${i}`;
+            cell.innerHTML = `
+                <div class="char">${char}</div>
+                <div class="val" id="zv-${i}">${this.z[i] !== null ? this.z[i] : '-'}</div>
+            `;
+            if (this.z[i] !== null && i > 0) cell.classList.add('computed');
+            container.appendChild(cell);
+        });
+    }
+
+    clearHighlights() {
+        document.querySelectorAll('.package, .z-cell').forEach(el => {
+            el.classList.remove('scanning', 'matched', 'active');
+        });
+    }
+
+    async step() {
+        if (this.currentIdx >= this.str.length) {
+            document.getElementById('status').innerHTML = '<span style="color:var(--accent)">✓ Z-array computation complete!</span>';
+            return;
+        }
+
+        this.clearHighlights();
+        await this.computeZ(this.currentIdx);
+        this.currentIdx++;
+    }
+
+    async compute() {
+        if (this.isRunning) return;
+        this.isRunning = true;
+        this.load();
+        
+        while (this.currentIdx < this.str.length) {
+            await this.step();
+            await this.delay(400);
+        }
+        this.isRunning = false;
+    }
+
+    async computeZ(i) {
+        const pkg = document.getElementById(`pkg-${i}`);
+        const cell = document.getElementById(`zcell-${i}`);
+        pkg.classList.add('scanning');
+        cell.classList.add('active');
+
+        document.getElementById('status').textContent = `Computing Z[${i}]: Comparing "${this.str.substring(i)}" with prefix...`;
+
+        // Highlight prefix being compared
+        let len = 0;
+        while (i + len < this.str.length && this.str[len] === this.str[i + len]) {
+            len++;
+        }
+
+        await this.delay(300);
+
+        this.z[i] = len;
+        
+        // Update displays
+        document.getElementById(`zval-${i}`).textContent = len;
+        document.getElementById(`zv-${i}`).textContent = len;
+        pkg.classList.add('revealed');
+        cell.classList.add('computed');
+
+        if (len > 0) {
+            pkg.classList.add('matched');
+            document.getElementById('status').innerHTML = `Z[${i}] = <span style="color:var(--accent)">${len}</span> — "${this.str.substring(i, i + len)}" matches prefix!`;
+        } else {
+            document.getElementById('status').innerHTML = `Z[${i}] = <span style="color:var(--warning)">0</span> — No prefix match at this position.`;
+        }
+    }
+
+    showInfo(i) {
+        if (this.z[i] === null) {
+            document.getElementById('status').textContent = `Position ${i}: Z-value not yet computed. Click STEP.`;
+        } else {
+            const matchStr = this.z[i] > 0 ? `"${this.str.substring(i, i + this.z[i])}"` : 'none';
+            document.getElementById('status').textContent = `Position ${i}: Z[${i}] = ${this.z[i]}, prefix match: ${matchStr}`;
+        }
+    }
+
+    delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+}
+
+const game = new PackageScanner();
+document.getElementById('barcode').addEventListener('change', () => game.load());
+</script>
+</body>
+</html>

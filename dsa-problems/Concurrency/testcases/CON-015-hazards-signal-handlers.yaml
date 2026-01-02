@@ -1,16 +1,10 @@
 problem_id: CON_SIGNAL_HANDLER_SAFETY__6B90
 samples:
-  - input: |-
-      signal arrives during malloc
-    output: |-
-      Handler must not call malloc/printf/locking; should only set a flag and return (optionally write() to a pipe).
+- input: signal arrives during malloc
+  output: Handler must not call malloc/printf/locking; should only set a flag and return (optionally write() to a pipe).
 public:
-  - input: |-
-      need to notify event loop of signal
-    output: |-
-      Mention self-pipe trick or eventfd; handler uses async-signal-safe operations only.
+- input: need to notify event loop of signal
+  output: Mention self-pipe trick or eventfd; handler uses async-signal-safe operations only.
 hidden:
-  - input: |-
-      handler does too much work
-    output: |-
-      Must state: keep handler minimal; defer work to normal thread context.
+- input: handler does too much work
+  output: 'Must state: keep handler minimal; defer work to normal thread context.'

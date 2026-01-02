@@ -1,0 +1,52 @@
+problem_id: STR_K_MISMATCH_ANAGRAM_SUBSTRINGS_008
+display_id: STR-008
+slug: k-mismatch-anagram-substrings
+questions:
+  - question: What is the substring length considered for each window?
+    difficulty: easy
+    points: 10
+    options:
+      - "|s|"
+      - "|p|"
+      - k
+      - "|p| + k"
+    correct_answer: 1
+    explanation: Each window length equals m = |p|.
+    type: single_choice
+    id: prq_1
+  - question: For s=abxcab, p=aabc, k=1, what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "4"
+    correct_answer: 2
+    explanation: Three windows need at most one substitution to match p.
+    type: single_choice
+    id: edq_1
+  - question: What does k=0 reduce the problem to?
+    difficulty: medium
+    points: 15
+    options:
+      - Counting exact anagram substrings
+      - Counting palindromes
+      - Counting distinct characters
+      - Counting subsequences
+    correct_answer: 0
+    explanation: No substitutions allowed means exact anagram matches.
+    type: single_choice
+    id: edq_2
+  - question: How is mismatch cost computed from frequencies?
+    difficulty: medium
+    points: 15
+    options:
+      - Sum of absolute differences
+      - Sum of max(0, freq_p - freq_window)
+      - Sum of freq_window only
+      - Number of distinct mismatched letters
+    correct_answer: 1
+    explanation: Deficits in window frequencies give the needed substitutions.
+    type: single_choice
+    id: edq_3

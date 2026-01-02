@@ -71,6 +71,21 @@ findKthColoredAncestor(v, c, k):
     return -1               // Not enough ancestors with color c
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Set count to zero]
+    B --> C{Node is valid}
+    C -->|No| H[Return not found]
+    C -->|Yes| D{Color matches}
+    D -->|Yes| E[Increase count]
+    E --> F{Count is k}
+    F -->|Yes| G[Return node]
+    F -->|No| I[Move to parent]
+    D -->|No| I
+    I --> C
+```
+
 ---
 
 ## 🧪 Edge Cases

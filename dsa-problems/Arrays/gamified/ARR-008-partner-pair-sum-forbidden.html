@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARR-008: Pair Sum</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 850px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .header h1 { font-size: 36px; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #7c3aed; margin-bottom: 15px; }
+
+        .goal-box {
+            background: #f5f3ff;
+            border: 2px solid #c4b5fd;
+            border-radius: 12px;
+            padding: 15px;
+            line-height: 1.6;
+        }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .target-display {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            border-radius: 12px;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .target-label { font-size: 16px; opacity: 0.9; }
+        .target-value { font-size: 48px; font-weight: 700; }
+
+        .numbers-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #f5f3ff;
+            border-radius: 12px;
+        }
+
+        .num-card {
+            width: 60px;
+            height: 70px;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 22px;
+            font-weight: 700;
+            transition: all 0.2s;
+            background: #fff;
+            border: 3px solid #e5e7eb;
+            color: #374151;
+        }
+        .num-card:hover { border-color: #a855f7; transform: scale(1.05); }
+        .num-card.selected {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            color: #fff;
+            border-color: #7c3aed;
+        }
+        .num-card.paired {
+            background: #22c55e;
+            color: #fff;
+            border-color: #16a34a;
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        .num-idx { font-size: 10px; opacity: 0.6; margin-top: 3px; }
+
+        .selection-panel {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            align-items: center;
+            padding: 20px;
+            background: #faf5ff;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .selected-num {
+            width: 70px;
+            height: 70px;
+            border-radius: 12px;
+            background: #e9d5ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: #7c3aed;
+        }
+        .selected-num.empty { color: #c4b5fd; font-size: 24px; }
+
+        .plus-sign { font-size: 32px; color: #7c3aed; }
+        .equals-sign { font-size: 32px; color: #7c3aed; }
+        .sum-display {
+            width: 80px;
+            height: 70px;
+            border-radius: 12px;
+            background: #7c3aed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .score-panel {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 15px;
+        }
+        .score-item { text-align: center; }
+        .score-label { font-size: 12px; color: #666; }
+        .score-value { font-size: 24px; font-weight: 700; color: #7c3aed; }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .message.correct { background: #dcfce7; color: #16a34a; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #f5f3ff; color: #7c3aed; }
+
+        .new-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #7c3aed;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🎯 Pair Sum</h1>
+        <div style="opacity:0.9">Find pairs of numbers that add up to the target!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="goal-box">
+            <strong>🎯 Goal:</strong> Click on TWO numbers that add up to the TARGET sum.
+            <br>Find all valid pairs to maximize your score!
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="target-display">
+            <div class="target-label">Target Sum</div>
+            <div class="target-value" id="targetValue">15</div>
+        </div>
+
+        <div class="numbers-row" id="numbersRow"></div>
+
+        <div class="selection-panel">
+            <div class="selected-num" id="sel1">?</div>
+            <div class="plus-sign">+</div>
+            <div class="selected-num" id="sel2">?</div>
+            <div class="equals-sign">=</div>
+            <div class="sum-display" id="sumDisplay">?</div>
+        </div>
+
+        <div class="score-panel">
+            <div class="score-item">
+                <div class="score-label">Pairs Found</div>
+                <div class="score-value" id="pairsFound">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">Score</div>
+                <div class="score-value" id="score">0</div>
+            </div>
+        </div>
+
+        <div class="message neutral" id="message">Select two numbers that add up to the target!</div>
+
+        <button class="new-btn" onclick="newGame()">🔄 New Numbers</button>
+    </div>
+</div>
+
+<script>
+    let numbers = [];
+    let target = 0;
+    let selected = [];
+    let paired = new Set();
+    let pairsFound = 0;
+    let score = 0;
+
+    function generateNumbers() {
+        const n = 8 + Math.floor(Math.random() * 4); // 8-11 numbers
+        numbers = [];
+
+        // Generate with at least one valid pair
+        target = 10 + Math.floor(Math.random() * 20); // 10-29
+
+        for (let i = 0; i < n - 2; i++) {
+            numbers.push(Math.floor(Math.random() * 20) + 1);
+        }
+
+        // Add a guaranteed pair
+        const a = Math.floor(Math.random() * (target - 2)) + 1;
+        const b = target - a;
+        numbers.push(a);
+        numbers.push(b);
+
+        // Shuffle
+        numbers.sort(() => Math.random() - 0.5);
+
+        selected = [];
+        paired = new Set();
+        pairsFound = 0;
+    }
+
+    function render() {
+        const row = document.getElementById('numbersRow');
+        row.innerHTML = '';
+
+        numbers.forEach((val, i) => {
+            const card = document.createElement('div');
+            let cls = 'num-card';
+            if (paired.has(i)) cls += ' paired';
+            else if (selected.includes(i)) cls += ' selected';
+
+            card.className = cls;
+            card.innerHTML = `${val}<span class="num-idx">[${i}]</span>`;
+            card.onclick = () => selectNumber(i);
+            row.appendChild(card);
+        });
+
+        // Update selection display
+        const sel1 = document.getElementById('sel1');
+        const sel2 = document.getElementById('sel2');
+        const sumDisplay = document.getElementById('sumDisplay');
+
+        if (selected.length >= 1) {
+            sel1.textContent = numbers[selected[0]];
+            sel1.classList.remove('empty');
+        } else {
+            sel1.textContent = '?';
+            sel1.classList.add('empty');
+        }
+
+        if (selected.length >= 2) {
+            sel2.textContent = numbers[selected[1]];
+            sel2.classList.remove('empty');
+            sumDisplay.textContent = numbers[selected[0]] + numbers[selected[1]];
+        } else {
+            sel2.textContent = '?';
+            sel2.classList.add('empty');
+            sumDisplay.textContent = '?';
+        }
+
+        document.getElementById('targetValue').textContent = target;
+        document.getElementById('pairsFound').textContent = pairsFound;
+        document.getElementById('score').textContent = score;
+    }
+
+    function selectNumber(idx) {
+        if (paired.has(idx)) return;
+
+        if (selected.includes(idx)) {
+            selected = selected.filter(i => i !== idx);
+        } else if (selected.length < 2) {
+            selected.push(idx);
+        }
+
+        render();
+
+        // Check if pair is complete
+        if (selected.length === 2) {
+            checkPair();
+        }
+    }
+
+    function checkPair() {
+        const msg = document.getElementById('message');
+        const sum = numbers[selected[0]] + numbers[selected[1]];
+
+        if (sum === target) {
+            // Valid pair!
+            paired.add(selected[0]);
+            paired.add(selected[1]);
+            pairsFound++;
+            score += 20;
+
+            msg.className = 'message correct';
+            msg.textContent = `✅ ${numbers[selected[0]]} + ${numbers[selected[1]]} = ${target}. Correct pair!`;
+
+            selected = [];
+            render();
+        } else {
+            msg.className = 'message wrong';
+            msg.textContent = `❌ ${numbers[selected[0]]} + ${numbers[selected[1]]} = ${sum} ≠ ${target}. Try again!`;
+
+            setTimeout(() => {
+                selected = [];
+                render();
+            }, 1000);
+        }
+    }
+
+    function newGame() {
+        generateNumbers();
+        score = 0;
+        render();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Select two numbers that add up to the target!';
+    }
+
+    window.onload = newGame;
+</script>
+</body>
+</html>

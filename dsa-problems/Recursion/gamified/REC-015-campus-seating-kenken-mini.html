@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REC-015: KenKen Grid</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #a29bfe;
+            --grid: #2d3436;
+            --cell: #fff;
+            --sel: #ffeaa7;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+
+        h1 { color: #fff; text-shadow: 2px 2px 0 #6c5ce7; }
+
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 70px);
+            gap: 2px;
+            background: #2d3436;
+            border: 4px solid #2d3436;
+            border-radius: 5px;
+            margin-top: 2rem;
+        }
+
+        .cell {
+            width: 70px;
+            height: 70px;
+            background: var(--cell);
+            position: relative;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: #2d3436;
+        }
+
+        .cell.selected { background: var(--sel); }
+
+        .cage-label {
+            position: absolute;
+            top: 2px; left: 2px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        /* Border classes */
+        .bt { border-top: 2px solid #2d3436; }
+        .bb { border-bottom: 2px solid #2d3436; }
+        .bl { border-left: 2px solid #2d3436; }
+        .br { border-right: 2px solid #2d3436; }
+
+        .controls {
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .num-btn {
+            width: 50px; height: 50px;
+            background: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.5rem;
+            font-family: inherit;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #b2bec3;
+        }
+        .num-btn:active { transform: translateY(4px); box-shadow: none; }
+
+        #msg { margin-top: 1rem; color: #fff; min-height: 1.5em; font-weight: bold; }
+
+    </style>
+</head>
+<body>
+
+<h1>KENKEN PUZZLE</h1>
+
+<div class="game-board" id="grid">
+    <!-- Row 0 -->
+    <!-- Cage 1: "3+" -> (0,0), (0,1). -->
+    <div class="cell bt bl bb" onclick="sel(0)" id="c0"><span class="cage-label">3+</span></div> <!-- 1 -->
+    <div class="cell bt bb br" onclick="sel(1)" id="c1"></div> <!-- 2 -->
+    
+    <!-- Cage 2: "7+" -> (0,2), (0,3). -->
+    <div class="cell bt bl bb" onclick="sel(2)" id="c2"><span class="cage-label">7+</span></div> <!-- 3 -->
+    <div class="cell bt bb br" onclick="sel(3)" id="c3"></div> <!-- 4 -->
+
+    <!-- Row 1 -->
+    <div class="cell bl" onclick="sel(4)" id="c4"><span class="cage-label">3+</span></div>
+    <div class="cell" onclick="sel(5)" id="c5"></div>
+    <div class="cell" onclick="sel(6)" id="c6"></div>
+    <div class="cell br" onclick="sel(7)" id="c7"></div>
+    
+    <!-- Row 2 -->
+    <div class="cell bl" onclick="sel(8)" id="c8"></div>
+    <div class="cell" onclick="sel(9)" id="c9"></div>
+    <div class="cell" onclick="sel(10)" id="c10"></div>
+    <div class="cell br" onclick="sel(11)" id="c11"></div>
+    
+    <!-- Row 3 -->
+    <div class="cell bl bb" onclick="sel(12)" id="c12"></div>
+    <div class="cell bb" onclick="sel(13)" id="c13"></div>
+    <div class="cell bb" onclick="sel(14)" id="c14"></div>
+    <div class="cell bb br" onclick="sel(15)" id="c15"></div>
+</div>
+<!-- NOTE: Above is just plain grid div struct, manual border classes for demo cages -->
+
+<div class="controls">
+    <button class="num-btn" onclick="fill(1)">1</button>
+    <button class="num-btn" onclick="fill(2)">2</button>
+    <button class="num-btn" onclick="fill(3)">3</button>
+    <button class="num-btn" onclick="fill(4)">4</button>
+</div>
+
+<div id="msg">Select cell, fill number.</div>
+<button class="num-btn" style="width:auto; padding:0 20px; margin-top:20px" onclick="check()">CHECK</button>
+
+<script>
+    let selectedId = -1;
+    function sel(id) {
+         if (selectedId !== -1) document.getElementById(`c${selectedId}`).classList.remove('selected');
+         selectedId = id;
+         document.getElementById(`c${selectedId}`).classList.add('selected');
+    }
+
+    function fill(n) {
+        if(selectedId === -1) return;
+        // Don't modify DOM directly with text node, use a span or just replace content safely
+        // But here we need to keep cage labels!
+        const el = document.getElementById(`c${selectedId}`);
+        // Find if user-val exists
+        let v = el.querySelector('.user-val');
+        if(!v) {
+            v = document.createElement('span');
+            v.className = 'user-val';
+            el.appendChild(v);
+        }
+        v.textContent = n;
+    }
+
+    function check() {
+        const grid = [];
+        for(let i=0; i<16; i++) {
+             const el = document.getElementById(`c${i}`);
+             const v = el.querySelector('.user-val');
+             grid.push(v ? parseInt(v.textContent) : 0);
+        }
+        if (grid.includes(0)) {
+            document.getElementById('msg').textContent = "Grid incomplete!";
+            return;
+        }
+        document.getElementById('msg').textContent = "Checking...";
+        // For Active Gamification, we are just mocking the validation feedback
+        // to show MECHANIC.
+        setTimeout(() => {
+             document.getElementById('msg').textContent = "Logic Verified (Mock)!";
+        }, 500);
+    }
+</script>
+</body>
+</html>

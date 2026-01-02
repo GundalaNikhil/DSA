@@ -1,10 +1,10 @@
 ---
-problem_id: HSH_MAX_REPEATED_BLOCK_LENGTH__5827
+problem_id: HSH_MAX_REPEATED_BLOCK_LENGTH__9283
 display_id: HSH-008
 slug: max-repeated-block-length
-title: "Maximum Repeated Block Length"
-difficulty: Medium
-difficulty_score: 55
+title: "Longest Non-Overlapping Repeating Substring"
+difficulty: Hard
+difficulty_score: 65
 topics:
   - Hashing
   - Binary Search
@@ -13,129 +13,162 @@ tags:
   - hashing
   - binary-search
   - substring
-  - medium
+  - hard
 premium: true
 subscription_tier: basic
 ---
 
-# HSH-008: Maximum Repeated Block Length
+# HSH-008: Longest Non-Overlapping Repeating Substring
 
 ## 📋 Problem Summary
 
-You are given a string `s`. Find the maximum length `L` such that there are two **non-overlapping** substrings of length `L` that are identical.
-Non-overlapping means if the first substring is at indices `[i, i+L-1]` and the second at `[j, j+L-1]`, then the intervals must not intersect (i.e., `i+L <= j` assuming `i < j`).
+You are given a string `s`. Find the maximum length `K` such that there exists a substring of length `K` that appears at least twice in `s` **without overlapping**.
 
 ## 🌍 Real-World Scenario
 
-**Scenario Title:** Audio Sample Looping
+**Scenario Title:** The Genetic Motif Hunter 🧬
 
-Imagine you are editing a music track. You want to find the longest "loop" or repeated beat that occurs in the song to use it as a sample.
-- However, the loop must be distinct; you can't just pick a sound that overlaps with itself (like a continuous "aaaaa" sound).
-- You need two separate occurrences of the same sound pattern to create a clean transition or echo effect.
+### The Problem
+In genomic analysis, detecting repeated motifs (sequences) is crucial, but overlaps can be misleading.
+- **Example:** In `AAAAA`, the substring `AA` appears at indices 0, 1, 2, 3. `AA` at 0 overlaps with `AA` at 1.
+- **Goal:** Find repeats that are completely distinct, indicating separate functional units or gene duplications separated by other genetic material.
+- **Application:** Identifying Transposable Elements (TEs) or Copy Number Variations (CNVs) where a distinct chunk of DNA is copied elsewhere.
 
-![Real-World Application](../images/HSH-008/real-world-scenario.png)
+### Why This Matters
+- **Bioinformatics:** Distinguishing tandem repeats (adjacent, often overlapping) from dispersed repeats (non-overlapping).
+- **Data Compression:** Finding non-overlapping blocks allows replacing the second occurrence with a reference to the first (LZ77).
+
+### Constraints in Real World
+- **Scale:** Genomes are huge ($10^9$). $O(N^2)$ is impossible. We need $O(N \log N)$ or linear approaches.
 
 ## Detailed Explanation
 
-### ASCII Diagram: Overlapping vs Non-Overlapping
+### Concept Visualization
 
-String: "aaaaa"
+String: `banana`
+- Try Length 2: `ba` (at 0), `na` (at 2), `na` (at 4).
+  - `na` is at index 2 and 4.
+  - End of first `na` is $2+2-1 = 3$. Start of second is $4$.
+  - $4 > 3$. No overlap!
+  - Valid Length: 2.
+- Try Length 3: `ban` (at 0), `ana` (at 1), `nan` (at 2), `ana` (at 3).
+  - `ana` at 1 and 3.
+  - Overlap? Index 1 ends at $1+3-1=3$. Index 3 starts at 3. Overlap at index 3.
+  - Wait, strict non-overlap means $start_2 \ge start_1 + length$.
+  - $3 \ge 1+3$? $3 < 4$. Overlap.
+  - Invalid Length: 3.
 
-**Length 2:**
-- "aa" at index 0 (0-1)
-- "aa" at index 2 (2-3)
-- Indices: [0,1] and [2,3]. No overlap. Valid.
+```mermaid
+graph TD
+    Str[String: a b a b a]
+    
+    subgraph Overlapping (Len 3)
+    Sub1[aba at 0]
+    Sub2[aba at 2]
+    Overlap[Overlap at index 2!]
+    Sub1 -.-> Overlap
+    Sub2 -.-> Overlap
+    Result1[Invalid]
+    end
+    
+    subgraph Non-Overlapping (Len 2)
+    SubA[ab at 0]
+    SubB[ab at 2]
+    Gap[End 1 = 1, Start 2 = 2]
+    SubA -.-> Gap
+    SubB -.-> Gap
+    Result2[Valid!]
+    end
+    
+    style Result1 fill:#ffcccc
+    style Result2 fill:#d4f4dd
+```
 
-**Length 3:**
-- "aaa" at index 0 (0-2)
-- "aaa" at index 1 (1-3) -> Overlap!
-- "aaa" at index 2 (2-4) -> Overlap with index 0?
-  - [0,2] and [2,4]. Overlap at index 2?
-  - Indices are inclusive. 0,1,2 vs 2,3,4. Overlap at 2.
-  - Usually means `end1 < start2`.
-  - `0+3 = 3`. Next start must be `>= 3`.
-  - Can we find "aaa" starting at `>= 3`? No. String length 5.
-  - So Length 3 is invalid.
+### Algorithm Flow Diagram
 
-Max Length: 2.
+```mermaid
+graph TD
+    Start[Start] --> BinSearch[Binary Search Len from 0 to N/2]
+    BinSearch --> Check{Check Length L}
+    
+    Check --> HashInit[Compute Rolling Hash for first L chars]
+    HashInit --> Map[Map: Hash -> First Index]
+    HashInit --> Slide[Slide Window]
+    
+    Slide --> UpdateH[Update Hash]
+    UpdateH --> Exists{Hash in Map?}
+    
+    Exists -- Yes --> OverlapCheck{CurrIdx >= FirstIdx + L?}
+    OverlapCheck -- Yes --> Valid[Found! Return True]
+    OverlapCheck -- No --> Slide
+    
+    Exists -- No --> Store[Map[Hash] = CurrIdx]
+    Store --> Slide
+    
+    Valid --> Increase[Ans = L, Low = Mid + 1]
+    Slide -- End of String --> Invalid[Return False]
+    Invalid --> Decrease[High = Mid - 1]
+    
+    style Valid fill:#d4f4dd
+    style Invalid fill:#ffcccc
+```
 
-### Key Concept: Binary Search on Answer
+## 🎯 Edge Cases to Test
 
-If a non-overlapping repeated substring of length `L` exists, does one of length `L-1` exist?
-Yes. Just trim the last character of both occurrences. They remain equal and non-overlapping.
-This monotonicity allows **Binary Search**.
-- Range: `[0, N/2]`. (Max possible length is N/2).
-- Check `possible(len)`:
-  - Use Rolling Hash.
-  - Store the **first occurrence index** of each hash in a Map.
-  - For current substring at `i`, if hash exists in Map at `first_pos`:
-    - Check if `first_pos + len <= i`.
-    - If yes, return true.
-    - If no, keep the `first_pos` (don't update it, we want the earliest start to maximize gap).
+1.  **No Repeats**
+    -   Input: `"abcdef"`
+    -   Output: `0`
+2.  **Full Repeat**
+    -   Input: `"abcabc"`
+    -   Output: `3` ("abc" and "abc")
+3.  **Overlapping Repeats Only**
+    -   Input: `"aaaa"`
+    -   Max Non-Overlapping: `2` ("aa" at 0, "aa" at 2).
+    -   ("aaa" at 0 and 1 overlaps).
+4.  **Adjacent Repeats**
+    -   Input: `"aabb"`
+    -   Output: `1` ("a" or "b").
 
-## ✅ Input/Output Clarifications (Read This Before Coding)
+## ✅ Input/Output Clarifications
 
-- **Input:** String `s`.
-- **Output:** Integer `L`.
-- **Constraints:** `|s| <= 10^5`.
-- **Non-overlapping:** `end1 < start2`.
+-   **Input:** String `s`.
+-   **Output:** Integer `K` (Max length).
+-   **Overlap Definition:** Two substrings starting at `i` and `j` ($i < j$) do not overlap if `j >= i + K`.
+-   **Max Answer:** The max possible answer is `N/2`.
 
 ## Naive Approach
 
 ### Intuition
-
-Check all pairs of substrings.
-
-### Algorithm
-
-1. Loop length `len` from `N/2` down to 1.
-2. Loop `i` from 0 to `N - 2*len`.
-3. Loop `j` from `i + len` to `N - len`.
-4. Compare `s[i..i+len]` with `s[j..j+len]`.
-5. If match, return `len`.
+Check all possible lengths `L`. For each `L`, exhaustive check.
 
 ### Time Complexity
+-   $O(N^3)$: Check all lengths ($N$), generate all substrings ($N$), compare all ($N$).
 
-- **O(N^3)**: Three nested loops. Too slow.
-
-## Optimal Approach
+## Optimal Approach (Binary Search + Hashing)
 
 ### Key Insight
-
-Combine **Binary Search** and **Rolling Hash**.
-- Binary search for length `L`.
-- For a fixed `L`, compute rolling hashes.
-- Store `Map<Long, Integer>` mapping `hash -> first_start_index`.
-- When seeing a hash again at `curr_start_index`:
-  - If `curr_start_index >= map.get(hash) + L`, valid! Return true.
-  - Else, ignore (don't update map, keeping the earliest occurrence gives best chance for non-overlap).
+1.  **Monotonicity:** If a repeating non-overlapping substring of length `L` exists, then one of length `L-1` definitely exists (just take a prefix).
+    -   This allows **Binary Search** on the answer.
+2.  **Efficient Check:** For a fixed length `L`, we can use **Rolling Hash** to find duplicates in $O(N)$.
+    -   Store the **first index** of every hash encountered.
+    -   When seeing a hash again at `curr_index`, check `curr_index >= first_index + L`.
 
 ### Algorithm
-
-1. `low = 0`, `high = n / 2`.
-2. While `low <= high`:
-   - `mid = (low + high) / 2`.
-   - If `check(mid)`: `ans = mid`, `low = mid + 1`.
-   - Else: `high = mid - 1`.
-3. Return `ans`.
-
-**Check(len):**
-1. Map `first_occurrence`.
-2. Compute rolling hash for window size `len`.
-3. For each window starting at `i`:
-   - If hash not in map, `put(hash, i)`.
-   - Else if `i >= map.get(hash) + len`, return true.
-4. Return false.
+1.  Binary Search `len` from `0` to `N/2`.
+2.  `check(len)`:
+    -   Use Rolling Hash.
+    -   Store `Map<Hash, FirstIndex>`.
+    -   Iterate through string.
+    -   If hash exists: check non-overlap condition. If satisfied, return `True`.
+    -   If hash doesn't exist: store `(Hash, CurrIndex)`.
+    -   Return `False`.
+3.  Return max valid `len`.
 
 ### Time Complexity
-
-- **O(N \log N)**.
+-   **O(N log N)**: Binary search takes $O(\log N)$ steps. Each check takes $O(N)$.
 
 ### Space Complexity
-
-- **O(N)**: Map storage.
-
-![Algorithm Visualization](../images/HSH-008/algorithm-visualization.png)
+-   **O(N)**: To store hashes in the map.
 
 ## Implementations
 
@@ -458,50 +491,57 @@ rl.on("close", () => {
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 
-**Input:**
+### Input
 ```
-abcabc
+banana
 ```
 `N=6`. Range `[0, 3]`.
 
-**Check 1 (Mid=1):**
-- "a" at 0. "a" at 3. Gap `>= 1`. Valid.
-- Ans = 1. Range `[2, 3]`.
+### Binary Search Steps
 
-**Check 2 (Mid=2):**
-- "ab" at 0. "ab" at 3. Gap `>= 2`. Valid.
-- Ans = 2. Range `[3, 3]`.
-
-**Check 3 (Mid=3):**
-- "abc" at 0. "abc" at 3. Gap `>= 3`. Valid.
-- Ans = 3. Range `[4, 3]`. Loop ends.
-
-**Result:** 3.
+1.  **Low=0, High=3. Mid=1.**
+    -   `check(1)`:
+    -   Hashes: `b`, `a`, `n`, `a`, `n`, `a`.
+    -   `a` at index 3 matches `a` at 1. Gap $3 - 1 = 2 \ge 1$. Valid!
+    -   **Ans=1, Low=2.**
+2.  **Low=2, High=3. Mid=2.**
+    -   `check(2)`:
+    -   Hashes of `ba`, `an`, `na`, `an`, `na`.
+    -   `an` (idx 1) ... `an` (idx 3). Overlap check: $3 \ge 1 + 2$? $3 \ge 3$. True!
+    -   Non-overlapping repeat found ("an" at 1 and 3).
+    -   **Ans=2, Low=3.**
+3.  **Low=3, High=3. Mid=3.**
+    -   `check(3)`:
+    -   Hashes of `ban`, `ana`, `nan`, `ana`.
+    -   `ana` (idx 1) ... `ana` (idx 3).
+    -   Overlap check: $3 \ge 1 + 3$? $3 \ge 4$. False!
+    -   **High=2.**
+4.  End. Return **Ans=2**.
 
 ## ✅ Proof of Correctness
 
-### Invariant
-If we find a valid pair of length `L`, we record it.
-Since we search for the *maximum* `L`, and the property is monotonic, binary search works.
-The non-overlapping condition `start2 >= start1 + L` is strictly enforced.
+### Binary Search Validity
+If there are two disjoint substrings of length $L$, say $S[i..i+L-1]$ and $S[j..j+L-1]$ with $j \ge i+L$, then their prefixes of length $L-1$ are also disjoint (indices $i$ to $i+L-2$ vs $j$ to $j+L-2$).
+Since $j \ge i+L > i+L-1$, they are definitely disjoint.
+Thus, the property is monotonic.
+
+## ⚠️ Common Mistakes to Avoid
+
+1.  **Overlap Logic Error**
+    -   ❌ Wrong: `if (i > firstIdx)` (allows overlap).
+    -   ✅ Correct: `if (i >= firstIdx + len)` (strict non-overlap).
+2.  **Modifying Map**
+    -   ❌ Wrong: Updating `firstOccurrence` for every match. We need the *first* occurrence to maximize the gap.
+    -   ✅ Correct: Only insert if hash not present.
+3.  **Binary Search Boundaries**
+    -   ❌ Wrong: High = N.
+    -   ✅ Correct: High = N/2 (impossible to have 2 non-overlapping blocks > N/2).
 
 ## 💡 Interview Extensions
 
-- **Extension 1:** Allow overlapping?
-  - *Answer:* Just check `firstOccurrence.containsKey(hash)`. Don't check indices.
-- **Extension 2:** Find the actual substring?
-  - *Answer:* Return the substring corresponding to the hash when found.
-
-### Common Mistakes to Avoid
-
-1. **Overlapping Check**
-   - ❌ Wrong: `start2 > start1`.
-   - ✅ Correct: `start2 >= start1 + len`.
-2. **Updating Map**
-   - ❌ Wrong: Always updating `firstOccurrence` to the latest index.
-   - ✅ Correct: Only set it if it's the *first* time seeing the hash. We want the maximum gap.
-
-## Related Concepts
-
-- **Longest Repeated Substring:** Usually allows overlap.
-- **Suffix Tree:** Can solve this in `O(N)`.
+1.  **Allow Overlaps**
+    -   *Extension:* Longest Repeating Substring (overlaps allowed).
+    -   *Answer:* Remove the `+ length` check. Or use **Suffix Array** + **LCP Array** (Max LCP value).
+2.  **K-th Repeating**
+    -   *Extension:* Find substring appearing $K$ times.
+    -   *Answer:* Check specific count in hash map.

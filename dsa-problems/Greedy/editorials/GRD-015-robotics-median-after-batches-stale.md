@@ -45,7 +45,24 @@ Imagine a network of temperature sensors in a server room.
 
 ## Detailed Explanation
 
-### ASCII Diagram: The Two Heaps
+### Flow Diagram: The Two Heaps
+
+When a value goes stale, it is politely shown the exit before it skews the median.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Maintain lower max heap and upper min heap]
+    B --> C[Update frequency for each value]
+    C --> D{Value exceeds threshold}
+    D -- Yes --> E[Mark value as stale]
+    D -- No --> F[Insert value into heaps and balance]
+    E --> G[Prune stale tops]
+    F --> G
+    G --> H[Rebalance valid sizes]
+    H --> I[Compute median if valid count positive]
+    I --> J[Output median or NA]
+```
 
 Batches: `[5, 5, 1]`, `[5, 3]`. Threshold `t=2`.
 
@@ -83,7 +100,6 @@ Batches: `[5, 5, 1]`, `[5, 3]`. Threshold `t=2`.
   - Valid: 1, 3, 8, 9.
   - Median: (3+8)/2 = 5.
   - The solution implements the problem statement specification.
-
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Staleness:** A value `x` is stale if `Freq(x) > t`. Once stale, *all* instances of `x` are ignored.

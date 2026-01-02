@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDP-005: Gold Rush</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Pirata One', cursive;
+            background: linear-gradient(180deg, #1a0f00 0%, #2d1f0f 100%);
+            min-height: 100vh;
+            color: #ffd700;
+        }
+
+        .game-ui {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 36px;
+            text-shadow: 3px 3px 0 #000;
+            margin-bottom: 10px;
+        }
+
+        .treasure-hud {
+            display: flex;
+            gap: 30px;
+            background: rgba(0,0,0,0.6);
+            padding: 15px 40px;
+            border: 3px solid #8b4513;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .hud-box { text-align: center; }
+        .hud-label { font-size: 14px; color: #a67c52; }
+        .hud-val { font-size: 28px; }
+        .hud-val.warning { color: #ff4757; }
+
+        .mine-map {
+            width: 800px;
+            height: 420px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><rect fill="%231a1a1a" width="40" height="40"/><rect fill="%23222" x="0" y="0" width="20" height="20"/><rect fill="%23222" x="20" y="20" width="20" height="20"/></svg>');
+            border: 5px solid #8b4513;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.8);
+        }
+
+        svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+        path { stroke: #5a3d2b; stroke-width: 8; fill: none; stroke-linecap: round; }
+        path.selected { stroke: #ffd700; filter: drop-shadow(0 0 10px #ffd700); }
+
+        .mine-node {
+            position: absolute;
+            width: 55px;
+            height: 55px;
+            background: radial-gradient(circle at 30% 30%, #8b4513, #5a3a1a);
+            border: 4px solid #3d2817;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+        .mine-node:hover { transform: scale(1.1); }
+        .mine-node.start { border-color: #00ff88; box-shadow: 0 0 20px #00ff88; }
+        .mine-node.end { border-color: #ffd700; box-shadow: 0 0 20px #ffd700; }
+
+        .node-id { font-size: 14px; color: #ccc; }
+        .node-gold { font-size: 18px; color: #ffd700; }
+
+        .path-builder {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            background: linear-gradient(135deg, #ffd700, #b8860b);
+            border: 3px solid #8b4513;
+            color: #1a0f00;
+            font-family: inherit;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 10px;
+            text-shadow: 1px 1px 0 #fff;
+        }
+        .btn:hover { transform: scale(1.05); }
+
+        .path-display {
+            font-size: 20px;
+            color: #ccc;
+        }
+
+        .result-popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(180deg, #2d1f0f, #1a0f00);
+            border: 5px solid #ffd700;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+            z-index: 100;
+        }
+        .result-popup h2 { margin-bottom: 20px; }
+        .result-popup .gold { font-size: 48px; }
+
+    
+        .alert-modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .alert-modal {
+            background: white; padding: 2rem; border-radius: 8px;
+            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+        .alert-modal button {
+            background: #4b5563; color: white; padding: 0.8rem 2rem;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .alert-modal button:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<div class="game-ui">
+    <h1>⛏️ GOLD RUSH MINES ⛏️</h1>
+    <div style="color:#a67c52; font-size:14px; margin-bottom:15px">Find the most valuable path (max K edges)</div>
+
+    <div class="treasure-hud">
+        <div class="hud-box">
+            <div class="hud-label">PATH GOLD</div>
+            <div class="hud-val" id="pathGold">0</div>
+        </div>
+        <div class="hud-box">
+            <div class="hud-label">PATH EDGES</div>
+            <div class="hud-val" id="pathEdges">0</div>
+        </div>
+        <div class="hud-box">
+            <div class="hud-label">MAX EDGES</div>
+            <div class="hud-val" id="maxEdges">4</div>
+        </div>
+        <div class="hud-box">
+            <div class="hud-label">BEST LOOT</div>
+            <div class="hud-val" id="bestLoot">0</div>
+        </div>
+    </div>
+
+    <div class="mine-map" id="map">
+        <svg id="tunnels"></svg>
+    </div>
+
+    <div class="path-builder">
+        <button class="btn" onclick="claim()">💰 CLAIM GOLD</button>
+        <button class="btn" style="background: #555; color: #ccc;" onclick="clearPath()">CLEAR PATH</button>
+        <div class="path-display">Path: <span id="pathDisplay">-</span></div>
+    </div>
+</div>
+
+<div class="result-popup" id="popup">
+    <h2>🎉 TREASURE CLAIMED!</h2>
+    <div class="gold" id="claimedGold">+0</div>
+    <button class="btn" style="margin-top:20px" onclick="closePopup()">CONTINUE</button>
+</div>
+
+<script>
+    const TREE = {
+        nodes: [
+            {id:1, x:375, y:20, gold:10},
+            {id:2, x:180, y:100, gold:15}, {id:3, x:570, y:100, gold:8},
+            {id:4, x:80, y:200, gold:20}, {id:5, x:280, y:200, gold:5}, {id:6, x:470, y:200, gold:12}, {id:7, x:680, y:200, gold:7},
+            {id:8, x:30, y:320, gold:25}, {id:9, x:130, y:320, gold:3}, {id:10, x:230, y:320, gold:18}, {id:11, x:330, y:320, gold:6}
+        ],
+        edges: [[1,2],[1,3],[2,4],[2,5],[3,6],[3,7],[4,8],[4,9],[5,10],[5,11]],
+        adj: {}
+    };
+
+    const MAX_K = 4;
+    TREE.nodes.forEach(n => TREE.adj[n.id] = []);
+    TREE.edges.forEach(([a,b]) => { TREE.adj[a].push(b); TREE.adj[b].push(a); });
+
+    let path = [];
+    let bestLoot = 0;
+
+    function init() {
+        document.getElementById('maxEdges').textContent = MAX_K;
+        renderMine();
+    }
+
+    function renderMine() {
+        const map = document.getElementById('map');
+        const svg = document.getElementById('tunnels');
+        svg.innerHTML = '';
+        map.querySelectorAll('.mine-node').forEach(n => n.remove());
+
+        TREE.edges.forEach(([a, b]) => {
+            const n1 = TREE.nodes.find(n => n.id === a);
+            const n2 = TREE.nodes.find(n => n.id === b);
+            const pathEl = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            const midX = (n1.x + n2.x) / 2 + 27;
+            const midY = (n1.y + n2.y) / 2 + 27 + 10;
+            pathEl.setAttribute('d', `M ${n1.x + 27} ${n1.y + 40} Q ${midX} ${midY} ${n2.x + 27} ${n2.y + 15}`);
+            pathEl.id = `tunnel-${Math.min(a,b)}-${Math.max(a,b)}`;
+            svg.appendChild(pathEl);
+        });
+
+        TREE.nodes.forEach(n => {
+            const el = document.createElement('div');
+            el.className = 'mine-node';
+            el.id = `node-${n.id}`;
+            el.style.left = n.x + 'px';
+            el.style.top = n.y + 'px';
+            el.innerHTML = `<div class="node-id">#${n.id}</div><div class="node-gold">💰${n.gold}</div>`;
+            el.onclick = () => addToPath(n.id);
+            map.appendChild(el);
+        });
+    }
+
+    function addToPath(id) {
+        if (path.length === 0) {
+            path.push(id);
+            document.getElementById(`node-${id}`).classList.add('start');
+        } else if (path.length > 0) {
+            const last = path[path.length - 1];
+            if (TREE.adj[last].includes(id) && !path.includes(id)) {
+                if (path.length <= MAX_K) {
+                    path.push(id);
+                    document.getElementById(`node-${id}`).classList.add('end');
+                    document.getElementById(`node-${last}`).classList.remove('end');
+                    highlightEdge(last, id);
+                }
+            }
+        }
+        updateStats();
+    }
+
+    function highlightEdge(a, b) {
+        const key = `tunnel-${Math.min(a,b)}-${Math.max(a,b)}`;
+        const edge = document.getElementById(key);
+        if (edge) edge.classList.add('selected');
+    }
+
+    function updateStats() {
+        const gold = path.reduce((sum, id) => sum + TREE.nodes.find(n => n.id === id).gold, 0);
+        const edges = Math.max(0, path.length - 1);
+        
+        document.getElementById('pathGold').textContent = gold;
+        document.getElementById('pathEdges').textContent = edges;
+        document.getElementById('pathEdges').classList.toggle('warning', edges > MAX_K);
+        document.getElementById('pathDisplay').textContent = path.join(' → ') || '-';
+    }
+
+    function clearPath() {
+        path = [];
+        document.querySelectorAll('.mine-node').forEach(n => n.classList.remove('start', 'end'));
+        document.querySelectorAll('path').forEach(p => p.classList.remove('selected'));
+        updateStats();
+    }
+
+    function claim() {
+        if (path.length === 0) return;
+        const edges = path.length - 1;
+        if (edges > MAX_K) {
+            this.showGameAlert('Too many edges! Max is ' + MAX_K);
+            return;
+        }
+
+        const gold = path.reduce((sum, id) => sum + TREE.nodes.find(n => n.id === id).gold, 0);
+        if (gold > bestLoot) {
+            bestLoot = gold;
+            document.getElementById('bestLoot').textContent = bestLoot;
+        }
+
+        document.getElementById('claimedGold').textContent = '+' + gold;
+        document.getElementById('popup').style.display = 'block';
+    }
+
+    function closePopup() {
+        document.getElementById('popup').style.display = 'none';
+        clearPath();
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

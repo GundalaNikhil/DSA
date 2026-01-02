@@ -1,0 +1,52 @@
+problem_id: CON_TOPIC_4
+display_id: CON-004
+slug: reusable-barrier
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: What is the defining behavior of a thread at a barrier?
+    options:
+      - It continues immediately
+      - It waits until N threads have all reached the barrier
+      - It stops forever
+      - It terminates
+    correct_answer: 1
+    explanation: Barriers synchronize phases of parallel tasks where all threads must finish phase i before any start phase i+1.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: What makes a 'Reusable' barrier different from a simple one?
+    options:
+      - It uses more memory
+      - It can be reset and used for multiple successive phases
+      - It is only for 2 threads
+      - It cannot be used with condition variables
+    correct_answer: 1
+    explanation: Simple barriers might work only once; reusable ones reset their internal counters for subsequent rounds.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: What bug can occur if a barrier is not properly implemented for reuse?
+    options:
+      - Deadlock
+      - Livelock
+      - Race condition where a fast thread enters the next phase before the last thread leaves the current one
+      - All of the above
+    correct_answer: 3
+    explanation: Synchronizing the 'departure' from the barrier is as important as the 'arrival' to prevent phase mixing.
+  - id: edq_3
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: How can a barrier be implemented using two semaphores?
+    options:
+      - One for arrival, one for reset
+      - "By using 'turnstiles': one to lock threads in, another to release them"
+      - It's impossible
+      - Only with one semaphore
+    correct_answer: 1
+    explanation: The 'two-turnstile' solution is a classic way to implement a reusable barrier with semaphores.

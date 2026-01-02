@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STK-007: Skydive Pro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Racing+Sans+One&display=swap" rel="stylesheet">
+    <style>
+        :root { --sky-top: #0277bd; --sky-bot: #81d4fa; --cliff: #5d4037; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Racing Sans One', cursive; margin: 0; min-height: 100vh; overflow: hidden; background: linear-gradient(var(--sky-top), var(--sky-bot)); }
+
+        .game-canvas {
+            position: relative; width: 100%; height: 600px;
+        }
+
+        .cliff {
+            position: absolute; bottom: 0; height: 100px; width: 100%; background: #4e342e;
+            display: flex; align-items: flex-end;
+        }
+
+        .pillar {
+            flex: 1; background: #795548; border-right: 2px solid #3e2723; position: relative;
+            cursor: pointer; transition: background 0.2s;
+        }
+        .pillar:hover { background: #8d6e63; }
+        .pillar::after { content: attr(data-h); position: absolute; top: -20px; width: 100%; text-align: center; color: #fff; text-shadow: 1px 1px 0 #000; }
+
+        .diver {
+            position: absolute; width: 40px; height: 40px; background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white"><path d="M12 2c1.1 0 2 .9 2 2s-.9 2-2 2-2-.9-2-2 .9-2 2-2zm9 7h-6v13h-2v-6h-2v6H9V9H3V7h18v2z"/></svg>') no-repeat center;
+            background-size: contain; transition: all 1s ease-in-out; z-index: 10;
+        }
+
+        .parachute {
+            position: absolute; width: 60px; height: 40px; background: #ff5722; border-radius: 50% 50% 0 0;
+            top: -30px; left: -10px; opacity: 0; transition: opacity 0.3s;
+        }
+        
+        .threshold-line {
+            position: absolute; height: 2px; background: rgba(255,0,0,0.5); width: 100%; border-bottom: 2px dashed red;
+            pointer-events: none; opacity: 0;
+        }
+
+        .ui-panel {
+            position: absolute; top: 20px; left: 20px; background: rgba(0,0,0,0.6); padding: 20px; color: #fff;
+            border-radius: 10px;
+        }
+        input { font-size: 1.2rem; width: 60px; text-align: center; }
+        
+    </style>
+</head>
+<body>
+<div class="ui-panel">
+    <h1>SKYDIVE PRO</h1>
+    <div>Click a pillar to jump.</div>
+    <div>Deploys when height <= <input type="number" id="thr" value="50">% of start.</div>
+</div>
+
+<div class="game-canvas" id="canvas">
+    <div class="threshold-line" id="line"></div>
+    <div class="diver" id="diver" style="display:none"><div class="parachute" id="chute"></div></div>
+    <div class="cliff" id="terrain"></div>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.n = 15;
+        this.heights = [];
+        this.ui = { terrain: document.getElementById('terrain'), diver: document.getElementById('diver'), chute: document.getElementById('chute'), line: document.getElementById('line') };
+        this.regen();
+    }
+
+    regen() {
+        this.heights = [];
+        this.ui.terrain.innerHTML = '';
+        for(let i=0; i<this.n; i++) {
+            let h = Math.floor(Math.random()*400) + 50;
+            this.heights.push(h);
+            
+            let p = document.createElement('div');
+            p.className = 'pillar';
+            p.style.height = h + 'px';
+            p.setAttribute('data-h', h);
+            p.onclick = () => this.jump(i);
+            this.ui.terrain.appendChild(p);
+        }
+    }
+
+    async jump(idx) {
+        let startH = this.heights[idx];
+        let pct = document.getElementById('thr').value / 100;
+        let limit = startH * pct;
+        
+        let pEl = this.ui.terrain.children[idx];
+        let pRect = pEl.getBoundingClientRect();
+        
+        // Init Diver
+        this.ui.diver.style.display = 'block';
+        this.ui.diver.style.left = pRect.left + 'px';
+        this.ui.diver.style.bottom = (startH + 20) + 'px'; // On top
+        this.ui.chute.style.opacity = 0;
+        
+        // Show Threshold Line
+        let canvasH = this.ui.terrain.parentElement.offsetHeight;
+        this.ui.line.style.bottom = limit + 'px';
+        this.ui.line.style.opacity = 1;
+
+        // Traverse Right
+        await new Promise(r => setTimeout(r, 500));
+        
+        let found = -1;
+        for(let i=idx+1; i<this.n; i++) {
+            let currH = this.heights[i];
+            let nextEl = this.ui.terrain.children[i];
+            let nextRect = nextEl.getBoundingClientRect();
+            
+            // Move diver horizontally
+            this.ui.diver.style.left = nextRect.left + 'px';
+            
+            // Move diver vertically? Skydivers fall.
+            // Let's visualize: He flies right, maintaining altitude? No, he falls.
+            // Let's say he glides.
+            
+            // If current height <= limit, LAND/Deploy
+            if (currH <= limit) {
+                found = i;
+                // Move Down to that height
+                this.ui.diver.style.bottom = (currH + 50) + 'px';
+                this.ui.chute.style.opacity = 1; // Deploy
+                break;
+            }
+            
+            await new Promise(r => setTimeout(r, 300));
+        }
+        
+        if (found === -1) {
+            // Crashed / flew off screen
+            this.ui.diver.style.left = '100%';
+        }
+        
+        setTimeout(() => this.ui.line.style.opacity = 0, 2000);
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

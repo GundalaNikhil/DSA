@@ -1,266 +1,52 @@
----
-problem_id: DP_CLIMB_CRACKED_MAXJ__7314
+problem_id: DP_STAIRCASE_CRACKED_STEPS_MAXJUMP_001
 display_id: DP-001
 slug: staircase-cracked-steps-maxjump
-title: "Staircase With Cracked Steps and Max Jump - Quiz"
----
-
-# Problem-Related Questions (PRQ)
-# These test understanding of the problem statement, constraints, and requirements
-
-problem_questions:
-  - quiz_id: "PRQ-001-Q001"
-    category: "problem"
-    type: single_choice
-    question: "What is the primary task in the Staircase With Cracked Steps and Max Jump problem?"
-    options:
-      - option_id: "A"
-        text: "Find the minimum number of jumps to reach the top"
-        correct: false
-      - option_id: "B"
-        text: "Count the number of distinct ways to climb the staircase avoiding cracked steps"
-        correct: true
-      - option_id: "C"
-        text: "Determine which steps are cracked"
-        correct: false
-      - option_id: "D"
-        text: "Find the maximum jump distance needed"
-        correct: false
-    explanation: "The problem asks to count the distinct ways to climb from bottom to top while avoiding cracked steps and respecting the maximum jump constraint."
+questions:
+  - question: What is the primary task in the Staircase With Cracked Steps and Max Jump problem?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-001-Q002"
-    category: "problem"
-    type: single_choice
-    question: "If a step is marked as cracked, what happens when calculating paths?"
     options:
-      - option_id: "A"
-        text: "You can still land on it but with a penalty"
-        correct: false
-      - option_id: "B"
-        text: "You cannot land on that step at all"
-        correct: true
-      - option_id: "C"
-        text: "You can land on it but cannot jump from it"
-        correct: false
-      - option_id: "D"
-        text: "The step is automatically repaired"
-        correct: false
-    explanation: "Cracked steps are completely unusable - you cannot land on them or count them in any valid path to the top."
+      - Find the minimum number of jumps to reach the top
+      - Count the number of distinct ways to climb the staircase avoiding cracked steps
+      - Determine which steps are cracked
+      - Find the maximum jump distance needed
+    correct_answer: 1
+    explanation: The problem asks to count the distinct ways to climb from bottom to top while avoiding cracked steps and respecting the maximum jump constraint.
+    type: single_choice
+    id: prq_1
+  - question: If a step is marked as cracked, what happens when calculating paths?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-001-Q003"
-    category: "problem"
-    type: single_choice
-    question: "What does the maximum jump constraint J mean in this problem?"
     options:
-      - option_id: "A"
-        text: "You must jump exactly J steps each time"
-        correct: false
-      - option_id: "B"
-        text: "You can jump anywhere from 1 to J steps forward"
-        correct: true
-      - option_id: "C"
-        text: "You can only jump J steps or not move at all"
-        correct: false
-      - option_id: "D"
-        text: "J is the total number of jumps allowed"
-        correct: false
-    explanation: "The maximum jump J means you can take any step size from 1 to J (inclusive) on each jump, giving you flexibility in movement."
+      - You can still land on it but with a penalty
+      - You cannot land on that step at all
+      - You can land on it but cannot jump from it
+      - The step is automatically repaired
+    correct_answer: 1
+    explanation: Cracked steps are completely unusable - you cannot land on them or count them in any valid path to the top.
+    type: single_choice
+    id: edq_1
+  - question: What does the maximum jump constraint J mean in this problem?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-001-Q004"
-    category: "problem"
-    type: multiple_choice
-    question: "Which of the following are valid constraints for this problem? (Select all that apply)"
     options:
-      - option_id: "A"
-        text: "1 ≤ N ≤ 10^5 (number of steps)"
-        correct: true
-      - option_id: "B"
-        text: "1 ≤ J ≤ N (maximum jump size)"
-        correct: true
-      - option_id: "C"
-        text: "Results should be returned modulo 10^9+7"
-        correct: true
-      - option_id: "D"
-        text: "All steps must be used"
-        correct: false
-    explanation: "The problem has constraints on staircase size (N), maximum jump (J), and requires modulo arithmetic. Not all steps need to be used due to cracked steps and jump flexibility."
+      - You must jump exactly J steps each time
+      - You can jump anywhere from 1 to J steps forward
+      - You can only jump J steps or not move at all
+      - J is the total number of jumps allowed
+    correct_answer: 1
+    explanation: The maximum jump J means you can take any step size from 1 to J (inclusive) on each jump, giving you flexibility in movement.
+    type: single_choice
+    id: edq_2
+  - question: Which of the following are valid constraints for this problem? (Select all that apply)
     difficulty: medium
     points: 15
-
-  - quiz_id: "PRQ-001-Q005"
-    category: "problem"
+    options:
+      - 1 ≤ N ≤ 10^5 (number of steps)
+      - 1 ≤ J ≤ N (maximum jump size)
+      - Results should be returned modulo 10^9+7
+      - All steps must be used
+    correct_answer: 2
+    explanation: The problem has constraints on staircase size (N), maximum jump (J), and requires modulo arithmetic. Not all steps need to be used due to cracked steps and jump flexibility.
     type: single_choice
-    question: "If N=5, J=2, and no steps are cracked, what is the correct output?"
-    options:
-      - option_id: "A"
-        text: "5"
-        correct: false
-      - option_id: "B"
-        text: "8"
-        correct: true
-      - option_id: "C"
-        text: "10"
-        correct: false
-      - option_id: "D"
-        text: "16"
-        correct: false
-    explanation: "With J=2, you can take 1 or 2 steps at a time. This is the classic Fibonacci staircase: ways[5] = ways[4] + ways[3] = 5 + 3 = 8."
-    difficulty: medium
-    points: 15
-
-# Editorial/Algorithm Questions (EDQ)
-# These test understanding of the solution approach, algorithms, and complexity analysis
-
-editorial_questions:
-  - quiz_id: "EDQ-001-Q001"
-    category: "editorial"
-    type: single_choice
-    question: "What is the optimal time complexity for solving this problem?"
-    options:
-      - option_id: "A"
-        text: "O(N²)"
-        correct: false
-      - option_id: "B"
-        text: "O(N * J)"
-        correct: false
-      - option_id: "C"
-        text: "O(N)"
-        correct: true
-      - option_id: "D"
-        text: "O(N log N)"
-        correct: false
-    explanation: "Using sliding window optimization, we can maintain a window sum and update it in O(1) per step, achieving O(N) time complexity instead of the naive O(N*J)."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-001-Q002"
-    category: "editorial"
-    type: single_choice
-    question: "What is the key insight for optimizing from O(N*J) to O(N)?"
-    options:
-      - option_id: "A"
-        text: "Using binary search on the DP array"
-        correct: false
-      - option_id: "B"
-        text: "Maintaining a sliding window sum of the last J states"
-        correct: true
-      - option_id: "C"
-        text: "Using matrix exponentiation"
-        correct: false
-      - option_id: "D"
-        text: "Sorting the cracked steps first"
-        correct: false
-    explanation: "The sliding window technique maintains the sum of dp[i-J] to dp[i-1] in a variable, allowing O(1) updates by adding new values and removing old ones."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-001-Q003"
-    category: "editorial"
-    type: single_choice
-    question: "Why do we need to use modulo 10^9+7 in this problem?"
-    options:
-      - option_id: "A"
-        text: "To make the algorithm faster"
-        correct: false
-      - option_id: "B"
-        text: "To prevent integer overflow as the number of paths can grow exponentially"
-        correct: true
-      - option_id: "C"
-        text: "To handle negative numbers"
-        correct: false
-      - option_id: "D"
-        text: "It's a random requirement with no practical purpose"
-        correct: false
-    explanation: "The number of distinct paths grows exponentially with N. Without modulo arithmetic, the result would overflow even long integers for moderate input sizes."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-001-Q004"
-    category: "editorial"
-    type: scenario
-    question: "You're building a game where players climb a tower with damaged platforms. Which real-world optimization applies?"
-    options:
-      - option_id: "A"
-        text: "Precompute all possible paths and store them in a database"
-        correct: false
-      - option_id: "B"
-        text: "Use dynamic programming with sliding window to efficiently count valid paths"
-        correct: true
-      - option_id: "C"
-        text: "Use brute force recursion for each player"
-        correct: false
-      - option_id: "D"
-        text: "Sort the platforms by height first"
-        correct: false
-    explanation: "Dynamic programming with sliding window optimization provides efficient O(N) computation, ideal for real-time game calculations where levels may change."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-001-Q005"
-    category: "editorial"
-    type: scenario
-    question: "Your solution works for small inputs but times out when N=100,000 and J=50,000. What's the most likely issue?"
-    options:
-      - option_id: "A"
-        text: "Not using modulo arithmetic"
-        correct: false
-      - option_id: "B"
-        text: "Using the naive O(N*J) approach instead of sliding window optimization"
-        correct: true
-      - option_id: "C"
-        text: "Using recursion instead of iteration"
-        correct: false
-      - option_id: "D"
-        text: "Not using long integers"
-        correct: false
-    explanation: "When J is large, O(N*J) becomes 100,000 * 50,000 = 5 billion operations, causing timeout. Sliding window reduces this to O(N) = 100,000 operations."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-001-Q006"
-    category: "editorial"
-    type: multiple_choice
-    question: "Which of the following are common mistakes in this problem? (Select all that apply)"
-    options:
-      - option_id: "A"
-        text: "Forgetting to apply modulo at each step, causing overflow"
-        correct: true
-      - option_id: "B"
-        text: "Not handling cracked steps correctly by setting dp[cracked] = 0"
-        correct: true
-      - option_id: "C"
-        text: "Using O(N*J) nested loop without sliding window optimization"
-        correct: true
-      - option_id: "D"
-        text: "Starting the DP from index 1 instead of 0"
-        correct: false
-    explanation: "Common mistakes include forgetting modulo operations, incorrectly handling cracked steps, and missing the sliding window optimization. Starting from index 0 or 1 depends on implementation but isn't inherently wrong."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-001-Q007"
-    category: "editorial"
-    type: single_choice
-    question: "What is the space complexity of the optimal sliding window solution?"
-    options:
-      - option_id: "A"
-        text: "O(1) if we only track the sliding window sum"
-        correct: false
-      - option_id: "B"
-        text: "O(N) for the DP array"
-        correct: true
-      - option_id: "C"
-        text: "O(N*J) for a 2D DP table"
-        correct: false
-      - option_id: "D"
-        text: "O(J) for the sliding window"
-        correct: false
-    explanation: "We need O(N) space to store the DP values for each step. The sliding window itself only requires O(1) extra space for the sum variable, but we still need the full DP array."
-    difficulty: medium
-    points: 15
+    id: edq_3

@@ -47,7 +47,21 @@ To minimize the payroll, the factory manager should:
 
 ## Detailed Explanation
 
-### ASCII Diagram: Filling the Bucket
+### Flow Diagram: Filling the Bucket
+
+Overtime goes to the cheapest clock, because the budget loves a good bargain.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Sum standard hours]
+    B --> C{Standard hours cover target}
+    C -- Yes --> D[Return zero cost]
+    C -- No --> E[Find minimum overtime rate]
+    E --> F[Compute remaining hours]
+    F --> G[Multiply remaining hours by min rate]
+    G --> H[Return cost]
+```
 
 Target `H = 10`
 
@@ -68,6 +82,7 @@ Cost = 3 * `2 =`6.
 
 Total Hours = 10. Total Cost = $6.
 ```
+
 
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 

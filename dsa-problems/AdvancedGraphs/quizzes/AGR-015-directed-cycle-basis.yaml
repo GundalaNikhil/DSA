@@ -1,0 +1,52 @@
+problem_id: AGR_DIRECTED_CYCLE_BASIS_015
+display_id: AGR-015
+slug: directed-cycle-basis
+questions:
+  - question: What is a cycle basis in a directed graph?
+    difficulty: easy
+    points: 10
+    options:
+      - A set of all cycles
+      - A minimal set of independent cycles spanning the cycle space
+      - The fundamental cycles in the DFS tree
+      - Cycles with minimum length
+    correct_answer: 1
+    explanation: A cycle basis is a minimal set where linear combinations (XOR over edges) can generate any cycle in the graph. Size = m - n + c (for undirected; directed is similar).
+    type: single_choice
+    id: prq_1
+  - question: How many cycles are in a cycle basis for a directed graph with V nodes, E edges, and C connected components?
+    difficulty: easy
+    points: 10
+    options:
+      - E
+      - V
+      - C
+      - E - V + C
+    correct_answer: 3
+    explanation: Cycle Rank (basis size) = E - V + C. This is the dimension of the cycle space (number of independent cycles needed to span all cycles).
+    type: single_choice
+    id: edq_1
+  - question: In the cycle basis algorithm, what is the first step?
+    difficulty: medium
+    points: 15
+    options:
+      - Find all cycles
+      - For each edge not in DFS tree, find shortest path (in reverse)
+      - Build DFS tree
+      - Compute edge indices
+    correct_answer: 2
+    explanation: Build a DFS tree first. Then, for each non-tree edge, find a path to close a cycle. This cycle is candidate for the basis.
+    type: single_choice
+    id: edq_2
+  - question: How are cycles represented in the cycle basis?
+    difficulty: medium
+    points: 15
+    options:
+      - Adjacency lists
+      - Bitmasks (each bit = edge)
+      - Edge lists
+      - Cycle objects
+    correct_answer: 1
+    explanation: Bitmasks efficiently represent cycles. Each edge gets a bit index. XOR of two cycles = symmetric difference (useful for Gaussian Elimination).
+    type: single_choice
+    id: edq_3

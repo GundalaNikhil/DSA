@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-003: Z-Array Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #2d3436;
+            --text: #dfe6e9;
+            --accent: #74b9ff;
+            --correct: #00b894;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 { color: var(--accent); margin-top: 2rem; }
+
+        .string-view {
+            display: flex;
+            gap: 5px;
+            margin-top: 3rem;
+            font-size: 2rem;
+        }
+
+        .char-cell {
+            width: 50px;
+            height: 60px;
+            background: #353b48;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .char-cell .idx {
+            position: absolute;
+            top: 5px;
+            font-size: 0.7rem;
+            color: #636e72;
+        }
+
+        .z-row {
+            display: flex;
+            gap: 5px;
+            margin-top: 2rem;
+        }
+
+        .z-cell {
+            width: 50px;
+            height: 50px;
+            background: #636e72;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .z-cell:hover { background: #718093; }
+        .z-cell.active { border: 2px solid #fff; }
+        .z-cell.done { background: var(--correct); color: #000; cursor: default; }
+        .z-cell.wrong { background: #d63031; animation: shake 0.3s; }
+
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+
+        .info-panel {
+            margin-top: 2rem;
+            padding: 20px;
+            background: #353b48;
+            border-radius: 10px;
+            text-align: center;
+            max-width: 500px;
+        }
+
+        .num-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            margin-top: 2rem;
+        }
+
+        .num-btn {
+            width: 50px; height: 50px;
+            background: #485460;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 1.5rem;
+            font-family: inherit;
+            cursor: pointer;
+        }
+        .num-btn:hover { background: #596275; }
+
+    </style>
+</head>
+<body>
+
+<h1>Z-ARRAY BUILDER</h1>
+<div style="color:#636e72">z[i] = length of longest substring starting at i that matches a prefix of s.</div>
+
+<div class="string-view" id="strView"></div>
+<div class="z-row" id="zRow"></div>
+
+<div class="info-panel" id="info">Select a Z[i] cell to guess its value.</div>
+
+<div class="num-grid">
+    <button class="num-btn" onclick="guess(0)">0</button>
+    <button class="num-btn" onclick="guess(1)">1</button>
+    <button class="num-btn" onclick="guess(2)">2</button>
+    <button class="num-btn" onclick="guess(3)">3</button>
+    <button class="num-btn" onclick="guess(4)">4</button>
+    <button class="num-btn" onclick="guess(5)">5</button>
+</div>
+
+<button style="margin-top:30px; padding:10px 30px; background:var(--accent); border:none; color:#000; font-family:inherit; cursor:pointer; border-radius:5px" onclick="init()">New String</button>
+
+<script>
+    const STRINGS = ["aabxaa", "aaaaa", "abcabc", "abacaba"];
+    let str = "";
+    let zSolution = [];
+    let selectedIdx = -1;
+    let solved = new Set();
+
+    function computeZ(s) {
+        const n = s.length;
+        const z = Array(n).fill(0);
+        z[0] = 0; // By definition (or n, depending on convention)
+        let l = 0, r = 0;
+        for (let i = 1; i < n; i++) {
+            if (i < r) z[i] = Math.min(r - i, z[i - l]);
+            while (i + z[i] < n && s[z[i]] === s[i + z[i]]) z[i]++;
+            if (i + z[i] > r) { l = i; r = i + z[i]; }
+        }
+        return z;
+    }
+
+    function init() {
+        str = STRINGS[Math.floor(Math.random() * STRINGS.length)];
+        zSolution = computeZ(str);
+        solved.clear();
+        solved.add(0); // z[0] is trivial
+        selectedIdx = -1;
+        render();
+    }
+
+    function render() {
+        const sv = document.getElementById('strView');
+        const zr = document.getElementById('zRow');
+        sv.innerHTML = '';
+        zr.innerHTML = '';
+
+        for (let i = 0; i < str.length; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'char-cell';
+            cell.innerHTML = `<span class="idx">${i}</span>${str[i]}`;
+            sv.appendChild(cell);
+
+            const zc = document.createElement('div');
+            zc.className = 'z-cell';
+            if (i === 0) {
+                zc.classList.add('done');
+                zc.textContent = '-'; // Convention: z[0] undefined or N
+            } else if (solved.has(i)) {
+                zc.classList.add('done');
+                zc.textContent = zSolution[i];
+            } else {
+                zc.textContent = '?';
+                if (selectedIdx === i) zc.classList.add('active');
+                zc.onclick = () => selectZ(i);
+            }
+            zr.appendChild(zc);
+        }
+    }
+
+    function selectZ(i) {
+        if (solved.has(i)) return;
+        selectedIdx = i;
+        render();
+        showHint(i);
+    }
+
+    function showHint(i) {
+        const sub = str.substring(i);
+        document.getElementById('info').innerHTML = `Compare prefix of <strong>${str}</strong> with substring starting at ${i}: <strong>${sub}</strong>`;
+    }
+
+    function guess(val) {
+        if (selectedIdx === -1) return;
+        const zCells = document.querySelectorAll('.z-cell');
+        
+        if (val === zSolution[selectedIdx]) {
+            solved.add(selectedIdx);
+            zCells[selectedIdx].classList.add('done');
+            zCells[selectedIdx].textContent = val;
+            selectedIdx = -1;
+            render();
+            if (solved.size === str.length) {
+                document.getElementById('info').innerHTML = '<strong style="color:#00b894">ALL CORRECT!</strong>';
+            }
+        } else {
+            zCells[selectedIdx].classList.add('wrong');
+            setTimeout(() => zCells[selectedIdx].classList.remove('wrong'), 300);
+        }
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

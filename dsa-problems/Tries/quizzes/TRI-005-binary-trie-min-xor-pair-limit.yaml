@@ -1,0 +1,52 @@
+problem_id: TRI_BINARY_TRIE_MIN_XOR_PAIR_LIMIT_005
+display_id: TRI-005
+slug: binary-trie-min-xor-pair-limit
+questions:
+  - question: "We want to find min(A XOR B) such that XOR <= Limit. In the Binary Trie, we process bits from:"
+    difficulty: easy
+    points: 10
+    options:
+      - MSB (Most Significant Bit) to LSB
+      - LSB to MSB
+      - Random order
+      - Middle outwards
+    correct_answer: 0
+    explanation: Higher bits contribute more to the value. We effectively partition the search space by MSB.
+    type: single_choice
+    id: prq_1
+  - question: To minimize XOR with a target number X, if the current bit of X is 0, we prefer to go to which child branch in the Trie?
+    difficulty: medium
+    points: 15
+    options:
+      - 0 branch
+      - 1 branch
+      - Either
+      - Root
+    correct_answer: 0
+    explanation: 0 XOR 0 = 0. Going to the '1' branch would cause the XOR result to have a 1 at this position, increasing the value.
+    type: single_choice
+    id: edq_1
+  - question: If the preferred branch does not exist, we are forced to go to the other branch. What does this imply?
+    difficulty: easy
+    points: 10
+    options:
+      - We accumulate a '1' at the current bit position in the XOR sum
+      - The search fails
+      - We found the answer
+      - We must backtrack
+    correct_answer: 0
+    explanation: If X has bit 0 and only '1' branch exists, result bit is 0 XOR 1 = 1.
+    type: single_choice
+    id: edq_2
+  - question: Why is the time complexity O(N * 32) considered efficient?
+    difficulty: easy
+    points: 10
+    options:
+      - It is effectively linear O(N) since 32 is a small constant
+      - It's faster than O(1)
+      - Memory is low
+      - It works for floats
+    correct_answer: 0
+    explanation: Compared to O(N^2) brute force, O(N) is suitable for N=10^5.
+    type: single_choice
+    id: edq_3

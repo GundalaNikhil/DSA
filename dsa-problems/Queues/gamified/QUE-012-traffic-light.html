@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUE-012: Traffic Light</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: linear-gradient(180deg, #1a2a3e 0%, #0a1a2e 100%); --red: #ff4444; --yellow: #ffcc00; --green: #00ff88; --road: #333; --panel: rgba(0,0,0,0.6); --text: #fff; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--green); }
+        h1 { margin: 0; font-family: 'Orbitron', sans-serif; color: var(--green); font-size: 1.5rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 25px; }
+        .intersection { display: flex; gap: 20px; align-items: center; }
+        .road-lane { display: flex; flex-direction: column; gap: 5px; padding: 20px; background: var(--road); border-radius: 10px; min-width: 150px; min-height: 250px; position: relative; }
+        .road-lane::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 3px; background: repeating-linear-gradient(180deg, #fff 0, #fff 20px, transparent 20px, transparent 40px); }
+        .car { width: 60px; height: 35px; border-radius: 10px 10px 5px 5px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: all 0.5s; opacity: 1; }
+        .car.north { background: #ff6b6b; }
+        .car.south { background: #6b9dff; transform: rotate(180deg); }
+        .car.go { animation: drive 1s forwards; }
+        @keyframes drive { to{transform:translateX(200px);opacity:0} }
+        .traffic-light { display: flex; flex-direction: column; gap: 10px; padding: 15px; background: #222; border-radius: 15px; border: 3px solid #444; }
+        .light { width: 50px; height: 50px; border-radius: 50%; background: #333; transition: all 0.3s; }
+        .light.red.active { background: var(--red); box-shadow: 0 0 30px var(--red); }
+        .light.yellow.active { background: var(--yellow); box-shadow: 0 0 30px var(--yellow); }
+        .light.green.active { background: var(--green); box-shadow: 0 0 30px var(--green); }
+        .stats { display: flex; gap: 20px; }
+        .stat-box { padding: 15px 25px; background: var(--panel); border-radius: 15px; text-align: center; border: 2px solid var(--green); }
+        .stat-label { font-size: 0.8rem; color: #aaa; }
+        .stat-value { font-size: 1.8rem; font-family: 'Orbitron'; color: var(--green); }
+        .btn { background: linear-gradient(135deg, var(--green), #00cc66); color: #000; border: none; padding: 15px 35px; font-family: 'Orbitron'; font-size: 1rem; cursor: pointer; border-radius: 25px; box-shadow: 0 5px 20px rgba(0,255,136,0.4); transition: all 0.2s; }
+        .btn:hover { transform: scale(1.05); }
+        .btn.yellow { background: linear-gradient(135deg, var(--yellow), #cc9900); }
+        .btn.red { background: linear-gradient(135deg, var(--red), #cc0000); color: #fff; }
+        .controls { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; color: var(--green); font-family: 'Orbitron'; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: linear-gradient(135deg, #1a2a3e, #0a1a2e); padding: 40px; border: 4px solid var(--green); max-width: 500px; text-align: center; border-radius: 30px; }
+        .dialog h2 { color: var(--green); font-family: 'Orbitron'; font-size: 2rem; margin: 0 0 20px 0; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🚦 Traffic Light</h1>
+    <div style="color:var(--green)">VEHICLE QUEUE</div>
+</header>
+<main>
+    <div class="intersection">
+        <div class="road-lane" id="northLane"></div>
+        <div class="traffic-light">
+            <div class="light red" id="redLight"></div>
+            <div class="light yellow" id="yellowLight"></div>
+            <div class="light green" id="greenLight"></div>
+        </div>
+        <div style="font-size:3rem">🏙️</div>
+    </div>
+    <div class="stats">
+        <div class="stat-box"><div class="stat-label">Cars Waiting</div><div class="stat-value" id="waiting">0</div></div>
+        <div class="stat-box"><div class="stat-label">Cars Passed</div><div class="stat-value" id="passed">0</div></div>
+        <div class="stat-box"><div class="stat-label">Light Status</div><div class="stat-value" id="lightStatus">🔴</div></div>
+    </div>
+    <div id="status">Add cars and control the light!</div>
+    <div class="controls">
+        <button class="btn" style="background:#6b9dff" onclick="game.addCar()">🚗 ADD CAR</button>
+        <button class="btn red" onclick="game.setLight('red')">🔴 RED</button>
+        <button class="btn yellow" onclick="game.setLight('yellow')">🟡 YELLOW</button>
+        <button class="btn" onclick="game.setLight('green')">🟢 GREEN</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🚦 Traffic Light</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--green)">TRAFFIC QUEUE!</b></p>
+            <ul>
+                <li>🚗 Cars queue at the light</li>
+                <li>🔴 RED = Cars wait (queue fills)</li>
+                <li>🟢 GREEN = First car goes first!</li>
+                <li>📋 FIFO traffic flow</li>
+            </ul>
+        </div>
+        <button class="btn" onclick="game.start()">🚦 START TRAFFIC!</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.cars = []; this.passed = 0; this.light = 'red'; this.carId = 1;
+        this.carEmojis = ['🚗','🚙','🚕','🚐','🚎'];
+        this.ui = { lane: document.getElementById('northLane'), redLight: document.getElementById('redLight'), yellowLight: document.getElementById('yellowLight'), greenLight: document.getElementById('greenLight'), waiting: document.getElementById('waiting'), passed: document.getElementById('passed'), lightStatus: document.getElementById('lightStatus'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); for(let i=0;i<3;i++) this.addCar(); }
+    addCar() {
+        const car = { id: this.carId++, emoji: this.carEmojis[Math.floor(Math.random() * this.carEmojis.length)] };
+        this.cars.push(car);
+        this.ui.status.textContent = `${car.emoji} joined the queue!`;
+        this.render();
+    }
+    setLight(color) {
+        this.light = color;
+        this.ui.redLight.classList.toggle('active', color === 'red');
+        this.ui.yellowLight.classList.toggle('active', color === 'yellow');
+        this.ui.greenLight.classList.toggle('active', color === 'green');
+        this.ui.lightStatus.textContent = color === 'red' ? '🔴' : color === 'yellow' ? '🟡' : '🟢';
+        if (color === 'green' && this.cars.length > 0) {
+            this.releaseCar();
+        }
+        this.ui.status.textContent = `Light changed to ${color.toUpperCase()}`;
+    }
+    releaseCar() {
+        if (this.cars.length === 0) return;
+        const car = this.cars.shift();
+        this.passed++;
+        this.ui.status.textContent = `${car.emoji} passed through!`;
+        this.render();
+        if (this.light === 'green' && this.cars.length > 0) {
+            setTimeout(() => this.releaseCar(), 800);
+        }
+    }
+    render() {
+        this.ui.lane.innerHTML = '';
+        this.cars.forEach(c => {
+            const el = document.createElement('div');
+            el.className = 'car north';
+            el.textContent = c.emoji;
+            this.ui.lane.appendChild(el);
+        });
+        this.ui.waiting.textContent = this.cars.length;
+        this.ui.passed.textContent = this.passed;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

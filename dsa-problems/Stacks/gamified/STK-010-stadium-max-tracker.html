@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STK-010: Audience Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fff;
+            --text: #333;
+            --stack: #22a6b3;
+            --max: #eb4d4b;
+        }
+
+        body {
+            font-family: 'Anton', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+
+        h1 { margin-top: 2rem; font-size: 3rem; text-transform: uppercase; }
+
+        .panels {
+            display: flex;
+            gap: 50px;
+            margin-top: 3rem;
+        }
+
+        .panel {
+            background: #f1f2f6;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 200px;
+        }
+        
+        .val-display {
+            font-size: 4rem;
+            color: var(--stack);
+        }
+        
+        .max-list {
+             height: 300px;
+             border: 2px solid #ccc;
+             background: #fff;
+             overflow-y: auto;
+             padding: 10px;
+        }
+        
+        .max-item {
+            font-size: 1.5rem;
+            color: var(--max);
+            border-bottom: 2px solid #eee;
+        }
+
+        .btn-grp { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
+        
+        .btn {
+            padding: 10px 20px;
+            font-family: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: none;
+        }
+        .btn.in { background: #6ab04c; color: #fff; }
+        .btn.out { background: #eb4d4b; color: #fff; }
+
+    </style>
+</head>
+<body>
+
+<h1>AUDIENCE TRACKER</h1>
+
+<div class="panels">
+    <div class="panel">
+        <div>LATEST ENTRANT</div>
+        <div class="val-display" id="latest">--</div>
+        <div class="btn-grp">
+            <button class="btn in" onclick="push()">ENTER</button>
+            <button class="btn out" onclick="pop()">LEAVE</button>
+        </div>
+    </div>
+    
+    <div class="panel">
+        <div>MAX LEADERBOARD (Stack)</div>
+        <div class="max-list" id="maxStack">
+            <!-- Max Stack Items -->
+        </div>
+        <div style="margin-top:10px">Current Max: <span id="curMax" style="color:red">--</span></div>
+    </div>
+</div>
+
+<div style="margin-top:20px; color:#555">
+    Simulating "Max Stack". Tracking the maximum element efficiently.
+</div>
+
+<script>
+    let stack = [];
+    let maxStack = []; // Stores actual max values
+
+    function push() {
+        const val = Math.floor(Math.random() * 100);
+        stack.push(val);
+        document.getElementById('latest').textContent = val;
+        
+        // Logic: if val >= maxStack.top, push
+        if (maxStack.length === 0 || val >= maxStack[maxStack.length-1]) {
+            maxStack.push(val);
+        }
+        render();
+    }
+
+    function pop() {
+        if (stack.length === 0) return;
+        const val = stack.pop();
+        document.getElementById('latest').textContent = stack.length > 0 ? stack[stack.length-1] : '--';
+        
+        if (val === maxStack[maxStack.length-1]) {
+            maxStack.pop();
+        }
+        render();
+    }
+
+    function render() {
+        const div = document.getElementById('maxStack');
+        div.innerHTML = '';
+        // Render top to bottom
+        for(let i=maxStack.length-1; i>=0; i--) {
+            const el = document.createElement('div');
+            el.className = 'max-item';
+            el.textContent = maxStack[i];
+            div.appendChild(el);
+        }
+        
+        document.getElementById('curMax').textContent = maxStack.length > 0 ? maxStack[maxStack.length-1] : '--';
+    }
+</script>
+</body>
+</html>

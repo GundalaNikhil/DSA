@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEP-010: Product Picker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --product: #ff6b6b; --pick: #4ecdc4; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--product); }
+        h1 { margin: 0; font-family: 'Fredoka One', cursive; color: var(--product); font-size: 1.6rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--product); }
+        .instructions b { color: var(--product); }
+        .arrays-container { display: flex; gap: 30px; }
+        .array-box { background: var(--panel); padding: 20px; border-radius: 15px; }
+        .array-label { color: #888; margin-bottom: 10px; text-align: center; }
+        .array-items { display: flex; gap: 5px; }
+        .array-item { width: 40px; height: 40px; background: rgba(255,107,107,0.2); border: 2px solid var(--product); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+        .array-item:hover { transform: scale(1.1); }
+        .array-item.selected { background: var(--product); color: #fff; }
+        .products-result { display: flex; flex-wrap: wrap; gap: 10px; padding: 20px; background: var(--panel); border-radius: 10px; min-width: 300px; justify-content: center; }
+        .product-item { padding: 10px 15px; background: var(--pick); color: #000; border-radius: 8px; font-weight: bold; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #2a3a5e; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2a3a5e; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--product); }
+        .btn { background: var(--product); color: #fff; border: none; padding: 12px 25px; font-family: 'Fredoka One'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ff8585; }
+        .btn.secondary { background: transparent; border: 2px solid #2a3a5e; color: #888; font-family: 'Nunito'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--product); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--product); font-family: 'Fredoka One'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🛍️ PRODUCT PICKER</h1>
+    <div style="color:#888">TOP-K PRODUCTS</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 PICK BEST PAIRS:</b> Click one item from each array. The product goes into your collection. Find the Top-K largest products!
+    </div>
+    <div class="arrays-container">
+        <div class="array-box">
+            <div class="array-label">ARRAY A</div>
+            <div class="array-items" id="arrayA"></div>
+        </div>
+        <div style="font-size:2rem; align-self:center;">×</div>
+        <div class="array-box">
+            <div class="array-label">ARRAY B</div>
+            <div class="array-items" id="arrayB"></div>
+        </div>
+    </div>
+    <button class="btn" onclick="game.multiply()">MULTIPLY!</button>
+    <div style="color:var(--pick);">TOP-K PRODUCTS:</div>
+    <div class="products-result" id="products"></div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">K Value</span><span class="stat-value" id="kVal">5</span></div>
+            <div class="stat-row"><span class="stat-label">Products Found</span><span class="stat-value" id="found">0</span></div>
+        </div>
+    </div>
+    <div id="status">Select one from each array!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.autoFind()">AUTO FIND TOP-K</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW ARRAYS</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🛍️ PRODUCT PICKER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--product)">CONCEPT:</b> Top-K Products with Max-Heap!</p>
+            <ul>
+                <li>Two sorted arrays, find <b>K largest products</b></li>
+                <li>Max-heap tracks <b>best candidates</b></li>
+                <li>Start with largest pair, expand neighbors</li>
+                <li>O(K log K) with heap!</li>
+            </ul>
+            <p style="color:#888">Used in recommendation systems!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START PICKING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.arrA = []; this.arrB = []; this.selA = -1; this.selB = -1; this.products = []; this.k = 5;
+        this.ui = { arrA: document.getElementById('arrayA'), arrB: document.getElementById('arrayB'), products: document.getElementById('products'), kVal: document.getElementById('kVal'), found: document.getElementById('found'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        this.arrA = Array.from({length: 5}, () => Math.floor(Math.random() * 20) + 1).sort((a,b) => b-a);
+        this.arrB = Array.from({length: 5}, () => Math.floor(Math.random() * 20) + 1).sort((a,b) => b-a);
+        this.selA = -1; this.selB = -1; this.products = [];
+        this.render();
+    }
+    selectA(i) { this.selA = i; this.render(); }
+    selectB(i) { this.selB = i; this.render(); }
+    multiply() {
+        if (this.selA === -1 || this.selB === -1) { this.ui.status.textContent = 'Select one from each!'; return; }
+        const prod = this.arrA[this.selA] * this.arrB[this.selB];
+        if (!this.products.includes(prod)) {
+            this.products.push(prod);
+            this.products.sort((a, b) => b - a);
+            if (this.products.length > this.k) this.products.pop();
+            this.ui.status.textContent = `Added ${this.arrA[this.selA]} × ${this.arrB[this.selB]} = ${prod}`;
+        } else {
+            this.ui.status.textContent = 'Already have that product!';
+        }
+        this.selA = -1; this.selB = -1;
+        this.render();
+    }
+    autoFind() {
+        // Find top K products optimally
+        const allProducts = [];
+        for (let i = 0; i < this.arrA.length; i++) {
+            for (let j = 0; j < this.arrB.length; j++) {
+                allProducts.push(this.arrA[i] * this.arrB[j]);
+            }
+        }
+        allProducts.sort((a, b) => b - a);
+        this.products = [...new Set(allProducts)].slice(0, this.k);
+        this.ui.status.textContent = `Found Top-${this.k} products!`;
+        this.render();
+    }
+    render() {
+        this.ui.arrA.innerHTML = '';
+        this.arrA.forEach((v, i) => {
+            const el = document.createElement('div');
+            el.className = 'array-item';
+            if (i === this.selA) el.classList.add('selected');
+            el.textContent = v;
+            el.onclick = () => this.selectA(i);
+            this.ui.arrA.appendChild(el);
+        });
+        this.ui.arrB.innerHTML = '';
+        this.arrB.forEach((v, i) => {
+            const el = document.createElement('div');
+            el.className = 'array-item';
+            if (i === this.selB) el.classList.add('selected');
+            el.textContent = v;
+            el.onclick = () => this.selectB(i);
+            this.ui.arrB.appendChild(el);
+        });
+        this.ui.products.innerHTML = '';
+        this.products.forEach(p => {
+            const el = document.createElement('div');
+            el.className = 'product-item';
+            el.textContent = p;
+            this.ui.products.appendChild(el);
+        });
+        this.ui.found.textContent = this.products.length;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

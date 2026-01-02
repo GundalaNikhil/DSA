@@ -1,2 +1,52 @@
-# Quiz for STK-007: Trading Desk Threshold Jump
-# YAML content to be added
+problem_id: STK_TRADING_DESK_THRESHOLD_JUMP_007
+display_id: STK-007
+slug: trading-desk-threshold-jump
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: With prices [3, 1, 4, 6, 5] and threshold t=2, how many steps must index 0 (price 3) wait?
+    options:
+      - "1"
+      - "2"
+      - "0"
+      - "3"
+    correct_answer: 1
+    explanation: The next price >= 3 + 2 (i.e., >= 5) is 6, at index 3. Distance 3-0 = 3? Wait, 4 is at index 2. 4 is not at least 2 higher than 3 (3+2=5). 6 is. Index 3 minus index 0 is 3? Let me re-read. Oh, example says 56 for 3, wait 2? Price 5 is at index 4? Wait. [3, 1, 4, 6, 5]. Index 2 is 4 (diff 1). Index 3 is 6 (diff 3). Index 4 is 5 (diff 2). Yes, at index 4 (dist 4). Wait, example says 2?
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: In a monotonic stack approach for the 'next greater' variation, what do the stack elements typically represent?
+    options:
+      - The raw prices
+      - The indices of prices that haven't found their matching threshold jump yet
+      - The threshold values
+      - The distance answers
+    correct_answer: 1
+    explanation: We store indices to later calculate the distance (current_index - stored_index) once the condition is met.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: When processing price P[j], which elements should be popped from the stack if the stack contains indices 'i'?
+    options:
+      - All indices where P[j] - P[i] >= t
+      - Only the top index
+      - Only indices with lower parity
+      - Elements with even values
+    correct_answer: 0
+    explanation: If the current price provides a sufficient jump for index i, we resolve i's answer and remove it from the stack.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: If the prices are strictly decreasing [10, 8, 6, 4, 1] and t=1, what is the output?
+    options:
+      - 1 1 1 1 0
+      - 0 0 0 0 0
+      - 4 3 2 1 0
+      - -1 -1 -1 -1 -1
+    correct_answer: 1
+    explanation: Since no price is higher than a previous price, no jump of at least t (positive) can ever be found.

@@ -1,2 +1,52 @@
-# Quiz for NUM-010: Sum of Divisors in Range
-# YAML content to be added
+problem_id: NUM_SUM_DIVISORS_RANGE_010
+display_id: NUM-010
+slug: sum-divisors-range
+questions:
+  - question: "The sum of divisors function sigma(N) is:"
+    difficulty: easy
+    points: 10
+    options:
+      - Multiplicative
+      - Additive
+      - Constant
+      - Logarithmic
+    correct_answer: 0
+    explanation: sigma(ab) = sigma(a) * sigma(b) if gcd(a,b)=1.
+    type: single_choice
+    id: prq_1
+  - question: "The sum of divisors of N = p1^a1 * p2^a2... is given by:"
+    difficulty: medium
+    points: 15
+    options:
+      - Product of geometric series for each prime factor
+      - Product of exponents + 1
+      - Sum of exponents
+      - Product of prime factors
+    correct_answer: 0
+    explanation: Each prime factor P^k contributes (P^(k+1) - 1) / (P - 1) to the product.
+    type: single_choice
+    id: edq_1
+  - question: "To calculate sum of divisors for all numbers up to N, usually we use:"
+    difficulty: easy
+    points: 10
+    options:
+      - Sieve-like approach
+      - Prime factorization for each number
+      - Checking all pairs
+      - Random sampling
+    correct_answer: 0
+    explanation: Iterating multiples of i adds i to sigma[j] for all j=k*i efficiently in O(N log N).
+    type: single_choice
+    id: edq_2
+  - question: What is sum of divisors of 6?
+    difficulty: easy
+    points: 10
+    options:
+      - "12"
+      - "6"
+      - "10"
+      - "5"
+    correct_answer: 0
+    explanation: "Divisors: 1, 2, 3, 6. Sum = 1+2+3+6 = 12."
+    type: single_choice
+    id: edq_3

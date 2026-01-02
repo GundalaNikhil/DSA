@@ -1,222 +1,52 @@
----
-problem_id: GMT_NIM_LIMIT__7392
+problem_id: GMT_NIM_WITH_MOVE_LIMIT_016
 display_id: GMT-016
 slug: nim-with-move-limit
-title: "Nim with Move Limit - Quiz"
----
-
-# Problem-Related Questions (PRQ)
-
-problem_questions:
-  - quiz_id: "PRQ-GMT-016-Q001"
-    category: "problem"
-    type: single_choice
-    question: "What is the maximum stones you can remove from heap i?"
-    options:
-      - option_id: "A"
-        text: "A[i]"
-        correct: false
-      - option_id: "B"
-        text: "L[i]"
-        correct: false
-      - option_id: "C"
-        text: "min(A[i], L[i])"
-        correct: true
-      - option_id: "D"
-        text: "1"
-        correct: false
-    explanation: "You cannot remove more than what exists, nor more than the limit."
+questions:
+  - question: What is the maximum stones you can remove from heap i?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-GMT-016-Q002"
-    category: "problem"
-    type: single_choice
-    question: "If A[i]=5, L[i]=2, what is G(5)?"
     options:
-      - option_id: "A"
-        text: "5"
-        correct: false
-      - option_id: "B"
-        text: "2"
-        correct: true
-      - option_id: "C"
-        text: "1"
-        correct: false
-      - option_id: "D"
-        text: "0"
-        correct: false
-    explanation: "G(5) = 5 % (2+1) = 5 % 3 = 2."
+      - A[i]
+      - L[i]
+      - min(A[i], L[i])
+      - "1"
+    correct_answer: 2
+    explanation: You cannot remove more than what exists, nor more than the limit.
+    type: single_choice
+    id: prq_1
+  - question: If A[i]=5, L[i]=2, what is G(5)?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-GMT-016-Q003"
-    category: "problem"
-    type: single_choice
-    question: "If L[i] >= A[i], what is G(A[i])?"
     options:
-      - option_id: "A"
-        text: "A[i]"
-        correct: true
-      - option_id: "B"
-        text: "L[i]"
-        correct: false
-      - option_id: "C"
-        text: "0"
-        correct: false
-      - option_id: "D"
-        text: "1"
-        correct: false
-    explanation: "If limit is large, it behaves like normal Nim. A % (L+1) = A."
+      - "5"
+      - "2"
+      - "1"
+      - "0"
+    correct_answer: 1
+    explanation: G(5) = 5 % (2+1) = 5 % 3 = 2.
+    type: single_choice
+    id: edq_1
+  - question: If L[i] >= A[i], what is G(A[i])?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-GMT-016-Q004"
-    category: "problem"
-    type: single_choice
-    question: "Who wins if XOR sum is 0?"
     options:
-      - option_id: "A"
-        text: "First"
-        correct: false
-      - option_id: "B"
-        text: "Second"
-        correct: true
-      - option_id: "C"
-        text: "Draw"
-        correct: false
-      - option_id: "D"
-        text: "Unknown"
-        correct: false
-    explanation: "XOR sum 0 is a Losing position."
+      - A[i]
+      - L[i]
+      - "0"
+      - "1"
+    correct_answer: 0
+    explanation: If limit is large, it behaves like normal Nim. A % (L+1) = A.
+    type: single_choice
+    id: edq_2
+  - question: Who wins if XOR sum is 0?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-GMT-016-Q005"
-    category: "problem"
+    options:
+      - First
+      - Second
+      - Draw
+      - Unknown
+    correct_answer: 1
+    explanation: XOR sum 0 is a Losing position.
     type: single_choice
-    question: "Can L[i] be different for each heap?"
-    options:
-      - option_id: "A"
-        text: "Yes."
-        correct: true
-      - option_id: "B"
-        text: "No, must be same."
-        correct: false
-      - option_id: "C"
-        text: "Only if N is even."
-        correct: false
-      - option_id: "D"
-        text: "Only if A[i] is same."
-        correct: false
-    explanation: "Problem statement allows specific limit L[i]."
-    difficulty: easy
-    points: 10
-
-# Editorial/Algorithm Questions (EDQ)
-
-editorial_questions:
-  - quiz_id: "EDQ-GMT-016-Q001"
-    category: "editorial"
-    type: single_choice
-    question: "Why is the period L+1?"
-    options:
-      - option_id: "A"
-        text: "Because we can reach 0...L-1, but not L."
-        correct: false
-      - option_id: "B"
-        text: "Because we can reach G values 0...L-1, but not L?"
-        correct: false
-      - option_id: "C"
-        text: "Because from L+1, we can reach 1...L+1 (values 0...L), so mex is 0?"
-        correct: false
-      - option_id: "D"
-        text: "From X, we can reach X-1...X-L. This window of size L repeats."
-        correct: true
-    explanation: "The set of reachable states shifts by 1 each step. The mex pattern repeats every L+1."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-GMT-016-Q002"
-    category: "editorial"
-    type: single_choice
-    question: "What is the time complexity?"
-    options:
-      - option_id: "A"
-        text: "O(N)"
-        correct: true
-      - option_id: "B"
-        text: "O(N log N)"
-        correct: false
-      - option_id: "C"
-        text: "O(Sum A[i])"
-        correct: false
-      - option_id: "D"
-        text: "O(1)"
-        correct: false
-    explanation: "We iterate through the heaps once."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-GMT-016-Q003"
-    category: "editorial"
-    type: scenario
-    question: "Heap 10, Limit 2. Winning move?"
-    options:
-      - option_id: "A"
-        text: "Remove 1 (to 9)"
-        correct: true
-      - option_id: "B"
-        text: "Remove 2 (to 8)"
-        correct: false
-      - option_id: "C"
-        text: "Remove 3"
-        correct: false
-      - option_id: "D"
-        text: "No winning move"
-        correct: false
-    explanation: "G(10) = 1. We need to reach G=0. G(9) = 9%3 = 0. So remove 1."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-GMT-016-Q004"
-    category: "editorial"
-    type: single_choice
-    question: "Is this game finite?"
-    options:
-      - option_id: "A"
-        text: "Yes, stones always decrease."
-        correct: true
-      - option_id: "B"
-        text: "No, cycles possible."
-        correct: false
-      - option_id: "C"
-        text: "Depends on L."
-        correct: false
-      - option_id: "D"
-        text: "Only if A[i] is finite."
-        correct: false
-    explanation: "We always remove at least 1 stone."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-GMT-016-Q005"
-    category: "editorial"
-    type: single_choice
-    question: "If we changed rule to 'Remove exactly L[i]', what happens?"
-    options:
-      - option_id: "A"
-        text: "It becomes subtraction game with 1 option."
-        correct: true
-      - option_id: "B"
-        text: "It stays same."
-        correct: false
-      - option_id: "C"
-        text: "It becomes infinite."
-        correct: false
-      - option_id: "D"
-        text: "G(n) = n."
-        correct: false
-    explanation: "If only 1 move is available, it's just checking parity of (A[i] / L[i])."
-    difficulty: medium
-    points: 15
+    id: edq_3

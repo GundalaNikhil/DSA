@@ -22,107 +22,153 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-You are given a string `s` and multiple queries. Each query consists of a range `[l, r]`. You need to determine if the substring `s[l..r]` is a palindrome (reads the same forwards and backwards).
+You are given a string `s` and multiple queries. Each query consists of a range `[l, r]`. You need to determine if the substring `s[l...r]` is a palindrome (reads the same forwards and backwards).
 
 ## 🌍 Real-World Scenario
 
-**Scenario Title:** DNA Palindrome Detection
+**Scenario Title:** The DNA Mirror Hunter 🧬
 
-In genetics, palindromic sequences in DNA (like `GAATTC` which pairs with `CTTAAG` on the opposite strand, reading the same 5' to 3') are crucial. They often serve as binding sites for restriction enzymes.
-- A researcher might want to scan millions of specific regions to check if they are palindromic.
-- Doing this naively for every region is slow.
-- Hashing allows us to check any region in constant time.
+### The Problem
+In genetics, "palindromic sequences" in DNA are extremely important. For example, restriction enzymes (molecular scissors) often cut DNA at specific palindromic sites like `GAATTC` (which reads `CTTAAG` on the complementary strand, effectively a palindrome in the biological sense).
+- **Challenge**: You have a genome sequence of 100 million base pairs.
+- **Goal**: You have 100,000 specific regions of interest. For each, check if it's a palindrome.
 
-![Real-World Application](../images/HSH-004/real-world-scenario.png)
+### Why This Matters
+- **Bioinformatics**: Identifying binding sites for proteins and enzymes.
+- **Data Compression**: Palindromes can be compressed efficiently.
+- **Text Analysis**: Finding symmetrical patterns in signals or text.
+
+### Constraints in Real World
+- **Latency**: Each check must be instant ($O(1)$) after initial processing. We can't afford to scan the substring character-by-character for every query.
+
+### From Real World to Algorithm
+We treat the genome as a string `S`. A substring is a palindrome if `S[l...r] == Reverse(S[l...r])`. To check this instantly, we can hash `S` and `Reverse(S)` and compare hashes.
 
 ## Detailed Explanation
 
-### ASCII Diagram: Forward vs Reverse Hash
+### Concept Visualization
 
-String: "banana"
-Reverse: "ananab"
+To check if `s[l...r]` is a palindrome, we compare it to its reverse.
+Instead of reversing the substring on the fly (slow), we use a precomputed **Reverse String** `rev_s`.
+The reverse of `s[l...r]` exists as a substring in `rev_s`.
 
-Query: `s[1..3]` ("ana")
-
-```text
-Original (s):
-Index: 0 1 2 3 4 5
-Char:  b a n a n a
-
-Reverse (rev_s):
-Index: 0 1 2 3 4 5
-Char:  a n a n a b
-(Note: rev_s[0] corresponds to s[5])
-
-To check if s[l..r] is a palindrome:
-1. Compute Hash(s[l..r]) using prefix hashes of s.
-2. Compute Hash(Reverse of s[l..r]).
-   - The reverse of s[l..r] corresponds to a substring in rev_s.
-   - Specifically, index i in s maps to index (N-1-i) in rev_s.
-   - So s[l..r] reversed is rev_s[N-1-r ... N-1-l].
-3. If Hash(Forward) == Hash(Backward), it's a palindrome.
+```mermaid
+graph TD
+    S[String S: b a n a n a]
+    R[Rev S: a n a n a b]
+    
+    Q[Query s 1..3: a n a]
+    Q -->|Hash| H1[Forward Hash]
+    
+    Map[Mapping: l,r -> n-1-r, n-1-l]
+    Map -->|Index 1,3 -> 2,4| RRange[rev_s 2..4: a n a]
+    RRange -->|Hash| H2[Reverse Hash]
+    
+    C{H1 == H2?}
+    C -- Yes --> P[Palindrome!]
+    C -- No --> NP[Not Palindrome]
+    
+    style S fill:#e6f3ff
+    style R fill:#fff0e6
+    style P fill:#d4f4dd
 ```
 
-### Key Concept: Reverse String Hashing
+### Algorithm Flow Diagram
 
-A string is a palindrome if it equals its reverse.
-Instead of reversing the substring explicitly (which takes `O(Len)`), we can precompute hashes for the **entire reversed string**.
-Then, the hash of the "reversed substring" can be retrieved in `O(1)` from the reversed string's hash array.
+```mermaid
+graph TD
+    Start[Start] --> Init[Create rev_s = S reversed]
+    Init --> HashF[Compute Prefix Hashes for S]
+    HashF --> HashR[Compute Prefix Hashes for rev_s]
+    HashR --> Loop{More Queries?}
+    
+    Loop -- Yes --> GetQ[Get l, r]
+    GetQ --> Calc1[Hash1 = getHash S, l, r]
+    GetQ --> Map[Calc rev_l = n-1-r, rev_r = n-1-l]
+    Map --> Calc2[Hash2 = getHash rev_s, rev_l, rev_r]
+    
+    Calc2 --> Compare{Hash1 == Hash2?}
+    Compare -- Yes --> ResT[Result: True]
+    Compare -- No --> ResF[Result: False]
+    
+    ResT --> Loop
+    ResF --> Loop
+    Loop -- No --> End[Return Results]
+    
+    style Calc1 fill:#e6f3ff
+    style Calc2 fill:#fff0e6
+```
 
-## ✅ Input/Output Clarifications (Read This Before Coding)
+## 🎯 Edge Cases to Test
 
-- **Input:** String `s`, queries `(l, r)`.
-- **Output:** Boolean for each query.
-- **Constraints:** `N, Q <= 2 * 10^5`. `O(1)` per query is required.
-- **Double Hashing:** Highly recommended to avoid collisions.
+1.  **Single Character**
+    -   Input: `s="a"`, query `0 0`
+    -   Expected: `true` (Always a palindrome)
+2.  **Whole String Palindrome**
+    -   Input: `s="racecar"`, query `0 6`
+    -   Expected: `true`
+3.  **Whole String Not Palindrome**
+    -   Input: `s="banana"`, query `0 5`
+    -   Expected: `false`
+4.  **Even Length Palindrome**
+    -   Input: `s="abba"`, query `0 3`
+    -   Expected: `true`
+5.  **Empty Range** (if allowed by constraints, usually $l \le r$)
+    -   Input: `s="abc"`, query `1 0`
+    -   Expected: `true` (Empty string is palindrome)
+
+## ✅ Input/Output Clarifications
+
+-   **Input:** String `s`, and a list of queries `[l, r]`.
+-   **Output:** List of booleans.
+-   **Indices:** 0-based inclusive.
+-   **Mapping:** Be careful! `s[l]` corresponds to `rev_s[n-1-l]`. The range `[l, r]` in `s` corresponds to `[n-1-r, n-1-l]` in `rev_s`.
 
 ## Naive Approach
 
 ### Intuition
-
-For each query `(l, r)`, extract the substring, reverse it, and compare.
+For each query, extract the substring `s[l...r]`. Use two pointers (one at start, one at end) to check if it reads the same forwards and backwards.
 
 ### Algorithm
+1.  For each query `(l, r)`:
+    -   While `l < r`:
+        -   If `s[l] != s[r]`, return `false`.
+        -   `l++`, `r--`.
+    -   Return `true`.
 
-1. For each query:
-   - Extract `sub = s.substring(l, r+1)`.
-   - Check if `sub == reverse(sub)`.
+### Complexity Visualization
 
-### Time Complexity
+| Approach | Time Complexity | Space Complexity | Feasibility for N=200K, Q=200K |
+| :--- | :---: | :---: | :---: |
+| Naive (Two Pointers) | O(Q × N) | O(1) | ❌ TLE (~10¹⁰ ops) |
+| Optimal (Hashing) | O(N + Q) | O(N) | ✅ Fast (~4×10⁵ ops) |
 
-- **O(Q * N)**: Extracting and reversing takes linear time relative to substring length. Too slow.
+### Why This Fails
+Checking a substring takes linear time $O(L)$. If we have many queries asking about long substrings, the total time explodes to $O(N \times Q)$.
 
-## Optimal Approach
+## Optimal Approach (Rolling Hash on Reverse String)
 
 ### Key Insight
-
-Use **Rolling Hash** on both `s` and `reverse(s)`.
-- Let `h1` be the prefix hash array for `s`.
-- Let `h2` be the prefix hash array for `reverse(s)`.
-- For query `(l, r)`:
-  - Forward Hash = Hash of `s[l..r]` using `h1`.
-  - Backward Hash = Hash of `reverse(s)[(n-1-r)..(n-1-l)]` using `h2`.
-  - If they match, it's a palindrome.
+A string is a palindrome if it matches its reverse.
+We can check string equality in $O(1)$ using rolling hashes.
+Therefore, if we have the hash of `s[l...r]` and the hash of `Reverse(s[l...r])`, we can check if they are equal in $O(1)$.
+We obtain the hash of the "reverse substring" by querying the precomputed hashes of the "reversed full string".
 
 ### Algorithm
-
-1. Construct `rev_s` by reversing `s`.
-2. Compute prefix hashes and powers for `s` (Forward Hash).
-3. Compute prefix hashes for `rev_s` (Reverse Hash).
-4. For each query `(l, r)`:
-   - Get forward hash of `s[l..r]`.
-   - Get reverse hash of `rev_s` corresponding to range `[n-1-r, n-1-l]`.
-   - Compare.
+1.  Create `rev_s` by reversing `s`.
+2.  Precompute prefix hashes for `s` (Forward Hash Array `H_fwd`).
+3.  Precompute prefix hashes for `rev_s` (Reverse Hash Array `H_rev`).
+4.  For each query `(l, r)`:
+    -   Extract `hash1` from `H_fwd` for range `[l, r]`.
+    -   Calculate corresponding range in `rev_s`: start `n-1-r`, end `n-1-l`.
+    -   Extract `hash2` from `H_rev` for range `[n-1-r, n-1-l]`.
+    -   Return `hash1 == hash2`.
 
 ### Time Complexity
-
-- **O(N + Q)**: Preprocessing takes `O(N)`, queries take `O(1)`.
+-   **O(N + Q)**: $O(N)$ for precomputing hashes, $O(1)$ for each query.
 
 ### Space Complexity
-
-- **O(N)**: Storing hash arrays.
-
-![Algorithm Visualization](../images/HSH-004/algorithm-visualization.png)
+-   **O(N)**: To store `H_fwd`, `H_rev`, and powers.
 
 ## Implementations
 
@@ -133,9 +179,6 @@ import java.util.*;
 class Solution {
     private static final long MOD = 1_000_000_007L;
     private static final long BASE = 313L;
-    
-    // Using single hash for simplicity in template, but double hash is safer
-    // Ideally, implement double hashing as in HSH-002
     
     public boolean[] checkPalindromes(String s, int[][] queries) {
         int n = s.length();
@@ -426,59 +469,81 @@ rl.on("close", () => {
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 
-**Input:**
+### Input
 ```
-abccba
+banana
 1
-1 4
+1 3
 ```
-Query: `s[1..4]` ("bccb").
+String: `banana`, Query: `1 3` ("ana")
 
-**Preprocessing:**
-- `s` = "abccba"
-- `hFwd` and `hRev` will be identical arrays.
+### Variables
+- `s` = "banana" (Len 6)
+- `rev_s` = "ananab"
+- `l=1`, `r=3`
 
-**Query Processing:**
-- `l=1, r=4`. Substring "bccb".
-- `fwdHash` = Hash of `s[1..4]` ("bccb").
-- `revL` = `6 - 1 - 4 = 1`.
-- `revR` = `6 - 1 - 1 = 4`.
-- `revHash` = Hash of `rev_s[1..4]` ("bccb").
-- `fwdHash == revHash`? Yes.
-- `s[1..4]` is "bccb".
-- "bccb" IS a palindrome.
-- Example Input: `abccba`.
-- Query 2: `1 4`.
-- `s[1]`='b', `s[2]`='c', `s[3]`='c', `s[4]`='b'.
-- "bccb" is a palindrome (reads the same forwards and backwards).
-- The implementation correctly checks if a substring is a palindrome.
+### Mappings
+- `rev_r` (in `s` coords) → `n - 1 - r` (in `rev_s` coords)
+- `rev_l` = `6 - 1 - 3` = `2`
+- `rev_r` = `6 - 1 - 1` = `4`
+- Range in `rev_s`: `[2, 4]`
 
+### Execution Table
 
+| String | Index: | 0 | 1 | 2 | 3 | 4 | 5 |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **`s`** | **Char:** | b | **a** | **n** | **a** | n | a |
+| **`rev_s`** | **Char:** | a | n | **a** | **n** | **a** | b |
+
+Query requests `s[1...3]` ("ana").
+Algorithm checks `rev_s[2...4]` ("ana").
+
+| Step | Action | Computation | Result |
+| :--- | :--- | :--- | :--- |
+| 1 | Calc Forward Hash | `Hash(s[1...3])` ("ana") | `H1` |
+| 2 | Map Coordinates | `l=1`→`r'=4`, `r=3`→`l'=2` | Range `[2, 4]` |
+| 3 | Calc Reverse Hash | `Hash(rev_s[2...4])` ("ana") | `H2` |
+| 4 | Compare | `H1 == H2` | `True` |
+
+**Output:** `true`
 
 ## ✅ Proof of Correctness
 
 ### Invariant
-A string `S` is a palindrome iff `S == reverse(S)`.
-Hash(`S`) == Hash(`reverse(S)`) is a necessary condition. With double hashing, it is sufficient with high probability.
-The mapping `s[l..r]` `<=ftrightarrow` `rev_s[n-1-r .. n-1-l]` correctly identifies the reversed substring.
+A substring $S[l \dots r]$ is a palindrome if and only if it reads the same forwards and backwards.
+This is equivalent to saying $S[l \dots r] == \text{Reverse}(S)[mapped\_l \dots mapped\_r]$ where the mapped indices correspond to the same characters in the reversed string.
+
+The mapping logic:
+- The character at index $i$ in $S$ moves to index $N-1-i$ in $\text{Reverse}(S)$.
+- Therefore, the substring starting at $l$ and ending at $r$ in $S$ corresponds to the substring starting at $N-1-r$ and ending at $N-1-l$ in $\text{Reverse}(S)$.
+- By comparing the rolling hashes of these two substrings, we verify their equality with high probability.
+
+## ⚠️ Common Mistakes to Avoid
+
+1.  **Wrong Reverse Mapping Indices**
+    -   ❌ Wrong: Checking `rev_s[l...r]`.
+    -   ✅ Correct: Checking `rev_s[n-1-r ... n-1-l]`. The start and end indices must swap and be inverted relative to `N`.
+2.  **Using `int` for Hashes**
+    -   ❌ Wrong: `int hash`.
+    -   ✅ Correct: `long long` or `BigInt`. Hashes easily exceed $2^{31}$.
+3.  **Forgetting Modulo on Subtraction**
+    -   ❌ Wrong: `(h[r] - h[l]*p[len]) % M`. Result can be negative.
+    -   ✅ Correct: `(h[r] - h[l]*p[len] % M + M) % M`.
+4.  **Inefficient Reversal**
+    -   ❌ Wrong: Reversing the substring inside the query loop ($O(L)$).
+    -   ✅ Correct: Precomputing the reversed full string and its hashes ($O(N)$ once).
 
 ## 💡 Interview Extensions
 
-- **Extension 1:** Count all palindromic substrings.
-  - *Answer:* Manacher's Algorithm (`O(N)`). Hashing is `O(N log N)` or `O(N^2)`.
-- **Extension 2:** Longest Palindromic Substring.
-  - *Answer:* Binary search on length + Hashing check (`O(N log N)`). Or Manacher's (`O(N)`).
-
-### Common Mistakes to Avoid
-
-1. **Index Mapping**
-   - ❌ Wrong: `rev_s[l..r]`.
-   - ✅ Correct: `rev_s[n-1-r .. n-1-l]`. The indices flip.
-2. **Off-by-one**
-   - ❌ Wrong: `len = r - l`.
-   - ✅ Correct: `len = r - l + 1`.
-
-## Related Concepts
-
-- **Manacher's Algorithm:** Specialized for palindromes.
-- **Rolling Hash:** General purpose string tool.
+1.  **Count Palindromic Substrings**
+    -   *Extension:* How many palindromic substrings exist?
+    -   *Answer:* Use **Manacher's Algorithm** for $O(N)$. Hashing would be $O(N \log N)$ with binary search or $O(N^2)$ brute force.
+2.  **Longest Palindromic Substring**
+    -   *Extension:* Find the longest palindrome.
+    -   *Answer:* Binary Search on Length + Rolling Hash check ($O(N \log N)$). Or Manacher's ($O(N)$).
+3.  **Update Queries**
+    -   *Extension:* What if we change a character and then ask queries?
+    -   *Answer:* Use **Segment Tree** with Rolling Hashes. Each node stores the hash of its range. Updates are $O(\log N)$, queries $O(\log N)$.
+4.  **Check for Anagrams instead of Palindromes**
+    -   *Extension:* Can we check if `s[l...r]` is an anagram of `s[x...y]`?
+    -   *Answer:* Yes, but Rolling Hash relies on order. use **Prefix Sums of frequency counts** (26 arrays) or **Zobrist Hashing** (assign random value to each char, sum them).

@@ -87,6 +87,19 @@ Speech synthesis systems analyze phonetic patterns. Alternating vowel-consonant 
 4. Return (maxLen, s[bestStart:bestStart+maxLen])
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Initialize window] --> B[Check current vowel status]
+B --> C{Alternates with previous}
+C -->|Yes| D[Extend current length]
+C -->|No| E[Reset start and length]
+D --> F[Update best if needed]
+E --> F
+F --> G[Move to next char]
+G --> B
+```
+
 ### Time Complexity
 
 | Phase       | Operations | Cost     |

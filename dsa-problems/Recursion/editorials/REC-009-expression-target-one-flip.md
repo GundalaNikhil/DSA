@@ -83,6 +83,22 @@ We define `backtrack(index, currentVal, opsCount, flipUsed, currentExpr)`.
                 -   Let's stick to the example format. `1` (term) `+` (op) `-203` (flipped term).
                 -   If we used `-` op and flipped term: `1 - -203`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Pick next chunk from string] --> B{Leading zero invalid}
+B -->|Yes| C[Stop this branch]
+B -->|No| D{First term}
+D -->|Yes| E[Start with chunk or flipped chunk]
+D -->|No| F{Ops count below limit}
+F -->|No| C
+F -->|Yes| G[Add or subtract chunk]
+G --> H{Flip already used}
+H -->|No| I[Optionally flip this chunk]
+I --> J[Recurse to next index]
+E --> J
+```
+
 ## Implementations
 
 ### Java

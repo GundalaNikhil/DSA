@@ -1,2 +1,52 @@
-# Quiz for STK-004: Rooftop Sunset Count
-# YAML content to be added
+problem_id: STK_ROOFTOP_SUNSET_COUNT_004
+display_id: STK-004
+slug: rooftop-sunset-count
+questions:
+  - question: For buildings with heights [5, 3, 4, 2], which can see the sunset?
+    difficulty: easy
+    points: 10
+    options:
+      - All 4 buildings
+      - Only the last building at index 3
+      - Buildings at indices 0, 2, 3
+      - Buildings at indices 0, 3
+    correct_answer: 2
+    explanation: "A building sees sunset if no taller building is to its right. Building 0 (height 5): no building right is taller → sees sunset. Building 1 (height 3): building 2 (height 4) is taller → blocked. Building 2 (height 4): no taller right → sees. Building 3 (last): always sees. Count = 3."
+    type: single_choice
+    id: prq_1
+  - question: For strictly decreasing heights [5, 4, 3, 2], how many can see the sunset?
+    difficulty: easy
+    points: 10
+    options:
+      - 1 (last only)
+      - 4 (all)
+      - "2"
+      - "3"
+    correct_answer: 0
+    explanation: "Heights decrease: each building has a taller one to its left but we're looking RIGHT. Each building except the last has a shorter building to the right, so none are blocked. Actually wait: first building (5) sees sunset (no taller right). But the problem asks about decreasing. In [5,4,3,2], building 5 sees (no taller), building 4 sees... Hmm, let me reconsider. The sequence is strictly decreasing, so each building is taller than all to the right. Only the last building has nothing to its right. Count = 1."
+    type: single_choice
+    id: edq_1
+  - question: What is the key insight for solving this problem efficiently?
+    difficulty: medium
+    points: 15
+    options:
+      - Sort the buildings first
+      - Process right-to-left, tracking the maximum height seen so far
+      - Use a segment tree
+      - Compare all pairs of buildings
+    correct_answer: 1
+    explanation: Process right-to-left. As we move leftward, track the max height. If current height > max, it's visible. Update max after checking.
+    type: single_choice
+    id: edq_2
+  - question: For heights [3, 3, 3, 3], how many buildings can see the sunset?
+    difficulty: medium
+    points: 15
+    options:
+      - "0"
+      - 1 (last only)
+      - 4 (all)
+      - "3"
+    correct_answer: 1
+    explanation: "All buildings have same height. From right-to-left: last (no right) → visible. Position 2: right=3, same height blocks. Position 1: right≥3, blocked. Position 0: right≥3, blocked. Only last one visible."
+    type: single_choice
+    id: edq_3

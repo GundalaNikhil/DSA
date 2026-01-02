@@ -1,0 +1,52 @@
+problem_id: TRI_SHORTEST_ABSENT_BINARY_LENGTH_L_013
+display_id: TRI-013
+slug: shortest-absent-binary-length-l
+questions:
+  - question: We want the lexicographically smallest missing binary string of length L. In DFS, which branch do we try first?
+    difficulty: easy
+    points: 10
+    options:
+      - "'0' (Zero)"
+      - "'1' (One)"
+      - Random
+      - Neither
+    correct_answer: 0
+    explanation: "'0' is lexicographically smaller than '1'."
+    type: single_choice
+    id: prq_1
+  - question: If we find that the '0' branch is missing in the Trie (i.e., no existing string starts with this prefix), what is the optimal missing string?
+    difficulty: medium
+    points: 15
+    options:
+      - Current prefix + '0' + all remaining characters as '0'
+      - Current prefix + '0' + all remaining characters as '1'
+      - Current prefix only
+      - Current prefix + '1'...
+    correct_answer: 0
+    explanation: Since no string exists there, the lexicographically first option is valid, so we pad with smallest char '0'.
+    type: single_choice
+    id: edq_1
+  - question: "If we explore the entire Trie and find no missing string (i.e., all 2^L strings are present), we return:"
+    difficulty: easy
+    points: 10
+    options:
+      - Empty string or special indicator
+      - A string of length L+1
+      - Error
+      - The last string found
+    correct_answer: 0
+    explanation: Though rare for large L, if the set is complete, no absent string exists.
+    type: single_choice
+    id: edq_2
+  - question: What is the Time Complexity for searching the shortest absent string?
+    difficulty: easy
+    points: 10
+    options:
+      - O(2^L) in worst case (full tree), but practically O(min(N*L, 2^L))
+      - O(N^2)
+      - O(1)
+      - O(log N)
+    correct_answer: 0
+    explanation: We stop as soon as we find a missing branch.
+    type: single_choice
+    id: edq_3

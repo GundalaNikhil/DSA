@@ -61,6 +61,22 @@ Harmonic Mean of probabilities:
 `Sum = 2^-2 + 2^-0 + 2^-5 + 2^-1 = 0.25 + 1.0 + 0.03125 + 0.5 = 1.78125`.
 Estimate `propto m^2 / Sum`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read registers and m] --> B[Compute alpha constant]
+B --> C[Compute sum of two power negative register]
+C --> D[Count zero registers]
+D --> E[Compute raw estimate]
+E --> F{Estimate at most two point five times m}
+F -->|Yes| G{Zero count greater than zero}
+G -->|Yes| H[Use linear counting formula]
+G -->|No| I[Keep raw estimate]
+F -->|No| I
+H --> J[Output estimate]
+I --> J
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:**

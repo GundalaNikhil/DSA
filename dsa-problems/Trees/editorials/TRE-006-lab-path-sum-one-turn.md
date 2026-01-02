@@ -68,6 +68,18 @@ We can use **DFS** with a **Prefix Sum Map** to solve this efficiently.
 -   When we are at a node `u` (reached via Left), we trigger a check down its **Right** child.
 -   For each node `v` in the Right-chain, we calculate the required Left-chain sum and check if it exists in our map.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Track left chain sums] --> B[Pick turn node]
+B --> C[Traverse right chain]
+C --> D[Check needed left sum]
+D --> E{Match found}
+E -->|Yes| F[Return true]
+E -->|No| G[Continue search]
+G --> A
+```
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 -   **One Turn:** Must have at least one `L` edge and one `R` edge. `L...L` or `R...R` is invalid.

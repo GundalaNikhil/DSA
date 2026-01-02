@@ -27,7 +27,7 @@ Given a rooted tree, perform a DFS traversal (Euler Tour) to compute two values 
 1.  `tin[u]`: Entry time (when DFS first visits `u`).
 2.  `tout[u]`: Exit time (when DFS finishes `u`'s subtree).
 
-This "flattens" the tree into an array such that the subtree of `u` corresponds exactly to the range `[tin[u], tout[u]]`.
+This "flattens" the tree into an array such that the subtree of `u` corresponds exactly to the range `[tin[u], tout[u]]`. DFS leaves a clean set of footprints going in and out.
 
 ## 🌍 Real-World Scenario
 
@@ -45,33 +45,21 @@ Imagine a large corporation with a CEO (root) and a hierarchy of employees.
 
 ## Detailed Explanation
 
-### ASCII Diagram: Concept Visualization
+### Flow Diagram: Concept Visualization
 
-**Tree:**
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Set timer to zero]
+    B --> C[Run DFS from root]
+    C --> D[Set tin for node and increase timer]
+    D --> E[Visit each child]
+    E --> F{Child is parent}
+    F -- Yes --> E
+    F -- No --> C
+    E --> G[Set tout for node]
+    G --> H[Return tin and tout arrays]
 ```
-      0
-     / \
-    1   2
-       / \
-      3   4
-```
-**DFS Traversal:**
-1.  **Enter 0:** `tin[0] = 0`. Timer = 1.
-2.  **Enter 1:** `tin[1] = 1`. Timer = 2.
-3.  **Exit 1:** `tout[1] = 1`.
-4.  **Enter 2:** `tin[2] = 2`. Timer = 3.
-5.  **Enter 3:** `tin[3] = 3`. Timer = 4.
-6.  **Exit 3:** `tout[3] = 3`.
-7.  **Enter 4:** `tin[4] = 4`. Timer = 5.
-8.  **Exit 4:** `tout[4] = 4`.
-9.  **Exit 2:** `tout[2] = 4`.
-10. **Exit 0:** `tout[0] = 4`.
-
-**Result:**
--   `tin`: `[0, 1, 2, 3, 4]`
--   `tout`: `[4, 1, 4, 3, 4]`
-
-**Subtree of 2:** Range `[2, 4]`. Nodes with `tin` in this range are `{2, 3, 4}`. Correct.
 
 ### Algorithm Steps
 

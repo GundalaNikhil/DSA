@@ -167,6 +167,16 @@ Imagine you are renovating an **Auditorium Seating Area**.
 -   The "find" operation on SegTree is `O(log N)`.
 -   Total time `O(N log N)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build segment tree for minimums] --> B[For each bar compute left and right]
+B --> C[Check boosted height case]
+C --> D[Check unboosted height case]
+D --> E[Track maximum area]
+E --> F[Output maximum]
+```
+
 ## Implementations
 
 ### Java

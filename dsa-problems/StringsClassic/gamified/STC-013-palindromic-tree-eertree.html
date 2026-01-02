@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-013: Palindrome Garden</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffeaa7;
+            --text: #2d3436;
+            --accent: #e17055;
+            --found: #00b894;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 { margin-top: 2rem; color: var(--accent); }
+
+        .string-bar {
+            display: flex;
+            gap: 5px;
+            margin-top: 2rem;
+            font-size: 2rem;
+        }
+
+        .char-cell {
+            width: 45px;
+            height: 55px;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #dfe6e9;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .char-cell.sel { background: var(--accent); color: #fff; }
+        .char-cell.found { background: var(--found); color: #fff; }
+
+        .found-list {
+            margin-top: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            max-width: 500px;
+            justify-content: center;
+        }
+
+        .pal-tag {
+            padding: 8px 15px;
+            background: var(--found);
+            color: #fff;
+            border-radius: 20px;
+        }
+
+        .controls {
+            margin-top: 2rem;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            background: var(--accent);
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+
+        .status { margin-top: 1rem; min-height: 1.5em; }
+
+    
+        .alert-modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .alert-modal {
+            background: white; padding: 2rem; border-radius: 8px;
+            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+        .alert-modal button {
+            background: #4b5563; color: white; padding: 0.8rem 2rem;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .alert-modal button:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<h1>PALINDROME GARDEN</h1>
+<div style="color:#636e72">Click and drag to select palindromic substrings. Find all distinct ones!</div>
+
+<div class="string-bar" id="strBar"></div>
+
+<div class="found-list" id="foundList">
+    <span style="color:#888">Found palindromes:</span>
+</div>
+
+<div class="status">Found: <span id="count">0</span> / <span id="total">?</span></div>
+
+<div class="controls">
+    <button class="btn" onclick="submit()">ADD SELECTION</button>
+    <button class="btn" style="background:#636e72" onclick="init()">NEW STRING</button>
+</div>
+
+<script>
+    const STRINGS = ["aba", "abba", "abcba", "racecar", "aabb"];
+    let str = "";
+    let allPals = new Set();
+    let foundPals = new Set();
+    let selStart = -1, selEnd = -1;
+    let isSelecting = false;
+
+    function findAllPalindromes(s) {
+        const set = new Set();
+        for (let i = 0; i < s.length; i++) {
+            for (let j = i + 1; j <= s.length; j++) {
+                const sub = s.substring(i, j);
+                if (isPal(sub)) set.add(sub);
+            }
+        }
+        return set;
+    }
+
+    function isPal(s) {
+        return s === s.split('').reverse().join('');
+    }
+
+    function init() {
+        str = STRINGS[Math.floor(Math.random() * STRINGS.length)];
+        allPals = findAllPalindromes(str);
+        foundPals.clear();
+        selStart = -1;
+        selEnd = -1;
+
+        document.getElementById('total').textContent = allPals.size;
+        document.getElementById('count').textContent = 0;
+        document.getElementById('foundList').innerHTML = '<span style="color:#888">Found palindromes:</span>';
+        
+        render();
+    }
+
+    function render() {
+        const bar = document.getElementById('strBar');
+        bar.innerHTML = '';
+
+        for (let i = 0; i < str.length; i++) {
+            const c = document.createElement('div');
+            c.className = 'char-cell';
+            c.textContent = str[i];
+
+            if (selStart !== -1 && selEnd !== -1) {
+                const s = Math.min(selStart, selEnd);
+                const e = Math.max(selStart, selEnd);
+                if (i >= s && i <= e) c.classList.add('sel');
+            }
+
+            c.onmousedown = () => { selStart = i; selEnd = i; isSelecting = true; render(); };
+            c.onmouseenter = () => { if (isSelecting) { selEnd = i; render(); } };
+            c.onmouseup = () => { isSelecting = false; };
+
+            bar.appendChild(c);
+        }
+    }
+
+    function submit() {
+        if (selStart === -1 || selEnd === -1) return;
+
+        const s = Math.min(selStart, selEnd);
+        const e = Math.max(selStart, selEnd);
+        const sub = str.substring(s, e + 1);
+
+        if (!isPal(sub)) {
+            this.showGameAlert(`"${sub}" is not a palindrome!`);
+            return;
+        }
+
+        if (foundPals.has(sub)) {
+            this.showGameAlert(`"${sub}" already found!`);
+            return;
+        }
+
+        foundPals.add(sub);
+        document.getElementById('count').textContent = foundPals.size;
+
+        const tag = document.createElement('span');
+        tag.className = 'pal-tag';
+        tag.textContent = sub;
+        document.getElementById('foundList').appendChild(tag);
+
+        selStart = -1;
+        selEnd = -1;
+        render();
+
+        if (foundPals.size === allPals.size) {
+            this.showGameAlert("ALL PALINDROMES FOUND!");
+        }
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

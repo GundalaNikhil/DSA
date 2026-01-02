@@ -1,2 +1,52 @@
-# Quiz for PRB-008: Randomized Quickselect Expected Comparisons
-# YAML content to be added
+problem_id: PRB_QUICKSELECT_EXPECTED_COMPARISONS_008
+display_id: PRB-008
+slug: quickselect-expected-comparisons
+questions:
+  - question: Which of the following describes the recurrence relation for the expected number of comparisons `E(n, k)` in Randomized Quickselect?
+    difficulty: medium
+    points: 15
+    options:
+      - "`E(n, k) = (n - 1) + (1/n) * sum_{i=1..n} E(subproblem)`"
+      - "`E(n, k) = n + E(n/2, k)`"
+      - "`E(n, k) = (n - 1) + max(E(subproblem))`"
+      - "`E(n, k) = 1 + (1/n) * sum E(subproblem)`"
+    correct_answer: 0
+    explanation: At each step, we compare the pivot with all other `n-1` elements. Then, we average the cost of the subproblems derived from all `n` possible pivot choices.
+    type: single_choice
+    id: prq_1
+  - question: The naive DP approach for computing `E(n, k)` takes `O(n^3)` or worse. How can this be optimized to `O(n^2)`?
+    difficulty: medium
+    points: 10
+    options:
+      - By using prefix sums (or column/diagonal sums) to compute the sum of subproblem costs in O(1).
+      - By sorting the array first.
+      - By using the median-of-medians algorithm.
+      - It cannot be optimized; `O(n^3)` is the lower bound.
+    correct_answer: 0
+    explanation: The summation of subproblem costs involves adjacent terms in the DP table. By maintaining prefix sums for columns and diagonals, we can update `E(n, k)` in constant time.
+    type: single_choice
+    id: edq_1
+  - question: What is the expected time complexity of Randomized Quickselect to find the k-th smallest element?
+    difficulty: easy
+    points: 10
+    options:
+      - O(n)
+      - O(n log n)
+      - O(n^2)
+      - O(1)
+    correct_answer: 0
+    explanation: Unlike QuickSort which is `O(n log n)`, Quickselect only recurses into one half of the partition, resulting in a geometric series that sums to linear expected time `O(n)`.
+    type: single_choice
+    id: edq_2
+  - question: What is the worst-case time complexity of Randomized Quickselect?
+    difficulty: easy
+    points: 10
+    options:
+      - O(n^2)
+      - O(n log n)
+      - O(n)
+      - O(n!)
+    correct_answer: 0
+    explanation: In the worst case (e.g., pivot is always the smallest element), the partition size decreases by only 1 each time, leading to `n + (n-1) + ... + 1 = O(n^2)` comparisons.
+    type: single_choice
+    id: edq_3

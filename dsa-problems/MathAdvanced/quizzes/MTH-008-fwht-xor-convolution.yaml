@@ -1,2 +1,52 @@
-# Quiz for MTH-008: Fast Walsh-Hadamard Transform (XOR Convolution)
-# YAML content to be added
+problem_id: MTH_FWHT_XOR_CONVOLUTION_008
+display_id: MTH-008
+slug: fwht-xor-convolution
+questions:
+  - question: What is the required length of A and B?
+    difficulty: easy
+    points: 10
+    options:
+      - Any length
+      - A power of two, 2^k
+      - Prime length
+      - Length n+m-1
+    correct_answer: 1
+    explanation: FWHT for XOR convolution requires length 2^k.
+    type: single_choice
+    id: prq_1
+  - question: For k=1, A=[1,2], B=[3,4], what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - 11 10
+      - 10 11
+      - 7 14
+      - 14 7
+    correct_answer: 0
+    explanation: C[0]=1*3+2*4=11, C[1]=1*4+2*3=10.
+    type: single_choice
+    id: edq_1
+  - question: What are the three main steps in FWHT convolution?
+    difficulty: medium
+    points: 15
+    options:
+      - Sort, multiply, divide
+      - Transform, pointwise multiply, inverse transform
+      - Prefix sum, multiply, suffix sum
+      - Rotate, scale, normalize
+    correct_answer: 1
+    explanation: "FWHT mirrors FFT: transform, pointwise multiply, inverse transform."
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity for length n=2^k?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n log n)
+      - O(n^2)
+      - O(log n)
+    correct_answer: 1
+    explanation: FWHT runs in O(n log n).
+    type: single_choice
+    id: edq_3

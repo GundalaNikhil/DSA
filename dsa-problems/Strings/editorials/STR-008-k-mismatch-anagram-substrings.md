@@ -100,6 +100,19 @@ For each character c in alphabet:
 5. Return count
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build pattern frequency] --> B[Init window frequency]
+B --> C[Compute mismatch cost]
+C --> D{Cost at most k}
+D -->|Yes| E[Increment count]
+D -->|No| F[Continue]
+E --> G[Slide window]
+F --> G
+G --> C
+```
+
 ### Time Complexity
 
 | Phase              | Operations          | Cost         |

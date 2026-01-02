@@ -1,2 +1,52 @@
-# Quiz for REC-008: Alternating Vowel-Consonant Ladder
-# YAML content to be added
+problem_id: REC_ALTERNATING_VOWEL_CONSONANT_LADDER_008
+display_id: REC-008
+slug: alternating-vowel-consonant-ladder
+questions:
+  - question: From word 'cat' (c=consonant, a=vowel, t=consonant), which words differ by 1 character?
+    difficulty: easy
+    points: 10
+    options:
+      - bat, hat, cut
+      - cat, cot, cart
+      - cut, bat
+      - dog, run
+    correct_answer: 2
+    explanation: "Changing one character in 'cat': position 0: bat, hat, fat, ... position 1: cot, cit, ... position 2: can, cap, car, ... (Single letter diff). 'cut' differs at position 1 (a→u). 'bat' differs at position 0 (c→b). Both work."
+    type: single_choice
+    id: prq_1
+  - question: What does 'alternating vowel-consonant ladder' mean?
+    difficulty: easy
+    points: 10
+    options:
+      - Words alternate between all vowels and all consonants
+      - First letter type alternates between consecutive words in the path (vowel→consonant→vowel...)
+      - Each word has alternating vowels and consonants
+      - The path length alternates
+    correct_answer: 1
+    explanation: "Ladder constraint: if word A starts with vowel, next word B must start with consonant (and vice versa). This ensures alternation of starting letter types along the path."
+    type: single_choice
+    id: edq_1
+  - question: In building the word ladder graph, which two constraints must an edge satisfy?
+    difficulty: medium
+    points: 15
+    options:
+      - Same length AND start-letter is same
+      - Different by 1 character AND start-letter type alternates
+      - Same number of vowels AND consonants are different
+      - Length differs by 1 AND starts with same letter
+    correct_answer: 1
+    explanation: "Edge from word A to B: (1) A and B differ by exactly 1 character (Hamming distance = 1), AND (2) First letter types must be opposite (vowel↔consonant alternation)."
+    type: single_choice
+    id: edq_2
+  - question: Why use BFS to find shortest ladder, then DFS for path reconstruction?
+    difficulty: medium
+    points: 15
+    options:
+      - BFS is faster than DFS
+      - BFS finds shortest path distances; DFS reconstructs all shortest paths using parent pointers
+      - DFS alone is sufficient
+      - BFS is simpler to implement
+    correct_answer: 1
+    explanation: BFS levels guarantee shortest distance to each word. DFS reconstruction uses parent pointers to build all paths of that length. Combining both captures all shortest ladders.
+    type: single_choice
+    id: edq_3

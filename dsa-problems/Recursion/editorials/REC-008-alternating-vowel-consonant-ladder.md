@@ -53,6 +53,15 @@ This is a variation of the classic **Word Ladder** game (invented by Lewis Carro
 -   **DFS/Backtracking**: To reconstruct all paths of that shortest distance.
 -   Since we need *all* shortest paths, standard BFS storing `parent` pointers is good, but since a node can have multiple parents (multiple shortest paths reaching it), we store `List<String> parents` for each node.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build graph with alternating starts] --> B[Run BFS from start]
+B --> C[Store distance and parents]
+C --> D[Backtrack from end to start]
+D --> E[Reverse paths for output]
+```
+
 ## Approaches
 
 ### Approach 1: BFS + Backtracking (Standard Word Ladder II)

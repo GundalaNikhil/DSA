@@ -1,0 +1,52 @@
+problem_id: GRB_FLOYD_WARSHALL_015
+display_id: GRB-015
+slug: floyd-warshall
+questions:
+  - question: "Floyd-Warshall computes shortest paths between:"
+    difficulty: easy
+    points: 10
+    options:
+      - Single source to all destinations
+      - All pairs of nodes
+      - Single pair of nodes
+      - MST nodes
+    correct_answer: 1
+    explanation: It computes the shortest distance between every pair of vertices (u, v).
+    type: single_choice
+    id: prq_1
+  - question: What is the core state transition `dist[i][j]` in Floyd-Warshall?
+    difficulty: medium
+    points: 15
+    options:
+      - min(dist[i][j], dist[i][k] + dist[k][j])
+      - min(dist[i][j], dist[k][i] + dist[j][k])
+      - dist[i][k] + dist[k][j]
+      - 2 * dist[i][j]
+    correct_answer: 0
+    explanation: We try to relax the path from i to j by going through an intermediate node k.
+    type: single_choice
+    id: edq_1
+  - question: What is the time complexity of Floyd-Warshall?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N^3)
+      - O(M^3)
+      - O(N^2 log N)
+      - O(N * M)
+    correct_answer: 0
+    explanation: Three nested loops for k, i, j each running N times.
+    type: single_choice
+    id: edq_2
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: What is the time complexity of the Floyd-Warshall algorithm?
+    options:
+      - O(N^2)
+      - O(N^3)
+      - O(N * M)
+      - O(M log N)
+    correct_answer: 1
+    explanation: It uses three nested loops over N nodes.

@@ -1,0 +1,52 @@
+problem_id: GEO_POLYGON_AREA_SHOELACE_006
+display_id: GEO-006
+slug: polygon-area-shoelace
+questions:
+  - question: Which formula is used to compute twice the area of a polygon?
+    difficulty: easy
+    points: 10
+    options:
+      - Sum of distances between consecutive points
+      - Sum over i of (xi * y{i+1} - x{i+1} * yi)
+      - Sum of squared edge lengths
+      - Product of max x and max y
+    correct_answer: 1
+    explanation: The shoelace formula sums cross terms of consecutive vertices.
+    type: single_choice
+    id: prq_1
+  - question: For a square with vertices (0,0), (2,0), (2,2), (0,2), what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - "2"
+      - "4"
+      - "6"
+      - "8"
+    correct_answer: 1
+    explanation: The square has side length 2, so area is 4.
+    type: single_choice
+    id: edq_1
+  - question: Why do we take the absolute value of the shoelace sum?
+    difficulty: medium
+    points: 15
+    options:
+      - Because area is always negative
+      - Because input can be clockwise or counterclockwise
+      - Because of floating point rounding
+      - Because of integer division
+    correct_answer: 1
+    explanation: Clockwise order gives a negative signed area; absolute value yields the area magnitude.
+    type: single_choice
+    id: edq_2
+  - question: If the vertices are listed in clockwise order, what is the sign of the shoelace sum?
+    difficulty: easy
+    points: 10
+    options:
+      - Positive
+      - Negative
+      - Zero
+      - Always 1
+    correct_answer: 1
+    explanation: Clockwise order yields a negative signed area; take absolute value.
+    type: single_choice
+    id: edq_3

@@ -81,6 +81,19 @@ Common interpretation mistake:
 ### Core Concept
 
 **Graph Contraction:** Merge each adjacency pair into a single super-node, perform topological sort on the contracted graph, then expand super-nodes back to individual courses maintaining the pair adjacency.
+Once pairs are glued, the schedule behaves like a cleaner DAG.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with courses prerequisites and pairs] --> B[Union each pair into groups]
+    B --> C[Build contracted graph]
+    C --> D[Run topological sort]
+    D --> E{Topological sort valid?}
+    E -- No --> F[Return empty]
+    E -- Yes --> G[Expand each group in order]
+    G --> H[Return schedule]
+```
 
 ## Optimal Approach
 

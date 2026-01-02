@@ -1,2 +1,52 @@
-# Quiz for PDS-008: Bottom-k Sampling (Min-Hash)
-# YAML content to be added
+problem_id: PDS_BOTTOM_K_SAMPLING_008
+display_id: PDS-008
+slug: bottom-k-sampling
+questions:
+  - question: "Comparing two MinHash signatures allows us to estimate:"
+    difficulty: easy
+    points: 10
+    options:
+      - Jaccard Similarity
+      - Euclidean Distance
+      - Cosine Similarity
+      - Manhattan Distance
+    correct_answer: 0
+    explanation: The collision probability of min-hashes exactly matches Jaccard Index.
+    type: single_choice
+    id: prq_1
+  - question: "The estimate is calculated as:"
+    difficulty: medium
+    points: 15
+    options:
+      - Fraction of matching signature indices
+      - Sum of differences
+      - Product of signatures
+      - Average of values
+    correct_answer: 0
+    explanation: If 3 out of 10 hash values match, estimate is 0.3.
+    type: single_choice
+    id: edq_1
+  - question: Why do we use 'Bottom-K' or 'Min-Hash' values?
+    difficulty: easy
+    points: 10
+    options:
+      - Because 'minimum' is an unbiased selector from the random permutation
+      - Because small numbers store faster
+      - Because we only care about small items
+      - It sorts the data
+    correct_answer: 0
+    explanation: Under a random permutation, any element has equal chance to be the minimum.
+    type: single_choice
+    id: edq_2
+  - question: "To improve the accuracy of Jaccard estimation, we should:"
+    difficulty: easy
+    points: 10
+    options:
+      - Increase K (length of signature)
+      - Use larger hash values
+      - Sort the input sets
+      - Use worse hash functions
+    correct_answer: 0
+    explanation: Variance decreases as 1/K.
+    type: single_choice
+    id: edq_3

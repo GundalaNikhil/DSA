@@ -74,6 +74,14 @@ s(6)=12
 Sum = 1+3+4+7+6+12 = 33. Matches.
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute sigma values with sieve]
+    B --> C[Build prefix sums]
+    C --> D[Return prefix R minus prefix L minus one]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Constraints:** `R <= 10^6`.

@@ -75,6 +75,21 @@ When we receive `UNDO k`, we pop the last `k` updates from our history stack and
         -   Update Fenwick: `add(idx, val - a[idx])`.
         -   Restore array: `a[idx] = val`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read next operation] --> B{Operation type}
+B -->|Update| C[Record old value]
+C --> D[Apply point update]
+B -->|Query| E[Compute range sum]
+B -->|Undo| F[Pop history entries]
+F --> G[Restore values and update tree]
+E --> H[Output result]
+G --> A
+D --> A
+H --> A
+```
+
 **Complexity**:
 -   Update: `O(log N)`
 -   Query: `O(log N)`

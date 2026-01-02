@@ -54,6 +54,21 @@ We can stick to the original formulation for backtracking:
     -   **Add (+)**: `solve(index + 1, current_sum + nums[index], negations_count)`
     -   **Subtract (-)**: Only if `negations_count < K`. `solve(index + 1, current_sum - nums[index], negations_count + 1)`
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Start at index zero] --> B{Index at end}
+B -->|Yes| C{Sum equals target}
+C -->|Yes| D[Count one way]
+C -->|No| E[Count zero ways]
+B -->|No| F[Add current value]
+F --> G{Negations below limit}
+G -->|Yes| H[Subtract current value]
+G -->|No| I[Skip subtract branch]
+H --> A
+I --> A
+```
+
 ### 3. Constraints
 -   `N <= 20`: `2^20 ~= 10^6`. This is small enough for pure recursion without memoization.
 -   If `N` were larger (e.g., 100), we would need DP: `dp[index][current_sum][negations_count]`.

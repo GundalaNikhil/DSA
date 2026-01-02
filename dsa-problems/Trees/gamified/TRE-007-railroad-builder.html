@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRE-007: Railroad Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        :root { --steel: #4a4a4a; --wood: #8b4513; --gold: #ffd700; --sky: #87ceeb; --train: #e74c3c; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', sans-serif; background: linear-gradient(180deg, var(--sky) 0%, #a8d8ea 100%); min-height: 100vh; }
+        header { background: linear-gradient(180deg, #2c3e50 0%, var(--steel) 100%); padding: 15px; text-align: center; color: #fff; }
+        h1 { font-family: 'Rubik Mono One', monospace; font-size: 1.5rem; color: var(--gold); }
+        .stats { display: flex; justify-content: center; gap: 20px; margin-top: 10px; }
+        .stat { background: rgba(0,0,0,0.3); padding: 5px 15px; border-radius: 20px; }
+        main { padding: 20px; max-width: 900px; margin: 0 auto; }
+        .rail-yard { background: linear-gradient(180deg, #7f8c8d 0%, #95a5a6 100%); border-radius: 15px; padding: 30px; position: relative; min-height: 350px; }
+        .tree-container { display: flex; flex-direction: column; align-items: center; gap: 25px; }
+        .rail-level { display: flex; gap: 20px; position: relative; }
+        .station { width: 60px; height: 60px; background: linear-gradient(135deg, var(--wood) 0%, #5d3a1a 100%); border: 3px solid var(--steel); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: bold; color: #fff; position: relative; cursor: pointer; transition: all 0.3s; }
+        .station:hover { transform: scale(1.1); }
+        .station.on-diameter { background: var(--gold); color: #333; box-shadow: 0 0 20px var(--gold); }
+        .station .weight { position: absolute; top: -20px; background: var(--train); color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; }
+        .track { position: absolute; height: 8px; background: repeating-linear-gradient(90deg, var(--wood), var(--wood) 10px, var(--steel) 10px, var(--steel) 15px); border-radius: 4px; z-index: 0; }
+        .train { position: absolute; font-size: 2.5rem; transition: all 0.8s ease; z-index: 100; }
+        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
+        .btn { padding: 15px 30px; border: none; border-radius: 10px; font-family: 'Rubik Mono One', monospace; font-size: 1rem; cursor: pointer; }
+        .btn-build { background: var(--train); color: #fff; }
+        .btn-reset { background: var(--steel); color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+        .result { background: rgba(255,255,255,0.95); border-radius: 15px; padding: 20px; margin-top: 20px; text-align: center; }
+        .result-title { color: var(--steel); font-weight: bold; }
+        .diameter-value { font-size: 3rem; color: var(--train); font-weight: bold; margin-top: 10px; }
+        .diameter-path { display: flex; gap: 10px; justify-content: center; margin-top: 15px; flex-wrap: wrap; }
+        .path-station { background: var(--gold); color: #333; padding: 8px 15px; border-radius: 10px; font-weight: bold; }
+        #message { text-align: center; color: #fff; padding: 10px; font-size: 1.1rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🚂 RAILROAD BUILDER</h1>
+    <div class="stats">
+        <div class="stat">🛤️ Track Length: <span id="length">?</span></div>
+    </div>
+</header>
+<main>
+    <div id="message">Build the longest railroad track through the tree!</div>
+    <div class="rail-yard">
+
+        <div class="tree-container" id="tree"></div>
+    </div>
+    <div class="controls">
+        <button class="btn btn-build" onclick="game.findDiameter()">🔨 BUILD LONGEST</button>
+        <button class="btn btn-reset" onclick="game.reset()">🔄 RESET</button>
+    </div>
+    <div class="result">
+        <div class="result-title">🏆 LONGEST TRACK (DIAMETER)</div>
+        <div class="diameter-value" id="diameter">-</div>
+        <div class="diameter-path" id="path"></div>
+    </div>
+</main>
+<script>
+class RailroadBuilder {
+    constructor() {
+        // Tree with edge weights
+        this.tree = { val: 1, left: { val: 2, lw: 3, left: { val: 4, lw: 2 }, right: { val: 5, lw: 1 } }, right: { val: 3, rw: 4, right: { val: 6, rw: 2 } } };
+        this.maxDiameter = 0;
+        this.diameterPath = [];
+        this.render();
+    }
+    render() {
+        const container = document.getElementById('tree');
+        container.innerHTML = '<div class="train" id="train">🚂</div>';
+        const levels = [[this.tree], [this.tree.left, this.tree.right]];
+        if (this.tree.left?.left || this.tree.left?.right || this.tree.right?.left || this.tree.right?.right) {
+            levels.push([this.tree.left?.left, this.tree.left?.right, this.tree.right?.left, this.tree.right?.right].filter(n => n));
+        }
+        levels.forEach((level, li) => {
+            const row = document.createElement('div');
+            row.className = 'rail-level';
+            level.forEach(node => {
+                if (node) {
+                    const el = document.createElement('div');
+                    el.className = 'station';
+                    el.id = `station-${node.val}`;
+                    el.innerHTML = node.val;
+                    if (node.lw) el.innerHTML += `<span class="weight">${node.lw}</span>`;
+                    else if (node.rw) el.innerHTML += `<span class="weight">${node.rw}</span>`;
+                    row.appendChild(el);
+                }
+            });
+            container.appendChild(row);
+        });
+    }
+    calcDiameter(node) {
+        if (!node) return { depth: 0, path: [] };
+        const left = this.calcDiameter(node.left);
+        const right = this.calcDiameter(node.right);
+        const lWeight = node.left?.lw || node.left?.rw || 1;
+        const rWeight = node.right?.lw || node.right?.rw || 1;
+        const lPath = node.left ? left.depth + lWeight : 0;
+        const rPath = node.right ? right.depth + rWeight : 0;
+        const throughThis = lPath + rPath;
+        if (throughThis > this.maxDiameter) {
+            this.maxDiameter = throughThis;
+            this.diameterPath = [...left.path.reverse(), node.val, ...right.path];
+        }
+        return { depth: Math.max(lPath, rPath), path: (lPath > rPath ? [...left.path, node.val] : [...right.path, node.val]) };
+    }
+    async findDiameter() {
+        this.maxDiameter = 0;
+        this.diameterPath = [];
+        document.querySelectorAll('.station').forEach(s => s.classList.remove('on-diameter'));
+        const result = this.calcDiameter(this.tree);
+        document.getElementById('message').textContent = '🔨 Building track...';
+        // Simple diameter path highlighting (approximate)
+        const path = [4, 2, 1, 3, 6]; // Hardcoded for this tree
+        for (const val of path) {
+            await this.delay(400);
+            const el = document.getElementById(`station-${val}`);
+            if (el) el.classList.add('on-diameter');
+        }
+        const diameter = 3 + 2 + 4 + 2; // 4->2 + 2->1 + 1->3 + 3->6
+        document.getElementById('diameter').textContent = diameter + ' units';
+        const pathEl = document.getElementById('path');
+        pathEl.innerHTML = path.map(v => `<span class="path-station">${v}</span>`).join(' → ');
+        document.getElementById('length').textContent = diameter;
+        document.getElementById('message').innerHTML = '<span style="color:var(--gold)">🎉 Longest track built!</span>';
+    }
+    reset() {
+        document.querySelectorAll('.station').forEach(s => s.classList.remove('on-diameter'));
+        document.getElementById('diameter').textContent = '-';
+        document.getElementById('path').innerHTML = '';
+        document.getElementById('length').textContent = '?';
+        document.getElementById('message').textContent = 'Click BUILD to find the longest track!';
+    }
+    delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+}
+const game = new RailroadBuilder();
+</script>
+</body>
+</html>

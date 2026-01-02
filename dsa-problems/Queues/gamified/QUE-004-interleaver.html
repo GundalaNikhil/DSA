@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUE-004: Interleaver</title>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a1a0a; --q1: #00ff88; --q2: #ff6b6b; --merged: #ffd700; --panel: #0f2a0f; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--merged); }
+        h1 { margin: 0; font-family: 'Audiowide', cursive; color: var(--merged); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--merged); }
+        .instructions b { color: var(--merged); }
+        .queues-container { display: flex; gap: 30px; align-items: center; }
+        .queue-box { padding: 20px; background: var(--panel); border-radius: 15px; text-align: center; }
+        .queue-label { font-weight: bold; margin-bottom: 10px; }
+        .queue-label.q1 { color: var(--q1); }
+        .queue-label.q2 { color: var(--q2); }
+        .queue-items { display: flex; gap: 5px; min-height: 50px; }
+        .queue-item { width: 45px; height: 45px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 1.1rem; }
+        .queue-item.q1 { background: var(--q1); color: #000; }
+        .queue-item.q2 { background: var(--q2); color: #fff; }
+        .queue-item.merged { background: var(--merged); color: #000; }
+        .arrow { font-size: 2rem; color: var(--merged); }
+        .merged-box { padding: 20px; background: rgba(255,215,0,0.1); border: 3px solid var(--merged); border-radius: 15px; text-align: center; }
+        .merged-label { font-weight: bold; color: var(--merged); margin-bottom: 10px; }
+        .merged-items { display: flex; gap: 5px; min-height: 50px; justify-content: center; flex-wrap: wrap; }
+        .controls { display: flex; gap: 15px; padding: 15px; background: var(--panel); border-radius: 10px; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #1a3a1a; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1a3a1a; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--merged); }
+        .btn { background: var(--merged); color: #000; border: none; padding: 12px 25px; font-family: 'Audiowide'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ffe033; }
+        .btn.secondary { background: transparent; border: 2px solid #1a3a1a; color: #888; font-family: 'Space Mono'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--merged); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--merged); font-family: 'Audiowide'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🔀 INTERLEAVER</h1>
+    <div style="color:#888">MERGE TWO QUEUES</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 INTERLEAVE QUEUES:</b> Merge two queues by alternating elements. Q1, Q2, Q1, Q2...
+    </div>
+    <div class="queues-container">
+        <div class="queue-box">
+            <div class="queue-label q1">QUEUE 1</div>
+            <div class="queue-items" id="q1"></div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="queue-box">
+            <div class="queue-label q2">QUEUE 2</div>
+            <div class="queue-items" id="q2"></div>
+        </div>
+    </div>
+    <div class="arrow" style="transform:rotate(90deg)">→</div>
+    <div class="merged-box">
+        <div class="merged-label">INTERLEAVED RESULT</div>
+        <div class="merged-items" id="merged"></div>
+    </div>
+    <div class="controls">
+        <button class="btn" onclick="game.interleaveStep()">INTERLEAVE STEP</button>
+        <button class="btn secondary" onclick="game.interleaveAll()">INTERLEAVE ALL</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Q1 Left</span><span class="stat-value" id="q1Left">0</span></div>
+            <div class="stat-row"><span class="stat-label">Q2 Left</span><span class="stat-value" id="q2Left">0</span></div>
+            <div class="stat-row"><span class="stat-label">Merged</span><span class="stat-value" id="mergedCount">0</span></div>
+        </div>
+    </div>
+    <div id="status">Click INTERLEAVE STEP to merge!</div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔀 INTERLEAVER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--merged)">CONCEPT:</b> Queue Interleaving!</p>
+            <ul>
+                <li>Take one from Q1, then one from Q2</li>
+                <li>Continue until both empty</li>
+                <li>Handle unequal sizes gracefully</li>
+                <li>Common in card shuffling, merge operations</li>
+            </ul>
+            <p style="color:#888">Used in data stream merging!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START INTERLEAVING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.q1 = []; this.q2 = []; this.merged = []; this.turn = 1;
+        this.ui = { q1: document.getElementById('q1'), q2: document.getElementById('q2'), merged: document.getElementById('merged'), q1Left: document.getElementById('q1Left'), q2Left: document.getElementById('q2Left'), mergedCount: document.getElementById('mergedCount'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.reset(); }
+    reset() {
+        this.q1 = [1, 2, 3, 4];
+        this.q2 = ['A', 'B', 'C', 'D'];
+        this.merged = [];
+        this.turn = 1;
+        this.render();
+    }
+    interleaveStep() {
+        if (this.q1.length === 0 && this.q2.length === 0) {
+            this.ui.status.textContent = 'Interleaving complete!';
+            return;
+        }
+        if (this.turn === 1 && this.q1.length > 0) {
+            const item = this.q1.shift();
+            this.merged.push({ val: item, from: 1 });
+            this.ui.status.textContent = `Took '${item}' from Q1`;
+        } else if (this.turn === 2 && this.q2.length > 0) {
+            const item = this.q2.shift();
+            this.merged.push({ val: item, from: 2 });
+            this.ui.status.textContent = `Took '${item}' from Q2`;
+        } else if (this.q1.length > 0) {
+            const item = this.q1.shift();
+            this.merged.push({ val: item, from: 1 });
+            this.ui.status.textContent = `Took '${item}' from Q1 (Q2 empty)`;
+        } else {
+            const item = this.q2.shift();
+            this.merged.push({ val: item, from: 2 });
+            this.ui.status.textContent = `Took '${item}' from Q2 (Q1 empty)`;
+        }
+        this.turn = this.turn === 1 ? 2 : 1;
+        this.render();
+    }
+    interleaveAll() {
+        while (this.q1.length > 0 || this.q2.length > 0) {
+            this.interleaveStep();
+        }
+    }
+    render() {
+        this.ui.q1.innerHTML = '';
+        this.q1.forEach(v => {
+            const el = document.createElement('div');
+            el.className = 'queue-item q1';
+            el.textContent = v;
+            this.ui.q1.appendChild(el);
+        });
+        this.ui.q2.innerHTML = '';
+        this.q2.forEach(v => {
+            const el = document.createElement('div');
+            el.className = 'queue-item q2';
+            el.textContent = v;
+            this.ui.q2.appendChild(el);
+        });
+        this.ui.merged.innerHTML = '';
+        this.merged.forEach(m => {
+            const el = document.createElement('div');
+            el.className = 'queue-item ' + (m.from === 1 ? 'q1' : 'q2');
+            el.textContent = m.val;
+            this.ui.merged.appendChild(el);
+        });
+        this.ui.q1Left.textContent = this.q1.length;
+        this.ui.q2Left.textContent = this.q2.length;
+        this.ui.mergedCount.textContent = this.merged.length;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

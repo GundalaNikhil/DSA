@@ -1,2 +1,52 @@
-# Quiz for HEP-003: Top K Frequent with Decay
-# YAML content to be added
+problem_id: HEP_TOP_K_FREQUENT_DECAY_003
+display_id: HEP-003
+slug: top-k-frequent-decay
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: If last_update was t=10 and current_time is t=20 with d=5, how much does the count decay?
+    options:
+      - No decay
+      - Decay by half (0.5)
+      - Decay by 1/4 (0.5^2)
+      - Decay by 1/8 (0.5^3)
+    correct_answer: 2
+    explanation: (20-10)/5 = 2 decay periods. Count becomes count * 0.5^2 = 0.25 * count.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: Why do we apply decay lazily rather than updating all keys every 'd' seconds?
+    options:
+      - To save memory
+      - Updating 10^5 keys every 'd' seconds is too slow (O(N) vs O(1) per access)
+      - To avoid floating point errors
+      - Because keys can be renamed
+    correct_answer: 1
+    explanation: Lazy updates ensure we only compute decay for keys that are actually accessed, reducing work from O(N) to O(1) per operation.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: In case of a tie in effective counts, what is the secondary sorting criterion?
+    options:
+      - Last update time
+      - Lexicographic order of keys
+      - Random selection
+      - Original count
+    correct_answer: 1
+    explanation: The problem specifies lexicographic order as the tie-breaker for the top K keys.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: A key has count 4 at t=0. d=2. At t=3, what is its effective count?
+    options:
+      - "4"
+      - "2"
+      - "1"
+      - "0"
+    correct_answer: 1
+    explanation: "floor((3-0)/2) = 1. Decay once: 4 * 0.5^1 = 2."

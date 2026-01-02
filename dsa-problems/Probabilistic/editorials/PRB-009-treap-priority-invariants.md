@@ -73,6 +73,14 @@ Heap Property (Max-Heap): Parent priority > Child priority.
 - Structure is unique given priorities.
 - With random priorities, the tree shape is random.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Compute harmonic number]
+    B --> C[Apply depth and path formulas]
+    C --> D[Output expectations]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Harmonic Number:** `H_n = sum_i=1^n frac1i`.

@@ -1,266 +1,52 @@
----
-problem_id: DP_PAINT_FENCE_SWITCH_COST__4281
+problem_id: DP_PAINT_FENCE_SWITCH_COST_013
 display_id: DP-013
 slug: paint-fence-switch-cost
-title: "Paint Fence With Switch Cost - Quiz"
----
-
-# Problem-Related Questions (PRQ)
-# These test understanding of the problem statement, constraints, and requirements
-
-problem_questions:
-  - quiz_id: "PRQ-013-Q001"
-    category: "problem"
-    type: single_choice
-    question: "What is the primary task in the Paint Fence With Switch Cost problem?"
-    options:
-      - option_id: "A"
-        text: "Paint the fence with minimum colors"
-        correct: false
-      - option_id: "B"
-        text: "Paint N posts minimizing total cost with color constraints and switch costs"
-        correct: true
-      - option_id: "C"
-        text: "Count the number of valid color patterns"
-        correct: false
-      - option_id: "D"
-        text: "Maximize color diversity"
-        correct: false
-    explanation: "The goal is to paint all fence posts with minimum total cost, where we pay per-post costs plus additional switch costs when changing colors."
+questions:
+  - question: What is the primary task in the Paint Fence With Switch Cost problem?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-013-Q002"
-    category: "problem"
-    type: single_choice
-    question: "What is a 'switch cost' in this problem?"
     options:
-      - option_id: "A"
-        text: "The cost of using a particular color"
-        correct: false
-      - option_id: "B"
-        text: "An additional cost incurred when changing from one color to a different color"
-        correct: true
-      - option_id: "C"
-        text: "The cost of painting the first post"
-        correct: false
-      - option_id: "D"
-        text: "A penalty for using too few colors"
-        correct: false
-    explanation: "Switch cost is paid whenever consecutive posts have different colors, modeling the real-world cost of changing paint colors."
+      - Paint the fence with minimum colors
+      - Paint N posts minimizing total cost with color constraints and switch costs
+      - Count the number of valid color patterns
+      - Maximize color diversity
+    correct_answer: 1
+    explanation: The goal is to paint all fence posts with minimum total cost, where we pay per-post costs plus additional switch costs when changing colors.
+    type: single_choice
+    id: prq_1
+  - question: What is a 'switch cost' in this problem?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-013-Q003"
-    category: "problem"
-    type: single_choice
-    question: "If painting post i with color A costs 5, and switching from previous color B to A costs 3, what is the total cost for post i?"
     options:
-      - option_id: "A"
-        text: "5 (paint cost only)"
-        correct: false
-      - option_id: "B"
-        text: "3 (switch cost only)"
-        correct: false
-      - option_id: "C"
-        text: "8 (paint cost + switch cost)"
-        correct: true
-      - option_id: "D"
-        text: "15 (paint cost × switch cost)"
-        correct: false
-    explanation: "When switching colors, we pay both the paint cost for the new color (5) and the switch cost (3), totaling 8."
+      - The cost of using a particular color
+      - An additional cost incurred when changing from one color to a different color
+      - The cost of painting the first post
+      - A penalty for using too few colors
+    correct_answer: 1
+    explanation: Switch cost is paid whenever consecutive posts have different colors, modeling the real-world cost of changing paint colors.
+    type: single_choice
+    id: edq_1
+  - question: If painting post i with color A costs 5, and switching from previous color B to A costs 3, what is the total cost for post i?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-013-Q004"
-    category: "problem"
-    type: multiple_choice
-    question: "Which of the following affect the total painting cost? (Select all that apply)"
     options:
-      - option_id: "A"
-        text: "Per-post paint costs for each color"
-        correct: true
-      - option_id: "B"
-        text: "Switch costs between different colors"
-        correct: true
-      - option_id: "C"
-        text: "Whether consecutive posts use the same color"
-        correct: true
-      - option_id: "D"
-        text: "The order in which posts are painted"
-        correct: false
-    explanation: "Total cost includes paint costs per post, switch costs when colors change, and same-color streaks (no switch cost). Physical painting order doesn't affect minimum cost."
+      - 5 (paint cost only)
+      - 3 (switch cost only)
+      - 8 (paint cost + switch cost)
+      - 15 (paint cost × switch cost)
+    correct_answer: 2
+    explanation: When switching colors, we pay both the paint cost for the new color (5) and the switch cost (3), totaling 8.
+    type: single_choice
+    id: edq_2
+  - question: Which of the following affect the total painting cost? (Select all that apply)
     difficulty: medium
     points: 15
-
-  - quiz_id: "PRQ-013-Q005"
-    category: "problem"
+    options:
+      - Per-post paint costs for each color
+      - Switch costs between different colors
+      - Whether consecutive posts use the same color
+      - The order in which posts are painted
+    correct_answer: 2
+    explanation: Total cost includes paint costs per post, switch costs when colors change, and same-color streaks (no switch cost). Physical painting order doesn't affect minimum cost.
     type: single_choice
-    question: "Given 3 posts, 2 colors (Red, Blue), paint costs [[1,2],[3,4],[5,6]], and switch cost 10, what's the minimum cost?"
-    options:
-      - option_id: "A"
-        text: "9 (all Red: 1+3+5)"
-        correct: true
-      - option_id: "B"
-        text: "12 (all Blue: 2+4+6)"
-        correct: false
-      - option_id: "C"
-        text: "15 (alternating colors)"
-        correct: false
-      - option_id: "D"
-        text: "6"
-        correct: false
-    explanation: "All Red: 1+3+5=9 with no switches. All Blue: 2+4+6=12. Any switch adds 10, making alternating patterns more expensive. Minimum is 9."
-    difficulty: medium
-    points: 15
-
-# Editorial/Algorithm Questions (EDQ)
-# These test understanding of the solution approach, algorithms, and complexity analysis
-
-editorial_questions:
-  - quiz_id: "EDQ-013-Q001"
-    category: "editorial"
-    type: single_choice
-    question: "What is the time complexity of the DP solution with N posts and K colors?"
-    options:
-      - option_id: "A"
-        text: "O(N)"
-        correct: false
-      - option_id: "B"
-        text: "O(N * K)"
-        correct: false
-      - option_id: "C"
-        text: "O(N * K²)"
-        correct: true
-      - option_id: "D"
-        text: "O(N²)"
-        correct: false
-    explanation: "For each of N posts, we consider K colors. For each color, we check K possible previous colors to compute switch costs, giving O(N*K²)."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-013-Q002"
-    category: "editorial"
-    type: single_choice
-    question: "What should dp[i][c] represent?"
-    options:
-      - option_id: "A"
-        text: "Whether post i can be painted with color c"
-        correct: false
-      - option_id: "B"
-        text: "Minimum cost to paint posts 0 to i with post i painted color c"
-        correct: true
-      - option_id: "C"
-        text: "Number of ways to paint post i"
-        correct: false
-      - option_id: "D"
-        text: "Maximum cost for painting"
-        correct: false
-    explanation: "We track minimum cost to paint all posts up to i, where post i uses color c, allowing us to compute switch costs for the next post."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-013-Q003"
-    category: "editorial"
-    type: single_choice
-    question: "What is the recurrence relation for dp[i][c]?"
-    options:
-      - option_id: "A"
-        text: "dp[i][c] = min over all prev colors p: (dp[i-1][p] + cost[i][c])"
-        correct: false
-      - option_id: "B"
-        text: "dp[i][c] = min over all prev colors p: (dp[i-1][p] + cost[i][c] + switch_cost(p,c))"
-        correct: true
-      - option_id: "C"
-        text: "dp[i][c] = dp[i-1][c] + cost[i][c]"
-        correct: false
-      - option_id: "D"
-        text: "dp[i][c] = cost[i][c]"
-        correct: false
-    explanation: "For each previous color p, we add paint cost[i][c] and switch cost (0 if p==c, else switch_cost). Take minimum over all p."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-013-Q004"
-    category: "editorial"
-    type: scenario
-    question: "You're scheduling manufacturing processes where changing setups incurs costs. Which algorithm applies?"
-    options:
-      - option_id: "A"
-        text: "Greedy scheduling"
-        correct: false
-      - option_id: "B"
-        text: "DP with state transitions and switch costs"
-        correct: true
-      - option_id: "C"
-        text: "Binary search"
-        correct: false
-      - option_id: "D"
-        text: "Simple cost summation"
-        correct: false
-    explanation: "This models the paint fence problem - minimizing total cost including per-task costs and setup change costs, requiring DP with state tracking."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-013-Q005"
-    category: "editorial"
-    type: scenario
-    question: "Your solution ignores switch costs and just picks minimum paint cost per post. Why is this wrong?"
-    options:
-      - option_id: "A"
-        text: "Greedy doesn't account for future switch costs; DP considers global optimum"
-        correct: true
-      - option_id: "B"
-        text: "Integer overflow"
-        correct: false
-      - option_id: "C"
-        text: "Wrong data types"
-        correct: false
-      - option_id: "D"
-        text: "Off-by-one errors"
-        correct: false
-    explanation: "Greedy local optimization (cheapest color per post) may cause many expensive switches. DP considers total cost including switches to find global optimum."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-013-Q006"
-    category: "editorial"
-    type: multiple_choice
-    question: "Which of the following are common mistakes in this problem? (Select all that apply)"
-    options:
-      - option_id: "A"
-        text: "Forgetting to add switch cost when previous color differs from current"
-        correct: true
-      - option_id: "B"
-        text: "Adding switch cost even when colors are the same (p==c)"
-        correct: true
-      - option_id: "C"
-        text: "Using greedy approach instead of DP"
-        correct: true
-      - option_id: "D"
-        text: "Tracking previous color in DP state"
-        correct: false
-    explanation: "Common errors include missing switch costs, applying switches incorrectly (even when same color), and using greedy. Tracking previous color via DP dimension is correct, not a mistake."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-013-Q007"
-    category: "editorial"
-    type: single_choice
-    question: "What is the space complexity of the DP solution?"
-    options:
-      - option_id: "A"
-        text: "O(N * K) for full DP table"
-        correct: false
-      - option_id: "B"
-        text: "O(K) using rolling array optimization"
-        correct: true
-      - option_id: "C"
-        text: "O(N) only"
-        correct: false
-      - option_id: "D"
-        text: "O(1)"
-        correct: false
-    explanation: "Since dp[i] only depends on dp[i-1], we can use two arrays of size K (current and previous), reducing space from O(N*K) to O(K)."
-    difficulty: medium
-    points: 15
+    id: edq_3

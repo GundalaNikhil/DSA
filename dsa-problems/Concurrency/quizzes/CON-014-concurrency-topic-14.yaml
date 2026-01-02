@@ -1,0 +1,52 @@
+problem_id: CON_TOPIC_14
+display_id: CON-014
+slug: concurrency-topic-14
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: What is a 'race condition'?
+    options:
+      - A performance bug
+      - An unpredictable outcome depending on the relative timing of thread execution
+      - Threads executing in alphabetical order
+      - Memory leakage
+    correct_answer: 1
+    explanation: Race conditions occur when threads access shared data concurrently and at least one access is a write.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: Which primitive provides Mutual Exclusion?
+    options:
+      - Semaphore
+      - Mutex
+      - Condition Variable
+      - Barrier
+    correct_answer: 1
+    explanation: A Mutex (Mutual Exclusion) ensures only one thread can hold the lock at a time.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: What is a 'deadlock'?
+    options:
+      - A thread terminating early
+      - A set of threads stuck waiting for each other in a circular dependency
+      - A fast thread
+      - A memory error
+    correct_answer: 1
+    explanation: Deadlock occurs when thread A holds lock 1 and waits for lock 2, while thread B holds lock 2 and waits for lock 1.
+  - id: edq_3
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: What is the purpose of a 'condition variable'?
+    options:
+      - To lock a resource
+      - To allow threads to wait for a specific state or event to happen
+      - To count elements
+      - To handle exceptions
+    correct_answer: 1
+    explanation: Condition variables allow threads to block until another thread signals that a condition (like 'queue not empty') is met.

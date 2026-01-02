@@ -1,0 +1,52 @@
+problem_id: GRD_ROBOTICS_MEDIAN_AFTER_BATCHES_STALE_015
+display_id: GRD-015
+slug: robotics-median-after-batches-stale
+questions:
+  - question: This problem requires finding the median while excluding values with a frequency > t. Which data structure pattern is optimal for this?
+    difficulty: medium
+    points: 15
+    options:
+      - Two Heaps (Max-Heap for lower half, Min-Heap for upper half).
+      - A single sorted array.
+      - A Binary Search Tree with parent pointers.
+      - A Queue.
+    correct_answer: 0
+    explanation: The Two Heaps pattern allows for efficient median tracking (O(1) access) and insertions (O(log N)), which is critical when processing streaming batches.
+    type: single_choice
+    id: prq_1
+  - question: How should 'stale' values (those exceeding the frequency threshold) be handled in the heap?
+    difficulty: hard
+    points: 15
+    options:
+      - "Use 'Lazy Deletion': mark them as stale but only remove them when they rise to the top of a heap."
+      - Traverse the entire heap immediately to remove all instances.
+      - Rebuild the heap from scratch every time a value becomes stale.
+      - Ignore them; they don't affect the median.
+    correct_answer: 0
+    explanation: Searching and removing from the middle of a heap is O(N). Lazy deletion prunes efficiently at the top (O(log N)) while maintaining the structural invariants.
+    type: single_choice
+    id: edq_1
+  - question: When rebalancing the two heaps after marking items stale, what critical information must be tracked?
+    difficulty: medium
+    points: 15
+    options:
+      - The count of *valid* elements effectively in each heap, even if stale elements are physically present.
+      - The total number of stale elements globally.
+      - The exact index of every element.
+      - The average value of the heaps.
+    correct_answer: 0
+    explanation: To maintain the median invariant (equal halves), we must balance the heaps based on their 'valid' size, logically excluding the ghost/stale elements buried inside.
+    type: single_choice
+    id: edq_2
+  - question: What is the output if all numbers in the stream become stale?
+    difficulty: easy
+    points: 10
+    options:
+      - '"NA"'
+      - "0"
+      - "-1"
+      - The last valid median
+    correct_answer: 0
+    explanation: If valid_count becomes 0, no median exists, so we output "NA" as specified.
+    type: single_choice
+    id: edq_3

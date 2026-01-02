@@ -75,6 +75,19 @@ dp[u][1] = max over all children v of:
            edge (u,v)
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[DFS from root]
+    B --> C[Compute sum of best child states]
+    C --> D[Set dp state for unmatched node]
+    D --> E[Try matching with each child]
+    E --> F[Compute candidate for matched state]
+    F --> G[Pick max for matched state]
+    G --> H[Return dp for node]
+    H --> I[End]
+```
+
 ---
 
 ## 🧪 Edge Cases

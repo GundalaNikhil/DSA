@@ -74,6 +74,20 @@ dfs(u):
     restore active[values[u]] to saved state  // BACKTRACK
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[DFS on node]
+    B --> C[Find best previous value]
+    C --> D[Set LIS for node]
+    D --> E[Save and update active state]
+    E --> F{Child exists}
+    F -->|Yes| G[Recurse to child]
+    G --> F
+    F -->|No| H[Restore active state]
+    H --> I[End]
+```
+
 ---
 
 ## 🧪 Edge Cases

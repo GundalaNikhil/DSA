@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REC-001: Dorm Dash</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffeaa7;
+            --grid: #fff;
+            --wall: #dfe6e9;
+            --path: #74b9ff;
+            --player: #0984e3;
+            --text: #2d3436;
+            --accent: #d63031;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+
+        h1 {
+            font-family: 'Bangers', cursive;
+            font-size: 3rem;
+            color: var(--accent);
+            text-shadow: 2px 2px 0px #fff;
+            margin-top: 1rem;
+            letter-spacing: 2px;
+        }
+
+        .game-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            display: flex;
+            gap: 2rem;
+            align-items: flex-start;
+        }
+
+        .grid-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .grid {
+            display: grid;
+            gap: 5px;
+            background: #b2bec3;
+            padding: 5px;
+            border-radius: 8px;
+            position: relative;
+        }
+
+        .cell {
+            width: 60px;
+            height: 60px;
+            background: var(--grid);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #b2bec3;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-radius: 4px;
+        }
+
+        .cell:hover { background: #f1f2f6; }
+        
+        .cell.start { background: #55efc4; color: #00b894; border: 2px solid #00b894; }
+        .cell.end { background: #fab1a0; color: #d63031; border: 2px solid #d63031; }
+        
+        .cell.current { background: var(--player); box-shadow: 0 0 15px var(--player); z-index: 2; transform: scale(1.1); border-radius: 50%; }
+        
+        .cell.path-node {
+            background: var(--path);
+        }
+
+        .cell.valid-move {
+            background: #a29bfe;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
+
+        .info-panel {
+            width: 250px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .status-card {
+            background: #f1f2f6;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .paths-found {
+            font-size: 2rem;
+            font-family: 'Bangers';
+            color: var(--player);
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn {
+            background: var(--player);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+            font-family: 'Bangers';
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+            transition: transform 0.1s;
+        }
+        .btn:hover { transform: scale(1.05); }
+        .btn.secondary { background: #b2bec3; }
+
+        .history-list {
+            height: 200px;
+            overflow-y: auto;
+            background: #f8f9fa;
+            border: 2px solid #dfe6e9;
+            border-radius: 8px;
+            padding: 10px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .found-path-item {
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+            color: #00b894;
+        }
+
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .hidden { display: none; }
+        .dialog { background: white; padding: 2rem; border-radius: 15px; max-width: 400px; text-align: center; border: 5px solid var(--accent); }
+
+    
+        .alert-modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .alert-modal {
+            background: white; padding: 2rem; border-radius: 8px;
+            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+        .alert-modal button {
+            background: #4b5563; color: white; padding: 0.8rem 2rem;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .alert-modal button:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<h1>DORM DASH</h1>
+
+<div class="game-container">
+    <div class="grid-area">
+        <div class="grid" id="grid"></div>
+        <div style="margin-top:10px; color:#636e72; font-style:italic">Click highlighted cells to move!</div>
+    </div>
+
+    <div class="info-panel">
+        <div class="status-card">
+            <div>PATHS FOUND</div>
+            <div class="paths-found"><span id="foundCount">0</span> / <span id="totalPaths">?</span></div>
+        </div>
+
+        <div class="history-list" id="pathLog">
+            <div style="color:#aaa">Paths found:</div>
+        </div>
+
+        <div class="controls">
+            <button class="btn secondary" onclick="resetCurrentRun()">Restart Run</button>
+            <button class="btn secondary" onclick="resetAll()">New Map</button>
+        </div>
+    </div>
+</div>
+
+<div id="modal" class="modal hidden">
+    <div class="dialog">
+        <h2>HOW TO PLAY</h2>
+        <p>You are the Blue Dot at (0,0).</p>
+        <p>Goal: Reach the Red Exit.</p>
+        <p>Rules: You can only move <strong>RIGHT</strong> or <strong>DOWN</strong>.</p>
+        <p><strong>Challenge:</strong> Find ALL unique paths to the exit manually!</p>
+        <button class="btn" onclick="document.getElementById('modal').classList.add('hidden')">START RUNNING</button>
+    </div>
+</div>
+
+<script>
+    const ROWS = 4;
+    const COLS = 4;
+    // Simple 4x4 grid. Total paths for 4x4 is binom(6,3) = 20.
+    // Let's use a 3x3 or 4x3 to make it manageable for manual play.
+    // 3x3=> 6 paths. 4x3 => 10 paths. 3x4 => 10 paths.
+    // Let's do 3 rows, 4 cols.
+    const R = 3, C = 4;
+    
+    let currentPos = {r:0, c:0};
+    let currentPath = [];
+    let foundPaths = new Set();
+    const totalPossible = 10; // (3-1 + 4-1)! / ... = 5! / (2!3!) = 120/12 = 10. Correct.
+
+    function init() {
+        document.getElementById('totalPaths').textContent = totalPossible;
+        resetAll();
+        document.getElementById('modal').classList.remove('hidden');
+    }
+
+    function resetAll() {
+        foundPaths.clear();
+        document.getElementById('foundCount').textContent = '0';
+        document.getElementById('pathLog').innerHTML = '<div style="color:#aaa">Paths found:</div>';
+        resetCurrentRun();
+    }
+
+    function resetCurrentRun() {
+        currentPos = {r:0, c:0};
+        currentPath = [{r:0, c:0}];
+        renderGrid();
+    }
+
+    function renderGrid() {
+        const grid = document.getElementById('grid');
+        grid.innerHTML = '';
+        grid.style.gridTemplateColumns = `repeat(${C}, 60px)`;
+        grid.style.gridTemplateRows = `repeat(${R}, 60px)`;
+
+        for(let r=0; r<R; r++) {
+            for(let c=0; c<C; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                
+                // Check if in current Path
+                const pathIdx = currentPath.findIndex(p => p.r===r && p.c===c);
+                if (pathIdx !== -1) {
+                    if (pathIdx === currentPath.length-1) cell.classList.add('current');
+                    else cell.classList.add('path-node');
+                }
+
+                if (r===0 && c===0) cell.classList.add('start');
+                if (r===R-1 && c===C-1) cell.classList.add('end');
+
+                // Check valid moves from currentPos
+                // Can move Right (r, c+1) or Down (r+1, c)
+                let isValidMove = false;
+                if (pathIdx === -1) { // Don't highlight visited
+                    if (r === currentPos.r && c === currentPos.c + 1) isValidMove = true;
+                    if (r === currentPos.r + 1 && c === currentPos.c) isValidMove = true;
+                }
+
+                if (isValidMove && !(currentPos.r === R-1 && currentPos.c === C-1)) {
+                    cell.classList.add('valid-move');
+                    cell.onclick = () => move(r, c);
+                }
+
+                grid.appendChild(cell);
+            }
+        }
+    }
+
+    function move(r, c) {
+        currentPos = {r, c};
+        currentPath.push({r, c});
+        renderGrid();
+
+        if (r === R-1 && c === C-1) {
+            handleWin();
+        }
+    }
+
+    function handleWin() {
+        const pathSig = currentPath.map(p => `(${p.r},${p.c})`).join('->');
+        
+        if (foundPaths.has(pathSig)) {
+            this.showGameAlert("You already found this path! Try a different route.");
+        } else {
+            foundPaths.add(pathSig);
+            document.getElementById('foundCount').textContent = foundPaths.size;
+            
+            const item = document.createElement('div');
+            item.className = 'found-path-item';
+            item.textContent = `Path #${foundPaths.size}: COMPLETE`;
+            document.getElementById('pathLog').appendChild(item);
+
+            if (foundPaths.size === totalPossible) {
+                setTimeout(() => this.showGameAlert("CONGRATULATIONS! You exhausted the search space!"), 100);
+            } else {
+                // Auto reset for next run after short delay
+                setTimeout(() => {
+                    resetCurrentRun();
+                }, 500);
+            }
+        }
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

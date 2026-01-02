@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-008: Star Constellation Counter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a1a; --star: #ffd700; --blue: #4fc3f7; --purple: #ab47bc; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Orbitron', sans-serif; background: var(--bg); color: #fff; min-height: 100vh; }
+        header { background: linear-gradient(180deg, #1a1a3e 0%, var(--bg) 100%); padding: 1.5rem; border-bottom: 2px solid var(--star); text-align: center; }
+        h1 { color: var(--star); font-size: 1.8rem; text-shadow: 0 0 20px var(--star); }
+        .subtitle { color: var(--blue); font-size: 0.8rem; margin-top: 5px; }
+        main { padding: 25px; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+        .sky { background: radial-gradient(ellipse at center, #1a1a3e 0%, var(--bg) 100%); border: 2px solid #333; border-radius: 15px; padding: 30px; position: relative; min-height: 200px; }
+        .stars-container { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .star { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; color: var(--star); position: relative; transition: all 0.3s; cursor: pointer; }
+        .star::before { content: '★'; position: absolute; font-size: 2rem; color: var(--star); opacity: 0.3; }
+        .star:hover { transform: scale(1.2); text-shadow: 0 0 20px var(--star); }
+        .star .idx { position: absolute; bottom: -15px; font-size: 0.5rem; color: #666; }
+        .controls { background: #1a1a3e; border: 2px solid #444; border-radius: 10px; padding: 20px; display: flex; gap: 20px; align-items: end; }
+        .input-group { flex: 2; }
+        .input-group label { color: var(--star); display: block; margin-bottom: 8px; font-size: 0.8rem; }
+        .input-group input { width: 100%; background: var(--bg); border: 2px solid #444; border-radius: 8px; padding: 12px; color: #fff; font-family: 'Orbitron'; font-size: 1rem; letter-spacing: 3px; }
+        .btn { flex: 1; padding: 15px; border: none; border-radius: 10px; font-family: 'Orbitron'; font-size: 0.9rem; cursor: pointer; background: linear-gradient(135deg, var(--star) 0%, #ffa000 100%); color: #000; font-weight: bold; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 20px rgba(255,215,0,0.4); }
+        .results { background: #1a1a3e; border: 2px solid var(--purple); border-radius: 10px; padding: 25px; text-align: center; }
+        .formula { font-size: 1.2rem; color: var(--blue); margin: 15px 0; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 10px; }
+        .result-value { font-size: 3rem; color: var(--star); font-weight: bold; text-shadow: 0 0 30px var(--star); }
+        .result-label { color: #888; font-size: 0.8rem; margin-top: 5px; }
+        .breakdown { display: flex; justify-content: center; gap: 30px; margin-top: 20px; }
+        .breakdown-item { text-align: center; }
+        .breakdown-value { font-size: 1.5rem; color: var(--blue); }
+        .breakdown-label { font-size: 0.7rem; color: #666; }
+        .explanation { background: rgba(171, 71, 188, 0.1); border: 1px solid var(--purple); border-radius: 10px; padding: 15px; font-size: 0.8rem; line-height: 1.6; }
+    </style>
+</head>
+<body>
+<header><h1>🌌 STAR CONSTELLATION COUNTER</h1><div class="subtitle">Count Distinct Substrings using Suffix Array + LCP</div></header>
+<main>
+    <div class="sky"><div class="stars-container" id="stars"></div></div>
+    <div class="controls">
+        <div class="input-group"><label>✨ Enter Star Pattern</label><input type="text" id="pattern" value="ABABA" maxlength="12"></div>
+        <button class="btn" onclick="game.count()">🔭 COUNT CONSTELLATIONS</button>
+    </div>
+    <div class="results">
+        <div style="color:var(--star); margin-bottom:10px;">🏆 UNIQUE CONSTELLATIONS</div>
+        <div class="result-value" id="result">-</div>
+        <div class="result-label">distinct substrings</div>
+        <div class="formula" id="formula">Total - Duplicates = Unique</div>
+        <div class="breakdown">
+            <div class="breakdown-item"><div class="breakdown-value" id="total">-</div><div class="breakdown-label">Total (n*(n+1)/2)</div></div>
+            <div class="breakdown-item"><div class="breakdown-value" id="lcp-sum">-</div><div class="breakdown-label">Sum of LCP</div></div>
+            <div class="breakdown-item"><div class="breakdown-value" id="distinct">-</div><div class="breakdown-label">Distinct</div></div>
+        </div>
+    </div>
+    <div class="explanation"><strong>💡 Formula:</strong> Distinct Substrings = n*(n+1)/2 - Σ LCP[i]. The LCP array captures duplicate prefixes between adjacent sorted suffixes.</div>
+</main>
+<script>
+class ConstellationCounter {
+    constructor() { this.pattern = ""; this.load(); }
+    load() { this.pattern = document.getElementById('pattern').value.toUpperCase(); this.renderStars(); }
+    renderStars() {
+        const c = document.getElementById('stars'); c.innerHTML = '';
+        this.pattern.split('').forEach((ch, i) => {
+            const s = document.createElement('div'); s.className = 'star';
+            s.innerHTML = `${ch}<span class="idx">${i}</span>`; c.appendChild(s);
+        });
+    }
+    count() {
+        this.load(); const n = this.pattern.length; if (n === 0) return;
+        // Build SA
+        let suffixes = []; for (let i = 0; i < n; i++) suffixes.push({ idx: i, suffix: this.pattern.substring(i) });
+        suffixes.sort((a, b) => a.suffix.localeCompare(b.suffix));
+        const sa = suffixes.map(s => s.idx);
+        // Build LCP
+        let lcp = [0]; 
+        for (let i = 1; i < n; i++) {
+            const s1 = this.pattern.substring(sa[i-1]), s2 = this.pattern.substring(sa[i]);
+            let l = 0; while (l < s1.length && l < s2.length && s1[l] === s2[l]) l++;
+            lcp.push(l);
+        }
+        const total = n * (n + 1) / 2;
+        const lcpSum = lcp.reduce((a, b) => a + b, 0);
+        const distinct = total - lcpSum;
+        document.getElementById('total').textContent = total;
+        document.getElementById('lcp-sum').textContent = lcpSum;
+        document.getElementById('distinct').textContent = distinct;
+        document.getElementById('result').textContent = distinct;
+        document.getElementById('formula').innerHTML = `${total} - ${lcpSum} = <span style="color:var(--star)">${distinct}</span>`;
+    }
+}
+const game = new ConstellationCounter();
+document.getElementById('pattern').addEventListener('change', () => game.load());
+</script>
+</body>
+</html>

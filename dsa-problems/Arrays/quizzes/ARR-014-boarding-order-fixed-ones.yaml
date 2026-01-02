@@ -1,0 +1,52 @@
+problem_id: ARR_BOARDING_ORDER_FIXED_ONES_014
+display_id: ARR-014
+slug: boarding-order-fixed-ones
+questions:
+  - question: What constraint must be respected while sorting?
+    difficulty: easy
+    points: 10
+    options:
+      - All 0s must stay fixed
+      - All 1s must stay in their original positions
+      - All 2s must stay fixed
+      - The array must be stable for all values
+    correct_answer: 1
+    explanation: Positions containing 1 are fixed and cannot move.
+    type: single_choice
+    id: prq_1
+  - question: For arr = [2, 1, 0, 2, 0, 1], what is the correct output?
+    difficulty: easy
+    points: 10
+    options:
+      - 0 1 0 1 2 2
+      - 0 0 1 1 2 2
+      - 1 0 0 2 2 1
+      - 2 1 0 2 0 1
+    correct_answer: 0
+    explanation: The 1s stay at indices 1 and 5; 0s fill left slots and 2s fill right slots.
+    type: single_choice
+    id: edq_1
+  - question: In the two-pointer method, what triggers a swap?
+    difficulty: medium
+    points: 15
+    options:
+      - Left points to 0 and right points to 2
+      - Left points to 2 and right points to 0
+      - Both point to 1
+      - Both point to 0
+    correct_answer: 1
+    explanation: A 2 on the left and a 0 on the right are in the wrong sides.
+    type: single_choice
+    id: edq_2
+  - question: Which positions are filled by 0s and 2s?
+    difficulty: medium
+    points: 15
+    options:
+      - Only positions originally containing 1s
+      - Only positions not containing 1s
+      - Only the first and last positions
+      - Only even indices
+    correct_answer: 1
+    explanation: We can only rearrange the non-1 slots.
+    type: single_choice
+    id: edq_3

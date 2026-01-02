@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRE-002: Cliff Climber</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@600&display=swap" rel="stylesheet">
+    <style>
+        :root { --rock: #5d4e37; --sky: #1e90ff; --snow: #fff; --gold: #ffd700; --red: #e74c3c; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Nunito', sans-serif; background: linear-gradient(180deg, var(--sky) 0%, #87ceeb 50%, #98d8c8 100%); min-height: 100vh; }
+        header { background: linear-gradient(180deg, #2c3e50 0%, var(--rock) 100%); padding: 15px; text-align: center; color: #fff; }
+        h1 { font-family: 'Bangers', cursive; font-size: 2rem; letter-spacing: 3px; text-shadow: 2px 2px 0 #000; }
+        .stats { display: flex; justify-content: center; gap: 30px; margin-top: 10px; }
+        .stat { background: rgba(0,0,0,0.3); padding: 5px 15px; border-radius: 20px; }
+        main { padding: 20px; max-width: 800px; margin: 0 auto; }
+        .mountain-scene { display: flex; gap: 30px; align-items: flex-end; justify-content: center; }
+        .height-meter { width: 60px; background: linear-gradient(180deg, var(--snow) 0%, var(--rock) 100%); border-radius: 10px; display: flex; flex-direction: column; align-items: center; padding: 10px 0; position: relative; }
+        .meter-mark { padding: 10px 0; font-size: 0.8rem; color: #fff; text-shadow: 1px 1px 0 #000; }
+        .meter-indicator { position: absolute; right: -20px; width: 0; height: 0; border-left: 15px solid var(--gold); border-top: 10px solid transparent; border-bottom: 10px solid transparent; transition: top 0.5s ease; }
+        .cliff { position: relative; min-height: 400px; display: flex; flex-direction: column; align-items: center; }
+        .cliff-level { display: flex; gap: 15px; margin: 15px 0; }
+        .rock-node { width: 55px; height: 55px; background: linear-gradient(135deg, #8b7355 0%, var(--rock) 100%); border: 3px solid #3d3425; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold; color: #fff; text-shadow: 1px 1px 0 #000; position: relative; cursor: pointer; transition: all 0.3s; }
+        .rock-node:hover { transform: scale(1.1); box-shadow: 0 0 15px rgba(255,255,255,0.5); }
+        .rock-node.summit { background: linear-gradient(135deg, var(--snow) 0%, #ccc 100%); color: #333; }
+        .rock-node.climbed { border-color: var(--gold); box-shadow: 0 0 15px var(--gold); }
+        .climber { position: absolute; font-size: 2rem; transition: all 0.8s ease; z-index: 100; }
+        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
+        .btn { padding: 15px 30px; border: none; border-radius: 10px; font-family: 'Bangers', cursive; font-size: 1.2rem; letter-spacing: 2px; cursor: pointer; transition: all 0.2s; }
+        .btn-climb { background: var(--red); color: #fff; }
+        .btn-guess { background: var(--gold); color: #333; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .challenge { background: rgba(255,255,255,0.95); border-radius: 15px; padding: 20px; margin-top: 20px; text-align: center; }
+        .challenge-title { color: var(--rock); font-size: 1.2rem; margin-bottom: 15px; }
+        .guess-input { display: flex; gap: 10px; justify-content: center; align-items: center; }
+        .guess-input input { width: 80px; padding: 10px; font-size: 1.5rem; text-align: center; border: 3px solid var(--rock); border-radius: 10px; }
+        #message { text-align: center; padding: 15px; font-size: 1.2rem; min-height: 50px; }
+        .result { font-size: 2rem; color: var(--gold); animation: pop 0.5s ease; }
+        @keyframes pop { 0% { transform: scale(0); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🧗 CLIFF CLIMBER</h1>
+    <div class="stats">
+        <div class="stat">⏱️ Time: <span id="time">0</span>s</div>
+        <div class="stat">🏔️ Height: <span id="height">?</span></div>
+    </div>
+</header>
+<main>
+    <div id="message">Can you guess the tree height? Then watch the climber verify!</div>
+    <div class="mountain-scene">
+        <div class="height-meter" id="meter">
+        </div>
+        <div class="cliff" id="cliff">
+        </div>
+    </div>
+    <div class="challenge">
+        <div class="challenge-title">🎯 GUESS THE HEIGHT</div>
+        <div class="guess-input">
+            <input type="number" id="guess" min="0" max="10" placeholder="?">
+            <button class="btn btn-guess" onclick="game.checkGuess()">CHECK</button>
+            <button class="btn btn-climb" onclick="game.climb()">🧗 CLIMB</button>
+        </div>
+    </div>
+</main>
+<script>
+class CliffClimber {
+    constructor() {
+        this.tree = { val: 1, left: { val: 2, left: { val: 4 }, right: { val: 5, left: { val: 8 } } }, right: { val: 3, right: { val: 7 } } };
+        this.height = this.calcHeight(this.tree);
+        this.revealed = false;
+        this.render();
+    }
+    calcHeight(node) { if (!node) return 0; return 1 + Math.max(this.calcHeight(node.left), this.calcHeight(node.right)); }
+    render() {
+        const cliff = document.getElementById('cliff');
+        cliff.innerHTML = '<div class="climber" id="climber">🧗</div>';
+        const levels = this.getLevels(this.tree);
+        levels.forEach((level, i) => {
+            const row = document.createElement('div');
+            row.className = 'cliff-level';
+            level.forEach(node => {
+                const rock = document.createElement('div');
+                rock.className = 'rock-node' + (i === 0 ? ' summit' : '');
+                rock.id = `rock-${node.val}`;
+                rock.textContent = node.val;
+                row.appendChild(rock);
+            });
+            cliff.appendChild(row);
+        });
+        this.renderMeter();
+    }
+    getLevels(root) {
+        const levels = []; let queue = [root];
+        while (queue.length) {
+            levels.push(queue.filter(n => n));
+            const next = [];
+            queue.forEach(n => { if (n?.left) next.push(n.left); if (n?.right) next.push(n.right); });
+            queue = next;
+        }
+        return levels;
+    }
+    renderMeter() {
+        const meter = document.getElementById('meter');
+        meter.innerHTML = '<div class="meter-indicator" id="indicator"></div>';
+        for (let i = this.height; i >= 0; i--) {
+            const mark = document.createElement('div');
+            mark.className = 'meter-mark';
+            mark.textContent = i;
+            meter.appendChild(mark);
+        }
+    }
+    checkGuess() {
+        const guess = parseInt(document.getElementById('guess').value);
+        if (isNaN(guess)) { document.getElementById('message').textContent = 'Enter a number first!'; return; }
+        if (guess === this.height) {
+            document.getElementById('message').innerHTML = '<span class="result">🎉 CORRECT! Height = ' + this.height + '</span>';
+            document.getElementById('height').textContent = this.height;
+        } else {
+            document.getElementById('message').innerHTML = `<span style="color:var(--red)">❌ Nope! Try again or click CLIMB to reveal.</span>`;
+        }
+    }
+    async climb() {
+        const levels = this.getLevels(this.tree);
+        const climber = document.getElementById('climber');
+        document.getElementById('message').textContent = '🧗 Climbing to measure height...';
+        for (let i = levels.length - 1; i >= 0; i--) {
+            const node = levels[i][0];
+            const el = document.getElementById(`rock-${node.val}`);
+            const rect = el.getBoundingClientRect();
+            const cliffRect = document.getElementById('cliff').getBoundingClientRect();
+            climber.style.left = (rect.left - cliffRect.left + 15) + 'px';
+            climber.style.top = (rect.top - cliffRect.top - 30) + 'px';
+            el.classList.add('climbed');
+            await this.delay(500);
+        }
+        document.getElementById('height').textContent = this.height;
+        document.getElementById('indicator').style.top = '10px';
+        document.getElementById('message').innerHTML = `<span class="result">🏔️ Summit reached! Tree Height = ${this.height}</span>`;
+    }
+    delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+}
+const game = new CliffClimber();
+</script>
+</body>
+</html>

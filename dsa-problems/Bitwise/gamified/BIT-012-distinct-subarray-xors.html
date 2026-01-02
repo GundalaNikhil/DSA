@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BIT-012: Entropy Scanner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000000;
+            --grid: #0f380f;
+            --scanner: #8bac0f;
+            --active: #9bbc0f;
+            --text: #0f380f;
+            --highlight: #306230;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: #0d1117;
+            color: #ccc;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        header {
+            padding: 15px 30px;
+            background: #161b22;
+            border-bottom: 1px solid #30363d;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+
+        h1 { margin:0; color: #58a6ff; letter-spacing: 1px; font-size: 1.5rem; }
+
+        .dashboard {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            grid-template-rows: 1fr;
+            height: 100%;
+        }
+
+        /* LEFT SIDE - STREAM */
+        .stream-panel {
+            background: #0d1117;
+            border-right: 1px solid #30363d;
+            padding: 20px;
+            display: flex; flex-direction: column; gap: 20px;
+        }
+
+        .data-array {
+            display: flex; flex-direction: column; gap: 5px;
+        }
+        
+        .data-cell {
+            padding: 10px;
+            background: #21262d;
+            border: 1px solid #30363d;
+            color: #8b949e;
+            text-align: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+        .data-cell:hover { border-color: #58a6ff; }
+        .data-cell.selected { background: #1f6feb; color: #fff; border-color: #58a6ff; }
+        .data-cell.scanning { background: rgba(31, 111, 235, 0.4); }
+
+        .scan-info {
+            background: #161b22;
+            padding: 15px;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+        }
+
+        /* RIGHT SIDE - VISUALIZATION */
+        .vis-panel {
+            background: #010409;
+            padding: 20px;
+            display: flex; flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        /* MATRIX of Unique Values */
+        .unique-grid {
+            display: grid;
+            grid-template-columns: repeat(16, 1fr);
+            gap: 4px;
+            width: 100%; maxWidth: 800px;
+            padding: 20px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+        }
+
+        .grid-cell {
+            aspect-ratio: 1;
+            background: #161b22;
+            border: 1px solid #21262d;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem; color: #484f58;
+            transition: all 0.3s;
+        }
+        .grid-cell.found {
+            background: #2ea043; color: #fff; font-weight: bold;
+            box-shadow: 0 0 10px #2ea043;
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        
+        button {
+            background: #238636; color: #fff; border: 1px solid rgba(240,246,252,0.1);
+            padding: 10px 20px; border-radius: 6px; font-family: inherit; font-size: 1rem; cursor: pointer;
+            width: 100%;
+        }
+        button:hover { background: #2ea043; }
+        button:disabled { background: #21262d; color: #8b949e; cursor: default; border:none; }
+
+        .progress-bar {
+            width: 100%; height: 10px; background: #21262d; border-radius: 5px; overflow: hidden;
+            margin-top: 10px;
+        }
+        .progress-fill { height: 100%; background: #238636; width: 0%; transition: width 0.3s; }
+
+        /* Modal */
+        .modal {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+            display: flex; align-items: center; justify-content: center; z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        .dialog {
+            background: #161b22; border: 1px solid #30363d; padding: 40px;
+            max-width: 500px; text-align: center; color: #c9d1d9; border-radius: 6px;
+        }
+
+    
+        .alert-modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .alert-modal {
+            background: white; padding: 2rem; border-radius: 8px;
+            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+        .alert-modal button {
+            background: #4b5563; color: white; padding: 0.8rem 2rem;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .alert-modal button:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>ENTROPY SCANNER</h1>
+    <div>BIT-012</div>
+</header>
+
+<div class="dashboard">
+    <div class="stream-panel">
+        <div style="font-weight:bold; color:#8b949e; margin-bottom:10px;">DATA STREAM</div>
+        <div class="data-array" id="stream"></div>
+        
+        <div class="scan-info">
+            <div style="font-size:0.8rem; color:#8b949e;">SCAN STATUS</div>
+            <div style="font-size:1.5rem; color:#58a6ff;" id="currXor">0</div>
+            <div style="font-size:0.8rem; color:#8b949e; margin-top:5px;">SUBARRAY: [<span id="currRange">--</span>]</div>
+        </div>
+        
+        <button id="scanBtn" onclick="game.scanAll()">INIT FULL SCAN</button>
+    </div>
+
+    <div class="vis-panel">
+        <div style="width:100%; max-width:800px; display:flex; justify-content:space-between; align-items:center;">
+            <div style="color:#8b949e;">UNIQUE VALUES MAP</div>
+            <div style="color:#2ea043; font-weight:bold;">FOUND: <span id="foundCount">0</span></div>
+        </div>
+        
+        <div class="unique-grid" id="grid">
+            <!-- 0 to 63 grid -->
+        </div>
+
+        <div style="width:100%; max-width:800px; margin-top:20px;">
+            <div style="display:flex; justify-content:space-between; font-size:0.8rem; color:#8b949e;">
+                <span>PROGRESS</span>
+                <span id="pct">0%</span>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+        </div>
+    </div>
+</div>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2 style="color:#58a6ff; margin-top:0;">DIVERSITY CHECK</h2>
+        <p>
+            <b>Goal:</b> Determine the Entropy Score (Number of Distinct XOR Sums).<br>
+            <b>Method:</b> Scan every contiguous subarray.<br>
+            Calculate XOR sum.<br>
+            Mark value on the Unique Map.<br><br>
+            
+            This visualizer will brute-force the scan to populate the set.
+        </p>
+        <button onclick="game.start()">BOOT SYSTEM</button>
+    </div>
+</div>
+
+<script>
+    class Game {
+        constructor() {
+            this.state = {
+                data: [],
+                seen: new Set(),
+                scanning: false
+            };
+            
+            this.ui = {
+                stream: document.getElementById('stream'),
+                grid: document.getElementById('grid'),
+                currXor: document.getElementById('currXor'),
+                currRange: document.getElementById('currRange'),
+                foundCount: document.getElementById('foundCount'),
+                progFill: document.getElementById('progFill'),
+                pct: document.getElementById('pct'),
+                baseBtn: document.getElementById('scanBtn'),
+                modal: document.getElementById('modal')
+            };
+        }
+
+        start() {
+            this.ui.modal.classList.add('hidden');
+            this.initLevel();
+        }
+
+        initLevel() {
+            // Generate Data
+            const len = 12;
+            this.state.data = [];
+            for(let i=0; i<len; i++) {
+                this.state.data.push(Math.floor(Math.random() * 16)); // 0-15 typical
+            }
+            
+            this.createGrid(64); // Show capacity up to 63
+            this.renderStream();
+        }
+
+        createGrid(size) {
+            this.ui.grid.innerHTML = '';
+            for(let i=0; i<size; i++) {
+                const el = document.createElement('div');
+                el.className = 'grid-cell';
+                el.id = `cell-${i}`;
+                el.innerText = i;
+                this.ui.grid.appendChild(el);
+            }
+        }
+
+        renderStream() {
+            this.ui.stream.innerHTML = '';
+            for(let i=0; i<this.state.data.length; i++) {
+                const el = document.createElement('div');
+                el.className = 'data-cell';
+                el.id = `data-${i}`;
+                el.innerText = this.state.data[i];
+                this.ui.stream.appendChild(el);
+            }
+        }
+
+        async scanAll() {
+            if(this.state.scanning) return;
+            this.state.scanning = true;
+            this.ui.baseBtn.disabled = true;
+            
+            const n = this.state.data.length;
+            const totalOps = (n * (n+1)) / 2;
+            let ops = 0;
+
+            for(let i=0; i<n; i++) {
+                let curr = 0;
+                
+                // Highlight Start
+                this.clearHighlights();
+
+                for(let j=i; j<n; j++) {
+                    // Update Subarray
+                    curr ^= this.state.data[j];
+                    
+                    // Visuals
+                    this.highlightRange(i, j);
+                    this.ui.currXor.innerText = curr;
+                    this.ui.currRange.innerText = `${i} - ${j}`;
+                    
+                    // Mark grid
+                    if(!this.state.seen.has(curr)) {
+                        this.state.seen.add(curr);
+                        const cell = document.getElementById(`cell-${curr}`);
+                        if(cell) {
+                            cell.classList.add('found');
+                            // Animate pop
+                            cell.style.zIndex = 100;
+                            setTimeout(()=>cell.style.zIndex='', 200);
+                        }
+                        this.ui.foundCount.innerText = this.state.seen.size;
+                    }
+                    
+                    // Highlight active cell temporarily
+                    const cell = document.getElementById(`cell-${curr}`);
+                    if(cell) {
+                        cell.style.borderColor = '#fff';
+                        setTimeout(() => cell.style.borderColor = '', 50); // fast blink
+                    }
+
+                    ops++;
+                    const p = (ops / totalOps) * 100;
+                    this.ui.progFill.style.width = p + '%';
+                    this.ui.pct.innerText = Math.floor(p) + '%';
+                    
+                    await new Promise(r => setTimeout(r, 50)); // Fast scan speed
+                }
+            }
+            
+            this.clearHighlights();
+            this.showGameAlert(`SCAN COMPLETE.\nTotal Distinct XORs: ${this.state.seen.size}`);
+        }
+
+        highlightRange(start, end) {
+            // clear prev
+            document.querySelectorAll('.data-cell').forEach(e => {
+                e.classList.remove('selected');
+                e.classList.remove('scanning');
+            });
+            
+            for(let k=start; k<=end; k++) {
+                const el = document.getElementById(`data-${k}`);
+                if(el) el.classList.add(k === end ? 'scanning' : 'selected');
+            }
+        }
+        
+        clearHighlights() {
+             document.querySelectorAll('.data-cell').forEach(e => {
+                e.classList.remove('selected');
+                e.classList.remove('scanning');
+            });
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

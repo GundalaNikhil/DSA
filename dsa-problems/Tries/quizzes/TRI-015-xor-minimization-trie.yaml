@@ -1,0 +1,52 @@
+problem_id: TRI_XOR_MINIMIZATION_TRIE_015
+display_id: TRI-015
+slug: xor-minimization-trie
+questions:
+  - question: We want to minimize P XOR X. If the k-th bit of X is 1, what bit do we prefer in P?
+    difficulty: easy
+    points: 10
+    options:
+      - 1 (so 1 XOR 1 = 0)
+      - 0 (so 0 XOR 1 = 1)
+      - Doesn't matter
+      - Both
+    correct_answer: 0
+    explanation: We want the result bit to be 0 to minimize the value.
+    type: single_choice
+    id: prq_1
+  - question: "To solve the subarray XOR problem (min XOR of subarray XORs with target X), we use the property:"
+    difficulty: medium
+    points: 15
+    options:
+      - XOR(A[i...j]) = PrefixXOR[j] ^ PrefixXOR[i]
+      - XOR(A[i...j]) = A[i] ^ ... ^ A[j]
+      - Subarray sum
+      - Segment Tree
+    correct_answer: 0
+    explanation: We transform the problem to finding two numbers in the prefix array whose XOR is minimal (relative to target).
+    type: single_choice
+    id: edq_1
+  - question: "If the preferred bit branch does not exist in the Trie, we:"
+    difficulty: easy
+    points: 10
+    options:
+      - Take the forced path (which results in a '1' at that bit position in the result)
+      - Stop traversal
+      - Return error
+      - Backtrack
+    correct_answer: 0
+    explanation: We have no choice but to accept a higher value for this bit.
+    type: single_choice
+    id: edq_2
+  - question: "The height of the Binary Trie for 32-bit integers is fixed at:"
+    difficulty: easy
+    points: 10
+    options:
+      - 30-32 levels
+      - N levels
+      - Log N levels
+      - 100 levels
+    correct_answer: 0
+    explanation: It depends on the bit-width of the numbers, typically 30 for values up to 10^9.
+    type: single_choice
+    id: edq_3

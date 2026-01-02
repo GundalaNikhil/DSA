@@ -119,6 +119,18 @@ Start at root. For each char in `p`, follow transitions.
 4. **Answer Queries**:
    - Walk the SAM. Return `cnt[final_state]`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build suffix automaton] --> B[Sort states by length]
+B --> C[Propagate counts on links]
+C --> D[Process query string]
+D --> E{Transition exists}
+E -->|Yes| F[Move to next state]
+E -->|No| G[Return zero]
+F --> D
+```
+
 ### Time Complexity
 
 - **O(|s|)**: Construction and propagation.

@@ -1,2 +1,52 @@
-# Quiz for QUE-014: Deque Balance Rearrange
-# YAML content to be added
+problem_id: QUE_DEQUE_BALANCE_REARRANGE_014
+display_id: QUE-014
+slug: deque-balance-rearrange
+questions:
+  - question: Rearranging [1, 2, 3, 4, 5] by alternating front and back gives which result?
+    difficulty: easy
+    points: 10
+    options:
+      - "[1, 5, 2, 4, 3]"
+      - "[1, 2, 3, 4, 5]"
+      - "[5, 1, 4, 2, 3]"
+      - "[1, 2, 5, 4, 3]"
+    correct_answer: 0
+    explanation: "Deque: take from front (1), then back (5), then front (2), then back (4), then front (3). Result: [1, 5, 2, 4, 3]."
+    type: single_choice
+    id: prq_1
+  - question: "For a deque [a, b, c, d, e, f], what's the alternating pattern: front, back, front, ...?"
+    difficulty: easy
+    points: 10
+    options:
+      - "[a, f, b, e, c, d]"
+      - "[a, b, c, d, e, f]"
+      - "[f, e, d, c, b, a]"
+      - "[a, c, e, f, d, b]"
+    correct_answer: 0
+    explanation: "Pattern: take front (a), take back (f), take front (b), take back (e), take front (c), take back (d). Result: [a, f, b, e, c, d]."
+    type: single_choice
+    id: edq_1
+  - question: For an odd-length array like [1, 2, 3, 4, 5], how many times do you alternate before one operation succeeds but the other fails?
+    difficulty: medium
+    points: 15
+    options:
+      - 2 full alternations, then one more front pop
+      - Exactly at the middle element
+      - After 4 pops, 5 (middle) remains
+      - Alternation continues until deque is empty
+    correct_answer: 2
+    explanation: Pop front (1), back (5), front (2), back (4), front (3). After 5 pops, deque is empty. The middle element (3) is popped last when only one element remains.
+    type: single_choice
+    id: edq_2
+  - question: Why does a single equality check (deque size = 1) handle the odd-length edge case?
+    difficulty: medium
+    points: 15
+    options:
+      - It detects when the middle element is reached
+      - It prevents index out of bounds errors
+      - It ensures alternation stops gracefully
+      - All of the above
+    correct_answer: 3
+    explanation: When deque.size() == 1, one element remains (the middle in odd-length arrays). Check this condition before popping to avoid empty deque errors. Handles odd/even uniformly.
+    type: single_choice
+    id: edq_3

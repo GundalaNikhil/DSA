@@ -1,2 +1,52 @@
-# Quiz for LNK-003: Lab Swap Neighbors with Skip and Threshold
-# YAML content to be added
+problem_id: LNK_LAB_SWAP_NEIGHBORS_SKIP_THRESHOLD_003
+display_id: LNK-003
+slug: lab-swap-neighbors-skip-threshold
+questions:
+  - question: When swapping node A and B (A->B), what happens to the head if A was the head?
+    difficulty: easy
+    points: 10
+    options:
+      - A remains head
+      - B becomes the new head
+      - The node after B becomes head
+      - Head becomes null
+    correct_answer: 1
+    explanation: If we swap the first pair, the second node becomes the new start of the list.
+    type: single_choice
+    id: prq_1
+  - question: Why is a 'dummy' node often useful for pair-wise swapping?
+    difficulty: medium
+    points: 15
+    options:
+      - To store the length
+      - To handle the head change logic uniformly
+      - To prevent memory leaks
+      - It is required by the problem
+    correct_answer: 1
+    explanation: A dummy node pointing to head allows treating the first pair exactly like any middle pair.
+    type: single_choice
+    id: edq_1
+  - question: How many implementations pointers usually change for one pair swap?
+    difficulty: easy
+    points: 10
+    options:
+      - "1"
+      - "2"
+      - "3"
+      - "0"
+    correct_answer: 2
+    explanation: Prev->Next, First->Next, Second->Next all needs updating.
+    type: single_choice
+    id: edq_2
+  - question: What is the loop condition for swapping pairs?
+    difficulty: easy
+    points: 10
+    options:
+      - while head != null
+      - while head != null && head.next != null
+      - while head.next != null
+      - while count < N
+    correct_answer: 1
+    explanation: We need at least two nodes (current and next) to perform a swap.
+    type: single_choice
+    id: edq_3

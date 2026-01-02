@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEG-009: Election Monitor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Oswald&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #eceff1; --card: #fff; --text: #37474f; --red: #e53935; --blue: #1e88e5; --green: #43a047; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Merriweather', serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        header { width: 100%; background: #263238; color: #fff; padding: 15px; text-align: center; border-bottom: 5px solid #b0bec5; }
+        h1 { margin: 0; font-family: 'Oswald', sans-serif; letter-spacing: 1px; }
+
+        main { flex: 1; display: flex; flex-direction: column; width: 100%; max-width: 900px; padding: 20px; gap: 30px; align-items: center; }
+
+        .district-map {
+            display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px;
+            padding: 20px; background: #fff; border-radius: 5px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1); width: 100%;
+        }
+
+        .voter {
+            height: 60px; border-radius: 5px; background: #eee;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            font-size: 1.5rem; cursor: pointer; transition: all 0.2s; border: 2px solid transparent;
+        }
+        .voter:hover { transform: scale(1.1); box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .voter.sel { border-color: #333; }
+        
+        .idx-label { font-size: 0.6rem; font-family: 'Oswald'; color: #888; margin-bottom: 2px; }
+
+        .controls { display: flex; gap: 15px; padding: 20px; background: #fff; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); align-items: center; }
+        .btn { padding: 10px 20px; font-family: 'Oswald'; cursor: pointer; border: none; background: #546e7a; color: #fff; border-radius: 3px; font-size: 1rem; }
+        .btn:hover { background: #37474f; }
+        .inp { padding: 8px; width: 60px; text-align: center; border: 1px solid #ccc; font-family: 'Oswald'; }
+
+        #result { font-family: 'Oswald'; font-size: 1.5rem; color: #37474f; min-height: 30px; }
+        
+        .legend { display: flex; gap: 10px; font-family: 'Oswald'; }
+        .candidate { padding: 5px 10px; border-radius: 3px; color: #fff; cursor: pointer; opacity: 0.7; }
+        .candidate.active { opacity: 1; transform: scale(1.1); }
+    </style>
+</head>
+<body>
+<header>
+    <h1>SEG-009 ELECTION MONITOR</h1>
+    <div style="font-size:0.8rem; opacity:0.8;">RANGE MAJORITY & THRESHOLD QUERY</div>
+</header>
+<main>
+    <div class="legend">
+        <div class="candidate" style="background:var(--red)" onclick="game.selCand('🔴')">RED 🔴</div>
+        <div class="candidate" style="background:var(--blue)" onclick="game.selCand('🔵')">BLUE 🔵</div>
+        <div class="candidate" style="background:var(--green)" onclick="game.selCand('🟢')">GREEN 🟢</div>
+    </div>
+
+    <div id="result">Check for majority in a district range.</div>
+
+    <div class="district-map" id="map"></div>
+
+    <div class="controls">
+        <span>Range:</span>
+        <input type="number" id="L" class="inp" placeholder="L" min="0" max="9">
+        <input type="number" id="R" class="inp" placeholder="R" min="0" max="9">
+        <div style="width:1px; height:30px; background:#ddd"></div>
+        <span>Threshold T (votes):</span>
+        <input type="number" id="T" class="inp" placeholder="T" value="3" min="1" max="10">
+        <button class="btn" onclick="game.checkMajority()">CHECK MAJORITY</button>
+    </div>
+</main>
+<script>
+class Game {
+    constructor() {
+        this.n = 10;
+        this.votes = ['🔴','🔵','🔴','🟢','🔵','🔵','🔵','🔴','🟢','🔴'];
+        this.sel = '🔴';
+        this.ui = { map: document.getElementById('map'), res: document.getElementById('result') };
+        this.render();
+    }
+
+    render() {
+        this.ui.map.innerHTML = '';
+        this.votes.forEach((v, i) => {
+            let el = document.createElement('div');
+            el.className = 'voter';
+            el.innerHTML = `<span class="idx-label">${i}</span>${v}`;
+            el.onclick = () => {
+                this.votes[i] = this.sel;
+                this.render();
+            };
+            el.id = 'v-'+i;
+            this.ui.map.appendChild(el);
+        });
+    }
+
+    selCand(c) {
+        this.sel = c;
+        // visual feedback could be added
+    }
+
+    checkMajority() {
+        let l = parseInt(document.getElementById('L').value);
+        let r = parseInt(document.getElementById('R').value);
+        let t = parseInt(document.getElementById('T').value);
+
+        if (isNaN(l) || isNaN(r) || isNaN(t) || l > r || l < 0 || r >= this.n) {
+            this.ui.res.innerText = "Invalid input!";
+            return;
+        }
+
+        // Highlight Range
+        document.querySelectorAll('.voter').forEach(e => e.classList.remove('sel'));
+        for(let i=l; i<=r; i++) document.getElementById('v-'+i).classList.add('sel');
+
+        // Count votes in range
+        let counts = {};
+        for(let i=l; i<=r; i++) {
+            let v = this.votes[i];
+            counts[v] = (counts[v] || 0) + 1;
+        }
+
+        let winner = null;
+        let maxVotes = 0;
+        for(let c in counts) {
+            if (counts[c] > maxVotes) {
+                maxVotes = counts[c];
+                winner = c;
+            }
+        }
+        
+        // Find if anyone > threshold
+        let filtered = [];
+        for(let c in counts) {
+            if(counts[c] >= t) filtered.push(`${c} (${counts[c]})`);
+        }
+
+        if (filtered.length > 0) {
+            this.ui.res.innerHTML = `Candidates above threshold ${t}: <b style="color:#000">${filtered.join(', ')}</b>`;
+        } else {
+            this.ui.res.innerHTML = `No candidate met threshold ${t}. Max was ${winner} with ${maxVotes}.`;
+        }
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

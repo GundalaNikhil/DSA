@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LNK-006: Loop Analysis Protocol</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #111827;
+            --panel: #1f2937;
+            --text-main: #f3f4f6;
+            --text-dim: #9ca3af;
+            --border: #374151;
+            
+            --slow: #10b981;
+            --fast: #f59e0b;
+            --entry: #3b82f6;
+            
+            --node: #374151;
+            --node-border: #4b5563;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background: var(--bg);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        header {
+            background: rgba(31, 41, 55, 0.9);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(8px);
+        }
+
+        h1 {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            margin: 0;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        .phase-badge {
+            background: #374151;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        main { flex: 1; display: flex; }
+
+        aside {
+            width: 350px;
+            background: var(--panel);
+            border-right: 1px solid var(--border);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .data-panel {
+            background: #111827;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            color: var(--text-dim);
+        }
+        .data-val { color: var(--text-main); font-weight: 600; }
+
+        .control-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        button {
+            padding: 1rem;
+            background: #374151;
+            border: 1px solid var(--border);
+            color: white;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        button:hover:not(:disabled) { background: #4b5563; border-color: #6b7280; }
+        button:disabled { opacity: 0.4; cursor: not-allowed; }
+        
+        button.active-action { border-color: var(--slow); background: rgba(16, 185, 129, 0.1); }
+
+        .log-box {
+            flex: 1;
+            background: #000;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            color: #d1d5db;
+            overflow-y: auto;
+        }
+        
+        .log-line { margin-bottom: 4px; border-bottom: 1px solid #1f2937; padding-bottom: 2px; }
+
+        #viz {
+            flex: 1;
+            position: relative;
+            background-image: 
+                linear-gradient(rgba(55, 65, 81, 0.3) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(55, 65, 81, 0.3) 1px, transparent 1px);
+            background-size: 40px 40px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .node {
+            position: absolute;
+            width: 60px; height: 60px;
+            background: var(--node);
+            border: 2px solid var(--node-border);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            z-index: 2;
+            transition: all 0.5s;
+        }
+        .node.entry { border-color: var(--entry); box-shadow: 0 0 15px rgba(59, 130, 246, 0.4); }
+
+        .ptr {
+            position: absolute;
+            width: 14px; height: 14px;
+            border-radius: 50%;
+            z-index: 5;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 0 8px rgba(0,0,0,0.5);
+        }
+        
+        .ptr-slow { background: var(--slow); }
+        .ptr-fast { background: var(--fast); }
+        .ptr-entry { background: var(--entry); } /* For Phase 2 */
+
+        svg { position: absolute; inset: 0; width:100%; height:100%; pointer-events: none; z-index: 1; }
+        line, path { stroke: #4b5563; stroke-width: 2; fill: none; }
+        
+        .arrow-head { fill: #4b5563; }
+
+        /* Modals */
+        .modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+            display: flex; align-items: center; justify-content: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 100;
+        }
+        .modal-wrap.show { opacity: 1; pointer-events: all; }
+        
+        .modal {
+            background: var(--panel); border: 1px solid var(--border);
+            padding: 2rem; border-radius: 8px; width: 450px; text-align: center;
+        }
+
+        .btn-start {
+            background: var(--text-main); color: #000; width: auto; text-align: center;
+            padding: 0.8rem 2rem; display: inline-block; font-weight: 600;
+        }
+        .btn-start:hover { background: #fff; }
+
+    
+        .alert-modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .alert-modal {
+            background: white; padding: 2rem; border-radius: 8px;
+            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+        .alert-modal button {
+            background: #4b5563; color: white; padding: 0.8rem 2rem;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .alert-modal button:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<header>
+    <h1>
+        <span>LNK-006</span>
+        <span class="phase-badge" id="phase-badge">Phase 1: Detection</span>
+    </h1>
+    <div style="font-family:'JetBrains Mono'">SCORE: <span id="score">0</span></div>
+</header>
+
+<main>
+    <aside>
+        <div class="data-panel">
+            <div style="margin-bottom:10px; border-bottom:1px solid #374151; padding-bottom:5px; color:#9ca3af; font-size:0.8rem;">POINTER TELMETRY</div>
+            <div class="data-row">
+                <span>Slow (S) @ Node:</span> <span id="slow-pos" class="data-val">--</span>
+            </div>
+            <div class="data-row">
+                <span>Fast (F) @ Node:</span> <span id="fast-pos" class="data-val">--</span>
+            </div>
+            <div class="data-row">
+                <span>Step Count:</span> <span id="steps" class="data-val">0</span>
+            </div>
+        </div>
+        
+        <div class="control-panel">
+            <div style="font-size:0.8rem; text-transform:uppercase; color:#6b7280; font-weight:600;">Manual Override</div>
+            <button id="btn-step" onclick="game.step()">
+                EXECUTE STEP
+                <div style="font-size:0.75rem; color:#9ca3af; margin-top:4px;">S moves 1, F moves 2</div>
+            </button>
+            <button id="btn-find-entry" onclick="game.findEntry()" disabled>
+                LOCATE ENTRY
+                <div style="font-size:0.75rem; color:#9ca3af; margin-top:4px;">Reset Head, Move S & H by 1</div>
+            </button>
+            <button id="btn-analyze" onclick="game.analyze()" disabled>
+                ANALYZE LOOP
+                <div style="font-size:0.75rem; color:#9ca3af; margin-top:4px;">Calc Length & Max Val</div>
+            </button>
+        </div>
+
+        <div class="log-box" id="log">
+            <div class="log-line">System initialized. Waiting for input.</div>
+        </div>
+    </aside>
+
+    <div id="viz">
+        <svg id="svg-layer">
+            <defs>
+                 <marker id="arrow" markerWidth="10" markerHeight="10" refX="28" refY="3" orient="auto" markerUnits="strokeWidth">
+                     <path d="M0,0 L0,6 L9,3 z" class="arrow-head" />
+                 </marker>
+            </defs>
+        </svg>
+        <!-- Nodes -->
+        <div id="ptr-s" class="ptr ptr-slow" style="display:none;"></div>
+        <div id="ptr-f" class="ptr ptr-fast" style="display:none;"></div>
+        <div id="ptr-e" class="ptr ptr-entry" style="display:none;"></div> <!-- Temp Head ptr -->
+    </div>
+</main>
+
+<div id="modal" class="modal-wrap show">
+    <div class="modal">
+        <h2>Cycle Analysis</h2>
+        <p style="color:#9ca3af; margin-bottom: 2rem;">
+            <b>Objective:</b> Use Floyd's Algorithm.<br>
+            <b>Protocol:</b>
+            <ul style="text-align:left; color:#9ca3af; font-size:0.9rem; margin:1rem 0;">
+                <li>1. <b>Execute Step</b> until collision (S == F).</li>
+                <li>2. <b>Locate Entry</b> (Head resets, S and Head move 1 step).</li>
+                <li>3. <b>Analyze Loop</b> to capture metrics.</li>
+            </ul>
+        </p>
+        <button class="btn-start" onclick="game.start()">Initialize System</button>
+    </div>
+</div>
+
+<script>
+    class Node {
+        constructor(id, val, x, y) {
+            this.id = id;
+            this.val = val;
+            this.x = x;
+            this.y = y;
+            this.next = null;
+        }
+    }
+
+    class Game {
+        constructor() {
+            this.nodes = [];
+            
+            // Pointers (Indices)
+            this.slow = 0;
+            this.fast = 0;
+            this.headPtr = -1; // For phase 2
+            
+            this.steps = 0;
+            this.phase = 1; // 1: Detect, 2: Find Entry, 3: Analyze
+            this.meetingNode = -1;
+            this.entryNode = -1;
+            
+            this.score = 0;
+            
+            this.ui = {
+                viz: document.getElementById('viz'),
+                svg: document.getElementById('svg-layer'),
+                log: document.getElementById('log'),
+                slowPos: document.getElementById('slow-pos'),
+                fastPos: document.getElementById('fast-pos'),
+                steps: document.getElementById('steps'),
+                phaseBadge: document.getElementById('phase-badge'),
+                score: document.getElementById('score'),
+                
+                ptrS: document.getElementById('ptr-s'),
+                ptrF: document.getElementById('ptr-f'),
+                ptrE: document.getElementById('ptr-e'),
+                
+                btnStep: document.getElementById('btn-step'),
+                btnFind: document.getElementById('btn-find-entry'),
+                btnAnalyze: document.getElementById('btn-analyze')
+            };
+        }
+
+        start() {
+            document.getElementById('modal').classList.remove('show');
+            this.loadLevel();
+        }
+
+        log(msg) {
+            const d = document.createElement('div');
+            d.className = 'log-line';
+            d.innerText = `[${this.steps}] ${msg}`;
+            this.ui.log.appendChild(d);
+            this.ui.log.scrollTop = this.ui.log.scrollHeight;
+        }
+
+        loadLevel() {
+            this.ui.viz.querySelectorAll('.node').forEach(n => n.remove());
+            this.ui.svg.innerHTML = '';
+            
+            // Gen nodes: Line leading to Loop
+            // Prefix: 3 nodes
+            // Loop: 5 nodes
+            const prefixLen = 2 + Math.floor(Math.random()*2); 
+            const loopLen = 4 + Math.floor(Math.random()*3);
+            const total = prefixLen + loopLen;
+            
+            this.nodes = [];
+            const vals = Array.from({length:total}, () => Math.floor(Math.random()*50));
+            
+            // Layout:
+            // Linear prefix
+            // Loop: Circle layout
+            
+            const startX = 100;
+            const startY = window.innerHeight / 2;
+            const gap = 80;
+            
+            // Generate Prefix
+            for(let i=0; i<prefixLen; i++) {
+                this.nodes.push(new Node(i, vals[i], startX + i*gap, startY));
+            }
+            
+            // Generate Loop
+            const centerX = startX + (prefixLen * gap) + 80;
+            const centerY = startY;
+            const radius = 100;
+            const angleStep = (2 * Math.PI) / loopLen;
+            
+            for(let i=0; i<loopLen; i++) {
+                // Determine pos on circle
+                // Start from left (PI)
+                const angle = Math.PI - (i * angleStep) + Math.PI/2; 
+                // Adjust for nice connection from left
+                // Actually simpler:
+                const a = Math.PI + (i * angleStep); // Start at left, go CW?
+                // Left of circle is at angle PI.
+                // 1st loop node should be there to connect with prefix.
+                
+                const lx = centerX + radius * Math.cos(a);
+                const ly = centerY + radius * Math.sin(a);
+                this.nodes.push(new Node(prefixLen + i, vals[prefixLen+i], lx, ly));
+            }
+
+            // Link them
+            for(let i=0; i<total; i++) {
+                let nextIdx = i + 1;
+                if (i === total - 1) {
+                    // Last node loops to start of loop
+                    nextIdx = prefixLen; // Entry of loop
+                }
+                
+                this.nodes[i].next = nextIdx;
+                
+                // Draw DOM
+                const el = document.createElement('div');
+                el.className = 'node';
+                el.innerText = this.nodes[i].val;
+                el.style.left = (this.nodes[i].x - 30) + 'px';
+                el.style.top = (this.nodes[i].y - 30) + 'px';
+                el.id = `node-${i}`;
+                this.ui.viz.appendChild(el);
+            }
+            
+            // Draw connections
+            this.drawLinks();
+
+            // Init State
+            this.slow = 0;
+            this.fast = 0;
+            this.steps = 0;
+            this.phase = 1;
+            this.headPtr = -1;
+            
+            this.updatePtrs(0);
+            this.updateUIState();
+        }
+        
+        drawLinks() {
+            // SVG lines
+            // Use path for loop back?
+            const pathStr = this.nodes.map((n, i) => {
+                 const x = n.x;
+                 const y = n.y;
+                 // But we need individual lines
+                 return "";
+            });
+            
+            this.nodes.forEach((n, i) => {
+                const next = this.nodes[n.next]; 
+                // Draw line from n to next
+                // If loop back, maybe curve?
+                // Just straight lines is fine for layout
+                
+                const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute('x1', n.x);
+                line.setAttribute('y1', n.y);
+                line.setAttribute('x2', next.x);
+                line.setAttribute('y2', next.y);
+                this.ui.svg.appendChild(line);
+                
+                // Add arrow manually at end? Marker handles it but positioning can be tricky with circle overlap
+                // CSS marker-mid? no.
+                // Actually keeping it clean without arrows is okay given flow
+                // Or just standard marker
+                // line.setAttribute('marker-end', 'url(#arrow)'); // Issues with overlap on node div
+            });
+        }
+
+        step() {
+            // Move phase 1
+            if (this.phase !== 1) return;
+            
+            const nextS = this.nodes[this.slow].next;
+            const nextF1 = this.nodes[this.fast].next;
+            const nextF2 = this.nodes[nextF1].next;
+            
+            this.slow = nextS;
+            this.fast = nextF2;
+            this.steps++;
+            
+            this.updatePtrs(500);
+            this.log(`Step: S->${this.slow}, F->${this.fast}`);
+            
+            if (this.slow === this.fast) {
+                this.meetingNode = this.slow;
+                this.log("COLLISION DETECTED! Phase 1 Complete.");
+                this.phase = 2;
+                this.headPtr = 0; // Reset a ptr to head
+                // Fast stays at meeting point
+                
+                this.ui.phaseBadge.innerText = "Phase 2: Find Entry";
+                this.score += 50;
+                this.updateUIState();
+                
+                // Show Entry Ptr
+                this.ui.ptrE.style.display = 'block';
+                this.updatePtrs(500); // refresh pos
+            }
+        }
+
+        findEntry() {
+            // Move HeadPtr (E) and Slow (Actually the meeting node ptr, let's reuse Slow visual)
+            // Logic: Move Head and Slow one step at a time until meet.
+            
+            // Visuals: Use PtrE for Head, PtrS for the Meeting Node ptr
+            // (Fast is irrelevant now, hide it or keep it static? 
+            // In algorithm, we reuse slow. meeting node is slow.)
+            
+            if (this.headPtr === this.slow) {
+                // Found entry
+                this.entryNode = this.headPtr;
+                this.log(`ENTRY FOUND at Node ${this.entryNode}. Phase 2 Complete.`);
+                this.nodes[this.entryNode].el.classList.add('entry');
+                
+                this.phase = 3;
+                this.ui.phaseBadge.innerText = "Phase 3: Analysis";
+                this.score += 50;
+                this.updateUIState();
+                return;
+            }
+            
+            const nextH = this.nodes[this.headPtr].next;
+            const nextS = this.nodes[this.slow].next;
+            
+            this.headPtr = nextH;
+            this.slow = nextS;
+            
+            this.updatePtrs(500);
+            this.log(`Searching... H->${this.headPtr}, S->${this.slow}`);
+            
+            if (this.headPtr === this.slow) {
+                // Found on this step
+                 setTimeout(() => this.findEntry(), 600); // Auto trigger finding state
+            }
+        }
+
+        analyze() {
+            // Traverse loop to find Length and Max
+            // For game, just auto-compute and show results
+            
+            let curr = this.nodes[this.entryNode].next;
+            let len = 1;
+            let maxVal = this.nodes[this.entryNode].val;
+            
+            while(curr !== this.entryNode) {
+                if (this.nodes[curr].val > maxVal) maxVal = this.nodes[curr].val;
+                len++;
+                curr = this.nodes[curr].next;
+            }
+            if (this.nodes[this.entryNode].val > maxVal) maxVal = this.nodes[this.entryNode].val; // Recheck entry
+            
+            this.log(`ANALYSIS COMPLETE.`);
+            this.log(`Cycle Length: ${len}`);
+            this.log(`Max Value: ${maxVal}`);
+            this.score += 100;
+            this.ui.score.innerText = this.score;
+            
+            this.phase = 4; // Done
+            this.updateUIState();
+            
+            setTimeout(() => {
+                this.showGameAlert("Protocol Success. Final Score: " + this.score);
+                this.loadLevel();
+            }, 1000);
+        }
+
+        updatePtrs(duration) {
+            // Update UI positions
+            const updateOne = (ptr, idx, visible) => {
+                if (!visible || idx < 0) { ptr.style.display = 'none'; return; }
+                ptr.style.display = 'block';
+                const node = this.nodes[idx];
+                // Offset slightly based on type to avoid total overlap
+                let offX = 0, offY = 0;
+                if (ptr === this.ui.ptrS) { offX = -10; offY = -10; } // Slow Top Left
+                if (ptr === this.ui.ptrF) { offX = 10; offY = -10; } // Fast Top Right
+                if (ptr === this.ui.ptrE) { offX = 0; offY = 10; } // Head Bottom
+                
+                ptr.style.left = (node.x + 30 - 7 + offX) + 'px'; // Center of 60px node
+                ptr.style.top = (node.y + 30 - 7 + offY) + 'px';
+            };
+            
+            updateOne(this.ui.ptrS, this.slow, true);
+            updateOne(this.ui.ptrF, this.fast, this.phase === 1); // Hide fast in phase 2? Or reuse
+            updateOne(this.ui.ptrE, this.headPtr, this.phase === 2);
+            
+            this.ui.slowPos.innerText = this.slow;
+            this.ui.fastPos.innerText = this.fast;
+            this.ui.steps.innerText = this.steps;
+        }
+        
+        updateUIState() {
+             this.ui.btnStep.disabled = (this.phase !== 1);
+             this.ui.btnStep.classList.toggle('active-action', this.phase === 1);
+             
+             this.ui.btnFind.disabled = (this.phase !== 2);
+             this.ui.btnFind.classList.toggle('active-action', this.phase === 2);
+             
+             this.ui.btnAnalyze.disabled = (this.phase !== 3);
+             this.ui.btnAnalyze.classList.toggle('active-action', this.phase === 3);
+             
+             this.ui.score.innerText = this.score;
+        }
+    }
+
+    const game = new Game();
+</script>
+</body>
+</html>

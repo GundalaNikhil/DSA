@@ -1,2 +1,52 @@
-# Quiz for STK-008: Canteen Token Climb Span
-# YAML content to be added
+problem_id: STK_CANTEEN_TOKEN_CLIMB_SPAN_008
+display_id: STK-008
+slug: canteen-token-climb-span
+questions:
+  - id: prq_1
+    type: single_choice
+    difficulty: easy
+    points: 10
+    question: For demands [3, 1, 2, 2, 5], what is the span for the last element (5)?
+    options:
+      - "0"
+      - "1"
+      - "4"
+      - "2"
+    correct_answer: 2
+    explanation: Demand 5 is strictly greater than all 4 prior demands. However, the rule says 'if any prior day equals today's demand, the span resets'. No prior day is 5. So it counts all 4 days.
+  - id: edq_1
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: How does the 'reset on equal' rule change the standard Stock Span algorithm?
+    options:
+      - It uses a min-stack instead
+      - Instead of popping while smaller-or-equal, we only count strictly smaller and stop immediately at an equal or larger value
+      - It requires two passes
+      - No change is needed
+    correct_answer: 1
+    explanation: Standard span usually includes the equal elements or skips over them. Here, an equal value acts as a barrier that resets the span to 0.
+  - id: edq_2
+    type: single_choice
+    difficulty: medium
+    points: 15
+    question: Which stack property is maintained during this algorithm?
+    options:
+      - Strictly increasing values
+      - Strictly decreasing values
+      - Non-increasing values
+      - Indices only
+    correct_answer: 1
+    explanation: Maintaining a strictly decreasing stack of (value, index) allows us to quickly find the nearest element that is >= current.
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: What is the result for today (day i) if the stack top element is equal to demand[i]?
+    options:
+      - i - stack_top_index
+      - "0"
+      - "1"
+      - "-1"
+    correct_answer: 1
+    explanation: The problem states that if any prior day equals today's demand, the span resets to 0.

@@ -42,23 +42,19 @@ Imagine you are scheduling talks for a conference.
 
 ## Detailed Explanation
 
-### ASCII Diagram: Concept Visualization
+### Flow Diagram: Concept Visualization
 
-**Implication Graph:**
-Clause `(A OR B)` is equivalent to:
--   `¬A => B` (If A is false, B must be true)
--   `¬B => A` (If B is false, A must be true)
-
-**AMO Constraint:** `{x1, x2, x3}`
--   If `x1` is true, `x2` must be false (`x1 => ¬x2`).
--   If `x1` is true, `x3` must be false (`x1 => ¬x3`).
--   If `x2` is true, `x3` must be false (`x2 => ¬x3`).
--   ...and so on for all pairs.
-
-**Graph Structure:**
-Nodes `1..N` (True literals) and `N+1..2N` (False literals).
-Edges represent implications.
-If `x` and `¬x` are in the same Strongly Connected Component (SCC), it's **UNSAT**.
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Build implication edges for all clauses]
+    B --> C[Add AMO edges with prefix variables]
+    C --> D[Run SCC algorithm]
+    D --> E{Variable and its negation in same component}
+    E -- Yes --> F[Return unsatisfiable]
+    E -- No --> G[Assign truth values by component order]
+    G --> H[Return assignment]
+```
 
 ### Algorithm Steps
 
@@ -102,7 +98,7 @@ Add pairwise edges for AMO constraints.
 
 ## Optimal Approach (2-SAT + AMO Optimization)
 
-Use auxiliary variables to reduce AMO constraints to linear size.
+Use auxiliary variables to reduce AMO constraints to linear size. The implication graph is the traffic cop that keeps the schedule from colliding.
 
 ### Prefix Optimization Logic
 For group `x1, ..., xk`:

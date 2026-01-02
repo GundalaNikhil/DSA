@@ -1,0 +1,52 @@
+problem_id: GRB_BFS_SHORTEST_PATH_UNWEIGHTED_001
+display_id: GRB-001
+slug: bfs-shortest-path-unweighted
+questions:
+  - question: Given a graph with edges (0,1), (0,2), (1,3), (2,3) and start node 0, what are the shortest distances to nodes 0, 1, 2, 3?
+    difficulty: easy
+    points: 10
+    options:
+      - 0 1 1 2
+      - 0 1 2 3
+      - 0 1 1 1
+      - 0 2 2 4
+    correct_answer: 0
+    explanation: Nodes 1 and 2 are direct neighbors (dist 1). Node 3 is reachable from 1 or 2 (dist 2).
+    type: single_choice
+    id: prq_1
+  - question: What is the time complexity of BFS using an adjacency list?
+    difficulty: medium
+    points: 15
+    options:
+      - O(N^2)
+      - O(N + M)
+      - O(M log N)
+      - O(N * M)
+    correct_answer: 1
+    explanation: BFS visits each node and edge at most once, resulting in O(N + M).
+    type: single_choice
+    id: edq_1
+  - question: Which data structure is essential for implementing BFS?
+    difficulty: easy
+    points: 10
+    options:
+      - Stack
+      - Queue
+      - Priority Queue
+      - Set
+    correct_answer: 1
+    explanation: A Queue (FIFO) is used to explore nodes level by level.
+    type: single_choice
+    id: edq_2
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: Why is BFS not suitable for finding shortest paths in graphs with varying positive edge weights?
+    options:
+      - It cannot handle loops
+      - It explores based on hop count, not cumulative weight
+      - It is too slow
+      - It only works for trees
+    correct_answer: 1
+    explanation: BFS assumes all edges have weight 1. For varying weights, Dijkstra's algorithm is required.

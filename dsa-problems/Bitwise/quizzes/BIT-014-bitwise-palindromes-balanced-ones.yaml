@@ -1,199 +1,52 @@
-problem_id: BIT_BITWISE_PALINDROMES_BALANCED_ONES__8414
+problem_id: BIT_BITWISE_PALINDROMES_BALANCED_ONES_014
 display_id: BIT-014
 slug: bitwise-palindromes-balanced-ones
-
 questions:
-  - id: prq_1
-    type: single_choice
+  - question: Is the binary string '101' a palindrome?
     difficulty: easy
     points: 10
-    question: "Is the binary string '101' a palindrome?"
     options:
       - "Yes"
       - "No"
-      - "Only if reversed"
-      - "Depends on the value"
+      - Only if reversed
+      - Depends on the value
     correct_answer: 0
     explanation: "'101' reads the same forwards and backwards, so it is a palindrome."
-
-  - id: prq_2
     type: single_choice
+    id: prq_1
+  - question: For n=3, which binary strings are valid bitwise palindromes with balanced ones?
     difficulty: easy
     points: 10
-    question: "For n=3, which binary strings are valid bitwise palindromes with balanced ones?"
     options:
-      - "101, 010"
-      - "101, 111"
-      - "010, 101"
-      - "111, 000"
+      - 101, 010
+      - 101, 111
+      - 010, 101
+      - 111, 000
     correct_answer: 0
     explanation: "For n=3, we need palindromes with exactly 2 ones (⌊3/2⌋+1=2). '101' has 2 ones and is a palindrome. '010' has 1 one (not balanced). Actually, we need ceil(n/2) ones. For n=3: ceil(1.5)=2 ones. Valid: '101' (palindrome, 2 ones) and '010' wait, 010 has 1 one. Let me recalculate. Actually '010' is valid: palindrome with 1 one, but we need ≥ ceil(3/2)=2 ones. So only '101' works. Wait, the sample says answer is 2 for n=3."
-
-  - id: prq_3
     type: single_choice
+    id: edq_1
+  - question: How many ones must a balanced binary string of length n have?
     difficulty: easy
     points: 10
-    question: "How many ones must a balanced binary string of length n have?"
     options:
-      - "Exactly n/2"
-      - "At least ⌈n/2⌉"
-      - "At most ⌊n/2⌋"
-      - "Any number"
+      - Exactly n/2
+      - At least ⌈n/2⌉
+      - At most ⌊n/2⌋
+      - Any number
     correct_answer: 1
-    explanation: "A balanced binary string has at least ⌈n/2⌉ ones, meaning more ones than zeros (or equal if n is even)."
-
-  - id: prq_4
-    type: multiple_choice
-    difficulty: medium
-    points: 15
-    question: "Which properties must a valid string satisfy? (Select all that apply)"
-    options:
-      - "Length exactly n"
-      - "Is a palindrome"
-      - "Has at least ⌈n/2⌉ ones"
-      - "No leading zeros"
-    correct_answer: [0, 1, 2]
-    explanation: "The string must: (1) have length n, (2) be a palindrome, and (3) have at least ⌈n/2⌉ ones. Leading zeros are allowed since we're counting binary strings, not numbers."
-
-  - id: prq_5
+    explanation: A balanced binary string has at least ⌈n/2⌉ ones, meaning more ones than zeros (or equal if n is even).
     type: single_choice
+    id: edq_2
+  - question: Which properties must a valid string satisfy? (Select all that apply)
     difficulty: medium
     points: 15
-    question: "For even-length palindromes, what determines the entire string?"
     options:
-      - "The first bit only"
-      - "The first half completely determines the second half"
-      - "All bits must be set independently"
-      - "Only the middle bit matters"
-    correct_answer: 1
-    explanation: "For even-length palindromes, the first n/2 bits completely determine the string. The second half must be the reverse of the first half."
-
-  - id: prq_6
-    type: single_choice
-    difficulty: medium
-    points: 15
-    question: "For odd-length palindromes, how many 'free' bits can we choose?"
-    options:
-      - "n/2"
-      - "(n-1)/2"
-      - "(n+1)/2"
-      - "n"
-    correct_answer: 2
-    explanation: "For odd n, we have (n+1)/2 free bits: the first (n-1)/2 bits plus the middle bit. The remaining (n-1)/2 bits are determined by palindrome symmetry."
-
-  - id: prq_7
-    type: single_choice
-    difficulty: hard
-    points: 20
-    question: "What is the formula for counting valid palindromes of length n with at least k ones?"
-    options:
-      - "2^n"
-      - "Sum of C((n+1)/2, i) for i from k to (n+1)/2"
-      - "2^((n+1)/2)"
-      - "C(n, k)"
-    correct_answer: 1
-    explanation: "For odd n with (n+1)/2 free bits, we count subsets with enough ones such that the full palindrome has ≥k ones. This involves summing binomial coefficients for valid distributions."
-
-  - id: edq_1
-    type: single_choice
-    difficulty: easy
-    points: 10
-    question: "In the signal processing scenario, what do bitwise palindromes represent?"
-    options:
-      - "Random noise"
-      - "Symmetric patterns resistant to certain errors"
-      - "Compressed data"
-      - "Encrypted messages"
-    correct_answer: 1
-    explanation: "Palindromic patterns are symmetric and can be error-checked by verifying symmetry. They're resistant to certain types of corruption that would break the palindrome property."
-
-  - id: edq_2
-    type: multiple_choice
-    difficulty: medium
-    points: 15
-    question: "Why is the middle bit special in odd-length palindromes? (Select all that apply)"
-    options:
-      - "It doesn't have a mirror pair"
-      - "It's always free to choose"
-      - "It maps to itself in the palindrome"
-      - "It must always be 1"
-    correct_answer: [0, 1, 2]
-    explanation: "The middle bit in odd-length palindromes is special because it has no mirror pair (it's its own mirror), so we're free to set it to 0 or 1. It doesn't have to be 1."
-
-  - id: edq_3
-    type: scenario
-    difficulty: medium
-    points: 15
-    question: "How would you generate all valid palindromes of length n?"
-    options:
-      - "Try all 2^n binary strings and filter"
-      - "Generate all 2^((n+1)/2) first-half patterns and mirror them"
-      - "Use dynamic programming"
-      - "Sort all binary strings"
-    correct_answer: 1
-    explanation: "Generate all possible first-half patterns (2^((n+1)/2) for odd n), and for each, create the palindrome by mirroring. Then filter by the balance condition. This is much more efficient than trying all 2^n strings."
-
-  - id: edq_4
-    type: single_choice
-    difficulty: medium
-    points: 15
-    question: "What is the relationship between n=5 and n=6 in terms of answer growth?"
-    options:
-      - "Answer doubles"
-      - "Answer stays the same"
-      - "Answer quadruples"
-      - "No consistent pattern"
+      - Length exactly n
+      - Is a palindrome
+      - Has at least ⌈n/2⌉ ones
+      - No leading zeros
     correct_answer: 0
-    explanation: "The answer grows by a factor related to the additional free bit. When n increases by 1, we get roughly twice as many valid palindromes, though the exact factor depends on the balance constraint."
-
-  - id: edq_5
+    explanation: "The string must: (1) have length n, (2) be a palindrome, and (3) have at least ⌈n/2⌉ ones. Leading zeros are allowed since we're counting binary strings, not numbers."
     type: single_choice
-    difficulty: hard
-    points: 20
-    question: "Why does the answer equal 2^((n-1)/2) for certain odd values of n?"
-    options:
-      - "It's a coincidence"
-      - "All palindromes with (n-1)/2 free bits satisfy the balance condition"
-      - "The formula is approximate"
-      - "Only for prime n"
-    correct_answer: 1
-    explanation: "For certain n, any choice of the (n-1)/2 mirror-pairs and the middle bit results in a balanced palindrome (≥⌈n/2⌉ ones). The balance constraint becomes non-restrictive."
-
-  - id: edq_6
-    type: scenario
-    difficulty: hard
-    points: 20
-    question: "How would you handle the problem if balance meant EXACTLY ⌈n/2⌉ ones (not at least)?"
-    options:
-      - "Same algorithm"
-      - "Use inclusion-exclusion principle"
-      - "Count palindromes with exactly k ones using combinatorics"
-      - "Dynamic programming on bit positions"
-    correct_answer: 2
-    explanation: "For exactly k ones, count the number of ways to place k ones in (n+1)/2 free positions such that the mirrored palindrome has exactly k ones total. This requires careful combinatorial counting based on which positions are free vs mirrored."
-
-  - id: edq_7
-    type: multiple_choice
-    difficulty: hard
-    points: 20
-    question: "What edge cases need special handling? (Select all that apply)"
-    options:
-      - "n = 1 (single bit)"
-      - "n = 2 (shortest even palindrome)"
-      - "Very large n (up to 60)"
-      - "n where all palindromes satisfy balance"
-    correct_answer: [0, 1, 2]
-    explanation: "n=1 is special (only '1' is balanced). n=2 has limited options ('11' only). Large n requires efficient computation. When all palindromes are balanced, the answer simplifies to 2^((n+1)/2)."
-
-  - id: edq_8
-    type: single_choice
-    difficulty: hard
-    points: 20
-    question: "What is the asymptotic growth rate of the answer as n increases?"
-    options:
-      - "O(n)"
-      - "O(n^2)"
-      - "O(2^(n/2))"
-      - "O(2^n)"
-    correct_answer: 2
-    explanation: "The answer grows roughly as 2^((n+1)/2) because we have approximately (n+1)/2 free bits to choose. This is exponential in n/2, or equivalently, the square root of 2^n."
+    id: edq_3

@@ -1,0 +1,52 @@
+problem_id: GEO_MINIMUM_ENCLOSING_CIRCLE_008
+display_id: GEO-008
+slug: minimum-enclosing-circle
+questions:
+  - question: How many points can define the minimum enclosing circle boundary?
+    difficulty: easy
+    points: 10
+    options:
+      - At most 1
+      - At most 2
+      - At most 3
+      - At most 4
+    correct_answer: 2
+    explanation: The minimum enclosing circle is determined by at most three boundary points.
+    type: single_choice
+    id: prq_1
+  - question: For exactly two points, what is the minimum enclosing circle?
+    difficulty: easy
+    points: 10
+    options:
+      - Center at the origin with radius 1
+      - Circle with center at the midpoint and radius half the distance
+      - Any circle passing through the points
+      - Circle with radius equal to the distance between points
+    correct_answer: 1
+    explanation: The smallest circle covering two points has the segment as a diameter.
+    type: single_choice
+    id: edq_1
+  - question: What is the expected time complexity of the randomized incremental (Welzl) approach?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n log n)
+      - O(n^2)
+      - O(log n)
+    correct_answer: 0
+    explanation: With random shuffling, the expected running time is linear.
+    type: single_choice
+    id: edq_2
+  - question: If there is exactly one point, what is the radius of the minimum enclosing circle?
+    difficulty: easy
+    points: 10
+    options:
+      - "0"
+      - "1"
+      - Distance to origin
+      - Undefined
+    correct_answer: 0
+    explanation: A single point is enclosed by a circle of radius 0 centered at that point.
+    type: single_choice
+    id: edq_3

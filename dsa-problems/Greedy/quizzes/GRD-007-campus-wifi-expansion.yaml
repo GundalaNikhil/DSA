@@ -1,0 +1,52 @@
+problem_id: GRD_CAMPUS_WIFI_EXPANSION_007
+display_id: GRD-007
+slug: campus-wifi-expansion
+questions:
+  - question: This problem is a variation of which classic graph algorithm?
+    difficulty: easy
+    points: 10
+    options:
+      - Minimum Spanning Tree (MST)
+      - Shortest Path (Dijkstra)
+      - Topological Sort
+      - Maximum Flow
+    correct_answer: 0
+    explanation: We need to connect all nodes with minimum total edge weight, which is the definition of the Minimum Spanning Tree problem.
+    type: single_choice
+    id: prq_1
+  - question: To avoid processing O(N^2) edges, which edges are sufficient to consider to guarantee the MST?
+    difficulty: medium
+    points: 15
+    options:
+      - Edges between adjacent buildings after sorting by height
+      - Edges between the first building and all others
+      - Edges with cost less than 100
+      - Edges between even and odd indexed buildings
+    correct_answer: 0
+    explanation: In a 1D line metric, the MST edge set is always a subset of the edges connecting immediate neighbors in the sorted order.
+    type: single_choice
+    id: edq_1
+  - question: How should existing 'free' cables be handled?
+    difficulty: medium
+    points: 10
+    options:
+      - Add them to the Union-Find structure first (or as cost 0 edges)
+      - Ignore them and rebuild everything
+      - Treat them as edges with infinite cost
+      - Subtract their length from the final answer
+    correct_answer: 0
+    explanation: Existing connections are free, so union connected components immediately to reduce the number of new edges needed.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of the optimized solution?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N log N)
+      - O(N^2)
+      - O(N!)
+      - O(N)
+    correct_answer: 0
+    explanation: Sorting the buildings takes O(N log N). Processing the ~N candidate edges with Union-Find takes nearly linear time.
+    type: single_choice
+    id: edq_3

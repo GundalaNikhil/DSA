@@ -66,6 +66,26 @@ Best Buy in Window: 1
 Profit: 4 - 1 = 3
 ```
 
+### 🔄 Algorithm Flow Diagram
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Init deque, ans = 0, j = dMin]
+    B --> C{j < n?}
+    C -- No --> J[Return ans]
+    C -- Yes --> D[buy_candidate = j - dMin]
+    D --> E[Pop back while prices at back >= prices at buy_candidate]
+    E --> F[Push buy_candidate]
+    F --> G[Pop front while front < j - dMax]
+    G --> H[best_buy = prices at front, revenue = min of prices at j and C]
+    H --> I[ans = max of ans and revenue - best_buy]
+    I --> K[j++]
+    K --> C
+```
+
+> A good deal lives in the window, but only if you open it on time.
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Profit Definition**: `min(prices[sell], C) - prices[buy]`.

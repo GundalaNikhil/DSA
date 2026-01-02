@@ -35,38 +35,31 @@ Imagine a social network where friendship is transitive (if A is friends with B,
 -   **Union(u, v):** Person `u` and Person `v` become friends. This merges their entire friend circles.
 -   **Find(u, v):** Check if Person `u` and Person `v` are connected (can they see each other's posts?).
 
-As millions of friendships are formed, we need an ultra-fast way to check connectivity.
+As millions of friendships are formed, we need an ultra-fast way to check connectivity. DSU keeps those circles from turning into a tangled necklace.
 
 ![Real-World Application](../images/GRB-012/real-world-scenario.png)
 
 ## Detailed Explanation
 
-### ASCII Diagram: Concept Visualization
+### Flow Diagram: Concept Visualization
 
-**Initial State:**
-`{0}, {1}, {2}, {3}`
-
-**Query: Union(0, 1)**
--   Merge sets `{0}` and `{1}`.
--   State: `{0, 1}, {2}, {3}`.
--   Tree: `1 -> 0` (1 points to 0).
-
-**Query: Union(2, 3)**
--   Merge `{2}` and `{3}`.
--   State: `{0, 1}, {2, 3}`.
--   Tree: `3 -> 2`.
-
-**Query: Union(1, 3)**
--   Find root of 1 -> `0`.
--   Find root of 3 -> `2`.
--   Merge roots `0` and `2`.
--   State: `{0, 1, 2, 3}`.
--   Tree: `2 -> 0` (2 points to 0). Structure: `1->0`, `3->2->0`.
-
-**Query: Find(1, 3)**
--   Root(1) is 0.
--   Root(3) is 0.
--   Same root -> **True**.
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Initialize parent and rank arrays]
+    B --> C[Read next query]
+    C --> D{Query type is union}
+    D -- Yes --> E[Find roots of both nodes]
+    E --> F{Roots are different}
+    F -- Yes --> G[Union by rank]
+    F -- No --> C
+    D -- No --> H[Find roots of both nodes]
+    H --> I{Roots are the same}
+    I -- Yes --> J[Record true]
+    I -- No --> K[Record false]
+    J --> C
+    K --> C
+```
 
 ### Algorithm Steps (DSU with Optimizations)
 

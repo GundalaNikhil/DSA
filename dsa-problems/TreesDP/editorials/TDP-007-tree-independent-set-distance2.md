@@ -140,6 +140,21 @@ function max_independent_set_d2_dp():
     return max(dp[1][0], dp[1][1], dp[1][2])
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[DFS from root]
+    B --> C[Initialize three states for node]
+    C --> D{Child exists}
+    D -->|Yes| E[Recurse to child]
+    E --> F[Update state for selected node]
+    F --> G[Update state for no child selected]
+    G --> H[Update state for at least one child selected]
+    H --> D
+    D -->|No| I[Return best of three states at root]
+    I --> J[End]
+```
+
 ### Complexity Analysis
 
 | Phase             | Time          | Space    | Explanation          |

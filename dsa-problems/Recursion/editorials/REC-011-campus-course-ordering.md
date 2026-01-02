@@ -58,6 +58,18 @@ Instead of a queue, at each step of the recursion, we can pick **any** node that
     -   **Recurse**: `backtrack(...)`
     -   **Unchoose (Backtrack)**: Remove `i`. Unmark visited. Increase indegree of neighbors (restore state).
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Find nodes with zero indegree] --> B{All nodes placed}
+B -->|Yes| C[Record ordering]
+B -->|No| D[Pick one available node]
+D --> E[Reduce indegree of neighbors]
+E --> F[Recurse on remaining nodes]
+F --> G[Restore indegrees and unchoose]
+G --> A
+```
+
 ## Approaches
 
 ### Approach 1: Backtracking with Indegree Array

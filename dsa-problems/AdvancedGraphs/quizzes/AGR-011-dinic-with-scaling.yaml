@@ -1,0 +1,52 @@
+problem_id: AGR_DINIC_WITH_SCALING_011
+display_id: AGR-011
+slug: dinic-with-scaling
+questions:
+  - question: What is capacity scaling in Dinic's algorithm?
+    difficulty: easy
+    points: 10
+    options:
+      - Reducing graph size
+      - Processing flows from largest to smallest capacities
+      - Scaling costs, not capacities
+      - Running multiple Dinic iterations
+    correct_answer: 1
+    explanation: Start with delta = largest power of 2 ≤ max capacity. Only consider edges with residual ≥ delta. Halve delta repeatedly until delta = 1.
+    type: single_choice
+    id: prq_1
+  - question: Why does capacity scaling reduce the number of augmentations?
+    difficulty: easy
+    points: 10
+    options:
+      - It's a greedy approach
+      - Each augmentation pushes at least delta flow, reducing total augmentations
+      - It skips small edges
+      - Improves BFS efficiency
+    correct_answer: 1
+    explanation: "If each augmentation pushes >= delta, and total flow is F, then # augmentations <= F/delta. Summing over all delta values: O(log C) phases with O(E) augmentations each."
+    type: single_choice
+    id: edq_1
+  - question: For max capacity C, how many delta phases are there?
+    difficulty: medium
+    points: 15
+    options:
+      - C phases
+      - log₂(C) phases
+      - √C phases
+      - 1 phase
+    correct_answer: 1
+    explanation: "Start with delta = 2^⌊log₂C⌋, then halve: delta = 2^(k-1), 2^(k-2), ..., 1. Total: k+1 phases where k = ⌊log₂C⌋."
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of Dinic with scaling?
+    difficulty: medium
+    points: 15
+    options:
+      - O(V²E)
+      - O(V²E log C)
+      - O(VE log C)
+      - O(E log V log C)
+    correct_answer: 1
+    explanation: "Dinic: O(V²E) base. With scaling: O(log C) phases, each O(V²E). Total: O(V²E log C)."
+    type: single_choice
+    id: edq_3

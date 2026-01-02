@@ -34,7 +34,7 @@ You are configuring a row of security lights.
 -   **Mechanism:** The lights are wired in a series. There is a master control switch that can invert the state of any **contiguous block** of lights. However, using the switch is manual and slow.
 -   **Goal:** Calculate the minimum number of switch actions needed to reach the target configuration.
 
-![Real-World Application](../images/BIT-011/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291291/Bitwise/BIT-011/v2/zr9lxa2o4js6h5rromvt.png)
 
 ### From Real World to Algorithm
 -   **Transformation:** We need `A` to equal `B`. This is equivalent to transforming `(A XOR B)` to `0`. Let `D = A ^ B`.
@@ -47,8 +47,11 @@ You are configuring a row of security lights.
     -   Flip range `6..7`. Reduced to all 0s.
     -   Total: 2 ops.
 -   **Conclusion:** The answer is simply the number of contiguous "blocks" of 1s in the difference array.
+Every fresh block of ones is a flip waiting to happen.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291294/Bitwise/BIT-011/v2/zi53h8yg0qyk5vpxsirv.png)
 
 ### logical Diagram: Difference Blocks
 
@@ -69,15 +72,20 @@ You are configuring a row of security lights.
 **Logic:**
 We increment the operation count whenever we encounter a `1` that was preceded by a `0` (start of a new mismatch group).
 
+<!-- mermaid -->
 ```mermaid
-graph LR
-    Input[Inputs A, B] --> XOR[Compute D = A ^ B]
-    XOR --> Scan[Scan Array D]
-    Scan --> Check{Is D[i]=1 AND D[i-1]=0?}
-    Check -- Yes --> Inc[Count++]
-    Check -- No --> Continue
-    Inc --> Continue
-    Continue --> End[Return Count]
+flowchart TD
+    A[Start with A and B] --> B[Set i to 0, count to 0, prev_diff to 0]
+    B --> C{i less than n?}
+    C -- No --> I[Return count]
+    C -- Yes --> D[curr_diff from A at i XOR B at i]
+    D --> E{curr_diff is 1 and prev_diff is 0?}
+    E -- Yes --> F[count++]
+    E -- No --> G[No change]
+    F --> H[prev_diff becomes curr_diff]
+    G --> H
+    H --> J[i++]
+    J --> C
 ```
 
 ## ✅ Input/Output Clarifications
@@ -188,6 +196,8 @@ class Solution {
 ```
 
 ## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291296/Bitwise/BIT-011/v2/zikndz3yw4aa00urkcgu.png)
 **Input:** `A=[0,0,0], B=[1,0,1]`
 -   D = `[1, 0, 1]`.
 -   Index 0: `1`. Prev `0`. Start block. Count=1.

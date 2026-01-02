@@ -1,2 +1,52 @@
-# Quiz for SRT-013: Closest Pair in Sorted Circular Array
-# YAML content to be added
+problem_id: SRT_CLOSEST_PAIR_SORTED_CIRCULAR_013
+display_id: SRT-013
+slug: closest-pair-sorted-circular
+questions:
+  - question: To apply the Two-Pointer technique on a Rotated Sorted Array (circularly sorted), how can we abstract away the rotation after finding the pivot index `P`?
+    difficulty: medium
+    points: 15
+    options:
+      - Use logical indices `l` (0 to `n-1`) and map them to physical indices using `(P + l) % n`.
+      - Sort the array first to remove the rotation.
+      - Duplicate the array to make it length `2n`.
+      - Use two pointers starting at index 0 and 1.
+    correct_answer: 0
+    explanation: By treating the pivot as the 'logical start', we can iterate `l` from 0 to `n-1`. The modulo operator correctly wraps around to indices before the pivot, maintaining the sorted order virtually.
+    type: single_choice
+    id: prq_1
+  - question: How can the pivot (the smallest element) be found in a sorted rotated array without duplicates?
+    difficulty: easy
+    points: 10
+    options:
+      - Binary Search in `O(log N)`.
+      - Linear Scan in `O(N)`.
+      - Both of the above.
+      - It is always at index 0.
+    correct_answer: 2
+    explanation: While linear scan (`O(N)`) works and is consistent with the `O(N)` two-pointer phase, Binary Search (`O(log N)`) is a standard optimization for finding the pivot in rotated sorted arrays.
+    type: single_choice
+    id: edq_1
+  - question: When using the Two-Pointer method with logical indices `L` (starts at 0) and `R` (starts at `n-1`), when should the loop terminate?
+    difficulty: medium
+    points: 10
+    options:
+      - When `L >= R`.
+      - When `L == n-1`.
+      - When `R == 0`.
+      - When `sum == target` (only).
+    correct_answer: 0
+    explanation: Similar to the standard linear array case, since `L` moves forward (increasing values) and `R` moves backward (decreasing values), we stop when they meet or cross, ensuring we cover the full search space without redundancy.
+    type: single_choice
+    id: edq_2
+  - question: What is the overall time complexity of finding the closest pair in a rotated sorted array using the Two-Pointer method?
+    difficulty: easy
+    points: 10
+    options:
+      - "`O(N)`"
+      - "`O(N^2)`"
+      - "`O(N log N)`"
+      - "`O(log N)`"
+    correct_answer: 0
+    explanation: Finding the pivot takes `O(N)` (or `O(log N)`), and the two-pointer scan touches each element at most once, taking `O(N)`.
+    type: single_choice
+    id: edq_3

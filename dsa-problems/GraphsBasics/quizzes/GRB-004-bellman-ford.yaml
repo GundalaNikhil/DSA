@@ -1,0 +1,52 @@
+problem_id: GRB_BELLMAN_FORD_004
+display_id: GRB-004
+slug: bellman-ford
+questions:
+  - question: If Bellman-Ford can still relax an edge after N-1 iterations, what does it imply?
+    difficulty: easy
+    points: 10
+    options:
+      - The graph is disconnected
+      - There is a negative weight cycle reachable from source
+      - The shortest path has exactly N edges
+      - The algorithm needs one more iteration to finish
+    correct_answer: 1
+    explanation: Changes after N-1 iterations indicate a negative cycle allowing infinite reduction of distance.
+    type: single_choice
+    id: prq_1
+  - question: What is the time complexity of Bellman-Ford algorithm?
+    difficulty: medium
+    points: 15
+    options:
+      - O(N + M)
+      - O(M log N)
+      - O(N * M)
+      - O(N^3)
+    correct_answer: 2
+    explanation: We relax all M edges N-1 times, leading to O(N * M) complexity.
+    type: single_choice
+    id: edq_1
+  - difficulty: easy
+    points: 10
+    question: For a graph with N nodes, what is the maximum number of edge relaxation passes Bellman-Ford performs?
+    options:
+      - N
+      - N - 1
+      - M
+      - log N
+    correct_answer: 1
+    explanation: Shortest paths in a graph without negative cycles have at most N-1 edges, so N-1 passes are sufficient.
+    type: single_choice
+    id: edq_2
+  - id: edq_3
+    type: single_choice
+    difficulty: hard
+    points: 20
+    question: How many iterations of edge relaxation are sufficient for Bellman-Ford in a graph with N nodes?
+    options:
+      - N
+      - N-1
+      - M
+      - log N
+    correct_answer: 1
+    explanation: A simple shortest path contains at most N-1 edges.

@@ -62,6 +62,16 @@ Values: `[6, 2, 5, 1, 7]`, `K=3`.
    - Sorted: `1, 5, 7`
    - Min: 1, Second Min: 5.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Initialize multiset with first window] --> B[Read minimum and second minimum]
+B --> C[Output second minimum]
+C --> D[Remove outgoing value]
+D --> E[Add incoming value]
+E --> B
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** `N, K`, array of integers.

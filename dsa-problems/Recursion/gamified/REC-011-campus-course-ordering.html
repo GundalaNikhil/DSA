@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REC-011: Academic Advisor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #2c3e50;
+            --node-locked: #7f8c8d;
+            --node-ready: #f1c40f;
+            --node-done: #2ecc71;
+            --edge: #95a5a6;
+        }
+
+        body {
+            font-family: 'Roboto Condensed', sans-serif;
+            background: var(--bg);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        h1 { margin-top: 2rem; font-size: 2.5rem; text-transform: uppercase; letter-spacing: 2px; }
+
+        .canvas-container {
+            position: relative;
+            width: 800px;
+            height: 500px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            margin-top: 2rem;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.5);
+        }
+
+        .node {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            border: 4px solid #fff;
+            background: var(--node-locked);
+            color: #ddd;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .node.ready {
+            background: var(--node-ready);
+            color: #2c3e50;
+            border-color: #f39c12;
+            transform: scale(1.05);
+            animation: pulse 2s infinite;
+        }
+
+        .node.done {
+            background: var(--node-done);
+            border-color: #27ae60;
+            color: #fff;
+            transform: scale(0.9);
+            filter: grayscale(0.2);
+        }
+
+        @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.7); } 70% { box-shadow: 0 0 0 20px rgba(241, 196, 15, 0); } 100% { box-shadow: 0 0 0 0 rgba(241, 196, 15, 0); } }
+
+        svg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        line {
+            stroke: var(--edge);
+            stroke-width: 4;
+            transition: stroke 0.5s;
+        }
+        
+        line.active { stroke: #fff; }
+
+        .status-bar {
+            margin-top: 1rem;
+            font-size: 1.2rem;
+            min-height: 2em;
+        }
+
+        .btn {
+            margin-top: 1rem;
+            padding: 10px 30px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>COURSE SCHEDULER</h1>
+<div style="color:#bdc3c7">Click available courses (yellow) to enroll. Unlock advanced courses.</div>
+
+<div class="canvas-container" id="canvas">
+    <svg id="lines"></svg>
+    <!-- Nodes active here -->
+</div>
+
+<div class="status-bar" id="status">Plan your semester...</div>
+<button class="btn" onclick="init()">Reset Semester</button>
+
+<script>
+    // Course Graph
+    // 0 -> 1 -> 3
+    // 0 -> 2 -> 3
+    // 4 -> 2
+    // 5 (independent)
+    
+    // Dependencies:
+    // 1 needs 0
+    // 2 needs 0, 4
+    // 3 needs 1, 2
+    
+    // InDegrees
+    const GRAPH = {
+        nodes: [
+            { id: 0, label: "CS101", x: 100, y: 100 },
+            { id: 1, label: "CS102", x: 300, y: 100 },
+            { id: 2, label: "MATH", x: 300, y: 300 },
+            { id: 3, label: "ALGOS", x: 500, y: 200 },
+            { id: 4, label: "CALC", x: 100, y: 300 },
+            { id: 5, label: "ART", x: 100, y: 450 }
+        ],
+        edges: [
+            { from: 0, to: 1 },
+            { from: 0, to: 2 },
+            { from: 4, to: 2 },
+            { from: 1, to: 3 },
+            { from: 2, to: 3 }
+        ]
+    };
+
+    let completed = new Set();
+    let inDegree = {};
+
+    function init() {
+        completed.clear();
+        inDegree = {};
+        GRAPH.nodes.forEach(n => inDegree[n.id] = 0);
+        GRAPH.edges.forEach(e => {
+            inDegree[e.to] = (inDegree[e.to] || 0) + 1;
+        });
+        
+        draw();
+        document.getElementById('status').textContent = "Select a course...";
+    }
+
+    function draw() {
+        const canvas = document.getElementById('canvas');
+        const svg = document.getElementById('lines');
+        
+        // Clear nodes (keep svg)
+        Array.from(canvas.getElementsByClassName('node')).forEach(e => e.remove());
+        svg.innerHTML = '';
+
+        // Draw edges
+        GRAPH.edges.forEach(e => {
+            const n1 = GRAPH.nodes.find(n => n.id === e.from);
+            const n2 = GRAPH.nodes.find(n => n.id === e.to);
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', n1.x + 40);
+            line.setAttribute('y1', n1.y + 40);
+            line.setAttribute('x2', n2.x + 40);
+            line.setAttribute('y2', n2.y + 40);
+            
+            if (completed.has(e.from)) line.classList.add('active');
+            
+            svg.appendChild(line);
+        });
+
+        // Draw nodes
+        GRAPH.nodes.forEach(n => {
+            const el = document.createElement('div');
+            el.className = 'node';
+            el.textContent = n.label;
+            el.style.left = n.x + 'px';
+            el.style.top = n.y + 'px';
+
+            const ready = isReady(n.id);
+            const done = completed.has(n.id);
+
+            if (done) el.classList.add('done');
+            else if (ready) {
+                el.classList.add('ready');
+                el.onclick = () => enroll(n.id);
+            }
+
+            canvas.appendChild(el);
+        });
+        
+        checkWin();
+    }
+
+    function isReady(id) {
+        if(completed.has(id)) return false;
+        // Check all prereqs
+        // Edge: from -> to. "to" needs "from".
+        // Find all edges where e.to === id. Check if e.from in completed.
+        const prereqs = GRAPH.edges.filter(e => e.to === id);
+        return prereqs.every(e => completed.has(e.from));
+    }
+
+    function enroll(id) {
+        completed.add(id);
+        draw();
+        document.getElementById('status').textContent = "Enrolled in " + GRAPH.nodes.find(n=>n.id===id).label;
+    }
+
+    function checkWin() {
+        if(completed.size === GRAPH.nodes.length) {
+            document.getElementById('status').textContent = "GRADUATION UNLOCKED!";
+            document.getElementById('status').style.color = "#f1c40f";
+        }
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

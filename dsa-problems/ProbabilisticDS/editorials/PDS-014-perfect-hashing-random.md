@@ -65,6 +65,15 @@ If we had a bad hash function where all 6 keys went to Bucket 0:
 - `S = 36`.
 - Check: `36 <= 24`. NO.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read bucket sizes] --> B[Sum squares for total S]
+B --> C{Total at most four times n}
+C -->|Yes| D[Output YES]
+C -->|No| E[Output NO]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:**

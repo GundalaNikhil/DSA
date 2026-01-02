@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REC-016: Binary Lock</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000;
+            --metal: #444;
+            --light: #0f0;
+            --off: #333;
+        }
+
+        body {
+            background: var(--bg);
+            color: #fff;
+            font-family: 'Share Tech Mono', monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+
+        h1 { margin-top: 2rem; color: #0f0; text-shadow: 0 0 10px #0f0; }
+
+        .lock-interface {
+            margin-top: 3rem;
+            display: flex;
+            gap: 10px;
+        }
+
+        .tumbler {
+            width: 80px;
+            height: 120px;
+            background: linear-gradient(#222, #555, #222);
+            border: 2px solid #777;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #ccc;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(255,255,255,0.1);
+            transition: transform 0.1s;
+        }
+
+        .tumbler:active { transform: scale(0.95); }
+        .tumbler.one { color: var(--light); text-shadow: 0 0 10px var(--light); }
+
+        .sequence-display {
+            width: 400px;
+            height: 200px;
+            background: #111;
+            border: 1px solid #333;
+            margin-top: 2rem;
+            padding: 20px;
+            overflow-y: auto;
+            color: #0f0;
+            font-size: 1.2rem;
+        }
+
+        .entry { opacity: 0.5; }
+        .entry.current { opacity: 1; font-weight: bold; color: #fff; background: rgba(0,255,0,0.2); }
+
+    </style>
+</head>
+<body>
+
+<h1>BINARY LOCKPICK</h1>
+<div style="color:#888">Rule: Flip EXACTLY 1 bit to match next code.</div>
+
+<div class="lock-interface" id="lock">
+    <div class="tumbler" id="b2" onclick="flip(2)">0</div>
+    <div class="tumbler" id="b1" onclick="flip(1)">0</div>
+    <div class="tumbler" id="b0" onclick="flip(0)">0</div>
+</div>
+
+<div class="sequence-display" id="log">
+    <div class="entry current">> 0 0 0 (Start)</div>
+</div>
+
+<div id="msg" style="margin-top:1rem; color:#f0f; min-height:1.5em"></div>
+
+<button style="margin-top:20px; padding:10px 30px; background:#333; color:#fff; border:none; border-radius:5px; cursor:pointer" onclick="reset()">RESET LOCK</button>
+
+<script>
+    let state = [0, 0, 0];
+    const SOLUTION = ["000", "001", "011", "010", "110", "111", "101", "100"]; // Gray Code n=3
+    let step = 0;
+
+    function reset() {
+        state = [0, 0, 0];
+        step = 0;
+        document.getElementById('log').innerHTML = '<div class="entry current">> 0 0 0 (Start)</div>';
+        updateView();
+        document.getElementById('msg').textContent = "";
+    }
+
+    function flip(idx) {
+        state[idx] = 1 - state[idx];
+        updateView();
+        check();
+    }
+
+    function updateView() {
+        for(let i=0; i<3; i++) {
+            const el = document.getElementById(`b${i}`);
+            el.textContent = state[i];
+            el.className = state[i] ? 'tumbler one' : 'tumbler';
+        }
+    }
+
+    function check() {
+        const bin = state.slice().reverse().join(''); // state[2] is MSB in UI (leftmost)
+        // Wait, UI is b2, b1, b0. b2 is Left.
+        // Array is [b0, b1, b2]? No, logic flip(idx) flips state[idx].
+        // If UI orders b2, b1, b0, then string is state[2]state[1]state[0].
+        
+        const nextTarget = SOLUTION[step+1];
+        if (!nextTarget) return; // Done
+
+        if (bin === nextTarget) {
+            step++;
+            const log = document.getElementById('log');
+            // Demote old
+            log.lastElementChild.className = 'entry';
+            
+            const div = document.createElement('div');
+            div.className = 'entry current';
+            div.textContent = `> ${state[2]} ${state[1]} ${state[0]} [OK]`;
+            log.appendChild(div);
+            log.scrollTop = log.scrollHeight;
+            
+            document.getElementById('msg').textContent = "";
+
+            if (step === SOLUTION.length - 1) {
+                document.getElementById('msg').textContent = "LOCK OPENED!";
+                document.getElementById('msg').style.color = "#0f0";
+            }
+        } else {
+            // Check if valid move generally? 
+            // Gray code rule: 1 bit flip.
+            // Game rule: Find *specific* gray code sequence (e.g. standard reflected).
+            // If they flipped into a state that is NOT the next target, it's wrong path.
+            document.getElementById('msg').textContent = "Incorrect sequence...";
+        }
+    }
+</script>
+</body>
+</html>

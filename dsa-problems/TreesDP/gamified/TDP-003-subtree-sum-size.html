@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDP-003: Harvest Season</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: linear-gradient(180deg, #87ceeb 0%, #98d8a8 60%, #4a7c59 100%);
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .game-frame {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #2d5a27;
+            text-shadow: 2px 2px 0 #fff;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .farm-stats {
+            display: flex;
+            gap: 30px;
+            background: rgba(255,255,255,0.9);
+            padding: 15px 40px;
+            border-radius: 50px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+        }
+
+        .farm-stat { text-align: center; }
+        .farm-stat-label { font-size: 12px; color: #666; }
+        .farm-stat-val { font-size: 24px; color: #2d5a27; }
+
+        .orchard {
+            width: 750px;
+            height: 450px;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50"><rect fill="%2398d8a8" width="50" height="50"/><circle fill="%238fce9f" cx="25" cy="25" r="20"/></svg>');
+            border: 5px solid #5a7c4f;
+            border-radius: 20px;
+            position: relative;
+            box-shadow: inset 0 0 50px rgba(0,0,0,0.1);
+        }
+
+        svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        line { stroke: #6b4423; stroke-width: 8; stroke-linecap: round; }
+
+        .tree-node {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            z-index: 10;
+        }
+        .tree-node:hover { transform: scale(1.1); }
+
+        .tree-crown {
+            width: 70px;
+            height: 50px;
+            background: radial-gradient(ellipse at center, #4caf50 0%, #2e7d32 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border: 3px solid #1b5e20;
+            position: relative;
+        }
+
+        .tree-trunk {
+            width: 15px;
+            height: 25px;
+            background: #5d4037;
+            margin: -5px auto 0;
+            border-radius: 0 0 5px 5px;
+        }
+
+        .fruit-count {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #ff6b6b;
+            color: #fff;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            border: 2px solid #fff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+
+        .tree-node.selected .tree-crown { box-shadow: 0 0 20px #ffd700, 0 0 40px #ffd700; border-color: #ffd700; }
+        .tree-node.harvested { opacity: 0.5; pointer-events: none; }
+        .tree-node.harvested .tree-crown { background: #9e9e9e; }
+
+        .action-bar {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.2s;
+        }
+        .btn:hover { transform: translateY(-3px); }
+        .btn:active { transform: translateY(0); }
+
+        .basket {
+            padding: 15px 30px;
+            background: #8d6e63;
+            border-radius: 15px;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+        }
+        .basket-icon { font-size: 30px; }
+
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            z-index: 100;
+            display: none;
+        }
+        .popup h2 { color: #2d5a27; margin-bottom: 15px; }
+        .popup .score { font-size: 48px; color: #ff9800; }
+
+    </style>
+</head>
+<body>
+
+<div class="game-frame">
+    <h1>🍎 HARVEST SEASON 🍎</h1>
+    <div style="color:#4a7c59; margin-bottom:15px">Click a tree, then HARVEST to collect its subtree fruits!</div>
+
+    <div class="farm-stats">
+        <div class="farm-stat">
+            <div class="farm-stat-label">SELECTED</div>
+            <div class="farm-stat-val" id="selectedNode">-</div>
+        </div>
+        <div class="farm-stat">
+            <div class="farm-stat-label">SUBTREE SUM</div>
+            <div class="farm-stat-val" id="subtreeSum">0</div>
+        </div>
+        <div class="farm-stat">
+            <div class="farm-stat-label">SUBTREE SIZE</div>
+            <div class="farm-stat-val" id="subtreeSize">0</div>
+        </div>
+    </div>
+
+    <div class="orchard" id="orchard">
+        <svg id="branches"></svg>
+    </div>
+
+    <div class="action-bar">
+        <button class="btn" onclick="harvest()">🧺 HARVEST SUBTREE</button>
+        <div class="basket">
+            <span class="basket-icon">🧺</span>
+            <span id="basket">0</span> fruits
+        </div>
+    </div>
+</div>
+
+<div class="popup" id="popup">
+    <h2>🎉 ORCHARD CLEARED!</h2>
+    <div>Total Harvest:</div>
+    <div class="score" id="finalScore">0</div>
+    <button class="btn" style="margin-top:20px" onclick="this.loadLevel()">PLAY AGAIN</button>
+</div>
+
+<script>
+    const TREE = {
+        nodes: [
+            {id:1, x:340, y:20, val:5},
+            {id:2, x:170, y:120, val:3}, {id:3, x:510, y:120, val:7},
+            {id:4, x:70, y:240, val:2}, {id:5, x:250, y:240, val:4}, {id:6, x:430, y:240, val:1}, {id:7, x:600, y:240, val:6},
+            {id:8, x:20, y:360, val:1}, {id:9, x:120, y:360, val:3}, {id:10, x:200, y:360, val:2}
+        ],
+        edges: [[1,2],[1,3],[2,4],[2,5],[3,6],[3,7],[4,8],[4,9],[5,10]],
+        children: {1:[2,3], 2:[4,5], 3:[6,7], 4:[8,9], 5:[10], 6:[], 7:[], 8:[], 9:[], 10:[]}
+    };
+
+    let selected = null;
+    let harvested = new Set();
+    let basket = 0;
+
+    function init() {
+        renderOrchard();
+    }
+
+    function renderOrchard() {
+        const orchard = document.getElementById('orchard');
+        const svg = document.getElementById('branches');
+        svg.innerHTML = '';
+        orchard.querySelectorAll('.tree-node').forEach(n => n.remove());
+
+        TREE.edges.forEach(([a, b]) => {
+            if (harvested.has(a) || harvested.has(b)) return;
+            const n1 = TREE.nodes.find(n => n.id === a);
+            const n2 = TREE.nodes.find(n => n.id === b);
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', n1.x + 35);
+            line.setAttribute('y1', n1.y + 50);
+            line.setAttribute('x2', n2.x + 35);
+            line.setAttribute('y2', n2.y + 10);
+            svg.appendChild(line);
+        });
+
+        TREE.nodes.forEach(n => {
+            if (harvested.has(n.id)) return;
+            
+            const el = document.createElement('div');
+            el.className = 'tree-node';
+            el.id = `tree-${n.id}`;
+            el.style.left = n.x + 'px';
+            el.style.top = n.y + 'px';
+            el.innerHTML = `
+                <div class="tree-crown">🌳<div class="fruit-count">${n.val}</div></div>
+                <div class="tree-trunk"></div>
+            `;
+            el.onclick = () => selectTree(n.id);
+            orchard.appendChild(el);
+        });
+    }
+
+    function selectTree(id) {
+        // Deselect prev
+        document.querySelectorAll('.tree-node').forEach(n => n.classList.remove('selected'));
+        
+        selected = id;
+        document.getElementById(`tree-${id}`).classList.add('selected');
+        
+        const { sum, size } = computeSubtree(id);
+        document.getElementById('selectedNode').textContent = id;
+        document.getElementById('subtreeSum').textContent = sum;
+        document.getElementById('subtreeSize').textContent = size;
+    }
+
+    function computeSubtree(id) {
+        if (harvested.has(id)) return { sum: 0, size: 0 };
+        const node = TREE.nodes.find(n => n.id === id);
+        let sum = node.val;
+        let size = 1;
+        
+        for (const child of TREE.children[id]) {
+            const result = computeSubtree(child);
+            sum += result.sum;
+            size += result.size;
+        }
+        
+        return { sum, size };
+    }
+
+    function markHarvested(id) {
+        harvested.add(id);
+        for (const child of TREE.children[id]) {
+            markHarvested(child);
+        }
+    }
+
+    function harvest() {
+        if (selected === null) return;
+        
+        const { sum } = computeSubtree(selected);
+        basket += sum;
+        document.getElementById('basket').textContent = basket;
+        
+        markHarvested(selected);
+        selected = null;
+        
+        document.getElementById('selectedNode').textContent = '-';
+        document.getElementById('subtreeSum').textContent = 0;
+        document.getElementById('subtreeSize').textContent = 0;
+        
+        renderOrchard();
+        
+        // Check if all harvested
+        if (harvested.size === TREE.nodes.length) {
+            setTimeout(() => {
+                document.getElementById('finalScore').textContent = basket;
+                document.getElementById('popup').style.display = 'block';
+            }, 500);
+        }
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

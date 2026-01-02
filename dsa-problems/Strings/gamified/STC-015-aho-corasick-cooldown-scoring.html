@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-015: Virus Hunter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a0a; --green: #39ff14; --red: #ff073a; --blue: #00d4ff; --dark: #1a1a1a; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Share Tech Mono', monospace; background: var(--bg); color: var(--green); min-height: 100vh; }
+        header { background: var(--dark); padding: 1.5rem; text-align: center; border-bottom: 2px solid var(--green); }
+        h1 { font-family: 'Orbitron', sans-serif; color: var(--green); font-size: 1.8rem; text-shadow: 0 0 20px var(--green); }
+        .subtitle { color: var(--blue); font-size: 0.8rem; }
+        main { padding: 25px; max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+        .scanner { background: var(--dark); border: 2px solid var(--green); border-radius: 10px; padding: 20px; position: relative; overflow: hidden; }
+        .scan-line { position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--green); opacity: 0.5; animation: scan 2s linear infinite; }
+        @keyframes scan { 0% { left: 0; } 100% { left: 100%; } }
+        .stream { display: flex; gap: 3px; padding: 15px; background: rgba(0,0,0,0.5); border-radius: 8px; overflow-x: auto; position: relative; z-index: 1; }
+        .byte { width: 35px; height: 45px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; background: #222; border: 1px solid #333; border-radius: 4px; transition: all 0.2s; }
+        .byte.scanning { background: var(--blue); color: #000; box-shadow: 0 0 15px var(--blue); }
+        .byte.infected { background: var(--red); color: #fff; box-shadow: 0 0 20px var(--red); animation: pulse 0.5s; }
+        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+        .patterns { background: var(--dark); border: 2px solid var(--red); border-radius: 10px; padding: 20px; }
+        .pattern-title { color: var(--red); margin-bottom: 15px; font-size: 0.9rem; }
+        .pattern-list { display: flex; gap: 10px; flex-wrap: wrap; }
+        .virus-pattern { padding: 8px 15px; background: rgba(255,7,58,0.2); border: 1px solid var(--red); border-radius: 20px; font-size: 0.9rem; }
+        .virus-pattern.found { background: var(--red); color: #fff; }
+        .controls { background: var(--dark); border-radius: 10px; padding: 20px; display: flex; gap: 15px; align-items: end; }
+        .input-group { flex: 2; }
+        .input-group label { color: var(--blue); display: block; margin-bottom: 8px; font-size: 0.8rem; }
+        .input-group input { width: 100%; background: #111; border: 2px solid #333; border-radius: 8px; padding: 12px; color: var(--green); font-family: 'Share Tech Mono'; font-size: 1rem; }
+        .btn { flex: 1; padding: 15px; border: none; border-radius: 8px; font-family: 'Orbitron', sans-serif; font-size: 0.9rem; cursor: pointer; }
+        .btn-scan { background: var(--green); color: #000; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(57,255,20,0.3); }
+        .results { background: var(--dark); border: 2px solid var(--blue); border-radius: 10px; padding: 20px; }
+        .result-title { color: var(--blue); margin-bottom: 15px; }
+        .matches { display: flex; flex-direction: column; gap: 8px; max-height: 150px; overflow-y: auto; }
+        .match-entry { padding: 10px 15px; background: rgba(0,212,255,0.1); border-left: 3px solid var(--blue); border-radius: 0 5px 5px 0; display: flex; justify-content: space-between; }
+        #status { text-align: center; padding: 15px; }
+    </style>
+</head>
+<body>
+<header><h1>🦠 VIRUS HUNTER</h1><div class="subtitle">Aho-Corasick Multi-Pattern Search</div></header>
+<main>
+    <div class="scanner">
+        <div class="scan-line"></div>
+        <div class="stream" id="stream"></div>
+    </div>
+    <div class="patterns">
+        <div class="pattern-title">⚠️ VIRUS SIGNATURES TO DETECT</div>
+        <div class="pattern-list" id="pattern-list"></div>
+    </div>
+    <div class="controls">
+        <div class="input-group"><label>📡 Data Stream</label><input type="text" id="text" value="SHERSHE" maxlength="20"></div>
+        <div class="input-group"><label>🦠 Virus Patterns (comma-separated)</label><input type="text" id="patterns" value="HE,SHE,HIS,HERS"></div>
+        <button class="btn btn-scan" onclick="game.scan()">🔍 SCAN</button>
+    </div>
+    <div id="status">Configure patterns and scan the data stream!</div>
+    <div class="results">
+        <div class="result-title">🎯 DETECTED VIRUSES</div>
+        <div class="matches" id="matches"><span style="color:#555">No matches yet...</span></div>
+    </div>
+</main>
+<script>
+class VirusHunter {
+    renderStream(text) {
+        const c = document.getElementById('stream'); c.innerHTML = '';
+        text.split('').forEach((ch, i) => {
+            const b = document.createElement('div'); b.className = 'byte'; b.id = `byte-${i}`; b.textContent = ch; c.appendChild(b);
+        });
+    }
+    renderPatterns(patterns) {
+        const c = document.getElementById('pattern-list'); c.innerHTML = '';
+        patterns.forEach(p => { const v = document.createElement('div'); v.className = 'virus-pattern'; v.id = `pat-${p}`; v.textContent = p; c.appendChild(v); });
+    }
+    async scan() {
+        const text = document.getElementById('text').value.toUpperCase();
+        const patterns = document.getElementById('patterns').value.toUpperCase().split(',').map(p => p.trim()).filter(p => p);
+        this.renderStream(text); this.renderPatterns(patterns);
+        document.getElementById('matches').innerHTML = '';
+        const found = []; 
+        for (let i = 0; i < text.length; i++) {
+            document.querySelectorAll('.byte').forEach(b => b.classList.remove('scanning'));
+            document.getElementById(`byte-${i}`).classList.add('scanning');
+            await new Promise(r => setTimeout(r, 150));
+            for (const p of patterns) {
+                if (text.substring(i, i + p.length) === p) {
+                    found.push({ pattern: p, pos: i });
+                    for (let k = i; k < i + p.length; k++) { const b = document.getElementById(`byte-${k}`); if (b) b.classList.add('infected'); }
+                    document.getElementById(`pat-${p}`).classList.add('found');
+                    this.addMatch(p, i);
+                }
+            }
+        }
+        document.querySelectorAll('.byte').forEach(b => b.classList.remove('scanning'));
+        document.getElementById('status').innerHTML = `<span style="color:${found.length ? 'var(--red)' : 'var(--green)'}">Scan complete! ${found.length} virus(es) detected.</span>`;
+    }
+    addMatch(pattern, pos) {
+        const c = document.getElementById('matches');
+        if (c.querySelector('span')) c.innerHTML = '';
+        const e = document.createElement('div'); e.className = 'match-entry';
+        e.innerHTML = `<span>🦠 ${pattern}</span><span>Position: ${pos}</span>`; c.appendChild(e);
+    }
+}
+const game = new VirusHunter();
+</script>
+</body>
+</html>

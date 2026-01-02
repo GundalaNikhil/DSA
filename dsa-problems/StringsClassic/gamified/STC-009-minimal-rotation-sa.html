@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-009: Rotation Wheel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0c0c0c;
+            --wheel: #1a1a2e;
+            --text: #eef0eb;
+            --accent: #e94560;
+        }
+
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 { color: var(--accent); margin-top: 2rem; }
+
+        .wheel-container {
+            margin-top: 3rem;
+            display: flex;
+            gap: 5px;
+            font-size: 2.5rem;
+            background: var(--wheel);
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #333;
+        }
+
+        .char-slot {
+            width: 50px;
+            height: 60px;
+            background: #16213e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #0f3460;
+            border-radius: 5px;
+        }
+
+        .char-slot.first { border-color: var(--accent); }
+
+        .controls {
+            margin-top: 2rem;
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            background: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+            font-family: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .btn:hover { background: var(--accent); color: #fff; }
+
+        .rotations {
+            margin-top: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+            background: #1a1a2e;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .rotation-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.2rem;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .rotation-item:hover { background: #16213e; }
+        .rotation-item.minimal { background: var(--accent); color: #fff; }
+
+        .status { margin-top: 1rem; min-height: 1.5em; }
+
+    </style>
+</head>
+<body>
+
+<h1>MINIMAL ROTATION</h1>
+<div style="color:#666">Rotate the string to find the lexicographically smallest version.</div>
+
+<div class="wheel-container" id="wheel"></div>
+
+<div class="controls">
+    <button class="btn" onclick="rotateLeft()">← ROTATE LEFT</button>
+    <button class="btn" onclick="submit()">SUBMIT AS MINIMAL</button>
+</div>
+
+<div class="rotations" id="history">
+    <div style="color:#666">Rotation History:</div>
+</div>
+
+<div class="status" id="status"></div>
+
+<button style="margin-top:20px; padding:10px 20px; background:#333; border:none; color:#fff; cursor:pointer; border-radius:5px" onclick="init()">New String</button>
+
+<script>
+    const STRINGS = ["bca", "cab", "dcba", "cbad", "baac"];
+    let str = "";
+    let rotationCount = 0;
+
+    function findMinimalRotation(s) {
+        let min = s;
+        let current = s;
+        for (let i = 1; i < s.length; i++) {
+            current = current.substring(1) + current[0];
+            if (current < min) min = current;
+        }
+        return min;
+    }
+
+    function init() {
+        str = STRINGS[Math.floor(Math.random() * STRINGS.length)];
+        rotationCount = 0;
+        render();
+        document.getElementById('history').innerHTML = '<div style="color:#666">Rotation History:</div>';
+        document.getElementById('status').textContent = '';
+    }
+
+    function render() {
+        const wheel = document.getElementById('wheel');
+        wheel.innerHTML = '';
+
+        for (let i = 0; i < str.length; i++) {
+            const slot = document.createElement('div');
+            slot.className = 'char-slot';
+            if (i === 0) slot.classList.add('first');
+            slot.textContent = str[i];
+            wheel.appendChild(slot);
+        }
+    }
+
+    function rotateLeft() {
+        const prev = str;
+        str = str.substring(1) + str[0];
+        rotationCount++;
+        render();
+
+        const item = document.createElement('div');
+        item.className = 'rotation-item';
+        item.textContent = `${rotationCount}. ${prev} → ${str}`;
+        item.onclick = () => { str = str; }; // placeholder for selection
+        document.getElementById('history').appendChild(item);
+    }
+
+    function submit() {
+        const minimal = findMinimalRotation(str.substring(str.length - rotationCount % str.length) + str.substring(0, str.length - rotationCount % str.length)); // Original string might matter
+        // Actually just check current against all rotations
+        let current = str;
+        let isMin = true;
+        for (let i = 1; i < str.length; i++) {
+            const rot = current.substring(i) + current.substring(0, i);
+            if (rot < str) { isMin = false; break; }
+        }
+
+        const status = document.getElementById('status');
+        if (isMin) {
+            status.textContent = `CORRECT! "${str}" is the minimal rotation.`;
+            status.style.color = "#2ecc71";
+        } else {
+            status.textContent = `Not minimal. Keep rotating!`;
+            status.style.color = "#e74c3c";
+        }
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

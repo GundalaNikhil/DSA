@@ -1,2 +1,52 @@
-# Quiz for PDS-014: Perfect Hashing via Randomization
-# YAML content to be added
+problem_id: PDS_PERFECT_HASHING_RANDOM_014
+display_id: PDS-014
+slug: perfect-hashing-random
+questions:
+  - question: Perfect Hashing guarantees what performance characteristic?
+    difficulty: easy
+    points: 10
+    options:
+      - O(1) worst-case lookup time
+      - O(1) amortized lookup time
+      - O(log N) lookup time
+      - O(N) space compression
+    correct_answer: 0
+    explanation: By eliminating collisions entirely, we ensure constant time access.
+    type: single_choice
+    id: prq_1
+  - question: "The FKS (Fredman, Komlos, Szemeredi) scheme uses a two-level approach. The second level tables have size proportional to:"
+    difficulty: medium
+    points: 15
+    options:
+      - Square of the number of items in that bucket (n_i^2)
+      - Number of items (n_i)
+      - Log of items (log n_i)
+      - Fixed constant
+    correct_answer: 0
+    explanation: Using n_i^2 space ensures that a collision-free hash function exists with probability > 1/2.
+    type: single_choice
+    id: edq_1
+  - question: "Despite using n_i^2 size for buckets, the total space complexity remains:"
+    difficulty: easy
+    points: 10
+    options:
+      - O(N) linear
+      - O(N^2) quadratic
+      - O(N log N)
+      - O(1)
+    correct_answer: 0
+    explanation: The sum of squares of bucket sizes E[sum n_i^2] is O(N) for a good first-level hash.
+    type: single_choice
+    id: edq_2
+  - question: Is Perfect Hashing suitable for rapidly changing datasets?
+    difficulty: easy
+    points: 10
+    options:
+      - No, usually requires static set or expensive rebuilds
+      - Yes, it adapts easily
+      - Only for append-only data
+      - Yes, using linked lists
+    correct_answer: 0
+    explanation: Finding the collision-free functions is a construction-time heavy process.
+    type: single_choice
+    id: edq_3

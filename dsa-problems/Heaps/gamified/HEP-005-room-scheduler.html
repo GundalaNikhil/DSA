@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEP-005: Room Scheduler</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --room: #4361ee; --meeting: #f72585; --free: #4cc9f0; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Poppins', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--room); }
+        h1 { margin: 0; color: var(--room); font-size: 1.5rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--room); }
+        .instructions b { color: var(--room); }
+        .meetings-queue { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; padding: 20px; background: var(--panel); border-radius: 15px; max-width: 600px; }
+        .meeting { padding: 10px 15px; background: var(--meeting); color: #fff; border-radius: 8px; cursor: pointer; transition: all 0.2s; text-align: center; }
+        .meeting:hover { transform: scale(1.05); }
+        .meeting.assigned { opacity: 0.3; pointer-events: none; }
+        .meeting-time { font-weight: bold; }
+        .meeting-name { font-size: 0.8rem; opacity: 0.8; }
+        .rooms-container { display: flex; gap: 20px; }
+        .room { background: var(--panel); padding: 15px; border-radius: 10px; min-width: 150px; border: 2px solid var(--room); }
+        .room-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #333; }
+        .room-name { font-weight: bold; color: var(--room); }
+        .room-status { padding: 4px 8px; border-radius: 4px; font-size: 0.7rem; }
+        .room-status.free { background: var(--free); color: #000; }
+        .room-status.busy { background: var(--meeting); }
+        .room-timeline { display: flex; flex-direction: column; gap: 5px; min-height: 100px; }
+        .room-meeting { padding: 8px; background: rgba(247,37,133,0.3); border-left: 3px solid var(--meeting); border-radius: 0 5px 5px 0; font-size: 0.8rem; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #2a3a5e; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2a3a5e; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--room); }
+        .btn { background: var(--room); color: #fff; border: none; padding: 12px 25px; font-weight: 700; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #5a7afe; }
+        .btn.secondary { background: transparent; border: 2px solid #2a3a5e; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--room); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--room); }
+    </style>
+</head>
+<body>
+<header>
+    <h1>📅 ROOM SCHEDULER</h1>
+    <div style="color:#888">MINIMUM MEETING ROOMS</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 SCHEDULE MEETINGS:</b> Assign meetings to rooms! Use minimum rooms by reusing when free. Heap tracks earliest ending room!
+    </div>
+    <div style="color:var(--meeting);">MEETINGS TO SCHEDULE:</div>
+    <div class="meetings-queue" id="meetings"></div>
+    <div style="color:var(--room);">ROOMS (click meeting, then room to assign):</div>
+    <div class="rooms-container" id="rooms"></div>
+    <button class="btn" onclick="game.addRoom()">+ ADD ROOM</button>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Rooms Used</span><span class="stat-value" id="used">0</span></div>
+            <div class="stat-row"><span class="stat-label">Min Needed</span><span class="stat-value" id="minNeeded">?</span></div>
+            <div class="stat-row"><span class="stat-label">Scheduled</span><span class="stat-value" id="scheduled">0</span></div>
+        </div>
+    </div>
+    <div id="status">Click a meeting to select, then assign to a room!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.autoSchedule()">AUTO SCHEDULE</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW MEETINGS</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>📅 ROOM SCHEDULER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--room)">CONCEPT:</b> Min Rooms with Min-Heap!</p>
+            <ul>
+                <li>Sort meetings by <b>start time</b></li>
+                <li>Heap tracks <b>room end times</b></li>
+                <li>If earliest ends before new starts, <b>reuse room</b></li>
+                <li>Otherwise, <b>add new room</b></li>
+            </ul>
+            <p style="color:#888">O(n log n) with heap!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START SCHEDULING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.meetings = []; this.rooms = []; this.selectedMeeting = null;
+        this.ui = { meetings: document.getElementById('meetings'), rooms: document.getElementById('rooms'), used: document.getElementById('used'), minNeeded: document.getElementById('minNeeded'), scheduled: document.getElementById('scheduled'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        this.meetings = [];
+        for (let i = 0; i < 6; i++) {
+            const start = Math.floor(Math.random() * 8) + 9; // 9-16
+            const end = start + 1 + Math.floor(Math.random() * 2);
+            this.meetings.push({ id: i, start, end, name: `M${i + 1}`, assigned: -1 });
+        }
+        this.meetings.sort((a, b) => a.start - b.start);
+        this.rooms = [{ id: 0, meetings: [], endTime: 0 }];
+        this.selectedMeeting = null;
+        this.computeMin();
+        this.render();
+    }
+    computeMin() {
+        const sorted = [...this.meetings].sort((a, b) => a.start - b.start);
+        const ends = [];
+        sorted.forEach(m => {
+            if (ends.length > 0 && ends[0] <= m.start) {
+                ends.shift();
+            }
+            ends.push(m.end);
+            ends.sort((a, b) => a - b);
+        });
+        this.minNeeded = ends.length;
+    }
+    addRoom() {
+        this.rooms.push({ id: this.rooms.length, meetings: [], endTime: 0 });
+        this.render();
+    }
+    selectMeeting(id) {
+        const m = this.meetings.find(m => m.id === id);
+        if (m.assigned !== -1) return;
+        this.selectedMeeting = id;
+        this.ui.status.textContent = `Selected ${m.name} (${m.start}:00-${m.end}:00). Click a room to assign.`;
+        this.render();
+    }
+    assignToRoom(roomId) {
+        if (this.selectedMeeting === null) { this.ui.status.textContent = 'Select a meeting first!'; return; }
+        const m = this.meetings.find(m => m.id === this.selectedMeeting);
+        const room = this.rooms.find(r => r.id === roomId);
+        // Check conflict
+        const conflict = room.meetings.some(rm => {
+            const mm = this.meetings.find(x => x.id === rm);
+            return !(m.end <= mm.start || m.start >= mm.end);
+        });
+        if (conflict) { this.ui.status.textContent = 'Conflict! Room is busy at that time.'; return; }
+        m.assigned = roomId;
+        room.meetings.push(m.id);
+        room.endTime = Math.max(room.endTime, m.end);
+        this.selectedMeeting = null;
+        const unassigned = this.meetings.filter(m => m.assigned === -1);
+        if (unassigned.length === 0) {
+            this.ui.status.innerHTML = `🎉 All scheduled with ${this.rooms.filter(r => r.meetings.length > 0).length} rooms!`;
+            this.ui.minNeeded.textContent = this.minNeeded;
+        }
+        this.render();
+    }
+    autoSchedule() {
+        const sorted = [...this.meetings].filter(m => m.assigned === -1).sort((a, b) => a.start - b.start);
+        sorted.forEach(m => {
+            // Find room that ends earliest and is free
+            let bestRoom = null;
+            let bestEnd = Infinity;
+            for (const r of this.rooms) {
+                const conflicts = r.meetings.some(rm => {
+                    const mm = this.meetings.find(x => x.id === rm);
+                    return !(m.end <= mm.start || m.start >= mm.end);
+                });
+                if (!conflicts) {
+                    const end = r.meetings.length > 0 ? Math.max(...r.meetings.map(rm => this.meetings.find(x => x.id === rm).end)) : 0;
+                    if (end < bestEnd) { bestEnd = end; bestRoom = r; }
+                }
+            }
+            if (!bestRoom) { this.addRoom(); bestRoom = this.rooms[this.rooms.length - 1]; }
+            m.assigned = bestRoom.id;
+            bestRoom.meetings.push(m.id);
+        });
+        this.ui.minNeeded.textContent = this.minNeeded;
+        this.render();
+    }
+    render() {
+        this.ui.meetings.innerHTML = '';
+        this.meetings.forEach(m => {
+            const el = document.createElement('div');
+            el.className = 'meeting';
+            if (m.assigned !== -1) el.classList.add('assigned');
+            if (this.selectedMeeting === m.id) el.style.outline = '3px solid #fff';
+            el.innerHTML = `<div class="meeting-time">${m.start}:00-${m.end}:00</div><div class="meeting-name">${m.name}</div>`;
+            el.onclick = () => this.selectMeeting(m.id);
+            this.ui.meetings.appendChild(el);
+        });
+        this.ui.rooms.innerHTML = '';
+        this.rooms.forEach(r => {
+            const room = document.createElement('div');
+            room.className = 'room';
+            room.onclick = () => this.assignToRoom(r.id);
+            const status = r.meetings.length === 0 ? 'free' : 'busy';
+            room.innerHTML = `<div class="room-header"><span class="room-name">Room ${r.id + 1}</span><span class="room-status ${status}">${status.toUpperCase()}</span></div><div class="room-timeline" id="room-${r.id}"></div>`;
+            const timeline = room.querySelector('.room-timeline');
+            r.meetings.forEach(mid => {
+                const m = this.meetings.find(x => x.id === mid);
+                const slot = document.createElement('div');
+                slot.className = 'room-meeting';
+                slot.textContent = `${m.name}: ${m.start}:00-${m.end}:00`;
+                timeline.appendChild(slot);
+            });
+            this.ui.rooms.appendChild(room);
+        });
+        this.ui.used.textContent = this.rooms.filter(r => r.meetings.length > 0).length;
+        this.ui.scheduled.textContent = this.meetings.filter(m => m.assigned !== -1).length;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

@@ -65,6 +65,22 @@ Index 4 receives 3
 Result:     5     2     1     4     3
 ```
 
+### 🔄 Algorithm Flow Diagram
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Collect valid_indices, skip blackout]
+    B --> C{count == 0?}
+    C -- Yes --> D[Return arr]
+    C -- No --> E[Extract values using valid_indices]
+    E --> F[Rotate values left by k % count]
+    F --> G[Write rotated values back to arr]
+    G --> H[Return arr]
+```
+
+> Even in a blackout, the working stations keep the line moving.
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Left Rotation**: Elements move towards index 0. `arr[i]` moves to a logically lower index.

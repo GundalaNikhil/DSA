@@ -77,6 +77,17 @@ Imagine a city where buildings (nodes) are located at different horizontal coord
         -   If `depth == currentMinDepth` AND `val > currentMaxVal`, update (tie-breaker).
 4.  **Output:** Sort map keys (columns) and print values.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Run BFS with column and depth] --> B[Update top view map]
+B --> C{New column or better node}
+C -->|Yes| D[Store value]
+C -->|No| E[Skip]
+D --> F[After BFS output by column]
+E --> F
+```
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 -   **Root Column:** 0.

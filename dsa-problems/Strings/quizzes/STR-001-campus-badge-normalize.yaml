@@ -1,0 +1,52 @@
+problem_id: STR_CAMPUS_BADGE_NORMALIZE_001
+display_id: STR-001
+slug: campus-badge-normalize
+questions:
+  - question: What happens to a run of non-alphanumeric characters during normalization?
+    difficulty: easy
+    points: 10
+    options:
+      - It is removed entirely
+      - It becomes a single hyphen
+      - It becomes a single underscore
+      - It is kept as-is
+    correct_answer: 1
+    explanation: Any consecutive non-alphanumeric characters collapse into one hyphen.
+    type: single_choice
+    id: prq_1
+  - question: What is the output for input Hello__World!! ?
+    difficulty: easy
+    points: 10
+    options:
+      - hello__world
+      - hello-world
+      - hello-world-
+      - Hello-World
+    correct_answer: 1
+    explanation: Uppercase is lowercased, symbols collapse to hyphens, and trailing hyphens are trimmed.
+    type: single_choice
+    id: edq_1
+  - question: How are leading and trailing hyphens handled?
+    difficulty: easy
+    points: 10
+    options:
+      - They are preserved
+      - They are removed
+      - They are doubled
+      - They are replaced with underscores
+    correct_answer: 1
+    explanation: The result is trimmed to remove leading and trailing hyphens.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of a single-pass normalization algorithm?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n log n)
+      - O(n^2)
+      - O(1)
+    correct_answer: 0
+    explanation: A single scan over the string takes linear time.
+    type: single_choice
+    id: edq_3

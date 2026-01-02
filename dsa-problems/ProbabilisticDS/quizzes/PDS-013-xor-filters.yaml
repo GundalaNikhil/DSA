@@ -1,2 +1,52 @@
-# Quiz for PDS-013: XOR Filters
-# YAML content to be added
+problem_id: PDS_XOR_FILTERS_013
+display_id: PDS-013
+slug: xor-filters
+questions:
+  - question: "XOR Filters are often considered a modern, more space-efficient alternative to:"
+    difficulty: easy
+    points: 10
+    options:
+      - Bloom Filters
+      - Binary Search Trees
+      - Hash Maps
+      - Linked Lists
+    correct_answer: 0
+    explanation: They typically require about 15-20% less space for the same false positive rate.
+    type: single_choice
+    id: prq_1
+  - question: "The core construction principle of an XOR Filter involves:"
+    difficulty: medium
+    points: 15
+    options:
+      - Solving a system of linear equations over GF(2)
+      - Sorting all keys
+      - Finding the maximum flow
+      - Building a tree
+    correct_answer: 0
+    explanation: We assign values such that B[h1] ^ B[h2] ^ B[h3] = fingerprint(key).
+    type: single_choice
+    id: edq_1
+  - question: Can an XOR Filter typically support dynamic insertions and deletions after construction?
+    difficulty: easy
+    points: 10
+    options:
+      - No, it is a static structure
+      - Yes, fully dynamic
+      - Insertions only
+      - Deletions only
+    correct_answer: 0
+    explanation: The dependencies are tightly coupled during construction (peeling), making updates impractical without rebuilding.
+    type: single_choice
+    id: edq_2
+  - question: Which of these is a valid fingerprinting strategy used in XOR filters?
+    difficulty: easy
+    points: 10
+    options:
+      - Storing an k-bit hash of the key
+      - Storing the full key
+      - Storing a boolean flag
+      - Storing the index
+    correct_answer: 0
+    explanation: The fingerprint is what allows us to verify membership (probabilistically).
+    type: single_choice
+    id: edq_3

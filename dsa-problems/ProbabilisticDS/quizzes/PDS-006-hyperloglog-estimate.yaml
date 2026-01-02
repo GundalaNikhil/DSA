@@ -1,2 +1,52 @@
-# Quiz for PDS-006: HyperLogLog Cardinality Estimate
-# YAML content to be added
+problem_id: PDS_HYPERLOGLOG_ESTIMATE_006
+display_id: PDS-006
+slug: hyperloglog-estimate
+questions:
+  - question: "HyperLogLog is famous for estimating cardinality with:"
+    difficulty: easy
+    points: 10
+    options:
+      - Extremely low memory (Kb for billions of items)
+      - Zero error
+      - Linear memory O(N)
+      - Quadratic speed
+    correct_answer: 0
+    explanation: Typically uses ~1.5 KB to estimate counts up to billions with ~2% error.
+    type: single_choice
+    id: prq_1
+  - question: "The standard error of HLL is proportional to:"
+    difficulty: medium
+    points: 15
+    options:
+      - 1 / sqrt(M)
+      - 1 / M
+      - M
+      - log M
+    correct_answer: 0
+    explanation: Increasing registers M reduces error by the square root law.
+    type: single_choice
+    id: edq_1
+  - question: Why does HLL use the *Harmonic Mean* of the register values instead of the Arithmetic Mean?
+    difficulty: easy
+    points: 10
+    options:
+      - To reduce the influence of outliers (unlucky large hash runs)
+      - It is faster to calculate
+      - Arithmetic mean is undefined
+      - It increases the range
+    correct_answer: 0
+    explanation: Arithmetic mean is easily skewed by a single large value (e.g., getting 30 trailing zeros by change).
+    type: single_choice
+    id: edq_2
+  - question: What does the register value typically store?
+    difficulty: easy
+    points: 10
+    options:
+      - The maximum number of leading/trailing zeros seen for that bucket
+      - The count of items in that bucket
+      - The sum of hash values
+      - The actual items
+    correct_answer: 0
+    explanation: We track the 'rarest' event (longest run of zeros) to estimate magnitude.
+    type: single_choice
+    id: edq_3

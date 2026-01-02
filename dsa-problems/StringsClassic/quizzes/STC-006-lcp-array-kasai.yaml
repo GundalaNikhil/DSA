@@ -1,2 +1,52 @@
-# Quiz for STC-006: LCP Array (Kasai)
-# YAML content to be added
+problem_id: STC_LCP_ARRAY_KASAI_006
+display_id: STC-006
+slug: lcp-array-kasai
+questions:
+  - question: What does the value `lcp[i]` typically represent in the context of Suffix Arrays?
+    difficulty: easy
+    points: 10
+    options:
+      - The length of the Longest Common Prefix between the suffix at `sa[i]` and the suffix at `sa[i+1]`.
+      - The length of the Longest Common Prefix between the suffix starting at `i` and `i+1`.
+      - The length of the suffix starting at `sa[i]`.
+      - The start index of the Longest Common Prefix.
+    correct_answer: 0
+    explanation: The LCP array stores the lengths of the longest common prefixes between adjacent suffixes in the sorted Suffix Array.
+    type: single_choice
+    id: prq_1
+  - question: Kasai's algorithm achieves linear time complexity by utilizing a specific property of LCP values when iterating through suffixes in their original string order. What is this property (where `h[i]` is the LCP of suffix `i` and its predecessor in sorted order)?
+    difficulty: hard
+    points: 15
+    options:
+      - "`h[i+1] >= h[i] - 1`"
+      - "`h[i+1] >= h[i]`"
+      - "`h[i+1] == h[i] + 1`"
+      - "`h[i+1] <= h[i]`"
+    correct_answer: 0
+    explanation: If suffix `i` shares a prefix of length `k` with its predecessor, then suffix `i+1` (which is suffix `i` without its first character) must share a prefix of at least `k-1` with the successor of suffix `i`'s predecessor. This allows us to skip at least `k-1` comparisons.
+    type: single_choice
+    id: edq_1
+  - question: Using the Suffix Array and LCP Array for a string of length `N`, how can we calculate the number of distinct substrings?
+    difficulty: medium
+    points: 10
+    options:
+      - "`N * (N + 1) / 2 - sum(lcp)`"
+      - "`sum(lcp)`"
+      - "`N * (N - 1) / 2 + sum(lcp)`"
+      - "`sum(sa)`"
+    correct_answer: 0
+    explanation: The total number of substrings is `N(N+1)/2`. The LCP value `lcp[i]` tells us how many prefixes of `sa[i+1]` are identical to prefixes of `sa[i]`. These duplicates are subtracted from the total to get the count of distinct substrings.
+    type: single_choice
+    id: edq_2
+  - question: What are the time and auxiliary space complexities of Kasai's algorithm?
+    difficulty: easy
+    points: 10
+    options:
+      - "`O(N)` time, `O(N)` space"
+      - "`O(N log N)` time, `O(N)` space"
+      - "`O(N)` time, `O(1)` space"
+      - "`O(N^2)` time, `O(N)` space"
+    correct_answer: 0
+    explanation: Kasai's algorithm performs a single pass over the string where the current match length `k` is incremented and decremented at most `N` times, resulting in `O(N)` time. It requires `rank` and `lcp` arrays, taking `O(N)` space.
+    type: single_choice
+    id: edq_3

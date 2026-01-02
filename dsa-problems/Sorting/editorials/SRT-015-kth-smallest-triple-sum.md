@@ -79,6 +79,18 @@ Imagine you are a **Logistics Manager** planning shipments.
 -   Count triples `<= S` in `O(N^2)`.
 -   Complexity: `O(N^2 log(Range))`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Sort array] --> B[Binary search on sum]
+B --> C[Count triples at most mid]
+C --> D{Count at least k}
+D -->|Yes| E[Move high down]
+D -->|No| F[Move low up]
+E --> B
+F --> B
+```
+
 ## Implementations
 
 ### Java

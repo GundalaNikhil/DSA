@@ -73,6 +73,23 @@ Interior angle `α` satisfies `cos α = -dot / (|prev-curr| * |next-curr|)` and 
 - Precompute `cos(theta)` once (in double) and discard if `cos α > cos(theta)` **and** `cross != 0` (since cos decreases as angle grows in `[0, π]`).
 
 Alternatively, compare using tan/side-lengths with squared lengths to stay integer-heavy; a single cosine comparison is fine with doubles because we only need a strict inequality.
+The cap test is a gentle bouncer, it only kicks out the sharpest corners.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with points and theta] --> B[Build convex hull in CCW order]
+    B --> C[Compute cos threshold from theta]
+    C --> D[For each hull vertex]
+    D --> E[Compute dot and cross for adjacent edges]
+    E --> F[Compute cosine and compare to threshold]
+    F --> G{Angle too small?}
+    G -- Yes --> H[Discard vertex]
+    G -- No --> I[Keep vertex]
+    H --> D
+    I --> D
+    D --> J[Return kept vertices or 0]
+```
 
 ### Corner Cases
 

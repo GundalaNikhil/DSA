@@ -77,6 +77,19 @@ Stream: `a b a c b`
    - Next is 'a' (count 2). Pop 'a'.
    - Next is 'c' (count 1). Output: `c`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read next character] --> B[Increment frequency]
+B --> C[Enqueue character]
+C --> D{Front count greater than one}
+D -->|Yes| E[Dequeue front]
+E --> D
+D -->|No| F{Queue empty}
+F -->|Yes| G[Output hash]
+F -->|No| H[Output front]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** A string of lowercase letters.

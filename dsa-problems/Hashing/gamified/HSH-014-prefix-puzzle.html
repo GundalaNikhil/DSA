@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HSH-014: Prefix Puzzle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #2d1b4e; --pal: #ff6b9d; --append: #7bed9f; --panel: #1a0f30; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--pal); }
+        h1 { margin: 0; font-family: 'Pacifico', cursive; color: var(--pal); font-size: 1.6rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--pal); }
+        .instructions b { color: var(--pal); }
+        .string-builder { display: flex; gap: 5px; align-items: center; padding: 20px; background: var(--panel); border-radius: 12px; }
+        .base-string { display: flex; gap: 3px; font-size: 1.5rem; }
+        .char { padding: 10px 12px; background: rgba(255,107,157,0.2); border: 2px solid var(--pal); border-radius: 5px; }
+        .char.palindrome { background: var(--pal); color: #000; }
+        .plus { font-size: 2rem; color: var(--append); margin: 0 10px; }
+        .append-area { display: flex; gap: 3px; }
+        .append-char { width: 40px; height: 45px; background: rgba(123,237,159,0.2); border: 2px dashed var(--append); border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; cursor: pointer; transition: all 0.2s; }
+        .append-char.filled { border-style: solid; background: rgba(123,237,159,0.5); }
+        .letter-buttons { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; padding: 15px; background: var(--panel); border-radius: 10px; max-width: 400px; }
+        .letter-btn { width: 40px; height: 40px; background: var(--append); border: none; border-radius: 8px; font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+        .letter-btn:hover { transform: scale(1.1); }
+        .result-display { padding: 20px; background: var(--panel); border-radius: 10px; text-align: center; }
+        .result-string { font-size: 1.5rem; letter-spacing: 3px; margin-bottom: 10px; }
+        .result-status { font-size: 1rem; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #2d1b4e; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2d1b4e; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--pal); }
+        .btn { background: var(--pal); color: #fff; border: none; padding: 12px 25px; font-family: 'Pacifico'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ff85ac; }
+        .btn.secondary { background: transparent; border: 2px solid #444; color: #888; font-family: 'Nunito'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--pal); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--pal); font-family: 'Pacifico'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🧩 Prefix Puzzle</h1>
+    <div style="color:#888">PALINDROME AFTER APPEND</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 COMPLETE THE PALINDROME:</b> Add the minimum characters to make the string start with the longest palindrome prefix!
+    </div>
+    <div class="string-builder">
+        <div class="base-string" id="baseString"></div>
+        <div class="plus">+</div>
+        <div class="append-area" id="appendArea"></div>
+    </div>
+    <div style="color:var(--append);">Click letters to append:</div>
+    <div class="letter-buttons" id="letterButtons"></div>
+    <div class="result-display">
+        <div class="result-string" id="resultString">...</div>
+        <div class="result-status" id="resultStatus">Build a palindrome prefix!</div>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Appended</span><span class="stat-value" id="appended">0</span></div>
+            <div class="stat-row"><span class="stat-label">Palindrome Len</span><span class="stat-value" id="palLen">0</span></div>
+        </div>
+    </div>
+    <div id="status">Add characters to maximize palindrome prefix!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.check()">CHECK</button>
+        <button class="btn secondary" onclick="game.undo()">UNDO</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW STRING</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🧩 Prefix Puzzle</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--pal)">GOAL:</b> Maximize the palindrome prefix!</p>
+            <ul>
+                <li>You have a <b>base string</b></li>
+                <li><b>Append characters</b> to make it start with a palindrome</li>
+                <li>Find the <b>longest palindrome prefix</b></li>
+                <li>Hash comparison = O(1) palindrome check!</li>
+            </ul>
+            <p style="color:#888">Used in string transformation problems!</p>
+        </div>
+        <button class="btn" onclick="game.start()">Start Puzzling</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.base = ''; this.appended = [];
+        this.ui = { base: document.getElementById('baseString'), append: document.getElementById('appendArea'), letters: document.getElementById('letterButtons'), result: document.getElementById('resultString'), resultStatus: document.getElementById('resultStatus'), appended: document.getElementById('appended'), palLen: document.getElementById('palLen'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const bases = ['ABCD', 'XYZX', 'RACE', 'ABBA'];
+        this.base = bases[Math.floor(Math.random() * bases.length)];
+        this.appended = [];
+        this.ui.status.textContent = 'Add characters to maximize palindrome prefix!';
+        this.render();
+    }
+    getFullString() { return this.appended.join('') + this.base; }
+    isPalindrome(s) { return s === s.split('').reverse().join(''); }
+    getLongestPalPrefix() {
+        const s = this.getFullString();
+        for (let len = s.length; len >= 1; len--) {
+            if (this.isPalindrome(s.substring(0, len))) return len;
+        }
+        return 0;
+    }
+    appendChar(c) {
+        this.appended.push(c);
+        this.render();
+    }
+    undo() {
+        this.appended.pop();
+        this.render();
+    }
+    check() {
+        const full = this.getFullString();
+        const palLen = this.getLongestPalPrefix();
+        const prefix = full.substring(0, palLen);
+        this.ui.resultStatus.innerHTML = palLen > 0 ? `✅ Palindrome prefix: "${prefix}" (length ${palLen})` : '❌ No palindrome prefix found';
+        this.ui.resultStatus.style.color = palLen > 0 ? 'var(--pal)' : '#888';
+    }
+    render() {
+        this.ui.base.innerHTML = '';
+        for (const c of this.base) {
+            const el = document.createElement('div');
+            el.className = 'char';
+            el.textContent = c;
+            this.ui.base.appendChild(el);
+        }
+        this.ui.append.innerHTML = '';
+        for (const c of this.appended) {
+            const el = document.createElement('div');
+            el.className = 'append-char filled';
+            el.textContent = c;
+            this.ui.append.appendChild(el);
+        }
+        // Add empty slot
+        const empty = document.createElement('div');
+        empty.className = 'append-char';
+        empty.textContent = '?';
+        this.ui.append.appendChild(empty);
+        // Letter buttons
+        this.ui.letters.innerHTML = '';
+        const letters = new Set(this.base.split('').concat(['A','B','C','D','E']));
+        letters.forEach(c => {
+            const btn = document.createElement('button');
+            btn.className = 'letter-btn';
+            btn.textContent = c;
+            btn.onclick = () => this.appendChar(c);
+            this.ui.letters.appendChild(btn);
+        });
+        const full = this.getFullString();
+        this.ui.result.textContent = full || '...';
+        this.ui.appended.textContent = this.appended.length;
+        this.ui.palLen.textContent = this.getLongestPalPrefix();
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

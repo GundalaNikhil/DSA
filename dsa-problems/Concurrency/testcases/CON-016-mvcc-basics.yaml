@@ -1,18 +1,14 @@
 problem_id: CON_MVCC_BASICS__A20E
 samples:
-  - input: |-
-      T1 reads X
-      T2 writes X and commits
-      T1 reads X again
-    output: |-
-      T1 should still see its snapshot version; new transactions see T2's version.
+- input: 'T1 reads X
+
+    T2 writes X and commits
+
+    T1 reads X again'
+  output: T1 should still see its snapshot version; new transactions see T2's version.
 public:
-  - input: |-
-      two concurrent writers update same row
-    output: |-
-      Must describe write-write conflict handling (locking or abort/first-committer-wins).
+- input: two concurrent writers update same row
+  output: Must describe write-write conflict handling (locking or abort/first-committer-wins).
 hidden:
-  - input: |-
-      long-running transaction
-    output: |-
-      Mention that old versions cannot be garbage-collected while old snapshots exist (vacuum/bloat).
+- input: long-running transaction
+  output: Mention that old versions cannot be garbage-collected while old snapshots exist (vacuum/bloat).

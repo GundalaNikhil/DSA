@@ -52,6 +52,14 @@ Since we need *all* partitions achieving the minimum count, we can:
 1.  Compute `min_cuts` using BFS/DP.
 2.  Use Backtracking (DFS) to reconstruct paths that match this `min_cuts`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Precompute palindrome table] --> B[Compute minimum partitions]
+B --> C[Backtrack using min distances]
+C --> D[Collect all minimum partitions]
+```
+
 Given `N <= 12`, we can just use pure backtracking with a global minimum tracker, or iterative deepening. But BFS is cleanest for "shortest path" structure.
 
 ## Approaches

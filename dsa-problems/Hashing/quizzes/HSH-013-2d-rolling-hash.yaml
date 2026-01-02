@@ -1,2 +1,52 @@
-# Quiz for HSH-013: 2D Rolling Hash for Matrix Match
-# YAML content to be added
+problem_id: HSH_2D_ROLLING_HASH_013
+display_id: HSH-013
+slug: 2d-rolling-hash
+questions:
+  - question: In 2D rolling hash, which approach is used to compute the hash of a 2D submatrix?
+    difficulty: easy
+    points: 10
+    options:
+      - Hash each row independently
+      - Hash all rows first (base B1), then hash the resulting row-hashes (base B2)
+      - Hash each element individually and sum
+      - Use only one base for both dimensions
+    correct_answer: 1
+    explanation: "2D hashing is separable: compute row hashes using B1, then treat these hashes as a 1D array and hash them using B2."
+    type: single_choice
+    id: prq_1
+  - question: Why must we use different bases B1 and B2 in 2D rolling hash?
+    difficulty: easy
+    points: 10
+    options:
+      - To make the computation faster
+      - Using the same base could allow different 2D patterns to collide
+      - It's not required, but recommended
+      - To prevent negative hashes
+    correct_answer: 1
+    explanation: Using different bases ensures that the order and nesting of hash operations matter. Same base for both could lead to incorrect equivalences.
+    type: single_choice
+    id: edq_1
+  - question: In 2D rolling hash, what is the first step when computing row-wise hashes?
+    difficulty: medium
+    points: 15
+    options:
+      - Sum all elements in each row
+      - Compute polynomial hash of each row using base B1
+      - Extract the pattern matrix
+      - Compute column sums
+    correct_answer: 1
+    explanation: First, we compute rolling hashes for each row using B1 to get a 1D array of row hashes. Then, we hash this 1D array using B2.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of computing 2D rolling hashes for an n×m matrix?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n×m)
+      - O(n + m)
+      - O(n×m log(n×m))
+      - O((n×m)²)
+    correct_answer: 0
+    explanation: "We process each row (O(m)) and then process the resulting row-hashes (O(n)). Total: O(n×m)."
+    type: single_choice
+    id: edq_3

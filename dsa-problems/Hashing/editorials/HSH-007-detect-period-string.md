@@ -22,104 +22,159 @@ subscription_tier: basic
 
 ## 📋 Problem Summary
 
-You are given a string `s`. You need to find the smallest length `p` such that `s` is composed of the prefix `s[0..p-1]` repeated multiple times. If no such `p` exists (other than the string itself), return the length of `s`.
+You are given a string `s`. You need to find the smallest length `p` such that `s` is composed of the prefix `s[0..p-1]` repeated multiple times, effectively meaning the string has a period `p`. If no such `p` exists (other than the string itself), return the length of `s`.
 
 ## 🌍 Real-World Scenario
 
-**Scenario Title:** Signal Compression
+**Scenario Title:** The Heartbeat Signal Compressor ❤️
 
-Imagine you are analyzing a digital signal or a heartbeat pattern.
-- The signal might look like `101101101...`.
-- If you can detect that it's just `101` repeating, you can compress the data significantly by storing only the pattern `101` and the repetition count.
-- Finding the smallest period is essential for efficient data storage and pattern recognition.
+### The Problem
+You are designing a storage system for a medical device that records heartbeats.
+- **Data:** A continuous stream of digital samples: `10, 20, 10, 20, 10, 20...`
+- **Goal:** Instead of storing millions of data points, detect if the signal is periodic.
+- **Compression:** If the signal is just `[10, 20]` repeated, you only store the pattern `[10, 20]` and the count. This reduces storage by 99%.
 
-![Real-World Application](../images/HSH-007/real-world-scenario.png)
+### Why This Matters
+- **Data Compression:** Run-Length Encoding and variants rely on finding repeating patterns.
+- **Cryptography:** Analyzing periodicities in ciphertexts to break encryption (e.g., Vigenère cipher).
+- **Physics:** Finding the fundamental frequency of a wave.
+
+### Constraints in Real World
+- **Speed:** The check must be fast ($O(N)$ or near-linear), not quadratic.
+- **False Positives:** Must be exact. A single mismatch means it's not periodic.
 
 ## Detailed Explanation
 
-### ASCII Diagram: Checking Periodicity
+### Concept Visualization
 
-String: "ababab" (Length 6)
-Divisors of 6: 1, 2, 3, 6.
+A string `S` has period `P` if it consists of blocks of length `P`.
+Example: `ababab` (Length 6).
+Blocks: `ab`, `ab`, `ab`. Period = 2.
 
-```text
-Check p=1 ("a"):
-Expected: "aaaaaa"
-Actual:   "ababab" -> Fail.
+**The "Shift" Trick:**
+If `S` has period `P`, then looking at `S` shifted by `P` positions should align perfectly with the original `S`, except for the ends.
+Specifically, the prefix of length $N-P$ must equal the suffix of length $N-P$.
 
-Check p=2 ("ab"):
-Expected: "ababab"
-Actual:   "ababab" -> Match!
-Smallest Period = 2.
+```mermaid
+graph TD
+    S[String: a b a b a b]
+    
+    subgraph Shift Check (P=2)
+    Prefix[Prefix N-2: a b a b]
+    Suffix[Suffix N-2: a b a b]
+    Match{Prefix == Suffix?}
+    Match -- Yes --> Periodic
+    end
+    
+    subgraph Indices
+    P1[Ind: 0 1 2 3]
+    P2[Ind: 2 3 4 5]
+    end
+    
+    style Match fill:#d4f4dd
 ```
 
-### Key Concept: Hashing for Periodicity
+### Algorithm Flow Diagram
 
-A string `S` has period `P` if `S[0 dots N-P-1] == S[P dots N-1]`.
-Alternatively, using hashing:
-If period is `P`, then the prefix of length `N-P` must equal the suffix of length `N-P`.
-Why?
-`S = T + T + dots + T` (where `T` is length `P`).
-Prefix `N-P`: `T + T + dots` (one less `T`).
-Suffix `N-P`: `T + T + dots` (shifted by one `T`).
-They must be identical.
-So, we can check if `hash(0, n-p-1) == hash(p, n-1)`.
-This check is `O(1)`!
+```mermaid
+graph TD
+    Start[Start] --> Div[Find Divisors of N]
+    Div --> Sort[Sort Divisors Ascending]
+    Sort --> Init[Compute Rolling Hashes]
+    Init --> Loop{For each divisor P}
+    
+    Loop -- P < N --> Check[Check Hash: S[0..N-P-1] == S[P..N-1]]
+    Check -- Equal --> Found[Return P]
+    Check -- Not Equal --> Loop
+    
+    Loop -- No More P --> ReturnN[Return N]
+    Found --> End
+    ReturnN --> End
+    
+    style Found fill:#d4f4dd
+    style ReturnN fill:#fff0e6
+```
 
-## ✅ Input/Output Clarifications (Read This Before Coding)
+## 🎯 Edge Cases to Test
 
-- **Input:** String `s`.
-- **Output:** Smallest period length.
-- **Constraints:** `|s| <= 2 * 10^5`.
-- **Divisors:** We only need to check `P` that are divisors of `N`.
+1.  **Single Character**
+    -   Input: `"a"`
+    -   Output: `1`
+2.  **All Same Characters**
+    -   Input: `"aaaa"`
+    -   Divisors: 1, 2, 4.
+    -   Check 1: `S[0..2] == S[1..3]` ("aaa" vs "aaa") -> Match.
+    -   Output: `1` (Correct).
+3.  **No Repetition**
+    -   Input: `"abacaba"`
+    -   Output: `7` (Length of string).
+4.  **Prime Length String**
+    -   Input: `"abc"`
+    -   Output: `3`.
+5.  **Multiple Periods**
+    -   Input: `"abababab"` (Len 8)
+    -   Divisors: 1, 2, 4, 8.
+    -   1 fails ("abababa" != "bababab").
+    -   2 succeeds ("ababab" == "ababab").
+    -   Output: `2`.
+
+## ✅ Input/Output Clarifications
+
+-   **Input:** String `s`.
+-   **Output:** Smallest period length `P`.
+-   **Divisors Only:** A string of length $N$ can only have a period $P$ if $N$ is divisible by $P$.
+    -   Counter-example: `aba` (Len 3). Period could be 2 ("ab" + "a" cut off)?
+    -   **Problem Definition:** Usually "composed of prefix repeated". This implies $N \% P == 0$.
+    -   The solution assumes strict modification where entire string is covered by full repetitions.
 
 ## Naive Approach
 
 ### Intuition
-
-For every divisor `P` of `N`:
-Construct the string by repeating `s[0..P-1]`. Compare with `s`.
+For every possible length `P` from 1 to `N/2`:
+1.  Check if `N % P == 0`.
+2.  Construct the string by repeating `s[0..P-1]`.
+3.  Compare strictly.
 
 ### Algorithm
+1.  Iterate `P` from 1 to `N`.
+2.  If `N % P == 0`:
+    -   Build `Pattern = s[0..P-1]`.
+    -   Build `Candidate = Pattern * (N/P)`.
+    -   If `Candidate == s`, return `P`.
 
-1. Find all divisors of `N`.
-2. Sort divisors.
-3. For each `P`:
-   - Construct candidate string.
-   - If candidate == s, return `P`.
+### Complexity Visualization
 
-### Time Complexity
+| Approach | Time Complexity | Space Complexity | Feasibility for N=200K |
+| :--- | :---: | :---: | :---: |
+| Naive Build | O(N × Divisors) | O(N) | ✅ Acceptable (Divisors small) |
+| **Hashing** | **O(N + Divisors)** | **O(N)** | ✅ Fastest & Cleanest |
+| KMP Algo | O(N) | O(N) | ✅ Optimal (Hard to implement) |
 
-- **O(N * Divisors(N))**: Constructing string takes `O(N)`. Number of divisors is small, but can be up to 128 for `N=10^5`. Total roughly `O(N)`. This is actually acceptable!
-- However, constructing strings repeatedly is memory heavy. Hashing avoids construction.
+### Why This Fails
+It doesn't strictly fail, but building strings is standard "wasteful" practice in interviews. Hashing allows in-place checks.
 
-## Optimal Approach (Hashing)
+## Optimal Approach (Hashing + Divisors)
 
 ### Key Insight
-
-Use the property: `S` has period `P` `iff` `S[0 dots N-P-1] == S[P dots N-1]`.
-This check takes `O(1)` with rolling hash.
-We iterate through all divisors of `N`. The first one that satisfies the condition is the answer.
+We used the "Shift Trick":
+`S` has period `P` if and only if `Prefix(N-P) == Suffix(N-P)`.
+This checks $S[i] == S[i+P]$ for all $i$.
+Combined with the requirement that $P$ divides $N$, this is sufficient.
 
 ### Algorithm
-
-1. Compute prefix hashes of `s`.
-2. Find all divisors of `n`.
-3. Sort divisors in ascending order.
-4. For each divisor `p`:
-   - Check if `hash(0, n-p-1) == hash(p, n-1)`.
-   - If true, return `p`.
-5. Return `n` (guaranteed to match itself).
+1.  Compute prefix hashes of `s` ($O(N)$).
+2.  Find all divisors of `N` up to $\sqrt{N}$ ($O(\sqrt{N})$).
+3.  Sort divisors ($O(D \log D)$).
+4.  For each divisor `P` in increasing order:
+    -   Check if `getHash(0, N-P-1) == getHash(P, N-1)`.
+    -   If yes, return `P`.
+5.  If no divisor works, return `N`.
 
 ### Time Complexity
-
-- **O(N + Divisors(N))**: Preprocessing `O(N)`. Checking divisors is fast.
+-   **O(N + D)**: $N$ for hashing, $D$ number of divisors checks ($O(1)$ each). Max divisors for $2 \cdot 10^5$ is 160. Very fast.
 
 ### Space Complexity
-
-- **O(N)**: Hash arrays.
-
-![Algorithm Visualization](../images/HSH-007/algorithm-visualization.png)
+-   **O(N)**: Rolling hash arrays.
 
 ## Implementations
 
@@ -380,45 +435,50 @@ rl.on("close", () => {
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 
-**Input:**
+### Input
 ```
 ababab
 ```
-`N=6`. Divisors: 1, 2, 3, 6.
+`N = 6`. Divisors: 1, 2, 3, 6.
 
-**Check 1:**
-- `S[0..4]` ("ababa") vs `S[1..5]` ("babab").
-- Mismatch.
+### Execution Table
+**Target Comparison:** `S[0...N-P-1]` vs `S[P...N-1]`
 
-**Check 2:**
-- `S[0..3]` ("abab") vs `S[2..5]` ("abab").
-- Match!
-- Return 2.
+| P (Divisor) | Range 1 `S[0...N-P-1]` | Range 2 `S[P...N-1]` | Content R1 | Content R2 | Match? | Action |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **1** | `0` to `4` | `1` to `5` | "ababa" | "babab" | ❌ No | Continue |
+| **2** | `0` to `3` | `2` to `5` | "abab" | "abab" | ✅ Yes | **Return 2** |
+
+Result: `2`.
 
 ## ✅ Proof of Correctness
 
-### Invariant
-If `S[0 dots N-P-1] == S[P dots N-1]`, then `S[i] == S[i+P]` for all valid `i`.
-This implies periodicity `P`.
-Since we check divisors in increasing order, we find the smallest period.
+### Implication Direction
+If `S` has period `P`, then $S[i] = S[i+P]$ for all $0 \le i < N-P$.
+This is exactly equivalent to equality of the prefix of length $N-P$ and the suffix of same length starting at $P$.
+We iterate divisors in increasing order to find the *smallest* valid `P`.
+
+## ⚠️ Common Mistakes to Avoid
+
+1.  **Forgetting to Sort Divisors**
+    -   ❌ Wrong: Checking divisors in random order reduces finding the *smallest* period.
+    -   ✅ Correct: Sort them.
+2.  **Using `int` for Divisors logic**
+    -   ❌ Wrong: `i * i <= n` can overflow if `n` is `Integer.MAX_VALUE` (rare but possible).
+    -   ✅ Correct: Loop condition usually safe for typical $N \le 2\times 10^5$.
+3.  **Boundary Conditions**
+    -   ❌ Wrong: Comparing wrong ranges.
+    -   ✅ Correct: `0` to `n-p-1` and `p` to `n-1`.
 
 ## 💡 Interview Extensions
 
-- **Extension 1:** Find period using KMP.
-  - *Answer:* Period `P = N - pi[N-1]` if `N % P == 0`. (`pi` is the failure function). `O(N)`.
-- **Extension 2:** What if the string is not perfectly periodic but has a "period" that cuts off?
-  - *Answer:* The hashing check `S[0 dots N-P-1] == S[P dots N-1]` still works for finding the "border" length, which implies the period.
-
-### Common Mistakes to Avoid
-
-1. **Checking Non-Divisors**
-   - ❌ Wrong: Checking all `1 dots N`.
-   - ✅ Correct: Only divisors can form a perfect period (where `N` is a multiple of `P`).
-2. **Hash Collision**
-   - ❌ Wrong: Single hash might fail.
-   - ✅ Correct: Double hash or verify characters if collision suspected (though usually not needed for simple problems).
+1.  **Using KMP Failure Function**
+    -   *Extension:* How to solve in strictly $O(N)$?
+    -   *Answer:* Compute `pi` array. Let `len = pi[N-1]`. If `N % (N - len) == 0` and `len > 0`, period is `N - len`. Else `N`.
+2.  **Z-Algorithm**
+    -   *Answer:* Check if `N` is divisible by `p` and `Z[p] == N - p`.
 
 ## Related Concepts
 
-- **KMP Algorithm:** Failure function `pi` array directly gives the longest proper prefix which is also a suffix.
-- **Z-Algorithm:** Z-array values can also determine periodicity.
+-   **KMP Algorithm:** Essential for period detection.
+-   **String Borders:** A border is a prefix that is also a suffix. Fundamental to this problem.

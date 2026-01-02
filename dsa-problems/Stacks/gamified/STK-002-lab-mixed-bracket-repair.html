@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STK-002: Bracket Welder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #222f3e;
+            --beam: #576574;
+            --bracket: #ffd32a;
+            --bracket-bad: #ff3f34;
+            --bracket-good: #0be881;
+        }
+
+        body {
+            font-family: 'Chakra Petch', sans-serif;
+            background: var(--bg);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+
+        h1 { margin-top: 2rem; color: #ffd32a; text-transform: uppercase; }
+
+        .structure {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 4rem;
+            padding: 20px;
+            border: 4px dashed #576574;
+            border-radius: 10px;
+            min-width: 600px;
+            min-height: 100px;
+        }
+
+        .bracket-node {
+            font-size: 4rem;
+            color: var(--bracket);
+            cursor: pointer;
+            transition: all 0.2s;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .bracket-node:hover { background: rgba(255,255,255,0.1); transform: scale(1.1); }
+        .bracket-node.bad { color: var(--bracket-bad); animation: shake 0.5s; }
+        .bracket-node.good { color: var(--bracket-good); }
+
+        @keyframes shake { 0% { transform: translate(0); } 25% { transform: translate(-5px); } 75% { transform: translate(5px); } 100% { transform: translate(0); } }
+
+        .controls {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        #status { font-size: 1.5rem; margin-top: 20px; min-height: 1.5em; }
+
+        .btn {
+            background: #ffa502;
+            border: none;
+            padding: 10px 30px;
+            font-size: 1.2rem;
+            font-family: inherit;
+            cursor: pointer;
+            color: #222;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>BRACKET WELDER</h1>
+<div style="color:#aaa">Click brackets to FLIP them ( ( ↔ ) ). Make the structure balanced.</div>
+
+<div class="structure" id="str">
+    <!-- Brackets -->
+</div>
+
+<div id="status">Structural Integrity: UNSTABLE</div>
+
+<button class="btn" onclick="initLevel()">New Structure</button>
+
+<script>
+    let sequence = [];
+    
+    function initLevel() {
+        // Generate random length, make it broken
+        const len = 8 + Math.floor(Math.random()*4)*2; // Even length
+        sequence = [];
+        for(let i=0; i<len; i++) {
+            sequence.push(Math.random() > 0.5 ? '(' : ')');
+        }
+        render();
+        check();
+    }
+
+    function render() {
+        const div = document.getElementById('str');
+        div.innerHTML = '';
+        sequence.forEach((char, i) => {
+            const el = document.createElement('div');
+            el.className = 'bracket-node';
+            el.textContent = char;
+            el.onclick = () => flip(i);
+            el.id = `b-${i}`;
+            div.appendChild(el);
+        });
+    }
+
+    function flip(i) {
+        sequence[i] = sequence[i] === '(' ? ')' : '(';
+        
+        // Re-render just text for efficiency? Nah full render safe.
+        document.getElementById(`b-${i}`).textContent = sequence[i];
+        
+        check();
+    }
+
+    function check() {
+        // Stack check logic
+        let stack = 0;
+        let valid = true;
+        
+        // Simple counter for single type ()
+        // But for visual feedback, let's highlight first error
+        let errorIdx = -1;
+
+        for(let i=0; i<sequence.length; i++) {
+             if (sequence[i] === '(') stack++;
+             else stack--;
+             
+             if (stack < 0) {
+                 errorIdx = i;
+                 // Mark bad immediately
+                 document.getElementById(`b-${i}`).classList.add('bad');
+                 valid = false;
+                 // Don't break, allow user to see
+                 stack = 0; // Reset to allow further checks loosely
+             } else {
+                 document.getElementById(`b-${i}`).classList.remove('bad');
+             }
+        }
+        
+        if (stack !== 0) {
+            valid = false;
+        }
+
+        const stats = document.getElementById('status');
+        if (valid) {
+             stats.textContent = "Structural Integrity: STABLE";
+             stats.style.color = "#0be881";
+             document.querySelectorAll('.bracket-node').forEach(e => e.classList.add('good'));
+        } else {
+             stats.textContent = "Structural Integrity: UNSTABLE";
+             stats.style.color = "#ff3f34";
+             document.querySelectorAll('.bracket-node').forEach(e => e.classList.remove('good'));
+        }
+    }
+
+    window.onload = initLevel;
+</script>
+</body>
+</html>

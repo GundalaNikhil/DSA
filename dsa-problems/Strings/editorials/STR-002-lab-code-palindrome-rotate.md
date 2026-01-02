@@ -131,6 +131,15 @@ None form palindromes!
 5. Return oddCount <= 1
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Count character frequencies] --> B[Count odd frequencies]
+B --> C{Odd count at most one}
+C -->|Yes| D[Return true]
+C -->|No| E[Return false]
+```
+
 ### Time Complexity
 
 | Phase                 | Operations        | Cost     |

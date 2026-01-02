@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DP-013: Fence Painter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --grid: #1e293b;
+            --primary: #f97316; /* Orange */
+            --danger: #ef4444;
+            --accent: #22c55e;
+            --success: #10b981;
+            --text: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            background-image: 
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            text-shadow: 0 0 10px var(--primary);
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .rule-banner {
+            padding: 12px 25px;
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .fence-container {
+            display: flex;
+            gap: 10px;
+            padding: 30px;
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .post {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .post-plank {
+            width: 50px;
+            height: 80px;
+            border-radius: 4px 4px 0 0;
+            border: 2px solid var(--grid);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .post-plank:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(255,255,255,0.2);
+        }
+
+        .post-index { font-size: 0.75rem; color: #64748b; }
+        .post-switch-cost { font-size: 0.7rem; color: var(--primary); }
+
+        .palette {
+            display: flex;
+            gap: 15px;
+            padding: 15px 25px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 8px;
+        }
+
+        .color-btn {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 3px solid transparent;
+        }
+
+        .color-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .color-btn.selected {
+            border-color: white;
+            box-shadow: 0 0 15px rgba(255,255,255,0.5);
+        }
+
+        .stats-panel {
+            display: flex;
+            gap: 30px;
+            padding: 15px 25px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label { color: #64748b; font-size: 0.8rem; }
+        .stat-value { font-size: 1.2rem; font-weight: bold; }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #1e293b; padding: 40px; border: 2px solid var(--primary);
+            max-width: 600px; text-align: center; color: var(--text);
+            box-shadow: 0 0 50px rgba(249, 115, 22, 0.2);
+            border-radius: 12px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+
+        .scan-line {
+            position: fixed; top: 0; left: 0; right: 0; height: 2px;
+            background: rgba(249, 115, 22, 0.3); opacity: 0.5;
+            animation: scan 4s linear infinite; pointer-events: none;
+        }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+    </style>
+</head>
+<body>
+
+<div class="scan-line"></div>
+
+<header>
+    <h1>🎨 Fence Painter</h1>
+    <div style="color: #94a3b8; font-size: 0.9rem;">DP-013: PAINT WITH SWITCH COST</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div class="rule-banner">
+            🚫 <b>Rule:</b> No three consecutive posts can have the same color
+        </div>
+
+        <div class="palette" id="palette"></div>
+
+        <div class="fence-container" id="fence"></div>
+
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span class="stat-label">Posts Painted</span>
+                <span class="stat-value" id="painted">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Switches</span>
+                <span class="stat-value" id="switches">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Total Cost</span>
+                <span class="stat-value" id="totalCost">0</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Optimal Cost</span>
+                <span class="stat-value" id="optimal">?</span>
+            </div>
+        </div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" style="border-color: #64748b; color: #64748b;" onclick="game.reset()">RESET</button>
+            <button class="btn" onclick="game.newLevel()">NEW FENCE</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🎨 FENCE PAINTER</h2>
+        <div style="text-align:left; font-size:1rem; margin:1.5rem 0; line-height:1.7; color:#cbd5e1;">
+            <p><b>Objective:</b> Paint all fence posts with minimum total cost.</p>
+            <p><b>Costs:</b></p>
+            <ul style="margin-left: 20px;">
+                <li>Each post costs <b>1</b> to paint</li>
+                <li>Switching color adds <b>switch cost</b> (shown below each post)</li>
+                <li>No <b>three consecutive</b> posts can have the same color</li>
+            </ul>
+            <p><b>DP Insight:</b> Track <code>dp[i][color][streak]</code> where streak is 1 or 2.</p>
+        </div>
+        <button class="btn" onclick="game.start()">START PAINTING</button>
+    </div>
+</div>
+
+<script>
+const COLORS = ['#ef4444', '#22c55e', '#3b82f6', '#eab308'];
+
+class Game {
+    constructor() {
+        this.n = 0;
+        this.k = 0; // number of colors
+        this.switchCosts = [];
+        this.posts = []; // color index per post, -1 = unpainted
+        this.selectedColor = 0;
+        this.optimal = 0;
+        
+        this.ui = {
+            fence: document.getElementById('fence'),
+            palette: document.getElementById('palette'),
+            painted: document.getElementById('painted'),
+            switches: document.getElementById('switches'),
+            totalCost: document.getElementById('totalCost'),
+            optimal: document.getElementById('optimal'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newLevel();
+    }
+
+    newLevel() {
+        this.n = Math.floor(Math.random() * 4) + 5; // 5-8 posts
+        this.k = Math.floor(Math.random() * 2) + 2; // 2-3 colors
+        
+        this.switchCosts = [];
+        for (let i = 0; i < this.n; i++) {
+            this.switchCosts.push(Math.floor(Math.random() * 4) + 1); // 1-4
+        }
+        
+        this.posts = new Array(this.n).fill(-1);
+        this.selectedColor = 0;
+        this.optimal = this.calculateOptimal();
+        
+        this.ui.optimal.textContent = '?';
+        this.ui.status.textContent = '';
+        
+        this.renderPalette();
+        this.render();
+    }
+
+    calculateOptimal() {
+        const INF = 1e18;
+        // dp[i][c][streak] = min cost to paint posts 0..i with post i colored c and streak consecutive
+        const dp = Array.from({length: this.n}, () =>
+            Array.from({length: this.k}, () => [INF, INF, INF]));
+        
+        // First post
+        for (let c = 0; c < this.k; c++) {
+            dp[0][c][1] = 1; // Just paint cost
+        }
+        
+        for (let i = 1; i < this.n; i++) {
+            for (let c = 0; c < this.k; c++) {
+                // Same color as previous
+                for (let prevStreak = 1; prevStreak <= 2; prevStreak++) {
+                    if (dp[i-1][c][prevStreak] >= INF) continue;
+                    if (prevStreak < 2) {
+                        // Can continue streak
+                        dp[i][c][prevStreak + 1] = Math.min(dp[i][c][prevStreak + 1], dp[i-1][c][prevStreak] + 1);
+                    }
+                }
+                
+                // Different color from previous
+                for (let pc = 0; pc < this.k; pc++) {
+                    if (pc === c) continue;
+                    for (let prevStreak = 1; prevStreak <= 2; prevStreak++) {
+                        if (dp[i-1][pc][prevStreak] >= INF) continue;
+                        const cost = dp[i-1][pc][prevStreak] + 1 + this.switchCosts[i];
+                        dp[i][c][1] = Math.min(dp[i][c][1], cost);
+                    }
+                }
+            }
+        }
+        
+        let best = INF;
+        for (let c = 0; c < this.k; c++) {
+            for (let s = 1; s <= 2; s++) {
+                best = Math.min(best, dp[this.n - 1][c][s]);
+            }
+        }
+        return best;
+    }
+
+    renderPalette() {
+        this.ui.palette.innerHTML = '';
+        for (let c = 0; c < this.k; c++) {
+            const btn = document.createElement('div');
+            btn.className = 'color-btn' + (c === this.selectedColor ? ' selected' : '');
+            btn.style.background = COLORS[c];
+            btn.onclick = () => this.selectColor(c);
+            this.ui.palette.appendChild(btn);
+        }
+    }
+
+    selectColor(c) {
+        this.selectedColor = c;
+        this.renderPalette();
+    }
+
+    paintPost(idx) {
+        // Check if violates 3-consecutive rule
+        const newColor = this.selectedColor;
+        
+        // Temporarily set
+        const oldColor = this.posts[idx];
+        this.posts[idx] = newColor;
+        
+        // Check violation
+        for (let i = 0; i < this.n - 2; i++) {
+            if (this.posts[i] >= 0 && this.posts[i] === this.posts[i+1] && this.posts[i] === this.posts[i+2]) {
+                this.posts[idx] = oldColor;
+                this.ui.status.innerHTML = '<span style="color:var(--danger)">Cannot have 3 consecutive same colors!</span>';
+                return;
+            }
+        }
+        
+        this.ui.status.textContent = '';
+        this.render();
+        this.checkWin();
+    }
+
+    reset() {
+        this.posts = new Array(this.n).fill(-1);
+        this.ui.status.textContent = '';
+        this.ui.optimal.textContent = '?';
+        this.render();
+    }
+
+    render() {
+        this.ui.fence.innerHTML = '';
+        
+        let painted = 0, switches = 0, cost = 0;
+        
+        for (let i = 0; i < this.n; i++) {
+            const post = document.createElement('div');
+            post.className = 'post';
+            
+            const plank = document.createElement('div');
+            plank.className = 'post-plank';
+            plank.style.background = this.posts[i] >= 0 ? COLORS[this.posts[i]] : '#334155';
+            plank.onclick = () => this.paintPost(i);
+            
+            const index = document.createElement('div');
+            index.className = 'post-index';
+            index.textContent = `#${i + 1}`;
+            
+            const switchCost = document.createElement('div');
+            switchCost.className = 'post-switch-cost';
+            switchCost.textContent = `+${this.switchCosts[i]}`;
+            
+            post.appendChild(plank);
+            post.appendChild(index);
+            post.appendChild(switchCost);
+            
+            this.ui.fence.appendChild(post);
+            
+            if (this.posts[i] >= 0) {
+                painted++;
+                cost++; // Paint cost
+                
+                if (i > 0 && this.posts[i-1] >= 0 && this.posts[i] !== this.posts[i-1]) {
+                    switches++;
+                    cost += this.switchCosts[i];
+                }
+            }
+        }
+        
+        this.ui.painted.textContent = `${painted}/${this.n}`;
+        this.ui.switches.textContent = switches;
+        this.ui.totalCost.textContent = cost;
+    }
+
+    checkWin() {
+        if (this.posts.every(p => p >= 0)) {
+            let cost = 0;
+            for (let i = 0; i < this.n; i++) {
+                cost++;
+                if (i > 0 && this.posts[i] !== this.posts[i-1]) {
+                    cost += this.switchCosts[i];
+                }
+            }
+            
+            this.ui.optimal.textContent = this.optimal;
+            
+            if (cost === this.optimal) {
+                this.ui.status.innerHTML = `<span style="color:var(--success)">🎉 OPTIMAL! Cost: ${cost}</span>`;
+            } else {
+                this.ui.status.innerHTML = `<span style="color:var(--primary)">Completed! Cost: ${cost}. Optimal: ${this.optimal}</span>`;
+            }
+        }
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

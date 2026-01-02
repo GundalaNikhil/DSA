@@ -1,2 +1,52 @@
-# Quiz for HSH-014: Longest Palindromic Prefix After One Append
-# YAML content to be added
+problem_id: HSH_LONGEST_PAL_PREFIX_AFTER_APPEND_014
+display_id: HSH-014
+slug: longest-pal-prefix-after-append
+questions:
+  - question: Given s='abac' and we append 'a', the new string is 'abaca'. What is the longest palindromic prefix?
+    difficulty: easy
+    points: 10
+    options:
+      - "'a'"
+      - "'aba'"
+      - "'abaca'"
+      - "'abac'"
+    correct_answer: 1
+    explanation: "'aba' is a palindrome (reads the same forwards and backwards), and it's the longest palindromic prefix of 'abaca'."
+    type: single_choice
+    id: prq_1
+  - question: What does a forward hash track in this algorithm?
+    difficulty: easy
+    points: 10
+    options:
+      - The hash of the first character only
+      - The cumulative polynomial hash of the prefix up to the current character
+      - The reverse of the string
+      - The character count
+    correct_answer: 1
+    explanation: Forward hash computes H_fwd = (H_fwd × B + char) % M, tracking the polynomial hash of s[0..i] after each character is appended.
+    type: single_choice
+    id: edq_1
+  - question: In the reverse hash tracking, why does the power of B increase with each character?
+    difficulty: medium
+    points: 15
+    options:
+      - To speed up computation
+      - "To match the reverse structure: new characters are added at the 'beginning' of the reversed string, requiring higher powers"
+      - To prevent overflow
+      - It doesn't; it stays constant
+    correct_answer: 1
+    explanation: When appending character c, it joins the end of s, which becomes the beginning of reverse(s). This corresponds to the highest power of B in the reverse hash.
+    type: single_choice
+    id: edq_2
+  - question: If forward hash and reverse hash match for a prefix s[0..i], what can we conclude?
+    difficulty: medium
+    points: 15
+    options:
+      - The prefix is a palindrome
+      - The prefix has duplicate characters
+      - The prefix is the entire string
+      - Nothing; we need more information
+    correct_answer: 0
+    explanation: Hash(s[0..i]) == Hash(reverse(s[0..i])) means the prefix reads the same forwards and backwards, confirming it's a palindrome.
+    type: single_choice
+    id: edq_3

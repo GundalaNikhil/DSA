@@ -1,2 +1,52 @@
-# Quiz for LNK-004: Hostel Cleanup Deduplicate (At Most Two)
-# YAML content to be added
+problem_id: LNK_HOSTEL_CLEANUP_DEDUPLICATE_TWO_004
+display_id: LNK-004
+slug: hostel-cleanup-deduplicate-two
+questions:
+  - question: For input 1->1->1->2, what is the output list?
+    difficulty: easy
+    points: 10
+    options:
+      - 1->1->1->2
+      - 1->2
+      - 1->1->2
+      - "2"
+    correct_answer: 2
+    explanation: We keep at most two occurrences of any value. The third '1' is removed.
+    type: single_choice
+    id: prq_1
+  - question: What logic is used to skip the extra duplicates?
+    difficulty: medium
+    points: 15
+    options:
+      - prev.next = current.next
+      - current = current.next
+      - head = head.next
+      - prev = current
+    correct_answer: 0
+    explanation: To remove 'current', we link 'prev' to the node after 'current'.
+    type: single_choice
+    id: edq_1
+  - question: When do we advance the 'prev' pointer?
+    difficulty: easy
+    points: 10
+    options:
+      - In every iteration
+      - Only when we keep (don't delete) a node
+      - Only when values match
+      - Never
+    correct_answer: 1
+    explanation: If we delete a node, 'prev' must stay to potential link to the *next* valid node.
+    type: single_choice
+    id: edq_2
+  - question: Does this require the list to be sorted?
+    difficulty: easy
+    points: 10
+    options:
+      - "Yes"
+      - "No"
+      - Only for positive numbers
+      - Only for even length
+    correct_answer: 0
+    explanation: Yes, the logic relies on duplicates being adjacent (neighboring).
+    type: single_choice
+    id: edq_3

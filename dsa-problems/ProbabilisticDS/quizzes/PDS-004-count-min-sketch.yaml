@@ -1,2 +1,52 @@
-# Quiz for PDS-004: Count-Min Sketch Error Bound
-# YAML content to be added
+problem_id: PDS_COUNT_MIN_SKETCH_004
+display_id: PDS-004
+slug: count-min-sketch
+questions:
+  - question: "The Count-Min Sketch provides an estimate for:"
+    difficulty: easy
+    points: 10
+    options:
+      - Frequency of items
+      - Distinct count
+      - Set membership
+      - Graph connectivity
+    correct_answer: 0
+    explanation: It is a frequency table replacement.
+    type: single_choice
+    id: prq_1
+  - question: "The estimated count in CMS is always:"
+    difficulty: medium
+    points: 15
+    options:
+      - ">= True Count (Over-estimation)"
+      - <= True Count (Under-estimation)
+      - Exact
+      - Randomly distributed
+    correct_answer: 0
+    explanation: Collisions only add to the counters, never subtract. So we over-estimate.
+    type: single_choice
+    id: edq_1
+  - question: How is the query answer derived from the D rows?
+    difficulty: easy
+    points: 10
+    options:
+      - Minimum of the values
+      - Average of the values
+      - Maximum of the values
+      - Sum of the values
+    correct_answer: 0
+    explanation: Since all errors are positive (over-estimation), the smallest value is the closest to truth.
+    type: single_choice
+    id: edq_2
+  - question: The width W of the sketch depends primarily on which parameter?
+    difficulty: easy
+    points: 10
+    options:
+      - Epsilon (Error bound)
+      - Delta (Failure probability)
+      - N (Total items)
+      - D (Depth)
+    correct_answer: 0
+    explanation: W = e / epsilon. Smaller error requires wider table.
+    type: single_choice
+    id: edq_3

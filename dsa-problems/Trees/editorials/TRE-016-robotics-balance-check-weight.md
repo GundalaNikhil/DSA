@@ -74,6 +74,22 @@ Instead of calculating these separately for every node (which would be slow), we
     -   `&& abs(wL - wR) <= W` (Weight condition).
 5.  **Return:** `{max(hL, hR) + 1, wL + wR + node.weight, isBalanced}`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Call dfs on root]
+    B --> C{Node is null}
+    C -->|Yes| D[Return height 0 weight 0 balanced true]
+    C -->|No| E[DFS left child]
+    E --> F[DFS right child]
+    F --> G{Left and right balanced}
+    G -->|No| H[Return balanced false]
+    G -->|Yes| I{Height diff within 1 and weight diff within W}
+    I -->|Yes| J[Return height and total weight balanced true]
+    I -->|No| H
+    J --> K[Final answer from root]
+```
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 -   **Total Weight:** Includes the node itself plus all descendants.
@@ -416,4 +432,3 @@ The bottom-up approach ensures that for any node `u`, we have already validated 
 3.  **Overflow:**
     -   ❌ Using `int` for weight sums.
     -   ✅ Use `long`.
-

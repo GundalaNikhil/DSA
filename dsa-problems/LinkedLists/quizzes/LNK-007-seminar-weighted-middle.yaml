@@ -1,2 +1,52 @@
-# Quiz for LNK-007: Seminar Weighted Middle Seat
-# YAML content to be added
+problem_id: LNK_SEMINAR_WEIGHTED_MIDDLE_007
+display_id: LNK-007
+slug: seminar-weighted-middle
+questions:
+  - question: To find the middle of a linked list in one pass, how do the two pointers move?
+    difficulty: easy
+    points: 10
+    options:
+      - Both 1 step
+      - Fast 2 steps, Slow 1 step
+      - Fast 3 steps, Slow 1 step
+      - Fast 1 step, Slow 2 steps
+    correct_answer: 1
+    explanation: When Fast reaches end (N steps), Slow is at N/2.
+    type: single_choice
+    id: prq_1
+  - question: If we want to find the node at index floor(N/3), how should pointers move?
+    difficulty: medium
+    points: 15
+    options:
+      - Fast 2 steps, Slow 1 step
+      - Fast 3 steps, Slow 1 step
+      - Fast 1.5 steps, Slow 1 step
+      - Not possible with two pointers
+    correct_answer: 1
+    explanation: Fast moves 3x distance, so when Fast is at N, Slow is at N/3.
+    type: single_choice
+    id: edq_1
+  - question: For a list with even length (e.g., 4 nodes), using Fast=2/Slow=1, which 'middle' does Slow end up on?
+    difficulty: easy
+    points: 10
+    options:
+      - The 1st middle node (index N/2 - 1)
+      - The 2nd middle node (index N/2)
+      - The last node
+      - Depends on initialization
+    correct_answer: 1
+    explanation: Typically, for 1->2->3->4, Fast goes 1->3->null, Slow goes 1->2->3 (2nd middle).
+    type: single_choice
+    id: edq_2
+  - question: What is the advantage of the two-pointer approach compared to counting length?
+    difficulty: easy
+    points: 10
+    options:
+      - Lower time complexity
+      - One pass instead of two
+      - Lower space complexity
+      - Works on circular lists
+    correct_answer: 1
+    explanation: Counting length requires traversing to end then restarting (2 passes). Two pointers do it in 1 pass.
+    type: single_choice
+    id: edq_3

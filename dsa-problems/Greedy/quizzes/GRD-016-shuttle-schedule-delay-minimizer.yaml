@@ -1,0 +1,52 @@
+problem_id: GRD_SHUTTLE_SCHEDULE_DELAY_MINIMIZER_016
+display_id: GRD-016
+slug: shuttle-schedule-delay-minimizer
+questions:
+  - question: To minimize the total accumulated delay, how should the trips be sorted?
+    difficulty: medium
+    points: 15
+    options:
+      - By their 'planned finish time' (`start_time + duration`) in ascending order (Earliest Due Date).
+      - By their duration in ascending order (Shortest Job First).
+      - By their planned start time in ascending order.
+      - By their duration in descending order.
+    correct_answer: 0
+    explanation: Sorting by `s[i] + d[i]` (Planned Finish Time) effectively prioritizes tasks that become 'urgent' soonest, minimizing the cascading delay effect.
+    type: single_choice
+    id: prq_1
+  - question: If a trip starts BEFORE its planned start time, what is the delay?
+    difficulty: medium
+    points: 10
+    options:
+      - 0 (Early starts incur no penalty).
+      - Negative delay (bonus).
+      - Absolute difference between planned and actual start.
+      - It is impossible to start early.
+    correct_answer: 0
+    explanation: The problem defines delay as `max(0, actual_start - planned_start)`. Starting early is allowed and carries no penalty.
+    type: single_choice
+    id: edq_1
+  - question: What is the time complexity of the optimal solution?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N log N)
+      - O(N^2)
+      - O(N)
+      - O(N!)
+    correct_answer: 0
+    explanation: The solution relies on sorting the trips, which takes O(N log N), followed by a linear O(N) pass to calculate delays.
+    type: single_choice
+    id: edq_2
+  - question: Does the optimal order depend on the current time?
+    difficulty: easy
+    points: 10
+    options:
+      - No, the static sorted order (Earliest Due Date) is sufficient regardless of start time.
+      - Yes, we must re-evaluate after every task.
+      - Yes, but only if delays become negative.
+      - No, because delays are always zero.
+    correct_answer: 0
+    explanation: The EDD rule provides a static ordering that remains optimal for this specific single-machine scheduling problem minimizing total tardiness/delay.
+    type: single_choice
+    id: edq_3

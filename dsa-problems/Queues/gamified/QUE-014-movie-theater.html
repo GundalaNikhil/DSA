@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUE-014: Movie Theater</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: linear-gradient(135deg, #1a0a2e 0%, #3a1a5e 100%); --popcorn: #ffd700; --ticket: #ff6b9d; --screen: #00d4ff; --panel: rgba(0,0,0,0.6); --text: #fff; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--ticket); }
+        h1 { margin: 0; font-family: 'Bangers', cursive; color: var(--ticket); font-size: 2rem; letter-spacing: 2px; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 25px; }
+        .theater { display: flex; gap: 40px; align-items: flex-start; }
+        .ticket-booth { padding: 20px; background: var(--panel); border-radius: 20px; text-align: center; border: 3px solid var(--ticket); }
+        .booth-sign { font-family: 'Bangers'; color: var(--ticket); font-size: 1.3rem; margin-bottom: 15px; }
+        .ticket-queue { display: flex; flex-direction: column; gap: 10px; min-height: 200px; }
+        .person { padding: 12px 20px; background: rgba(255,107,157,0.2); border-radius: 15px; display: flex; align-items: center; gap: 15px; border-left: 4px solid var(--ticket); }
+        .person.first { background: rgba(0,212,255,0.2); border-left-color: var(--screen); animation: glow 1s infinite; }
+        @keyframes glow { 0%,100%{box-shadow:0 0 5px var(--screen)} 50%{box-shadow:0 0 15px var(--screen)} }
+        .screen-area { padding: 30px; background: #111; border-radius: 20px; text-align: center; border: 3px solid var(--screen); }
+        .screen { width: 200px; height: 120px; background: linear-gradient(180deg, #333, #111); display: flex; align-items: center; justify-content: center; border-radius: 10px; margin-bottom: 20px; }
+        .screen-text { font-family: 'Bangers'; font-size: 2rem; color: var(--screen); }
+        .seats { display: flex; gap: 5px; flex-wrap: wrap; width: 200px; justify-content: center; }
+        .seat { width: 30px; height: 30px; background: #333; border-radius: 5px 5px 0 0; transition: all 0.3s; }
+        .seat.filled { background: var(--ticket); }
+        .concession { padding: 20px; background: var(--panel); border-radius: 20px; text-align: center; border: 3px solid var(--popcorn); }
+        .concession-sign { font-family: 'Bangers'; color: var(--popcorn); font-size: 1.3rem; margin-bottom: 15px; }
+        .snacks { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        .snack { font-size: 2.5rem; cursor: pointer; transition: transform 0.2s; }
+        .snack:hover { transform: scale(1.2); }
+        .stats { display: flex; gap: 20px; }
+        .stat-box { padding: 15px 25px; background: var(--panel); border-radius: 15px; text-align: center; border: 2px solid var(--ticket); }
+        .stat-label { font-size: 0.8rem; color: #aaa; }
+        .stat-value { font-size: 1.8rem; font-family: 'Bangers'; color: var(--ticket); }
+        .btn { background: linear-gradient(135deg, var(--ticket), #ff85ac); color: #fff; border: none; padding: 15px 35px; font-family: 'Bangers'; font-size: 1.2rem; cursor: pointer; border-radius: 25px; box-shadow: 0 5px 20px rgba(255,107,157,0.4); transition: all 0.2s; letter-spacing: 2px; }
+        .btn:hover { transform: scale(1.05); }
+        .btn.enter { background: linear-gradient(135deg, var(--screen), #0099cc); }
+        .controls { display: flex; gap: 15px; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; color: var(--popcorn); font-family: 'Bangers'; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: linear-gradient(135deg, #3a1a5e, #1a0a2e); padding: 40px; border: 4px solid var(--ticket); max-width: 500px; text-align: center; border-radius: 30px; }
+        .dialog h2 { color: var(--ticket); font-family: 'Bangers'; font-size: 2.5rem; margin: 0 0 20px 0; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🎬 Movie Theater</h1>
+    <div style="color:var(--popcorn)">TICKET LINE</div>
+</header>
+<main>
+    <div class="theater">
+        <div class="ticket-booth">
+            <div class="booth-sign">🎫 TICKET BOOTH</div>
+            <div class="ticket-queue" id="queue"></div>
+        </div>
+        <div class="screen-area">
+            <div class="screen"><div class="screen-text">NOW SHOWING</div></div>
+            <div class="seats" id="seats"></div>
+        </div>
+        <div class="concession">
+            <div class="concession-sign">🍿 SNACKS</div>
+            <div class="snacks">
+                <div class="snack">🍿</div>
+                <div class="snack">🥤</div>
+                <div class="snack">🍫</div>
+                <div class="snack">🍭</div>
+            </div>
+        </div>
+    </div>
+    <div class="stats">
+        <div class="stat-box"><div class="stat-label">In Line</div><div class="stat-value" id="inLine">0</div></div>
+        <div class="stat-box"><div class="stat-label">Seated</div><div class="stat-value" id="seated">0/20</div></div>
+    </div>
+    <div id="status">Join the ticket line!</div>
+    <div class="controls">
+        <button class="btn" onclick="game.joinLine()">🎫 JOIN LINE</button>
+        <button class="btn enter" onclick="game.sellTicket()">✅ SELL TICKET</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🎬 Movie Theater</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--popcorn)">MOVIE QUEUE!</b></p>
+            <ul>
+                <li>🎫 Join the ticket line</li>
+                <li>📋 First in line = first served</li>
+                <li>💺 Fill seats in order</li>
+                <li>🎬 Enjoy the show!</li>
+            </ul>
+        </div>
+        <button class="btn" onclick="game.start()">🎬 OPEN THEATER!</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.queue = []; this.seated = 0; this.maxSeats = 20;
+        this.people = ['👨','👩','👦','👧','🧑','👴','👵'];
+        this.ui = { queue: document.getElementById('queue'), seats: document.getElementById('seats'), inLine: document.getElementById('inLine'), seated: document.getElementById('seated'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.initSeats(); for(let i=0;i<4;i++) this.joinLine(); }
+    initSeats() {
+        this.ui.seats.innerHTML = '';
+        for (let i = 0; i < this.maxSeats; i++) {
+            const seat = document.createElement('div');
+            seat.className = 'seat';
+            seat.id = 'seat' + i;
+            this.ui.seats.appendChild(seat);
+        }
+    }
+    joinLine() {
+        const p = { emoji: this.people[Math.floor(Math.random() * this.people.length)] };
+        this.queue.push(p);
+        this.ui.status.textContent = `${p.emoji} joined the line!`;
+        this.render();
+    }
+    sellTicket() {
+        if (this.queue.length === 0) { this.ui.status.textContent = '⚠️ No one in line!'; return; }
+        if (this.seated >= this.maxSeats) { this.ui.status.textContent = '⚠️ Theater full!'; return; }
+        const p = this.queue.shift();
+        document.getElementById('seat' + this.seated).classList.add('filled');
+        this.seated++;
+        this.ui.status.textContent = `${p.emoji} got a ticket and took seat ${this.seated}!`;
+        this.render();
+    }
+    render() {
+        this.ui.queue.innerHTML = '';
+        this.queue.forEach((p, i) => {
+            const el = document.createElement('div');
+            el.className = 'person' + (i === 0 ? ' first' : '');
+            el.innerHTML = `<span>${p.emoji}</span><span>Waiting...</span>`;
+            this.ui.queue.appendChild(el);
+        });
+        this.ui.inLine.textContent = this.queue.length;
+        this.ui.seated.textContent = `${this.seated}/${this.maxSeats}`;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

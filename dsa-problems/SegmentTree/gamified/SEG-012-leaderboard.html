@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEG-012: Leaderboard Live</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --bar: #e94560; --text: #fff; --panel: #16213e; --hl: #0f3460; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        header { width: 100%; padding: 15px; border-bottom: 3px solid var(--bar); text-align: center; background: rgba(0,0,0,0.5); }
+        h1 { margin: 0; font-family: 'Press Start 2P', cursive; color: var(--bar); font-size: 1.5rem; }
+
+        main { flex: 1; width: 100%; max-width: 900px; display: flex; flex-direction: column; padding: 20px; gap: 20px; }
+
+        .leaderboard {
+            display: flex; flex-direction: column; gap: 5px; background: var(--panel); padding: 20px; border-radius: 10px; border: 2px solid var(--hl);
+        }
+
+        .player-row {
+            display: flex; align-items: center; gap: 10px; height: 40px;
+            background: rgba(0,0,0,0.2); border-radius: 5px; padding: 0 10px;
+            position: relative; overflow: hidden;
+        }
+        .player-row:nth-child(even) { background: rgba(255,255,255,0.05); }
+
+        .p-idx { font-family: 'Press Start 2P'; font-size: 0.8rem; color: #888; width: 30px; }
+        .p-score-bar { height: 100%; background: linear-gradient(90deg, #e94560, #ff2e63); width: 0; transition: width 0.5s; position: absolute; left: 0; top:0; z-index: 0; opacity: 0.3; }
+        .p-name { z-index: 1; width: 100px; font-weight: bold; }
+        .p-score { z-index: 1; font-family: 'Press Start 2P'; font-size: 0.8rem; margin-left: auto; }
+
+        .controls {
+            display: flex; gap: 15px; padding: 15px; background: var(--panel); border-radius: 10px; align-items: center;
+        }
+        .btn { padding: 10px 15px; font-family: 'Press Start 2P'; font-size: 0.7rem; background: var(--bar); color: #fff; border: none; cursor: pointer; border-radius: 3px; }
+        .btn:hover { filter: brightness(1.2); }
+        input { background: #0f3460; border: 1px solid #e94560; color: #fff; padding: 5px; width: 60px; text-align: center; font-family: 'Press Start 2P'; font-size: 0.7rem; }
+
+        #res { font-family: 'Press Start 2P'; font-size: 0.8rem; color: #e94560; min-height: 20px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>SEG-012 LEADERBOARD LIVE</h1>
+    <div style="font-size:0.8rem; margin-top:5px;">RANGE ADD & K-th RANK QUERY</div>
+</header>
+<main>
+    <div class="leaderboard" id="lb"></div>
+
+    <div class="controls">
+        <div style="display:flex; flex-direction:column; gap:5px;">
+            <label>Bonus Points (Range Add):</label>
+            <div style="display:flex; gap:5px;">
+                <input type="number" id="L" placeholder="L" min="0" max="9">
+                <input type="number" id="R" placeholder="R" min="0" max="9">
+                <input type="number" id="pts" placeholder="Pts" value="50">
+                <button class="btn" onclick="game.addPoints()">GIVE BONUS</button>
+            </div>
+        </div>
+        <div style="width:2px; background:#333;"></div>
+        <div style="display:flex; flex-direction:column; gap:5px;">
+            <label>Find Score at Rank K:</label>
+            <div style="display:flex; gap:5px;">
+                <input type="number" id="K" placeholder="K" min="1" max="10">
+                <button class="btn" onclick="game.findKth()">QUERY K-TH</button>
+            </div>
+        </div>
+    </div>
+    <div id="res"></div>
+</main>
+<script>
+class Game {
+    constructor() {
+        this.n = 10;
+        this.players = [
+            {name: "CyberNinja", score: 1200},
+            {name: "PixelMage", score: 1500},
+            {name: "BitLord", score: 800},
+            {name: "CodeX", score: 2000},
+            {name: "NullPtr", score: 1100},
+            {name: "StackOverflow", score: 1300},
+            {name: "Glitch", score: 950},
+            {name: "BugHunter", score: 1700},
+            {name: "DevOps", score: 1400},
+            {name: "SysAdmin", score: 1600}
+        ];
+        this.ui = { lb: document.getElementById('lb'), res: document.getElementById('res') };
+        this.render();
+    }
+
+    render() {
+        this.ui.lb.innerHTML = '';
+        let maxS = Math.max(...this.players.map(p => p.score), 2500);
+        
+        this.players.forEach((p, i) => {
+            let row = document.createElement('div');
+            row.className = 'player-row';
+            row.innerHTML = `
+                <div class="p-idx">${i}</div>
+                <div class="p-score-bar" style="width:${(p.score/maxS)*100}%"></div>
+                <div class="p-name">${p.name}</div>
+                <div class="p-score">${p.score}</div>
+            `;
+            this.ui.lb.appendChild(row);
+        });
+    }
+
+    addPoints() {
+        let l = parseInt(document.getElementById('L').value);
+        let r = parseInt(document.getElementById('R').value);
+        let pts = parseInt(document.getElementById('pts').value);
+
+        if(isNaN(l) || isNaN(r) || l>r || l<0 || r>=this.n) return;
+
+        // Range Update
+        for(let i=l; i<=r; i++) {
+            this.players[i].score += pts;
+        }
+        this.render();
+        this.ui.res.innerText = `Added ${pts} to players ${l}-${r}`;
+    }
+
+    findKth() {
+        let k = parseInt(document.getElementById('K').value);
+        if(isNaN(k) || k<1 || k>this.n) return;
+
+        // Find K-th globally (simple sort for game, real SEG tree is complex)
+        // Problem implies finding K-th smallest/largest? Typically K-th order statistic.
+        // Let's assume K-th Highest Score (Rank K).
+        
+        let sorted = [...this.players].sort((a,b) => b.score - a.score);
+        let target = sorted[k-1];
+        
+        this.ui.res.innerHTML = `Rank ${k} Player: <span style="color:#fff">${target.name}</span> (${target.score})`;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEP-009: Market Oracle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0a1a; --up: #00ff00; --down: #ff0000; --median: #ffd700; --panel: #0f1a2e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--median); }
+        h1 { margin: 0; font-family: 'Audiowide', cursive; color: var(--median); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--median); }
+        .instructions b { color: var(--median); }
+        .ticker { display: flex; gap: 10px; padding: 15px 25px; background: #000; border-radius: 10px; overflow: hidden; }
+        .price { padding: 8px 15px; border-radius: 5px; font-weight: bold; animation: slide 0.3s; }
+        .price.up { background: var(--up); color: #000; }
+        .price.down { background: var(--down); color: #fff; }
+        @keyframes slide { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:translateX(0)} }
+        .oracle-display { text-align: center; padding: 30px; background: linear-gradient(135deg, var(--up), var(--median), var(--down)); border-radius: 50%; width: 180px; height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .oracle-label { font-size: 0.9rem; color: rgba(0,0,0,0.7); }
+        .oracle-value { font-size: 3rem; font-family: 'Audiowide'; color: #000; }
+        .heaps-row { display: flex; gap: 30px; }
+        .heap-box { background: var(--panel); padding: 15px; border-radius: 10px; text-align: center; min-width: 150px; }
+        .heap-label { margin-bottom: 10px; font-size: 0.9rem; }
+        .heap-label.max { color: var(--up); }
+        .heap-label.min { color: var(--down); }
+        .heap-nodes { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; }
+        .heap-node { padding: 5px 10px; border-radius: 5px; font-size: 0.8rem; }
+        .heap-node.max { background: var(--up); color: #000; }
+        .heap-node.min { background: var(--down); color: #fff; }
+        .add-controls { display: flex; gap: 15px; align-items: center; padding: 15px; background: var(--panel); border-radius: 10px; }
+        .add-controls input { width: 80px; height: 40px; font-size: 1.2rem; text-align: center; background: #000; border: 2px solid var(--median); color: var(--median); border-radius: 5px; }
+        .btn { background: var(--median); color: #000; border: none; padding: 12px 25px; font-family: 'Audiowide'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ffe033; }
+        .btn.secondary { background: transparent; border: 2px solid #333; color: #888; font-family: 'Space Mono'; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #1a2a3e; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #1a2a3e; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--median); }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--median); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--median); font-family: 'Audiowide'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>📈 MARKET ORACLE</h1>
+    <div style="color:#888">DYNAMIC MEDIAN</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 TRACK THE MEDIAN:</b> Add stock prices and watch the median update in real-time! Two heaps keep it balanced.
+    </div>
+    <div style="color:var(--median);">PRICE TICKER:</div>
+    <div class="ticker" id="ticker"></div>
+    <div class="oracle-display">
+        <div class="oracle-label">MEDIAN PRICE</div>
+        <div class="oracle-value" id="median">-</div>
+    </div>
+    <div class="heaps-row">
+        <div class="heap-box">
+            <div class="heap-label max">↓ LOWER HALF (MAX)</div>
+            <div class="heap-nodes" id="maxHeap"></div>
+        </div>
+        <div class="heap-box">
+            <div class="heap-label min">↑ UPPER HALF (MIN)</div>
+            <div class="heap-nodes" id="minHeap"></div>
+        </div>
+    </div>
+    <div class="add-controls">
+        <span>Add price: $</span>
+        <input type="number" id="priceInput" value="50" min="1" max="999">
+        <button class="btn" onclick="game.addPrice()">ADD</button>
+        <button class="btn secondary" onclick="game.addRandom()">RANDOM</button>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Total Prices</span><span class="stat-value" id="count">0</span></div>
+        </div>
+    </div>
+    <div id="status">Add prices to track the median!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>📈 MARKET ORACLE</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--median)">CONCEPT:</b> Streaming Median with Two Heaps!</p>
+            <ul>
+                <li><b>Max-heap:</b> lower half of prices</li>
+                <li><b>Min-heap:</b> upper half of prices</li>
+                <li>Median = max-top or avg of both tops</li>
+                <li>O(log n) insert, O(1) median query</li>
+            </ul>
+            <p style="color:#888">Used in real-time analytics!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START TRADING</button>
+    </div>
+</div>
+<script>
+class MaxHeap { constructor() { this.h = []; } push(v) { this.h.push(v); this.h.sort((a,b)=>b-a); } pop() { return this.h.shift(); } peek() { return this.h[0]; } size() { return this.h.length; } arr() { return this.h; } }
+class MinHeap { constructor() { this.h = []; } push(v) { this.h.push(v); this.h.sort((a,b)=>a-b); } pop() { return this.h.shift(); } peek() { return this.h[0]; } size() { return this.h.length; } arr() { return this.h; } }
+class Game {
+    constructor() {
+        this.maxHeap = new MaxHeap(); this.minHeap = new MinHeap(); this.prices = [];
+        this.ui = { ticker: document.getElementById('ticker'), median: document.getElementById('median'), maxHeap: document.getElementById('maxHeap'), minHeap: document.getElementById('minHeap'), input: document.getElementById('priceInput'), count: document.getElementById('count'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.reset(); }
+    reset() { this.maxHeap = new MaxHeap(); this.minHeap = new MinHeap(); this.prices = []; this.render(); }
+    addPrice() { const p = parseInt(this.ui.input.value); if (p > 0) this.insert(p); }
+    addRandom() { this.insert(Math.floor(Math.random() * 200) + 10); }
+    insert(price) {
+        this.prices.push(price);
+        // Add to appropriate heap
+        if (this.maxHeap.size() === 0 || price <= this.maxHeap.peek()) this.maxHeap.push(price);
+        else this.minHeap.push(price);
+        // Rebalance
+        if (this.maxHeap.size() > this.minHeap.size() + 1) this.minHeap.push(this.maxHeap.pop());
+        else if (this.minHeap.size() > this.maxHeap.size()) this.maxHeap.push(this.minHeap.pop());
+        const lastPrice = this.prices.length > 1 ? this.prices[this.prices.length - 2] : price;
+        const direction = price >= lastPrice ? 'up' : 'down';
+        this.ui.status.textContent = `Added $${price} (${direction === 'up' ? '📈' : '📉'})`;
+        this.render(direction);
+    }
+    getMedian() {
+        if (this.maxHeap.size() === 0) return '-';
+        if (this.maxHeap.size() > this.minHeap.size()) return this.maxHeap.peek();
+        return ((this.maxHeap.peek() + this.minHeap.peek()) / 2).toFixed(1);
+    }
+    render(dir = 'up') {
+        this.ui.ticker.innerHTML = '';
+        this.prices.slice(-8).forEach((p, i) => {
+            const el = document.createElement('div');
+            el.className = 'price ' + (i === this.prices.slice(-8).length - 1 ? dir : 'up');
+            el.textContent = '$' + p;
+            this.ui.ticker.appendChild(el);
+        });
+        this.ui.median.textContent = '$' + this.getMedian();
+        this.ui.maxHeap.innerHTML = '';
+        this.maxHeap.arr().forEach(v => {
+            const node = document.createElement('div');
+            node.className = 'heap-node max';
+            node.textContent = v;
+            this.ui.maxHeap.appendChild(node);
+        });
+        this.ui.minHeap.innerHTML = '';
+        this.minHeap.arr().forEach(v => {
+            const node = document.createElement('div');
+            node.className = 'heap-node min';
+            node.textContent = v;
+            this.ui.minHeap.appendChild(node);
+        });
+        this.ui.count.textContent = this.prices.length;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

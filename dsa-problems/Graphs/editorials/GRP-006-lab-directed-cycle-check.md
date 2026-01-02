@@ -97,6 +97,25 @@ Maintain three states:
 3. **Completely processed (black):** Finished exploring
 
 A back edge (to a gray node) indicates a cycle.
+The recursion stack is a trail marker, it shows when you loop back.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with directed graph] --> B[Init visited and rec stack]
+    B --> C[For each node]
+    C --> D{Node unvisited?}
+    D -- Yes --> E[DFS visit]
+    E --> F[Mark in rec stack]
+    F --> G[Explore neighbors]
+    G --> H{Neighbor in rec stack?}
+    H -- Yes --> I[Cycle found]
+    H -- No --> G
+    G --> J[Remove from rec stack]
+    J --> C
+    D -- No --> C
+    C --> K[Return result]
+```
 
 ## Optimal Approach
 

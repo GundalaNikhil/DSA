@@ -75,6 +75,15 @@ Imagine you are a **Librarian** organizing a shelf of books numbered 1 to N.
 -   Calculate reduction for these candidates.
 -   Return `I - max_reduction`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Compute initial inversions] --> B[Pick candidate indices]
+B --> C[Evaluate swap reductions]
+C --> D[Choose best swap]
+D --> E[Output minimum inversions]
+```
+
 ## Implementations
 
 ### Java

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-001: Prefix Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1e272e;
+            --text: #d2dae2;
+            --accent: #0be881;
+            --match: #ffc312;
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+
+        h1 { color: var(--accent); margin-top: 2rem; }
+
+        .string-display {
+            display: flex;
+            gap: 5px;
+            margin-top: 3rem;
+            font-size: 2rem;
+        }
+
+        .char-box {
+            width: 50px;
+            height: 60px;
+            background: #2f3640;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #485460;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .char-box .idx {
+            position: absolute;
+            bottom: -25px;
+            font-size: 0.8rem;
+            color: #808e9b;
+        }
+
+        .pi-display {
+            display: flex;
+            gap: 5px;
+            margin-top: 3rem;
+        }
+
+        .pi-box {
+            width: 50px;
+            height: 50px;
+            background: #485460;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .pi-box:hover { background: #596775; }
+        .pi-box.active { background: var(--accent); color: #000; }
+        .pi-box.correct { background: var(--match); color: #000; }
+        .pi-box.wrong { background: #ea2027; animation: shake 0.3s; }
+
+        @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
+
+        .hint-area {
+            margin-top: 3rem;
+            padding: 20px;
+            background: #2f3640;
+            border-radius: 10px;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .highlight-prefix { background: var(--accent); color: #000; }
+        .highlight-suffix { background: var(--match); color: #000; }
+
+        .num-pad {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin-top: 2rem;
+        }
+
+        .num-btn {
+            width: 50px; height: 50px;
+            background: #485460;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .num-btn:hover { background: #596775; }
+
+        .status { margin-top: 1rem; min-height: 1.5em; color: #808e9b; }
+
+    </style>
+</head>
+<body>
+
+<h1>PREFIX BUILDER (KMP)</h1>
+<div style="color:#808e9b">For each position, find the longest proper prefix = suffix.</div>
+
+<div class="string-display" id="strDisplay"></div>
+<div class="pi-display" id="piDisplay"></div>
+
+<div class="hint-area" id="hint">Click a π[i] cell to guess its value</div>
+
+<div class="num-pad" id="numPad">
+    <button class="num-btn" onclick="guess(0)">0</button>
+    <button class="num-btn" onclick="guess(1)">1</button>
+    <button class="num-btn" onclick="guess(2)">2</button>
+    <button class="num-btn" onclick="guess(3)">3</button>
+    <button class="num-btn" onclick="guess(4)">4</button>
+</div>
+
+<div class="status" id="status">Score: <span id="score">0</span> / <span id="total">?</span></div>
+
+<button style="margin-top:20px; padding:10px 20px; background:var(--accent); border:none; color:#000; font-family:inherit; cursor:pointer; border-radius:5px" onclick="init()">New String</button>
+
+<script>
+    const STRINGS = ["ababa", "aabaa", "aabaab", "abcabc", "abcab"];
+    let str = "";
+    let piSolution = [];
+    let selectedIdx = -1;
+    let solved = new Set();
+
+    function computePi(s) {
+        const n = s.length;
+        const pi = Array(n).fill(0);
+        for (let i = 1; i < n; i++) {
+            let j = pi[i - 1];
+            while (j > 0 && s[i] !== s[j]) j = pi[j - 1];
+            if (s[i] === s[j]) j++;
+            pi[i] = j;
+        }
+        return pi;
+    }
+
+    function init() {
+        str = STRINGS[Math.floor(Math.random() * STRINGS.length)];
+        piSolution = computePi(str);
+        solved.clear();
+        selectedIdx = -1;
+        render();
+        document.getElementById('total').textContent = str.length;
+        document.getElementById('score').textContent = 0;
+    }
+
+    function render() {
+        const strDiv = document.getElementById('strDisplay');
+        const piDiv = document.getElementById('piDisplay');
+        strDiv.innerHTML = '';
+        piDiv.innerHTML = '';
+
+        for (let i = 0; i < str.length; i++) {
+            const box = document.createElement('div');
+            box.className = 'char-box';
+            box.textContent = str[i];
+            box.innerHTML += `<span class="idx">${i}</span>`;
+            box.id = `char-${i}`;
+            strDiv.appendChild(box);
+
+            const piBox = document.createElement('div');
+            piBox.className = 'pi-box';
+            if (solved.has(i)) {
+                piBox.classList.add('correct');
+                piBox.textContent = piSolution[i];
+            } else {
+                piBox.textContent = '?';
+                if (selectedIdx === i) piBox.classList.add('active');
+                piBox.onclick = () => selectPi(i);
+            }
+            piDiv.appendChild(piBox);
+        }
+    }
+
+    function selectPi(i) {
+        if (solved.has(i)) return;
+        selectedIdx = i;
+        render();
+        showHint(i);
+    }
+
+    function showHint(i) {
+        // Highlight prefix and suffix of length piSolution[i] if known
+        // For hints, let's show the substring s[0..i]
+        const sub = str.substring(0, i + 1);
+        document.getElementById('hint').innerHTML = `Substring: <strong>${sub}</strong><br>Find longest proper prefix = suffix.`;
+    }
+
+    function guess(val) {
+        if (selectedIdx === -1) return;
+        
+        const correct = piSolution[selectedIdx];
+        const piBoxes = document.querySelectorAll('.pi-box');
+        
+        if (val === correct) {
+            solved.add(selectedIdx);
+            document.getElementById('score').textContent = solved.size;
+            piBoxes[selectedIdx].classList.add('correct');
+            piBoxes[selectedIdx].textContent = val;
+            selectedIdx = -1;
+            render();
+            if (solved.size === str.length) {
+                document.getElementById('hint').innerHTML = '<strong style="color:#0be881">ALL CORRECT!</strong>';
+            }
+        } else {
+            piBoxes[selectedIdx].classList.add('wrong');
+            setTimeout(() => piBoxes[selectedIdx].classList.remove('wrong'), 300);
+        }
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

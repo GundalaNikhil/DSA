@@ -1,222 +1,52 @@
----
-problem_id: GMT_DIVISOR_TURN__6832
+problem_id: GMT_DIVISOR_TURN_GAME_006
 display_id: GMT-006
 slug: divisor-turn-game
-title: "Divisor Turn Game - Quiz"
----
-
-# Problem-Related Questions (PRQ)
-
-problem_questions:
-  - quiz_id: "PRQ-GMT-006-Q001"
-    category: "problem"
-    type: single_choice
-    question: "If n=5, who wins?"
-    options:
-      - option_id: "A"
-        text: "First"
-        correct: false
-      - option_id: "B"
-        text: "Second"
-        correct: true
-      - option_id: "C"
-        text: "Draw"
-        correct: false
-      - option_id: "D"
-        text: "Unknown"
-        correct: false
-    explanation: "5 is prime. No proper divisors > 1. First player has no moves and loses."
+questions:
+  - question: If n=5, who wins?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-GMT-006-Q002"
-    category: "problem"
-    type: single_choice
-    question: "What are the valid moves from n=12?"
     options:
-      - option_id: "A"
-        text: "1, 2, 3, 4, 6"
-        correct: false
-      - option_id: "B"
-        text: "2, 3, 4, 6"
-        correct: true
-      - option_id: "C"
-        text: "2, 3, 4, 6, 12"
-        correct: false
-      - option_id: "D"
-        text: "1, 12"
-        correct: false
-    explanation: "Proper divisors > 1. 1 is not > 1. 12 is not proper. So 2, 3, 4, 6."
+      - First
+      - Second
+      - Draw
+      - Unknown
+    correct_answer: 1
+    explanation: 5 is prime. No proper divisors > 1. First player has no moves and loses.
+    type: single_choice
+    id: prq_1
+  - question: What are the valid moves from n=12?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-GMT-006-Q003"
-    category: "problem"
-    type: multiple_choice
-    question: "Which numbers are Losing positions?"
     options:
-      - option_id: "A"
-        text: "Primes"
-        correct: true
-      - option_id: "B"
-        text: "Powers of primes"
-        correct: false
-      - option_id: "C"
-        text: "Square of a prime (e.g., 4, 9, 25)"
-        correct: false
-      - option_id: "D"
-        text: "Numbers with no proper divisors > 1"
-        correct: true
-    explanation: "Primes have no proper divisors > 1, so they are losing. Squares of primes (like 4) can move to the prime (2), which is losing, so squares are Winning."
+      - 1, 2, 3, 4, 6
+      - 2, 3, 4, 6
+      - 2, 3, 4, 6, 12
+      - 1, 12
+    correct_answer: 1
+    explanation: Proper divisors > 1. 1 is not > 1. 12 is not proper. So 2, 3, 4, 6.
+    type: single_choice
+    id: edq_1
+  - question: Which numbers are Losing positions?
     difficulty: medium
     points: 15
-
-  - quiz_id: "PRQ-GMT-006-Q004"
-    category: "problem"
-    type: single_choice
-    question: "Is the game guaranteed to end?"
     options:
-      - option_id: "A"
-        text: "Yes, numbers strictly decrease."
-        correct: true
-      - option_id: "B"
-        text: "No, cycles are possible."
-        correct: false
-      - option_id: "C"
-        text: "Only for small n."
-        correct: false
-      - option_id: "D"
-        text: "Depends on players."
-        correct: false
-    explanation: "Replacing n with a proper divisor always reduces the value. It must reach a prime eventually."
+      - Primes
+      - Powers of primes
+      - Square of a prime (e.g., 4, 9, 25)
+      - Numbers with no proper divisors > 1
+    correct_answer: 3
+    explanation: Primes have no proper divisors > 1, so they are losing. Squares of primes (like 4) can move to the prime (2), which is losing, so squares are Winning.
+    type: single_choice
+    id: edq_2
+  - question: Is the game guaranteed to end?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-GMT-006-Q005"
-    category: "problem"
+    options:
+      - Yes, numbers strictly decrease.
+      - No, cycles are possible.
+      - Only for small n.
+      - Depends on players.
+    correct_answer: 0
+    explanation: Replacing n with a proper divisor always reduces the value. It must reach a prime eventually.
     type: single_choice
-    question: "If n=4, who wins?"
-    options:
-      - option_id: "A"
-        text: "First"
-        correct: true
-      - option_id: "B"
-        text: "Second"
-        correct: false
-      - option_id: "C"
-        text: "Draw"
-        correct: false
-      - option_id: "D"
-        text: "Unknown"
-        correct: false
-    explanation: "4 -> 2. 2 is prime (Losing). So 4 is Winning."
-    difficulty: easy
-    points: 10
-
-# Editorial/Algorithm Questions (EDQ)
-
-editorial_questions:
-  - quiz_id: "EDQ-GMT-006-Q001"
-    category: "editorial"
-    type: single_choice
-    question: "What is the time complexity to find all divisors of n?"
-    options:
-      - option_id: "A"
-        text: "O(N)"
-        correct: false
-      - option_id: "B"
-        text: "O(log N)"
-        correct: false
-      - option_id: "C"
-        text: "O(sqrt(N))"
-        correct: true
-      - option_id: "D"
-        text: "O(1)"
-        correct: false
-    explanation: "Trial division up to sqrt(N)."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-GMT-006-Q002"
-    category: "editorial"
-    type: single_choice
-    question: "Why is memoization useful here?"
-    options:
-      - option_id: "A"
-        text: "Because many numbers share the same divisors."
-        correct: true
-      - option_id: "B"
-        text: "It isn't useful."
-        correct: false
-      - option_id: "C"
-        text: "Because the recursion depth is infinite."
-        correct: false
-      - option_id: "D"
-        text: "To sort the numbers."
-        correct: false
-    explanation: "Different paths can reach the same divisor (e.g., 12->6->2 and 12->4->2). Memoization avoids recomputing."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-GMT-006-Q003"
-    category: "editorial"
-    type: scenario
-    question: "You are at 12. You can move to 2, 3, 4, 6. Which move guarantees a win?"
-    options:
-      - option_id: "A"
-        text: "Move to 6"
-        correct: false
-      - option_id: "B"
-        text: "Move to 4"
-        correct: false
-      - option_id: "C"
-        text: "Move to 2"
-        correct: true
-      - option_id: "D"
-        text: "Move to 3"
-        correct: true
-    explanation: "2 and 3 are primes (Losing). Moving to a Losing state makes you Win. 4 and 6 are Winning states (they can move to primes)."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-GMT-006-Q004"
-    category: "editorial"
-    type: single_choice
-    question: "What structure does the game form?"
-    options:
-      - option_id: "A"
-        text: "A Cycle"
-        correct: false
-      - option_id: "B"
-        text: "A Tree"
-        correct: false
-      - option_id: "C"
-        text: "A DAG (Directed Acyclic Graph)"
-        correct: true
-      - option_id: "D"
-        text: "A Complete Graph"
-        correct: false
-    explanation: "The divisor relationship forms a lattice, which is a DAG."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-GMT-006-Q005"
-    category: "editorial"
-    type: single_choice
-    question: "If n is the square of a prime (p^2), what is the outcome?"
-    options:
-      - option_id: "A"
-        text: "First wins"
-        correct: true
-      - option_id: "B"
-        text: "Second wins"
-        correct: false
-      - option_id: "C"
-        text: "Draw"
-        correct: false
-      - option_id: "D"
-        text: "Depends on p"
-        correct: false
-    explanation: "The only proper divisor > 1 is p. p is prime (Losing). So p^2 moves to p (Losing) -> Win."
-    difficulty: hard
-    points: 20
+    id: edq_3

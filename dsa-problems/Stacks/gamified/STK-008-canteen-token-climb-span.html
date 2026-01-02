@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STK-008: Mountain Span</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rock+Salt&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #b2bec3;
+            --sky: #dfe6e9;
+            --mountain: #2d3436;
+            --span-hl: #0984e3;
+        }
+
+        body {
+            font-family: 'Rock Salt', cursive;
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+
+        h1 { margin-top: 2rem; color: #2d3436; }
+
+        .range {
+            display: flex;
+            align-items: flex-end;
+            gap: 5px;
+            height: 400px;
+            margin-top: 3rem;
+            padding-bottom: 2px;
+            border-bottom: 4px solid #000;
+        }
+
+        .peak {
+            width: 40px;
+            background: var(--mountain);
+            position: relative;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .peak:hover { opacity: 0.8; }
+        
+        .peak.selected { background: #d63031; }
+        .peak.span-range { background: var(--span-hl); }
+
+        .controls { text-align: center; margin-top: 2rem; }
+        .msg { font-size: 1.2rem; min-height: 1.5em; }
+
+    </style>
+</head>
+<body>
+
+<h1>MOUNTAIN SPAN</h1>
+<div style="font-size:0.8rem">Click a peak to see how far back its dominance spans.</div>
+
+<div class="range" id="range">
+    <!-- Peaks -->
+</div>
+
+<div class="controls">
+    <div class="msg" id="msg">Select a peak...</div>
+    <div id="spanVal" style="font-size:2rem; font-weight:bold; height:50px"></div>
+</div>
+
+<button style="margin-top:20px; font-family:inherit; cursor:pointer; padding:10px" onclick="init()">RESET TERRAIN</button>
+
+<script>
+    const N = 15;
+    let heights = [];
+    
+    function init() {
+        const r = document.getElementById('range');
+        r.innerHTML = '';
+        heights = [];
+        
+        for(let i=0; i<N; i++) {
+            const h = 50 + Math.floor(Math.random()*300);
+            heights.push(h);
+            
+            const el = document.createElement('div');
+            el.className = 'peak';
+            el.style.height = h + 'px';
+            el.onclick = () => showSpan(i);
+            el.id = `peak-${i}`;
+            r.appendChild(el);
+        }
+        
+        document.getElementById('spanVal').textContent = '';
+        document.getElementById('msg').textContent = "Select a peak...";
+    }
+
+    function showSpan(idx) {
+        // Clear old visual
+        document.querySelectorAll('.peak').forEach(e => {
+            e.classList.remove('selected');
+            e.classList.remove('span-range');
+        });
+
+        const h = heights[idx];
+        document.getElementById(`peak-${idx}`).classList.add('selected');
+        
+        // Calculate Span: consecutive days <= current height proceeding backwards
+        let span = 1;
+        let left = idx - 1;
+        
+        while (left >= 0 && heights[left] <= h) {
+            document.getElementById(`peak-${left}`).classList.add('span-range');
+            span++;
+            left--;
+        }
+
+        document.getElementById('msg').textContent = `Dominates previous ${span-1} lower peaks (+ itself)`;
+        document.getElementById('spanVal').textContent = `SPAN: ${span}`;
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

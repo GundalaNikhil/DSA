@@ -1,326 +1,52 @@
----
-problem_id: BIT_SWAP_ADJACENT_2BIT_BLOCKS__8415
+problem_id: BIT_SWAP_ADJACENT_2BIT_BLOCKS_015
 display_id: BIT-015
 slug: swap-adjacent-2bit-blocks
-title: "Swap Adjacent 2-Bit Blocks - Quiz"
----
-# Problem-Related Questions (PRQ)
-
-problem_questions:
-  - quiz_id: "PRQ-BIT-015-Q001"
-    category: "problem"
-    type: single_choice
-    question: "How many 2-bit blocks are there in a 32-bit integer?"
-    options:
-      - option_id: "A"
-        text: "8"
-        correct: false
-      - option_id: "B"
-        text: "16"
-        correct: true
-      - option_id: "C"
-        text: "32"
-        correct: false
-      - option_id: "D"
-        text: "64"
-        correct: false
-    explanation: "A 32-bit integer has 32 bits total. Since each block is 2 bits, we have 32 ÷ 2 = 16 blocks (numbered 0 through 15 from right to left)."
+questions:
+  - question: How many 2-bit blocks are there in a 32-bit integer?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-BIT-015-Q002"
-    category: "problem"
-    type: single_choice
-    question: "For input x = 6 (binary: 0110), what is the output after swapping adjacent 2-bit blocks?"
     options:
-      - option_id: "A"
-        text: "6"
-        correct: false
-      - option_id: "B"
-        text: "9"
-        correct: true
-      - option_id: "C"
-        text: "12"
-        correct: false
-      - option_id: "D"
-        text: "3"
-        correct: false
+      - "8"
+      - "16"
+      - "32"
+      - "64"
+    correct_answer: 1
+    explanation: A 32-bit integer has 32 bits total. Since each block is 2 bits, we have 32 ÷ 2 = 16 blocks (numbered 0 through 15 from right to left).
+    type: single_choice
+    id: prq_1
+  - question: "For input x = 6 (binary: 0110), what is the output after swapping adjacent 2-bit blocks?"
+    difficulty: easy
+    points: 10
+    options:
+      - "6"
+      - "9"
+      - "12"
+      - "3"
+    correct_answer: 1
     explanation: "Binary 0110 has blocks [01][10]. After swapping: [10][01] = 1001 = 9 in decimal."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "PRQ-BIT-015-Q003"
-    category: "problem"
     type: single_choice
-    question: "Which input values remain unchanged after the swap operation?"
+    id: edq_1
+  - question: Which input values remain unchanged after the swap operation?
+    difficulty: medium
+    points: 15
     options:
-      - option_id: "A"
-        text: "Only 0"
-        correct: false
-      - option_id: "B"
-        text: "Powers of 2"
-        correct: false
-      - option_id: "C"
-        text: "Numbers where all adjacent 2-bit blocks are identical"
-        correct: true
-      - option_id: "D"
-        text: "All even numbers"
-        correct: false
+      - Only 0
+      - Powers of 2
+      - Numbers where all adjacent 2-bit blocks are identical
+      - All even numbers
+    correct_answer: 2
     explanation: "If adjacent blocks are identical (like 00-00, 01-01, 10-10, or 11-11), swapping them produces the same result. Examples: 0 (all 00), 5 (0101), 15 (1111), 170 (10101010), 255 (11111111)."
+    type: single_choice
+    id: edq_2
+  - question: Which of the following statements are true about 2-bit block swapping? (Select all that apply)
     difficulty: medium
     points: 15
-
-  - quiz_id: "PRQ-BIT-015-Q004"
-    category: "problem"
-    type: multiple_choice
-    question: "Which of the following statements are true about 2-bit block swapping? (Select all that apply)"
     options:
-      - option_id: "A"
-        text: "The operation is reversible (swapping twice returns the original)"
-        correct: true
-      - option_id: "B"
-        text: "It changes the total number of set bits"
-        correct: false
-      - option_id: "C"
-        text: "Blocks at positions 0-1 swap with blocks at positions 2-3"
-        correct: true
-      - option_id: "D"
-        text: "The operation only affects the lower 16 bits"
-        correct: false
-    explanation: "The operation is reversible (A) because swapping twice returns blocks to original positions. Blocks 0-1 do swap with blocks 2-3 (C). It doesn't change set bit count (B is false) since we're just rearranging. It affects all 32 bits (D is false)."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "PRQ-BIT-015-Q005"
-    category: "problem"
+      - The operation is reversible (swapping twice returns the original)
+      - It changes the total number of set bits
+      - Blocks at positions 0-1 swap with blocks at positions 2-3
+      - The operation only affects the lower 16 bits
+    correct_answer: 2
+    explanation: The operation is reversible (A) because swapping twice returns blocks to original positions. Blocks 0-1 do swap with blocks 2-3 (C). It doesn't change set bit count (B is false) since we're just rearranging. It affects all 32 bits (D is false).
     type: single_choice
-    question: "What is the result of swapping adjacent 2-bit blocks for x = 1 (binary: 0001)?"
-    options:
-      - option_id: "A"
-        text: "1"
-        correct: false
-      - option_id: "B"
-        text: "2"
-        correct: false
-      - option_id: "C"
-        text: "4"
-        correct: true
-      - option_id: "D"
-        text: "8"
-        correct: false
-    explanation: "Binary 0001 has blocks [00][01]. After swapping: [01][00] = 0100 = 4 in decimal. The single 1 bit moves from position 0 to position 2."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "PRQ-BIT-015-Q006"
-    category: "problem"
-    type: single_choice
-    question: "If x has the pattern 11110000 (in the lower 8 bits), what pattern results after swapping?"
-    options:
-      - option_id: "A"
-        text: "11110000"
-        correct: false
-      - option_id: "B"
-        text: "00001111"
-        correct: false
-      - option_id: "C"
-        text: "11001100"
-        correct: false
-      - option_id: "D"
-        text: "11110000"
-        correct: true
-    explanation: "Breaking into 2-bit blocks: [11][11][00][00]. Swapping adjacent pairs: [11][11] → [11][11] (no change), [00][00] → [00][00] (no change). Result: 11110000 (unchanged because adjacent blocks are identical)."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "PRQ-BIT-015-Q007"
-    category: "problem"
-    type: single_choice
-    question: "What real-world application is mentioned for this bit manipulation technique?"
-    options:
-      - option_id: "A"
-        text: "Sorting algorithms"
-        correct: false
-      - option_id: "B"
-        text: "GPU texture format conversion"
-        correct: true
-      - option_id: "C"
-        text: "String matching"
-        correct: false
-      - option_id: "D"
-        text: "Graph traversal"
-        correct: false
-    explanation: "The problem mentions GPU texture compression and pixel format conversion as a real-world application, where color channels need to be reordered efficiently."
-    difficulty: easy
-    points: 10
-
-# Editorial/Algorithm Questions (EDQ)
-
-editorial_questions:
-  - quiz_id: "EDQ-BIT-015-Q001"
-    category: "editorial"
-    type: single_choice
-    question: "What is the time complexity of the optimal bit masking solution?"
-    options:
-      - option_id: "A"
-        text: "O(log n)"
-        correct: false
-      - option_id: "B"
-        text: "O(n)"
-        correct: false
-      - option_id: "C"
-        text: "O(1)"
-        correct: true
-      - option_id: "D"
-        text: "O(32)"
-        correct: false
-    explanation: "The optimal solution uses exactly 5 bitwise operations (2 AND, 2 shifts, 1 OR) regardless of input value, making it O(1) true constant time."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-BIT-015-Q002"
-    category: "editorial"
-    type: single_choice
-    question: "What is the hexadecimal value of the mask used to select bits at positions 0-1, 4-5, 8-9, etc.?"
-    options:
-      - option_id: "A"
-        text: "0x55555555"
-        correct: false
-      - option_id: "B"
-        text: "0x33333333"
-        correct: true
-      - option_id: "C"
-        text: "0xCCCCCCCC"
-        correct: false
-      - option_id: "D"
-        text: "0xAAAAAAAA"
-        correct: false
-    explanation: "0x33333333 in binary is 00110011 repeated, which selects alternating 2-bit blocks at positions 0-1, 4-5, 8-9, etc. (the 'odd' blocks in the swapping scheme)."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-BIT-015-Q003"
-    category: "editorial"
-    type: multiple_choice
-    question: "Which operations are used in the optimal solution? (Select all that apply)"
-    options:
-      - option_id: "A"
-        text: "Bitwise AND (&)"
-        correct: true
-      - option_id: "B"
-        text: "Left shift (<<)"
-        correct: true
-      - option_id: "C"
-        text: "Right shift (>>)"
-        correct: true
-      - option_id: "D"
-        text: "Bitwise XOR (^)"
-        correct: false
-    explanation: "The solution uses AND to apply masks, left shift to move one set of blocks, right shift to move the other set, and OR to combine. XOR is not needed."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-BIT-015-Q004"
-    category: "editorial"
-    type: single_choice
-    question: "Why do we need to use unsigned right shift (>>>) in Java/JavaScript?"
-    options:
-      - option_id: "A"
-        text: "For faster execution"
-        correct: false
-      - option_id: "B"
-        text: "To avoid sign extension for negative numbers"
-        correct: true
-      - option_id: "C"
-        text: "To handle larger numbers"
-        correct: false
-      - option_id: "D"
-        text: "It's not necessary, >> works fine"
-        correct: false
-    explanation: "In Java/JavaScript, >> is arithmetic shift that sign-extends. For bit manipulation, we need logical shift (>>>) that fills with zeros, avoiding incorrect results for inputs that might be interpreted as negative."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-BIT-015-Q005"
-    category: "editorial"
-    type: single_choice
-    question: "What is the key insight that makes the optimal solution work?"
-    options:
-      - option_id: "A"
-        text: "Processing blocks sequentially in a loop"
-        correct: false
-      - option_id: "B"
-        text: "Swapping all blocks in parallel using masks"
-        correct: true
-      - option_id: "C"
-        text: "Using recursion to divide and conquer"
-        correct: false
-      - option_id: "D"
-        text: "Storing intermediate results in an array"
-        correct: false
-    explanation: "The key insight is that we can swap ALL 16 pairs of blocks simultaneously using bit masks, rather than processing them one at a time. This is what makes the solution elegant and fast."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-BIT-015-Q006"
-    category: "editorial"
-    type: scenario
-    question: "You're optimizing texture processing for a GPU that handles 1 billion pixels per second. Each pixel needs its 2-bit color channels swapped. Using the naive O(1) loop approach takes 16 operations per pixel. How much improvement does the optimal 5-operation solution provide?"
-    options:
-      - option_id: "A"
-        text: "About 50% faster"
-        correct: false
-      - option_id: "B"
-        text: "About 3x faster"
-        correct: true
-      - option_id: "C"
-        text: "About 10x faster"
-        correct: false
-      - option_id: "D"
-        text: "No significant improvement"
-        correct: false
-    explanation: "The naive approach uses ~16 operations per pixel (1 iteration × 16 blocks with operations per block), while optimal uses 5 operations. Reduction factor: 16/5 ≈ 3.2x faster. At 1 billion pixels/sec, this saves billions of CPU cycles per second."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-BIT-015-Q007"
-    category: "editorial"
-    type: single_choice
-    question: "What is the relationship between masks 0x33333333 and 0xCCCCCCCC?"
-    options:
-      - option_id: "A"
-        text: "They are identical"
-        correct: false
-      - option_id: "B"
-        text: "They are complementary (their OR gives all 1s)"
-        correct: true
-      - option_id: "C"
-        text: "They overlap in some bits"
-        correct: false
-      - option_id: "D"
-        text: "One is the shift of the other"
-        correct: false
-    explanation: "0x33333333 (00110011...) and 0xCCCCCCCC (11001100...) are complementary masks. Their OR gives 0xFFFFFFFF (all 1s) and their AND gives 0x00000000 (all 0s). They partition the 32 bits into two disjoint sets."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-BIT-015-Q008"
-    category: "editorial"
-    type: single_choice
-    question: "If we wanted to swap adjacent 4-bit blocks instead of 2-bit blocks, which masks should we use?"
-    options:
-      - option_id: "A"
-        text: "0x33333333 and 0xCCCCCCCC"
-        correct: false
-      - option_id: "B"
-        text: "0x0F0F0F0F and 0xF0F0F0F0"
-        correct: true
-      - option_id: "C"
-        text: "0x55555555 and 0xAAAAAAAA"
-        correct: false
-      - option_id: "D"
-        text: "0x00FF00FF and 0xFF00FF00"
-        correct: false
-    explanation: "For 4-bit blocks, we need masks with 4-bit patterns. 0x0F0F0F0F (00001111 repeated) selects positions 0-3, 8-11, etc., while 0xF0F0F0F0 (11110000 repeated) selects positions 4-7, 12-15, etc. Shift amount would be 4 instead of 2."
-    difficulty: hard
-    points: 20
+    id: edq_3

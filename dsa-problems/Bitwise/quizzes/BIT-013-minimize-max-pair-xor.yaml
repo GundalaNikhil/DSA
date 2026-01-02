@@ -1,266 +1,74 @@
-problem_id: BIT_MINIMIZE_MAX_PAIR_XOR__8413
+problem_id: BIT_MINIMIZE_MAX_PAIR_XOR_013
+display_id: BIT-013
+slug: minimize-max-pair-xor
 questions:
-  # Problem-Related Questions (PRQ)
-  - id: prq_1
-    type: single_choice
+  - question: "For an array of 4 elements, how many possible pairings exist?
+
+      "
     difficulty: easy
     points: 10
-    question: |
-      For an array of 4 elements, how many possible pairings exist?
     options:
       - "2"
       - "3"
       - "6"
       - "12"
     correct_answer: 1
-    explanation: |
-      For n=4, number of pairings = 3!! = 3 × 1 = 3.
+    explanation: "For n=4, number of pairings = 3!! = 3 × 1 = 3.
+
       The three pairings are: (0,1)(2,3), (0,2)(1,3), (0,3)(1,2).
-    topic: Combinatorics
 
-  - id: prq_2
+      "
     type: single_choice
+    id: prq_1
+  - question: "What happens when all array elements are identical?
+
+      "
     difficulty: easy
     points: 10
-    question: |
-      What happens when all array elements are identical?
     options:
-      - "Answer is infinity"
-      - "Answer is 0"
-      - "Answer is the element value"
-      - "Problem is unsolvable"
+      - Answer is infinity
+      - Answer is 0
+      - Answer is the element value
+      - Problem is unsolvable
     correct_answer: 1
-    explanation: |
-      If all elements are the same value v, then v ^ v = 0 for any pair. 
-      Maximum XOR across all pairs is 0.
-    topic: Edge Cases
-
-  - id: prq_3
+    explanation: "If all elements are the same value v, then v ^ v = 0 for any pair. \nMaximum XOR across all pairs is 0.\n"
     type: single_choice
+    id: edq_1
+  - question:
+      "For array [1, 2, 3, 4], what is the best pairing to minimize maximum XOR?
+
+      "
     difficulty: medium
     points: 15
-    question: |
-      For array [1, 2, 3, 4], what is the best pairing to minimize maximum XOR?
     options:
-      - "(1,2) and (3,4) with max XOR = 7"
-      - "(1,3) and (2,4) with max XOR = 6"
-      - "(1,4) and (2,3) with max XOR = 5"
-      - "All have same maximum"
+      - (1,2) and (3,4) with max XOR = 7
+      - (1,3) and (2,4) with max XOR = 6
+      - (1,4) and (2,3) with max XOR = 5
+      - All have same maximum
     correct_answer: 2
-    explanation: |
-      (1,4): 1^4 = 5, (2,3): 2^3 = 1. Maximum = 5.
+    explanation: "(1,4): 1^4 = 5, (2,3): 2^3 = 1. Maximum = 5.
+
       (1,3): 1^3 = 2, (2,4): 2^4 = 6. Maximum = 6.
+
       (1,2): 1^2 = 3, (3,4): 3^4 = 7. Maximum = 7.
+
       Best is 5.
-    topic: Example Analysis
 
-  - id: prq_4
-    type: multiple_choice
+      "
+    type: single_choice
+    id: edq_2
+  - question:
+      "Why is a greedy approach (pairing elements with smallest XOR first) incorrect?
+
+      "
     difficulty: medium
     points: 15
-    question: |
-      Why is a greedy approach (pairing elements with smallest XOR first) incorrect?
     options:
-      - "Pairing locally optimal pairs may force worse pairs later"
-      - "XOR is not associative"
-      - "It's actually correct"
-      - "We need global optimization, not local"
-    correct_answers: [0, 3]
-    explanation: |
-      Greedy fails because choosing locally minimal XOR pairs first can force remaining elements 
-      into pairs with very large XORs. We need to consider all pairings (global optimization).
-    topic: Algorithm Correctness
-
-  - id: prq_5
-    type: scenario
-    difficulty: hard
-    points: 20
-    question: |
-      For powers of 2 array [1, 2, 4, 8], what pairing minimizes max XOR?
-    options:
-      - "(1,2) and (4,8) with max = 12"
-      - "(1,4) and (2,8) with max = 10"
-      - "(1,8) and (2,4) with max = 9"
-      - "(1,2) and (4,8) with max = 3"
-    correct_answer: 1
-    explanation: |
-      (1,2): 3, (4,8): 12 → max=12
-      (1,4): 5, (2,8): 10 → max=10
-      (1,8): 9, (2,4): 6 → max=9... wait
-      Actually (1,2):3 and (4,8):12 gives max=12, not 3.
-      Best is actually (1,8):9 and (2,4):6 with max=9.
-      Hmm, let me recalculate: (1,4):5 and (2,8):10 gives max=10 is answer.
-    topic: Powers of 2
-
-  - id: prq_6
-    type: single_choice
-    difficulty: medium
-    points: 15
-    question: |
-      What is the formula for number of pairings of n elements?
-    options:
-      - "n!"
-      - "(n-1)!! = (n-1) × (n-3) × ... × 1"
-      - "2^n"
-      - "n(n-1)/2"
-    correct_answer: 1
-    explanation: |
-      Double factorial (n-1)!! counts perfect matchings. For n elements, 
-      pick partner for first element (n-1 choices), then for next unpaired (n-3 choices), etc.
-    topic: Combinatorics
-
-  - id: prq_7
-    type: single_choice
-    difficulty: easy
-    points: 10
-    question: |
-      Why is n ≤ 16 a reasonable constraint for this problem?
-    options:
-      - "Larger n causes integer overflow"
-      - "2^16 states fit in memory for DP"
-      - "Problem becomes unsolvable for larger n"
-      - "16 is a power of 2"
-    correct_answer: 1
-    explanation: |
-      With bitmask DP, we need 2^n states. For n=16, that's 65,536 states, 
-      which is manageable. For n=20, it's over 1 million, pushing memory limits.
-    topic: Constraints
-
-  # Editorial-Derived Questions (EDQ)
-  - id: edq_1
-    type: single_choice
-    difficulty: easy
-    points: 10
-    question: |
-      What does dp[mask] represent in the bitmask DP solution?
-    options:
-      - "Number of elements in mask"
-      - "XOR of all elements in mask"
-      - "Minimum possible maximum XOR for elements in mask"
-      - "Sum of elements in mask"
-    correct_answer: 2
-    explanation: |
-      dp[mask] stores the minimum achievable value of (maximum XOR among all pairs) 
-      when we've paired the elements represented by the bits set in mask.
-    topic: DP State Definition
-
-  - id: edq_2
-    type: multiple_choice
-    difficulty: medium
-    points: 15
-    question: |
-      What are the key steps in the bitmask DP transition?
-    options:
-      - "Find first unpaired element"
-      - "Try pairing with all other unpaired elements"
-      - "Update dp with max of current dp and new pair XOR"
-      - "Sort elements before pairing"
-    correct_answers: [0, 1, 2]
-    explanation: |
-      For each state: find first unpaired element (correct), try pairing it with each other 
-      unpaired element (correct), update with max(current_dp, pair_xor) (correct). 
-      Sorting is not part of the DP transition.
-    topic: DP Transition
-
-  - id: edq_3
-    type: scenario
-    difficulty: hard
-    points: 20
-    question: |
-      In the DP solution, why do we pick the "first" unpaired element?
-    options:
-      - "It's faster"
-      - "To avoid generating duplicate pairings"
-      - "Elements must be paired in order"
-      - "It's arbitrary"
-    correct_answer: 1
-    explanation: |
-      Always choosing the first unpaired element ensures each pairing is generated exactly once. 
-      Otherwise, pairing (0,1)(2,3) and (2,3)(0,1) would be counted as different states.
-    topic: Avoiding Duplicates
-
-  - id: edq_4
-    type: single_choice
-    difficulty: medium
-    points: 15
-    question: |
-      What is the time complexity of the bitmask DP solution?
-    options:
-      - "O(2^n)"
-      - "O(n × 2^n)"
-      - "O(n² × 2^n)"
-      - "O(n! × 2^n)"
-    correct_answer: 2
-    explanation: |
-      We have 2^n states. For each state, we try O(n²) possible pairings 
-      (n choices for first, n-1 for second). Total: O(2^n × n²).
-    topic: Complexity Analysis
-
-  - id: edq_5
-    type: single_choice
-    difficulty: hard
-    points: 20
-    question: |
-      Why can't we use binary search on the answer?
-    options:
-      - "XOR doesn't have monotonic properties for this problem"
-      - "We can, but DP is faster"
-      - "Binary search requires sorted array"
-      - "Maximum XOR is not bounded"
+      - Pairing locally optimal pairs may force worse pairs later
+      - XOR is not associative
+      - It's actually correct
+      - We need global optimization, not local
     correct_answer: 0
-    explanation: |
-      While binary search on answer works for some optimization problems, here we'd still need 
-      to check all pairings for each candidate answer. The pairing constraint doesn't have 
-      nice monotonic properties that enable efficient verification.
-    topic: Alternative Approaches
-
-  - id: edq_6
-    type: multiple_choice
-    difficulty: medium
-    points: 15
-    question: |
-      What optimizations can improve the constant factor?
-    options:
-      - "Precompute all pairwise XORs"
-      - "Use iterative DP instead of recursive"
-      - "Process only even bit-count masks"
-      - "Sort array first"
-    correct_answers: [0, 1]
-    explanation: |
-      Precomputing XORs (correct) avoids repeated calculations. Iterative DP (correct) avoids 
-      recursion overhead. Processing only even bit-count masks doesn't help much. 
-      Sorting changes the problem structure unpredictably.
-    topic: Optimization
-
-  - id: edq_7
-    type: scenario
-    difficulty: hard
-    points: 20
-    question: |
-      For the extension "minimize sum instead of max", how does the DP change?
-    options:
-      - "No change needed"
-      - "Use sum instead of max when updating dp"
-      - "Need different state representation"
-      - "Problem becomes NP-hard"
-    correct_answer: 1
-    explanation: |
-      To minimize sum, change the update from dp[newMask] = min(dp[newMask], max(dp[mask], pairXOR)) 
-      to dp[newMask] = min(dp[newMask], dp[mask] + pairXOR). Same structure, different aggregation.
-    topic: Problem Variations
-
-  - id: edq_8
+    explanation: "Greedy fails because choosing locally minimal XOR pairs first can force remaining elements \ninto pairs with very large XORs. We need to consider all pairings (global optimization).\n"
     type: single_choice
-    difficulty: medium
-    points: 15
-    question: |
-      What is the space complexity of the bitmask DP solution?
-    options:
-      - "O(n)"
-      - "O(n²)"
-      - "O(2^n)"
-      - "O(n × 2^n)"
-    correct_answer: 2
-    explanation: |
-      We store one value (minimum max XOR) for each of 2^n possible masks. Space = O(2^n).
-    topic: Space Complexity
+    id: edq_3

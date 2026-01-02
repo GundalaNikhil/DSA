@@ -1,18 +1,14 @@
 problem_id: CON_PRIORITY_INVERSION__8F42
 samples:
-  - input: |-
-      Threads: H (high), M (medium), L (low)
-      L holds a lock needed by H
-      M keeps running
-    output: |-
-      Must describe how M prevents L from releasing lock, delaying H; mitigation via priority inheritance/ceiling.
+- input: 'Threads: H (high), M (medium), L (low)
+
+    L holds a lock needed by H
+
+    M keeps running'
+  output: Must describe how M prevents L from releasing lock, delaying H; mitigation via priority inheritance/ceiling.
 public:
-  - input: |-
-      Real-time system with priorities and mutex
-    output: |-
-      Answer should include timeline + mitigation and at least one caveat (chaining, overhead).
+- input: Real-time system with priorities and mutex
+  output: Answer should include timeline + mitigation and at least one caveat (chaining, overhead).
 hidden:
-  - input: |-
-      Multiple locks causing transitive blocking
-    output: |-
-      Mention that priority inheritance can propagate across lock chains.
+- input: Multiple locks causing transitive blocking
+  output: Mention that priority inheritance can propagate across lock chains.

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-010: Suffix Compare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #2f3542;
+            --text: #f1f2f6;
+            --accent: #ffa502;
+            --match: #2ed573;
+        }
+
+        body {
+            font-family: 'Space Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 { color: var(--accent); margin-top: 2rem; }
+
+        .compare-box {
+            margin-top: 3rem;
+            padding: 30px;
+            background: #3d3d3d;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .suffix-pair {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .suffix-line {
+            display: flex;
+            gap: 5px;
+            font-size: 1.5rem;
+        }
+
+        .char {
+            width: 30px;
+            height: 40px;
+            background: #4a4a4a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 3px;
+        }
+        .char.match { background: var(--match); color: #000; }
+        .char.diff { background: #ff4757; color: #fff; }
+
+        .question { font-size: 1.2rem; margin: 20px 0; }
+
+        .answer-input {
+            font-size: 1.5rem;
+            width: 80px;
+            text-align: center;
+            padding: 10px;
+            border: 2px solid #57606f;
+            background: #2f3542;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        .btn {
+            margin-top: 15px;
+            padding: 10px 25px;
+            background: var(--accent);
+            border: none;
+            color: #000;
+            font-family: inherit;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .result { margin-top: 15px; min-height: 1.5em; }
+
+    </style>
+</head>
+<body>
+
+<h1>SUFFIX LCP COMPARE</h1>
+
+<div class="compare-box">
+    <div>String: <span id="strDisplay" style="color:var(--accent)"></span></div>
+    
+    <div class="suffix-pair">
+        <div>Suffix starting at <span id="idx1" style="color:var(--accent)">i</span>:</div>
+        <div class="suffix-line" id="suffix1"></div>
+        
+        <div style="margin-top:10px">Suffix starting at <span id="idx2" style="color:var(--accent)">j</span>:</div>
+        <div class="suffix-line" id="suffix2"></div>
+    </div>
+
+    <div class="question">What is the LCP (Longest Common Prefix) length?</div>
+    <input type="number" class="answer-input" id="answer" min="0">
+    <br>
+    <button class="btn" onclick="check()">CHECK</button>
+    <div class="result" id="result"></div>
+</div>
+
+<button style="margin-top:20px; padding:10px 20px; background:#57606f; border:none; color:#fff; cursor:pointer; border-radius:5px" onclick="init()">New Query</button>
+
+<script>
+    const STRINGS = ["banana", "abcabc", "mississippi"];
+    let str = "";
+    let i = 0, j = 0;
+    let lcpAnswer = 0;
+
+    function init() {
+        str = STRINGS[Math.floor(Math.random() * STRINGS.length)];
+        i = Math.floor(Math.random() * (str.length - 1));
+        j = i + 1 + Math.floor(Math.random() * (str.length - i - 1));
+        
+        // Compute LCP
+        lcpAnswer = 0;
+        const s1 = str.substring(i);
+        const s2 = str.substring(j);
+        while (lcpAnswer < Math.min(s1.length, s2.length) && s1[lcpAnswer] === s2[lcpAnswer]) {
+            lcpAnswer++;
+        }
+
+        document.getElementById('strDisplay').textContent = str;
+        document.getElementById('idx1').textContent = i;
+        document.getElementById('idx2').textContent = j;
+        
+        render();
+        document.getElementById('answer').value = '';
+        document.getElementById('result').textContent = '';
+    }
+
+    function render() {
+        const s1 = str.substring(i);
+        const s2 = str.substring(j);
+        
+        const div1 = document.getElementById('suffix1');
+        const div2 = document.getElementById('suffix2');
+        div1.innerHTML = '';
+        div2.innerHTML = '';
+
+        for (let k = 0; k < s1.length; k++) {
+            const c = document.createElement('div');
+            c.className = 'char';
+            c.textContent = s1[k];
+            div1.appendChild(c);
+        }
+
+        for (let k = 0; k < s2.length; k++) {
+            const c = document.createElement('div');
+            c.className = 'char';
+            c.textContent = s2[k];
+            div2.appendChild(c);
+        }
+    }
+
+    function check() {
+        const userAns = parseInt(document.getElementById('answer').value);
+        const result = document.getElementById('result');
+
+        // Highlight matching/mismatching chars
+        const s1 = str.substring(i);
+        const s2 = str.substring(j);
+        const chars1 = document.getElementById('suffix1').children;
+        const chars2 = document.getElementById('suffix2').children;
+
+        for (let k = 0; k < Math.min(s1.length, s2.length); k++) {
+            if (k < lcpAnswer) {
+                chars1[k].classList.add('match');
+                chars2[k].classList.add('match');
+            } else if (k === lcpAnswer) {
+                chars1[k].classList.add('diff');
+                chars2[k].classList.add('diff');
+            }
+        }
+
+        if (userAns === lcpAnswer) {
+            result.textContent = `CORRECT! LCP = ${lcpAnswer}`;
+            result.style.color = "#2ed573";
+        } else {
+            result.textContent = `Incorrect. LCP = ${lcpAnswer}`;
+            result.style.color = "#ff4757";
+        }
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

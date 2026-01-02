@@ -72,6 +72,21 @@ Imagine you are a **Code Linter** analyzing a corrupted source code file.
     -   The remaining `?`s in `StarStack` must be paired with each other. Since `?` can be anything, any even number of `?`s can form valid pairs (e.g., `()`, `[]`).
     -   Return `StarStack.size() % 2 == 0`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Scan characters] --> B{Character type}
+B -->|Opener| C[Push on opener stack]
+B -->|Wildcard| D[Push on wildcard stack]
+B -->|Closer| E{Matching opener on stack}
+E -->|Yes| F[Pop opener]
+E -->|No| G{Wildcard available}
+G -->|Yes| H[Use wildcard as opener]
+G -->|No| I[Fail]
+F --> A
+H --> A
+```
+
 ## Implementations
 
 ### Java

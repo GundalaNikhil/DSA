@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEO-002: Point in Polygon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 32px; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #4c1d95; margin-bottom: 12px; }
+
+        .steps { display: flex; gap: 15px; }
+        .step {
+            flex: 1;
+            padding: 15px;
+            background: #f5f3ff;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .step-num { font-size: 24px; font-weight: 700; color: #7c3aed; }
+        .step-text { font-size: 12px; color: #555; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .score-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 18px;
+            background: linear-gradient(90deg, #4c1d95, #7c3aed);
+            border-radius: 10px;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .canvas-container {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+            cursor: crosshair;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        .btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-inside { background: #22c55e; color: #fff; }
+        .btn-outside { background: #ef4444; color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .message.correct { background: #d1fae5; color: #059669; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #f0f4f8; color: #666; }
+
+        .new-game {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #4c1d95;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>📍 Point in Polygon</h1>
+        <div style="opacity:0.9">Is the red point inside or outside the polygon?</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-text">Look at the purple polygon</div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-text">Find the red test point</div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-text">Guess: Inside or Outside?</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="score-bar">
+            <span>Score: <strong id="score">0</strong> / <span id="total">0</span></span>
+            <span>Accuracy: <strong id="accuracy">100</strong>%</span>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvas" width="500" height="400"></canvas>
+        </div>
+
+        <div class="buttons">
+            <button class="btn btn-inside" onclick="guess(true)">✓ Inside</button>
+            <button class="btn btn-outside" onclick="guess(false)">✗ Outside</button>
+        </div>
+
+        <div class="message neutral" id="message">Is the red point inside the polygon?</div>
+
+        <button class="new-game" onclick="newRound()">Next Challenge →</button>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    let polygon = [];
+    let testPoint = { x: 0, y: 0 };
+    let isInside = false;
+    let score = 0;
+    let total = 0;
+
+    function generatePolygon() {
+        const cx = canvas.width / 2;
+        const cy = canvas.height / 2;
+        const numPoints = 5 + Math.floor(Math.random() * 4);
+        const radius = 100 + Math.random() * 50;
+
+        polygon = [];
+        for (let i = 0; i < numPoints; i++) {
+            const angle = (i / numPoints) * Math.PI * 2 - Math.PI / 2;
+            const r = radius * (0.7 + Math.random() * 0.5);
+            polygon.push({
+                x: cx + r * Math.cos(angle),
+                y: cy + r * Math.sin(angle)
+            });
+        }
+
+        // Generate test point
+        const inOrOut = Math.random() < 0.5;
+        if (inOrOut) {
+            // Inside: interpolate between center and random vertex
+            const v = polygon[Math.floor(Math.random() * polygon.length)];
+            const t = 0.3 + Math.random() * 0.4;
+            testPoint = {
+                x: cx + (v.x - cx) * t,
+                y: cy + (v.y - cy) * t
+            };
+        } else {
+            // Outside: place far from center
+            const angle = Math.random() * Math.PI * 2;
+            const r = radius * (1.5 + Math.random() * 0.5);
+            testPoint = {
+                x: cx + r * Math.cos(angle),
+                y: cy + r * Math.sin(angle)
+            };
+        }
+
+        // Calculate actual inside/outside using ray casting
+        isInside = pointInPolygon(testPoint, polygon);
+    }
+
+    function pointInPolygon(p, poly) {
+        let inside = false;
+        for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+            const xi = poly[i].x, yi = poly[i].y;
+            const xj = poly[j].x, yj = poly[j].y;
+            if (((yi > p.y) !== (yj > p.y)) && (p.x < (xj - xi) * (p.y - yi) / (yj - yi) + xi)) {
+                inside = !inside;
+            }
+        }
+        return inside;
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw grid
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 1;
+        for (let x = 0; x < canvas.width; x += 50) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, canvas.height);
+            ctx.stroke();
+        }
+        for (let y = 0; y < canvas.height; y += 50) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+        }
+
+        // Draw polygon
+        ctx.beginPath();
+        ctx.moveTo(polygon[0].x, polygon[0].y);
+        for (let i = 1; i < polygon.length; i++) {
+            ctx.lineTo(polygon[i].x, polygon[i].y);
+        }
+        ctx.closePath();
+        ctx.fillStyle = 'rgba(124, 58, 237, 0.2)';
+        ctx.fill();
+        ctx.strokeStyle = '#7c3aed';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Draw vertices
+        polygon.forEach((p, i) => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 6, 0, Math.PI * 2);
+            ctx.fillStyle = '#4c1d95';
+            ctx.fill();
+        });
+
+        // Draw test point
+        ctx.beginPath();
+        ctx.arc(testPoint.x, testPoint.y, 10, 0, Math.PI * 2);
+        ctx.fillStyle = '#ef4444';
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 10px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('?', testPoint.x, testPoint.y);
+    }
+
+    function guess(guessInside) {
+        total++;
+        const msg = document.getElementById('message');
+
+        if (guessInside === isInside) {
+            score++;
+            msg.className = 'message correct';
+            msg.textContent = `✅ Correct! The point is ${isInside ? 'INSIDE' : 'OUTSIDE'} the polygon.`;
+        } else {
+            msg.className = 'message wrong';
+            msg.textContent = `❌ Wrong! The point is actually ${isInside ? 'INSIDE' : 'OUTSIDE'}.`;
+        }
+
+        document.getElementById('score').textContent = score;
+        document.getElementById('total').textContent = total;
+        document.getElementById('accuracy').textContent = total > 0 ? Math.round(score / total * 100) : 100;
+    }
+
+    function newRound() {
+        generatePolygon();
+        draw();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Is the red point inside the polygon?';
+    }
+
+    window.onload = newRound;
+</script>
+</body>
+</html>

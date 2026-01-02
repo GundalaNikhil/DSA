@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRD-011: Ticket Caps</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Space+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --ticket: #ff6b6b; --vip: #ffd93d; --normal: #4ecdc4; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--ticket); }
+        h1 { margin: 0; font-family: 'Bangers', cursive; color: var(--ticket); font-size: 2rem; letter-spacing: 3px; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--ticket); }
+        .instructions b { color: var(--ticket); }
+        .requests-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; padding: 20px; background: var(--panel); border-radius: 15px; }
+        .request-card { padding: 15px; background: rgba(255,107,107,0.2); border: 2px solid var(--ticket); border-radius: 10px; text-align: center; cursor: pointer; transition: all 0.2s; }
+        .request-card:hover { transform: scale(1.05); }
+        .request-card.approved { background: rgba(78,205,196,0.3); border-color: var(--normal); }
+        .request-card.denied { opacity: 0.4; }
+        .request-amount { font-size: 1.5rem; font-weight: bold; color: var(--vip); }
+        .request-value { font-size: 0.8rem; color: #888; margin-top: 5px; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #333; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { font-weight: bold; color: var(--vip); }
+        .capacity-bar { width: 200px; height: 20px; background: #333; border-radius: 10px; overflow: hidden; }
+        .capacity-fill { height: 100%; background: var(--normal); transition: width 0.3s; }
+        .btn { background: var(--ticket); color: #fff; border: none; padding: 12px 25px; font-family: 'Bangers'; font-size: 1.1rem; cursor: pointer; border-radius: 8px; letter-spacing: 2px; }
+        .btn:hover { background: #ff8585; }
+        .btn.secondary { background: transparent; border: 2px solid #555; color: #888; font-family: 'Space Mono'; font-size: 0.9rem; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--ticket); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--ticket); font-family: 'Bangers'; font-size: 2rem; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🎟️ TICKET CAPS</h1>
+    <div style="color:#888">GREEDY KNAPSACK</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 MAXIMIZE REVENUE:</b> Click requests to approve. 
+        Don't exceed venue capacity! Maximize total ticket revenue.
+    </div>
+    <div class="requests-grid" id="requestsGrid"></div>
+    <div style="display:flex; gap:20px; align-items:center;">
+        <span>CAPACITY:</span>
+        <div class="capacity-bar"><div class="capacity-fill" id="capacityFill"></div></div>
+        <span id="capacityText">0/0</span>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Revenue</span><span class="stat-value" id="revenue">$0</span></div>
+            <div class="stat-row"><span class="stat-label">Optimal</span><span class="stat-value" id="optimal">?</span></div>
+            <div class="stat-row"><span class="stat-label">Approved</span><span class="stat-value" id="approvedCount">0</span></div>
+        </div>
+    </div>
+    <div id="status">Click requests to approve them!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkSolution()">CHECK</button>
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW EVENT</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🎟️ TICKET CAPS</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--ticket)">GOAL:</b> Maximize ticket revenue within capacity!</p>
+            <ul>
+                <li>Each request has <b>tickets</b> and <b>value</b></li>
+                <li>Click to approve/deny requests</li>
+                <li>Stay within venue <b>capacity</b></li>
+                <li>Maximize total revenue!</li>
+            </ul>
+            <p style="color:#888">Greedy: Sort by value/ticket ratio!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START SELLING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.requests = []; this.capacity = 0; this.approved = new Set();
+        this.ui = { grid: document.getElementById('requestsGrid'), capacityFill: document.getElementById('capacityFill'), capacityText: document.getElementById('capacityText'), revenue: document.getElementById('revenue'), optimal: document.getElementById('optimal'), approvedCount: document.getElementById('approvedCount'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const n = 8;
+        this.requests = Array.from({length: n}, (_, i) => ({
+            id: i,
+            tickets: Math.floor(Math.random() * 5) + 1,
+            value: Math.floor(Math.random() * 50) + 10
+        }));
+        this.capacity = Math.floor(this.requests.reduce((s, r) => s + r.tickets, 0) * 0.6);
+        this.computeOptimal();
+        this.reset();
+    }
+    computeOptimal() {
+        // Fractional knapsack approximation (greedy by ratio)
+        const sorted = [...this.requests].sort((a, b) => (b.value/b.tickets) - (a.value/a.tickets));
+        let cap = this.capacity, rev = 0;
+        for (const r of sorted) {
+            if (r.tickets <= cap) { cap -= r.tickets; rev += r.value; }
+        }
+        this.optimalRevenue = rev;
+    }
+    reset() { this.approved = new Set(); this.ui.status.textContent = 'Click requests to approve them!'; this.ui.optimal.textContent = '?'; this.render(); }
+    toggleRequest(id) {
+        if (this.approved.has(id)) { this.approved.delete(id); }
+        else {
+            const used = this.getUsedCapacity();
+            if (used + this.requests[id].tickets <= this.capacity) { this.approved.add(id); }
+            else { this.ui.status.textContent = 'Exceeds capacity!'; this.ui.status.style.color = 'var(--ticket)'; return; }
+        }
+        this.render();
+    }
+    getUsedCapacity() { return [...this.approved].reduce((s, id) => s + this.requests[id].tickets, 0); }
+    getRevenue() { return [...this.approved].reduce((s, id) => s + this.requests[id].value, 0); }
+    checkSolution() {
+        const rev = this.getRevenue();
+        this.ui.optimal.textContent = '$' + this.optimalRevenue;
+        if (rev >= this.optimalRevenue) { this.ui.status.innerHTML = '🎉 OPTIMAL! Maximum revenue achieved!'; this.ui.status.style.color = '#2ecc71'; }
+        else { this.ui.status.innerHTML = `Revenue: $${rev} (Optimal: $${this.optimalRevenue})`; this.ui.status.style.color = '#ffd700'; }
+    }
+    render() {
+        this.ui.grid.innerHTML = '';
+        this.requests.forEach(r => {
+            const card = document.createElement('div');
+            card.className = 'request-card';
+            if (this.approved.has(r.id)) card.classList.add('approved');
+            card.innerHTML = `<div class="request-amount">${r.tickets} 🎟️</div><div class="request-value">$${r.value}</div><div style="font-size:0.7rem;color:#888;margin-top:5px;">$${(r.value/r.tickets).toFixed(1)}/ticket</div>`;
+            card.onclick = () => this.toggleRequest(r.id);
+            this.ui.grid.appendChild(card);
+        });
+        const used = this.getUsedCapacity();
+        this.ui.capacityFill.style.width = (used / this.capacity * 100) + '%';
+        this.ui.capacityText.textContent = `${used}/${this.capacity}`;
+        this.ui.revenue.textContent = '$' + this.getRevenue();
+        this.ui.approvedCount.textContent = this.approved.size;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

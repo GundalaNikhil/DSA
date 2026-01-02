@@ -1,0 +1,52 @@
+problem_id: TDP_PATH_QUERIES_RMQ_009
+display_id: TDP-009
+slug: path-queries-rmq
+questions:
+  - question: "We need the Maximum value on the simple path between u and v. Using Binary Lifting, we augment the `up[u][i]` table with:"
+    difficulty: easy
+    points: 10
+    options:
+      - "`max_val[u][i]`: Maximum value on the path from u to its 2^i-th ancestor"
+      - "`sum_val[u][i]`"
+      - "`min_val[u][i]`"
+      - "`max_val[u][0]` only"
+    correct_answer: 0
+    explanation: This aggregate allows combining results over powers of 2.
+    type: single_choice
+    id: prq_1
+  - question: "When querying the path from u to v via LCA, the result is:"
+    difficulty: medium
+    points: 15
+    options:
+      - max(Query(u, LCA), Query(v, LCA))
+      - Query(u, LCA) + Query(v, LCA)
+      - max(u, v)
+      - Query(root, u) - Query(root, v)
+    correct_answer: 0
+    explanation: "The path is composed of two segments: u->LCA and v->LCA."
+    type: single_choice
+    id: edq_1
+  - question: If we update the value of a node, what happens to the Binary Lifting table `max_val`?
+    difficulty: easy
+    points: 10
+    options:
+      - It becomes invalid and needs O(N log N) rebuilding (Binary Lifting is not dynamic)
+      - We can update it in O(log N)
+      - Nothing happens
+      - It updates automatically
+    correct_answer: 0
+    explanation: Binary Lifting is a static data structure. For dynamic updates, use HLD.
+    type: single_choice
+    id: edq_2
+  - question: "The space complexity for storing `max_val` table is:"
+    difficulty: easy
+    points: 10
+    options:
+      - O(N log N)
+      - O(N)
+      - O(N^2)
+      - O(1)
+    correct_answer: 0
+    explanation: Standard size for sparse table on tree.
+    type: single_choice
+    id: edq_3

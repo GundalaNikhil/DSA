@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUE-006: Roller Coaster</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: linear-gradient(135deg, #1a0a3e 0%, #4a1a7e 100%); --car: #ff6b6b; --track: #ffd700; --ready: #00ff88; --panel: rgba(0,0,0,0.5); --text: #fff; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--track); }
+        h1 { margin: 0; font-family: 'Bangers', cursive; color: var(--track); font-size: 2rem; letter-spacing: 3px; text-shadow: 2px 2px 0 #ff6b6b; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 15px 30px; border-radius: 20px; text-align: center; max-width: 600px; border: 3px solid var(--track); }
+        .instructions b { color: var(--track); font-family: 'Bangers'; font-size: 1.2rem; }
+        .coaster-area { position: relative; width: 600px; height: 200px; background: rgba(0,0,0,0.3); border-radius: 20px; overflow: hidden; border: 3px solid var(--track); }
+        .track-line { position: absolute; bottom: 30px; left: 0; right: 0; height: 10px; background: repeating-linear-gradient(90deg, var(--track), var(--track) 20px, #b38f00 20px, #b38f00 25px); }
+        .coaster-car { position: absolute; bottom: 35px; width: 60px; height: 50px; background: var(--car); border-radius: 10px 10px 5px 5px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: left 0.5s ease-out; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
+        .passenger-queue { display: flex; gap: 10px; padding: 20px 30px; background: var(--panel); border-radius: 20px; align-items: center; }
+        .queue-sign { font-family: 'Bangers'; font-size: 1.3rem; color: var(--track); padding: 10px 20px; background: rgba(0,0,0,0.5); border-radius: 10px; }
+        .passengers { display: flex; gap: 8px; }
+        .passenger { width: 50px; height: 60px; border-radius: 50% 50% 10px 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 1.5rem; }
+        .passenger:hover { transform: scale(1.1) translateY(-5px); }
+        .passenger.waiting { background: linear-gradient(180deg, #ffd700, #ff9500); }
+        .passenger.riding { background: var(--ready); animation: bounce 0.5s infinite; }
+        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-5px)} }
+        .stats { display: flex; gap: 30px; }
+        .stat-box { padding: 15px 25px; background: var(--panel); border-radius: 15px; text-align: center; border: 2px solid var(--track); }
+        .stat-label { font-size: 0.8rem; color: #aaa; }
+        .stat-value { font-size: 2rem; font-family: 'Bangers'; color: var(--track); }
+        .btn { background: linear-gradient(135deg, var(--car), #ff8585); color: #fff; border: none; padding: 15px 40px; font-family: 'Bangers'; font-size: 1.3rem; cursor: pointer; border-radius: 30px; letter-spacing: 2px; box-shadow: 0 5px 20px rgba(255,107,107,0.5); transition: all 0.2s; }
+        .btn:hover { transform: scale(1.05); box-shadow: 0 8px 30px rgba(255,107,107,0.7); }
+        .btn.go { background: linear-gradient(135deg, var(--ready), #00cc66); box-shadow: 0 5px 20px rgba(0,255,136,0.5); }
+        .controls { display: flex; gap: 15px; }
+        #status { font-size: 1.1rem; text-align: center; min-height: 30px; font-family: 'Bangers'; color: var(--track); }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: linear-gradient(135deg, #2d1b4e, #1a0a3e); padding: 40px; border: 5px solid var(--track); max-width: 500px; text-align: center; border-radius: 30px; }
+        .dialog h2 { color: var(--track); font-family: 'Bangers'; font-size: 2.5rem; margin: 0 0 20px 0; text-shadow: 2px 2px 0 var(--car); }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🎢 ROLLER COASTER</h1>
+    <div style="color:#ffd700">QUEUE LINE SIMULATOR</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 FILL THE RIDE!</b> Load passengers one by one (FIFO). When the car is full, send it! First in queue = first on ride!
+    </div>
+    <div class="coaster-area">
+        <div class="track-line"></div>
+        <div class="coaster-car" id="car">🎢</div>
+        <div id="riders" style="position:absolute;bottom:45px;left:20px;display:flex;gap:5px;font-size:1.5rem;"></div>
+    </div>
+    <div class="passenger-queue">
+        <div class="queue-sign">⏳ WAITING:</div>
+        <div class="passengers" id="queue"></div>
+    </div>
+    <div class="stats">
+        <div class="stat-box"><div class="stat-label">In Queue</div><div class="stat-value" id="queueCount">0</div></div>
+        <div class="stat-box"><div class="stat-label">On Ride</div><div class="stat-value" id="rideCount">0/4</div></div>
+        <div class="stat-box"><div class="stat-label">Rides Completed</div><div class="stat-value" id="completed">0</div></div>
+    </div>
+    <div id="status">Click to board passengers!</div>
+    <div class="controls">
+        <button class="btn" onclick="game.addPassenger()">➕ JOIN QUEUE</button>
+        <button class="btn" onclick="game.boardNext()">🎫 BOARD NEXT</button>
+        <button class="btn go" onclick="game.launchRide()">🚀 LAUNCH!</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🎢 ROLLER COASTER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--track)">THEME PARK QUEUE!</b></p>
+            <ul style="text-align:left;">
+                <li>👥 Guests join the <b>back of the queue</b></li>
+                <li>🎫 Board from the <b>front</b> (FIFO)</li>
+                <li>🎢 Car holds 4 riders max</li>
+                <li>🚀 Launch when ready!</li>
+            </ul>
+            <p style="color:#aaa">Queue = Real theme park logic!</p>
+        </div>
+        <button class="btn" onclick="game.start()">🎢 START RIDING!</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.queue = []; this.riders = []; this.completed = 0; this.maxRiders = 4;
+        this.emojis = ['😀','😎','🤩','😄','🥳','😊','🤗','😁'];
+        this.ui = { queue: document.getElementById('queue'), riders: document.getElementById('riders'), car: document.getElementById('car'), queueCount: document.getElementById('queueCount'), rideCount: document.getElementById('rideCount'), completed: document.getElementById('completed'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); for(let i=0;i<5;i++) this.addPassenger(); }
+    addPassenger() {
+        const p = { emoji: this.emojis[Math.floor(Math.random() * this.emojis.length)] };
+        this.queue.push(p);
+        this.ui.status = `${p.emoji} joined the queue!`;
+        this.render();
+    }
+    boardNext() {
+        if (this.queue.length === 0) { this.ui.status.textContent = '⚠️ Queue is empty!'; return; }
+        if (this.riders.length >= this.maxRiders) { this.ui.status.textContent = '⚠️ Ride is full! Launch first!'; return; }
+        const p = this.queue.shift();
+        this.riders.push(p);
+        this.ui.status.textContent = `${p.emoji} boarded the ride!`;
+        this.render();
+    }
+    launchRide() {
+        if (this.riders.length === 0) { this.ui.status.textContent = '⚠️ No one on the ride!'; return; }
+        this.ui.car.style.left = '550px';
+        this.ui.status.textContent = '🚀 WHEEEEE! Ride launched!';
+        setTimeout(() => {
+            this.completed++;
+            this.riders = [];
+            this.ui.car.style.left = '20px';
+            this.ui.status.textContent = '✓ Ride complete! Ready for next group.';
+            this.render();
+        }, 1500);
+        this.render();
+    }
+    render() {
+        this.ui.queue.innerHTML = '';
+        this.queue.forEach(p => {
+            const el = document.createElement('div');
+            el.className = 'passenger waiting';
+            el.textContent = p.emoji;
+            this.ui.queue.appendChild(el);
+        });
+        this.ui.riders.innerHTML = '';
+        this.riders.forEach(p => {
+            const el = document.createElement('span');
+            el.textContent = p.emoji;
+            this.ui.riders.appendChild(el);
+        });
+        this.ui.queueCount.textContent = this.queue.length;
+        this.ui.rideCount.textContent = `${this.riders.length}/${this.maxRiders}`;
+        this.ui.completed.textContent = this.completed;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

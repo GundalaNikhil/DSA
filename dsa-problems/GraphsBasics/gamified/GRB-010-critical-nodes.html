@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GRB-010: Critical Nodes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0a0f14; --panel: #1a2634; --critical: #ff3333; --safe: #00cc66; --node: #336699; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Share Tech Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--critical); }
+        h1 { margin: 0; font-family: 'Orbitron', sans-serif; color: var(--critical); font-size: 1.4rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 15px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--critical); }
+        .instructions b { color: var(--critical); }
+        .game-container { display: flex; gap: 20px; align-items: flex-start; }
+        .network-view { position: relative; width: 500px; height: 380px; background: var(--panel); border-radius: 15px; border: 2px solid #333; }
+        .node { position: absolute; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; z-index: 10; border: 3px solid var(--node); background: var(--node); transition: all 0.2s; }
+        .node:hover { transform: scale(1.15); }
+        .node.guess-critical { background: var(--critical); border-color: #ff6666; box-shadow: 0 0 15px var(--critical); }
+        .node.revealed-critical { background: var(--critical); border-color: #fff; animation: pulse 1s infinite; }
+        .node.revealed-safe { background: var(--safe); border-color: #66ff99; }
+        @keyframes pulse { 0%,100%{box-shadow:0 0 10px var(--critical)} 50%{box-shadow:0 0 25px var(--critical)} }
+        .edge-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        .edge-svg line { stroke: #444; stroke-width: 3; }
+        .side-panel { width: 200px; display: flex; flex-direction: column; gap: 15px; }
+        .panel-box { background: var(--panel); border: 2px solid #333; padding: 15px; border-radius: 10px; }
+        .panel-title { font-family: 'Orbitron'; font-size: 0.8rem; color: var(--critical); margin-bottom: 10px; text-align: center; }
+        .guess-list { display: flex; flex-wrap: wrap; gap: 8px; min-height: 40px; }
+        .guess-badge { padding: 5px 12px; background: var(--critical); border-radius: 15px; font-size: 0.85rem; cursor: pointer; }
+        .guess-badge:hover { opacity: 0.7; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #333; }
+        .stat-label { color: #888; font-size: 0.75rem; }
+        .stat-value { color: var(--critical); font-weight: bold; }
+        .btn { background: transparent; color: var(--critical); border: 2px solid var(--critical); padding: 10px 20px; font-family: 'Orbitron'; cursor: pointer; border-radius: 5px; }
+        .btn:hover { background: var(--critical); color: #000; }
+        .btn.secondary { border-color: #555; color: #888; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--critical); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--critical); font-family: 'Orbitron'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🔴 CRITICAL NODES</h1>
+    <div style="color:#888">ARTICULATION POINTS</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 FIND THE WEAK POINTS:</b> Click nodes you think are CRITICAL (removing them disconnects the network). 
+        Then check your answer!
+    </div>
+    <div class="game-container">
+        <div class="network-view" id="network">
+            <svg class="edge-svg" id="edgeSvg"></svg>
+        </div>
+        <div class="side-panel">
+            <div class="panel-box">
+                <div class="panel-title">YOUR GUESSES</div>
+                <div class="guess-list" id="guessList"></div>
+            </div>
+            <div class="panel-box">
+                <div class="stat-row"><span class="stat-label">Nodes</span><span class="stat-value" id="nodeCount">0</span></div>
+                <div class="stat-row"><span class="stat-label">Edges</span><span class="stat-value" id="edgeCount">0</span></div>
+                <div class="stat-row"><span class="stat-label">Your Guesses</span><span class="stat-value" id="guessCount">0</span></div>
+            </div>
+        </div>
+    </div>
+    <div id="status">Click nodes you think are critical points!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn" onclick="game.checkAnswer()">CHECK ANSWER</button>
+        <button class="btn secondary" onclick="game.reset()">CLEAR GUESSES</button>
+        <button class="btn secondary" onclick="game.newGame()">NEW NETWORK</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔴 CRITICAL NODES</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--critical)">GOAL:</b> Identify all articulation points!</p>
+            <ul>
+                <li>Click nodes to mark them as <b>critical</b></li>
+                <li>A node is critical if removing it <b>disconnects</b> the graph</li>
+                <li>Press CHECK to see if you found them all!</li>
+            </ul>
+            <p style="color:#888">Tarjan's algorithm finds these in O(V+E) time!</p>
+        </div>
+        <button class="btn" onclick="game.start()">SCAN NETWORK</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.nodes=[]; this.edges=[]; this.adj=[]; this.guesses=new Set(); this.realCritical=new Set(); this.revealed=false;
+        this.ui = { network:document.getElementById('network'), svg:document.getElementById('edgeSvg'), guessList:document.getElementById('guessList'), nodeCount:document.getElementById('nodeCount'), edgeCount:document.getElementById('edgeCount'), guessCount:document.getElementById('guessCount'), status:document.getElementById('status'), modal:document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.newGame(); }
+    newGame() {
+        const n = Math.floor(Math.random()*3)+6;
+        this.nodes=[]; this.adj=Array.from({length:n},()=>[]); this.edges=[];
+        for(let i=0;i<n;i++) { this.nodes.push({id:i, x:60+Math.random()*380, y:50+Math.random()*280}); }
+        // Create graph likely to have articulation points
+        for(let i=1;i<n;i++) { const j=Math.max(0,i-1-Math.floor(Math.random()*2)); this.addEdge(i,j); }
+        const extra=Math.floor(Math.random()*2)+1;
+        for(let k=0;k<extra;k++) { const i=Math.floor(Math.random()*n); const j=Math.floor(Math.random()*n); if(i!==j && !this.adj[i].includes(j)) this.addEdge(i,j); }
+        this.computeArticulationPoints();
+        this.reset();
+    }
+    addEdge(u,v) { this.edges.push([u,v]); this.adj[u].push(v); this.adj[v].push(u); }
+    computeArticulationPoints() {
+        const n=this.nodes.length;
+        const disc=new Array(n).fill(-1), low=new Array(n).fill(-1);
+        this.realCritical=new Set();
+        let time=0;
+        const dfs=(u,parent)=>{
+            disc[u]=low[u]=time++;
+            let children=0;
+            for(const v of this.adj[u]) {
+                if(disc[v]===-1) {
+                    children++;
+                    dfs(v,u);
+                    low[u]=Math.min(low[u],low[v]);
+                    if(parent===-1 && children>1) this.realCritical.add(u);
+                    if(parent!==-1 && low[v]>=disc[u]) this.realCritical.add(u);
+                } else if(v!==parent) { low[u]=Math.min(low[u],disc[v]); }
+            }
+        };
+        for(let i=0;i<n;i++) { if(disc[i]===-1) dfs(i,-1); }
+    }
+    reset() { this.guesses=new Set(); this.revealed=false; this.ui.status.textContent='Click nodes you think are critical points!'; this.ui.status.style.color='#eee'; this.render(); }
+    clickNode(id) { if(this.revealed) return; if(this.guesses.has(id)) this.guesses.delete(id); else this.guesses.add(id); this.render(); }
+    checkAnswer() {
+        this.revealed=true;
+        const correct=[...this.realCritical].filter(x=>this.guesses.has(x)).length;
+        const missed=[...this.realCritical].filter(x=>!this.guesses.has(x)).length;
+        const wrong=[...this.guesses].filter(x=>!this.realCritical.has(x)).length;
+        if(missed===0 && wrong===0) { this.ui.status.innerHTML='🎉 PERFECT! You found all critical nodes!'; this.ui.status.style.color='var(--safe)'; }
+        else { this.ui.status.innerHTML=`Found: ${correct}/${this.realCritical.size} | Missed: ${missed} | Wrong: ${wrong}`; this.ui.status.style.color='var(--critical)'; }
+        this.render();
+    }
+    render() {
+        this.ui.network.querySelectorAll('.node').forEach(n=>n.remove());
+        this.ui.svg.innerHTML='';
+        for(const [u,v] of this.edges) {
+            const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+            line.setAttribute('x1',this.nodes[u].x); line.setAttribute('y1',this.nodes[u].y);
+            line.setAttribute('x2',this.nodes[v].x); line.setAttribute('y2',this.nodes[v].y);
+            this.ui.svg.appendChild(line);
+        }
+        for(const node of this.nodes) {
+            const el=document.createElement('div');
+            el.className='node';
+            if(this.revealed) {
+                if(this.realCritical.has(node.id)) el.classList.add('revealed-critical');
+                else el.classList.add('revealed-safe');
+            } else if(this.guesses.has(node.id)) { el.classList.add('guess-critical'); }
+            el.style.left=(node.x-25)+'px'; el.style.top=(node.y-25)+'px';
+            el.textContent=node.id;
+            el.onclick=()=>this.clickNode(node.id);
+            this.ui.network.appendChild(el);
+        }
+        this.ui.guessList.innerHTML='';
+        for(const id of this.guesses) {
+            const badge=document.createElement('div');
+            badge.className='guess-badge';
+            badge.textContent=id;
+            badge.onclick=()=>{ this.guesses.delete(id); this.render(); };
+            this.ui.guessList.appendChild(badge);
+        }
+        this.ui.nodeCount.textContent=this.nodes.length;
+        this.ui.edgeCount.textContent=this.edges.length;
+        this.ui.guessCount.textContent=this.guesses.size;
+    }
+}
+const game=new Game();
+</script>
+</body>
+</html>

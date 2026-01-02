@@ -1,2 +1,52 @@
-# Quiz for HEP-010: Top K Products with Index Gap
-# YAML content to be added
+problem_id: HEP_TOPK_PRODUCTS_INDEX_GAP_010
+display_id: HEP-010
+slug: topk-products-index-gap
+questions:
+- id: prq_1
+  type: single_choice
+  difficulty: easy
+  points: 10
+  question: If A = [9, 7], B = [8, 3], and d = 1, which products are valid?
+  options:
+  - 9*8
+  - 9*3 and 7*8
+  - 7*3
+  - All of them
+  correct_answer: 1
+  explanation: '|0-0|=0 < 1 (invalid). |0-1|=1 >= 1 (9*3=27 valid). |1-0|=1 >= 1 (7*8=56 valid). |1-1|=0 < 1 (7*3=21 invalid).'
+- id: edq_1
+  type: single_choice
+  difficulty: medium
+  points: 15
+  question: Why can't we simply take the top K of A and top K of B?
+  options:
+  - The products might not be the largest due to the index gap constraint
+  - It would be too fast
+  - The index gap only applies to B
+  - A and B are not sorted
+  correct_answer: 0
+  explanation: The constraint |i - j| >= d excludes the very best pairs (like i=0, j=0) if d > 0, so we must search specifically for large valid products.
+- id: edq_2
+  type: single_choice
+  difficulty: medium
+  points: 15
+  question: In the heap-based search for largest products, what are the candidates after popping (i, j)?
+  options:
+  - (i+1, j+1)
+  - (i+1, j) and (i, j+1), provided they satisfy the index gap
+  - Only (0, 0)
+  - The entire array
+  correct_answer: 1
+  explanation: Since A and B are sorted non-increasingly, the next largest products must come from slightly larger indices i+1 or j+1.
+- id: edq_3
+  type: single_choice
+  difficulty: hard
+  points: 20
+  question: How do you handle negative values in A and B when finding largest products?
+  options:
+  - Ignore them
+  - Take absolute values
+  - Split into positive and negative cases (pos*pos and neg*neg can both be large)
+  - Negatives cannot produce large products
+  correct_answer: 2
+  explanation: A large positive product can result from two large positive numbers or two large negative numbers (e.g., -10 * -10 = 100). Both cases must be checked.

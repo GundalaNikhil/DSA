@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRI-011: Repeat Finder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Mulish', sans-serif;
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 25px; }
+        .header h1 { font-size: 36px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+
+        /* Instructions */
+        .instructions {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        .instructions h2 { color: #059669; margin-bottom: 15px; }
+        .step-cards { display: flex; gap: 15px; }
+        .step-card {
+            flex: 1;
+            padding: 20px;
+            background: linear-gradient(135deg, #ecfdf5, #fff);
+            border: 2px solid #a7f3d0;
+            border-radius: 15px;
+            text-align: center;
+        }
+        .step-card .num { font-size: 28px; font-weight: 800; color: #059669; }
+        .step-card .text { font-size: 14px; color: #555; margin-top: 5px; }
+
+        /* Game */
+        .game-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .goal-banner {
+            background: linear-gradient(90deg, #059669, #10b981);
+            padding: 15px;
+            border-radius: 12px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        /* String Input */
+        .input-section { margin-bottom: 25px; }
+        .input-row { display: flex; gap: 15px; }
+        .string-input {
+            flex: 1;
+            padding: 15px 25px;
+            font-size: 28px;
+            font-family: monospace;
+            border: 3px solid #059669;
+            border-radius: 15px;
+            text-align: center;
+            letter-spacing: 8px;
+        }
+        .string-input:focus { outline: none; box-shadow: 0 0 15px rgba(5, 150, 105, 0.3); }
+        .btn {
+            padding: 15px 30px;
+            background: #059669;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+        .btn:hover { background: #047857; }
+
+        /* Result */
+        .result-section {
+            padding: 25px;
+            background: linear-gradient(135deg, #ecfdf5, #fff);
+            border: 3px solid #10b981;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .result-label { font-size: 14px; color: #555; }
+        .result-value {
+            font-size: 42px;
+            font-weight: 800;
+            color: #059669;
+            font-family: monospace;
+            letter-spacing: 5px;
+            margin: 15px 0;
+        }
+        .result-length { font-size: 16px; color: #10b981; }
+
+        /* All repeats */
+        .repeats-section {
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 15px;
+        }
+        .repeats-title { font-size: 14px; color: #888; margin-bottom: 15px; }
+        .repeats-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .repeat-chip {
+            padding: 8px 18px;
+            background: #fff;
+            border: 2px solid #a7f3d0;
+            border-radius: 25px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        .repeat-chip.longest { border-color: #059669; background: #d1fae5; font-weight: 700; }
+
+        /* Visualization */
+        .viz-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fef3c7;
+            border-radius: 10px;
+        }
+        .viz-title { font-size: 12px; color: #92400e; margin-bottom: 10px; }
+        .highlight { background: #fde047; padding: 2px 4px; border-radius: 3px; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🔄 Repeat Finder</h1>
+        <div>Find the longest repeated substring!</div>
+    </div>
+
+    <div class="instructions">
+        <h2>🎮 How to Play</h2>
+        <div class="step-cards">
+            <div class="step-card">
+                <div class="num">1</div>
+                <div class="text"><strong>Enter a string</strong> in the input box</div>
+            </div>
+            <div class="step-card">
+                <div class="num">2</div>
+                <div class="text">Click <strong>"Find"</strong> to analyze</div>
+            </div>
+            <div class="step-card">
+                <div class="num">3</div>
+                <div class="text">See the <strong>longest repeating</strong> substring!</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="goal-banner">
+            <strong>🎯 GOAL:</strong> Find the longest substring that appears at least twice!
+        </div>
+
+        <div class="input-section">
+            <div class="input-row">
+                <input type="text" class="string-input" id="stringInput" value="banana" maxlength="15">
+                <button class="btn" onclick="findRepeats()">Find</button>
+            </div>
+        </div>
+
+        <div class="result-section">
+            <div class="result-label">Longest Repeated Substring:</div>
+            <div class="result-value" id="longestRepeat">?</div>
+            <div class="result-length">Length: <span id="repeatLength">0</span> characters</div>
+        </div>
+
+        <div class="repeats-section">
+            <div class="repeats-title">📋 All repeated substrings found:</div>
+            <div class="repeats-grid" id="repeatsGrid"></div>
+        </div>
+
+        <div class="viz-section" id="vizSection" style="display:none">
+            <div class="viz-title">👀 Visualization (longest repeat highlighted):</div>
+            <div id="vizContent" style="font-size:24px; font-family:monospace; letter-spacing:5px"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function findRepeats() {
+        const str = document.getElementById('stringInput').value;
+        if (str.length < 2) return;
+
+        // Find all repeated substrings
+        const seen = {};
+        const repeats = new Set();
+
+        for (let len = 1; len < str.length; len++) {
+            for (let i = 0; i <= str.length - len; i++) {
+                const sub = str.substring(i, i + len);
+                if (seen[sub] !== undefined && seen[sub] !== i) {
+                    repeats.add(sub);
+                } else if (seen[sub] === undefined) {
+                    seen[sub] = i;
+                }
+            }
+        }
+
+        // Find longest
+        let longest = "";
+        repeats.forEach(r => {
+            if (r.length > longest.length) longest = r;
+        });
+
+        document.getElementById('longestRepeat').textContent = longest || '(none)';
+        document.getElementById('repeatLength').textContent = longest.length;
+
+        // Show all repeats
+        const grid = document.getElementById('repeatsGrid');
+        const sorted = Array.from(repeats).sort((a, b) => b.length - a.length);
+        grid.innerHTML = sorted.map(r => 
+            `<span class="repeat-chip ${r === longest ? 'longest' : ''}">"${r}"</span>`
+        ).join('');
+
+        // Visualization
+        if (longest) {
+            const viz = document.getElementById('vizSection');
+            const content = document.getElementById('vizContent');
+            viz.style.display = 'block';
+
+            let highlighted = str;
+            const regex = new RegExp(longest.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g');
+            highlighted = highlighted.replace(regex, `<span class="highlight">${longest}</span>`);
+            content.innerHTML = highlighted;
+        }
+    }
+
+    window.onload = findRepeats;
+</script>
+</body>
+</html>

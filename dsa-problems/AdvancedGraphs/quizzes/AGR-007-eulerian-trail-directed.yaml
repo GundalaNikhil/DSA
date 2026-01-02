@@ -1,0 +1,52 @@
+problem_id: AGR_EULERIAN_TRAIL_DIRECTED_007
+display_id: AGR-007
+slug: eulerian-trail-directed
+questions:
+  - question: What is an Eulerian path?
+    difficulty: easy
+    points: 10
+    options:
+      - A path visiting all nodes exactly once
+      - A path traversing all edges exactly once
+      - The shortest path between two nodes
+      - A cycle that visits all edges
+    correct_answer: 1
+    explanation: An Eulerian path (or trail) traverses every edge exactly once. It may visit nodes multiple times. An Eulerian circuit is a closed Eulerian path.
+    type: single_choice
+    id: prq_1
+  - question: For a directed graph to have an Eulerian circuit, which conditions must hold? (Select all that apply)
+    difficulty: easy
+    points: 10
+    options:
+      - Every node has in-degree = out-degree
+      - The graph must be connected (weakly or strongly)
+      - At least one node must have positive in-degree
+      - No node can have degree 0
+    correct_answer: 0
+    explanation: "For Eulerian circuit: in-degree = out-degree for all nodes, and graph connectivity ensures all edges are reachable. Weakly connected is sufficient (one component)."
+    type: single_choice
+    id: edq_1
+  - question: For a directed graph to have an Eulerian trail (not circuit), what is the degree condition?
+    difficulty: medium
+    points: 15
+    options:
+      - All nodes have in-degree = out-degree
+      - "One node: out-degree = in-degree + 1 (start). One node: in-degree = out-degree + 1 (end). Others balanced."
+      - Out-degree > in-degree everywhere
+      - All degrees must be even
+    correct_answer: 1
+    explanation: Trail starts at a node with excess out-degree (+1) and ends at a node with excess in-degree (+1). All other nodes are balanced.
+    type: single_choice
+    id: edq_2
+  - question: What is Hierholzer's algorithm?
+    difficulty: medium
+    points: 15
+    options:
+      - A greedy algorithm for shortest path
+      - A DFS-based algorithm that finds Eulerian paths by backtracking
+      - A preprocessing step for graph coloring
+      - A network flow algorithm
+    correct_answer: 1
+    explanation: "Hierholzer's uses a stack to traverse edges until stuck, then backtracks and builds the path in reverse. Time: O(E) with proper edge removal."
+    type: single_choice
+    id: edq_3

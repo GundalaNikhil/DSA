@@ -1,0 +1,52 @@
+problem_id: GEO_ANGLE_SORTING_POLAR_014
+display_id: GEO-014
+slug: angle-sorting-polar
+questions:
+  - question: If two points have the same polar angle, which one comes first?
+    difficulty: easy
+    points: 10
+    options:
+      - The one farther from the origin
+      - The one closer to the origin
+      - The one with larger x
+      - The one in the lower half-plane
+    correct_answer: 1
+    explanation: The tie-breaker is smaller distance to the origin.
+    type: single_choice
+    id: prq_1
+  - question: For points (1,0), (1,1), (0,1), what is the correct output order?
+    difficulty: easy
+    points: 10
+    options:
+      - (0,1), (1,1), (1,0)
+      - (1,0), (1,1), (0,1)
+      - (1,1), (1,0), (0,1)
+      - (1,0), (0,1), (1,1)
+    correct_answer: 1
+    explanation: Their angles are 0, 45, and 90 degrees in CCW order.
+    type: single_choice
+    id: edq_1
+  - question: Which comparison strategy avoids using atan2?
+    difficulty: medium
+    points: 15
+    options:
+      - Sort by x then y
+      - Half-plane partition then cross product
+      - Sort by distance only
+      - Use BFS on points
+    correct_answer: 1
+    explanation: Half-plane partition plus cross product sorts by polar angle without trig.
+    type: single_choice
+    id: edq_2
+  - question: Which points are classified in the upper half-plane for sorting?
+    difficulty: medium
+    points: 15
+    options:
+      - y > 0, or y == 0 and x > 0
+      - y >= 0 only
+      - x > 0 only
+      - x < 0 only
+    correct_answer: 0
+    explanation: The standard split is y > 0, or y == 0 with x > 0.
+    type: single_choice
+    id: edq_3

@@ -1,2 +1,52 @@
-# Quiz for PRB-012: Poisson Approximation of Binomial
-# YAML content to be added
+problem_id: PRB_POISSON_APPROX_BINOMIAL_012
+display_id: PRB-012
+slug: poisson-approx-binomial
+questions:
+  - question: When approximating a Binomial distribution `B(n, p)` where `n` is large and `p` is small, what is the formula for the probability of exactly `k` successes using the Poisson distribution with parameter `lambda = np`?
+    difficulty: medium
+    points: 15
+    options:
+      - "`P(k) approx e^(-lambda) * lambda^k / k!`"
+      - "`P(k) approx lambda^k * e^k / k!`"
+      - "`P(k) approx k! * e^(-lambda) / lambda^k`"
+      - "`P(k) approx e^(-k) * k^lambda / lambda!`"
+    correct_answer: 0
+    explanation: This is the probability mass function (PMF) of the Poisson distribution. It serves as a good approximation when `n` approaches infinity and `p` approaches 0 such that `np` remains constant.
+    type: single_choice
+    id: prq_1
+  - question: Under what conditions is the Poisson approximation most accurate for a Binomial distribution `B(n, p)`?
+    difficulty: easy
+    points: 10
+    options:
+      - "`n` is large (e.g., > 100) and `p` is small (e.g., < 0.05)."
+      - "`n` is small and `p` is near 0.5."
+      - "`n` is large and `p` is near 1."
+      - "`n` is any value and `p` is 0.5."
+    correct_answer: 0
+    explanation: The Law of Rare Events dictates that Poisson is best for modeling count data where the number of trials is large but the probability of success in any single trial is very low.
+    type: single_choice
+    id: edq_1
+  - question: According to Le Cam's theorem, what is the upper bound on the total variation distance (error) between the Binomial and Poisson distributions?
+    difficulty: hard
+    points: 15
+    options:
+      - "`2 * n * p^2`"
+      - "`n * p`"
+      - "`1 / sqrt(n)`"
+      - "`p / n`"
+    correct_answer: 0
+    explanation: Le Cam's theorem provides a tight bound on the error of the approximation, specifically bounded by `2np^2` (or simply `np^2` in some versions), highlighting that the error diminishes as `p` gets smaller.
+    type: single_choice
+    id: edq_2
+  - question: Why might one prefer the Poisson approximation over calculating the exact Binomial probability computationally?
+    difficulty: medium
+    points: 10
+    options:
+      - Calculating `C(n, k)` and powers for very large `n` can lead to overflow or precision issues, whereas Poisson depends only on the product `np`.
+      - The Poisson formula is theoretically exact.
+      - Binomial distribution does not exist for `n > 1000`.
+      - It is impossible to compute factorials on a computer.
+    correct_answer: 0
+    explanation: For massive `n`, the binomial coefficient `n! / (k!(n-k)!)` involves enormous numbers. The Poisson formula simplifies this by using `lambda`, avoiding the need to process `n` directly.
+    type: single_choice
+    id: edq_3

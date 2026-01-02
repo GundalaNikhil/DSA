@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMT-010: Word Destroyer</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 36px; text-shadow: 0 0 20px #e94560; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .tutorial h2 { color: #e94560; margin-bottom: 15px; }
+
+        .rules { display: flex; gap: 15px; }
+        .rule {
+            flex: 1;
+            background: #fff5f5;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .rule-icon { font-size: 28px; }
+        .rule-text { font-size: 13px; color: #555; margin-top: 5px; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .turn-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #e94560, #ff6b6b);
+            border-radius: 12px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .turn-bar.ai { background: linear-gradient(90deg, #333, #555); }
+
+        /* Word Display */
+        .word-area {
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .word-display {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .letter {
+            width: 50px;
+            height: 60px;
+            background: linear-gradient(135deg, #e94560, #ff6b6b);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 28px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .letter:hover { transform: scale(1.1); }
+        .letter.selected { box-shadow: 0 0 0 4px #fbbf24; }
+        .letter.removed { opacity: 0.2; cursor: not-allowed; background: #ccc; }
+
+        .controls { display: flex; gap: 10px; justify-content: center; margin: 15px 0; }
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-remove { background: #e94560; color: #fff; }
+        .btn-clear { background: #95a5a6; color: #fff; }
+        .btn:disabled { opacity: 0.5; }
+
+        .message { text-align: center; padding: 15px; color: #666; }
+
+        .result {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            display: none;
+        }
+        .result.win { display: block; background: #d1fae5; color: #059669; }
+        .result.lose { display: block; background: #fee2e2; color: #dc2626; }
+
+        .new-game {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 15px;
+            background: #e94560;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>💥 Word Destroyer</h1>
+        <div style="opacity:0.9">Remove letters - last to remove wins!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="rules">
+            <div class="rule">
+                <div class="rule-icon">🔤</div>
+                <div class="rule-text"><strong>Select 1-2 adjacent</strong> letters</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">💥</div>
+                <div class="rule-text"><strong>Remove them</strong> from the word</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">🏆</div>
+                <div class="rule-text"><strong>Last to remove</strong> wins!</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="turn-bar" id="turnBar">
+            <span id="turnText">🟢 Your Turn</span>
+            <span>Letters left: <span id="lettersLeft">0</span></span>
+        </div>
+
+        <div class="message" id="message">Click 1-2 adjacent letters to remove!</div>
+
+        <div class="word-area">
+            <div class="word-display" id="wordDisplay"></div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-remove" id="removeBtn" onclick="confirmRemove()" disabled>💥 Remove</button>
+            <button class="btn btn-clear" onclick="clearSelection()">✕ Clear</button>
+        </div>
+
+        <div class="result" id="result"></div>
+
+        <button class="new-game" onclick="newGame()">🔄 New Game</button>
+    </div>
+</div>
+
+<script>
+    const WORD = "GAMETHEORY";
+    let letters = []; // true = present
+    let selected = [];
+    let isPlayerTurn = true;
+    let gameOver = false;
+
+    function init() {
+        letters = new Array(WORD.length).fill(true);
+        selected = [];
+        isPlayerTurn = true;
+        gameOver = false;
+        document.getElementById('result').className = 'result';
+        render();
+    }
+
+    function render() {
+        const turnBar = document.getElementById('turnBar');
+        turnBar.className = isPlayerTurn ? 'turn-bar' : 'turn-bar ai';
+        document.getElementById('turnText').textContent = isPlayerTurn ? '🟢 Your Turn' : '🔴 AI Turn';
+        document.getElementById('lettersLeft').textContent = letters.filter(l => l).length;
+
+        const display = document.getElementById('wordDisplay');
+        display.innerHTML = '';
+
+        for (let i = 0; i < WORD.length; i++) {
+            const letter = document.createElement('div');
+            letter.className = 'letter';
+            if (!letters[i]) letter.classList.add('removed');
+            if (selected.includes(i)) letter.classList.add('selected');
+            letter.textContent = WORD[i];
+
+            if (letters[i] && isPlayerTurn && !gameOver) {
+                letter.onclick = () => toggleLetter(i);
+            }
+
+            display.appendChild(letter);
+        }
+
+        document.getElementById('removeBtn').disabled = !isValidSelection();
+    }
+
+    function toggleLetter(i) {
+        if (!letters[i] || !isPlayerTurn || gameOver) return;
+
+        if (selected.includes(i)) {
+            selected = selected.filter(x => x !== i);
+        } else {
+            if (selected.length >= 2) return;
+            if (selected.length === 1 && Math.abs(selected[0] - i) !== 1) return;
+            selected.push(i);
+        }
+
+        render();
+    }
+
+    function isValidSelection() {
+        if (selected.length === 0) return false;
+        if (selected.length === 2) {
+            return Math.abs(selected[0] - selected[1]) === 1;
+        }
+        return true;
+    }
+
+    function clearSelection() {
+        selected = [];
+        render();
+    }
+
+    function confirmRemove() {
+        if (!isValidSelection() || !isPlayerTurn || gameOver) return;
+
+        selected.forEach(i => letters[i] = false);
+        selected = [];
+
+        if (letters.every(l => !l)) {
+            endGame(true);
+            return;
+        }
+
+        isPlayerTurn = false;
+        render();
+        document.getElementById('message').textContent = '🤖 AI is thinking...';
+
+        setTimeout(aiMove, 800);
+    }
+
+    function aiMove() {
+        if (gameOver) return;
+
+        // Find first remaining letter
+        const first = letters.findIndex(l => l);
+        if (first < 0) {
+            endGame(true);
+            return;
+        }
+
+        letters[first] = false;
+        document.getElementById('message').textContent = `🤖 AI removes "${WORD[first]}"`;
+
+        if (letters.every(l => !l)) {
+            endGame(false);
+            return;
+        }
+
+        isPlayerTurn = true;
+        render();
+        setTimeout(() => {
+            document.getElementById('message').textContent = 'Your turn! Select letters to remove.';
+        }, 500);
+    }
+
+    function endGame(playerWins) {
+        gameOver = true;
+        render();
+        const result = document.getElementById('result');
+        if (playerWins) {
+            result.className = 'result win';
+            result.textContent = '🎉 YOU WIN!';
+        } else {
+            result.className = 'result lose';
+            result.textContent = '😢 AI WINS!';
+        }
+        document.getElementById('message').textContent = '';
+    }
+
+    function newGame() {
+        init();
+        document.getElementById('message').textContent = 'Click 1-2 adjacent letters to remove!';
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

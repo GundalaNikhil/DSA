@@ -117,6 +117,16 @@ Therefore, `lcp[i]` is exactly the number of duplicate substrings contributed by
 4. Calculate `duplicates = sum(lcp)`.
 5. Return `total - duplicates`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Build suffix array] --> B[Build LCP array]
+B --> C[Compute total substrings]
+C --> D[Sum LCP values]
+D --> E[Subtract duplicates]
+E --> F[Output distinct count]
+```
+
 ### Time Complexity
 
 - **O(N log N)**: Dominated by SA construction.

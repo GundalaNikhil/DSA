@@ -62,6 +62,19 @@ Think of a **Text Editor** like Microsoft Word or Google Docs.
 -   **TOP**: Check if empty. If not, print the last element. Else print `EMPTY`.
 -   Complexity: `O(1)` per operation. Total Time: `O(M)`. Space: `O(M)` to store history.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read next command] --> B{Command type}
+B -->|PUSH| C[Push value onto stack]
+B -->|POP| D{Stack empty}
+D -->|Yes| E[Output EMPTY]
+D -->|No| F[Pop and output value]
+B -->|TOP| G{Stack empty}
+G -->|Yes| E
+G -->|No| H[Output top value]
+```
+
 ## Implementations
 
 ### Java

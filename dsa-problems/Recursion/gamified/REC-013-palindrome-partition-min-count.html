@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REC-013: Laser Slicer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000;
+            --text-glow: #0ff;
+            --laser: #f0f;
+            --char-bg: #111;
+        }
+
+        body {
+            background: var(--bg);
+            color: #fff;
+            font-family: 'Audiowide', cursive;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+
+        h1 { margin-top: 2rem; color: var(--text-glow); text-shadow: 0 0 10px var(--text-glow); }
+
+        .string-container {
+            display: flex;
+            align-items: center;
+            margin-top: 4rem;
+            background: #050505;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #333;
+        }
+
+        .char-box {
+            font-size: 3rem;
+            width: 60px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--char-bg);
+            margin: 0 2px;
+            border-bottom: 4px solid #333;
+        }
+
+        .gap {
+            width: 20px;
+            height: 100px;
+            background: transparent;
+            cursor: pointer;
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .gap:hover::after {
+            content: '';
+            position: absolute;
+            top: 0; bottom: 0; width: 4px;
+            background: rgba(255, 0, 255, 0.5);
+            box-shadow: 0 0 10px var(--laser);
+        }
+
+        .gap.cut::after {
+            content: '';
+            position: absolute;
+            top: -20px; bottom: -20px; width: 4px;
+            background: var(--laser);
+            box-shadow: 0 0 20px var(--laser);
+            z-index: 10;
+        }
+        
+        .segment-status {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            width: 100%;
+        }
+        
+        .status-dot {
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background: #333;
+        }
+        .status-dot.valid { background: #0f0; box-shadow: 0 0 10px #0f0; }
+        .status-dot.invalid { background: #f00; box-shadow: 0 0 10px #f00; }
+
+        .controls { margin-top: 2rem; }
+        .btn {
+            background: transparent;
+            color: var(--text-glow);
+            border: 1px solid var(--text-glow);
+            padding: 10px 30px;
+            font-family: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        .btn:hover { background: var(--text-glow); color: #000; }
+
+        #msg { margin-top: 1rem; color: #aaa; min-height: 1.5em; }
+
+    </style>
+</head>
+<body>
+
+<h1>LASER SLICER</h1>
+<div style="color:#aaa">Click gaps to slice. ALL segments must be Palindromes.</div>
+
+<div class="string-container" id="container">
+    <!-- Generated Chars and Gaps -->
+</div>
+
+<div class="segment-status" id="indicator"></div>
+
+<div id="msg">Current cuts invalid...</div>
+
+<button class="btn" style="margin-top:20px" onclick="reset()">New String</button>
+
+<script>
+    const STRINGS = ["AABBT", "RACECAR", "MADAM", "ABCBA", "BANANA"]; 
+    // "AABBT" -> AA | B | B | T. Or A | A | BB | T.
+    // "BANANA" -> B | A | N | A | N | A. Or B | ANANA.
+    
+    let str = "AABACCA"; 
+    // A | A | B | A | CC | A. 
+    // A | AB A ? No.
+    // A | AB A CC A ? No.
+    
+    let cuts = new Set(); // indices of gaps. Gap i is after char i.
+    // Length N means N-1 gaps. 0..N-2.
+    
+    function reset() {
+        cuts.clear();
+        str = STRINGS[Math.floor(Math.random() * STRINGS.length)];
+        render();
+        check();
+    }
+
+    function render() {
+        const c = document.getElementById('container');
+        c.innerHTML = '';
+        
+        for(let i=0; i<str.length; i++) {
+            const box = document.createElement('div');
+            box.className = 'char-box';
+            box.textContent = str[i];
+            c.appendChild(box);
+            
+            if (i < str.length - 1) {
+                const gap = document.createElement('div');
+                gap.className = 'gap';
+                if (cuts.has(i)) gap.classList.add('cut');
+                gap.onclick = () => toggleCut(i);
+                c.appendChild(gap);
+            }
+        }
+    }
+
+    function toggleCut(idx) {
+        if (cuts.has(idx)) cuts.delete(idx);
+        else cuts.add(idx);
+        render();
+        check();
+    }
+
+    function check() {
+        // Parse segments
+        // Indices of cuts sorted
+        const sortedCuts = Array.from(cuts).sort((a,b)=>a-b);
+        let start = 0;
+        let allValid = true;
+        
+        // Visual indicator reset not easily mapped to DOM without re-render mess
+        // But we can just use total status
+        
+        let segments = [];
+        
+        // Gap i means split between i and i+1
+        // Indices 0..i (inclusive) is first part?
+        // e.g. STR "ABC". Gap 0 (After A). 
+        // 0..0 "A". Start 0, len 1.
+        // Next start 1.
+        
+        let ptr = 0;
+        for (let cut of sortedCuts) {
+            // Segment from ptr to cut (inclusive)
+            let sub = str.substring(ptr, cut+1);
+            segments.push(sub);
+            ptr = cut + 1;
+        }
+        segments.push(str.substring(ptr));
+        
+        let validCount = 0;
+        
+        segments.forEach(s => {
+            if (isPalindrome(s)) validCount++;
+            else allValid = false;
+        });
+
+        const msg = document.getElementById('msg');
+        if (allValid) {
+            msg.textContent = "VALID PARTITION!";
+            msg.style.color = "#0f0";
+        } else {
+            msg.textContent = `Invalid: ${validCount} / ${segments.length} segments are palindromes.`;
+            msg.style.color = "#f0f";
+        }
+    }
+
+    function isPalindrome(s) {
+        if (s.length === 0) return false;
+        return s === s.split('').reverse().join('');
+    }
+
+    window.onload = reset;
+</script>
+</body>
+</html>

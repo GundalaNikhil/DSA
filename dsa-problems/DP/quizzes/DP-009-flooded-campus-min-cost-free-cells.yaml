@@ -1,266 +1,52 @@
----
-problem_id: DP_GRID_FREE_CELL__4415
+problem_id: DP_FLOODED_CAMPUS_MIN_COST_FREE_CELLS_009
 display_id: DP-009
 slug: flooded-campus-min-cost-free-cells
-title: "Flooded Campus Min Cost With Free Cells - Quiz"
----
-
-# Problem-Related Questions (PRQ)
-# These test understanding of the problem statement, constraints, and requirements
-
-problem_questions:
-  - quiz_id: "PRQ-009-Q001"
-    category: "problem"
-    type: single_choice
-    question: "What is the primary task in the Flooded Campus Min Cost With Free Cells problem?"
-    options:
-      - option_id: "A"
-        text: "Find the shortest path from top-left to bottom-right"
-        correct: false
-      - option_id: "B"
-        text: "Find the minimum cost path using at most F free cells"
-        correct: true
-      - option_id: "C"
-        text: "Count the number of flooded cells"
-        correct: false
-      - option_id: "D"
-        text: "Maximize the use of free cells"
-        correct: false
-    explanation: "The problem asks to find the minimum cost to traverse from start to end, where we can use at most F free cells (cost 0) and must pay for others."
+questions:
+  - question: What is the primary task in the Flooded Campus Min Cost With Free Cells problem?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-009-Q002"
-    category: "problem"
-    type: single_choice
-    question: "What is a 'free cell' in this problem?"
     options:
-      - option_id: "A"
-        text: "A cell with zero traversal cost"
-        correct: false
-      - option_id: "B"
-        text: "A cell where we can use our budget to waive the cost"
-        correct: true
-      - option_id: "C"
-        text: "An unvisited cell"
-        correct: false
-      - option_id: "D"
-        text: "A cell on the boundary"
-        correct: false
-    explanation: "Free cells are part of our budget F - we can choose to use this budget on F cells to avoid paying their costs, treating them as free."
+      - Find the shortest path from top-left to bottom-right
+      - Find the minimum cost path using at most F free cells
+      - Count the number of flooded cells
+      - Maximize the use of free cells
+    correct_answer: 1
+    explanation: The problem asks to find the minimum cost to traverse from start to end, where we can use at most F free cells (cost 0) and must pay for others.
+    type: single_choice
+    id: prq_1
+  - question: What is a 'free cell' in this problem?
     difficulty: easy
     points: 10
-
-  - quiz_id: "PRQ-009-Q003"
-    category: "problem"
-    type: single_choice
-    question: "If a cell has cost C and we have free cells remaining, what are our options?"
     options:
-      - option_id: "A"
-        text: "We must use a free cell if available"
-        correct: false
-      - option_id: "B"
-        text: "We can choose to pay C or use one free cell (cost 0)"
-        correct: true
-      - option_id: "C"
-        text: "Free cells can only be used on flooded cells"
-        correct: false
-      - option_id: "D"
-        text: "We cannot traverse cells with cost > 0"
-        correct: false
+      - A cell with zero traversal cost
+      - A cell where we can use our budget to waive the cost
+      - An unvisited cell
+      - A cell on the boundary
+    correct_answer: 1
+    explanation: Free cells are part of our budget F - we can choose to use this budget on F cells to avoid paying their costs, treating them as free.
+    type: single_choice
+    id: edq_1
+  - question: If a cell has cost C and we have free cells remaining, what are our options?
+    difficulty: medium
+    points: 15
+    options:
+      - We must use a free cell if available
+      - We can choose to pay C or use one free cell (cost 0)
+      - Free cells can only be used on flooded cells
+      - We cannot traverse cells with cost > 0
+    correct_answer: 1
     explanation: "When we have free cells available, we have a choice: pay the cell's cost or use one of our F free cell budgets to traverse it for free."
+    type: single_choice
+    id: edq_2
+  - question: Which of the following affect the total path cost? (Select all that apply)
     difficulty: medium
     points: 15
-
-  - quiz_id: "PRQ-009-Q004"
-    category: "problem"
-    type: multiple_choice
-    question: "Which of the following affect the total path cost? (Select all that apply)"
     options:
-      - option_id: "A"
-        text: "The cost values of cells we traverse"
-        correct: true
-      - option_id: "B"
-        text: "Which cells we choose to mark as 'free'"
-        correct: true
-      - option_id: "C"
-        text: "The number of free cells we've used"
-        correct: false
-      - option_id: "D"
-        text: "The path length"
-        correct: false
-    explanation: "Total cost depends on cell costs and our strategic use of free cell budget. The number of free cells used doesn't add cost (they're free). Path length doesn't directly affect cost."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "PRQ-009-Q005"
-    category: "problem"
+      - The cost values of cells we traverse
+      - Which cells we choose to mark as 'free'
+      - The number of free cells we've used
+      - The path length
+    correct_answer: 1
+    explanation: Total cost depends on cell costs and our strategic use of free cell budget. The number of free cells used doesn't add cost (they're free). Path length doesn't directly affect cost.
     type: single_choice
-    question: "Given a 2×2 grid with costs [[1,2],[3,4]] and F=1 free cell, what is the minimum cost path from (0,0) to (1,1)?"
-    options:
-      - option_id: "A"
-        text: "3 (path: 1→2→4, using free on 4)"
-        correct: true
-      - option_id: "B"
-        text: "4 (path: 1→3→4, using free on 4)"
-        correct: false
-      - option_id: "C"
-        text: "6 (no free cells used)"
-        correct: false
-      - option_id: "D"
-        text: "2 (impossible)"
-        correct: false
-    explanation: "Path (0,0)→(0,1)→(1,1) costs 1+2+4=7, using free on 4 gives 1+2+0=3. Path (0,0)→(1,0)→(1,1) costs 1+3+4=8, using free on 4 gives 1+3+0=4. Minimum is 3."
-    difficulty: hard
-    points: 20
-
-# Editorial/Algorithm Questions (EDQ)
-# These test understanding of the solution approach, algorithms, and complexity analysis
-
-editorial_questions:
-  - quiz_id: "EDQ-009-Q001"
-    category: "editorial"
-    type: single_choice
-    question: "What is the time complexity of the DP solution for this problem?"
-    options:
-      - option_id: "A"
-        text: "O(M * N)"
-        correct: false
-      - option_id: "B"
-        text: "O(M * N * F)"
-        correct: true
-      - option_id: "C"
-        text: "O(M * N * F²)"
-        correct: false
-      - option_id: "D"
-        text: "O((M*N)²)"
-        correct: false
-    explanation: "The DP state is dp[row][col][free_used], with M*N*F states. Each state processes O(1) transitions, giving O(M*N*F) time complexity."
-    difficulty: medium
-    points: 15
-
-  - quiz_id: "EDQ-009-Q002"
-    category: "editorial"
-    type: single_choice
-    question: "What should dp[i][j][f] represent?"
-    options:
-      - option_id: "A"
-        text: "Maximum cost to reach cell (i,j) using f free cells"
-        correct: false
-      - option_id: "B"
-        text: "Minimum cost to reach cell (i,j) having used exactly f free cells"
-        correct: true
-      - option_id: "C"
-        text: "Number of paths to (i,j) with f free cells"
-        correct: false
-      - option_id: "D"
-        text: "Whether cell (i,j) is reachable with f free cells"
-        correct: false
-    explanation: "We track the minimum cost to reach each cell for each possible count of free cells used (0 to F), allowing us to make optimal decisions."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-009-Q003"
-    category: "editorial"
-    type: single_choice
-    question: "When arriving at cell (i,j) with cost C, what transitions are possible?"
-    options:
-      - option_id: "A"
-        text: "Only pay the cost C"
-        correct: false
-      - option_id: "B"
-        text: "Pay cost C (dp[i][j][f] = prev + C) or use free cell if f<F (dp[i][j][f+1] = prev)"
-        correct: true
-      - option_id: "C"
-        text: "Always use free cells first"
-        correct: false
-      - option_id: "D"
-        text: "Free cells can only be used on specific cell types"
-        correct: false
-    explanation: "We have two choices: pay the cost (same free count) or consume one free cell budget (increment free count, add 0 cost)."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-009-Q004"
-    category: "editorial"
-    type: scenario
-    question: "You're optimizing server routing with F 'express lanes' that bypass costs. Which algorithm applies?"
-    options:
-      - option_id: "A"
-        text: "Standard shortest path (Dijkstra)"
-        correct: false
-      - option_id: "B"
-        text: "Grid DP with limited free-cost budget"
-        correct: true
-      - option_id: "C"
-        text: "Greedy selection"
-        correct: false
-      - option_id: "D"
-        text: "Binary search on costs"
-        correct: false
-    explanation: "This models the flooded campus problem - finding minimum cost paths with a budget of F free traversals, requiring DP with budget tracking."
-    difficulty: easy
-    points: 10
-
-  - quiz_id: "EDQ-009-Q005"
-    category: "editorial"
-    type: scenario
-    question: "Your solution gives correct answers for F=0 but wrong answers for F>0. What's the likely issue?"
-    options:
-      - option_id: "A"
-        text: "Not properly handling the transition when using a free cell"
-        correct: true
-      - option_id: "B"
-        text: "Integer overflow"
-        correct: false
-      - option_id: "C"
-        text: "Wrong base case for starting position"
-        correct: false
-      - option_id: "D"
-        text: "Modulo arithmetic errors"
-        correct: false
-    explanation: "F=0 reduces to standard grid path. Wrong answers for F>0 suggests the free cell logic is broken - likely not correctly transitioning to dp[i][j][f+1] when using free."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-009-Q006"
-    category: "editorial"
-    type: multiple_choice
-    question: "Which of the following are common mistakes in this problem? (Select all that apply)"
-    options:
-      - option_id: "A"
-        text: "Greedily using free cells on highest-cost cells without considering future paths"
-        correct: true
-      - option_id: "B"
-        text: "Not initializing dp array with infinity for unreachable states"
-        correct: true
-      - option_id: "C"
-        text: "Confusing 'f free cells used' with 'f free cells remaining'"
-        correct: true
-      - option_id: "D"
-        text: "Using BFS instead of DP"
-        correct: false
-    explanation: "Common errors include greedy free cell usage (need DP for optimal), wrong initialization, and index confusion. BFS with state tracking can work but is less elegant."
-    difficulty: hard
-    points: 20
-
-  - quiz_id: "EDQ-009-Q007"
-    category: "editorial"
-    type: single_choice
-    question: "How can we extract the final answer from the DP table?"
-    options:
-      - option_id: "A"
-        text: "Return dp[M-1][N-1][0]"
-        correct: false
-      - option_id: "B"
-        text: "Return dp[M-1][N-1][F]"
-        correct: false
-      - option_id: "C"
-        text: "Return min(dp[M-1][N-1][f]) for f in [0, F]"
-        correct: true
-      - option_id: "D"
-        text: "Return sum of all dp[M-1][N-1][f]"
-        correct: false
-    explanation: "We want the minimum cost across all possible free cell usage counts (0 to F) when reaching the destination, so we take the minimum over all f."
-    difficulty: medium
-    points: 15
+    id: edq_3

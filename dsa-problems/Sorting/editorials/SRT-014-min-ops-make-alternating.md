@@ -71,6 +71,19 @@ Imagine you are a **Tiler** laying a floor.
 -   Result = `N - max_kept`.
 -   Complexity: `O(N)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Count values on even positions] --> B[Count values on odd positions]
+B --> C[Pick top two on each side]
+C --> D{Top values differ}
+D -->|Yes| E[Use both top values]
+D -->|No| F[Try top with second best]
+E --> G[Compute changes]
+F --> G
+G --> H[Output minimum changes]
+```
+
 ## Implementations
 
 ### Java

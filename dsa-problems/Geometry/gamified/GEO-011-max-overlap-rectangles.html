@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEO-011: Max Overlap Count</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 32px; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #8b5cf6; margin-bottom: 12px; }
+        .tutorial p { font-size: 14px; color: #555; line-height: 1.6; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .canvas-container {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+            cursor: crosshair;
+        }
+
+        .info {
+            text-align: center;
+            padding: 15px;
+            background: #f5f3ff;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .buttons-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 15px;
+        }
+        .btn-num {
+            width: 50px;
+            height: 50px;
+            border: none;
+            border-radius: 10px;
+            background: #8b5cf6;
+            color: #fff;
+            font-family: inherit;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-num:hover { background: #7c3aed; }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .message.correct { background: #d1fae5; color: #059669; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #f5f3ff; color: #6d28d9; }
+
+        .new-game {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #8b5cf6;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🔢 Max Overlap Count</h1>
+        <div style="opacity:0.9">Find the maximum number of overlapping rectangles!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <p>Look at the overlapping rectangles. Some areas are covered by multiple rectangles. What's the MAXIMUM overlap depth (most rectangles stacked at any point)?</p>
+    </div>
+
+    <div class="game-card">
+        <div class="canvas-container">
+            <canvas id="canvas" width="500" height="400"></canvas>
+        </div>
+
+        <div class="info" id="info">Click on the canvas to see overlap count at that point!</div>
+
+        <div class="buttons-row">
+            <button class="btn-num" onclick="guess(1)">1</button>
+            <button class="btn-num" onclick="guess(2)">2</button>
+            <button class="btn-num" onclick="guess(3)">3</button>
+            <button class="btn-num" onclick="guess(4)">4</button>
+            <button class="btn-num" onclick="guess(5)">5</button>
+        </div>
+
+        <div class="message neutral" id="message">What's the maximum overlap?</div>
+
+        <button class="new-game" onclick="newRound()">New Rectangles →</button>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    let rectangles = [];
+    let maxOverlap = 0;
+    const alphaColors = ['rgba(239,68,68,0.3)', 'rgba(59,130,246,0.3)', 'rgba(34,197,94,0.3)', 'rgba(251,191,36,0.3)', 'rgba(168,85,247,0.3)'];
+    const borderColors = ['#ef4444', '#3b82f6', '#22c55e', '#fbbf24', '#a855f7'];
+
+    function generateRectangles() {
+        rectangles = [];
+        const numRects = 3 + Math.floor(Math.random() * 3);
+
+        for (let i = 0; i < numRects; i++) {
+            const x = 50 + Math.random() * 250;
+            const y = 50 + Math.random() * 200;
+            const w = 80 + Math.random() * 120;
+            const h = 80 + Math.random() * 120;
+
+            rectangles.push({
+                x, y, w, h,
+                color: alphaColors[i % alphaColors.length],
+                border: borderColors[i % borderColors.length]
+            });
+        }
+
+        // Calculate max overlap
+        maxOverlap = calculateMaxOverlap();
+    }
+
+    function calculateMaxOverlap() {
+        let max = 0;
+        // Sample points across the canvas
+        for (let x = 0; x < canvas.width; x += 10) {
+            for (let y = 0; y < canvas.height; y += 10) {
+                let count = 0;
+                rectangles.forEach(r => {
+                    if (x >= r.x && x <= r.x + r.w && y >= r.y && y <= r.y + r.h) {
+                        count++;
+                    }
+                });
+                max = Math.max(max, count);
+            }
+        }
+        return max;
+    }
+
+    function getOverlapAt(px, py) {
+        let count = 0;
+        rectangles.forEach(r => {
+            if (px >= r.x && px <= r.x + r.w && py >= r.y && py <= r.y + r.h) {
+                count++;
+            }
+        });
+        return count;
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Grid
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 1;
+        for (let x = 0; x <= canvas.width; x += 50) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, canvas.height);
+            ctx.stroke();
+        }
+        for (let y = 0; y <= canvas.height; y += 50) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+        }
+
+        // Draw rectangles
+        rectangles.forEach((r, i) => {
+            ctx.fillStyle = r.color;
+            ctx.fillRect(r.x, r.y, r.w, r.h);
+            ctx.strokeStyle = r.border;
+            ctx.lineWidth = 2;
+            ctx.strokeRect(r.x, r.y, r.w, r.h);
+        });
+    }
+
+    canvas.onclick = function(e) {
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const count = getOverlapAt(x, y);
+        document.getElementById('info').textContent = `At (${Math.round(x)}, ${Math.round(y)}): ${count} rectangle${count !== 1 ? 's' : ''} overlap`;
+    };
+
+    function guess(num) {
+        const msg = document.getElementById('message');
+
+        if (num === maxOverlap) {
+            msg.className = 'message correct';
+            msg.textContent = `✅ Correct! Maximum overlap is ${maxOverlap} rectangles.`;
+        } else {
+            msg.className = 'message wrong';
+            msg.textContent = `❌ Wrong! Maximum overlap is ${maxOverlap}, not ${num}.`;
+        }
+    }
+
+    function newRound() {
+        generateRectangles();
+        draw();
+        document.getElementById('info').textContent = 'Click on the canvas to see overlap count at that point!';
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'What\'s the maximum overlap?';
+    }
+
+    window.onload = newRound;
+</script>
+</body>
+</html>

@@ -46,6 +46,7 @@ If you are building a smart correction system for a college typing tutor app:
 - you want a distance that models “effort” (or likelihood) using keyboard geometry
 
 This problem is exactly that: compute the minimum effort to transform one string to another.
+When the keys stay on the same row, the cost stays on a lighter touch.
 
 **Why This Problem Matters:**
 
@@ -130,6 +131,23 @@ To compute `dp[i][j]`, consider the last operation:
 `dp[i][j] = dp[i-1][j-1] + costReplace(a[i-1], b[j-1])`
 
 Take minimum of the three.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with strings a and b] --> B[Initialize base row and base column]
+    B --> C[Set i to 1]
+    C --> D{i not greater than length of a?}
+    D -- No --> J[Return dp at end]
+    D -- Yes --> E[Set j to 1]
+    E --> F{j not greater than length of b?}
+    F -- No --> I[i++]
+    F -- Yes --> G[Compute delete insert and replace costs]
+    G --> H[Set dp at i j to minimum]
+    H --> K[j++]
+    K --> F
+    I --> D
+```
 
 This is identical to Levenshtein distance, except replacement cost is not 0/1—it's weighted.
 

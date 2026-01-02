@@ -87,6 +87,20 @@ Common interpretation mistake:
 ### Core BFS Concept
 
 BFS explores a graph by visiting all neighbors at the current depth before moving to nodes at the next depth level. This is achieved using a queue data structure that ensures First-In-First-Out (FIFO) processing.
+The queue keeps the walk orderly, one hallway at a time.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start at node 0] --> B[Mark visited and enqueue]
+    B --> C{Queue not empty?}
+    C -- No --> H[Return traversal order]
+    C -- Yes --> D[Dequeue node]
+    D --> E[Add node to result]
+    E --> F[For each unvisited neighbor]
+    F --> G[Mark visited and enqueue]
+    G --> C
+```
 
 ### Why Naive DFS Doesn't Give Level-Order
 

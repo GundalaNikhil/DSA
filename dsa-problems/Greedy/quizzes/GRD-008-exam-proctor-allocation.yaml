@@ -1,0 +1,52 @@
+problem_id: GRD_EXAM_PROCTOR_ALLOCATION_008
+display_id: GRD-008
+slug: exam-proctor-allocation
+questions:
+  - question: Which algorithmic technique is most suitable for efficiently finding the maximum interval overlap?
+    difficulty: easy
+    points: 10
+    options:
+      - Sweep Line Algorithm
+      - Brute Force
+      - Dynamic Programming
+      - Depth First Search
+    correct_answer: 0
+    explanation: The Sweep Line algorithm processes start and end events in order, efficiently tracking the number of active intervals at any point.
+    type: single_choice
+    id: prq_1
+  - question: When sorting events, how should ties (same time) be handled to correctly calculate peak overlap for inclusive intervals?
+    difficulty: medium
+    points: 10
+    options:
+      - Process Start (+1) before End (-1)
+      - Process End (-1) before Start (+1)
+      - The order doesn't matter
+      - Process them randomly
+    correct_answer: 0
+    explanation: If an exam ends at T and another starts at T, processing the Start first ensures we count both as active at instant T, capturing the true peak demand.
+    type: single_choice
+    id: edq_1
+  - question: If the maximum overlap is `maxOverlap` and each proctor handles `r` exams, how many proctors are needed?
+    difficulty: easy
+    points: 10
+    options:
+      - "`ceil(maxOverlap / r)`"
+      - "`floor(maxOverlap / r)`"
+      - "`maxOverlap * r`"
+      - "`maxOverlap - r`"
+    correct_answer: 0
+    explanation: We need enough proctors to cover the peak load. Integer ceiling division `(max + r - 1) / r` gives the correct count.
+    type: single_choice
+    id: edq_2
+  - question: What is the primary factor determining the time complexity of the Sweep Line approach?
+    difficulty: easy
+    points: 10
+    options:
+      - "Sorting the start and end events: O(N log N)"
+      - "Iterating through the timeline: O(MAX_TIME)"
+      - "The number of proctors: O(r)"
+      - "Space complexity: O(N^2)"
+    correct_answer: 0
+    explanation: The algorithm creates 2N events and sorts them, which dominates the runtime. The sweep itself is linear O(N).
+    type: single_choice
+    id: edq_3

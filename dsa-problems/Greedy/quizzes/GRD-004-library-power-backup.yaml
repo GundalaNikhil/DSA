@@ -1,0 +1,52 @@
+problem_id: GRD_LIBRARY_POWER_BACKUP_004
+display_id: GRD-004
+slug: library-power-backup
+questions:
+  - question: If the optimal solution requires using `k` batteries to meet the power requirement `T`, how many swaps are performed?
+    difficulty: easy
+    points: 10
+    options:
+      - k - 1
+      - k
+      - k + 1
+      - "0"
+    correct_answer: 0
+    explanation: The first battery is an initial setup. Each subsequent battery requires a switch. So, `swaps = count - 1`.
+    type: single_choice
+    id: prq_1
+  - question: To minimize the number of swaps (and thus batteries used), how should the batteries be selected?
+    difficulty: easy
+    points: 10
+    options:
+      - Largest capacity first (Sort Descending)
+      - Smallest capacity first (Sort Ascending)
+      - Randomly
+      - Based on battery weight
+    correct_answer: 0
+    explanation: Greedily choosing the largest available batteries maximizes the coverage per battery, minimizing the total number of batteries needed to reach sum >= T.
+    type: single_choice
+    id: edq_1
+  - question: Why would using a standard 32-bit integer for the `currentSum` variable be risky in this problem?
+    difficulty: medium
+    points: 10
+    options:
+      - The total capacity can reach ~10^14, exceeding the 32-bit limit (~2*10^9)
+      - The number of batteries `n` is too large
+      - The time `T` can be negative
+      - Swaps can be negative
+    correct_answer: 0
+    explanation: With `n` up to 10^5 and each capacity up to 10^9, the sum can be 10^14, requiring a 64-bit integer (long/long long).
+    type: single_choice
+    id: edq_2
+  - question: If the goal was to minimize the *total capacity used* to satisfy at least `T` (instead of minimizing swaps), what would be the strategy?
+    difficulty: medium
+    points: 15
+    options:
+      - Sort Ascending (use smallest sufficient batteries)
+      - Sort Descending (largest first)
+      - Use Dynamic Programming
+      - Always pick the median capacity
+    correct_answer: 0
+    explanation: To meet the threshold `T` with minimal excess, picking smaller batteries allows for finer granularity, reducing 'waste' over `T`.
+    type: single_choice
+    id: edq_3

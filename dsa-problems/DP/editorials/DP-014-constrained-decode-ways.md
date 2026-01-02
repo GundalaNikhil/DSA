@@ -41,6 +41,7 @@ Developers need to compute how many valid interpretations a received password st
 - Strengthens **linear DP on strings** with custom validity checks.
 - Shows how small rule tweaks (“only `20` is valid with zero”) change transition logic.
 - Reinforces **modular arithmetic** for large counts.
+This rule makes zero a picky guest, it only shows up with a two.
 
 ![Real-World Application](../images/DP-014/real-world-scenario.png)
 
@@ -67,6 +68,23 @@ Initialization:
 - Otherwise `prev1 = prev2 = 1`.
 
 Update `prev2 <- prev1`, `prev1 <- cur` each step. The result is `prev1` at the end.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with string s] --> B{Starts with zero?}
+    B -- Yes --> C[Return 0]
+    B -- No --> D[Set prev2 and prev1 to 1]
+    D --> E[For i from 1 to n minus 1]
+    E --> F[Compute pair from s at i minus 1 and i]
+    F --> G[Set cur to 0]
+    G --> H[Add prev1 if single digit valid]
+    G --> I[Add prev2 if pair valid]
+    H --> J[Set prev2 to prev1 and prev1 to cur]
+    I --> J
+    J --> E
+    E --> K[Return prev1]
+```
 
 ## Naive Approach
 

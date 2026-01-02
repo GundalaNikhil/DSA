@@ -28,110 +28,139 @@ Distinct ones: "", "a", "aa", "aaa". Count = 4.
 
 ## 🌍 Real-World Scenario
 
-**Scenario Title:** Data Deduplication
+**Scenario Title:** The Search Engine Indexer 🔍
 
-Imagine you are building a search engine index. You have a massive text, and you want to index all possible phrases (substrings) so users can search for any part of the text.
-- Storing every occurrence of every phrase is wasteful.
-- You only need to store each *unique* phrase once.
-- Counting distinct substrings helps estimate the size of this index.
+### The Problem
+You are building the autocomplete feature for a search engine. When a user types a query, you want to suggest completions based on phrases that exist in your database.
+- **Goal:** Build an index of all unique phrases (substrings) contained in a set of documents.
+- **Challenge:** A document might contain the phrase "data science" 50 times. You only need to store it once.
+- **Metric:** Determining the "richness" of a vocabulary (e.g., in a book) by counting unique substrings.
 
-![Real-World Application](../images/HSH-005/real-world-scenario.png)
+### Why This Matters
+- **Compression:** Lempel-Ziv (LZ77) compression works by finding repeated substrings. Counting distinct substrings helps estimate compressibility.
+- **Bioinformatics:** Measuring DNA sequence complexity. High distinct substring count = high information entropy.
+- **Plagiarism:** Specialized algorithms compare the set of distinct substrings to find finding partial matches.
+
+### Constraints in Real World
+- **Scale:** If text size $N = 100,000$, total substrings = $5 \times 10^9$. We can't store them all.
+- **Suffix Approach:** For massive scale, we use Suffix Trees ($O(N)$). For this problem context, we explore the **Hashing** approach ($O(N^2)$).
 
 ## Detailed Explanation
 
-### ASCII Diagram: Substring Enumeration
+### Concept Visualization
 
-String: "ababa"
+We need to generate every possible substring and throw them into a "Unique Filter" (Set).
 
-```text
-Length 1:
-"a", "b", "a", "b", "a" -> Distinct: {"a", "b"} (2)
-
-Length 2:
-"ab", "ba", "ab", "ba" -> Distinct: {"ab", "ba"} (2)
-
-Length 3:
-"aba", "bab", "aba" -> Distinct: {"aba", "bab"} (2)
-
-Length 4:
-"abab", "baba" -> Distinct: {"abab", "baba"} (2)
-
-Length 5:
-"ababa" -> Distinct: {"ababa"} (1)
-
-Empty String: "" -> Distinct: {""} (1)
-
-Total: 1 + 2 + 2 + 2 + 2 + 1 = 10.
+```mermaid
+graph LR
+    Input[String: aaa] --> Gen[Generate All Substrings]
+    Gen --> Sub1["a"]
+    Gen --> Sub2["a"]
+    Gen --> Sub3["a"]
+    Gen --> Sub4["aa"]
+    Gen --> Sub5["aa"]
+    Gen --> Sub6["aaa"]
+    
+    Sub1 & Sub2 & Sub3 --> Filter{Unique Set}
+    Sub4 & Sub5 --> Filter
+    Sub6 --> Filter
+    
+    Filter --> Result["a", "aa", "aaa"]
+    Result --> Count[Count = 3 + 1(empty) = 4]
+    
+    style Result fill:#d4f4dd
 ```
 
-### Key Concept: Hashing for Uniqueness
+### Algorithm Flow Diagram
 
-Instead of storing full strings in a Set (which consumes huge memory and time for comparisons), we store their **Hashes**.
-- A hash is a single number representing the string.
-- Comparing two numbers is `O(1)`.
-- Storing numbers is space-efficient.
+```mermaid
+graph TD
+    Start[Start] --> Init[Set<Long> uniqueHashes]
+    Init --> LoopI{i from 0 to N-1}
+    LoopI -- i < N --> ResetH[currentHash = 0]
+    ResetH --> LoopJ{j from i to N-1}
+    
+    LoopJ -- j < N --> CalcH[currentHash = currentHash * B + s[j]]
+    CalcH --> AddH[Add currentHash to Set]
+    AddH --> IncJ[j++]
+    IncJ --> LoopJ
+    
+    LoopJ -- j >= N --> IncI[i++]
+    IncI --> LoopI
+    
+    LoopI -- i >= N --> Return[Return Set.size + 1]
+    
+    style AddH fill:#e6f3ff
+```
 
-## ✅ Input/Output Clarifications (Read This Before Coding)
+## 🎯 Edge Cases to Test
 
-- **Input:** String `s`.
-- **Output:** Integer count.
-- **Constraints:** `|s| <= 10^5`.
-- **Time Complexity Considerations:**
-  - The problem specifies `O(N^2)` time complexity in the notes section.
-  - For the constraint `N=10^5`, an `O(N^2)` solution performs `10^10` operations, which may exceed time limits.
-  - For production systems with `N=10^5`, **Suffix Automaton** or **Suffix Array** solutions (`O(N)` or `O(N log N)`) are more appropriate.
-  - However, the problem title explicitly mentions "Hash" and the notes specify `O(N^2)`.
-  - **Implementation approach:** This editorial provides the hashing solution as specified. Test cases may have smaller actual values of N, or the time limit may be generous enough to accommodate `O(N^2)` with optimized hashing.
+1.  **Repeated Characters**
+    -   Input: `"aaaa"`
+    -   Distinct: `"", "a", "aa", "aaa", "aaaa"` (5)
+2.  **All Distinct Characters**
+    -   Input: `"abc"`
+    -   Distinct: `"", "a", "b", "c", "ab", "bc", "abc"` (7)
+    -   Formula: $N(N+1)/2 + 1$
+3.  **Empty String**
+    -   Input: `""`
+    -   Distinct: `""` (1)
+4.  **Alternating Characters**
+    -   Input: `"abab"`
+    -   Distinct: `"", "a", "b", "ab", "ba", "aba", "bab", "abab"` (8)
+
+## ✅ Input/Output Clarifications
+
+-   **Input:** String `s`.
+-   **Output:** Integer representing count of distinct substrings.
+-   **Constraints:**
+    -   Algorithms based on Hashing are typically $O(N^2)$.
+    -   If $N=10^5$, this will time out. Hashing solutions are suitable for $N \le 3000$.
+    -   For larger $N$, Suffix Structures are required (see Interview Extensions).
 
 ## Naive Approach
 
 ### Intuition
-
-Generate all substrings, put them in a `HashSet<String>`.
+Generate every substring as a string object and add to a `HashSet<String>`.
 
 ### Algorithm
+1.  `Set<String> set = new HashSet<>()`
+2.  Nested loops `i`, `j` to generate `sub = s.substring(i, j)`.
+3.  `set.add(sub)`.
 
-1. `Set<String> distinct = new HashSet<>();`
-2. Loop `i` from 0 to `n`:
-   - Loop `j` from `i+1` to `n`:
-     - `distinct.add(s.substring(i, j))`
-3. Return `distinct.size() + 1` (for empty).
+### Complexity Visualization
 
-### Time Complexity
+| Approach | Time Complexity | Space Complexity | Feasibility for N=1000 | Feasibility for N=100K |
+| :--- | :---: | :---: | :---: | :---: |
+| Naive (String Set) | O(N³) | O(N³) | ⚠️ Slow (10⁹ ops) | ❌ CRASH |
+| Rolling Hash Set | O(N²) | O(N²) | ✅ Fast (10⁶ ops) | ❌ TLE (10¹⁰ ops) |
+| Suffix Automaton | O(N) | O(N) | ✅ Instant | ✅ Fast |
 
-- **O(N^3)**: `O(N^2)` substrings, each takes `O(N)` to hash/store. Definitely TLE.
+### Why This Fails
+String creation and hashing takes $O(L)$ where $L$ is length. Total time $\sum L \approx O(N^3)$. Memory also explodes storing heavily duplicated string data.
 
 ## Optimal Approach (for Hashing context)
 
 ### Key Insight
-
-Use **Rolling Hash**.
-- Iterate through all starting positions `i`.
-- For each `i`, iterate `j` from `i` to `n-1`.
-- Update the hash incrementally in `O(1)`.
-- Insert hash into a `HashSet<Long>`.
+Instead of extracting substrings (expensive), we just need their **fingerprints**.
+We can compute the hash of `s[i...j]` based on the hash of `s[i...j-1]` in $O(1)$.
+`Hash(s[i...j]) = (Hash(s[i...j-1]) * B + s[j]) % M`
+We insert these `long` values into a `HashSet`.
 
 ### Algorithm
-
-1. Initialize `Set<Long> hashes`.
-2. Loop `i` from 0 to `n-1`:
-   - `currentHash = 0`
-   - Loop `j` from `i` to `n-1`:
-     - `currentHash = (currentHash * B + s[j]) % M`
-     - `hashes.add(currentHash)`
-3. Return `hashes.size() + 1`.
+1.  Initialize `Set<Long> hashes`.
+2.  Loop `i` from 0 to `N-1` (start index):
+    -   `currentHash = 0`
+    -   Loop `j` from `i` to `N-1` (end index):
+        -   Update `currentHash`: add `s[j]`.
+        -   Add `currentHash` to `hashes`.
+3.  Return `hashes.size() + 1` (for empty string).
 
 ### Time Complexity
-
-- **O(N^2)**: We visit each substring once, `O(1)` work per visit.
-- For `N=10^5`, this is still too slow. But it's the optimal *hashing* approach.
-- (True optimal is Suffix Automaton `O(N)`).
+-   **O(N^2)**: Two nested loops, $O(1)$ operations inside.
 
 ### Space Complexity
-
-- **O(N^2)**: In worst case (all distinct), we store `O(N^2)` hashes.
-
-![Algorithm Visualization](../images/HSH-005/algorithm-visualization.png)
+-   **O(N^2)**: In the worst case (all distinct), we store $O(N^2)$ distinct hashes.
 
 ## Implementations
 
@@ -146,8 +175,8 @@ class Solution {
     public int countDistinctSubstrings(String s) {
         int n = s.length();
         // Use a Set to store unique hashes
-        // For competitive programming with N=10^5, this will TLE/MLE.
-        // But for N <= 2000, it works.
+        // For competitive programming with N=10^5, this requires Suffix Structures.
+        // This Hashing solution works for N <= 3000.
         Set<Long> distinctHashes = new HashSet<>();
         
         for (int i = 0; i < n; i++) {
@@ -179,6 +208,9 @@ class Main {
 ### Python
 ```python
 import sys
+
+# Increase recursion depth just in case
+sys.setrecursionlimit(2000)
 
 class Solution:
     def count_distinct_substrings(self, s: str) -> int:
@@ -228,7 +260,7 @@ public:
     int countDistinctSubstrings(string s) {
         int n = s.length();
         unordered_set<long long> distinctHashes;
-        // Pre-allocate to avoid resizing overhead if possible, though hard to predict size
+        // Pre-allocate to avoid resizing overhead if possible
         // distinctHashes.reserve(n * n / 2); 
         
         for (int i = 0; i < n; i++) {
@@ -300,52 +332,54 @@ rl.on("close", () => {
 
 ## 🧪 Test Case Walkthrough (Dry Run)
 
-**Input:**
+### Input
 ```
-aaa
+aba
 ```
 
-**Iteration i=0:**
-- j=0 ("a"): Hash(a). Add to Set.
-- j=1 ("aa"): Hash(aa). Add.
-- j=2 ("aaa"): Hash(aaa). Add.
+### Execution Table
 
-**Iteration i=1:**
-- j=1 ("a"): Hash(a). Already in Set.
-- j=2 ("aa"): Hash(aa). Already in Set.
+| Outer `i` | Inner `j` | Char | Calculation `(H*B + c)%M` | New Hash | Action |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **0** | **0** | a | `(0 * 313 + 97) % M` | **97** | Add {97} |
+| 0 | 1 | b | `(97 * 313 + 98) % M` | **30459** | Add {97, 30459} |
+| 0 | 2 | a | `(30459 * 313 + 97) % M` | **9533764** | Add {..., 9533764} |
+| **1** | **1** | b | `(0 * 313 + 98) % M` | **98** | Add {..., 98} |
+| 1 | 2 | a | `(98 * 313 + 97) % M` | **30771** | Add {..., 30771} |
+| **2** | **2** | a | `(0 * 313 + 97) % M` | **97** | Present (skip) |
 
-**Iteration i=2:**
-- j=2 ("a"): Hash(a). Already in Set.
-
-**Result:**
-Set contains {Hash(a), Hash(aa), Hash(aaa)}. Size = 3.
-Return 3 + 1 (empty) = 4.
+**Distinct Hashes (`distinctHashes`):** {97, 30459, 9533764, 98, 30771}
+**Size:** 5
+**Result:** 5 + 1 (empty) = **6**.
+**Verification:** "", "a", "ab", "aba", "b", "ba". Correct (6).
 
 ## ✅ Proof of Correctness
 
 ### Invariant
-The set contains the hash of every substring exactly once.
-Since we iterate all `s[i..j]`, we cover all substrings.
-The Set data structure ensures uniqueness.
-Collision probability is low with large MOD.
+At the end of the loops, `distinctHashes` contains the rolling hash of every valid substring $s[i \dots j]$.
+Since the Set data structure filters duplicates, `distinctHashes.size()` equals the number of distinct substring hashes.
+Assuming no hash collisions (which is approximately true for small $N$ or with double hashing), this equals the number of distinct substrings.
+
+## ⚠️ Common Mistakes to Avoid
+
+1.  **Forgetting Empty String**
+    -   ❌ Wrong: Returning `set.size()`.
+    -   ✅ Correct: Returning `set.size() + 1` (Problem statement usually counts empty string, check specific constraints).
+2.  **Using String Set**
+    -   ❌ Wrong: `Set<String>`. Causes MLE/TLE.
+    -   ✅ Correct: `Set<Long>`.
+3.  **Hash Collisions**
+    -   ❌ Wrong: Using small MOD or single hash for massive datasets.
+    -   ✅ Correct: Use Double Hashing or Suffix Structures for robustness.
 
 ## 💡 Interview Extensions
 
-- **Extension 1:** How to solve for `N=10^5`?
-  - *Answer:* Use **Suffix Array** + **LCP Array**. Count = `fracN(N+1)2 - sum LCP[i]`. Time `O(N log N)` or `O(N)`.
-- **Extension 2:** Count distinct substrings of length `K`.
-  - *Answer:* Sliding window rolling hash. `O(N)`.
-
-### Common Mistakes to Avoid
-
-1. **Memory Limit Exceeded**
-   - ❌ Wrong: Storing strings in Set.
-   - ✅ Correct: Store `long` hashes.
-2. **Time Limit Exceeded**
-   - ❌ Wrong: Recomputing hash from scratch for each substring (`O(N^3)`).
-   - ✅ Correct: Rolling hash (`O(N^2)`).
-
-## Related Concepts
-
-- **Suffix Automaton:** The ultimate tool for substring problems.
-- **Trie:** Insert all suffixes into a Trie. Count nodes. `O(N^2)`.
+1.  **Solve in O(N)**
+    -   *Idea:* Build a **Suffix Automaton** (SAM).
+    -   *Method:* Each node in SAM represents a set of substrings. Transitions represent adding characters. Count = $\sum (\text{longest}(u) - \text{shortest}(u) + 1)$.
+2.  **Solve in O(N log N)**
+    -   *Idea:* Build a **Suffix Array** and **LCP Array**.
+    -   *Method:* Number of distinct substrings = $\frac{N(N+1)}{2} - \sum LCP[i]$.
+    -   *Why:* $N(N+1)/2$ is total substrings. $LCP[i]$ counts duplicates between sorted suffixes.
+3.  **K-th Lexicographically Smallest Substring**
+    -   *Idea:* Use SAM or Suffix Array. With distinct counts per node, we can navigate to the K-th substring like in a BST.

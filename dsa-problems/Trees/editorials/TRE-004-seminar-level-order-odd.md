@@ -73,6 +73,19 @@ The university wants to schedule seminars specifically for the Spring semester c
     -   If `depth % 2 != 0`, print/store the list.
     -   Increment `depth`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Start BFS with root] --> B[Process current level]
+B --> C[Collect values]
+C --> D{Depth is odd}
+D -->|Yes| E[Output level values]
+D -->|No| F[Skip output]
+E --> G[Move to next level]
+F --> G
+G --> B
+```
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 -   **Root Depth:** 0 (Even).

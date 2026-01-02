@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUE-001: Service Line</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --queue: #00d4ff; --served: #00ff88; --waiting: #ffd700; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--queue); }
+        h1 { margin: 0; font-family: 'Fredoka One', cursive; color: var(--queue); font-size: 1.6rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--queue); }
+        .instructions b { color: var(--queue); }
+        .queue-container { display: flex; gap: 10px; padding: 25px; background: var(--panel); border-radius: 15px; align-items: center; min-width: 500px; }
+        .queue-label { writing-mode: vertical-rl; transform: rotate(180deg); font-weight: bold; color: var(--queue); }
+        .queue-visual { display: flex; gap: 8px; flex: 1; min-height: 60px; align-items: center; }
+        .person { width: 50px; height: 60px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; transition: all 0.3s; cursor: pointer; }
+        .person.waiting { background: var(--waiting); }
+        .person.served { background: var(--served); opacity: 0.5; }
+        .person:hover { transform: scale(1.1); }
+        .counter { width: 80px; height: 80px; background: linear-gradient(135deg, var(--queue), #0099cc); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem; border: 3px solid var(--served); }
+        .controls { display: flex; gap: 15px; padding: 15px; background: var(--panel); border-radius: 10px; }
+        .control-input { width: 50px; height: 40px; font-size: 1.2rem; text-align: center; background: #000; border: 2px solid var(--queue); color: var(--queue); border-radius: 5px; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #2a3a5e; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2a3a5e; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--queue); }
+        .btn { background: var(--queue); color: #000; border: none; padding: 12px 25px; font-family: 'Fredoka One'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #33e0ff; }
+        .btn.served { background: var(--served); }
+        .btn.secondary { background: transparent; border: 2px solid #2a3a5e; color: #888; font-family: 'Nunito'; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--queue); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--queue); font-family: 'Fredoka One'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🎫 SERVICE LINE</h1>
+    <div style="color:#888">BASIC QUEUE OPERATIONS</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 MANAGE THE QUEUE:</b> Enqueue people to the back, dequeue from the front! FIFO = First In, First Out.
+    </div>
+    <div class="queue-container">
+        <div class="queue-label">FRONT</div>
+        <div class="queue-visual" id="queue"></div>
+        <div class="counter">🏪</div>
+        <div class="queue-label">BACK</div>
+    </div>
+    <div class="controls">
+        <button class="btn" onclick="game.enqueue()">ENQUEUE 👤+</button>
+        <button class="btn served" onclick="game.dequeue()">DEQUEUE ✓</button>
+        <button class="btn secondary" onclick="game.peek()">PEEK 👀</button>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Queue Size</span><span class="stat-value" id="size">0</span></div>
+            <div class="stat-row"><span class="stat-label">Served</span><span class="stat-value" id="served">0</span></div>
+            <div class="stat-row"><span class="stat-label">Front</span><span class="stat-value" id="front">-</span></div>
+        </div>
+    </div>
+    <div id="status">Click ENQUEUE to add people!</div>
+    <button class="btn secondary" onclick="game.reset()">RESET</button>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🎫 SERVICE LINE</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--queue)">CONCEPT:</b> Queue - FIFO Data Structure!</p>
+            <ul>
+                <li><b>Enqueue:</b> Add to the back (rear)</li>
+                <li><b>Dequeue:</b> Remove from front</li>
+                <li><b>Peek:</b> View front without removing</li>
+                <li>First In, First Out ordering</li>
+            </ul>
+            <p style="color:#888">Used in BFS, scheduling, buffering!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START SERVING</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.queue = []; this.served = 0; this.nextId = 1;
+        this.emojis = ['👨', '👩', '👴', '👵', '🧑', '👦', '👧'];
+        this.ui = { queue: document.getElementById('queue'), size: document.getElementById('size'), served: document.getElementById('served'), front: document.getElementById('front'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); }
+    reset() { this.queue = []; this.served = 0; this.nextId = 1; this.render(); }
+    enqueue() {
+        const person = { id: this.nextId++, emoji: this.emojis[Math.floor(Math.random() * this.emojis.length)] };
+        this.queue.push(person);
+        this.ui.status.textContent = `${person.emoji} joined the queue (ID: ${person.id})`;
+        this.render();
+    }
+    dequeue() {
+        if (this.queue.length === 0) { this.ui.status.textContent = 'Queue is empty!'; return; }
+        const person = this.queue.shift();
+        this.served++;
+        this.ui.status.textContent = `${person.emoji} served! (ID: ${person.id})`;
+        this.ui.status.style.color = 'var(--served)';
+        this.render();
+    }
+    peek() {
+        if (this.queue.length === 0) { this.ui.status.textContent = 'Queue is empty!'; return; }
+        const person = this.queue[0];
+        this.ui.status.textContent = `Next up: ${person.emoji} (ID: ${person.id})`;
+    }
+    render() {
+        this.ui.queue.innerHTML = '';
+        this.queue.forEach((p, i) => {
+            const el = document.createElement('div');
+            el.className = 'person waiting';
+            el.textContent = p.emoji;
+            el.title = `ID: ${p.id}`;
+            el.style.animationDelay = (i * 0.1) + 's';
+            this.ui.queue.appendChild(el);
+        });
+        this.ui.size.textContent = this.queue.length;
+        this.ui.served.textContent = this.served;
+        this.ui.front.textContent = this.queue.length > 0 ? `${this.queue[0].emoji} #${this.queue[0].id}` : '-';
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

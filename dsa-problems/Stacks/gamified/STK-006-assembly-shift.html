@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STK-006: Magnet Sorter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #263238; --belt: #37474f; --mag: #ff5252; --text: #cfd8dc; --even: #42a5f5; --odd: #ab47bc; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Teko', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; overflow: hidden; }
+        
+        header { width: 100%; text-align: center; padding: 10px; border-bottom: 2px solid #546e7a; }
+        h1 { margin: 0; color: #fff; letter-spacing: 2px; font-size: 2rem; }
+
+        .factory {
+            width: 100%; max-width: 900px; height: 400px; position: relative;
+            background: #102027; margin-top: 20px; border: 4px solid #455a64;
+            overflow: hidden;
+        }
+
+        .conveyor {
+            position: absolute; bottom: 50px; left: 0; width: 100%; height: 20px;
+            background: repeating-linear-gradient(90deg, #333 0, #333 10px, #444 10px, #444 20px);
+            animation: move 1s linear infinite;
+        }
+        @keyframes move { from{background-position: 0 0;} to{background-position: 20px 0;} }
+
+        .magnet-crane {
+            position: absolute; top: 20px; width: 60px; height: 100px; background: #607d8b;
+            border-radius: 0 0 10px 10px; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+            transition: left 0.3s; z-index: 10;
+        }
+        .magnet-head {
+            width: 80px; height: 40px; background: var(--mag); border-radius: 5px;
+            box-shadow: 0 0 20px var(--mag); cursor: pointer;
+        }
+        .beam {
+            position: absolute; top: 140px; width: 60px; height: 0; background: rgba(255, 82, 82, 0.3);
+            pointer-events: none; transition: height 0.2s;
+        }
+
+        .items-layer { position: absolute; bottom: 70px; width: 100%; height: 100px; }
+        
+        .part {
+            position: absolute; width: 50px; height: 50px; border: 2px solid #fff;
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold;
+            color: #fff; cursor: pointer; transition: all 0.5s;
+        }
+        .part.even { background: var(--even); border-radius: 50%; }
+        .part.odd { background: var(--odd); clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%); }
+
+        .part.flying { bottom: auto; top: 180px; transform: scale(0.8); opacity: 0.5; }
+
+        .info { position: absolute; bottom: 10px; width: 100%; text-align: center; color: #90a4ae; font-size: 1.2rem; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>STK-006 MAGNET SORTER</h1>
+    <div>Find Previous Greater (Same Parity)</div>
+</header>
+
+<div class="factory" id="factory">
+    <div class="magnet-crane" id="crane"><div class="magnet-head"></div></div>
+    <div class="beam" id="beam"></div>
+    <div class="conveyor"></div>
+    <div class="items-layer" id="items"></div>
+</div>
+
+<div class="info" id="info">Hover over parts. Click to magnetize if criteria met!</div>
+
+<script>
+class Game {
+    constructor() {
+        this.n = 8;
+        this.parts = [];
+        this.ui = { items: document.getElementById('items'), crane: document.getElementById('crane'), beam: document.getElementById('beam'), info: document.getElementById('info') };
+        this.init();
+    }
+
+    init() {
+        let startX = 50;
+        for(let i=0; i<this.n; i++) {
+            let val = Math.floor(Math.random()*50) + 10;
+            let type = val % 2 === 0 ? 'even' : 'odd';
+            
+            let p = document.createElement('div');
+            p.className = `part ${type}`;
+            p.innerText = val;
+            p.style.left = startX + 'px';
+            p.onclick = () => this.activateMagnet(i, p, val, type);
+            p.onmouseover = () => this.moveCrane(startX);
+            
+            this.parts.push({val, type, x: startX});
+            this.ui.items.appendChild(p);
+            
+            startX += 80;
+        }
+    }
+
+    moveCrane(x) {
+        this.ui.crane.style.left = (x + 25) + 'px';
+        this.ui.beam.style.left = (x - 5) + 'px'; // Center roughly
+    }
+
+    activateMagnet(idx, el, val, type) {
+        // Condition: Find PREVIOUS (left) greater element with SAME parity
+        // In this interactive version, we visualize the SCAN.
+        // Or simply: Does it fly to a "Storage" on the left?
+        
+        // Actually, let's visualize the "Connection" to the PGE.
+        
+        let found = -1;
+        for(let i=idx-1; i>=0; i--) {
+            if (this.parts[i].val > val && this.parts[i].type === type) {
+                found = i;
+                break;
+            }
+        }
+
+        if (found !== -1) {
+            this.ui.info.innerText = `MATCH FOUND! ${this.parts[found].val} at index ${found} > ${val}`;
+            this.ui.info.style.color = "#00e676";
+            
+            // Visual Zap
+            this.ui.beam.style.height = '200px';
+            setTimeout(() => {
+                this.ui.beam.style.height = '0';
+                // Animate element flying to the found one?
+                el.style.left = this.parts[found].x + 'px';
+                el.style.transform = 'translateY(-60px) scale(0.8)';
+            }, 300);
+        } else {
+            this.ui.info.innerText = `NO MATCH (No prev > ${val} with same parity)`;
+            this.ui.info.style.color = "#ff5252";
+            this.ui.beam.style.height = '50px'; // Weak beam
+            setTimeout(() => this.ui.beam.style.height = '0', 300);
+        }
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

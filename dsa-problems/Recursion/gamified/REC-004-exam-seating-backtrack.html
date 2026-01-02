@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REC-004: Proctor's Puzzle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fff;
+            --seat: #dfe6e9;
+            --student: #6c5ce7;
+            --conflict: #d63031;
+            --text: #2d3436;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 {
+            font-family: 'Cabin Sketch', cursive;
+            font-size: 3rem;
+            margin-top: 1rem;
+        }
+
+        .classroom {
+            background: url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" fill="white"/><path d="M0 40 L40 0" stroke="%23eee" stroke-width="1"/></svg>');
+            padding: 40px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            margin-top: 2rem;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            max-width: 600px;
+            justify-content: center;
+        }
+
+        .seat {
+            width: 60px;
+            height: 60px;
+            background: var(--seat);
+            border: 2px dashed #b2bec3;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.1s;
+        }
+
+        .seat:hover { transform: scale(1.05); border-color: #636e72; }
+
+        .seat.occupied {
+            background: var(--student);
+            border: 2px solid #333;
+            color: white;
+            font-weight: bold;
+        }
+
+        .seat.invalid {
+            animation: shake 0.3s;
+            background: var(--conflict);
+        }
+
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+
+        .rule-display {
+            background: #ffeaa7;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-top: 2rem;
+            font-weight: bold;
+            box-shadow: 3px 3px 0 #fdcb6e;
+        }
+
+        .status { font-size: 1.2rem; margin-top: 1rem; min-height: 2rem; }
+
+        .btn {
+            margin-top: 1rem;
+            padding: 10px 25px;
+            border: 2px solid #333;
+            background: white;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: inherit;
+        }
+        .btn:hover { background: #eee; }
+
+    
+        .alert-modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .alert-modal {
+            background: white; padding: 2rem; border-radius: 8px;
+            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+        .alert-modal button {
+            background: #4b5563; color: white; padding: 0.8rem 2rem;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .alert-modal button:hover { opacity: 0.9; }
+</style>
+</head>
+<body>
+
+<h1>PROCTOR'S PUZZLE</h1>
+
+<div class="rule-display">
+    Gap Rule: Must have <span id="gapVal" style="color:red; font-size:1.2rem">2</span> empty seats between students.
+</div>
+
+<div class="status" id="status">Students to place: <span>3</span></div>
+
+<div class="classroom" id="room">
+    <!-- Seats generated -->
+</div>
+
+<button class="btn" onclick="initLevel()">Reset Class</button>
+
+<script>
+    const N = 8;
+    const GAP = 2; // d=2
+    const STUDENTS = 3; // k=3
+    let placedIndices = [];
+
+    function initLevel() {
+        const room = document.getElementById('room');
+        room.innerHTML = '';
+        placedIndices = [];
+        updateStatus();
+
+        for(let i=0; i<N; i++) {
+            const seat = document.createElement('div');
+            seat.className = 'seat';
+            seat.textContent = i;
+            seat.onclick = () => toggleSeat(i, seat);
+            room.appendChild(seat);
+        }
+    }
+
+    function toggleSeat(idx, el) {
+        if (placedIndices.includes(idx)) {
+            // Remove
+            placedIndices = placedIndices.filter(x => x !== idx);
+            el.classList.remove('occupied');
+            updateStatus();
+        } else {
+            // Try to place
+            if (isValid(idx)) {
+                if (placedIndices.length < STUDENTS) {
+                    placedIndices.push(idx);
+                    el.classList.add('occupied');
+                    updateStatus();
+                } else {
+                    this.showGameAlert("No more students!");
+                }
+            } else {
+                // Invalid placement feedback
+                el.classList.add('invalid');
+                setTimeout(() => el.classList.remove('invalid'), 300);
+            }
+        }
+    }
+
+    function isValid(idx) {
+        // Check distance to all other placed
+        for (let p of placedIndices) {
+            if (Math.abs(p - idx) <= GAP) return false;
+        }
+        return true;
+    }
+
+    function updateStatus() {
+        const left = STUDENTS - placedIndices.length;
+        const msg = document.getElementById('status');
+        if (left === 0) {
+            msg.textContent = "CLASSROOM SET! (All students placed)";
+            msg.style.color = "green";
+        } else {
+            msg.innerHTML = `Students to place: <span id="studentsLeft">${left}</span>`;
+            msg.style.color = "black";
+        }
+    }
+
+    window.onload = initLevel;
+</script>
+</body>
+</html>

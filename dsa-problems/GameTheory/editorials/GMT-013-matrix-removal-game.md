@@ -60,12 +60,26 @@ From `(r1, r2, c1, c2)`:
 - Total moves made so far = `(N - (r2 - r1 + 1)) + (M - (c2 - c1 + 1))`.
 - If `Total Moves` is Even -> Maximizer's turn.
 - If `Total Moves` is Odd -> Minimizer's turn.
+Every cut trims the board and the argument at the same time.
 
 ### Minimax Logic
 
 - **Base Case:** If `r1 == r2` and `c1 == c2`, return `Matrix[r1][c1]`.
 - **Maximizer:** `max(Rec(Top), Rec(Bottom), Rec(Left), Rec(Right))`.
 - **Minimizer:** `min(Rec(Top), Rec(Bottom), Rec(Left), Rec(Right))`.
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with r1 r2 c1 c2] --> B{Single cell?}
+    B -- Yes --> C[Return cell value]
+    B -- No --> D[Compute whose turn it is]
+    D --> E{Maximizer turn?}
+    E -- Yes --> F[Take max of four edge removals]
+    E -- No --> G[Take min of four edge removals]
+    F --> H[Store in memo and return]
+    G --> H
+```
 
 ### Complexity
 

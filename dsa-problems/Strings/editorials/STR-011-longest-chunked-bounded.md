@@ -86,6 +86,19 @@ Match smallest valid chunks from both ends, maximizing total chunk count.
 5. Return chunks
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Set left and right pointers] --> B[Try smallest chunk length]
+B --> C{Prefix equals suffix}
+C -->|Yes| D[Count two chunks and move inward]
+C -->|No| E[Increase chunk length]
+E --> B
+D --> F{Pointers crossed}
+F -->|Yes| G[Done]
+F -->|No| B
+```
+
 ---
 
 ## 🧪 Test Case Walkthrough (Dry Run)

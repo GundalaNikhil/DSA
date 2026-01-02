@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QUE-008: Pizza Kitchen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: linear-gradient(135deg, #1a0a00 0%, #4a2a00 100%); --pizza: #ff9500; --ready: #00ff88; --queue: #ff6b6b; --panel: rgba(0,0,0,0.6); --text: #fff; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--pizza); }
+        h1 { margin: 0; font-family: 'Fredoka One', cursive; color: var(--pizza); font-size: 2rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 25px; }
+        .kitchen { display: flex; gap: 30px; align-items: flex-start; }
+        .section { padding: 20px; background: var(--panel); border-radius: 20px; text-align: center; min-width: 200px; }
+        .section-title { font-family: 'Fredoka One'; color: var(--pizza); margin-bottom: 15px; font-size: 1.2rem; }
+        .orders-queue { display: flex; flex-direction: column; gap: 10px; min-height: 150px; }
+        .order { padding: 15px 20px; background: #333; border-radius: 15px; display: flex; align-items: center; gap: 15px; border-left: 5px solid var(--queue); }
+        .order.first { border-left-color: var(--ready); background: rgba(0,255,136,0.1); }
+        .order-num { font-family: 'Fredoka One'; color: var(--pizza); }
+        .oven { width: 150px; height: 150px; background: linear-gradient(180deg, #ff6b00, #cc4400); border-radius: 20px; display: flex; align-items: center; justify-content: center; font-size: 4rem; border: 5px solid #333; box-shadow: 0 0 30px rgba(255,107,0,0.5); position: relative; }
+        .oven.cooking::after { content: '🔥'; position: absolute; bottom: -10px; font-size: 2rem; animation: flame 0.3s infinite; }
+        @keyframes flame { 0%,100%{transform:scale(1)} 50%{transform:scale(1.2)} }
+        .ready-area { display: flex; flex-wrap: wrap; gap: 10px; min-height: 100px; justify-content: center; }
+        .ready-pizza { font-size: 2.5rem; animation: bounce 0.5s; }
+        @keyframes bounce { 0%{transform:scale(0)} 50%{transform:scale(1.2)} 100%{transform:scale(1)} }
+        .stats { display: flex; gap: 20px; }
+        .stat-box { padding: 15px 25px; background: var(--panel); border-radius: 15px; text-align: center; border: 2px solid var(--pizza); }
+        .stat-label { font-size: 0.8rem; color: #aaa; }
+        .stat-value { font-size: 1.8rem; font-family: 'Fredoka One'; color: var(--pizza); }
+        .btn { background: linear-gradient(135deg, var(--pizza), #ffaa00); color: #000; border: none; padding: 15px 35px; font-family: 'Fredoka One'; font-size: 1.1rem; cursor: pointer; border-radius: 25px; box-shadow: 0 5px 20px rgba(255,149,0,0.4); transition: all 0.2s; }
+        .btn:hover { transform: scale(1.05); }
+        .btn.cook { background: linear-gradient(135deg, var(--queue), #ff8585); color: #fff; }
+        .controls { display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; color: var(--pizza); }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: linear-gradient(135deg, #4a2a00, #1a0a00); padding: 40px; border: 4px solid var(--pizza); max-width: 500px; text-align: center; border-radius: 30px; }
+        .dialog h2 { color: var(--pizza); font-family: 'Fredoka One'; font-size: 2.5rem; margin: 0 0 20px 0; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🍕 Pizza Kitchen</h1>
+    <div style="color:var(--pizza)">ORDER QUEUE SYSTEM</div>
+</header>
+<main>
+    <div class="kitchen">
+        <div class="section">
+            <div class="section-title">📋 ORDER QUEUE</div>
+            <div class="orders-queue" id="orders"></div>
+        </div>
+        <div class="section">
+            <div class="section-title">🔥 OVEN</div>
+            <div class="oven" id="oven">🍕</div>
+            <div style="margin-top:15px;color:#aaa;" id="cooking">Ready to cook!</div>
+        </div>
+        <div class="section">
+            <div class="section-title">✅ READY</div>
+            <div class="ready-area" id="ready"></div>
+        </div>
+    </div>
+    <div class="stats">
+        <div class="stat-box"><div class="stat-label">Orders Waiting</div><div class="stat-value" id="waiting">0</div></div>
+        <div class="stat-box"><div class="stat-label">Pizzas Ready</div><div class="stat-value" id="readyCount">0</div></div>
+        <div class="stat-box"><div class="stat-label">Delivered</div><div class="stat-value" id="delivered">0</div></div>
+    </div>
+    <div id="status">Take orders and start cooking!</div>
+    <div class="controls">
+        <button class="btn" onclick="game.newOrder()">📝 NEW ORDER</button>
+        <button class="btn cook" onclick="game.cookNext()">🔥 COOK NEXT</button>
+        <button class="btn" style="background:var(--ready);color:#000" onclick="game.deliver()">🛵 DELIVER</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🍕 Pizza Kitchen</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--pizza)">FIFO ORDER PROCESSING!</b></p>
+            <ul>
+                <li>📝 Orders join the queue</li>
+                <li>🔥 Cook <b>first order</b> in queue</li>
+                <li>✅ Ready pizzas wait for pickup</li>
+                <li>🛵 Deliver to customers!</li>
+            </ul>
+            <p style="color:#aaa">Queue = Fair order processing!</p>
+        </div>
+        <button class="btn" onclick="game.start()">🍕 OPEN KITCHEN!</button>
+    </div>
+</div>
+<script>
+class Game {
+    constructor() {
+        this.orders = []; this.ready = []; this.delivered = 0; this.orderNum = 1; this.cooking = null;
+        this.pizzas = ['🍕','🍕','🍕'];
+        this.ui = { orders: document.getElementById('orders'), ready: document.getElementById('ready'), oven: document.getElementById('oven'), cooking: document.getElementById('cooking'), waiting: document.getElementById('waiting'), readyCount: document.getElementById('readyCount'), delivered: document.getElementById('delivered'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); for(let i=0;i<3;i++) this.newOrder(); }
+    newOrder() {
+        const toppings = ['Margherita','Pepperoni','Hawaiian','Veggie'][Math.floor(Math.random()*4)];
+        this.orders.push({ num: this.orderNum++, type: toppings });
+        this.ui.status.textContent = `Order #${this.orderNum-1} received!`;
+        this.render();
+    }
+    cookNext() {
+        if (this.orders.length === 0) { this.ui.status.textContent = '⚠️ No orders!'; return; }
+        if (this.cooking) { this.ui.status.textContent = '⚠️ Already cooking!'; return; }
+        this.cooking = this.orders.shift();
+        this.ui.oven.classList.add('cooking');
+        this.ui.cooking.textContent = `Cooking #${this.cooking.num}...`;
+        this.ui.status.textContent = `🔥 Cooking order #${this.cooking.num}`;
+        this.render();
+        setTimeout(() => {
+            this.ready.push(this.cooking);
+            this.cooking = null;
+            this.ui.oven.classList.remove('cooking');
+            this.ui.cooking.textContent = 'Ready to cook!';
+            this.ui.status.textContent = `✅ Order ready for pickup!`;
+            this.render();
+        }, 2000);
+    }
+    deliver() {
+        if (this.ready.length === 0) { this.ui.status.textContent = '⚠️ No pizzas ready!'; return; }
+        const pizza = this.ready.shift();
+        this.delivered++;
+        this.ui.status.textContent = `🛵 Delivered order #${pizza.num}!`;
+        this.render();
+    }
+    render() {
+        this.ui.orders.innerHTML = '';
+        this.orders.forEach((o, i) => {
+            const el = document.createElement('div');
+            el.className = 'order' + (i === 0 ? ' first' : '');
+            el.innerHTML = `<span class="order-num">#${o.num}</span><span>${o.type}</span>`;
+            this.ui.orders.appendChild(el);
+        });
+        this.ui.ready.innerHTML = '';
+        this.ready.forEach(o => {
+            const el = document.createElement('div');
+            el.className = 'ready-pizza';
+            el.textContent = '🍕';
+            el.title = `Order #${o.num}`;
+            this.ui.ready.appendChild(el);
+        });
+        this.ui.waiting.textContent = this.orders.length;
+        this.ui.readyCount.textContent = this.ready.length;
+        this.ui.delivered.textContent = this.delivered;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

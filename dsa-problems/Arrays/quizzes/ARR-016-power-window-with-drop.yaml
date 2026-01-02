@@ -1,0 +1,52 @@
+problem_id: ARR_POWER_WINDOW_WITH_DROP_016
+display_id: ARR-016
+slug: power-window-with-drop
+questions:
+  - question: Given all arr[i] are positive, what is the best choice regarding the optional drop?
+    difficulty: easy
+    points: 10
+    options:
+      - Always drop the largest element
+      - Always drop the smallest element
+      - Never drop, because dropping reduces the sum
+      - Drop when k is even
+    correct_answer: 2
+    explanation: With positive numbers, removing any element decreases the window sum.
+    type: single_choice
+    id: prq_1
+  - question: For arr = [2, 1, 5, 3, 2] and k = 3, what is the maximum adjusted window sum?
+    difficulty: easy
+    points: 10
+    options:
+      - "8"
+      - "9"
+      - "10"
+      - "11"
+    correct_answer: 2
+    explanation: The maximum window sum is 10 for [5, 3, 2].
+    type: single_choice
+    id: edq_1
+  - question: How is the sliding window sum updated when moving from window [i-k+1..i] to [i-k+2..i+1]?
+    difficulty: medium
+    points: 15
+    options:
+      - Add arr[i+1] and subtract arr[i-k+1]
+      - Add arr[i-k+1] and subtract arr[i+1]
+      - Recompute all k elements
+      - Multiply by k
+    correct_answer: 0
+    explanation: Slide by adding the entering element and subtracting the leaving element.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of the optimal solution?
+    difficulty: medium
+    points: 15
+    options:
+      - O(n)
+      - O(n log n)
+      - O(n^2)
+      - O(k)
+    correct_answer: 0
+    explanation: Each element enters and leaves the window once.
+    type: single_choice
+    id: edq_3

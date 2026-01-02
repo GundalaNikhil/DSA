@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REC-010: Sudoku Recon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fff;
+            --grid: #333;
+            --cell: white;
+            --text: #333;
+        }
+
+        body {
+            font-family: 'Architects Daughter', cursive;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAHklEQVQYV2NkQAKM+AwoKDBDGUAx4gMwFKAJEQx+GAB9YAgG/0kO4QAAAABJRU5ErkJggg==');
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 { margin-top: 2rem; font-size: 2.5rem; text-decoration: underline; }
+
+        .blueprint {
+            background: #fff;
+            padding: 40px;
+            box-shadow: 10px 10px 0 rgba(0,0,0,0.1);
+            border: 2px solid #333;
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(3, 60px);
+            grid-template-rows: repeat(3, 60px);
+            border: 2px solid #000;
+        }
+
+        .cell {
+            border: 1px solid #555;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            text-align: center;
+            font-family: inherit;
+            font-size: 1.5rem;
+            background: transparent;
+            outline: none;
+            color: blue;
+        }
+        
+        .row-sums {
+            display: grid;
+            grid-template-rows: repeat(3, 60px);
+            align-items: center;
+            padding-left: 10px;
+            font-weight: bold;
+        }
+
+        .col-sums {
+    
+            display: grid;
+            grid-template-columns: repeat(3, 60px);
+            justify-items: center;
+            padding-top: 10px;
+            font-weight: bold;
+        }
+
+        .sum-val.ok { color: green; }
+        .sum-val.bad { color: red; }
+
+        .btn {
+            margin-top: 2rem;
+            background: #333;
+            color: #fff;
+            border: none;
+            padding: 10px 30px;
+            font-family: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>GRID RECON</h1>
+
+<div class="blueprint">
+    <div class="grid" id="grid">
+        <!-- Cells -->
+    </div>
+    <div class="row-sums" id="rowSums"></div>
+    
+    <div class="col-sums" id="colSums"></div>
+    <!-- Corner spacer -->
+</div>
+
+<div class="info" style="margin-top:20px; text-align:center">
+    <div>Fill cells (1-9) to match Row/Col sums.</div>
+    <div style="font-size:0.8rem; color:#666">Constraint: Upper Bound Matrix (not shown for simplicity, assume 9)</div>
+</div>
+
+<button class="btn" onclick="init()">New Sheet</button>
+
+<script>
+    const N = 3;
+    const TARGET_ROWS = [6, 15, 24]; // e.g.
+    const TARGET_COLS = [12, 15, 18];
+    // Example Solution:
+    // 1 2 3 = 6
+    // 4 5 6 = 15
+    // 7 8 9 = 24
+    // c1:1+4+7=12. c2:2+5+8=15. c3:3+6+9=18. Matches.
+    
+    function init() {
+        const grid = document.getElementById('grid');
+        grid.innerHTML = '';
+        
+        for(let r=0; r<N; r++) {
+            for(let c=0; c<N; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                const inp = document.createElement('input');
+                inp.type = 'text';
+                inp.maxLength = 1;
+                inp.oninput = updateCheck;
+                inp.id = `i-${r}-${c}`;
+                cell.appendChild(inp);
+                grid.appendChild(cell);
+            }
+        }
+
+        renderSums();
+    }
+
+    function renderSums() {
+        // Static targets for demo
+        const rDiv = document.getElementById('rowSums');
+        rDiv.innerHTML = '';
+        TARGET_ROWS.forEach(s => {
+            const div = document.createElement('div');
+            div.textContent = s;
+            div.className = 'sum-val'; // ID for update
+            rDiv.appendChild(div);
+        });
+
+        const cDiv = document.getElementById('colSums');
+        cDiv.innerHTML = '';
+        TARGET_COLS.forEach(s => {
+            const div = document.createElement('div');
+            div.textContent = s;
+            div.className = 'sum-val';
+            cDiv.appendChild(div);
+        });
+        
+        updateCheck();
+    }
+
+    function updateCheck() {
+        // Calculate current sums
+        let rSums = [0,0,0];
+        let cSums = [0,0,0];
+
+        for(let r=0; r<N; r++) {
+            for(let c=0; c<N; c++) {
+                const val = parseInt(document.getElementById(`i-${r}-${c}`).value) || 0;
+                rSums[r] += val;
+                cSums[c] += val;
+            }
+        }
+
+        // Update visuals
+        const rEls = document.getElementById('rowSums').children;
+        const cEls = document.getElementById('colSums').children;
+
+        for(let i=0; i<N; i++) {
+            rEls[i].className = rSums[i] === TARGET_ROWS[i] ? 'sum-val ok' : 'sum-val bad';
+            rEls[i].innerHTML = `${rSums[i]} / ${TARGET_ROWS[i]}`;
+            
+            cEls[i].className = cSums[i] === TARGET_COLS[i] ? 'sum-val ok' : 'sum-val bad';
+            cEls[i].innerHTML = `${cSums[i]}<br>/ ${TARGET_COLS[i]}`;
+        }
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

@@ -101,6 +101,18 @@ For each character, we can:
 3. Use map/dictionary to store states
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Initialize DP with empty state] --> B[Process next character]
+B --> C[Carry state without char]
+C --> D{Can include char}
+D -->|Yes| E[Add new state with freq plus one]
+D -->|No| F[Skip include]
+E --> B
+F --> B
+```
+
 **Optimized**: Since maxFreq ≤ 10 and alphabet is 26, we can use state compression.
 
 **Practical Implementation**:

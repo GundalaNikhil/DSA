@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DP-008: Robot Navigator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --grid: #1e293b;
+            --primary: #f43f5e; /* Rose */
+            --danger: #ef4444;
+            --accent: #22c55e;
+            --success: #10b981;
+            --text: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            user-select: none;
+            background-image: 
+                linear-gradient(var(--grid) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        header {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 1rem 2rem;
+            display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 0 20px rgba(244, 63, 94, 0.3);
+        }
+
+        h1 { 
+            margin: 0; 
+            font-family: 'Orbitron', sans-serif; 
+            color: var(--primary); 
+            text-shadow: 0 0 10px var(--primary);
+            font-size: 1.5rem;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            gap: 20px;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .info-panel {
+            display: flex;
+            gap: 30px;
+            padding: 15px 30px;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 12px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .info-label { color: #94a3b8; font-size: 0.8rem; }
+        .info-value { font-size: 1.3rem; font-weight: bold; color: var(--primary); }
+
+        .grid-container {
+            padding: 20px;
+            background: rgba(30, 41, 59, 0.3);
+            border-radius: 12px;
+        }
+
+        .grid {
+            display: grid;
+            gap: 4px;
+        }
+
+        .cell {
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(30, 41, 59, 0.8);
+            border: 2px solid var(--grid);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            color: #64748b;
+            transition: all 0.2s;
+        }
+
+        .cell.start {
+            border-color: var(--accent);
+            background: rgba(34, 197, 94, 0.2);
+        }
+
+        .cell.end {
+            border-color: var(--primary);
+            background: rgba(244, 63, 94, 0.2);
+        }
+
+        .cell.visited {
+            border-color: #fbbf24;
+            background: rgba(251, 191, 36, 0.15);
+        }
+
+        .cell.current {
+            border-color: #fbbf24;
+            background: rgba(251, 191, 36, 0.3);
+            box-shadow: 0 0 15px rgba(251, 191, 36, 0.4);
+        }
+
+        .robot { font-size: 1.5rem; }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+        }
+
+        .move-btn {
+            padding: 12px 30px;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .move-btn:hover:not(:disabled) {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 15px var(--primary);
+        }
+
+        .move-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .stats-panel {
+            display: flex;
+            gap: 30px;
+            padding: 15px 25px;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label { color: #64748b; font-size: 0.8rem; }
+        .stat-value { font-size: 1.3rem; font-weight: bold; }
+        .stat-value.ok { color: var(--accent); }
+        .stat-value.warn { color: #fbbf24; }
+        .stat-value.bad { color: var(--danger); }
+
+        #status {
+            min-height: 30px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-align: center;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+            padding: 10px 30px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border-radius: 8px;
+        }
+
+        .btn:hover {
+            background: var(--primary);
+            color: #000;
+            box-shadow: 0 0 20px var(--primary);
+        }
+
+        .modal {
+            position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95);
+            display: flex; align-items: center; justify-content: center;
+            z-index: 100;
+        }
+        .modal.hidden { display: none; }
+        
+        .dialog {
+            background: #1e293b; padding: 40px; border: 2px solid var(--primary);
+            max-width: 600px; text-align: center; color: var(--text);
+            box-shadow: 0 0 50px rgba(244, 63, 94, 0.2);
+            border-radius: 12px;
+        }
+        .dialog h2 { color: var(--primary); font-family: 'Orbitron'; margin-top: 0; }
+
+        .scan-line {
+            position: fixed; top: 0; left: 0; right: 0; height: 2px;
+            background: rgba(244, 63, 94, 0.3); opacity: 0.5;
+            animation: scan 4s linear infinite; pointer-events: none;
+        }
+        @keyframes scan { 0% { top: 0; } 100% { top: 100%; } }
+    </style>
+</head>
+<body>
+
+<div class="scan-line"></div>
+
+<header>
+    <h1>🤖 Robot Navigator</h1>
+    <div style="color: #94a3b8; font-size: 0.9rem;">DP-008: GRID PATHS WITH TURN LIMIT</div>
+</header>
+
+<main>
+    <div class="game-area">
+        <div class="info-panel">
+            <div class="info-item">
+                <span class="info-label">Grid Size</span>
+                <span class="info-value" id="gridSize">-</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Turn Limit</span>
+                <span class="info-value" id="turnLimit">-</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Valid Paths</span>
+                <span class="info-value" id="validPaths">?</span>
+            </div>
+        </div>
+
+        <div class="grid-container">
+            <div class="grid" id="grid"></div>
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span class="stat-label">Position</span>
+                <span class="stat-value" id="position">(0,0)</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Last Dir</span>
+                <span class="stat-value" id="lastDir">-</span>
+            </div>
+            <div class="stat-item">
+                <span class="stat-label">Turns Used</span>
+                <span class="stat-value" id="turnsUsed">0</span>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="move-btn" id="btnRight" onclick="game.move('R')">→ RIGHT</button>
+            <button class="move-btn" id="btnDown" onclick="game.move('D')">↓ DOWN</button>
+        </div>
+
+        <div id="status"></div>
+
+        <div style="display: flex; gap: 15px;">
+            <button class="btn" style="border-color: #64748b; color: #64748b;" onclick="game.reset()">RESET</button>
+            <button class="btn" onclick="game.newLevel()">NEW GRID</button>
+        </div>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🤖 ROBOT NAVIGATOR</h2>
+        <div style="text-align:left; font-size:1rem; margin:1.5rem 0; line-height:1.7; color:#cbd5e1;">
+            <p><b>Objective:</b> Navigate from (0,0) to the goal using only Right and Down moves.</p>
+            <p><b>Constraint:</b> You can make at most <b>T turns</b> (direction changes).</p>
+            <p><b>Rules:</b></p>
+            <ul style="margin-left: 20px;">
+                <li>The <b>first move</b> does not count as a turn</li>
+                <li>A <b>turn</b> occurs when you change direction (R→D or D→R)</li>
+                <li>The DP calculates all valid paths with ≤T turns</li>
+            </ul>
+            <p><b>DP Insight:</b> Track <code>dp[r][c][turns][lastDir]</code> to count paths with constrained turns.</p>
+        </div>
+        <button class="btn" onclick="game.start()">START NAVIGATING</button>
+    </div>
+</div>
+
+<script>
+class Game {
+    constructor() {
+        this.m = 0; // rows
+        this.n = 0; // cols
+        this.T = 0; // max turns
+        this.row = 0;
+        this.col = 0;
+        this.lastDir = null;
+        this.turns = 0;
+        this.visited = [];
+        this.validPaths = 0;
+        
+        this.ui = {
+            grid: document.getElementById('grid'),
+            gridSize: document.getElementById('gridSize'),
+            turnLimit: document.getElementById('turnLimit'),
+            validPaths: document.getElementById('validPaths'),
+            position: document.getElementById('position'),
+            lastDir: document.getElementById('lastDir'),
+            turnsUsed: document.getElementById('turnsUsed'),
+            btnRight: document.getElementById('btnRight'),
+            btnDown: document.getElementById('btnDown'),
+            status: document.getElementById('status'),
+            modal: document.getElementById('modal')
+        };
+    }
+
+    start() {
+        this.ui.modal.classList.add('hidden');
+        this.newLevel();
+    }
+
+    newLevel() {
+        // Generate grid 3-5 x 3-5
+        this.m = Math.floor(Math.random() * 3) + 3;
+        this.n = Math.floor(Math.random() * 3) + 3;
+        this.T = Math.floor(Math.random() * 3) + 1; // 1-3 turns
+        
+        // Calculate valid paths
+        this.validPaths = this.calculatePaths();
+        
+        this.reset();
+        
+        this.ui.gridSize.textContent = `${this.m}×${this.n}`;
+        this.ui.turnLimit.textContent = this.T;
+        this.ui.validPaths.textContent = '?';
+    }
+
+    calculatePaths() {
+        // dp[r][c][t][dir] = count, dir: 0=came from R, 1=came from D
+        const MOD = 1000000007;
+        const dpR = Array.from({length: this.m}, () => 
+            Array.from({length: this.n}, () => new Array(this.T + 1).fill(0)));
+        const dpD = Array.from({length: this.m}, () => 
+            Array.from({length: this.n}, () => new Array(this.T + 1).fill(0)));
+        
+        // Initialize first moves
+        if (this.n >= 2) dpR[0][1][0] = 1;
+        if (this.m >= 2) dpD[1][0][0] = 1;
+        
+        for (let r = 0; r < this.m; r++) {
+            for (let c = 0; c < this.n; c++) {
+                if ((r === 0 && c === 0) || (r === 0 && c === 1) || (r === 1 && c === 0)) continue;
+                
+                for (let t = 0; t <= this.T; t++) {
+                    // Coming from left (last move was R)
+                    if (c >= 1) {
+                        dpR[r][c][t] = (dpR[r][c][t] + dpR[r][c-1][t]) % MOD;
+                        if (t >= 1) {
+                            dpR[r][c][t] = (dpR[r][c][t] + dpD[r][c-1][t-1]) % MOD;
+                        }
+                    }
+                    // Coming from top (last move was D)
+                    if (r >= 1) {
+                        dpD[r][c][t] = (dpD[r][c][t] + dpD[r-1][c][t]) % MOD;
+                        if (t >= 1) {
+                            dpD[r][c][t] = (dpD[r][c][t] + dpR[r-1][c][t-1]) % MOD;
+                        }
+                    }
+                }
+            }
+        }
+        
+        let total = 0;
+        for (let t = 0; t <= this.T; t++) {
+            total = (total + dpR[this.m-1][this.n-1][t] + dpD[this.m-1][this.n-1][t]) % MOD;
+        }
+        
+        // Edge case: 1x1 grid
+        if (this.m === 1 && this.n === 1) return 1;
+        
+        return total;
+    }
+
+    reset() {
+        this.row = 0;
+        this.col = 0;
+        this.lastDir = null;
+        this.turns = 0;
+        this.visited = [[0, 0]];
+        this.ui.status.textContent = '';
+        this.ui.validPaths.textContent = '?';
+        this.render();
+    }
+
+    move(dir) {
+        let newRow = this.row, newCol = this.col;
+        if (dir === 'R') newCol++;
+        if (dir === 'D') newRow++;
+        
+        // Check bounds
+        if (newRow >= this.m || newCol >= this.n) {
+            this.ui.status.textContent = 'Out of bounds!';
+            return;
+        }
+        
+        // Check if turn
+        if (this.lastDir !== null && this.lastDir !== dir) {
+            if (this.turns >= this.T) {
+                this.ui.status.innerHTML = '<span style="color:var(--danger)">No turns left!</span>';
+                return;
+            }
+            this.turns++;
+        }
+        
+        this.row = newRow;
+        this.col = newCol;
+        this.lastDir = dir;
+        this.visited.push([this.row, this.col]);
+        
+        this.render();
+        this.checkWin();
+    }
+
+    render() {
+        this.ui.grid.innerHTML = '';
+        this.ui.grid.style.gridTemplateColumns = `repeat(${this.n}, 55px)`;
+        
+        for (let r = 0; r < this.m; r++) {
+            for (let c = 0; c < this.n; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                
+                const isVisited = this.visited.some(([vr, vc]) => vr === r && vc === c);
+                const isCurrent = r === this.row && c === this.col;
+                const isStart = r === 0 && c === 0;
+                const isEnd = r === this.m - 1 && c === this.n - 1;
+                
+                if (isCurrent) {
+                    cell.classList.add('current');
+                    cell.innerHTML = '<span class="robot">🤖</span>';
+                } else if (isVisited) {
+                    cell.classList.add('visited');
+                    cell.textContent = '•';
+                } else if (isStart) {
+                    cell.classList.add('start');
+                    cell.textContent = 'START';
+                } else if (isEnd) {
+                    cell.classList.add('end');
+                    cell.textContent = 'GOAL';
+                } else {
+                    cell.textContent = `(${r},${c})`;
+                }
+                
+                this.ui.grid.appendChild(cell);
+            }
+        }
+        
+        this.ui.position.textContent = `(${this.row},${this.col})`;
+        this.ui.lastDir.textContent = this.lastDir || '-';
+        this.ui.turnsUsed.textContent = this.turns;
+        this.ui.turnsUsed.className = 'stat-value ' + 
+            (this.turns > this.T ? 'bad' : this.turns === this.T ? 'warn' : 'ok');
+        
+        // Update buttons
+        this.ui.btnRight.disabled = this.col >= this.n - 1 || 
+            (this.lastDir === 'D' && this.turns >= this.T);
+        this.ui.btnDown.disabled = this.row >= this.m - 1 || 
+            (this.lastDir === 'R' && this.turns >= this.T);
+    }
+
+    checkWin() {
+        if (this.row === this.m - 1 && this.col === this.n - 1) {
+            this.ui.validPaths.textContent = this.validPaths;
+            this.ui.status.innerHTML = `<span style="color:var(--success)">🎉 GOAL! Total valid paths: ${this.validPaths}</span>`;
+        }
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

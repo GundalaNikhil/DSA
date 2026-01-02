@@ -45,6 +45,20 @@ Use trie. During insertion:
 - If we pass through an end-of-word node before finishing → NOT prefix-free
 - Otherwise → prefix-free
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Insert number into trie]
+    B --> C{Node is end flag}
+    C -->|Yes| D[Return false]
+    C -->|No| E[Move to child]
+    E --> F{Insert finished}
+    F -->|No| C
+    F -->|Yes| G{Node has children}
+    G -->|Yes| D
+    G -->|No| H[Mark end and return true]
+```
+
 **Prefix-Free Checking:**
 
 ```

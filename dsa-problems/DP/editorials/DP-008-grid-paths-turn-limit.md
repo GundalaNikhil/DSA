@@ -48,6 +48,7 @@ This shows up in:
 - Strengthens 2D DP thinking (grid paths)
 - Adds an extra dimension for “turns” and “last direction”
 - Builds interview skill: design the right state to count paths with constraints
+Counting turns keeps the robot honest, it cannot zigzag its way out.
 
 ![Real-World Application](../images/DP-008/real-world-scenario.png)
 
@@ -101,6 +102,20 @@ State tracking: dp[row][col][direction][turns_used]
   - row, col: current position
   - direction: last move direction (U/D/L/R or NONE for start)
   - turns_used: number of direction changes so far
+```
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with grid size and turn limit] --> B[Init dpR and dpD arrays]
+    B --> C[Iterate rows and columns]
+    C --> D[For each turn count up to T]
+    D --> E[Update dpR from left cell]
+    D --> F[Update dpD from top cell]
+    E --> C
+    F --> C
+    C --> G[Sum dpR and dpD at target for turns up to T]
+    G --> H[Return count]
 ```
 
 ### State reduction intuition

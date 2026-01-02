@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEP-015: Split Merger</title>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --heap1: #ff6b6b; --heap2: #4ecdc4; --merged: #ffd700; --panel: #16213e; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: var(--panel); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--merged); }
+        h1 { margin: 0; font-family: 'Righteous', cursive; color: var(--merged); font-size: 1.5rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 1.5rem; gap: 20px; }
+        .instructions { background: var(--panel); padding: 12px 25px; border-radius: 10px; text-align: center; max-width: 700px; border: 2px solid var(--merged); }
+        .instructions b { color: var(--merged); }
+        .heaps-row { display: flex; gap: 40px; align-items: flex-start; }
+        .heap-box { background: var(--panel); padding: 20px; border-radius: 15px; text-align: center; min-width: 180px; }
+        .heap-label { font-size: 1rem; margin-bottom: 15px; }
+        .heap-label.h1 { color: var(--heap1); }
+        .heap-label.h2 { color: var(--heap2); }
+        .heap-nodes { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; min-height: 80px; }
+        .heap-node { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; transition: all 0.2s; }
+        .heap-node:hover { transform: scale(1.1); }
+        .heap-node.h1 { background: var(--heap1); color: #fff; }
+        .heap-node.h2 { background: var(--heap2); color: #000; }
+        .median-display { padding: 30px 50px; background: linear-gradient(135deg, var(--heap1), var(--heap2)); border-radius: 50%; text-align: center; }
+        .median-label { font-size: 0.9rem; color: rgba(0,0,0,0.7); }
+        .median-value { font-size: 3rem; font-family: 'Righteous'; color: #000; }
+        .add-controls { display: flex; gap: 10px; align-items: center; padding: 15px; background: var(--panel); border-radius: 10px; flex-wrap: wrap; justify-content: center; }
+        .add-controls input { width: 60px; height: 40px; font-size: 1.1rem; text-align: center; background: #000; color: var(--merged); border: 2px solid var(--merged); border-radius: 5px; }
+        .btn { background: var(--merged); color: #000; border: none; padding: 12px 25px; font-family: 'Righteous'; cursor: pointer; border-radius: 8px; }
+        .btn:hover { background: #ffe033; }
+        .btn.h1 { background: var(--heap1); color: #fff; }
+        .btn.h2 { background: var(--heap2); color: #000; }
+        .btn.secondary { background: transparent; border: 2px solid #333; color: #888; font-family: 'Nunito'; }
+        .side-panel { display: flex; gap: 20px; }
+        .panel-box { background: var(--panel); border: 2px solid #2a3a5e; padding: 15px; border-radius: 10px; min-width: 150px; }
+        .stat-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #2a3a5e; }
+        .stat-label { color: #888; font-size: 0.8rem; }
+        .stat-value { font-weight: bold; color: var(--merged); }
+        #status { font-size: 1rem; text-align: center; min-height: 30px; }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--panel); padding: 30px; border: 3px solid var(--merged); max-width: 500px; text-align: center; border-radius: 15px; }
+        .dialog h2 { color: var(--merged); font-family: 'Righteous'; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🔀 SPLIT MERGER</h1>
+    <div style="color:#888">MEDIAN FROM TWO HEAPS</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>🎯 MERGE FOR MEDIAN:</b> Add numbers to either heap. Keep them balanced to find the median of all numbers!
+    </div>
+    <div class="heaps-row">
+        <div class="heap-box">
+            <div class="heap-label h1">MAX HEAP (lower half)</div>
+            <div class="heap-nodes" id="maxHeap"></div>
+        </div>
+        <div class="median-display">
+            <div class="median-label">MEDIAN</div>
+            <div class="median-value" id="median">-</div>
+        </div>
+        <div class="heap-box">
+            <div class="heap-label h2">MIN HEAP (upper half)</div>
+            <div class="heap-nodes" id="minHeap"></div>
+        </div>
+    </div>
+    <div class="add-controls">
+        <span>Add:</span>
+        <input type="number" id="numInput" value="10" min="1" max="99">
+        <button class="btn h1" onclick="game.addToMax()">→ MAX</button>
+        <button class="btn h2" onclick="game.addToMin()">→ MIN</button>
+        <button class="btn" onclick="game.addSmart()">AUTO</button>
+        <button class="btn secondary" onclick="game.balance()">BALANCE</button>
+    </div>
+    <div class="side-panel">
+        <div class="panel-box">
+            <div class="stat-row"><span class="stat-label">Max Size</span><span class="stat-value" id="maxSize">0</span></div>
+            <div class="stat-row"><span class="stat-label">Min Size</span><span class="stat-value" id="minSize">0</span></div>
+            <div class="stat-row"><span class="stat-label">Total</span><span class="stat-value" id="total">0</span></div>
+        </div>
+    </div>
+    <div id="status">Add numbers and keep balanced!</div>
+    <div style="display:flex; gap:15px;">
+        <button class="btn secondary" onclick="game.reset()">RESET</button>
+    </div>
+</main>
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🔀 SPLIT MERGER</h2>
+        <div style="margin:20px 0; text-align:left; line-height:1.8;">
+            <p><b style="color:var(--merged)">CONCEPT:</b> Median with Two Heaps!</p>
+            <ul>
+                <li><b>Max-heap:</b> lower half of numbers</li>
+                <li><b>Min-heap:</b> upper half of numbers</li>
+                <li>Keep sizes within 1 of each other</li>
+                <li>Median = top(max) or avg of both tops</li>
+            </ul>
+            <p style="color:#888">O(log n) insert, O(1) median!</p>
+        </div>
+        <button class="btn" onclick="game.start()">START MERGING</button>
+    </div>
+</div>
+<script>
+class Heap {
+    constructor(compareFn) { this.h = []; this.cmp = compareFn; }
+    push(v) { this.h.push(v); this.h.sort(this.cmp); }
+    pop() { return this.h.shift(); }
+    peek() { return this.h[0]; }
+    size() { return this.h.length; }
+    arr() { return [...this.h]; }
+}
+class Game {
+    constructor() {
+        this.maxHeap = new Heap((a, b) => b - a);
+        this.minHeap = new Heap((a, b) => a - b);
+        this.ui = { maxHeap: document.getElementById('maxHeap'), minHeap: document.getElementById('minHeap'), median: document.getElementById('median'), input: document.getElementById('numInput'), maxSize: document.getElementById('maxSize'), minSize: document.getElementById('minSize'), total: document.getElementById('total'), status: document.getElementById('status'), modal: document.getElementById('modal') };
+    }
+    start() { this.ui.modal.classList.add('hidden'); this.reset(); }
+    reset() { this.maxHeap = new Heap((a,b)=>b-a); this.minHeap = new Heap((a,b)=>a-b); this.render(); }
+    addToMax() { const n = parseInt(this.ui.input.value); this.maxHeap.push(n); this.ui.status.textContent = `Added ${n} to MAX heap`; this.render(); }
+    addToMin() { const n = parseInt(this.ui.input.value); this.minHeap.push(n); this.ui.status.textContent = `Added ${n} to MIN heap`; this.render(); }
+    addSmart() {
+        const n = parseInt(this.ui.input.value);
+        if (this.maxHeap.size() === 0 || n <= this.maxHeap.peek()) this.maxHeap.push(n);
+        else this.minHeap.push(n);
+        this.balance();
+        this.ui.status.textContent = `AUTO: Added ${n} to correct heap`;
+        this.render();
+    }
+    balance() {
+        while (this.maxHeap.size() > this.minHeap.size() + 1) this.minHeap.push(this.maxHeap.pop());
+        while (this.minHeap.size() > this.maxHeap.size()) this.maxHeap.push(this.minHeap.pop());
+        this.ui.status.textContent = 'Heaps balanced!';
+        this.render();
+    }
+    getMedian() {
+        if (this.maxHeap.size() === 0) return '-';
+        if (this.maxHeap.size() > this.minHeap.size()) return this.maxHeap.peek();
+        return ((this.maxHeap.peek() + this.minHeap.peek()) / 2).toFixed(1);
+    }
+    render() {
+        this.ui.maxHeap.innerHTML = '';
+        this.maxHeap.arr().forEach(v => {
+            const n = document.createElement('div');
+            n.className = 'heap-node h1';
+            n.textContent = v;
+            this.ui.maxHeap.appendChild(n);
+        });
+        this.ui.minHeap.innerHTML = '';
+        this.minHeap.arr().forEach(v => {
+            const n = document.createElement('div');
+            n.className = 'heap-node h2';
+            n.textContent = v;
+            this.ui.minHeap.appendChild(n);
+        });
+        this.ui.median.textContent = this.getMedian();
+        this.ui.maxSize.textContent = this.maxHeap.size();
+        this.ui.minSize.textContent = this.minHeap.size();
+        this.ui.total.textContent = this.maxHeap.size() + this.minHeap.size();
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

@@ -64,6 +64,17 @@ Current Exponent Val: 123 = 12 * 10 + 3
 Result: (a^12)^10 * a^3 = a^120 * a^3 = a^123 mod m
 ```
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Read next digit]
+    B --> C[Raise current result to power ten]
+    C --> D[Multiply by a to digit power]
+    D --> E{More digits}
+    E -- Yes --> B
+    E -- No --> F[Output result]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Constraints:** `|e| <= 100,000`. This means `e ~= 10^100000`.

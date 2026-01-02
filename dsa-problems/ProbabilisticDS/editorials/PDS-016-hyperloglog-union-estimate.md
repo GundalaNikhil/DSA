@@ -63,6 +63,15 @@ Result U: `[3, 5, 2, 4]`
 
 Now compute HLL estimate on `[3, 5, 2, 4]`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Read registers A and B] --> B[Merge by max per index]
+B --> C[Compute sum of two power negative values]
+C --> D[Compute HLL estimate with alpha]
+D --> E[Output estimate]
+```
+
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:**

@@ -1,2 +1,52 @@
-# Quiz for STC-014: Longest Palindromic Substring With One Wildcard
-# YAML content to be added
+problem_id: STC_LONGEST_PALINDROME_ONE_WILDCARD_014
+display_id: STC-014
+slug: longest-palindrome-one-wildcard
+questions:
+  - question: In the context of finding palindromes, how does the wildcard `?` behave when compared to another character `c`?
+    difficulty: easy
+    points: 10
+    options:
+      - It matches `c` only if `c` is a vowel.
+      - It matches `c` regardless of what `c` is (as long as `c` is a valid character).
+      - It only matches another `?`.
+      - It never matches any character.
+    correct_answer: 1
+    explanation: The wildcard `?` can be replaced by any character to form a palindrome. Therefore, for the purpose of checking palindromicity, `?` is considered equal to any character.
+    type: single_choice
+    id: prq_1
+  - question: Why can Manacher's algorithm be used for this problem with `O(N)` complexity despite the wildcard?
+    difficulty: medium
+    points: 10
+    options:
+      - Because we can try replacing `?` with all 26 letters and run Manacher's 26 times.
+      - Because the wildcard acts as a 'super-match' that doesn't violate the symmetry required for Manacher's initialization step `P[i] = min(P[mirror], R-i)`.
+      - It actually requires `O(N^2)` because we need to expand from every center without optimization.
+      - The wildcard forces us to reset the radius `R` more often.
+    correct_answer: 1
+    explanation: Manacher's optimization relies on the fact that if a palindrome exists at `mirror`, a palindrome of at least that length (clipped by `L`) exists at `i`. Since `?` matches everything, it preserves this 'mirroring' property essentially by being compatible with whatever character was at the mirror position.
+    type: single_choice
+    id: edq_1
+  - question: When transforming the string `s` to `T` with separators `#` (e.g., `aba` -> `^#a#b#a#$`), does the wildcard `?` match the separator `#`?
+    difficulty: medium
+    points: 10
+    options:
+      - Yes, `?` matches everything.
+      - No, `?` represents a character position in the original string, while `#` represents boundaries between characters. They are distinct types.
+      - Only if the `?` is at the beginning of the string.
+      - Yes, but only in the initialization phase.
+    correct_answer: 1
+    explanation: "Logically, `?` is a placeholder for a *letter*. It cannot become a boundary `#`. Thus, `match(?, #)` is false."
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of the solution using the modified Manacher's algorithm?
+    difficulty: easy
+    points: 5
+    options:
+      - "`O(N)`"
+      - "`O(N log N)`"
+      - "`O(N^2)`"
+      - "`O(N * 26)`"
+    correct_answer: 0
+    explanation: Manacher's algorithm is linear `O(N)` in time and space, and the wildcard logic just adds a constant-time check to the comparison step.
+    type: single_choice
+    id: edq_3

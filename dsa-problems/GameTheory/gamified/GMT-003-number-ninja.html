@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMT-003: Subtract Square</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 36px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .tutorial h2 { color: #f5576c; margin-bottom: 15px; }
+
+        .rules { display: flex; gap: 15px; }
+        .rule {
+            flex: 1;
+            background: #fef5f5;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .rule-icon { font-size: 28px; }
+        .rule-text { font-size: 13px; color: #555; margin-top: 5px; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .turn-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+            border-radius: 12px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .turn-bar.ai { background: linear-gradient(90deg, #e74c3c, #c0392b); }
+
+        /* Current Number */
+        .number-display {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        .number-label { font-size: 14px; color: #888; }
+        .number-value { font-size: 72px; font-weight: 700; color: #f5576c; }
+
+        /* Square Buttons */
+        .squares-label { font-size: 14px; color: #888; text-align: center; margin-bottom: 15px; }
+        .squares-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .square-btn {
+            width: 80px;
+            height: 60px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .square-btn:hover { transform: scale(1.05); }
+        .square-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .square-btn .label { font-size: 10px; font-weight: 500; }
+
+        .message { text-align: center; padding: 15px; color: #666; font-size: 16px; }
+
+        .result {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            display: none;
+        }
+        .result.win { display: block; background: #d5f5e3; color: #27ae60; }
+        .result.lose { display: block; background: #fadbd8; color: #e74c3c; }
+
+        .btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 15px;
+            background: #f5576c;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🔢 Subtract Square</h1>
+        <div style="opacity:0.9">Subtract a perfect square - reach 0 to win!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="rules">
+            <div class="rule">
+                <div class="rule-icon">🎯</div>
+                <div class="rule-text"><strong>Goal:</strong> Reduce the number to exactly 0</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">🔲</div>
+                <div class="rule-text"><strong>Move:</strong> Subtract any perfect square (1, 4, 9, 16...)</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">🏆</div>
+                <div class="rule-text"><strong>Win:</strong> The player who reaches 0 wins!</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="turn-bar" id="turnBar">
+            <span id="turnText">🟢 Your Turn</span>
+            <span id="moveCount">Moves: 0</span>
+        </div>
+
+        <div class="number-display">
+            <div class="number-label">Current Number</div>
+            <div class="number-value" id="currentNum">15</div>
+        </div>
+
+        <div class="squares-label">Click a square to subtract:</div>
+        <div class="squares-grid" id="squaresGrid"></div>
+
+        <div class="message" id="message">Choose a perfect square to subtract!</div>
+
+        <div class="result" id="result"></div>
+
+        <button class="btn" onclick="newGame()">🔄 New Game</button>
+    </div>
+</div>
+
+<script>
+    let currentNum = 15;
+    let isPlayerTurn = true;
+    let moveCount = 0;
+    let gameOver = false;
+
+    function init() {
+        currentNum = 15;
+        isPlayerTurn = true;
+        moveCount = 0;
+        gameOver = false;
+        document.getElementById('result').className = 'result';
+        render();
+    }
+
+    function render() {
+        // Turn bar
+        const turnBar = document.getElementById('turnBar');
+        turnBar.className = isPlayerTurn ? 'turn-bar' : 'turn-bar ai';
+        document.getElementById('turnText').textContent = isPlayerTurn ? '🟢 Your Turn' : '🔴 AI Turn';
+        document.getElementById('moveCount').textContent = 'Moves: ' + moveCount;
+
+        // Current number
+        document.getElementById('currentNum').textContent = currentNum;
+
+        // Square buttons
+        const grid = document.getElementById('squaresGrid');
+        grid.innerHTML = '';
+
+        const squares = [];
+        for (let i = 1; i * i <= currentNum; i++) {
+            squares.push(i * i);
+        }
+
+        squares.forEach(sq => {
+            const btn = document.createElement('button');
+            btn.className = 'square-btn';
+            btn.innerHTML = `−${sq}<div class="label">${Math.sqrt(sq)}²</div>`;
+            btn.disabled = !isPlayerTurn || gameOver;
+            btn.onclick = () => subtract(sq);
+            grid.appendChild(btn);
+        });
+
+        if (squares.length === 0 && !gameOver) {
+            grid.innerHTML = '<div style="color:#888">No valid moves!</div>';
+        }
+    }
+
+    function subtract(sq) {
+        if (!isPlayerTurn || gameOver) return;
+        if (sq > currentNum) return;
+
+        currentNum -= sq;
+        moveCount++;
+
+        if (currentNum === 0) {
+            endGame(true);
+            return;
+        }
+
+        isPlayerTurn = false;
+        render();
+        document.getElementById('message').textContent = '🤖 AI is thinking...';
+
+        setTimeout(aiMove, 800);
+    }
+
+    function aiMove() {
+        if (gameOver) return;
+
+        // Find valid squares
+        const squares = [];
+        for (let i = 1; i * i <= currentNum; i++) {
+            squares.push(i * i);
+        }
+
+        if (squares.length === 0) {
+            endGame(true);
+            return;
+        }
+
+        // Simple AI: pick the largest valid square (greedy)
+        const chosen = squares[squares.length - 1];
+        currentNum -= chosen;
+        moveCount++;
+
+        document.getElementById('message').textContent = `🤖 AI subtracts ${chosen}`;
+
+        if (currentNum === 0) {
+            endGame(false);
+            return;
+        }
+
+        isPlayerTurn = true;
+        render();
+        setTimeout(() => {
+            document.getElementById('message').textContent = 'Your turn! Choose a square to subtract.';
+        }, 500);
+    }
+
+    function endGame(playerWins) {
+        gameOver = true;
+        render();
+        const result = document.getElementById('result');
+        if (playerWins) {
+            result.className = 'result win';
+            result.textContent = '🎉 YOU WIN! You reached 0!';
+        } else {
+            result.className = 'result lose';
+            result.textContent = '😢 AI WINS! AI reached 0.';
+        }
+        document.getElementById('message').textContent = '';
+    }
+
+    function newGame() {
+        init();
+        document.getElementById('message').textContent = 'Choose a perfect square to subtract!';
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

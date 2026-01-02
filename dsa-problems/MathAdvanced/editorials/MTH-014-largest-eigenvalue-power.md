@@ -47,8 +47,18 @@ Google's original **PageRank** algorithm is essentially finding the principal ei
 
 ## Detailed Explanation
 
-### ASCII Diagram: Convergence
+### Flow Diagram: Convergence
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start with vector v] --> B[Multiply by matrix A]
+    B --> C[Normalize vector]
+    C --> D[Compute Rayleigh quotient]
+    D --> E{Converged}
+    E -- No --> B
+    E -- Yes --> F[Return largest eigenvalue]
+```
 Imagine a vector `v` as a mix of all eigenvectors `e_1, e_2, dots`.
 `v = c_1 e_1 + c_2 e_2 + dots`
 Applying `A`:
@@ -66,8 +76,6 @@ The vector aligns with the direction of `e_1`.
      /
     /
    v_0 -> v_1 -> v_2 -> ... -> v_inf (Aligned with e1)
-```
-
 ### ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Input:** Matrix `A`, max iterations, tolerance `epsilon`.

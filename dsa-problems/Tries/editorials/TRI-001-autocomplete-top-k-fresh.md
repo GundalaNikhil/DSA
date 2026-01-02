@@ -184,6 +184,18 @@ Word Metadata (separate hash map):
 
 3. **Optimization**: Maintain max-heap if multiple queries, or cache results per prefix
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Build trie and metadata map]
+    B --> C[Find node for prefix]
+    C --> D[Collect words under prefix]
+    D --> E[Compute score for each word]
+    E --> F[Keep best top k with heap]
+    F --> G[Return suggestions]
+    G --> H[End]
+```
+
 **Time Complexity:**
 
 - Trie build: O(N × L)

@@ -1,0 +1,52 @@
+problem_id: TDP_MAX_PATH_SUM_LENGTH_LIMIT_005
+display_id: TDP-005
+slug: max-path-sum-length-limit
+questions:
+  - question: We need the maximum path sum with length between L and R. Why is simple DFS/DP insufficient?
+    difficulty: easy
+    points: 10
+    options:
+      - The state space (Node, CurrentLength) is O(N^2) which is too slow
+      - DFS cannot handle negative weights
+      - Tree structure changes
+      - It is sufficient
+    correct_answer: 0
+    explanation: Standard DP would be O(N*N) in worst case (line graph).
+    type: single_choice
+    id: prq_1
+  - question: Which technique is best suited for path problems with length constraints on trees?
+    difficulty: medium
+    points: 15
+    options:
+      - Centroid Decomposition
+      - Binary Lifting
+      - Heavy-Light Decomposition
+      - Prim's Algorithm
+    correct_answer: 0
+    explanation: It decomposes the problem into paths passing through a root, solving efficiently.
+    type: single_choice
+    id: edq_1
+  - question: "In Centroid Decomposition, finding the best path through a centroid often involves:"
+    difficulty: easy
+    points: 10
+    options:
+      - Merging paths from different subtrees using a data structure (e.g., Segment Tree or Sliding Window)
+      - Checking all pairs of nodes (O(N^2))
+      - Just taking the max of subtrees
+      - Random sampling
+    correct_answer: 0
+    explanation: We collect paths from children (depth, sum) and query for compatible paths.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity of the Centroid Decomposition approach for this problem?
+    difficulty: easy
+    points: 10
+    options:
+      - O(N log N) or O(N log^2 N)
+      - O(N^2)
+      - O(N)
+      - O(N^3)
+    correct_answer: 0
+    explanation: Depends on the merge step, but standard CD adds a log factor.
+    type: single_choice
+    id: edq_3

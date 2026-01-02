@@ -1,2 +1,52 @@
-# Quiz for PRB-007: Skip List Expected Height
-# YAML content to be added
+problem_id: PRB_SKIP_LIST_EXPECTED_HEIGHT_007
+display_id: PRB-007
+slug: skip-list-expected-height
+questions:
+  - question: Given `n` elements and a promotion probability `p`, what is the expected maximum height `H` of a Skip List?
+    difficulty: medium
+    points: 10
+    options:
+      - "`H approx log_n(1/p)`"
+      - "`H approx log_{1/p}(n)`"
+      - "`H approx n * p`"
+      - "`H approx log_2(n)` regardless of p"
+    correct_answer: 1
+    explanation: The expected height is determined by the base of the logarithm, which depends on the inverse of the probability `p`. Specifically, `H = ln(n) / ln(1/p)`.
+    type: single_choice
+    id: prq_1
+  - question: The height of a single element in a Skip List follows which probability distribution?
+    difficulty: medium
+    points: 10
+    options:
+      - Geometric Distribution
+      - Binomial Distribution
+      - Normal Distribution
+      - Uniform Distribution
+    correct_answer: 0
+    explanation: We repeatedly flip a coin (probability `p`) to decide if a node grows taller. This 'failures until success' (or sequence of successes) model is the definition of a Geometric distribution.
+    type: single_choice
+    id: edq_1
+  - question: What is the trade-off when choosing a smaller value for `p` (e.g., 0.25 vs 0.5)?
+    difficulty: easy
+    points: 10
+    options:
+      - The Skip List uses less space (fewer pointers) but has a greater height (slower search).
+      - The Skip List uses more space and becomes shorter.
+      - The Skip List becomes a Linked List.
+      - The search time becomes O(1).
+    correct_answer: 0
+    explanation: A smaller `p` means fewer nodes satisfy the condition to be promoted, saving pointer space. However, this creates larger gaps between express stops, increasing the height/path length for searches.
+    type: single_choice
+    id: edq_2
+  - question: How does the expected height scale with the number of elements `n`?
+    difficulty: easy
+    points: 10
+    options:
+      - Logarithmically (O(log n))
+      - Linearly (O(n))
+      - Quadratically (O(n^2))
+      - Constant (O(1))
+    correct_answer: 0
+    explanation: Like balanced trees, Skip Lists maintain a logarithmic height relative to `n` to ensure efficient O(log n) operations.
+    type: single_choice
+    id: edq_3

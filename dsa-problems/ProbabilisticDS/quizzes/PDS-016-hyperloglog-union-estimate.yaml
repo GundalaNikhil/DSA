@@ -1,2 +1,52 @@
-# Quiz for PDS-016: Problem 16
-# YAML content to be added
+problem_id: PDS_HYPERLOGLOG_UNION_ESTIMATE_016
+display_id: PDS-016
+slug: hyperloglog-union-estimate
+questions:
+  - question: "To compute the union of two HLL sketches, A and B, we create a new sketch U where:"
+    difficulty: easy
+    points: 10
+    options:
+      - U[i] = max(A[i], B[i])
+      - U[i] = A[i] + B[i]
+      - U[i] = min(A[i], B[i])
+      - U[i] = average(A[i], B[i])
+    correct_answer: 0
+    explanation: The register stores the maximum trailing zeros observed. The max of the two registers represents the rarest event seen in either stream.
+    type: single_choice
+    id: prq_1
+  - question: Why can't we just add the estimated cardinalities of A and B?
+    difficulty: medium
+    points: 15
+    options:
+      - Double counting of intersection elements
+      - Ideally we can, but it's slow
+      - HLL only supports subtraction
+      - Cardinality is not a number
+    correct_answer: 0
+    explanation: "|A U B| = |A| + |B| - |A n B|. Simple addition ignores the intersection overlap."
+    type: single_choice
+    id: edq_1
+  - question: "This merge property makes HLL extremely useful for:"
+    difficulty: easy
+    points: 10
+    options:
+      - Distributed systems (MapReduce/Spark aggregations)
+      - Sorting arrays
+      - Finding shortest paths
+      - Encryption
+    correct_answer: 0
+    explanation: Sketches can be computed locally on shards and then merged cheaply at the reducer level.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity to merge two HLL sketches of size M?
+    difficulty: easy
+    points: 10
+    options:
+      - O(M)
+      - O(M^2)
+      - O(1)
+      - O(M log M)
+    correct_answer: 0
+    explanation: We iterate through the M registers once.
+    type: single_choice
+    id: edq_3

@@ -90,6 +90,16 @@ Imagine you are analyzing **Canteen Popularity**.
 -   `stack.push(i)`
 -   Complexity: `O(N)` time, `O(N)` space.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Scan left to right] --> B[Pop smaller values]
+B --> C[Find previous index]
+C --> D[Compute span]
+D --> E[Push current index]
+E --> A
+```
+
 ## Implementations
 
 ### Java

@@ -62,6 +62,26 @@ Arr:   [0] [1] [0] [2] [2] [1]
        Fixed   Moved
 ```
 
+### 🔄 Algorithm Flow Diagram
+
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Set left = 0, right = n - 1]
+    B --> C{left < right?}
+    C -- No --> J[Return arr]
+    C -- Yes --> D[Move left forward while arr at left is 0 or 1]
+    D --> E[Move right backward while arr at right is 2 or 1]
+    E --> F{left < right?}
+    F -- No --> J
+    F -- Yes --> G[Swap arr at left and arr at right]
+    G --> H[left++]
+    H --> I[right--]
+    I --> C
+```
+
+> When the VIPs stay put, the rest of the line can still sort itself out.
+
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - **Sorting Order**: `0`s ... `1`s (fixed) ... `2`s? No, `0`s take _available_ slots from left, `2`s take _available_ slots from right. `1`s interrupt the flow but don't move.

@@ -1,0 +1,52 @@
+problem_id: GEO_SEGMENT_RECTANGLE_INTERSECTION_015
+display_id: GEO-015
+slug: segment-rectangle-intersection
+questions:
+  - question: If an endpoint of the segment lies inside the rectangle, what is the answer?
+    difficulty: easy
+    points: 10
+    options:
+      - "false"
+      - "true"
+      - depends on the slope
+      - only if the other endpoint is inside
+    correct_answer: 1
+    explanation: Any endpoint inside (or on the boundary) counts as intersection.
+    type: single_choice
+    id: prq_1
+  - question: For rectangle (0,0)-(2,2) and segment (-1,1)-(1,1), what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - "true"
+      - "false"
+      - boundary
+      - inside
+    correct_answer: 0
+    explanation: The segment crosses the left edge at (0,1), so it intersects.
+    type: single_choice
+    id: edq_1
+  - question: If no endpoints are inside, what additional check is required?
+    difficulty: medium
+    points: 15
+    options:
+      - Sort the rectangle corners
+      - Check intersection with each of the 4 rectangle edges
+      - Compute the rectangle area
+      - Compare slopes only
+    correct_answer: 1
+    explanation: The segment may still intersect the rectangle by crossing an edge.
+    type: single_choice
+    id: edq_2
+  - question: If both endpoints are outside and the segment does not cross any edge, what is the output?
+    difficulty: easy
+    points: 10
+    options:
+      - "true"
+      - "false"
+      - boundary
+      - inside
+    correct_answer: 1
+    explanation: No endpoint inside and no edge crossing means no intersection.
+    type: single_choice
+    id: edq_3

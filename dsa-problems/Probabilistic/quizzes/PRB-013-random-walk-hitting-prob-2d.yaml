@@ -1,2 +1,52 @@
-# Quiz for PRB-013: Random Walk Hitting Probability 2D
-# YAML content to be added
+problem_id: PRB_RANDOM_WALK_HITTING_PROB_2D_013
+display_id: PRB-013
+slug: random-walk-hitting-prob-2d
+questions:
+  - question: To calculate the probability of 'hitting a target at least once' in `T` steps using DP, how should the target state `(a,b)` be treated?
+    difficulty: medium
+    points: 15
+    options:
+      - "Make it an 'absorbing state': once the walk enters `(a,b)`, it stays there with probability 1.0 (or stops)."
+      - Reset the probability to 0 every time it is entered.
+      - Treat it like any other state and just sum up visits.
+      - Subtract the probability of visiting it from 1.0.
+    correct_answer: 0
+    explanation: Standard DP calculates the probability of *being* at a specific cell at time `t`. To capture 'at least once', we trap the probability mass at the target so it accumulates all successful paths regardless of when they arrived.
+    type: single_choice
+    id: prq_1
+  - question: For a time horizon `T`, the random walk stays within a bounding box. What is the approximate time complexity of the DP solution?
+    difficulty: medium
+    points: 10
+    options:
+      - "`O(T^3)`"
+      - "`O(T^2)`"
+      - "`O(2^T)`"
+      - "`O(T)`"
+    correct_answer: 0
+    explanation: At each step `t` (from 1 to `T`), we iterate over a grid of size effectively `(2t) x (2t)`, which is `O(t^2)`. Summing `t^2` from 1 to `T` yields `O(T^3)`.
+    type: single_choice
+    id: edq_1
+  - question: Why can't we simply restrict the DP grid size to the target coordinates `(a, b)`?
+    difficulty: easy
+    points: 10
+    options:
+      - Because the random walk can move away from the target (e.g., to larger coordinates) and then come back.
+      - Because the grid must be infinite.
+      - Because negative coordinates are impossible.
+      - We can; restricting it is correct.
+    correct_answer: 0
+    explanation: A path might overshoot the target or circle around it. Restricting the grid to `[0, a] x [0, b]` would incorrectly discard valid paths that step outside this region before returning.
+    type: single_choice
+    id: edq_2
+  - question: This problem is a discrete version of which physical phenomenon?
+    difficulty: easy
+    points: 10
+    options:
+      - Diffusion (Heat Equation).
+      - Gravity.
+      - Electromagnetism.
+      - Relativity.
+    correct_answer: 0
+    explanation: A random walk models diffusion, where probability mass spreads out over time like heat or a gas.
+    type: single_choice
+    id: edq_3

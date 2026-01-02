@@ -71,6 +71,17 @@ A Fenwick Tree inside a Fenwick Tree works!
 
 **Complexity**: `O(log N * log (max_val))`. With coordinate compression, `O(log^2 N)`.
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+A[Compress values] --> B[Build outer tree over indices]
+B --> C[Update value at index]
+C --> D[Update inner structures]
+D --> E[Answer count query]
+E --> F[Combine prefix counts]
+F --> G[Output count]
+```
+
 ### Approach 2: Square Root Decomposition
 Divide into blocks. Maintain sorted values in each block.
 -   **Update**: Remove old, insert new (maintain sorted). `O(sqrtN)`.

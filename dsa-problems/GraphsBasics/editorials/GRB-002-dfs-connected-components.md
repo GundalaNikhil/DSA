@@ -52,8 +52,22 @@ It needs a linear traversal that touches each island and bridge only a few times
 
 ## Detailed Explanation
 
-### ASCII Diagram: Connected Components in an Undirected Graph
+### Flow Diagram: Connected Components in an Undirected Graph
 
+<!-- mermaid -->
+```mermaid
+flowchart TD
+    A[Start] --> B[Initialize comp array with zeros]
+    B --> C[Set component count to zero]
+    C --> D[For each node]
+    D --> E{Node already labeled}
+    E -- Yes --> D
+    E -- No --> F[Increase component count]
+    F --> G[Run DFS from node]
+    G --> H[Label all reachable nodes]
+    H --> D
+    D --> I[Return count and comp array]
+```
 ```
 Component 1:         Component 2:
 
@@ -71,7 +85,6 @@ In the diagram:
 
 - Component 1 is {0, 1}.
 - Component 2 is {2, 3, 4}.
-
 ## ✅ Input/Output Clarifications (Read This Before Coding)
 
 - Component ids must be 1-based, assigned in discovery order.
@@ -86,7 +99,7 @@ Common interpretation mistake:
 ### Core Concept: Flood Fill on Graphs
 
 Connected components in an undirected graph are exactly the sets of nodes reachable from each other.
-DFS is a graph flood fill.
+DFS is a graph flood fill. It soaks the whole component before moving on to the next island group.
 Starting DFS from an unvisited node marks its entire component.
 Then you move to the next unvisited node and repeat.
 

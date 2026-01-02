@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRI-002: Prefix Doctor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .header h1 { font-size: 36px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+
+        /* Instructions Card */
+        .instructions {
+            background: #fff;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        .instructions h2 { color: #11998e; margin-bottom: 15px; }
+        .instruction-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .instruction-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 15px;
+            background: #f0fff4;
+            border-radius: 10px;
+        }
+        .instruction-icon { font-size: 24px; }
+        .instruction-text { font-size: 14px; color: #555; }
+        .instruction-text strong { color: #11998e; }
+
+        /* Goal */
+        .goal-banner {
+            background: linear-gradient(90deg, #f6d365, #fda085);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .goal-title { font-size: 14px; opacity: 0.9; }
+        .goal-main { font-size: 22px; font-weight: bold; }
+
+        /* Game */
+        .game-card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .word-panel {
+            margin-bottom: 25px;
+        }
+        .word-label { font-size: 14px; color: #888; margin-bottom: 10px; }
+
+        .word-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .word-index { font-size: 18px; color: #11998e; font-weight: bold; min-width: 30px; }
+
+        .char-boxes { display: flex; gap: 5px; }
+        .char-box {
+            width: 40px;
+            height: 50px;
+            background: #fff;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+            transition: all 0.2s;
+        }
+        .char-box.match { border-color: #11998e; background: #d0f0c0; color: #11998e; }
+        .char-box.deleted { border-color: #e74c3c; background: #ffeaea; color: #e74c3c; text-decoration: line-through; }
+
+        .delete-buttons { display: flex; gap: 5px; margin-left: 15px; }
+        .del-btn {
+            width: 30px;
+            height: 30px;
+            background: #fee;
+            border: 2px solid #fcc;
+            border-radius: 50%;
+            color: #e74c3c;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .del-btn:hover { background: #e74c3c; color: #fff; }
+        .del-btn.active { background: #e74c3c; color: #fff; border-color: #c0392b; }
+
+        /* Result */
+        .result-panel {
+            background: linear-gradient(135deg, #11998e, #38ef7d);
+            padding: 25px;
+            border-radius: 15px;
+            color: #fff;
+            text-align: center;
+        }
+        .result-label { font-size: 14px; opacity: 0.8; }
+        .result-prefix {
+            font-size: 36px;
+            font-weight: bold;
+            letter-spacing: 5px;
+            margin: 10px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .result-length { font-size: 16px; }
+
+        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
+        .btn {
+            padding: 12px 30px;
+            background: #fff;
+            border: none;
+            color: #11998e;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn:hover { transform: scale(1.05); }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🩺 Prefix Doctor</h1>
+        <div>Find the Longest Common Prefix with One Deletion!</div>
+    </div>
+
+    <div class="instructions">
+        <h2>📋 How to Play</h2>
+        <div class="instruction-grid">
+            <div class="instruction-item">
+                <span class="instruction-icon">🎯</span>
+                <div class="instruction-text">
+                    <strong>Goal:</strong> Find the longest prefix shared by ALL words
+                </div>
+            </div>
+            <div class="instruction-item">
+                <span class="instruction-icon">✂️</span>
+                <div class="instruction-text">
+                    <strong>Twist:</strong> You can delete ONE letter from each word to help!
+                </div>
+            </div>
+            <div class="instruction-item">
+                <span class="instruction-icon">🔘</span>
+                <div class="instruction-text">
+                    <strong>Action:</strong> Click the × buttons below letters to delete them
+                </div>
+            </div>
+            <div class="instruction-item">
+                <span class="instruction-icon">👀</span>
+                <div class="instruction-text">
+                    <strong>Watch:</strong> The LCP updates in real-time as you delete!
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="goal-banner">
+        <div class="goal-title">🏆 CHALLENGE</div>
+        <div class="goal-main">Maximize the Longest Common Prefix length!</div>
+    </div>
+
+    <div class="game-card">
+        <div class="word-panel" id="wordPanel"></div>
+
+        <div class="result-panel">
+            <div class="result-label">LONGEST COMMON PREFIX</div>
+            <div class="result-prefix" id="lcpDisplay">-</div>
+            <div class="result-length">Length: <span id="lcpLength">0</span> characters</div>
+        </div>
+
+        <div class="controls">
+            <button class="btn" onclick="reset()">🔄 Reset All</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const WORDS = ["flower", "floppy", "flight"];
+    let deleted = {}; // wordIndex -> charIndex
+
+    function init() {
+        WORDS.forEach((_, i) => deleted[i] = null);
+        render();
+    }
+
+    function render() {
+        const panel = document.getElementById('wordPanel');
+        panel.innerHTML = '<div class="word-label">Click × to delete one letter per word:</div>';
+
+        WORDS.forEach((word, wi) => {
+            const row = document.createElement('div');
+            row.className = 'word-row';
+
+            // Word index
+            const idx = document.createElement('div');
+            idx.className = 'word-index';
+            idx.textContent = `W${wi + 1}`;
+            row.appendChild(idx);
+
+            // Char boxes
+            const chars = document.createElement('div');
+            chars.className = 'char-boxes';
+            for (let ci = 0; ci < word.length; ci++) {
+                const box = document.createElement('div');
+                box.className = 'char-box';
+                box.textContent = word[ci];
+                if (deleted[wi] === ci) box.classList.add('deleted');
+                chars.appendChild(box);
+            }
+            row.appendChild(chars);
+
+            // Delete buttons
+            const delBtns = document.createElement('div');
+            delBtns.className = 'delete-buttons';
+            for (let ci = 0; ci < word.length; ci++) {
+                const btn = document.createElement('button');
+                btn.className = 'del-btn';
+                if (deleted[wi] === ci) btn.classList.add('active');
+                btn.textContent = '×';
+                btn.onclick = () => toggleDelete(wi, ci);
+                delBtns.appendChild(btn);
+            }
+            row.appendChild(delBtns);
+
+            panel.appendChild(row);
+        });
+
+        computeLCP();
+    }
+
+    function toggleDelete(wordIdx, charIdx) {
+        deleted[wordIdx] = deleted[wordIdx] === charIdx ? null : charIdx;
+        render();
+    }
+
+    function getWord(wi) {
+        const word = WORDS[wi];
+        if (deleted[wi] !== null) {
+            return word.slice(0, deleted[wi]) + word.slice(deleted[wi] + 1);
+        }
+        return word;
+    }
+
+    function computeLCP() {
+        const words = WORDS.map((_, i) => getWord(i));
+        let lcp = "";
+        const minLen = Math.min(...words.map(w => w.length));
+
+        for (let i = 0; i < minLen; i++) {
+            const ch = words[0][i];
+            if (words.every(w => w[i] === ch)) {
+                lcp += ch;
+            } else {
+                break;
+            }
+        }
+
+        document.getElementById('lcpDisplay').textContent = lcp || "(none)";
+        document.getElementById('lcpLength').textContent = lcp.length;
+
+        // Highlight matching chars
+        highlightMatches(lcp.length);
+    }
+
+    function highlightMatches(lcpLen) {
+        const rows = document.querySelectorAll('.word-row');
+        rows.forEach((row, wi) => {
+            const boxes = row.querySelectorAll('.char-box');
+            let effectiveIdx = 0;
+            boxes.forEach((box, ci) => {
+                box.classList.remove('match');
+                if (deleted[wi] === ci) return;
+                if (effectiveIdx < lcpLen) {
+                    box.classList.add('match');
+                }
+                effectiveIdx++;
+            });
+        });
+    }
+
+    function reset() {
+        WORDS.forEach((_, i) => deleted[i] = null);
+        render();
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>
