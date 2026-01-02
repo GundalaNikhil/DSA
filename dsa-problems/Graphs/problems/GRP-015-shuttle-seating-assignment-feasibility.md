@@ -110,11 +110,208 @@ Topological Sort, Kahn's Algorithm, DAG, In-Degree, Cycle Detection, Task Schedu
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] checkFeasibility(int n, int[][] edges) {
+        return null;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+
+        int[][] edges = new int[m][2];
+        for (int i = 0; i < m; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        int[] result = solution.checkFeasibility(n, edges);
+
+        if (result.length == 1) {
+            System.out.println(result[0]);
+        } else {
+            System.out.println(result[0] + " " + result[1]);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+sys.setrecursionlimit(200000)
+from collections import deque
+from typing import List, Tuple
+
+def check_feasibility(n: int, edges: List[Tuple[int, int]]) -> Tuple[int, ...]:
+    return 0
+def main():
+    try:
+        input_data = sys.stdin.read().split()
+    except Exception:
+        return
+        
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            edges.append((u, v))
+            
+        result = check_feasibility(n, edges)
+        
+        if len(result) == 1:
+            print(result[0])
+        else:
+            print(f"{result[0]} {result[1]}")
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    pair<int, int> checkFeasibility(int n, vector<pair<int,int>>& edges) {
+        vector<int> indegree(n, 0);
+        vector<vector<int>> adj(n);
+
+        // Build graph
+        for (auto& [u, v] : edges) {
+            adj[u].push_back(v);
+            indegree[v]++;
+        }
+
+        // Sort adjacency lists for deterministic behavior
+        for (int i = 0; i < n; i++) {
+            sort(adj[i].begin(), adj[i].end());
+        }
+
+        // Count nodes with indegree 0
+        int initialZeros = 0;
+        queue<int> q;
+        for (int i = 0; i < n; i++) {
+            if (indegree[i] == 0) {
+                q.push(i);
+                initialZeros++;
+            }
+        }
+
+        int processed = 0;
+
+        while (!q.empty()) {
+            int u = q.front();
+            q.pop();
+            processed++;
+
+            for (int v : adj[u]) {
+                indegree[v]--;
+                if (indegree[v] == 0) {
+                    q.push(v);
+                }
+            }
+        }
+
+        if (processed == n) {
+            return {1, initialZeros};
+        } else {
+            return {-1, -1};
+        }
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    cin >> n >> m;
+
+    vector<pair<int,int>> edges;
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        edges.push_back({u, v});
+    }
+
+    Solution solution;
+    auto [result, zeros] = solution.checkFeasibility(n, edges);
+
+    if (result == -1) {
+        cout << -1 << endl;
+    } else {
+        cout << result << " " << zeros << endl;
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+class Solution {
+  checkFeasibility(n, edges) {
+    return 0;
+  }
+}
+
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  const tokens = data.join(" ").split(/\s+/);
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const m = Number(tokens[ptr++]);
+
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = Number(tokens[ptr++]);
+    const v = Number(tokens[ptr++]);
+    edges.push([u, v]);
+  }
+
+  const solution = new Solution();
+  const result = solution.checkFeasibility(n, edges);
+
+  if (result.length === 1) {
+    console.log(result[0]);
+  } else {
+    console.log(`${result[0]} ${result[1]}`);
+  }
+});
+```
+

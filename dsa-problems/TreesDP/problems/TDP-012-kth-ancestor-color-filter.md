@@ -83,24 +83,209 @@ For each query, print k-th ancestor with color c, or -1 if doesn't exist.
 
 ### Java
 
+```java
+import java.util.*;
+class Main {
+    static int n, LOG;
+    static int[] color, depth;
+    static int[][] up;
+    static List<Integer>[] adj;
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        LOG = 20;
+
+        color = new int[n + 1];
+        for (int i = 1; i <= n; i++) color[i] = sc.nextInt();
+
+        adj = new ArrayList[n + 1];
+        for (int i = 0; i <= n; i++) adj[i] = new ArrayList<>();
+
+        for (int i = 0; i < n - 1; i++) {
+            int u = sc.nextInt(), v = sc.nextInt();
+            adj[u].add(v); adj[v].add(u);
+        }
+
+        up = new int[n + 1][LOG];
+        depth = new int[n + 1];
+        dfs(1, 0);
+
+        int q = sc.nextInt();
+        for (int i = 0; i < q; i++) {
+            int v = sc.nextInt(), c = sc.nextInt(), k = sc.nextInt();
+            System.out.println(findKthColoredAncestor(v, c, k));
+        }
+    }
+
+    static void dfs(int u, int p) {
+        up[u][0] = p;
+        for (int i = 1; i < LOG; i++) {
+            up[u][i] = up[up[u][i - 1]][i - 1];
+        }
+        for (int v : adj[u]) {
+            if (v != p) {
+                depth[v] = depth[u] + 1;
+                dfs(v, u);
+            }
+        }
+    }
+
+    static int findKthColoredAncestor(int v, int c, int k) {
+        int count = 0;
+        while (v != 0) {
+            if (color[v] == c) {
+                count++;
+                if (count == k) return v;
+            }
+            v = up[v][0];
+        }
+        return -1;
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+sys.setrecursionlimit(300000)
+
+def main():
+    data = sys.stdin.read().split()
+    idx = 0
+    n = int(data[idx]); idx += 1
+    LOG = 20
+
+    color = [0] + [int(data[idx + i]) for i in range(n)]
+    idx += n
+
+    adj = [[] for _ in range(n + 1)]
+    for _ in range(n - 1):
+        u, v = int(data[idx]), int(data[idx + 1])
+        idx += 2
+        adj[u].append(v); adj[v].append(u)
+
+    up = [[0] * LOG for _ in range(n + 1)]
+
+    def dfs(u, p):
+        return 0
+    dfs(1, 0)
+
+    def find_kth(v, c, k):
+        return 0
+    q = int(data[idx]); idx += 1
+    for _ in range(q):
+        v, c, k = int(data[idx]), int(data[idx + 1]), int(data[idx + 2])
+        idx += 3
+        print(find_kth(v, c, k))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <cstring>
+#include <climits>
+using namespace std;
+
+int n, LOG = 20;
+vector<int> color;
+vector<vector<int>> up, adj;
+
+void dfs(int u, int p) {
+    up[u][0] = p;
+    for (int i = 1; i < LOG; i++) {
+        up[u][i] = up[up[u][i - 1]][i - 1];
+    }
+    for (int v : adj[u]) {
+        if (v != p) dfs(v, u);
+    }
+}
+
+int findKth(int v, int c, int k) {
+    int count = 0;
+    while (v != 0) {
+        if (color[v] == c) {
+            count++;
+            if (count == k) return v;
+        }
+        v = up[v][0];
+    }
+    return -1;
+}
+
+int main() {
+    cin >> n;
+    color.resize(n + 1);
+    for (int i = 1; i <= n; i++) cin >> color[i];
+
+    adj.resize(n + 1);
+    for (int i = 0; i < n - 1; i++) {
+        int u, v; cin >> u >> v;
+        adj[u].push_back(v); adj[v].push_back(u);
+    }
+
+    up.assign(n + 1, vector<int>(LOG));
+    dfs(1, 0);
+
+    int q; cin >> q;
+    while (q--) {
+        int v, c, k; cin >> v >> c >> k;
+        cout << findKth(v, c, k) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+const rl = readline.createInterface({ input: process.stdin, terminal: false });
 
-## Hints
+const lines = [];
+rl.on("line", (line) => lines.push(line.trim()));
+rl.on("close", () => {
+  let idx = 0;
+  const n = parseInt(lines[idx++]);
+  const LOG = 20;
+  const color = [0, ...lines[idx++].split(" ").map(Number)];
 
-<details>
-<summary>Hint 1</summary>
-Use binary lifting to jump ancestors quickly.
-</details>
+  const adj = Array.from({ length: n + 1 }, () => []);
+  for (let i = 0; i < n - 1; i++) {
+    const [u, v] = lines[idx++].split(" ").map(Number);
+    adj[u].push(v);
+    adj[v].push(u);
+  }
 
-<details>
-<summary>Hint 2</summary>
-Track color count along ancestor path.
-</details>
+  const up = Array.from({ length: n + 1 }, () => Array(LOG).fill(0));
+
+  function dfs(u, p) {
+    return 0;
+  }
+
+  dfs(1, 0);
+
+  function findKth(v, c, k) {
+    return 0;
+  }
+
+  const q = parseInt(lines[idx++]);
+  for (let i = 0; i < q; i++) {
+    const [v, c, k] = lines[idx++].split(" ").map(Number);
+    console.log(findKth(v, c, k));
+  }
+});
+```
+

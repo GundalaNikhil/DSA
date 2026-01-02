@@ -108,12 +108,149 @@ Greedy Algorithms, Heap, Priority Queue, Cost Optimization, Resource Allocation
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long minOvertimeCost(int n, long H, int[][] shifts) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        long H = sc.nextLong();
+
+        int[][] shifts = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            shifts[i][0] = sc.nextInt();
+            shifts[i][1] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.minOvertimeCost(n, H, shifts));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def min_overtime_cost(n: int, H: int, shifts: list) -> int:
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    n = int(next(iterator))
+    H = int(next(iterator))
+    
+    shifts = []
+    for _ in range(n):
+        l = int(next(iterator))
+        p = int(next(iterator))
+        shifts.append([l, p])
+
+    result = min_overtime_cost(n, H, shifts)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minOvertimeCost(int n, long long H, vector<pair<int,int>>& shifts) {
+        long long totalStandard = 0;
+        int minRate = 2e9; // Initialize with a large value
+        
+        for (const auto& shift : shifts) {
+            totalStandard += shift.first;
+            if (shift.second < minRate) {
+                minRate = shift.second;
+            }
+        }
+        
+        if (totalStandard >= H) {
+            return 0;
+        }
+        
+        long long needed = H - totalStandard;
+        return needed * minRate;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    long long H;
+    if (!(cin >> n >> H)) return 0;
+
+    vector<pair<int,int>> shifts(n);
+    for (int i = 0; i < n; i++) {
+        cin >> shifts[i].first >> shifts[i].second;
+    }
+
+    Solution solution;
+    cout << solution.minOvertimeCost(n, H, shifts) << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  minOvertimeCost(n, H, shifts) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const [n, H] = data[ptr++].split(" ").map(Number);
+
+  const shifts = [];
+  for (let i = 0; i < n; i++) {
+    const [l, p] = data[ptr++].split(" ").map(Number);
+    shifts.push([l, p]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.minOvertimeCost(n, H, shifts));
+});
+```
 

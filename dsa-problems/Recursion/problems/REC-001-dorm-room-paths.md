@@ -76,14 +76,127 @@ Recursion, Memoization, Grid DP
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private long[][] memo;
+
+    public long countPaths(int r, int c) {
+        return 0;
+    }
+
+    private long helper(int r, int c) {
+        // Base case: Start point
+        if (r == 0 && c == 0) return 1;
+        
+        // Out of bounds
+        if (r < 0 || c < 0) return 0;
+        
+        // Return memoized value
+        if (memo[r][c] != -1) return memo[r][c];
+        
+        // Recursive step
+        long paths = helper(r - 1, c) + helper(r, c - 1);
+        memo[r][c] = paths;
+        return paths;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int r = sc.nextInt();
+        int c = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.countPaths(r, c));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+# Increase recursion depth for deep grids
+sys.setrecursionlimit(2000)
+
+def count_paths(r: int, c: int) -> int:
+    return 0
+def main():
+    import sys
+    data = sys.stdin.read().strip().split()
+    if not data or len(data) < 2:
+        return
+
+    r = int(data[0])
+    c = int(data[1])
+    print(count_paths(r, c))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+    vector<vector<long long>> memo;
+public:
+    long long countPaths(int r, int c) {
+        memo.assign(r, vector<long long>(c, -1));
+        return helper(r - 1, c - 1);
+    }
+
+    long long helper(int r, int c) {
+        if (r == 0 && c == 0) return 1;
+        if (r < 0 || c < 0) return 0;
+        
+        if (memo[r][c] != -1) return memo[r][c];
+        
+        return memo[r][c] = helper(r - 1, c) + helper(r, c - 1);
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int r; cin >> r;
+    int c; cin >> c;
+    Solution sol;
+    cout << sol.countPaths(r, c) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+class Solution {
+  countPaths(r, c) {
+    return 0;
+  }
+}
+
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const r = parseInt(tokens[ptr++]);
+    const c = parseInt(tokens[ptr++]);
+    const sol = new Solution();
+    console.log(sol.countPaths(r, c));
+});
+```
 

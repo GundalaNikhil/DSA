@@ -82,12 +82,169 @@ Bipartite Graph, BFS, Coloring
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] bipartiteColors(int n, List<List<Integer>> adj) {
+        return null;
+    }
+
+    private boolean bfs(int start, List<List<Integer>> adj, int[] colors) {
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(start);
+        colors[start] = 0;
+
+        while (!q.isEmpty()) {
+            int u = q.poll();
+            for (int v : adj.get(u)) {
+                if (colors[v] == -1) {
+                    colors[v] = 1 - colors[u];
+                    q.offer(v);
+                } else if (colors[v] == colors[u]) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+
+        Solution solution = new Solution();
+        int[] colors = solution.bipartiteColors(n, adj);
+        System.out.println(colors == null ? "0" : "1");
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from collections import deque
+
+def bipartite_colors(n: int, adj: list[list[int]]):
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        adj = [[] for _ in range(n)]
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            adj[u].append(v)
+            adj[v].append(u)
+            
+        colors = bipartite_colors(n, adj)
+        if colors is None:
+            print("0")
+        else:
+            print("1")
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> bipartiteColors(int n, const vector<vector<int>>& adj) {
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    vector<vector<int>> adj(n);
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    Solution solution;
+    vector<int> colors = solution.bipartiteColors(n, adj);
+    
+    cout << (colors.empty() ? "0" : "1");
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  bipartiteColors(n, adj) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const m = parseInt(data[idx++], 10);
+  
+  const adj = Array.from({ length: n }, () => []);
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(data[idx++], 10);
+    const v = parseInt(data[idx++], 10);
+    adj[u].push(v);
+    adj[v].push(u);
+  }
+
+  const solution = new Solution();
+  const colors = solution.bipartiteColors(n, adj);
+  
+  console.log(colors === null ? "0" : "1");
+});
+```
 

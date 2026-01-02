@@ -104,12 +104,203 @@ Trie, String, Prefix Matching, Lexicographic Order
 
 ### Java
 
+```java
+import java.util.*;
+
+class TrieNode {
+    Map<Character, TrieNode> children = new HashMap<>();
+    boolean isEnd = false;
+}
+
+class Solution {
+    private TrieNode root = new TrieNode();
+
+    public String longestWordWithKPrefixes(String[] words, int k) {
+        return "";
+    }
+
+    private void insert(String word) {
+        TrieNode node = root;
+        for (char c : word.toCharArray()) {
+            node.children.putIfAbsent(c, new TrieNode());
+            node = node.children.get(c);
+        }
+        node.isEnd = true;
+    }
+
+    private int countPrefixes(String word) {
+        TrieNode node = root;
+        int count = 0;
+
+        // Traverse path, count END markers (excluding the final position)
+        for (int i = 0; i < word.length(); i++) {
+            node = node.children.get(word.charAt(i));
+            if (i < word.length() - 1 && node.isEnd) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        sc.nextLine();
+
+        String[] words = new String[n];
+        for (int i = 0; i < n; i++) {
+            words[i] = sc.nextLine().trim();
+        }
+
+        Solution solution = new Solution();
+        String result = solution.longestWordWithKPrefixes(words, k);
+
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+class TrieNode:
+    def __init__(self):
+        return 0
+class Solution:
+    def __init__(self):
+        return 0
+    def longest_word_with_k_prefixes(self, words: List[str], k: int) -> str:
+        return ""
+    def _insert(self, word: str):
+        return 0
+    def _count_prefixes(self, word: str) -> int:
+        return 0
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+
+    n, k = map(int, lines[0].split())
+    words = [lines[i+1].strip() for i in range(n)]
+
+    solution = Solution()
+    result = solution.longest_word_with_k_prefixes(words, k)
+
+    print(result if result else "")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+struct TrieNode {
+    unordered_map<char, TrieNode*> children;
+    bool isEnd = false;
+};
+
+class Solution {
+private:
+    TrieNode* root;
+
+    void insert(const string& word) {
+    }
+
+    int countPrefixes(const string& word) {
+        return 0;
+    }
+
+public:
+    Solution() { root = new TrieNode(); }
+
+    string longestWordWithKPrefixes(vector<string>& words, int k) {
+        return "";
+    }
+};
+
+int main() {
+    int n, k;
+    cin >> n >> k;
+    cin.ignore();
+
+    vector<string> words(n);
+    for (int i = 0; i < n; i++) {
+        getline(cin, words[i]);
+    }
+
+    Solution solution;
+    string result = solution.longestWordWithKPrefixes(words, k);
+
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class TrieNode {
+  constructor() {
+    this.children = new Map();
+    this.isEnd = false;
+  }
+}
+
+class Solution {
+  constructor() {
+    this.root = new TrieNode();
+  }
+
+  insert(word) {
+    return 0;
+  }
+
+  countPrefixes(word) {
+    return 0;
+  }
+
+  longestWordWithKPrefixes(words, k) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const [n, k] = lines[0].split(" ").map(Number);
+  const words = [];
+  for (let i = 1; i <= n; i++) {
+    words.push(lines[i].trim());
+  }
+
+  const solution = new Solution();
+  const result = solution.longestWordWithKPrefixes(words, k);
+
+  console.log(result);
+});
+```
 

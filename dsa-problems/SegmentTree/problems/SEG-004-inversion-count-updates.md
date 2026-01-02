@@ -81,14 +81,340 @@ Inversion Count, Fenwick Tree, Segment Tree
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<Long> process(int[] arr, List<int[]> updates) {
+        return null;
+    }
+    
+    private long countGreaterLeft(List<List<Integer>> blocks, int[] arr, int idx, int val, int blockSize) {
+        long count = 0;
+        int bIdx = idx / blockSize;
+        
+        // Full blocks to the left
+        for (int i = 0; i < bIdx; i++) {
+            List<Integer> b = blocks.get(i);
+            // Count elements > val
+            int pos = upperBound(b, val);
+            count += (b.size() - pos);
+        }
+        
+        // Elements in same block to the left
+        int start = bIdx * blockSize;
+        for (int i = start; i < idx; i++) {
+            if (arr[i] > val) count++;
+        }
+        return count;
+    }
+    
+    private long countSmallerRight(List<List<Integer>> blocks, int[] arr, int idx, int val, int blockSize) {
+        long count = 0;
+        int bIdx = idx / blockSize;
+        int numBlocks = blocks.size();
+        
+        // Elements in same block to the right
+        int end = Math.min((bIdx + 1) * blockSize, arr.length);
+        for (int i = idx + 1; i < end; i++) {
+            if (arr[i] < val) count++;
+        }
+        
+        // Full blocks to the right
+        for (int i = bIdx + 1; i < numBlocks; i++) {
+            List<Integer> b = blocks.get(i);
+            // Count elements < val
+            int pos = lowerBound(b, val);
+            count += pos;
+        }
+        return count;
+    }
+    
+    private int lowerBound(List<Integer> list, int val) {
+        int l = 0, r = list.size();
+        while (l < r) {
+            int mid = (l + r) / 2;
+            if (list.get(mid) >= val) r = mid;
+            else l = mid + 1;
+        }
+        return l;
+    }
+    
+    private int upperBound(List<Integer> list, int val) {
+        int l = 0, r = list.size();
+        while (l < r) {
+            int mid = (l + r) / 2;
+            if (list.get(mid) > val) r = mid;
+            else l = mid + 1;
+        }
+        return l;
+    }
+    
+    // Standard Merge Sort Inversion Count
+    private long countInversions(int[] arr) {
+        return mergeSort(arr.clone(), 0, arr.length - 1);
+    }
+    
+    private long mergeSort(int[] arr, int l, int r) {
+        if (l >= r) return 0;
+        int mid = (l + r) / 2;
+        long count = mergeSort(arr, l, mid) + mergeSort(arr, mid + 1, r);
+        
+        int[] temp = new int[r - l + 1];
+        int i = l, j = mid + 1, k = 0;
+        while (i <= mid && j <= r) {
+            if (arr[i] <= arr[j]) {
+                temp[k++] = arr[i++];
+            } else {
+                temp[k++] = arr[j++];
+                count += (mid - i + 1);
+            }
+        }
+        while (i <= mid) temp[k++] = arr[i++];
+        while (j <= r) temp[k++] = arr[j++];
+        System.arraycopy(temp, 0, arr, l, temp.length);
+        return count;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int q = sc.nextInt();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+            List<int[]> updates = new ArrayList<>();
+            for (int i = 0; i < q; i++) {
+                String op = sc.next(); // SET
+                updates.add(new int[]{sc.nextInt(), sc.nextInt()});
+            }
+            Solution sol = new Solution();
+            List<Long> results = sol.process(arr, updates);
+            for (long res : results) {
+                System.out.println(res);
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import bisect
+
+def process(arr: list[int], updates: list[tuple[int, int]]) -> list[int]:
+    return []
+def main():
+    import sys
+    def input_gen():
+        return 0
+    it = input_gen()
+    n = int(next(it))
+    q = int(next(it))
+    arr = [int(next(it)) for _ in range(n)]
+    updates = []
+    for _ in range(q):
+        op = next(it) # SET
+        updates.append((int(next(it)), int(next(it))))
+    
+    results = process(arr, updates)
+    for res in results:
+        print(res)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+
+using namespace std;
+
+class Solution {
+    long long mergeSort(vector<int>& arr, int l, int r) {
+        if (l >= r) return 0;
+        int mid = (l + r) / 2;
+        long long count = mergeSort(arr, l, mid) + mergeSort(arr, mid + 1, r);
+        
+        vector<int> temp;
+        temp.reserve(r - l + 1);
+        int i = l, j = mid + 1;
+        while (i <= mid && j <= r) {
+            if (arr[i] <= arr[j]) {
+                temp.push_back(arr[i++]);
+            } else {
+                temp.push_back(arr[j++]);
+                count += (mid - i + 1);
+            }
+        }
+        while (i <= mid) temp.push_back(arr[i++]);
+        while (j <= r) temp.push_back(arr[j++]);
+        for (int k = 0; k < temp.size(); k++) arr[l + k] = temp[k];
+        return count;
+    }
+
+public:
+    vector<long long> process(const vector<int>& inputArr, const vector<pair<int,int>>& updates) {
+        vector<int> arr = inputArr;
+        int n = arr.size();
+        int blockSize = sqrt(n * log2(n + 1)) + 1;
+        if (blockSize < 50) blockSize = 50;
+        
+        int numBlocks = (n + blockSize - 1) / blockSize;
+        vector<vector<int>> blocks(numBlocks);
+        
+        for (int i = 0; i < n; i++) {
+            blocks[i / blockSize].push_back(arr[i]);
+        }
+        for (auto& b : blocks) sort(b.begin(), b.end());
+        
+        vector<int> tempArr = arr;
+        long long currentInversions = mergeSort(tempArr, 0, n - 1);
+        
+        vector<long long> results;
+        results.reserve(updates.size());
+        
+        for (const auto& up : updates) {
+            int idx = up.first;
+            int val = up.second;
+            int oldVal = arr[idx];
+            
+            if (val == oldVal) {
+                results.push_back(currentInversions);
+                continue;
+            }
+            
+            int bIdx = idx / blockSize;
+            
+            // Remove oldVal
+            // Left blocks
+            for (int i = 0; i < bIdx; i++) {
+                auto& b = blocks[i];
+                auto it = upper_bound(b.begin(), b.end(), oldVal);
+                currentInversions -= distance(it, b.end());
+            }
+            // Same block left
+            int start = bIdx * blockSize;
+            for (int i = start; i < idx; i++) {
+                if (arr[i] > oldVal) currentInversions--;
+            }
+            // Same block right
+            int end = min((bIdx + 1) * blockSize, n);
+            for (int i = idx + 1; i < end; i++) {
+                if (arr[i] < oldVal) currentInversions--;
+            }
+            // Right blocks
+            for (int i = bIdx + 1; i < numBlocks; i++) {
+                auto& b = blocks[i];
+                auto it = lower_bound(b.begin(), b.end(), oldVal);
+                currentInversions -= distance(b.begin(), it);
+            }
+            
+            // Update
+            arr[idx] = val;
+            auto& block = blocks[bIdx];
+            auto itRemoval = lower_bound(block.begin(), block.end(), oldVal);
+            block.erase(itRemoval);
+            auto itInsertion = lower_bound(block.begin(), block.end(), val);
+            block.insert(itInsertion, val);
+            
+            // Add val
+            // Left blocks
+            for (int i = 0; i < bIdx; i++) {
+                auto& b = blocks[i];
+                auto it = upper_bound(b.begin(), b.end(), val);
+                currentInversions += distance(it, b.end());
+            }
+            // Same block left
+            for (int i = start; i < idx; i++) {
+                if (arr[i] > val) currentInversions++;
+            }
+            // Same block right
+            for (int i = idx + 1; i < end; i++) {
+                if (arr[i] < val) currentInversions++;
+            }
+            // Right blocks
+            for (int i = bIdx + 1; i < numBlocks; i++) {
+                auto& b = blocks[i];
+                auto it = lower_bound(b.begin(), b.end(), val);
+                currentInversions += distance(b.begin(), it);
+            }
+            
+            results.push_back(currentInversions);
+        }
+        return results;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, q;
+    if (!(cin >> n >> q)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    vector<pair<int, int>> updates(q);
+    for (int i = 0; i < q; i++) {
+        string type;
+        cin >> type; // SET
+        cin >> updates[i].first >> updates[i].second;
+    }
+    Solution sol;
+    vector<long long> results = sol.process(arr, updates);
+    for (long long res : results) {
+        cout << res << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+class Solution {
+  process(arr, updates) {
+    return 0;
+  }
+}
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const q = parseInt(data[idx++], 10);
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(parseInt(data[idx++], 10));
+  const updates = [];
+  for (let i = 0; i < q; i++) {
+    const type = data[idx++]; // SET
+    updates.push([parseInt(data[idx++], 10), parseInt(data[idx++], 10)]);
+  }
+  const solution = new Solution();
+  const out = solution.process(arr, updates);
+  console.log(out.join("\n"));
+});
+```
 

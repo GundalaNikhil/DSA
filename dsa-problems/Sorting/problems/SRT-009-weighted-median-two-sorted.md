@@ -85,14 +85,122 @@ Median, Binary Search, Sorted Arrays
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public String weightedMedian(int[] A, int[] B, long wA, long wB) {
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[] A = new int[n];
+        int[] B = new int[m];
+        for (int i = 0; i < n; i++) {
+            A[i] = sc.nextInt();
+        }
+        for (int i = 0; i < m; i++) {
+            B[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        System.out.println(solution.weightedMedian(A, B, 1L, 1L));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def weighted_median(A: list[int], B: list[int], wA: int, wB: int) -> str:
+    return ""
+def main():
+    n, m = map(int, input().split())
+    a = list(map(int, input().split()))
+    b = list(map(int, input().split()))
+    # Weights not provided in test, use 1, 1
+    result = weighted_median(a, b, 1, 1)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    string weightedMedian(const vector<int>& A, const vector<int>& B, long long wA, long long wB) {
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    vector<int> A(n);
+    vector<int> B(m);
+    for (int i = 0; i < n; i++) {
+        cin >> A[i];
+    }
+    for (int i = 0; i < m; i++) {
+        cin >> B[i];
+    }
+    Solution solution;
+    cout << solution.weightedMedian(A, B, 1, 1) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+class Solution {
+  weightedMedian(A, B, wA, wB) {
+    return 0;
+  }
+}
+
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const m = parseInt(data[idx++], 10);
+const A = [];
+const B = [];
+for (let i = 0; i < n; i++) {
+  A.push(parseInt(data[idx++], 10));
+}
+for (let i = 0; i < m; i++) {
+  B.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+console.log(solution.weightedMedian(A, B, 1, 1));
+```
 

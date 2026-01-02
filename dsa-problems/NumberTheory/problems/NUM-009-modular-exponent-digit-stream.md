@@ -81,12 +81,139 @@ Modular Exponentiation, Big Exponents
 
 ### Java
 
+```java
+import java.util.*;
+import java.math.BigInteger;
+
+class Solution {
+    private long power(long base, long exp, long mod) {
+        long res = 1;
+        base %= mod;
+        while (exp > 0) {
+            if ((exp & 1) == 1) res = (res * base) % mod;
+            base = (base * base) % mod;
+            exp >>= 1;
+        }
+        return res;
+    }
+
+    public long modExpStream(long a, long m, String e) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLong()) {
+            long a = sc.nextLong();
+            long m = sc.nextLong();
+            String e = sc.next();
+
+            Solution solution = new Solution();
+            System.out.println(solution.modExpStream(a, m, e));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def mod_exp_stream(a: int, m: int, e: str) -> int:
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    a = int(data[0])
+    m = int(data[1])
+    e = data[2]
+    print(mod_exp_stream(a, m, e))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Solution {
+    long long power(long long base, long long exp, long long mod) {
+        long long res = 1;
+        base %= mod;
+        while (exp > 0) {
+            if (exp % 2 == 1) res = (res * base) % mod;
+            base = (base * base) % mod;
+            exp /= 2;
+        }
+        return res;
+    }
+
+public:
+    long long modExpStream(long long a, long long m, const string& e) {
+        long long ans = 1;
+        
+        for (char c : e) {
+            int d = c - '0';
+            ans = power(ans, 10, m);
+            long long term = power(a, d, m);
+            ans = (ans * term) % m;
+        }
+        
+        return ans;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long a, m;
+    string e;
+    if (cin >> a >> m >> e) {
+        Solution solution;
+        cout << solution.modExpStream(a, m, e) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function power(base, exp, mod) {
+    return 0;
+  }
+
+function modExpStream(a, m, e) {
+    return 0;
+  }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const a = parseInt(data[0], 10);
+  const m = parseInt(data[1], 10);
+  const e = data[2];
+  console.log(modExpStream(a, m, e));
+});
+```
 

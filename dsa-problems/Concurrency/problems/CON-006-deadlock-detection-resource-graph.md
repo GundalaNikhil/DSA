@@ -96,7 +96,138 @@ Concurrency, Deadlocks, Graph Cycle Detection
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public boolean hasDeadlock(int n, List<int[]> edges) {
+        return false;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        List<int[]> edges = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            edges.add(new int[]{u, v});
+        }
+        
+        Solution solution = new Solution();
+        System.out.println(solution.hasDeadlock(n, edges));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def has_deadlock(n: int, edges: list[tuple[int, int]]) -> bool:
+    return False
+def main():
+    import sys
+    # Use generator pattern for robust reading
+    def input_gen():
+        return 0
+    it = input_gen()
+    
+    try:
+        n = int(next(it))
+        m = int(next(it))
+        edges = []
+        for _ in range(m):
+            u = int(next(it))
+            v = int(next(it))
+            edges.append((u, v))
+        
+        if has_deadlock(n, edges):
+            print("DEADLOCK")
+        else:
+            print("NO DEADLOCK")
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    bool hasDeadlock(int n, vector<pair<int, int>>& edges) {
+        return false;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    
+    vector<pair<int, int>> edges(m);
+    for (int i = 0; i < m; i++) {
+        cin >> edges[i].first >> edges[i].second;
+    }
+    
+    Solution solution;
+    cout << (solution.hasDeadlock(n, edges) ? "true" : "false") << "\n";
+    
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  hasDeadlock(n, edges) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const n = parseInt(data[ptr++], 10);
+  const m = parseInt(data[ptr++], 10);
+  
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(data[ptr++], 10);
+    const v = parseInt(data[ptr++], 10);
+    edges.push([u, v]);
+  }
+  
+  const solution = new Solution();
+  console.log(solution.hasDeadlock(n, edges));
+});
+```
 

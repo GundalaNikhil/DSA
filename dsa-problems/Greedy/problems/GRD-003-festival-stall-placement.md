@@ -101,12 +101,133 @@ Greedy Algorithms, Interval Scheduling, Activity Selection, Sorting
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int maxStalls(int[][] stalls, int d) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        int d = sc.nextInt();
+
+        int[][] stalls = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            stalls[i][0] = sc.nextInt();
+            stalls[i][1] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.maxStalls(stalls, d));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def max_stalls(stalls: list, d: int) -> int:
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    n = int(next(iterator))
+    d = int(next(iterator))
+    
+    stalls = []
+    for _ in range(n):
+        start = int(next(iterator))
+        end = int(next(iterator))
+        stalls.append([start, end])
+
+    result = max_stalls(stalls, d)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxStalls(vector<pair<int,int>>& stalls, int d) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, d;
+    if (!(cin >> n >> d)) return 0;
+
+    vector<pair<int,int>> stalls(n);
+    for (int i = 0; i < n; i++) {
+        cin >> stalls[i].first >> stalls[i].second;
+    }
+
+    Solution solution;
+    cout << solution.maxStalls(stalls, d) << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  maxStalls(stalls, d) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const [n, d] = data[ptr++].split(" ").map(Number);
+
+  const stalls = [];
+  for (let i = 0; i < n; i++) {
+    const [start, end] = data[ptr++].split(" ").map(Number);
+    stalls.push([start, end]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.maxStalls(stalls, d));
+});
+```
 

@@ -109,12 +109,138 @@ Trie, String, Suffix Trie, Substring Analysis
 
 ### Java
 
+```java
+import java.util.*;
+
+class TrieNode {
+    Map<Character, TrieNode> children;
+
+    TrieNode() {
+        children = new HashMap<>();
+    }
+}
+
+class Solution {
+    private int nodeCount = 0;
+
+    public int countDistinctSubstrings(String s) {
+        return 0;
+    }
+
+    private void insertSuffix(TrieNode root, String s, int start) {
+        TrieNode curr = root;
+
+        for (int i = start; i < s.length(); i++) {
+            char c = s.charAt(i);
+
+            if (!curr.children.containsKey(c)) {
+                curr.children.put(c, new TrieNode());
+                nodeCount++;  // New node = new distinct substring
+            }
+
+            curr = curr.children.get(c);
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        
+        Solution sol = new Solution();
+        System.out.println(sol.countDistinctSubstrings(s));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def count_distinct_naive(s):
+    return 0
+def main():
+    import sys
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        return
+
+    s = input_data
+    result = count_distinct_naive(s)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <unordered_map>
+#include <string>
+
+using namespace std;
+
+struct TrieNode {
+    unordered_map<char, TrieNode*> children;
+};
+
+class Solution {
+public:
+    int countDistinctSubstrings(const string& s) {
+        return 0;
+    }
+};
+
+int main() {
+    string s;
+    getline(cin, s);
+
+    Solution solution;
+    int result = solution.countDistinctSubstrings(s);
+
+    cout << result << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+class TrieNode {
+    constructor() {
+        this.children = new Map();
+    }
+}
+
+class Solution {
+    constructor() {
+        this.nodeCount = 0;
+    }
+
+    countDistinctSubstrings(s) {
+    return 0;
+  }
+
+    insertSuffix(root, s, start) {
+    return 0;
+  }
+}
+
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false
+});
+
+rl.on('line', (line) => {
+    const s = line.trim();
+    const sol = new Solution();
+    console.log(sol.countDistinctSubstrings(s));
+    rl.close();
+});
+```
 

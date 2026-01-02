@@ -82,14 +82,150 @@ Topological Sort, Backtracking, Graphs
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<Integer> findOrder(int n, int[][] edges) {
+        return null;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        int[][] edges = new int[m][2];
+        for(int i=0; i<m; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+        }
+        
+        Solution sol = new Solution();
+        List<Integer> res = sol.findOrder(n, edges);
+        if(res.isEmpty()) {
+            System.out.println("IMPOSSIBLE");
+        } else {
+            for(int i=0; i<res.size(); i++) {
+                System.out.print(res.get(i) + (i==res.size()-1?"":" "));
+            }
+            System.out.println();
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def find_topological_order(n: int, edges: list[tuple[int, int]]) -> list[int]:
+    return []
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if not lines:
+        return
+
+    first = lines[0].split()
+    n = int(first[0])
+    m = int(first[1])
+
+    edges = []
+    for i in range(1, 1 + m):
+        if i < len(lines):
+            parts = lines[i].split()
+            u, v = int(parts[0]), int(parts[1])
+            edges.append((u, v))
+
+    result = find_topological_order(n, edges)
+    if not result:
+        print("IMPOSSIBLE")
+    else:
+        print(" ".join(str(x) for x in result))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> findOrder(int n, const vector<pair<int, int>>& edges) {
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+
+    vector<pair<int, int>> edges(m);
+    for(int i=0; i<m; i++) {
+        cin >> edges[i].first >> edges[i].second;
+    }
+
+    Solution sol;
+    vector<int> res = sol.findOrder(n, edges);
+    if (res.empty()) {
+        cout << "IMPOSSIBLE" << endl;
+    } else {
+        for (size_t i = 0; i < res.size(); i++) {
+            cout << res[i] << (i == res.size() - 1 ? "" : " ");
+        }
+        cout << endl;
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const n = parseInt(tokens[ptr++]);
+    const m = parseInt(tokens[ptr++]);
+    
+    const edges = [];
+    for(let i=0; i<m; i++) {
+        edges.push([parseInt(tokens[ptr++]), parseInt(tokens[ptr++])]);
+    }
+    
+    const sol = new Solution();
+    const res = sol.findOrder(n, edges);
+    if (res.length === 0) {
+        console.log("IMPOSSIBLE");
+    } else {
+        console.log(res.join(" "));
+    }
+});
+
+class Solution {
+    findOrder(n, edges) {
+    return 0;
+  }
+}
+```
 

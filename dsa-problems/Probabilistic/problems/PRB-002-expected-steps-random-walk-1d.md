@@ -77,12 +77,103 @@ Random Walk, Expected Value, Linear Systems
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public double expectedSteps(int a, int b, double p) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            double p = sc.nextDouble();
+            Solution solution = new Solution();
+            System.out.printf("%.6f\n", solution.expectedSteps(a, b, p));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def expected_steps(a: int, b: int, p: float) -> float:
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    a = int(data[0])
+    b = int(data[1])
+    p = float(data[2])
+    print(f"{expected_steps(a, b, p):.6f}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+
+class Solution {
+public:
+    double expectedSteps(int a, int b, double p) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int a, b;
+    double p;
+    if (cin >> a >> b >> p) {
+        Solution solution;
+        cout << fixed << setprecision(6) << solution.expectedSteps(a, b, p) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function expectedSteps(a, b, p) {
+    return 0;
+  }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const a = parseInt(data[0], 10);
+  const b = parseInt(data[1], 10);
+  const p = parseFloat(data[2]);
+  console.log(expectedSteps(a, b, p).toFixed(6));
+});
+```
 

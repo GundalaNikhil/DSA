@@ -116,12 +116,280 @@ Trie, Priority Queue, Hash Table, Sorting, Autocomplete Systems
 
 ### Java
 
+```java
+import java.util.*;
+
+class TrieNode {
+    Map<Character, TrieNode> children = new HashMap<>();
+    boolean isEndOfWord = false;
+}
+
+class WordMetadata {
+    int frequency;
+    int lastUsed;
+
+    WordMetadata(int freq, int time) {
+        this.frequency = freq;
+        this.lastUsed = time;
+    }
+}
+
+class Solution {
+    private TrieNode root = new TrieNode();
+    private Map<String, WordMetadata> metadata = new HashMap<>();
+
+    public void insertWord(String word, int frequency, int timestamp) {
+    }
+
+    public List<String> autocomplete(String prefix, int currentTime, int D, int k) {
+        return null;
+    }
+
+    private void collectWords(TrieNode node, String prefix, List<String> result) {
+        if (node.isEndOfWord) {
+            result.add(prefix);
+        }
+        for (Map.Entry<Character, TrieNode> entry : node.children.entrySet()) {
+            collectWords(entry.getValue(), prefix + entry.getKey(), result);
+        }
+    }
+
+    static class WordScore {
+        String word;
+        double score;
+
+        WordScore(String w, double s) {
+            word = w;
+            score = s;
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt(); // Number of words
+        Solution solution = new Solution();
+
+        for (int i = 0; i < n; i++) {
+            String word = sc.next();
+            int freq = sc.nextInt();
+            int time = sc.nextInt();
+            solution.insertWord(word, freq, time);
+        }
+
+        String prefix = sc.next();
+        int currentTime = sc.nextInt();
+        int D = sc.nextInt();
+        int k = sc.nextInt();
+
+        List<String> result = solution.autocomplete(prefix, currentTime, D, k);
+        // Output in Python list format with single quotes
+        System.out.print("[");
+        for (int i = 0; i < result.size(); i++) {
+            System.out.print("'" + result.get(i) + "'");
+            if (i < result.size() - 1) System.out.print(", ");
+        }
+        System.out.println("]");
+
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import math
+from typing import List, Tuple
+from collections import defaultdict
+import heapq
+
+class TrieNode:
+    def __init__(self):
+        return 0
+class Solution:
+    def __init__(self):
+        return 0
+    def insert_word(self, word: str, frequency: int, timestamp: int):
+        return 0
+    def autocomplete(self, prefix: str, current_time: int, D: int, k: int) -> List[str]:
+        return []
+    def _collect_words(self, node: TrieNode, prefix: str, result: List[str]):
+        return 0
+def main():
+    import sys
+    input_data = sys.stdin.read().strip().split()
+    idx = 0
+
+    n = int(input_data[idx])
+    idx += 1
+
+    solution = Solution()
+    for _ in range(n):
+        word = input_data[idx]
+        freq = int(input_data[idx + 1])
+        time = int(input_data[idx + 2])
+        idx += 3
+        solution.insert_word(word, freq, time)
+
+    prefix = input_data[idx]
+    current_time = int(input_data[idx + 1])
+    D = int(input_data[idx + 2])
+    k = int(input_data[idx + 3])
+
+    result = solution.autocomplete(prefix, current_time, D, k)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <queue>
+#include <cmath>
+#include <algorithm>
+using namespace std;
+
+struct TrieNode {
+    unordered_map<char, TrieNode*> children;
+    bool isEndOfWord = false;
+};
+
+struct WordMetadata {
+    int frequency;
+    int lastUsed;
+};
+
+struct WordScore {
+    string word;
+    double score;
+
+    bool operator<(const WordScore& other) const {
+        if (abs(score - other.score) > 1e-9) {
+            return score < other.score; // Max-heap by score
+        }
+        return word > other.word; // Min-heap by lexicographic
+    }
+};
+
+class Solution {
+private:
+    TrieNode* root;
+    unordered_map<string, WordMetadata> metadata;
+
+    void collectWords(TrieNode* node, string prefix, vector<string>& result) {
+    }
+
+public:
+    Solution() {
+        root = new TrieNode();
+    }
+
+    void insertWord(string word, int frequency, int timestamp) {
+    }
+
+    vector<string> autocomplete(string prefix, int currentTime, int D, int k) {
+        return "";
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+
+    Solution solution;
+    for (int i = 0; i < n; i++) {
+        string word;
+        int freq, time;
+        cin >> word >> freq >> time;
+        solution.insertWord(word, freq, time);
+    }
+
+    string prefix;
+    int currentTime, D, k;
+    cin >> prefix >> currentTime >> D >> k;
+
+    vector<string> result = solution.autocomplete(prefix, currentTime, D, k);
+
+    cout << "[";
+    for (int i = 0; i < result.size(); i++) {
+        cout << "'" << result[i] << "'";
+        if (i < result.size() - 1) cout << ", ";
+    }
+    cout << "]" << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class TrieNode {
+  constructor() {
+    this.children = new Map();
+    this.isEndOfWord = false;
+  }
+}
+
+class Solution {
+  constructor() {
+    this.root = new TrieNode();
+    this.metadata = new Map(); // word -> {frequency, lastUsed}
+  }
+
+  insertWord(word, frequency, timestamp) {
+    return 0;
+  }
+
+  autocomplete(prefix, currentTime, D, k) {
+    return 0;
+  }
+
+  _collectWords(node, prefix, result) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const tokens = lines.join(" ").split(/\s+/);
+  let idx = 0;
+
+  const n = parseInt(tokens[idx++]);
+  const solution = new Solution();
+
+  for (let i = 0; i < n; i++) {
+    const word = tokens[idx++];
+    const freq = parseInt(tokens[idx++]);
+    const time = parseInt(tokens[idx++]);
+    solution.insertWord(word, freq, time);
+  }
+
+  const prefix = tokens[idx++];
+  const currentTime = parseInt(tokens[idx++]);
+  const D = parseInt(tokens[idx++]);
+  const k = parseInt(tokens[idx++]);
+
+  const result = solution.autocomplete(prefix, currentTime, D, k);
+  // Output in Python list format with single quotes
+  console.log('[' + result.map(s => "'" + s + "'").join(', ') + ']');
+});
+```
 

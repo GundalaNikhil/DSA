@@ -88,12 +88,123 @@ String Period, Pattern Matching, Hashing, KMP Failure Function
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private static final long MOD = 1_000_000_007L;
+    private static final long BASE = 313L;
+    
+    public int detectPeriod(String s) {
+        return 0;
+    }
+    
+    private long getHash(long[] h, long[] p, int l, int r) {
+        int len = r - l + 1;
+        long val = (h[r + 1] - (h[l] * p[len]) % MOD + MOD) % MOD;
+        return val;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLine()) {
+            String s = sc.nextLine();
+            Solution solution = new Solution();
+            System.out.println(solution.detectPeriod(s));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def detect_period(self, s: str) -> int:
+        return 0
+def detect_period(s: str) -> int:
+    return 0
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    s = input_data[0]
+    print(detect_period(s))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+
+using namespace std;
+
+class Solution {
+    const long long MOD = 1e9 + 7;
+    const long long BASE = 313;
+
+public:
+    int detectPeriod(string s) {
+        return 0;
+    }
+    
+    long long getHash(const vector<long long>& h, const vector<long long>& p, int l, int r) {
+        int len = r - l + 1;
+        long long val = (h[r + 1] - (h[l] * p[len]) % MOD + MOD) % MOD;
+        return val;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    string s;
+    if (getline(cin, s)) {
+        Solution solution;
+        cout << solution.detectPeriod(s) << "\n";
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  detectPeriod(s) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const s = data[0];
+
+  const solution = new Solution();
+  console.log(solution.detectPeriod(s));
+});
+```
 

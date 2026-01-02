@@ -90,12 +90,118 @@ Bloom Filters, Parameter Optimization, False Positives
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public Object[] designBloom(long n, double f) {
+        return null;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLong()) {
+            long n = sc.nextLong();
+            double f = sc.nextDouble();
+
+            Solution solution = new Solution();
+            Object[] res = solution.designBloom(n, f);
+            System.out.println(res[0] + " " + res[1] + " " + String.format("%.6f", (double)res[2]));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import math
+import sys
+
+def design_bloom(n: int, f: float):
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    n = int(data[0])
+    f = float(data[1])
+    m, k, fpr = design_bloom(n, f)
+    print(f"{m} {k} {fpr:.6f}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+#include <tuple>
+
+using namespace std;
+
+class Solution {
+public:
+    tuple<long long, long long, double> designBloom(long long n, double f) {
+        double ln2 = log(2);
+        
+        double mDouble = -(n * log(f)) / (ln2 * ln2);
+        long long m = (long long) ceil(mDouble);
+        
+        double kDouble = (m / (double)n) * ln2;
+        long long k = (long long) round(kDouble);
+        
+        double exponent = -((double)k * n) / m;
+        double fpr = pow(1.0 - exp(exponent), k);
+        
+        return make_tuple(m, k, fpr);
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long n;
+    double f;
+    if (cin >> n >> f) {
+        Solution solution;
+        auto res = solution.designBloom(n, f);
+        cout << get<0>(res) << " " << get<1>(res) << " " << fixed << setprecision(6) << get<2>(res) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function designBloom(n, f) {
+    return 0;
+  }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const n = parseInt(data[0], 10);
+  const f = parseFloat(data[1]);
+  const res = designBloom(n, f);
+  console.log(res[0] + " " + res[1] + " " + res[2].toFixed(6));
+});
+```
 

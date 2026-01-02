@@ -98,12 +98,317 @@ Heaps, Median Maintenance, Lazy Deletion, Data Streams
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private PriorityQueue<Integer> left; // Max heap
+    private PriorityQueue<Integer> right; // Min heap
+    private Map<Integer, Integer> leftDebt;
+    private Map<Integer, Integer> rightDebt;
+    private Map<Integer, Integer> globalCounts;
+    private int validLeft, validRight;
+
+    public List<String> processOperations(int T, List<String[]> operations) {
+        return null;
+    }
+    
+    private void add(int x) {
+        cleanLeft();
+        if (left.isEmpty() || x <= left.peek()) {
+            left.offer(x);
+            validLeft++;
+        } else {
+            right.offer(x);
+            validRight++;
+        }
+        rebalance();
+    }
+    
+    private void del(int x) {
+        cleanLeft();
+        cleanRight();
+        
+        boolean inLeft = false;
+        if (!left.isEmpty() && x <= left.peek()) inLeft = true;
+        else inLeft = false;
+        
+        if (inLeft) {
+            leftDebt.put(x, leftDebt.getOrDefault(x, 0) + 1);
+            validLeft--;
+        } else {
+            rightDebt.put(x, rightDebt.getOrDefault(x, 0) + 1);
+            validRight--;
+        }
+        
+        rebalance();
+    }
+    
+    private String getMedian(int T) {
+        cleanLeft();
+        
+        int total = validLeft + validRight;
+        if (total == 0) return "EMPTY";
+        if (total < T) return "NA";
+        
+        // Safety check for empty queue though logic implies it shouldn't be empty if total > 0
+        if (left.isEmpty()) return "EMPTY"; 
+        return String.valueOf(left.peek());
+    }
+    
+    private void rebalance() {
+        // Invariant: validLeft == validRight OR validLeft == validRight + 1
+        
+        cleanLeft();
+        cleanRight();
+        
+        while (validLeft > validRight + 1) {
+            cleanLeft(); // ensure top is valid
+            if (left.isEmpty()) break; 
+            int val = left.poll();
+            validLeft--;
+            right.offer(val);
+            validRight++;
+            cleanLeft();
+        }
+        
+        cleanRight();
+        while (validRight > validLeft) {
+            cleanRight(); // ensure top is valid
+            if (right.isEmpty()) break;
+            int val = right.poll();
+            validRight--;
+            left.offer(val);
+            validLeft++;
+            cleanRight();
+        }
+    }
+    
+    private void cleanLeft() {
+        while (!left.isEmpty() && leftDebt.getOrDefault(left.peek(), 0) > 0) {
+            int val = left.poll();
+            leftDebt.put(val, leftDebt.get(val) - 1);
+        }
+    }
+
+    private void cleanRight() {
+        while (!right.isEmpty() && rightDebt.getOrDefault(right.peek(), 0) > 0) {
+            int val = right.poll();
+            rightDebt.put(val, rightDebt.get(val) - 1);
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int q = sc.nextInt();
+            int T = sc.nextInt();
+            List<String[]> operations = new ArrayList<>();
+            for (int i = 0; i < q; i++) {
+                String op = sc.next();
+                if (op.equals("ADD") || op.equals("DEL")) {
+                    String x = sc.next();
+                    operations.add(new String[]{op, x});
+                } else {
+                    operations.add(new String[]{op});
+                }
+            }
+            Solution solution = new Solution();
+            List<String> result = solution.processOperations(T, operations);
+            for (String s : result) System.out.println(s);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import heapq
+from collections import defaultdict
+
+class Solution:
+    def process_operations(self, T: int, operations: list) -> list:
+        return []
+def process_operations(T: int, operations: list) -> list:
+    return []
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    
+    q_str = next(it, None)
+    if q_str is None: return
+    q = int(q_str)
+    t_str = next(it, None)
+    if t_str is None: return
+    T = int(t_str)
+    
+    operations = []
+    for _ in range(q):
+        op = next(it)
+        if op in ("ADD", "DEL"):
+            x = next(it)
+            operations.append([op, x])
+        else:
+            operations.append([op])
+    
+    result = process_operations(T, operations)
+    print("\n".join(result))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <queue>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution {
+    priority_queue<int> left; // Max heap
+    priority_queue<int, vector<int>, greater<int>> right; // Min heap
+    unordered_map<int, int> leftDebt;
+    unordered_map<int, int> rightDebt;
+    unordered_map<int, int> global_counts;
+    int validLeft = 0;
+    int validRight = 0;
+
+    void cleanLeft() {
+    }
+
+    void cleanRight() {
+    }
+
+    void rebalance() {
+    }
+
+public:
+    vector<string> processOperations(int T, const vector<vector<string>>& operations) {
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int q, T;
+    if (cin >> q >> T) {
+        vector<vector<string>> operations;
+        for (int i = 0; i < q; i++) {
+            string op;
+            cin >> op;
+            if (op == "ADD" || op == "DEL") {
+                string x;
+                cin >> x;
+                operations.push_back({op, x});
+            } else {
+                operations.push_back({op});
+            }
+        }
+        
+        Solution solution;
+        vector<string> result = solution.processOperations(T, operations);
+        for (const string& s : result) cout << s << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class PriorityQueue {
+  constructor(compare = (a, b) => a - b) {
+    this.heap = [];
+    this.compare = compare;
+  }
+  size() { return this.heap.length; }
+  isEmpty() { return this.heap.length === 0; }
+  peek() { return this.heap[0]; }
+  push(val) {
+    this.heap.push(val);
+    this.bubbleUp(this.heap.length - 1);
+  }
+  pop() {
+    if (this.size() === 0) return null;
+    const top = this.heap[0];
+    const bottom = this.heap.pop();
+    if (this.size() > 0) {
+      this.heap[0] = bottom;
+      this.bubbleDown(0);
+    }
+    return top;
+  }
+  bubbleUp(idx) {
+    while (idx > 0) {
+      const pIdx = Math.floor((idx - 1) / 2);
+      if (this.compare(this.heap[idx], this.heap[pIdx]) < 0) {
+        [this.heap[idx], this.heap[pIdx]] = [this.heap[pIdx], this.heap[idx]];
+        idx = pIdx;
+      } else break;
+    }
+  }
+  bubbleDown(idx) {
+    while (true) {
+      const left = 2 * idx + 1;
+      const right = 2 * idx + 2;
+      let swap = null;
+      if (left < this.size() && this.compare(this.heap[left], this.heap[idx]) < 0) swap = left;
+      if (right < this.size() && this.compare(this.heap[right], swap === null ? this.heap[idx] : this.heap[swap]) < 0) swap = right;
+      if (swap === null) break;
+      [this.heap[idx], this.heap[swap]] = [this.heap[swap], this.heap[idx]];
+      idx = swap;
+    }
+  }
+}
+
+class Solution {
+  processOperations(T, operations) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const q = parseInt(data[idx++]);
+  const T = parseInt(data[idx++]);
+  const operations = [];
+  for (let i = 0; i < q; i++) {
+    const op = data[idx++];
+    if (op === "ADD" || op === "DEL") {
+      const x = data[idx++];
+      operations.push([op, x]);
+    } else {
+      operations.push([op]);
+    }
+  }
+  
+  const solution = new Solution();
+  const result = solution.processOperations(T, operations);
+  console.log(result.join("\n"));
+});
+```
 

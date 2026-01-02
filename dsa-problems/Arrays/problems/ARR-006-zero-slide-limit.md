@@ -78,16 +78,128 @@ Arrays, Two Pointers
 
 ### Java
 
+```java
+import java.util.*;
 
+class Solution {
+    public int[] zeroSlideWithLimit(int[] arr, int m) {
+        return null;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+        int m = sc.nextInt();
+
+        Solution solution = new Solution();
+        int[] result = solution.zeroSlideWithLimit(arr, m);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            sb.append(result[i]).append(i == n - 1 ? "" : " ");
+        }
+        System.out.println(sb);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
 
+def zero_slide_with_limit(arr: list[int], m: int) -> list[int]:
+    return []
+def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+    m = int(input())
+
+    result = zero_slide_with_limit(arr, m)
+    print(" ".join(map(str, result)))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
 
+class Solution {
+public:
+    vector<int> zeroSlideWithLimit(vector<int>& arr, int m) {
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+
+    int m;
+    cin >> m;
+
+    Solution solution;
+    vector<int> result = solution.zeroSlideWithLimit(arr, m);
+
+    for (int i = 0; i < n; i++) {
+        cout << result[i] << (i == n - 1 ? "" : " ");
+    }
+    cout << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  zeroSlideWithLimit(arr, m) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(Number(tokens[ptr++]));
+
+  const m = Number(tokens[ptr++]);
+
+  const solution = new Solution();
+  const result = solution.zeroSlideWithLimit(arr, m);
+  console.log(result.join(" "));
+});
+```
 

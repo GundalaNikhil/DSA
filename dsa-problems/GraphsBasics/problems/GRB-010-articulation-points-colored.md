@@ -87,12 +87,170 @@ Articulation Points, DFS, Graph Coloring
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] criticalNodes(int n, int[][] edges) {
+        return null;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        int[][] edges = new int[m][3];
+        for (int i = 0; i < m; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+            String color = sc.next();
+            edges[i][2] = color.equals("R") ? 0 : 1;
+        }
+        
+        Solution solution = new Solution();
+        int[] result = solution.criticalNodes(n, edges);
+        
+        // Output count and node IDs (as per problem statement)
+        System.out.println(result.length);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < result.length; i++) {
+            if (i > 0) sb.append(" ");
+            sb.append(result[i]);
+        }
+        System.out.println(sb.toString());
+        
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+# Increase recursion depth
+sys.setrecursionlimit(200000)
+
+def critical_nodes(n: int, edges: list[tuple[int, int, int]]) -> list[int]:
+    return []
+def critical_nodes_optimized(n, edges):
+    return 0
+def critical_nodes(n: int, edges: list[tuple[int, int, int]]) -> list[int]:
+    return []
+def critical_nodes_brute(n, edges):
+    return 0
+def main():
+    data = sys.stdin.read().strip().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            c_str = next(iterator)
+            edges.append((u, v, 0 if c_str == "R" else 1))
+            
+        ans = critical_nodes(n, edges)
+        # Output count and node IDs (as per problem statement)
+        print(len(ans))
+        print(" ".join(map(str, ans)))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <set>
+using namespace std;
+
+class Solution {
+public:
+    vector<int> criticalNodes(int n, const vector<array<int, 3>>& edges) {
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    vector<array<int, 3>> edges;
+    edges.reserve(m);
+    for (int i = 0; i < m; i++) {
+        int u, v; char c;
+        cin >> u >> v >> c;
+        edges.push_back({u, v, c == 'R' ? 0 : 1});
+    }
+
+    Solution solution;
+    vector<int> ans = solution.criticalNodes(n, edges);
+    // Output count and node IDs (as per problem statement)
+    cout << ans.size() << "\n";
+    for (int i = 0; i < (int)ans.size(); i++) {
+        if (i) cout << ' ';
+        cout << ans[i];
+    }
+    cout << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  criticalNodes(n, edges) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const m = parseInt(data[idx++], 10);
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(data[idx++], 10);
+    const v = parseInt(data[idx++], 10);
+    const c = data[idx++];
+    edges.push([u, v, c === "R" ? 0 : 1]);
+  }
+
+  const solution = new Solution();
+  const ans = solution.criticalNodes(n, edges);
+  // Output count and node IDs (as per problem statement)
+  console.log(ans.length);
+  console.log(ans.join(" "));
+});
+```
 

@@ -75,16 +75,138 @@ Bitwise Operations, Math
 
 ### Java
 
+```java
+import java.util.*;
 
+class Solution {
+    public long bitwiseAndSkipMultiples(long L, long R, int m) {
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextLong()) return;
+        long L = sc.nextLong();
+        long R = sc.nextLong();
+        int m = sc.nextInt();
+
+        Solution solution = new Solution();
+        long result = solution.bitwiseAndSkipMultiples(L, R, m);
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
 
+def bitwise_and_skip_multiples(L: int, R: int, m: int) -> int:
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    L = int(data[0])
+    R = int(data[1])
+    m = int(data[2])
+    
+    result = bitwise_and_skip_multiples(L, R, m)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+using namespace std;
 
+class Solution {
+public:
+    long long bitwiseAndSkipMultiples(long long L, long long R, int m) {
+        // Threshold: 2e6 is safe given 2s time limit (usually ~10^8 ops allowed)
+        if (R - L <= 2000000) {
+            long long ans = -1;
+            bool found = false;
+            for (long long i = L; i <= R; i++) {
+                if (i % m != 0) {
+                    ans &= i;
+                    found = true;
+                }
+            }
+            return found ? ans : -1;
+        }
+        
+        long long lTemp = L;
+        long long rTemp = R;
+        int shift = 0;
+        while (lTemp != rTemp) {
+            lTemp >>= 1;
+            rTemp >>= 1;
+            shift++;
+        }
+        
+        long long standardAnd = lTemp << shift;
+        
+        if (m == 2) {
+            standardAnd |= 1;
+        }
+        
+        return standardAnd;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long L, R;
+    int m;
+    if (!(cin >> L >> R >> m)) return 0;
+
+    Solution solution;
+    cout << solution.bitwiseAndSkipMultiples(L, R, m) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  bitwiseAndSkipMultiples(L, R, m) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    const L = BigInt(tokens[0]);
+    const R = BigInt(tokens[1]);
+    const m = BigInt(tokens[2]);
+    
+    const solution = new Solution();
+    console.log(solution.bitwiseAndSkipMultiples(L, R, m).toString());
+});
+```
 

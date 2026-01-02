@@ -94,12 +94,130 @@ HyperLogLog, Sketch Union
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public double hllUnionEstimate(int m, int[] a, int[] b) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int m = sc.nextInt();
+            int[] a = new int[m];
+            int[] b = new int[m];
+            for (int i = 0; i < m; i++) a[i] = sc.nextInt();
+            for (int i = 0; i < m; i++) b[i] = sc.nextInt();
+    
+            Solution solution = new Solution();
+            System.out.println(String.format("%.6f", solution.hllUnionEstimate(m, a, b)));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import math
+import sys
+
+def hll_union_estimate(m: int, a, b):
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    m = int(data[0])
+    # The next m integers are A
+    a = []
+    idx = 1
+    for _ in range(m):
+        a.append(int(data[idx]))
+        idx += 1
+    # The next m integers are B
+    b = []
+    for _ in range(m):
+        b.append(int(data[idx]))
+        idx += 1
+        
+    print(f"{hll_union_estimate(m, a, b):.6f}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <iomanip>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    double hllUnionEstimate(int m, const vector<int>& a, const vector<int>& b) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int m;
+    if (cin >> m) {
+        vector<int> a(m), b(m);
+        for (int i = 0; i < m; i++) cin >> a[i];
+        for (int i = 0; i < m; i++) cin >> b[i];
+    
+        Solution solution;
+        cout << fixed << setprecision(6) << solution.hllUnionEstimate(m, a, b) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function hllUnionEstimate(m, a, b) {
+    return 0;
+  }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part !== "") data.push(part);
+  }
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const m = parseInt(data[idx++], 10);
+  const a = [];
+  const b = [];
+  for (let i = 0; i < m; i++) a.push(parseInt(data[idx++], 10));
+  for (let i = 0; i < m; i++) b.push(parseInt(data[idx++], 10));
+  console.log(hllUnionEstimate(m, a, b).toFixed(6));
+});
+```
 

@@ -81,12 +81,149 @@ Topological Sort, DAGs, BFS
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] topoSort(int n, List<List<Integer>> adj) {
+        return null;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            adj.get(u).add(v);
+        }
+
+        Solution solution = new Solution();
+        int[] order = solution.topoSort(n, adj);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < order.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(order[i]);
+        }
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from collections import deque
+
+def topo_sort(n: int, adj: list[list[int]]) -> list[int]:
+    return []
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        adj = [[] for _ in range(n)]
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            adj[u].append(v)
+            
+        order = topo_sort(n, adj)
+        print(" ".join(map(str, order)))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> topoSort(int n, const vector<vector<int>>& adj) {
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    vector<vector<int>> adj(n);
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+    }
+
+    Solution solution;
+    vector<int> order = solution.topoSort(n, adj);
+    for (int i = 0; i < (int)order.size(); i++) {
+        if (i) cout << ' ';
+        cout << order[i];
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  topoSort(n, adj) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const m = parseInt(data[idx++], 10);
+  
+  const adj = Array.from({ length: n }, () => []);
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(data[idx++], 10);
+    const v = parseInt(data[idx++], 10);
+    adj[u].push(v);
+  }
+
+  const solution = new Solution();
+  const order = solution.topoSort(n, adj);
+  console.log(order.join(" "));
+});
+```
 

@@ -86,12 +86,132 @@ Factorials Modulo Prime, Number Theory
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private long power(long base, long exp, int mod) {
+        long res = 1;
+        base %= mod;
+        while (exp > 0) {
+            if ((exp & 1) == 1) res = (res * base) % mod;
+            base = (base * base) % mod;
+            exp >>= 1;
+        }
+        return res;
+    }
+
+    public long factorialMissingPrime(long n, int p) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLong()) {
+            long n = sc.nextLong();
+            int p = sc.nextInt();
+            Solution solution = new Solution();
+            System.out.println(solution.factorialMissingPrime(n, p));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def factorial_missing_prime(n: int, p: int) -> int:
+    return 0
+def main():
+    import sys
+    input_data = sys.stdin.read().strip().split()
+    if not input_data: return
+    n = int(input_data[0])
+    p = int(input_data[1])
+    print(factorial_missing_prime(n, p))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+    long long power(long long base, long long exp, int mod) {
+        long long res = 1;
+        base %= mod;
+        while (exp > 0) {
+            if (exp % 2 == 1) res = (res * base) % mod;
+            base = (base * base) % mod;
+            exp /= 2;
+        }
+        return res;
+    }
+
+public:
+    long long factorialMissingPrime(long long n, int p) {
+        long long numBlocks = n / p;
+        long long remainder = n % p;
+        
+        long long res = power(p - 1, numBlocks, p);
+        
+        long long remFact = 1;
+        for (int i = 1; i <= remainder; i++) {
+            remFact = (remFact * i) % p;
+        }
+        
+        return (res * remFact) % p;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long n;
+    int p;
+    if (cin >> n >> p) {
+        Solution solution;
+        cout << solution.factorialMissingPrime(n, p) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function power(base, exp, mod) {
+    return 0;
+  }
+
+function factorialMissingPrime(n, p) {
+    return 0;
+  }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const n = parseInt(data[0], 10); // Note: n fits in number for parsing, but logic uses BigInt
+  const p = parseInt(data[1], 10);
+  // But let's pass strings to BigInt to be safe.
+  console.log(factorialMissingPrime(data[0], data[1]).toString());
+});
+```
 

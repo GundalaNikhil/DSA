@@ -78,14 +78,148 @@ Kasai Algorithm, Suffix Array, LCP
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] lcpArray(String s, int[] sa) {
+        return null;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String s = sc.next();
+            if (sc.hasNextInt()) {
+                int n = sc.nextInt();
+                int[] sa = new int[n];
+                for (int i = 0; i < n; i++) sa[i] = sc.nextInt();
+                
+                Solution solution = new Solution();
+                int[] lcp = solution.lcpArray(s, sa);
+                
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < lcp.length; i++) {
+                    if (i > 0) sb.append(' ');
+                    sb.append(lcp[i]);
+                }
+                System.out.println(sb.toString());
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def lcp_array(s: str, sa: list[int]) -> list[int]:
+    return []
+def main():
+    import sys
+    sys.setrecursionlimit(200000)
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    
+    it = iter(input_data)
+    try:
+        s = next(it)
+        n = int(next(it))
+        sa = [int(next(it)) for _ in range(n)]
+        
+        lcp = lcp_array(s, sa)
+        print(0, *(lcp))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> lcpArray(const string& s, const vector<int>& sa) {
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string s;
+    if (cin >> s) {
+        int n;
+        if (cin >> n) {
+            vector<int> sa(n);
+            for (int i = 0; i < n; i++) cin >> sa[i];
+
+            Solution solution;
+            vector<int> lcp = solution.lcpArray(s, sa);
+            for (int i = 0; i < (int)lcp.size(); i++) {
+                if (i > 0) cout << " ";
+                cout << lcp[i];
+            }
+            cout << "\n";
+        }
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  lcpArray(s, sa) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part) data.push(part);
+  }
+});
+
+rl.on("close", () => {
+  if (data.length < 2) return;
+  let idx = 0;
+  const s = data[idx++];
+  const n = parseInt(data[idx++], 10);
+  if (isNaN(n) || idx + n > data.length) return;
+  const sa = [];
+  for (let i = 0; i < n; i++) sa.push(parseInt(data[idx++], 10));
+
+  const solution = new Solution();
+  const lcp = solution.lcpArray(s, sa);
+  console.log(lcp.join(" "));
+});
+```
 

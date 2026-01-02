@@ -86,12 +86,128 @@ Sliding Window, Queue, Two Pointers
 
 ### Java
 
+```java
+import java.util.*;
 
-### Python
+class Solution {
+    public long solve(int[] arr) {
+        return 0;
+    }
+}
 
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                arr[i] = sc.nextInt();
+            }
+
+            Solution solution = new Solution();
+            long result = solution.solve(arr);
+            System.out.println(result);
+        }
+        sc.close();
+    }
+}
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long solve(const vector<int>& arr) {
+        if (arr.empty()) {
+            return 0;
+        }
+
+        // Find first negative
+        int firstNegIdx = -1;
+        int firstNegVal = 0;
+        for (int i = 0; i < arr.size(); i++) {
+            if (arr[i] < 0) {
+                firstNegIdx = i;
+                firstNegVal = arr[i];
+                break;
+            }
+        }
+
+        if (firstNegIdx == -1) {
+            // No negative found - return sum modulo 100
+            long long sum = 0;
+            for (int val : arr) {
+                sum += val;
+            }
+            return sum % 100;
+        }
+
+        // With first negative found
+        // Compute: sum of elements up to first negative + first negative value
+        long long prefixSum = 0;
+        for (int i = 0; i < firstNegIdx; i++) {
+            prefixSum += arr[i];
+        }
+        return prefixSum + firstNegVal;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (cin >> n) {
+        vector<int> arr(n);
+        for (int i = 0; i < n; i++) {
+            cin >> arr[i];
+        }
+
+        Solution solution;
+        long long result = solution.solve(arr);
+        cout << result << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  solve(arr) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const arr = [];
+  for (let i = 0; i < n; i++) {
+    arr.push(parseInt(data[idx++], 10));
+  }
+
+  const solution = new Solution();
+  const result = solution.solve(arr);
+  console.log(result);
+});
+```
 

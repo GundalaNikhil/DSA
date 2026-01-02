@@ -108,12 +108,148 @@ Heaps, Greedy, Priority Scheduling, Merging
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long maxFinalStrength(int[] strengths, int[] priority) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int[] strengths = new int[n];
+            int[] priority = new int[n];
+            for (int i = 0; i < n; i++) {
+                strengths[i] = sc.nextInt();
+            }
+            for (int i = 0; i < n; i++) {
+                priority[i] = sc.nextInt();
+            }
+            
+            Solution solution = new Solution();
+            System.out.println(solution.maxFinalStrength(strengths, priority));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def max_final_strength(self, strengths: list, priority: list) -> int:
+        return 0
+def max_final_strength(strengths: list, priority: list) -> int:
+    return 0
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        strengths = []
+        for _ in range(n):
+            strengths.append(int(next(iterator)))
+        priority = []
+        for _ in range(n):
+            priority.append(int(next(iterator)))
+            
+        print(max_final_strength(strengths, priority))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <numeric>
+
+using namespace std;
+
+class Solution {
+public:
+    long long maxFinalStrength(const vector<int>& strengths, const vector<int>& priority) {
+        long long totalSum = 0;
+        bool has1 = false, has2 = false, has3 = false;
+        
+        for (size_t i = 0; i < strengths.size(); i++) {
+            totalSum += strengths[i];
+            if (priority[i] == 1) has1 = true;
+            else if (priority[i] == 2) has2 = true;
+            else if (priority[i] == 3) has3 = true;
+        }
+        
+        long long penalty = 0;
+        if (has1 && has2 && has3) penalty = 2;
+        else if (has1 && has2) penalty = 1;
+        else if (has2 && has3) penalty = 1;
+        else if (has1 && has3) penalty = 2;
+        
+        return totalSum - penalty;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (cin >> n) {
+        vector<int> strengths(n), priority(n);
+        for (int i = 0; i < n; i++) cin >> strengths[i];
+        for (int i = 0; i < n; i++) cin >> priority[i];
+        
+        Solution solution;
+        cout << solution.maxFinalStrength(strengths, priority) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  maxFinalStrength(strengths, priority) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++]);
+  const strengths = [];
+  const priority = [];
+  for (let i = 0; i < n; i++) strengths.push(parseInt(data[idx++]));
+  for (let i = 0; i < n; i++) priority.push(parseInt(data[idx++]));
+  
+  const solution = new Solution();
+  console.log(solution.maxFinalStrength(strengths, priority));
+});
+```
 

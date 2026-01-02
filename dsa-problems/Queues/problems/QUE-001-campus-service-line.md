@@ -92,14 +92,165 @@ Queue, Simulation, FIFO
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<String> processCommands(List<String[]> commands) {
+        return null;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int m = sc.nextInt();
+            List<String[]> commands = new ArrayList<>();
+    
+            for (int i = 0; i < m; i++) {
+                String op = sc.next();
+                if (op.equals("ENQUEUE")) {
+                    String x = sc.next();
+                    commands.add(new String[]{op, x});
+                } else {
+                    commands.add(new String[]{op});
+                }
+            }
+    
+            Solution solution = new Solution();
+            List<String> result = solution.processCommands(commands);
+            for (String line : result) {
+                System.out.println(line);
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from collections import deque
+from typing import List
+import sys
+
+def process_commands(commands: List[List[str]]) -> List[str]:
+    return []
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    
+    iterator = iter(input_data)
+    try:
+        m = int(next(iterator))
+        commands = []
+        for _ in range(m):
+            op = next(iterator)
+            if op == "ENQUEUE":
+                val = next(iterator)
+                commands.append([op, val])
+            else:
+                commands.append([op])
+        
+        result = process_commands(commands)
+        print("\n".join(result))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> processCommands(const vector<vector<string>>& commands) {
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int m;
+    if (cin >> m) {
+        vector<vector<string>> commands;
+        commands.reserve(m);
+        for (int i = 0; i < m; i++) {
+            string op;
+            cin >> op;
+            if (op == "ENQUEUE") {
+                string val;
+                cin >> val;
+                commands.push_back({op, val});
+            } else {
+                commands.push_back({op});
+            }
+        }
+    
+        Solution solution;
+        vector<string> result = solution.processCommands(commands);
+        for (const string& line : result) {
+            cout << line << "\n";
+        }
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  processCommands(commands) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const m = parseInt(data[idx++], 10);
+  const commands = [];
+
+  for (let i = 0; i < m; i++) {
+    const op = data[idx++];
+    if (op === "ENQUEUE") {
+      const x = data[idx++];
+      commands.push([op, x]);
+    } else {
+      commands.push([op]);
+    }
+  }
+
+  const solution = new Solution();
+  const result = solution.processCommands(commands);
+  console.log(result.join("\n"));
+});
+```
 

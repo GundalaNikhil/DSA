@@ -79,16 +79,154 @@ Bitwise Operations, DP
 
 ### Java
 
+```java
+import java.util.*;
 
+class Solution {
+    private int[] memo;
+    private int n;
+    private int[] a;
+
+    private int solve(int mask) {
+        if (mask == (1 << n) - 1) return 0;
+        if (memo[mask] != -1) return memo[mask];
+
+        int res = Integer.MAX_VALUE;
+        
+        // Find the first unset element
+        int i = 0;
+        while (((mask >> i) & 1) == 1) {
+            i++;
+        }
+        
+        // Try pairing i with every other unset element j
+        for (int j = i + 1; j < n; j++) {
+            if (((mask >> j) & 1) == 0) {
+                int pairXor = a[i] ^ a[j];
+                // Recurse for the rest
+                int subRes = solve(mask | (1 << i) | (1 << j));
+                res = Math.min(res, Math.max(pairXor, subRes));
+            }
+        }
+        
+        return memo[mask] = res;
+    }
+
+    public int minimizeMaxPairXor(int[] a) {
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+
+        Solution solution = new Solution();
+        System.out.println(solution.minimizeMaxPairXor(a));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
 
+def minimize_max_pair_xor(a: list[int]) -> int:
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    ptr = 0
+    n = int(data[ptr]); ptr += 1
+    a = []
+    for _ in range(n):
+        a.append(int(data[ptr])); ptr += 1
+        
+    result = minimize_max_pair_xor(a)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cstring>
+using namespace std;
 
+class Solution {
+    int memo[1 << 16];
+    int n;
+    vector<int> a;
+
+    int solve(int mask) {
+        return 0;
+    }
+
+public:
+    int minimizeMaxPairXor(vector<int>& a) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+
+    Solution solution;
+    cout << solution.minimizeMaxPairXor(a) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  minimizeMaxPairXor(a) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    let ptr = 0;
+    const n = Number(tokens[ptr++]);
+    const a = [];
+    for (let i = 0; i < n; i++) a.push(Number(tokens[ptr++]));
+    
+    const solution = new Solution();
+    console.log(solution.minimizeMaxPairXor(a));
+});
+```
 

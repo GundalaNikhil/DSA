@@ -97,12 +97,282 @@ Heaps, K Largest Pairs, Search, Two Arrays
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    static class Node implements Comparable<Node> {
+        long val;
+        int r, c;
+        int dir; // 1 for TL (increase indices), -1 for BR (decrease indices)
+        
+        public Node(long val, int r, int c, int dir) {
+            this.val = val;
+            this.r = r;
+            this.c = c;
+            this.dir = dir;
+        }
+        
+        @Override
+        public int compareTo(Node other) {
+        return 0;
+    }
+    }
+    
+    public List<Long> topKProducts(long[] A, long[] B, int k, int d) {
+        return null;
+    }
+    
+    private void add(PriorityQueue<Node> pq, Set<String> visited, long[] A, long[] B, int r, int c, int dir, int d) {
+        String key = r + "," + c;
+        if (!visited.contains(key)) {
+            visited.add(key);
+            pq.offer(new Node(A[r] * B[c], r, c, dir));
+        }
+    }
+    
+    private void tryAdd(PriorityQueue<Node> pq, Set<String> visited, long[] A, long[] B, int r, int c, int dir, int d) {
+        if (r >= 0 && r < A.length && c >= 0 && c < B.length) {
+            if (Math.abs(r - c) >= d) {
+                add(pq, visited, A, B, r, c, dir, d);
+            }
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+            int k = sc.nextInt();
+            int d = sc.nextInt();
+            long[] A = new long[n];
+            long[] B = new long[m];
+            for (int i = 0; i < n; i++) A[i] = sc.nextLong();
+            for (int i = 0; i < m; i++) B[i] = sc.nextLong();
+            
+            Solution solution = new Solution();
+            List<Long> result = solution.topKProducts(A, B, k, d);
+            for (int i = 0; i < result.size(); i++) {
+                System.out.print(result.get(i));
+                if (i < result.size() - 1) System.out.print(" ");
+            }
+            System.out.println();
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import heapq
+
+class Solution:
+    def top_k_products(self, A: list, B: list, k: int, d: int) -> list:
+        return []
+def top_k_products(A: list, B: list, k: int, d: int) -> list:
+    return []
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    try:
+        n = int(next(it))
+        m = int(next(it))
+        k = int(next(it))
+        d = int(next(it))
+        A = []
+        for _ in range(n):
+            A.append(int(next(it)))
+        B = []
+        for _ in range(m):
+            B.append(int(next(it)))
+            
+        result = top_k_products(A, B, k, d)
+        print(" ".join(map(str, result)))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <set>
+#include <cmath>
+#include <algorithm>
+
+using namespace std;
+
+struct Node {
+    long long val;
+    int r, c;
+    int dir;
+    
+    bool operator<(const Node& other) const {
+        return val < other.val; // Max heap
+    }
+};
+
+class Solution {
+    void tryAdd(priority_queue<Node>& pq, set<pair<int,int>>& visited, const vector<long long>& A, const vector<long long>& B, int r, int c, int dir, int d) {
+    }
+    
+public:
+    vector<long long> topKProducts(const vector<long long>& A, const vector<long long>& B, int k, int d) {
+        int n = A.size();
+        int m = B.size();
+        priority_queue<Node> pq;
+        set<pair<int,int>> visited;
+        
+        // TL
+        if (d < n) tryAdd(pq, visited, A, B, d, 0, 1, d);
+        if (d < m && d > 0) tryAdd(pq, visited, A, B, 0, d, 1, d);
+        else if (d == 0) tryAdd(pq, visited, A, B, 0, 0, 1, d);
+        
+        // BR
+        if (d < n) {
+            int startI = n - 1;
+            int startJ = min(m - 1, n - 1 - d);
+            if (startJ >= 0) tryAdd(pq, visited, A, B, startI, startJ, -1, d);
+        }
+        if (d < m && d > 0) {
+            int startJ = m - 1;
+            int startI = min(n - 1, m - 1 - d);
+            if (startI >= 0) tryAdd(pq, visited, A, B, startI, startJ, -1, d);
+        }
+        
+        vector<long long> res;
+        while (k > 0 && !pq.empty()) {
+            Node node = pq.top();
+            pq.pop();
+            res.push_back(node.val);
+            k--;
+            
+            if (node.dir == 1) {
+                tryAdd(pq, visited, A, B, node.r + 1, node.c, 1, d);
+                tryAdd(pq, visited, A, B, node.r, node.c + 1, 1, d);
+            } else {
+                tryAdd(pq, visited, A, B, node.r - 1, node.c, -1, d);
+                tryAdd(pq, visited, A, B, node.r, node.c - 1, -1, d);
+            }
+        }
+        
+        return res;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m, k, d;
+    if (cin >> n >> m >> k >> d) {
+        vector<long long> A(n), B(m);
+        for (int i = 0; i < n; i++) cin >> A[i];
+        for (int i = 0; i < m; i++) cin >> B[i];
+        
+        Solution solution;
+        vector<long long> result = solution.topKProducts(A, B, k, d);
+        for (size_t i = 0; i < result.size(); i++) {
+            if (i > 0) cout << " ";
+            cout << result[i];
+        }
+        cout << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class PriorityQueue {
+  constructor(compare = (a, b) => a - b) {
+    this.heap = [];
+    this.compare = compare;
+  }
+  size() { return this.heap.length; }
+  isEmpty() { return this.heap.length === 0; }
+  peek() { return this.heap[0]; }
+  push(val) {
+    this.heap.push(val);
+    this.bubbleUp(this.heap.length - 1);
+  }
+  pop() {
+    if (this.size() === 0) return null;
+    const top = this.heap[0];
+    const bottom = this.heap.pop();
+    if (this.size() > 0) {
+      this.heap[0] = bottom;
+      this.bubbleDown(0);
+    }
+    return top;
+  }
+  bubbleUp(idx) {
+    while (idx > 0) {
+      const pIdx = Math.floor((idx - 1) / 2);
+      if (this.compare(this.heap[idx], this.heap[pIdx]) < 0) {
+        [this.heap[idx], this.heap[pIdx]] = [this.heap[pIdx], this.heap[idx]];
+        idx = pIdx;
+      } else break;
+    }
+  }
+  bubbleDown(idx) {
+    while (true) {
+      const left = 2 * idx + 1;
+      const right = 2 * idx + 2;
+      let swap = null;
+      if (left < this.size() && this.compare(this.heap[left], this.heap[idx]) < 0) swap = left;
+      if (right < this.size() && this.compare(this.heap[right], swap === null ? this.heap[idx] : this.heap[swap]) < 0) swap = right;
+      if (swap === null) break;
+      [this.heap[idx], this.heap[swap]] = [this.heap[swap], this.heap[idx]];
+      idx = swap;
+    }
+  }
+}
+
+class Solution {
+  topKProducts(A, B, k, d) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++]);
+  const m = parseInt(data[idx++]);
+  const k = parseInt(data[idx++]);
+  const d = parseInt(data[idx++]);
+  const A = [];
+  const B = [];
+  for (let i = 0; i < n; i++) A.push(parseInt(data[idx++]));
+  for (let i = 0; i < m; i++) B.push(parseInt(data[idx++]));
+  
+  const solution = new Solution();
+  const result = solution.topKProducts(A, B, k, d);
+  console.log(result.join(" "));
+});
+```
 

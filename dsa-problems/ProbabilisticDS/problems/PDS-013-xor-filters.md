@@ -86,12 +86,109 @@ XOR Filters, Fingerprints, Approximate Membership
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public Object[] xorFilterStats(long n, int b) {
+        return null;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLong()) {
+            long n = sc.nextLong();
+            int b = sc.nextInt();
+    
+            Solution solution = new Solution();
+            Object[] res = solution.xorFilterStats(n, b);
+            System.out.println(res[0] + " " + String.format("%.6f", (double)res[1]));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import math
+import sys
+
+def xor_filter_stats(n: int, b: int):
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    n = int(data[0])
+    b = int(data[1])
+    mem, fpr = xor_filter_stats(n, b)
+    print(f"{mem} {fpr:.6f}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+
+using namespace std;
+
+class Solution {
+public:
+    pair<long long, double> xorFilterStats(long long n, int b) {
+        long long cells = (long long) ceil(1.23 * n);
+        long long mem = cells * b;
+        double fpr = pow(2.0, -b);
+        return {mem, fpr};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long n;
+    int b;
+    if (cin >> n >> b) {
+        Solution solution;
+        auto res = solution.xorFilterStats(n, b);
+        cout << res.first << " " << fixed << setprecision(6) << res.second << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function xorFilterStats(n, b) {
+    return 0;
+  }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const n = parseInt(data[0], 10);
+  const b = parseInt(data[1], 10);
+  const res = xorFilterStats(n, b);
+  console.log(res[0] + " " + res[1].toFixed(6));
+});
+```
 

@@ -73,3 +73,127 @@ aaa
 - DP with frequency state tracking
 - Use map for sparse state representation
 - Apply modulo at every step
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public int countDistinctSubsequencesWithLimit(String s, int maxFreq, int MOD) {
+        return 0;
+    }
+
+    private String encode(int[] freq) {
+        StringBuilder sb = new StringBuilder();
+        for (int f : freq) {
+            sb.append(f).append(",");
+        }
+        return sb.toString();
+    }
+
+    private int[] decode(String s) {
+        String[] parts = s.split(",");
+        int[] freq = new int[26];
+        for (int i = 0; i < 26; i++) {
+            freq[i] = Integer.parseInt(parts[i]);
+        }
+        return freq;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        int maxFreq = sc.nextInt();
+        int MOD = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.countDistinctSubsequencesWithLimit(s, maxFreq, MOD));
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+def count_distinct_subsequences_with_limit(s: str, max_freq: int, MOD: int) -> int:
+    return 0
+def main():
+    import sys
+
+    # Read input
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        print(0)
+        return
+        
+    parts = input_data.split()
+    if len(parts) >= 3:
+        s = parts[0]
+        try:
+            max_freq = int(parts[1])
+            MOD = int(parts[2])
+            print(count_distinct_subsequences_with_limit(s, max_freq, MOD))
+        except ValueError:
+            pass
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
+
+```cpp
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <iostream>
+class Solution {
+public:
+    int countDistinctSubsequencesWithLimit(string s, int maxFreq, int MOD) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s; cin >> s;
+    int maxFreq; cin >> maxFreq;
+    int MOD; cin >> MOD;
+    Solution sol;
+    cout << sol.countDistinctSubsequencesWithLimit(s, maxFreq, MOD) << endl;
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+function countDistinctSubsequencesWithLimit(s, maxFreq, MOD) {
+    return 0;
+  }
+
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const s = tokens[ptr++];
+    const maxFreq = parseInt(tokens[ptr++]);
+    const MOD = parseInt(tokens[ptr++]);
+    console.log(countDistinctSubsequencesWithLimit(s, maxFreq, MOD));
+});
+```
+

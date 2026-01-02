@@ -89,12 +89,157 @@ eigenvalue, power-method, iterative-algorithm
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public double largest_eigenvalue_power(int n, int maxIter, double[][] matrix, double epsilon) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        int maxIter = sc.nextInt();
+        
+        double[][] matrix = new double[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = sc.nextDouble();
+            }
+        }
+        
+        double epsilon = sc.nextDouble();
+        
+        Solution solution = new Solution();
+        double res = solution.largest_eigenvalue_power(n, maxIter, matrix, epsilon);
+        
+        System.out.printf("%.6f\n", res);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import math
+
+class Solution:
+    def largest_eigenvalue_power(self, n: int, maxIter: int, matrix: list[list[float]], epsilon: float) -> float:
+        return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        maxIter = int(next(iterator))
+        
+        matrix = []
+        for _ in range(n):
+            row = [float(next(iterator)) for _ in range(n)]
+            matrix.append(row)
+            
+        epsilon = float(next(iterator))
+        
+        sol = Solution()
+        res = sol.largest_eigenvalue_power(n, maxIter, matrix, epsilon)
+        print(f"{res:.6f}")
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+
+class Solution {
+public:
+    double largest_eigenvalue_power(int n, int maxIter, vector<vector<double>>& matrix, double epsilon) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, maxIter;
+    if (!(cin >> n >> maxIter)) return 0;
+
+    vector<vector<double>> matrix(n, vector<double>(n));
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cin >> matrix[i][j];
+        }
+    }
+
+    double epsilon;
+    cin >> epsilon;
+
+    Solution solution;
+    double res = solution.largest_eigenvalue_power(n, maxIter, matrix, epsilon);
+
+    cout << fixed << setprecision(6) << res << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  largest_eigenvalue_power(n, maxIter, matrix, epsilon) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let ptr = 0;
+  
+  const n = parseInt(data[ptr++]);
+  const maxIter = parseInt(data[ptr++]);
+  
+  const matrix = [];
+  for(let i=0; i<n; i++) {
+      const row = [];
+      for(let j=0; j<n; j++) row.push(parseFloat(data[ptr++]));
+      matrix.push(row);
+  }
+  
+  const epsilon = parseFloat(data[ptr++]);
+  
+  const solution = new Solution();
+  const res = solution.largest_eigenvalue_power(n, maxIter, matrix, epsilon);
+  
+  console.log(res.toFixed(6));
+});
+```
 

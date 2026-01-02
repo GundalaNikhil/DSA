@@ -83,12 +83,102 @@ Skip Lists, Expected Value, Logarithms
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public double expectedHeight(int n, double p) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            double p = sc.nextDouble();
+
+            Solution solution = new Solution();
+            System.out.printf("%.6f\n", solution.expectedHeight(n, p));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import math
+
+def expected_height(n: int, p: float) -> float:
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    n = int(data[0])
+    p = float(data[1])
+    print(f"{expected_height(n, p):.6f}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+
+class Solution {
+public:
+    double expectedHeight(int n, double p) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    double p;
+    if (cin >> n >> p) {
+        Solution solution;
+        cout << fixed << setprecision(6) << solution.expectedHeight(n, p) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function expectedHeight(n, p) {
+    return 0;
+  }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const n = parseInt(data[0], 10);
+  const p = parseFloat(data[1]);
+  console.log(expectedHeight(n, p).toFixed(6));
+});
+```
 

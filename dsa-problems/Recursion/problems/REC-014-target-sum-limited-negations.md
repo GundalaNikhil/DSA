@@ -80,14 +80,171 @@ Backtracking, Target Sum, Recursion
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    int N, K, Target;
+    List<Integer> Nums;
+    Map<String, Boolean> memo;
+
+    public boolean countAssignments(List<Integer> nums, int k, int target) {
+        return false;
+    }
+
+    private boolean backtrack(int index, long current_sum, int negations) {
+        if (index == N) return current_sum == Target;
+
+        String key = index + "," + current_sum + "," + negations;
+        if (memo.containsKey(key)) return memo.get(key);
+
+        // Positive
+        if (backtrack(index + 1, current_sum + Nums.get(index), negations)) {
+            memo.put(key, true);
+            return true;
+        }
+
+        // Negative
+        if (negations < K) {
+            if (backtrack(index + 1, current_sum - Nums.get(index), negations + 1)) {
+                memo.put(key, true);
+                return true;
+            }
+        }
+
+        memo.put(key, false);
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if(!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int target = sc.nextInt();
+        
+        List<Integer> nums = new ArrayList<>();
+        for(int i=0; i<n; i++) nums.add(sc.nextInt());
+        
+        Solution sol = new Solution();
+        if(sol.countAssignments(nums, k, target)) {
+            System.out.println("YES");
+        } else {
+            System.out.println("NO");
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def can_achieve_target(nums: list[int], K: int, target: int) -> bool:
+    return False
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if len(lines) < 2:
+        return
+    first_line = lines[0].split()
+    n = int(first_line[0])
+    K = int(first_line[1])
+    target = int(first_line[2])
+    nums = list(map(int, lines[1].split()))
+    result = can_achieve_target(nums, K, target)
+    print("YES" if result else "NO")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <numeric>
+#include <map>
+
+using namespace std;
+
+class Solution {
+    int N;
+    int K;
+    int Target;
+    map<pair<int, pair<int, int>>, bool> memo;
+    vector<int> Nums;
+
+public:
+    bool countAssignments(const vector<int>& nums, int k, int target) {
+        return false;
+    }
+
+    bool backtrack(int index, long long current_sum, int negations) {
+        return false;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n; 
+    if (!(cin >> n)) return 0;
+    
+    int k, target; 
+    cin >> k >> target;
+    
+    vector<int> nums(n);
+    for(int i=0; i<n; i++) cin >> nums[i];
+
+    Solution sol;
+    if (sol.countAssignments(nums, k, target)) {
+        cout << "YES" << endl;
+    } else {
+        cout << "NO" << endl;
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const n = parseInt(tokens[ptr++]);
+    const k = parseInt(tokens[ptr++]);
+    const target = parseInt(tokens[ptr++]);
+    
+    const nums = [];
+    for(let i=0; i<n; i++) nums.push(parseInt(tokens[ptr++]));
+    
+    const sol = new Solution();
+    if(sol.countAssignments(nums, k, target)) {
+        console.log("YES");
+    } else {
+        console.log("NO");
+    }
+});
+
+class Solution {
+    countAssignments(nums, k, target) {
+    return 0;
+  }
+    
+    backtrack(index, current_sum, negations) {
+    return 0;
+  }
+}
+```
 

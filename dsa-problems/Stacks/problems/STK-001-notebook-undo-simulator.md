@@ -90,14 +90,144 @@ Stack, Simulation, LIFO
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<String> process(List<String[]> ops) {
+        return null;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int m = sc.nextInt();
+        List<String[]> ops = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            String op = sc.next();
+            if (op.equals("PUSH")) {
+                ops.add(new String[]{op, sc.next()});
+            } else {
+                ops.add(new String[]{op});
+            }
+        }
+
+        Solution solution = new Solution();
+        List<String> out = solution.process(ops);
+        for (String s : out) System.out.println(s);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def process(ops: list[list[str]]) -> list[str]:
+    return []
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if not lines:
+        return
+
+    m = int(lines[0])
+    ops = []
+    for i in range(1, m + 1):
+        parts = lines[i].split()
+        ops.append(parts)
+
+    result = process(ops)
+    for r in result:
+        print(r)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <vector>
+#include <string>
+#include <stack>
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> process(const vector<vector<string>>& ops) {
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int m;
+    if (!(cin >> m)) return 0;
+    vector<vector<string>> ops;
+    ops.reserve(m);
+    for (int i = 0; i < m; i++) {
+        string op;
+        cin >> op;
+        if (op == "PUSH") {
+            string x;
+            cin >> x;
+            ops.push_back({op, x});
+        } else {
+            ops.push_back({op});
+        }
+    }
+
+    Solution solution;
+    vector<string> out = solution.process(ops);
+    for (const string& s : out) cout << s << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+class Solution {
+  process(ops) {
+    return 0;
+  }
+}
+
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const m = parseInt(data[idx++], 10);
+  const ops = [];
+  for (let i = 0; i < m; i++) {
+    const op = data[idx++];
+    if (op === "PUSH") {
+      ops.push([op, data[idx++]]);
+    } else {
+      ops.push([op]);
+    }
+  }
+
+  const solution = new Solution();
+  const out = solution.process(ops);
+  console.log(out.join("\n"));
+});
+```
 

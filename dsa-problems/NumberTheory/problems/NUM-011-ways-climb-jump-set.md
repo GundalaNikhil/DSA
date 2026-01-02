@@ -81,12 +81,111 @@ Dynamic Programming, Modular Counting
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    static final int MOD = 1000000007;
+
+    public int countWays(int n, int[] jumps) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+            int[] jumps = new int[m];
+            for (int i = 0; i < m; i++) jumps[i] = sc.nextInt();
+
+            Solution solution = new Solution();
+            System.out.println(solution.countWays(n, jumps));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def count_ways(n: int, jumps):
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    n = int(data[0])
+    m = int(data[1])
+    jumps = [int(x) for x in data[2:]]
+    print(count_ways(n, jumps))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+    const int MOD = 1000000007;
+public:
+    int countWays(int n, const vector<int>& jumps) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    if (cin >> n >> m) {
+        vector<int> jumps(m);
+        for (int i = 0; i < m; i++) cin >> jumps[i];
+
+        Solution solution;
+        cout << solution.countWays(n, jumps) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function countWays(n, jumps) {
+    return 0;
+  }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const m = parseInt(data[idx++], 10);
+  const jumps = [];
+  for (let i = 0; i < m; i++) jumps.push(parseInt(data[idx++], 10));
+  console.log(countWays(n, jumps));
+});
+```
 

@@ -94,12 +94,158 @@ Binary Search, Hashing, Rolling Hash, Longest Common Substring
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private static final long MOD = 1_000_000_007L;
+    private static final long BASE = 31L;
+
+    public int longestCommonSubstring(String a, String b) {
+        return 0;
+    }
+
+    private boolean check(String a, String b, int len) {
+        Set<Long> hashesA = new HashSet<>();
+
+        long currentHash = 0;
+        long power = 1;
+
+        // Precompute BASE^len
+        for (int i = 0; i < len; i++) {
+            if (i > 0) power = (power * BASE) % MOD;
+            currentHash = (currentHash * BASE + a.charAt(i)) % MOD;
+        }
+        hashesA.add(currentHash);
+
+        for (int i = len; i < a.length(); i++) {
+            // Remove leading char: (H - s[i-len] * B^(len-1)) % MOD
+            long remove = (a.charAt(i - len) * power) % MOD;
+            currentHash = (currentHash - remove + MOD) % MOD;
+            // Add trailing char
+            currentHash = (currentHash * BASE + a.charAt(i)) % MOD;
+            hashesA.add(currentHash);
+        }
+
+        // Check B
+        currentHash = 0;
+        for (int i = 0; i < len; i++) {
+            currentHash = (currentHash * BASE + b.charAt(i)) % MOD;
+        }
+        if (hashesA.contains(currentHash)) return true;
+
+        for (int i = len; i < b.length(); i++) {
+            long remove = (b.charAt(i - len) * power) % MOD;
+            currentHash = (currentHash - remove + MOD) % MOD;
+            currentHash = (currentHash * BASE + b.charAt(i)) % MOD;
+            if (hashesA.contains(currentHash)) return true;
+        }
+
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLine()) {
+            String a = sc.nextLine();
+            String b = sc.nextLine();
+            Solution solution = new Solution();
+            System.out.println(solution.longestCommonSubstring(a, b));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def longest_common_substring(self, a: str, b: str) -> int:
+        return 0
+def longest_common_substring(a: str, b: str) -> int:
+    return 0
+def main():
+    lines = sys.stdin.read().strip().split('\n')
+    if len(lines) < 2:
+        return
+
+    a = lines[0] if len(lines) > 0 else ""
+    b = lines[1] if len(lines) > 1 else ""
+    print(longest_common_substring(a, b))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <unordered_set>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+    const long long MOD = 1e9 + 7;
+    const long long BASE = 31;
+
+public:
+    int longestCommonSubstring(string a, string b) {
+        return 0;
+    }
+
+    bool check(const string& a, const string& b, int len) {
+        return false;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string a, b;
+    if (getline(cin, a) && getline(cin, b)) {
+        Solution solution;
+        cout << solution.longestCommonSubstring(a, b) << "\n";
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  longestCommonSubstring(a, b) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length < 2) return;
+  const a = data[0];
+  const b = data[1];
+
+  const solution = new Solution();
+  console.log(solution.longestCommonSubstring(a, b));
+});
+```
 

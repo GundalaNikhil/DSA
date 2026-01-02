@@ -87,12 +87,188 @@ Game Theory, Interval DP, Prefix Sums
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private int[][] dp;
+    private int[] prefixSum;
+    private boolean[][] visited;
+
+    private int getSum(int i, int j) {
+        return prefixSum[j + 1] - prefixSum[i];
+    }
+
+    private int solve(int i, int j) {
+        if (i == j) return 0;
+        if (visited[i][j]) return dp[i][j];
+
+        int maxDiff = Integer.MIN_VALUE;
+
+        for (int k = i; k < j; k++) {
+            // Split into [i...k] and [k+1...j]
+            int sumLeft = getSum(i, k);
+            int sumRight = getSum(k + 1, j);
+
+            // If Chooser takes Left: Splitter gets -(sumLeft + solve(k+1, j))
+            int valTakeLeft = -sumLeft - solve(k + 1, j);
+            
+            // If Chooser takes Right: Splitter gets -(sumRight + solve(i, k))
+            int valTakeRight = -sumRight - solve(i, k);
+
+            // Chooser minimizes Splitter's gain
+            int outcome = Math.min(valTakeLeft, valTakeRight);
+            maxDiff = Math.max(maxDiff, outcome);
+        }
+
+        visited[i][j] = true;
+        dp[i][j] = maxDiff;
+        return maxDiff;
+    }
+
+    public int coinSplit(int n, int[] A) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int[] A = new int[n];
+            for (int i = 0; i < n; i++) {
+                A[i] = sc.nextInt();
+            }
+
+            Solution solution = new Solution();
+            System.out.println(solution.coinSplit(n, A));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+import sys
+
+# Increase recursion depth
+sys.setrecursionlimit(20000)
+
+def coin_split(n: int, A: List[int]) -> int:
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        A = []
+        for _ in range(n):
+            A.append(int(next(iterator)))
+            
+        print(coin_split(n, A))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <numeric>
+#include <algorithm>
+#include <climits>
+
+using namespace std;
+
+class Solution {
+    int dp[105][105];
+    bool visited[105][105];
+    vector<int> prefixSum;
+
+    int getSum(int i, int j) {
+        return 0;
+    }
+
+    int solve(int i, int j) {
+        return 0;
+    }
+
+public:
+    int coinSplit(int n, vector<int>& A) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (cin >> n) {
+        vector<int> A(n);
+        for (int i = 0; i < n; i++) {
+            cin >> A[i];
+        }
+        
+        Solution solution;
+        cout << solution.coinSplit(n, A) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  coinSplit(n, A) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  const flatData = [];
+  data.forEach(line => {
+      line.trim().split(/\s+/).forEach(part => {
+          if (part) flatData.push(part);
+      });
+  });
+  
+  if (flatData.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(flatData[idx++]);
+  
+  const A = [];
+  for (let i = 0; i < n; i++) {
+      A.push(parseInt(flatData[idx++]));
+  }
+
+  const solution = new Solution();
+  console.log(solution.coinSplit(n, A));
+});
+```
 

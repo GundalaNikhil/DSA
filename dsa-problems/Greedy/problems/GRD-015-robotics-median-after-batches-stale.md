@@ -118,12 +118,248 @@ Two Heaps, Median Finding, Lazy Deletion, Frequency Map, Data Structures
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<String> medianAfterBatches(int k, int t, List<List<Integer>> batches) {
+        return null;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int k = sc.nextInt();
+        int t = sc.nextInt();
+
+        List<List<Integer>> batches = new ArrayList<>();
+        for (int i = 0; i < k; i++) {
+            int m = sc.nextInt();
+            List<Integer> batch = new ArrayList<>();
+            for (int j = 0; j < m; j++) {
+                batch.add(sc.nextInt());
+            }
+            batches.add(batch);
+        }
+
+        Solution solution = new Solution();
+        List<String> result = solution.medianAfterBatches(k, t, batches);
+
+        for (int i = 0; i < result.size(); i++) {
+            System.out.print(result.get(i));
+            if (i < result.size() - 1) System.out.print(" ");
+        }
+        System.out.println();
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import heapq
+import sys
+import math
+from collections import defaultdict
+
+def median_after_batches(k: int, t: int, batches: list) -> list:
+    return []
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    try:
+        k = int(next(iterator))
+        t = int(next(iterator))
+    except StopIteration:
+        return
+
+    batches = []
+    for _ in range(k):
+        m = int(next(iterator))
+        batch = []
+        for _ in range(m):
+            batch.append(int(next(iterator)))
+        batches.append(batch)
+
+    result = median_after_batches(k, t, batches)
+    print(' '.join(result))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <unordered_map>
+#include <cmath>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> medianAfterBatches(int k, int t, vector<vector<int>>& batches) {
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int k, t;
+    if (!(cin >> k >> t)) return 0;
+
+    vector<vector<int>> batches(k);
+    for (int i = 0; i < k; i++) {
+        int m;
+        cin >> m;
+        batches[i].resize(m);
+        for (int j = 0; j < m; j++) {
+            cin >> batches[i][j];
+        }
+    }
+
+    Solution solution;
+    vector<string> result = solution.medianAfterBatches(k, t, batches);
+
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i];
+        if (i < result.size() - 1) cout << " ";
+    }
+    cout << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class MinHeap {
+  constructor() { this.heap = []; }
+  push(val) { this.heap.push(val); this._siftUp(); }
+  pop() {
+    if (this.size() === 0) return null;
+    if (this.size() === 1) return this.heap.pop();
+    const top = this.heap[0];
+    this.heap[0] = this.heap.pop();
+    this._siftDown();
+    return top;
+  }
+  peek() { return this.size() === 0 ? null : this.heap[0]; }
+  size() { return this.heap.length; }
+  _siftUp() {
+    let idx = this.heap.length - 1;
+    while (idx > 0) {
+      const p = Math.floor((idx - 1) / 2);
+      if (this.heap[idx] >= this.heap[p]) break;
+      [this.heap[idx], this.heap[p]] = [this.heap[p], this.heap[idx]];
+      idx = p;
+    }
+  }
+  _siftDown() {
+    let idx = 0;
+    while (idx < this.heap.length) {
+      let min = idx;
+      const l = 2*idx+1, r = 2*idx+2;
+      if (l < this.heap.length && this.heap[l] < this.heap[min]) min = l;
+      if (r < this.heap.length && this.heap[r] < this.heap[min]) min = r;
+      if (min === idx) break;
+      [this.heap[idx], this.heap[min]] = [this.heap[min], this.heap[idx]];
+      idx = min;
+    }
+  }
+}
+
+class MaxHeap {
+  constructor() { this.heap = []; }
+  push(val) { this.heap.push(val); this._siftUp(); }
+  pop() {
+    if (this.size() === 0) return null;
+    if (this.size() === 1) return this.heap.pop();
+    const top = this.heap[0];
+    this.heap[0] = this.heap.pop();
+    this._siftDown();
+    return top;
+  }
+  peek() { return this.size() === 0 ? null : this.heap[0]; }
+  size() { return this.heap.length; }
+  _siftUp() {
+    let idx = this.heap.length - 1;
+    while (idx > 0) {
+      const p = Math.floor((idx - 1) / 2);
+      if (this.heap[idx] <= this.heap[p]) break;
+      [this.heap[idx], this.heap[p]] = [this.heap[p], this.heap[idx]];
+      idx = p;
+    }
+  }
+  _siftDown() {
+    let idx = 0;
+    while (idx < this.heap.length) {
+      let max = idx;
+      const l = 2*idx+1, r = 2*idx+2;
+      if (l < this.heap.length && this.heap[l] > this.heap[max]) max = l;
+      if (r < this.heap.length && this.heap[r] > this.heap[max]) max = r;
+      if (max === idx) break;
+      [this.heap[idx], this.heap[max]] = [this.heap[max], this.heap[idx]];
+      idx = max;
+    }
+  }
+}
+
+class Solution {
+  medianAfterBatches(k, t, batches) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  // Flatten all input like Python does
+  const allNumbers = [];
+  for (const line of data) {
+    allNumbers.push(...line.split(" ").map(Number));
+  }
+
+  let ptr = 0;
+  const k = allNumbers[ptr++];
+  const t = allNumbers[ptr++];
+
+  const batches = [];
+  for (let i = 0; i < k; i++) {
+    const m = allNumbers[ptr++];
+    const batch = [];
+    for (let j = 0; j < m; j++) {
+      batch.push(allNumbers[ptr++]);
+    }
+    batches.push(batch);
+  }
+
+  const solution = new Solution();
+  const result = solution.medianAfterBatches(k, t, batches);
+  console.log(result.join(" "));
+});
+```
 

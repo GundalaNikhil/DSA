@@ -106,12 +106,217 @@ Dijkstra's Algorithm, Constrained Shortest Path, Graph Filtering, Weighted Graph
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int shortestPathWithBattery(int n, List<int[]> edges, int source, int dest, int battery) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        List<int[]> edges = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            int w = sc.nextInt();
+            edges.add(new int[]{u, v, w});
+        }
+        
+        int source = sc.nextInt();
+        int dest = sc.nextInt();
+        int battery = sc.nextInt();
+        
+        Solution solution = new Solution();
+        System.out.println(solution.shortestPathWithBattery(n, edges, source, dest, battery));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import heapq
+import sys
+sys.setrecursionlimit(200000)
+
+def shortest_path_with_battery(n: int, edges: list[tuple[int, int, int]], 
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            w = int(next(iterator))
+            edges.append((u, v, w))
+            
+        source = int(next(iterator))
+        dest = int(next(iterator))
+        battery = int(next(iterator))
+        
+        print(shortest_path_with_battery(n, edges, source, dest, battery))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <limits>
+
+using namespace std;
+
+class Solution {
+public:
+    int shortestPathWithBattery(int n, vector<vector<int>>& edges, int source, int dest, int battery) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    
+    vector<vector<int>> edges;
+    for (int i = 0; i < m; i++) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        edges.push_back({u, v, w});
+    }
+    
+    int source, dest, battery;
+    cin >> source >> dest >> battery;
+    
+    Solution solution;
+    cout << solution.shortestPathWithBattery(n, edges, source, dest, battery) << "\n";
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class MinPriorityQueue {
+  constructor() {
+    this.heap = [];
+  }
+  
+  push(val) {
+    this.heap.push(val);
+    this._bubbleUp(this.heap.length - 1);
+  }
+  
+  pop() {
+    if (this.heap.length === 0) return null;
+    const top = this.heap[0];
+    const bottom = this.heap.pop();
+    if (this.heap.length > 0) {
+      this.heap[0] = bottom;
+      this._bubbleDown(0);
+    }
+    return top;
+  }
+  
+  isEmpty() {
+    return this.heap.length === 0;
+  }
+  
+  _bubbleUp(idx) {
+    while (idx > 0) {
+      const parentIdx = Math.floor((idx - 1) / 2);
+      if (this.heap[idx][0] >= this.heap[parentIdx][0]) break;
+      [this.heap[idx], this.heap[parentIdx]] = [this.heap[parentIdx], this.heap[idx]];
+      idx = parentIdx;
+    }
+  }
+  
+  _bubbleDown(idx) {
+    while (true) {
+      let leftIdx = 2 * idx + 1;
+      let rightIdx = 2 * idx + 2;
+      let smallest = idx;
+      
+      if (leftIdx < this.heap.length && this.heap[leftIdx][0] < this.heap[smallest][0]) {
+        smallest = leftIdx;
+      }
+      if (rightIdx < this.heap.length && this.heap[rightIdx][0] < this.heap[smallest][0]) {
+        smallest = rightIdx;
+      }
+      if (smallest === idx) break;
+      [this.heap[idx], this.heap[smallest]] = [this.heap[smallest], this.heap[idx]];
+      idx = smallest;
+    }
+  }
+}
+
+class Solution {
+  shortestPathWithBattery(n, edges, source, dest, battery) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  let ptr = 0;
+  const n = parseInt(data[ptr++], 10);
+  const m = parseInt(data[ptr++], 10);
+
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    if (ptr + 2 >= data.length) return; // Not enough data
+    const u = parseInt(data[ptr++], 10);
+    const v = parseInt(data[ptr++], 10);
+    const w = parseInt(data[ptr++], 10);
+    edges.push([u, v, w]);
+  }
+
+  // Check if we have source, dest, battery parameters
+  if (ptr + 2 >= data.length) return; // Incomplete input
+
+  const source = parseInt(data[ptr++], 10);
+  const dest = parseInt(data[ptr++], 10);
+  const battery = parseInt(data[ptr++], 10);
+
+  const solution = new Solution();
+  console.log(solution.shortestPathWithBattery(n, edges, source, dest, battery));
+});
+```
 

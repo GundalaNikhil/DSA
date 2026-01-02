@@ -94,12 +94,165 @@ Directed Graph, Cycle Detection, DFS, Recursion Stack, Topological Sort, Kahn's 
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public boolean hasCycle(int n, List<List<Integer>> adj) {
+        return false;
+    }
+
+    private boolean dfs(int node, List<List<Integer>> adj, boolean[] visited, boolean[] recStack) {
+        visited[node] = true;
+        recStack[node] = true;
+
+        for (int neighbor : adj.get(node)) {
+            if (!visited[neighbor]) {
+                if (dfs(neighbor, adj, visited, recStack)) {
+                    return true;
+                }
+            } else if (recStack[neighbor]) {
+                return true; // Back edge - cycle detected
+            }
+        }
+
+        recStack[node] = false;
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            adj.get(u).add(v);
+        }
+
+        Solution solution = new Solution();
+        boolean result = solution.hasCycle(n, adj);
+
+        System.out.println(result ? "true" : "false");
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+sys.setrecursionlimit(200000)
+from typing import List
+
+def has_cycle(n: int, adj: List[List[int]]) -> bool:
+    return False
+def main():
+    n = int(input())
+    m = int(input())
+    
+    adj = [[] for _ in range(n)]
+    
+    for _ in range(m):
+        u, v = map(int, input().split())
+        adj[u].append(v)
+    
+    result = has_cycle(n, adj)
+    print("true" if result else "false")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+private:
+    bool dfs(int node, vector<vector<int>>& adj, vector<bool>& visited, vector<bool>& recStack) {
+        return false;
+    }
+
+public:
+    bool hasCycle(int n, vector<vector<int>>& adj) {
+        return false;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    cin >> n >> m;
+
+    vector<vector<int>> adj(n);
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+    }
+
+    Solution solution;
+    cout << (solution.hasCycle(n, adj) ? "true" : "false") << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  hasCycle(n, adj) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  const tokens = data.join(" ").split(/\s+/);
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const m = Number(tokens[ptr++]);
+
+  const adj = Array.from({ length: n }, () => []);
+
+  for (let i = 0; i < m; i++) {
+    const u = Number(tokens[ptr++]);
+    const v = Number(tokens[ptr++]);
+    adj[u].push(v);
+  }
+
+  // Sort neighbors for deterministic traversal
+  for (let i = 0; i < n; i++) {
+    adj[i].sort((a, b) => a - b);
+  }
+
+  const solution = new Solution();
+  console.log(solution.hasCycle(n, adj) ? "true" : "false");
+});
+```
 

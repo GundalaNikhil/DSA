@@ -90,12 +90,199 @@ Hash Collision, Birthday Paradox, Brute Force Search, Cryptography
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private long B, M;
+    private int L;
+    private Map<Long, String> seen;
+    
+    public String[] findCollision(long B, long M, int L) {
+        return null;
+    }
+    
+    private String[] dfs(StringBuilder sb) {
+        if (sb.length() == L) {
+            String s = sb.toString();
+            long h = computeHash(s);
+            if (seen.containsKey(h)) {
+                return new String[]{seen.get(h), s};
+            }
+            seen.put(h, s);
+            return null;
+        }
+        
+        for (char c = 'a'; c <= 'z'; c++) {
+            sb.append(c);
+            String[] res = dfs(sb);
+            if (res != null) return res;
+            sb.setLength(sb.length() - 1);
+            
+            // For M=10^9, expected map size is approximately sqrt(M) ≈ 32k.
+            // With L≤8, we have 26^8 possible strings, far exceeding M.
+            // By the pigeonhole principle, collisions must exist for these inputs.
+        }
+        return null;
+    }
+    
+    private long computeHash(String s) {
+        long h = 0;
+        for (char c : s.toCharArray()) {
+            h = (h * B + c) % M;
+        }
+        return h;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLong()) {
+            long B = sc.nextLong();
+            long M = sc.nextLong();
+            int L = sc.nextInt();
+            
+            Solution solution = new Solution();
+            String[] result = solution.findCollision(B, M, L);
+            
+            if (result != null) {
+                System.out.println(result[0]);
+                System.out.println(result[1]);
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+# Increase recursion depth
+sys.setrecursionlimit(20000)
+
+class Solution:
+    def find_collision(self, B: int, M: int, L: int) -> tuple:
+        return 0
+def find_collision(B: int, M: int, L: int) -> tuple:
+    return 0
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    
+    B = int(input_data[0])
+    M = int(input_data[1])
+    L = int(input_data[2])
+    
+    s1, s2 = find_collision(B, M, L)
+    print(s1)
+    print(s2)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+    long long B, M;
+    int L;
+    unordered_map<long long, string> seen;
+
+public:
+    pair<string, string> findCollision(long long B, long long M, int L) {
+        this->B = B;
+        this->M = M;
+        this->L = L;
+        seen.clear();
+        
+        string current = "";
+        return dfs(current);
+    }
+    
+    pair<string, string> dfs(string& current) {
+        if (current.length() == L) {
+            long long h = computeHash(current);
+            if (seen.count(h)) {
+                return {seen[h], current};
+            }
+            seen[h] = current;
+            return {"", ""};
+        }
+        
+        for (char c = 'a'; c <= 'z'; c++) {
+            current.push_back(c);
+            pair<string, string> res = dfs(current);
+            if (res.first != "") return res;
+            current.pop_back();
+        }
+        return {"", ""};
+    }
+    
+    long long computeHash(const string& s) {
+        long long h = 0;
+        for (char c : s) {
+            h = (h * B + c) % M;
+        }
+        return h;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    long long B, M;
+    int L;
+    if (cin >> B >> M >> L) {
+        Solution solution;
+        auto result = solution.findCollision(B, M, L);
+        cout << result.first << "\n" << result.second << "\n";
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  findCollision(B, M, L) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const [B, M, L] = data[0].split(" ").map(Number);
+
+  const solution = new Solution();
+  const [s1, s2] = solution.findCollision(B, M, L);
+
+  console.log(s1);
+  console.log(s2);
+});
+```
 

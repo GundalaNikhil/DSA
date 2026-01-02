@@ -89,12 +89,245 @@ Tree Paths, DFS, Prefix Sums
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    boolean found = false;
+
+    public boolean hasOneTurnPath(int n, long[] values, int[] left, int[] right, long target) {
+        return false;
+    }
+
+    // isStart: true if 'u' is the start of a new Left-chain (root or right child)
+    private void dfs(int u, long currentLeftSum, Set<Long> prefixes, 
+                     long[] values, int[] left, int[] right, long target, boolean isStart) {
+        if (u == -1 || found) return;
+
+        long val = values[u];
+        long nextSum = currentLeftSum + val;
+
+        // If we are not the start, we have incoming Left edges. We can Turn Right.
+        if (!isStart) {
+            checkRightChain(right[u], val, nextSum, prefixes, values, left, right, target);
+        }
+
+        // Add current prefix to set for children
+        prefixes.add(currentLeftSum);
+
+        // 1. Continue Left
+        dfs(left[u], nextSum, prefixes, values, left, right, target, false);
+
+        // Backtrack for this chain
+        prefixes.remove(currentLeftSum);
+
+        // 2. Go Right (Starts a NEW Left-chain logic for the subtree)
+        // We pass a NEW empty set because the Left-chain breaks here.
+        dfs(right[u], 0, new HashSet<>(), values, left, right, target, true);
+    }
+
+    private void checkRightChain(int u, long turnVal, long turnLeftSum, Set<Long> prefixes,
+                                 long[] values, int[] left, int[] right, long target) {
+        long currentRightSum = 0;
+        int curr = u;
+        while (curr != -1 && !found) {
+            currentRightSum += values[curr];
+            // Total = SuffixLeft + RightChainSum
+            // SuffixLeft = turnLeftSum - somePrefix
+            // Total = (turnLeftSum - somePrefix) + currentRightSum = T
+            // somePrefix = turnLeftSum + currentRightSum - T
+            long neededPrefix = turnLeftSum + currentRightSum - target;
+            if (prefixes.contains(neededPrefix)) {
+                found = true;
+                return;
+            }
+            curr = right[curr];
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        long[] values = new long[n];
+        int[] left = new int[n];
+        int[] right = new int[n];
+        for (int i = 0; i < n; i++) {
+            values[i] = sc.nextLong();
+            left[i] = sc.nextInt();
+            right[i] = sc.nextInt();
+        }
+        long target = 0;
+        if (sc.hasNextLong()) target = sc.nextLong();
+
+        Solution solution = new Solution();
+        System.out.println(solution.hasOneTurnPath(n, values, left, right, target) ? "true" : "false");
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+# Increase recursion depth
+sys.setrecursionlimit(200000)
+
+def has_one_turn_path(n: int, values: list[int], left: list[int], right: list[int], target: int) -> bool:
+    return False
+def main():
+    data = sys.stdin.read().strip().split()
+    if not data:
+        return
+    idx = 0
+    n = int(data[idx]); idx += 1
+    values = [0] * n
+    left = [0] * n
+    right = [0] * n
+    for i in range(n):
+        values[i] = int(data[idx]); idx += 1
+        left[i] = int(data[idx]); idx += 1
+        right[i] = int(data[idx]); idx += 1
+    target = int(data[idx]) if idx < len(data) else 0
+    
+    print("true" if has_one_turn_path(n, values, left, right, target) else "false")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+
+using namespace std;
+
+class Solution {
+    bool found = false;
+
+    void checkRightChain(int u, long long turnLeftSum, const unordered_set<long long>& prefixes,
+                         const vector<long long>& values, const vector<int>& right, long long target) {
+        long long currentRightSum = 0;
+        int curr = u;
+        while (curr != -1 && !found) {
+            currentRightSum += values[curr];
+            long long needed = turnLeftSum + currentRightSum - target;
+            if (prefixes.count(needed)) {
+                found = true;
+                return;
+            }
+            curr = right[curr];
+        }
+    }
+
+    void dfs(int u, long long currentLeftSum, unordered_set<long long>& prefixes,
+             const vector<long long>& values, const vector<int>& left, const vector<int>& right,
+             long long target, bool isStart) {
+        if (u == -1 || found) return;
+
+        long long val = values[u];
+        long long nextSum = currentLeftSum + val;
+
+        if (!isStart) {
+            checkRightChain(right[u], nextSum, prefixes, values, right, target);
+        }
+        if (found) return;
+
+        prefixes.insert(currentLeftSum);
+        dfs(left[u], nextSum, prefixes, values, left, right, target, false);
+        prefixes.erase(currentLeftSum);
+
+        if (found) return;
+
+        // Start new chain for right child
+        unordered_set<long long> newPrefixes;
+        dfs(right[u], 0, newPrefixes, values, left, right, target, true);
+    }
+
+public:
+    bool hasOneTurnPath(int n, const vector<long long>& values,
+                        const vector<int>& left, const vector<int>& right, long long target) {
+        if (n == 0) return false;
+        found = false;
+        unordered_set<long long> prefixes;
+        dfs(0, 0, prefixes, values, left, right, target, true);
+        return found;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<long long> values(n);
+    vector<int> left(n), right(n);
+    for (int i = 0; i < n; i++) {
+        cin >> values[i] >> left[i] >> right[i];
+    }
+    long long target;
+    cin >> target;
+
+    Solution solution;
+    cout << (solution.hasOneTurnPath(n, values, left, right, target) ? "true" : "false") << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  constructor() {
+    this.found = false;
+  }
+
+  hasOneTurnPath(n, values, left, right, target) {
+    return 0;
+  }
+
+  dfs(u, currentLeftSum, prefixes, values, left, right, target, isStart) {
+    return 0;
+  }
+
+  checkRightChain(u, turnLeftSum, prefixes, values, right, target) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const values = new Array(n);
+  const left = new Array(n);
+  const right = new Array(n);
+  for (let i = 0; i < n; i++) {
+    values[i] = parseInt(data[idx++], 10);
+    left[i] = parseInt(data[idx++], 10);
+    right[i] = parseInt(data[idx++], 10);
+  }
+  const target = idx < data.length ? parseInt(data[idx], 10) : 0;
+
+  const solution = new Solution();
+  console.log(solution.hasOneTurnPath(n, values, left, right, target) ? "true" : "false");
+});
+```
 

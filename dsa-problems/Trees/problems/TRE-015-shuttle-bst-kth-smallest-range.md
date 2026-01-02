@@ -87,12 +87,223 @@ BST, Inorder Traversal, Range Queries
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    static class TreeNode {
+        long val;
+        TreeNode left, right;
+        TreeNode(long val) { this.val = val; }
+    }
+
+    private int count;
+    private long result;
+
+    public long kthInRange(long[] values, long L, long R, int k) {
+        return 0;
+    }
+
+    private TreeNode insert(TreeNode node, long val) {
+        if (node == null) return new TreeNode(val);
+        if (val < node.val) {
+            node.left = insert(node.left, val);
+        } else {
+            node.right = insert(node.right, val);
+        }
+        return node;
+    }
+
+    private void inorder(TreeNode node, long L, long R, int k) {
+        if (node == null || result != -1) return;
+
+        // Pruning: if node.val < L, left subtree is useless (all < L)
+        // Correct logic: Visit left if it COULD contain values >= L.
+        // Left child values are < node.val.
+        // If node.val <= L, then left child < L. Useless.
+        // So visit left only if node.val > L.
+        
+        if (node.val > L) {
+            inorder(node.left, L, R, k);
+        }
+
+        if (result != -1) return; // Check again after returning from left
+
+        if (node.val >= L && node.val <= R) {
+            count++;
+            if (count == k) {
+                result = node.val;
+                return;
+            }
+        }
+
+        // Pruning: Visit right only if node.val < R.
+        // If node.val >= R, right child > R. Useless.
+        if (node.val < R) {
+            inorder(node.right, L, R, k);
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        long[] values = new long[n];
+        for (int i = 0; i < n; i++) values[i] = sc.nextLong();
+        long L = 0, R = 0;
+        if (sc.hasNextLong()) L = sc.nextLong();
+        if (sc.hasNextLong()) R = sc.nextLong();
+        int k = 0;
+        if (sc.hasNextInt()) k = sc.nextInt();
+
+        Solution solution = new Solution();
+        System.out.println(solution.kthInRange(values, L, R, k));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+# Increase recursion depth
+sys.setrecursionlimit(200000)
+
+class TreeNode:
+    def __init__(self, val):
+        return 0
+def insert(node, val):
+    return 0
+def kth_in_range(values: list[int], L: int, R: int, k: int) -> int:
+    return 0
+def main():
+    data = sys.stdin.read().strip().split()
+    if not data:
+        return
+    idx = 0
+    n = int(data[idx]); idx += 1
+    values = [int(data[idx + i]) for i in range(n)]
+    idx += n
+    L = int(data[idx]); idx += 1
+    R = int(data[idx]); idx += 1
+    k = int(data[idx]) if idx < len(data) else 1
+    
+    print(kth_in_range(values, L, R, k))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+struct TreeNode {
+    long long val;
+    TreeNode *left, *right;
+    TreeNode(long long x) : val(x), left(NULL), right(NULL) {}
+};
+
+class Solution {
+    TreeNode* insert(TreeNode* node, long long val) {
+        if (!node) return new TreeNode(val);
+        if (val < node->val) {
+            node->left = insert(node->left, val);
+        } else {
+            node->right = insert(node->right, val);
+        }
+        return node;
+    }
+
+    int count;
+    long long result;
+
+    void inorder(TreeNode* node, long long L, long long R, int k) {
+    }
+
+public:
+    long long kthInRange(const vector<long long>& values, long long L, long long R, int k) {
+        TreeNode* root = nullptr;
+        for (long long v : values) {
+            root = insert(root, v);
+        }
+
+        count = 0;
+        result = -1;
+        inorder(root, L, R, k);
+        return result;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<long long> values(n);
+    for (int i = 0; i < n; i++) cin >> values[i];
+    long long L, R;
+    cin >> L >> R;
+    int k;
+    cin >> k;
+
+    Solution solution;
+    cout << solution.kthInRange(values, L, R, k) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class TreeNode {
+  constructor(val) {
+    this.val = val;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+class Solution {
+  insert(node, val) {
+    return 0;
+  }
+
+  kthInRange(values, L, R, k) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const values = new Array(n);
+  for (let i = 0; i < n; i++) values[i] = parseInt(data[idx++], 10);
+  const L = parseInt(data[idx++], 10);
+  const R = parseInt(data[idx++], 10);
+  const k = parseInt(data[idx++], 10);
+
+  const solution = new Solution();
+  console.log(solution.kthInRange(values, L, R, k).toString());
+});
+```
 

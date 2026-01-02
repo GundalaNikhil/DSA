@@ -85,12 +85,127 @@ Bitwise Operations, XOR, Arrays
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long oddAfterBitSalt(int[] a, int salt) {
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+        int salt = sc.nextInt();
+
+        Solution solution = new Solution();
+        System.out.println(solution.oddAfterBitSalt(a, salt));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def odd_after_bit_salt(a: list[int], salt: int) -> int:
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    ptr = 0
+    n = int(data[ptr]); ptr += 1
+    a = []
+    for _ in range(n):
+        a.append(int(data[ptr])); ptr += 1
+    
+    salt = int(data[ptr]); ptr += 1
+    
+    result = odd_after_bit_salt(a, salt)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    long long oddAfterBitSalt(vector<int>& a, int salt) {
+        long long result = 0;
+        for (int x : a) {
+            result ^= (x ^ salt);
+        }
+        return result;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+
+    int salt;
+    cin >> salt;
+    
+    Solution solution;
+    cout << solution.oddAfterBitSalt(a, salt) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  oddAfterBitSalt(a, salt) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    let ptr = 0;
+    const n = Number(tokens[ptr++]);
+    const a = [];
+    for (let i = 0; i < n; i++) a.push(Number(tokens[ptr++]));
+    
+    const salt = Number(tokens[ptr++]);
+    
+    const solution = new Solution();
+    console.log(String(solution.oddAfterBitSalt(a, salt)));
+});
+```
 

@@ -86,12 +86,135 @@ Queue, Interleaving, Simulation
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] interleaveQueue(int[] values) {
+        return null;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int[] values = new int[n];
+            for (int i = 0; i < n; i++) {
+                values[i] = sc.nextInt();
+            }
+    
+            Solution solution = new Solution();
+            int[] result = solution.interleaveQueue(values);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < result.length; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(result[i]);
+            }
+            System.out.println(sb.toString());
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+import sys
+
+def interleave_queue(values: List[int]) -> List[int]:
+    return []
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        values = [int(next(iterator)) for _ in range(n)]
+        
+        result = interleave_queue(values)
+        if result:  # Only print if result is non-empty
+            print(" ".join(map(str, result)))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> interleaveQueue(const vector<int>& values) {
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (cin >> n) {
+        vector<int> values(n);
+        for (int i = 0; i < n; i++) {
+            cin >> values[i];
+        }
+    
+        Solution solution;
+        vector<int> result = solution.interleaveQueue(values);
+        for (int i = 0; i < (int)result.size(); i++) {
+            if (i) cout << ' ';
+            cout << result[i];
+        }
+        cout << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  interleaveQueue(values) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const values = [];
+  for (let i = 0; i < n; i++) {
+    values.push(parseInt(data[idx++], 10));
+  }
+
+  const solution = new Solution();
+  const result = solution.interleaveQueue(values);
+  console.log(result.join(" "));
+});
+```
 

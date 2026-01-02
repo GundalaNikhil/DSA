@@ -86,13 +86,115 @@ Dynamic Programming, Subset Sum, Partitioning
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int minLargerGroupSize(int[] a, int D) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int D = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+        System.out.println(new Solution().minLargerGroupSize(a, D));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def min_larger_group_size(a: list[int], D: int) -> int:
+    return 0
+def main():
+    n, D = map(int, input().split())
+    a = list(map(int, input().split()))
+    print(min_larger_group_size(a, D))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
+using namespace std;
+
+class Solution {
+public:
+    int minLargerGroupSize(const vector<int>& a, int D) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, D;
+    cin >> n >> D;
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+
+    Solution sol;
+    cout << sol.minLargerGroupSize(a, D) << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+class Solution {
+  minLargerGroupSize(a, D) {
+    return 0;
+  }
+}
+
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  let ptr = 0;
+  const parts = data[ptr++].split(/\s+/).map(Number);
+  const n = parts[0];
+  const D = parts[1];
+  const a = data[ptr++].split(/\s+/).map(Number);
+
+  const solution = new Solution();
+  console.log(solution.minLargerGroupSize(a, D));
+});
+```
 

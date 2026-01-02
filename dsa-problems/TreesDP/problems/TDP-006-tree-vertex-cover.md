@@ -97,19 +97,177 @@ Alternatively: {1, 3} or {2, 4} also work.
 
 ### Java
 
+```java
+import java.util.*;
+
+class Main {
+    static class Edge {
+        int to;
+        Edge(int to) {
+            this.to = to;
+        }
+    }
+
+    static List<Edge>[] graph;
+    static int[][] dp;
+    static int n;
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+
+        graph = new ArrayList[n + 1];
+        for (int i = 0; i <= n; i++) {
+            graph[i] = new ArrayList<>();
+        }
+
+        for (int i = 0; i < n - 1; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            graph[u].add(new Edge(v));
+            graph[v].add(new Edge(u));
+        }
+
+        dp = new int[n + 1][2];
+
+        dfs(1, -1);
+
+        int result = Math.min(dp[1][0], dp[1][1]);
+        System.out.println(result);
+
+        sc.close();
+    }
+
+    static void dfs(int u, int parent) {
+        dp[u][0] = 0;  // Not including u
+        dp[u][1] = 1;  // Including u
+
+        for (Edge e : graph[u]) {
+            int v = e.to;
+            if (v == parent) continue;
+
+            dfs(v, u);
+
+            // If u is not included, all children must be included
+            dp[u][0] += dp[v][1];
+
+            // If u is included, children can be included or not
+            dp[u][1] += Math.min(dp[v][0], dp[v][1]);
+        }
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+sys.setrecursionlimit(300000)
+
+def solve():
+    return 0
+solve()
+
+def main():
+    import sys
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        return
+
+    # TODO: Parse input and call solution
+    pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <cstring>
+#include <climits>
+using namespace std;
+
+const int MAXN = 200005;
+vector<int> graph[MAXN];
+int dp[MAXN][2];
+int n;
+
+void dfs(int u, int parent) {
+    dp[u][0] = 0;  // Not including u
+    dp[u][1] = 1;  // Including u
+
+    for (int v : graph[u]) {
+        if (v == parent) continue;
+
+        dfs(v, u);
+
+        // If u not included, all children must be included
+        dp[u][0] += dp[v][1];
+
+        // If u included, take minimum for each child
+        dp[u][1] += min(dp[v][0], dp[v][1]);
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    cin >> n;
+
+    for (int i = 0; i < n - 1; i++) {
+        int u, v;
+        cin >> u >> v;
+        graph[u].push_back(v);
+        graph[v].push_back(u);
+    }
+
+    dfs(1, -1);
+
+    int result = min(dp[1][0], dp[1][1]);
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
 
-## Notes
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
-- dp[u][0] = minimum cover size for subtree of u when u is NOT included
-- dp[u][1] = minimum cover size for subtree of u when u IS included
-- When u is not included, all children must be included
-- When u is included, children can be included or not (take minimum)
+let lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  solve();
+});
+
+function solve() {
+    return 0;
+  }
+  function dfs(u, parent) {
+    return 0;
+  }
+
+  dfs(1, -1);
+
+  const result = Math.min(dp[1][0], dp[1][1]);
+  console.log(result);
+}
+```
+

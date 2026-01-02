@@ -115,12 +115,214 @@ Trie, String, Prefix Matching, Hash Table
 
 ### Java
 
+```java
+import java.util.*;
+
+class TrieNode {
+    Map<Character, TrieNode> children = new HashMap<>();
+    int count = 0;
+    boolean isEnd = false;
+}
+
+class Solution {
+    private TrieNode root = new TrieNode();
+
+    public int[] findMinimumPrefixLengths(String[] words) {
+        return null;
+    }
+
+    private void insert(String word) {
+        TrieNode node = root;
+        for (char c : word.toCharArray()) {
+            node.children.putIfAbsent(c, new TrieNode());
+            node = node.children.get(c);
+            node.count++;
+        }
+        node.isEnd = true;
+    }
+
+    private int findMinLength(String word) {
+        TrieNode node = root;
+        for (int i = 0; i < word.length(); i++) {
+            node = node.children.get(word.charAt(i));
+            if (node.count == 1) {
+                return i + 1;
+            }
+        }
+        return word.length();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        sc.nextLine();
+
+        String[] words = new String[n];
+        for (int i = 0; i < n; i++) {
+            words[i] = sc.nextLine().trim();
+        }
+
+        Solution solution = new Solution();
+        int[] result = solution.findMinimumPrefixLengths(words);
+
+        System.out.print("[");
+        for (int i = 0; i < result.length; i++) {
+            System.out.print(result[i]);
+            if (i < result.length - 1) System.out.print(",");
+        }
+        System.out.println("]");
+
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+class TrieNode:
+    def __init__(self):
+        return 0
+class Solution:
+    def __init__(self):
+        return 0
+    def find_minimum_prefix_lengths(self, words: List[str]) -> List[int]:
+        return []
+    def _insert(self, word: str):
+        return 0
+    def _find_min_length(self, word: str) -> int:
+        return 0
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+
+    n = int(lines[0])
+    words = [lines[i+1].strip() for i in range(n)]
+
+    solution = Solution()
+    result = solution.find_minimum_prefix_lengths(words)
+
+    print("[" + ",".join(map(str, result)) + "]")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <string>
+using namespace std;
+
+struct TrieNode {
+    unordered_map<char, TrieNode*> children;
+    int count = 0;
+    bool isEnd = false;
+};
+
+class Solution {
+private:
+    TrieNode* root;
+
+    void insert(const string& word) {
+    }
+
+    int findMinLength(const string& word) {
+        return 0;
+    }
+
+public:
+    Solution() {
+        root = new TrieNode();
+    }
+
+    vector<int> findMinimumPrefixLengths(vector<string>& words) {
+        return {};
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+    cin.ignore();
+
+    vector<string> words(n);
+    for (int i = 0; i < n; i++) {
+        getline(cin, words[i]);
+    }
+
+    Solution solution;
+    vector<int> result = solution.findMinimumPrefixLengths(words);
+
+    cout << "[";
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i];
+        if (i < result.size() - 1) cout << ",";
+    }
+    cout << "]" << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class TrieNode {
+  constructor() {
+    this.children = new Map();
+    this.count = 0;
+    this.isEnd = false;
+  }
+}
+
+class Solution {
+  constructor() {
+    this.root = new TrieNode();
+  }
+
+  insert(word) {
+    return 0;
+  }
+
+  findMinLength(word) {
+    return 0;
+  }
+
+  findMinimumPrefixLengths(words) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const n = parseInt(lines[0]);
+  const words = [];
+  for (let i = 1; i <= n; i++) {
+    words.push(lines[i].trim());
+  }
+
+  const solution = new Solution();
+  const result = solution.findMinimumPrefixLengths(words);
+
+  console.log("[" + result.join(",") + "]");
+});
+```
 

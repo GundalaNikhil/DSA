@@ -80,12 +80,103 @@ Random Walks, DP, Probability
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public double hitProbability(int a, int b, int T) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            int T = sc.nextInt();
+
+            Solution solution = new Solution();
+            System.out.printf("%.6f\n", solution.hitProbability(a, b, T));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def hit_probability(a: int, b: int, T: int) -> float:
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    a = int(data[0])
+    b = int(data[1])
+    T = int(data[2])
+    print(f"{hit_probability(a, b, T):.6f}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <iomanip>
+
+using namespace std;
+
+class Solution {
+public:
+    double hitProbability(int a, int b, int T) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int a, b, T;
+    if (cin >> a >> b >> T) {
+        Solution solution;
+        cout << fixed << setprecision(6) << solution.hitProbability(a, b, T) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function hitProbability(a, b, T) {
+    return 0;
+  }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const a = parseInt(data[0], 10);
+  const b = parseInt(data[1], 10);
+  const T = parseInt(data[2], 10);
+  console.log(hitProbability(a, b, T).toFixed(6));
+});
+```
 

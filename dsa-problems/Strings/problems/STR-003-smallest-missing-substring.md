@@ -86,3 +86,135 @@ aaa
 - Use DFS with lazy generation to avoid creating all 26^k possibilities
 - Build a set of existing k-length substrings for O(1) lookup
 - Generate candidates in lexicographic order and stop at first missing
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public String smallestMissingSubstring(String s, int k) {
+        return "";
+    }
+
+    private String dfs(StringBuilder current, int remaining, Set<String> substrings) {
+        if (remaining == 0) {
+            String candidate = current.toString();
+            return substrings.contains(candidate) ? null : candidate;
+        }
+
+        for (char c = 'a'; c <= 'z'; c++) {
+            current.append(c);
+            String result = dfs(current, remaining - 1, substrings);
+            if (result != null) {
+                return result;
+            }
+            current.setLength(current.length() - 1); // backtrack
+        }
+
+        return null;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        int k = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.smallestMissingSubstring(s, k));
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+def smallest_missing_substring(s: str, k: int) -> str:
+    return ""
+def main():
+    import sys
+    # Read all input
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        return
+        
+    # Parse input: expect string s and integer k
+    # Using split() handles newlines and spaces
+    parts = input_data.split()
+    if len(parts) >= 2:
+        s = parts[0]
+        try:
+            k = int(parts[1])
+            print(smallest_missing_substring(s, k))
+        except ValueError:
+            pass
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
+
+```cpp
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <iostream>
+class Solution {
+private:
+    string dfs(string current, int remaining, unordered_set<string>& substrings) {
+        return "";
+    }
+
+public:
+    string smallestMissingSubstring(string s, int k) {
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s; cin >> s;
+    int k; cin >> k;
+    Solution sol;
+    cout << sol.smallestMissingSubstring(s, k) << endl;
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+function smallestMissingSubstring(s, k) {
+    return 0;
+  }
+  function dfs(current, remaining) {
+    return 0;
+  }
+
+  return dfs("", k) || "";
+}
+
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const s = tokens[ptr++];
+    const k = parseInt(tokens[ptr++]);
+    console.log(smallestMissingSubstring(s, k));
+});
+```
+

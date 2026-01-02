@@ -87,12 +87,269 @@ Sliding Window, Multiset, Ordered Map
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] secondMinimums(int[] values, int k) {
+        return null;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            List<Integer> remaining = new ArrayList<>();
+            while (sc.hasNextInt()) {
+                remaining.add(sc.nextInt());
+            }
+
+            int[] values;
+            int k = 2;  // Default
+
+            // If we have exactly n values
+            if (remaining.size() == n) {
+                values = new int[n];
+                for (int i = 0; i < n; i++) {
+                    values[i] = remaining.get(i);
+                }
+                k = 2;
+            } else if (remaining.size() == n + 1) {
+                // First is k, rest are values
+                k = remaining.get(0);
+                values = new int[n];
+                for (int i = 0; i < n; i++) {
+                    values[i] = remaining.get(i + 1);
+                }
+            } else {
+                // Fallback
+                k = !remaining.isEmpty() ? remaining.get(0) : 2;
+                values = new int[Math.min(n, remaining.size() - 1)];
+                for (int i = 0; i < values.length; i++) {
+                    values[i] = remaining.get(i + 1);
+                }
+            }
+
+            Solution solution = new Solution();
+            int[] result = solution.secondMinimums(values, k);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < result.length; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(result[i]);
+            }
+            System.out.println(sb.toString());
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+import sys
+# Python doesn't have a built-in TreeMap/Multiset.
+# We can use SortedList from sortedcontainers library, but in standard interviews/environments
+# we might need to simulate it or use two heaps with lazy deletion.
+# For simplicity and standard library adherence, let's use Two Heaps with Lazy Deletion.
+# Or just one Min-Heap with lazy deletion, popping twice to find second min?
+# Popping twice is destructive. We'd need to put them back.
+# Let's implement a simplified solution using heapq and lazy removal.
+
+import heapq
+
+class Solution:
+    def second_minimums(self, values: List[int], k: int) -> List[int]:
+        return []
+def second_minimums(values: List[int], k: int) -> List[int]:
+    return []
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        remaining = list(iterator)
+
+        # If we have exactly n values, use n as window size (or default k=2)
+        if len(remaining) == n:
+            values = [int(x) for x in remaining]
+            k = 2  # Default window size
+        # If we have n+1 values, first is k, rest are values
+        elif len(remaining) == n + 1:
+            k = int(remaining[0])
+            values = [int(x) for x in remaining[1:]]
+        # If we have more than n, assume first is k, next n are values
+        else:
+            k = int(remaining[0]) if remaining else 2
+            values = [int(x) for x in remaining[1:n+1]]
+
+        result = second_minimums(values, k)
+        print(" ".join(map(str, result)))
+    except (StopIteration, ValueError, IndexError):
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <set>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> secondMinimums(const vector<int>& values, int k) {
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (cin >> n) {
+        vector<int> remaining;
+        int val;
+        while (cin >> val) {
+            remaining.push_back(val);
+        }
+
+        vector<int> values;
+        int k = 2;  // Default
+
+        // If we have exactly n values
+        if ((int)remaining.size() == n) {
+            values.assign(remaining.begin(), remaining.end());
+            k = 2;
+        } else if ((int)remaining.size() == n + 1) {
+            // First is k, rest are values
+            k = remaining[0];
+            values.assign(remaining.begin() + 1, remaining.begin() + n + 1);
+        } else {
+            // Fallback
+            k = !remaining.empty() ? remaining[0] : 2;
+            for (int i = 1; i <= n && i < (int)remaining.size(); i++) {
+                values.push_back(remaining[i]);
+            }
+        }
+
+        Solution solution;
+        vector<int> result = solution.secondMinimums(values, k);
+        for (int i = 0; i < (int)result.size(); i++) {
+            if (i) cout << ' ';
+            cout << result[i];
+        }
+        cout << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+// Since JS lacks a built-in TreeMap or Heap, we simulate the logic.
+// For O(N log K), we need a Heap.
+// We can use the same Heap class from previous problem, but we need to extract top 2.
+
+class MinHeap {
+  constructor() {
+    this.data = [];
+  }
+  push(val, idx) {
+    this.data.push({ val, idx });
+    this.bubbleUp(this.data.length - 1);
+  }
+  pop() {
+    if (this.data.length === 0) return null;
+    const top = this.data[0];
+    const bottom = this.data.pop();
+    if (this.data.length > 0) {
+      this.data[0] = bottom;
+      this.bubbleDown(0);
+    }
+    return top;
+  }
+  peek() {
+    return this.data.length > 0 ? this.data[0] : null;
+  }
+  size() { return this.data.length; }
+  
+  bubbleUp(idx) {
+    while (idx > 0) {
+      const p = Math.floor((idx - 1) / 2);
+      if (this.data[idx].val < this.data[p].val) {
+        [this.data[idx], this.data[p]] = [this.data[p], this.data[idx]];
+        idx = p;
+      } else break;
+    }
+  }
+  bubbleDown(idx) {
+    while (true) {
+      const left = 2 * idx + 1;
+      const right = 2 * idx + 2;
+      let swap = idx;
+      if (left < this.data.length && this.data[left].val < this.data[swap].val) swap = left;
+      if (right < this.data.length && this.data[right].val < this.data[swap].val) swap = right;
+      if (swap !== idx) {
+        [this.data[idx], this.data[swap]] = [this.data[swap], this.data[idx]];
+        idx = swap;
+      } else break;
+    }
+  }
+}
+
+class Solution {
+  secondMinimums(values, k) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const remaining = data.slice(idx);
+
+  let k, values;
+  if (remaining.length === n) {
+    // Only values, no k -> k = 2 (default)
+    values = remaining.map(x => parseInt(x, 10));
+    k = 2;
+  } else if (remaining.length === n + 1) {
+    // First is k, rest are values
+    k = parseInt(remaining[0], 10);
+    values = remaining.slice(1, n + 1).map(x => parseInt(x, 10));
+  } else {
+    // Default case: try to parse k and n values
+    k = parseInt(remaining[0], 10) || 2;
+    values = remaining.slice(1, n + 1).map(x => parseInt(x, 10));
+  }
+
+  const solution = new Solution();
+  const result = solution.secondMinimums(values, k);
+  console.log(result.join(" "));
+});
+```
 

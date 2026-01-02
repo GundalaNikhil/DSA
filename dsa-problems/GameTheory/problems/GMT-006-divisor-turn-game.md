@@ -99,12 +99,132 @@ Game Theory, Sieve of Eratosthenes, Memoization
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    int[] memo; // 0: unknown, 1: First, 2: Second
+
+    public String divisorGame(int n) {
+        return "";
+    }
+
+    private boolean canWin(int n) {
+        if (memo[n] != 0) return memo[n] == 1;
+
+        boolean canReachLosing = false;
+        for (int i = 2; i * i <= n; i++) {
+            if (n % i == 0) {
+                int d1 = i;
+                if (!canWin(d1)) {
+                    canReachLosing = true;
+                    break;
+                }
+                int d2 = n / i;
+                if (d2 < n && !canWin(d2)) {
+                    canReachLosing = true;
+                    break;
+                }
+            }
+        }
+
+        memo[n] = canReachLosing ? 1 : 2;
+        return canReachLosing;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            Solution solution = new Solution();
+            System.out.println(solution.divisorGame(n));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+# Increase recursion depth just in case, though depth is log(N)
+sys.setrecursionlimit(20000)
+
+def divisor_game(n: int) -> str:
+    return ""
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    n = int(data[0])
+    print(divisor_game(n))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+    vector<int> memo; // 0: unknown, 1: Win, 2: Loss
+
+    bool canWin(int n) {
+        return false;
+    }
+
+public:
+    string divisorGame(int n) {
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n;
+    if (cin >> n) {
+        Solution solution;
+        cout << solution.divisorGame(n) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  divisorGame(n) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const n = parseInt(data[0]);
+  const solution = new Solution();
+  console.log(solution.divisorGame(n));
+});
+```
 

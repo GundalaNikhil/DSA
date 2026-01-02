@@ -86,12 +86,201 @@ Tree DFS, Parity, Prefix Min/Max
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    long maxDiff = 0;
+
+    public long maxOppositeParityGap(int n, int[] values, int[] left, int[] right) {
+        return 0;
+    }
+
+    // minE/maxE are valid because root is even.
+    // minO/maxO might be invalid (sentinels).
+    private void dfs(int u, int depth, int minE, int maxE, int minO, int maxO, int[] values, int[] left, int[] right) {
+        if (u == -1) return;
+
+        int val = values[u];
+
+        if (depth % 2 == 0) {
+            // Current is Even. Compare with Odd ancestors.
+            if (minO != Integer.MAX_VALUE) {
+                maxDiff = Math.max(maxDiff, Math.abs((long)val - minO));
+                maxDiff = Math.max(maxDiff, Math.abs((long)val - maxO));
+            }
+            // Update Even bounds for children
+            minE = Math.min(minE, val);
+            maxE = Math.max(maxE, val);
+        } else {
+            // Current is Odd. Compare with Even ancestors.
+            // Even ancestors always exist (root).
+            maxDiff = Math.max(maxDiff, Math.abs((long)val - minE));
+            maxDiff = Math.max(maxDiff, Math.abs((long)val - maxE));
+            
+            // Update Odd bounds for children
+            minO = Math.min(minO, val);
+            maxO = Math.max(maxO, val);
+        }
+
+        if (left[u] != -1) dfs(left[u], depth + 1, minE, maxE, minO, maxO, values, left, right);
+        if (right[u] != -1) dfs(right[u], depth + 1, minE, maxE, minO, maxO, values, left, right);
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] values = new int[n];
+        int[] left = new int[n];
+        int[] right = new int[n];
+        for (int i = 0; i < n; i++) {
+            values[i] = sc.nextInt();
+            left[i] = sc.nextInt();
+            right[i] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.maxOppositeParityGap(n, values, left, right));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+# Increase recursion depth
+sys.setrecursionlimit(200000)
+
+def max_opposite_parity_gap(n: int, values: list[int], left: list[int], right: list[int]) -> int:
+    return 0
+def main():
+    data = sys.stdin.read().strip().split()
+    if not data:
+        return
+    idx = 0
+    n = int(data[idx]); idx += 1
+    values = [0] * n
+    left = [0] * n
+    right = [0] * n
+    for i in range(n):
+        values[i] = int(data[idx]); idx += 1
+        left[i] = int(data[idx]); idx += 1
+        right[i] = int(data[idx]); idx += 1
+    print(max_opposite_parity_gap(n, values, left, right))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+#include <climits>
+
+using namespace std;
+
+class Solution {
+    long long maxDiff = 0;
+
+    void dfs(int u, int depth, int minE, int maxE, int minO, int maxO,
+             const vector<int>& values, const vector<int>& left, const vector<int>& right) {
+        if (u == -1) return;
+
+        int val = values[u];
+
+        if (depth % 2 == 0) {
+            // Even
+            if (minO != INT_MAX) {
+                maxDiff = max(maxDiff, (long long)abs(val - minO));
+                maxDiff = max(maxDiff, (long long)abs(val - maxO));
+            }
+            minE = min(minE, val);
+            maxE = max(maxE, val);
+        } else {
+            // Odd
+            if (minE != INT_MAX) {
+                maxDiff = max(maxDiff, (long long)abs(val - minE));
+                maxDiff = max(maxDiff, (long long)abs(val - maxE));
+            }
+            minO = min(minO, val);
+            maxO = max(maxO, val);
+        }
+
+        if (left[u] != -1) dfs(left[u], depth + 1, minE, maxE, minO, maxO, values, left, right);
+        if (right[u] != -1) dfs(right[u], depth + 1, minE, maxE, minO, maxO, values, left, right);
+    }
+
+public:
+    long long maxOppositeParityGap(int n, const vector<int>& values,
+                                   const vector<int>& left, const vector<int>& right) {
+        if (n == 0) return 0;
+        maxDiff = 0;
+        // Root is depth 0 (Even).
+        dfs(0, 0, values[0], values[0], INT_MAX, INT_MIN, values, left, right);
+        return maxDiff;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<int> values(n), left(n), right(n);
+    for (int i = 0; i < n; i++) {
+        cin >> values[i] >> left[i] >> right[i];
+    }
+
+    Solution solution;
+    cout << solution.maxOppositeParityGap(n, values, left, right) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  maxOppositeParityGap(n, values, left, right) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const values = new Array(n);
+  const left = new Array(n);
+  const right = new Array(n);
+  for (let i = 0; i < n; i++) {
+    values[i] = parseInt(data[idx++], 10);
+    left[i] = parseInt(data[idx++], 10);
+    right[i] = parseInt(data[idx++], 10);
+  }
+
+  const solution = new Solution();
+  console.log(solution.maxOppositeParityGap(n, values, left, right).toString());
+});
+```
 

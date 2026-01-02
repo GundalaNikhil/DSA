@@ -78,14 +78,147 @@ Greedy, Frequency Counting, Arrays
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int minChanges(int[] arr) {
+        return 0;
+    }
+    
+    private int[] getTopTwo(Map<Integer, Integer> counts) {
+        int firstVal = -1, firstCount = 0;
+        int secondVal = -1, secondCount = 0;
+        
+        for (Map.Entry<Integer, Integer> entry : counts.entrySet()) {
+            int val = entry.getKey();
+            int count = entry.getValue();
+            
+            if (count > firstCount) {
+                secondCount = firstCount;
+                secondVal = firstVal;
+                firstCount = count;
+                firstVal = val;
+            } else if (count > secondCount) {
+                secondCount = count;
+                secondVal = val;
+            }
+        }
+        return new int[]{firstVal, firstCount, secondVal, secondCount};
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        System.out.println(solution.minChanges(arr));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from collections import Counter
+
+def min_changes(arr: list[int]) -> int:
+    return 0
+def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+    result = min_changes(arr)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <vector>
+#include <map>
+#include <algorithm>
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+    struct Top {
+        int val = -1;
+        int count = 0;
+    };
+    
+    pair<Top, Top> getTopTwo(const map<int, int>& counts) {
+        Top first, second;
+        for (auto const& [val, count] : counts) {
+            if (count > first.count) {
+                second = first;
+                first = {val, count};
+            } else if (count > second.count) {
+                second = {val, count};
+            }
+        }
+        return {first, second};
+    }
+
+public:
+    int minChanges(const vector<int>& arr) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    cout << solution.minChanges(arr) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+class Solution {
+  minChanges(arr) {
+    return 0;
+  }
+}
+
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+console.log(solution.minChanges(arr).toString());
+```
 

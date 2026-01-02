@@ -93,13 +93,119 @@ Dynamic Programming, Modulo Arithmetic, String Parsing
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private static final int MOD = 1_000_000_007;
+
+    public int countExpressions(String s, int M, int K, int L) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine().trim();
+        int M = sc.nextInt(), K = sc.nextInt(), L = sc.nextInt();
+        System.out.println(new Solution().countExpressions(s, M, K, L));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+MOD = 1_000_000_007
+
+def count_expressions(s: str, M: int, K: int, L: int) -> int:
+    return 0
+def main():
+    s = input().strip()
+    M, K, L = map(int, input().split())
+    print(count_expressions(s, M, K, L))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
+using namespace std;
+
+class Solution {
+    static const int MOD = 1'000'000'007;
+public:
+    int countExpressions(const string& s, int M, int K, int L) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    string s;
+    getline(cin, s);
+    int M, K, L;
+    cin >> M >> K >> L;
+    Solution sol;
+    cout << sol.countExpressions(s, M, K, L) << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const MOD = 1000000007n;
+
+class Solution {
+  countExpressions(s, M, K, L) {
+    return 0;
+  }
+}
+
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  let ptr = 0;
+  const s = data[ptr++];
+  const parts = data[ptr++].split(/\s+/).map(Number);
+  const M = parts[0];
+  const K = parts[1];
+  const L = parts[2];
+
+  const solution = new Solution();
+  console.log(solution.countExpressions(s, M, K, L));
+});
+```
 

@@ -64,3 +64,31 @@ Operation fails 2 times then succeeds:
 
 Concurrency, Lock-Free Algorithms, Reliability Patterns
 
+
+## Solution Template
+
+### Python
+
+```python
+def solve():
+    return 0
+1. Retry Loop with Exponential Backoff + Jitter:
+   ```python
+   def retry_op(max_retries, initial_delay, max_cap):
+       return 0
+   ```
+
+2. Why it improves behavior:
+   - **Exponential**: Quickly reduces load if the system is overloaded. If 1000 threads fail, they spread out their retries (1ms, 2ms, 4ms...) rather than hammering repeatedly at fixed intervals.
+   - **Jitter**: Prevents "synchronized" retries where batches of threads wake up, fail together, and wait together. Randomness de-synchronizes the herd.
+
+3. Choosing Caps:
+   - `initialDelay`: Round-trip time or expected recovery time (e.g., 5-50ms).
+   - `maxDelay`: Depends on user latency tolerance (e.g., 1s for interactive, 30s for background).
+   - `maxRetries`: Budget for total waiting time.
+""")
+
+if __name__ == "__main__":
+    solve()
+```
+

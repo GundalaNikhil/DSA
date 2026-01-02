@@ -80,12 +80,139 @@ Bitwise Operations, Prefix XOR
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long distinctSubarrayXors(int[] a) {
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+
+        Solution solution = new Solution();
+        System.out.println(solution.distinctSubarrayXors(a));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def distinct_subarray_xors(a: list[int]) -> int:
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    ptr = 0
+    n = int(data[ptr]); ptr += 1
+    a = []
+    for _ in range(n):
+        a.append(int(data[ptr])); ptr += 1
+        
+    result = distinct_subarray_xors(a)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+public:
+    long long distinctSubarrayXors(vector<int>& a) {
+        int n = a.size();
+        long long size = (long long)n * (n + 1) / 2;
+        vector<int> results;
+        results.reserve(size);
+        
+        for (int i = 0; i < n; i++) {
+            int currentXor = 0;
+            for (int j = i; j < n; j++) {
+                currentXor ^= a[j];
+                results.push_back(currentXor);
+            }
+        }
+        
+        sort(results.begin(), results.end());
+        
+        // Count unique
+        if (results.empty()) return 0;
+        long long count = 1;
+        for (size_t i = 1; i < results.size(); i++) {
+            if (results[i] != results[i-1]) {
+                count++;
+            }
+        }
+        return count;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+
+    Solution solution;
+    cout << solution.distinctSubarrayXors(a) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  distinctSubarrayXors(a) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    let ptr = 0;
+    const n = Number(tokens[ptr++]);
+    const a = [];
+    for (let i = 0; i < n; i++) a.push(Number(tokens[ptr++]));
+    
+    const solution = new Solution();
+    console.log(String(solution.distinctSubarrayXors(a)));
+});
+```
 

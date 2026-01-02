@@ -121,12 +121,231 @@ Trie, String, Greedy, Dictionary Lookup
 
 ### Java
 
+```java
+import java.util.*;
+
+class TrieNode {
+    Map<Character, TrieNode> children;
+    String word;
+    int rarity;
+
+    TrieNode() {
+        children = new HashMap<>();
+        word = null;
+        rarity = Integer.MAX_VALUE;
+    }
+}
+
+class Solution {
+    private TrieNode root;
+
+    public String replaceWords(Map<String, Integer> dictionary, String sentence) {
+        return "";
+    }
+
+    private void insert(String word, int rarity) {
+        TrieNode curr = root;
+
+        for (char c : word.toCharArray()) {
+            curr.children.putIfAbsent(c, new TrieNode());
+            curr = curr.children.get(c);
+        }
+
+        // Update only if this is better
+        if (rarity < curr.rarity ||
+            (rarity == curr.rarity && (curr.word == null || word.length() < curr.word.length()))) {
+            curr.word = word;
+            curr.rarity = rarity;
+        }
+    }
+
+    private String findReplacement(String word) {
+        TrieNode curr = root;
+        String best = null;
+        int bestRarity = Integer.MAX_VALUE;
+
+        for (char c : word.toCharArray()) {
+            if (!curr.children.containsKey(c)) break;
+
+            curr = curr.children.get(c);
+
+            if (curr.word != null) {
+                if (curr.rarity < bestRarity ||
+                    (curr.rarity == bestRarity && curr.word.length() < best.length())) {
+                    best = curr.word;
+                    bestRarity = curr.rarity;
+                }
+            }
+        }
+
+        return best != null ? best : word;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        Map<String, Integer> dictionary = new HashMap<>();
+        
+        for (int i = 0; i < n; i++) {
+            String word = sc.next();
+            int rarity = sc.nextInt();
+            dictionary.put(word, rarity);
+        }
+        
+        sc.nextLine(); // consume newline
+        String sentence = sc.nextLine();
+        
+        Solution sol = new Solution();
+        System.out.println(sol.replaceWords(dictionary, sentence));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def replace_naive(dictionary, sentence):
+    return 0
+def main():
+    import sys
+    input_data = sys.stdin.read().strip().split('\n')
+
+    n = int(input_data[0])
+    dictionary = {}
+    for i in range(1, n + 1):
+        parts = input_data[i].rsplit(' ', 1)
+        root = parts[0]
+        rarity = int(parts[1])
+        dictionary[root] = rarity
+
+    sentence = input_data[n + 1]
+    result = replace_naive(dictionary, sentence)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <unordered_map>
+#include <sstream>
+#include <string>
+#include <climits>
+#include <limits>
+
+using namespace std;
+
+struct TrieNode {
+    unordered_map<char, TrieNode*> children;
+    string word;
+    int rarity;
+
+    TrieNode() : word(""), rarity(INT_MAX) {}
+};
+
+class Solution {
+public:
+    string replaceWords(unordered_map<string, int>& dictionary, const string& sentence) {
+        return "";
+    }
+
+private:
+    TrieNode* root = nullptr;
+
+    void insert(const string& word, int rarity) {
+    }
+
+    string findReplacement(const string& word) {
+        return "";
+    }
+};
+
+int main() {
+    int n;
+    if (!(cin >> n)) {
+        return 0;
+    }
+
+    unordered_map<string, int> dictionary;
+    for (int i = 0; i < n; i++) {
+        string root;
+        int rarity;
+        cin >> root >> rarity;
+        dictionary[root] = rarity;
+    }
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    string sentence;
+    getline(cin, sentence);
+
+    Solution solution;
+    string result = solution.replaceWords(dictionary, sentence);
+
+    cout << result << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+class TrieNode {
+    constructor() {
+        this.children = new Map();
+        this.word = null;
+        this.rarity = Infinity;
+    }
+}
+
+class Solution {
+    constructor() {
+        this.root = new TrieNode();
+    }
+
+    replaceWords(dictionary, sentence) {
+    return 0;
+  }
+
+    insert(word, rarity) {
+    return 0;
+  }
+
+    findReplacement(word) {
+    return 0;
+  }
+}
+
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false
+});
+
+const lines = [];
+rl.on('line', (line) => lines.push(line.trim()));
+rl.on('close', () => {
+    const n = parseInt(lines[0]);
+    const dictionary = {};
+    
+    for (let i = 1; i <= n; i++) {
+        const parts = lines[i].split(' ');
+        const word = parts[0];
+        const rarity = parseInt(parts[1]);
+        dictionary[word] = rarity;
+    }
+    
+    const sentence = lines[n + 1];
+    
+    const sol = new Solution();
+    console.log(sol.replaceWords(dictionary, sentence));
+});
+```
 

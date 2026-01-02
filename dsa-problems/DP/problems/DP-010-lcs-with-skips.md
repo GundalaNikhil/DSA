@@ -87,13 +87,114 @@ Dynamic Programming, LCS, Strings, Subsequences
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int lcsWithSkipLimit(String a, String b, int s) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String a = sc.nextLine().trim();
+        String b = sc.nextLine().trim();
+        int s = sc.nextInt();
+        System.out.println(new Solution().lcsWithSkipLimit(a, b, s));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def lcs_with_skip_limit(a: str, b: str, s: int) -> int:
+    return 0
+def main():
+    a = input().strip()
+    b = input().strip()
+    s = int(input())
+    print(lcs_with_skip_limit(a, b, s))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
+using namespace std;
+
+class Solution {
+public:
+    int lcsWithSkipLimit(const string& a, const string& b, int s) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string a, b;
+    getline(cin, a);
+    getline(cin, b);
+    int s;
+    cin >> s;
+    Solution sol;
+    cout << sol.lcsWithSkipLimit(a, b, s) << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+class Solution {
+  lcsWithSkipLimit(a, b, s) {
+    return 0;
+  }
+}
+
+const readline = require("readline");
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  let ptr = 0;
+  const a = data[ptr++];
+  const b = data[ptr++];
+  const s = Number(data[ptr++]);
+
+  const solution = new Solution();
+  console.log(solution.lcsWithSkipLimit(a, b, s));
+});
+```
 

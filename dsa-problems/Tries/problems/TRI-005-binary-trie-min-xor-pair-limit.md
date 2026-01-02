@@ -94,12 +94,118 @@ Trie, Binary Trie, Bit Manipulation, XOR Properties
 
 ### Java
 
+```java
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int L = sc.nextInt();
+        
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        int minXor = Integer.MAX_VALUE;
+        
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                int xorVal = arr[i] ^ arr[j];
+                if (xorVal <= L) {
+                    minXor = Math.min(minXor, xorVal);
+                }
+            }
+        }
+        
+        System.out.println(minXor == Integer.MAX_VALUE ? -1 : minXor);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def min_xor_naive(arr, L):
+    return 0
+def main():
+    import sys
+    input_data = sys.stdin.read().strip().split('\n')
+
+    n, L = map(int, input_data[0].split())
+    arr = list(map(int, input_data[1].split()))
+    result = min_xor_naive(arr, L)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <climits>
+
+using namespace std;
+
+class Solution {
+public:
+    int minXORPairUnderLimit(const vector<int>& arr, int L) {
+        return 0;
+    }
+};
+
+int main() {
+    int n, L;
+    if (!(cin >> n >> L)) {
+        return 0;
+    }
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    Solution solution;
+    int result = solution.minXORPairUnderLimit(arr, L);
+
+    cout << result << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false
+});
+
+const lines = [];
+rl.on('line', (line) => lines.push(line.trim()));
+rl.on('close', () => {
+    const [n, L] = lines[0].split(' ').map(Number);
+    const arr = lines[1].split(' ').map(Number);
+    
+    let minXor = Infinity;
+    
+    for (let i = 0; i < n; i++) {
+        for (let j = i + 1; j < n; j++) {
+            const xorVal = arr[i] ^ arr[j];
+            if (xorVal <= L) {
+                minXor = Math.min(minXor, xorVal);
+            }
+        }
+    }
+    
+    console.log(minXor === Infinity ? -1 : minXor);
+});
+```
 

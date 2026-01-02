@@ -78,14 +78,147 @@ Stock Span, Monotonic Stack, Arrays
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int[] spans(int[] counts) {
+        return null;
+    }
+}
+
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = "";
+        while ((line = br.readLine()) != null && line.trim().isEmpty()) {}
+        if (line == null) return;
+        
+        int n = Integer.parseInt(line.trim());
+        
+        List<Integer> list = new ArrayList<>();
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        
+        while (list.size() < n) {
+            while (!st.hasMoreTokens()) {
+                String l = br.readLine();
+                if (l == null) break;
+                st = new StringTokenizer(l);
+            }
+            if (!st.hasMoreTokens()) break;
+            list.add(Integer.parseInt(st.nextToken()));
+        }
+        
+        int[] counts = new int[list.size()];
+        for(int i=0; i<list.size(); i++) counts[i] = list.get(i);
+        
+        Solution sol = new Solution();
+        int[] res = sol.spans(counts);
+        for (int val : res) {
+            System.out.println(val);
+        }
+    }
+}
+```
 
 ### Python
 
+```python
+def spans(counts: list[int]) -> list[int]:
+    return []
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if not lines:
+        return
+
+    n = int(lines[0])
+    counts = list(map(int, lines[1].split()))
+    result = spans(counts)
+    for r in result:
+        print(r)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <stack>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> spans(vector<int>& counts) {
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> counts(n);
+    for (int i = 0; i < n; i++) {
+        cin >> counts[i];
+    }
+    
+    Solution sol;
+    vector<int> res = sol.spans(counts);
+    
+    for (int val : res) {
+        cout << val << "\n";
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+class Solution {
+  spans(counts) {
+    return 0;
+  }
+}
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const counts = [];
+  for (let i = 0; i < n; i++) {
+    counts.push(parseInt(data[idx++], 10));
+  }
+  
+  const solution = new Solution();
+  const res = solution.spans(counts);
+  console.log(res.join("\n"));
+});
+```
 

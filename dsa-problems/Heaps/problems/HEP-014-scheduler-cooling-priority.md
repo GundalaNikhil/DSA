@@ -93,12 +93,230 @@ Heaps, Scheduling, Cooldown Queues, Greedy
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    static class Task {
+        String id;
+        int count;
+        long priority;
+        int x; // assigned count
+        
+        public Task(String id, int count, long priority) {
+            this.id = id;
+            this.count = count;
+            this.priority = priority;
+            this.x = count;
+        }
+    }
+    
+    public long maxPriority(int T, int cooldown, String[] ids, int[] count, long[] priority) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int m = sc.nextInt();
+            int cooldown = sc.nextInt();
+            int T = sc.nextInt();
+            String[] ids = new String[m];
+            int[] count = new int[m];
+            long[] priority = new long[m];
+            for (int i = 0; i < m; i++) {
+                ids[i] = sc.next();
+                count[i] = sc.nextInt();
+                priority[i] = sc.nextLong();
+            }
+            
+            Solution solution = new Solution();
+            System.out.println(solution.maxPriority(T, cooldown, ids, count, priority));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Task:
+    def __init__(self, tid, count, priority):
+        return 0
+class Solution:
+    def max_priority(self, T: int, cooldown: int, ids: list, count: list, priority: list) -> int:
+        return 0
+def max_priority(T: int, cooldown: int, ids: list, count: list, priority: list) -> int:
+    return 0
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    try:
+        m = int(next(it))
+        cooldown = int(next(it))
+        T = int(next(it))
+        ids = []
+        count = []
+        priority = []
+        for _ in range(m):
+            ids.append(next(it))
+            count.append(int(next(it)))
+            priority.append(int(next(it)))
+            
+        print(max_priority(T, cooldown, ids, count, priority))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <numeric>
+
+using namespace std;
+
+struct Task {
+    string id;
+    int count;
+    long long priority;
+    int x;
+};
+
+class Solution {
+public:
+    long long maxPriority(int T, int cooldown, const vector<string>& ids,
+                          const vector<int>& count, const vector<long long>& priority) {
+        int m = ids.size();
+        vector<Task> tasks;
+        for (int i = 0; i < m; i++) {
+            tasks.push_back({ids[i], count[i], priority[i], count[i]});
+        }
+        
+        // 1. Clamp
+        int limit = (T + cooldown) / (cooldown + 1);
+        for (auto& t : tasks) {
+            t.x = min(t.count, limit);
+        }
+        
+        // 2. Schedule Constraint
+        while (true) {
+            int maxX = 0;
+            for (const auto& t : tasks) maxX = max(maxX, t.x);
+            
+            if (maxX == 0) break;
+            
+            vector<Task*> atMax;
+            for (auto& t : tasks) {
+                if (t.x == maxX) atMax.push_back(&t);
+            }
+            
+            long long required = (long long)(maxX - 1) * (cooldown + 1) + atMax.size();
+            
+            if (required <= T) break;
+            
+            long long allowed = T - (long long)(maxX - 1) * (cooldown + 1);
+            
+            sort(atMax.begin(), atMax.end(), [](Task* a, Task* b) {
+                return a->priority > b->priority;
+            });
+            
+            for (size_t i = allowed; i < atMax.size(); i++) {
+                atMax[i]->x--;
+            }
+        }
+        
+        // 3. Sum Constraint
+        long long sumX = 0;
+        for (const auto& t : tasks) sumX += t.x;
+        
+        if (sumX > T) {
+            long long toRemove = sumX - T;
+            sort(tasks.begin(), tasks.end(), [](const Task& a, const Task& b) {
+                return a.priority < b.priority;
+            });
+            
+            for (auto& t : tasks) {
+                if (toRemove <= 0) break;
+                int rem = min((long long)t.x, toRemove);
+                t.x -= rem;
+                toRemove -= rem;
+            }
+        }
+        
+        long long totalScore = 0;
+        for (const auto& t : tasks) totalScore += (long long)t.x * t.priority;
+        
+        return totalScore;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int m, cooldown, T;
+    if (cin >> m >> cooldown >> T) {
+        vector<string> ids(m);
+        vector<int> count(m);
+        vector<long long> priority(m);
+        for (int i = 0; i < m; i++) cin >> ids[i] >> count[i] >> priority[i];
+        
+        Solution solution;
+        cout << solution.maxPriority(T, cooldown, ids, count, priority) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  maxPriority(T, cooldown, ids, count, priority) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const m = parseInt(data[idx++]);
+  const cooldown = parseInt(data[idx++]);
+  const T = parseInt(data[idx++]);
+  const ids = [];
+  const count = [];
+  const priority = [];
+  for (let i = 0; i < m; i++) {
+    ids.push(data[idx++]);
+    count.push(parseInt(data[idx++]));
+    priority.push(parseInt(data[idx++]));
+  }
+  
+  const solution = new Solution();
+  console.log(solution.maxPriority(T, cooldown, ids, count, priority));
+});
+```
 

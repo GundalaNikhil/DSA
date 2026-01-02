@@ -82,16 +82,125 @@ Simulation, Greedy, Arrays
 
 ### Java
 
+```java
+import java.util.*;
 
+class Solution {
+    public int maxGapAfterRemovals(int[] seats, int[] removeIndices) {
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] seats = new int[n];
+        for (int i = 0; i < n; i++) seats[i] = sc.nextInt();
+        
+        int r = sc.nextInt();
+        int[] removeIndices = new int[r];
+        for (int i = 0; i < r; i++) removeIndices[i] = sc.nextInt();
+
+        Solution solution = new Solution();
+        int result = solution.maxGapAfterRemovals(seats, removeIndices);
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
 
+def max_gap_after_removals(seats: list[int], remove_indices: list[int]) -> int:
+    return 0
+def main():
+    n = int(input())
+    seats = list(map(int, input().split()))
+    r = int(input())
+    remove_indices = list(map(int, input().split()))
+
+    result = max_gap_after_removals(seats, remove_indices)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
 
+class Solution {
+public:
+    int maxGapAfterRemovals(vector<int>& seats, vector<int>& removeIndices) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> seats(n);
+    for (int i = 0; i < n; i++) cin >> seats[i];
+    
+    int r;
+    cin >> r;
+    vector<int> removeIndices(r);
+    for (int i = 0; i < r; i++) cin >> removeIndices[i];
+
+    Solution solution;
+    cout << solution.maxGapAfterRemovals(seats, removeIndices) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  maxGapAfterRemovals(seats, removeIndices) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    let ptr = 0;
+    const n = Number(tokens[ptr++]);
+    const seats = [];
+    for (let i = 0; i < n; i++) seats.push(Number(tokens[ptr++]));
+    
+    const r = Number(tokens[ptr++]);
+    const removeIndices = [];
+    for (let i = 0; i < r; i++) removeIndices.push(Number(tokens[ptr++]));
+    
+    const solution = new Solution();
+    console.log(solution.maxGapAfterRemovals(seats, removeIndices));
+});
+```
 

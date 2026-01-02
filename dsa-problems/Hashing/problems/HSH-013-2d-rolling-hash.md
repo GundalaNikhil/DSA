@@ -105,12 +105,214 @@ B appears in A starting at position (1, 1).
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private static final long MOD = 1_000_000_007L;
+    private static final long BASE1 = 313L; // For rows
+    private static final long BASE2 = 317L; // For cols
+    
+    public boolean findMatrix(int[][] A, int[][] B) {
+        return false;
+    }
+    
+    private long computeMatrixHash(int[][] M, int p, int q) {
+        long[] rowH = new long[p];
+        for (int i = 0; i < p; i++) {
+            long h = 0;
+            for (int j = 0; j < q; j++) {
+                h = (h * BASE1 + M[i][j]) % MOD;
+            }
+            rowH[i] = h;
+        }
+        
+        long finalH = 0;
+        for (int i = 0; i < p; i++) {
+            finalH = (finalH * BASE2 + rowH[i]) % MOD;
+        }
+        return finalH;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+            int[][] A = new int[n][m];
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < m; j++) {
+                    A[i][j] = sc.nextInt();
+                }
+            }
+            
+            int p = sc.nextInt();
+            int q = sc.nextInt();
+            int[][] B = new int[p][q];
+            for (int i = 0; i < p; i++) {
+                for (int j = 0; j < q; j++) {
+                    B[i][j] = sc.nextInt();
+                }
+            }
+            
+            Solution solution = new Solution();
+            System.out.println(solution.findMatrix(A, B));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def find_matrix(self, A: list, B: list) -> bool:
+        return False
+def find_matrix(A: list, B: list) -> bool:
+    return False
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        A = []
+        for _ in range(n):
+            row = []
+            for _ in range(m):
+                row.append(int(next(iterator)))
+            A.append(row)
+            
+        p = int(next(iterator))
+        q = int(next(iterator))
+        B = []
+        for _ in range(p):
+            row = []
+            for _ in range(q):
+                row.append(int(next(iterator)))
+            B.append(row)
+            
+        result = find_matrix(A, B)
+        print("true" if result else "false")
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+    const long long MOD = 1e9 + 7;
+    const long long BASE1 = 313;
+    const long long BASE2 = 317;
+
+public:
+    bool findMatrix(vector<vector<int>>& A, vector<vector<int>>& B) {
+        return false;
+    }
+    
+    long long computeMatrixHash(const vector<vector<int>>& M, int p, int q) {
+        vector<long long> rowH(p);
+        for (int i = 0; i < p; i++) {
+            long long h = 0;
+            for (int j = 0; j < q; j++) {
+                h = (h * BASE1 + M[i][j]) % MOD;
+            }
+            rowH[i] = h;
+        }
+        
+        long long finalH = 0;
+        for (int i = 0; i < p; i++) {
+            finalH = (finalH * BASE2 + rowH[i]) % MOD;
+        }
+        return finalH;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    
+    vector<vector<int>> A(n, vector<int>(m));
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < m; j++) {
+            cin >> A[i][j];
+        }
+    }
+    
+    int p, q;
+    if (!(cin >> p >> q)) return 0;
+    
+    vector<vector<int>> B(p, vector<int>(q));
+    for (int i = 0; i < p; i++) {
+        for (int j = 0; j < q; j++) {
+            cin >> B[i][j];
+        }
+    }
+    
+    Solution solution;
+    cout << (solution.findMatrix(A, B) ? "true" : "false") << "\n";
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  findMatrix(A, B) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let ptr = 0;
+  const [n, m] = data[ptr++].split(" ").map(Number);
+  
+  const A = [];
+  for (let i = 0; i < n; i++) {
+    A.push(data[ptr++].split(" ").map(Number));
+  }
+  
+  const [p, q] = data[ptr++].split(" ").map(Number);
+  
+  const B = [];
+  for (let i = 0; i < p; i++) {
+    B.push(data[ptr++].split(" ").map(Number));
+  }
+  
+  const solution = new Solution();
+  console.log(solution.findMatrix(A, B) ? "true" : "false");
+});
+```
 

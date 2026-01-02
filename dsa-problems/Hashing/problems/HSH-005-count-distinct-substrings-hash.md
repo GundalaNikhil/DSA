@@ -91,12 +91,110 @@ Hashing, Substring Generation, Set Operations, Suffix Array
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private static final long MOD = 1_000_000_007L;
+    private static final long BASE = 313L;
+
+    public int countDistinctSubstrings(String s) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLine()) {
+            String s = sc.nextLine();
+            Solution solution = new Solution();
+            System.out.println(solution.countDistinctSubstrings(s));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def count_distinct_substrings(self, s: str) -> int:
+        return 0
+def count_distinct_substrings(s: str) -> int:
+    return 0
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    s = input_data[0]
+    print(count_distinct_substrings(s))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <unordered_set>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+    const long long MOD = 1e9 + 7;
+    const long long BASE = 313;
+
+public:
+    int countDistinctSubstrings(string s) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    string s;
+    if (getline(cin, s)) {
+        Solution solution;
+        cout << solution.countDistinctSubstrings(s) << "\n";
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  countDistinctSubstrings(s) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const s = data[0];
+
+  const solution = new Solution();
+  console.log(solution.countDistinctSubstrings(s));
+});
+```
 

@@ -107,11 +107,244 @@ Union-Find, DSU, Connected Components, Graph Constraints, Component Tracking
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private int[] parent;
+    private int[] size;
+
+    private int find(int i) {
+        if (parent[i] == i) return i;
+        return parent[i] = find(parent[i]);
+    }
+
+    private void union(int i, int j) {
+        int rootI = find(i);
+        int rootJ = find(j);
+        if (rootI != rootJ) {
+            parent[rootI] = rootJ;
+            size[rootJ] += size[rootI];
+        }
+    }
+
+    public int maxComponentSize(int n, List<int[]> edges, Set<Integer> vips) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        List<int[]> edges = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            edges.add(new int[]{u, v});
+        }
+        
+        Set<Integer> vips = new HashSet<>();
+        if (sc.hasNextLine()) sc.nextLine(); // Consume newline
+        if (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            Scanner lineSc = new Scanner(line);
+            while (lineSc.hasNextInt()) {
+                vips.add(lineSc.nextInt());
+            }
+            lineSc.close();
+        }
+        
+        Solution solution = new Solution();
+        System.out.println(solution.maxComponentSize(n, edges, vips));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+sys.setrecursionlimit(200000)
+
+class DSU:
+    def __init__(self, n):
+        return 0
+    def find(self, i):
+        return 0
+    def union(self, i, j):
+        return 0
+def max_component_size(n: int, edges: list[tuple[int, int]], vips: set[int]) -> int:
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            edges.append((u, v))
+            
+        vips = set()
+        # Remaining tokens are VIPs
+        for token in iterator:
+            vips.add(int(token))
+            
+        print(max_component_size(n, edges, vips))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <numeric>
+#include <unordered_set>
+#include <algorithm>
+#include <sstream>
+
+using namespace std;
+
+class DSU {
+public:
+    vector<int> parent;
+    vector<int> size;
+    
+    DSU(int n) {
+        parent.resize(n);
+        iota(parent.begin(), parent.end(), 0);
+        size.assign(n, 1);
+    }
+    
+    int find(int i) {
+        if (parent[i] == i) return i;
+        return parent[i] = find(parent[i]);
+    }
+    
+    void unite(int i, int j) {
+        int root_i = find(i);
+        int root_j = find(j);
+        if (root_i != root_j) {
+            parent[root_i] = root_j;
+            size[root_j] += size[root_i];
+        }
+    }
+};
+
+class Solution {
+public:
+    int maxComponentSize(int n, vector<pair<int, int>>& edges, unordered_set<int>& vips) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    
+    vector<pair<int, int>> edges(m);
+    for (int i = 0; i < m; i++) {
+        cin >> edges[i].first >> edges[i].second;
+    }
+    
+    unordered_set<int> vips;
+    string line;
+    getline(cin >> ws, line); // consume rest of line and read next
+    stringstream ss(line);
+    int vip;
+    while (ss >> vip) {
+        vips.insert(vip);
+    }
+    
+    Solution solution;
+    cout << solution.maxComponentSize(n, edges, vips) << "\n";
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class DSU {
+  constructor(n) {
+    this.parent = Array.from({ length: n }, (_, i) => i);
+    this.size = Array(n).fill(1);
+  }
+  
+  find(i) {
+    if (this.parent[i] !== i) {
+      this.parent[i] = this.find(this.parent[i]);
+    }
+    return this.parent[i];
+  }
+  
+  union(i, j) {
+    const rootI = this.find(i);
+    const rootJ = this.find(j);
+    if (rootI !== rootJ) {
+      this.parent[rootI] = rootJ;
+      this.size[rootJ] += this.size[rootI];
+    }
+  }
+}
+
+class Solution {
+  maxComponentSize(n, edges, vips) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const n = parseInt(data[ptr++], 10);
+  const m = parseInt(data[ptr++], 10);
+  
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(data[ptr++], 10);
+    const v = parseInt(data[ptr++], 10);
+    edges.push([u, v]);
+  }
+  
+  const vips = [];
+  while (ptr < data.length) {
+    vips.push(parseInt(data[ptr++], 10));
+  }
+  
+  const solution = new Solution();
+  console.log(solution.maxComponentSize(n, edges, vips));
+});
+```
+

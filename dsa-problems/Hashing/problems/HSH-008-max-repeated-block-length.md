@@ -85,12 +85,154 @@ Binary Search, Hashing, Rolling Hash, Longest Repeated Substring
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private static final long MOD = 1_000_000_007L;
+    private static final long BASE = 313L;
+    
+    public int maxRepeatedBlockLength(String s) {
+        return 0;
+    }
+    
+    private boolean check(String s, int len) {
+        int n = s.length();
+        Map<Long, Integer> firstOccurrence = new HashMap<>();
+        
+        long currentHash = 0;
+        long power = 1;
+        
+        // Precompute BASE^(len-1)
+        for (int i = 0; i < len - 1; i++) {
+            power = (power * BASE) % MOD;
+        }
+        
+        // Initial window
+        for (int i = 0; i < len; i++) {
+            currentHash = (currentHash * BASE + s.charAt(i)) % MOD;
+        }
+        firstOccurrence.put(currentHash, 0);
+        
+        // Slide window
+        for (int i = 1; i <= n - len; i++) {
+            // Remove char at i-1
+            long remove = (s.charAt(i - 1) * power) % MOD;
+            currentHash = (currentHash - remove + MOD) % MOD;
+            
+            // Add char at i+len-1
+            currentHash = (currentHash * BASE + s.charAt(i + len - 1)) % MOD;
+            
+            if (firstOccurrence.containsKey(currentHash)) {
+                int firstIdx = firstOccurrence.get(currentHash);
+                if (i >= firstIdx + len) {
+                    return true;
+                }
+            } else {
+                firstOccurrence.put(currentHash, i);
+            }
+        }
+        
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLine()) {
+            String s = sc.nextLine();
+            Solution solution = new Solution();
+            System.out.println(solution.maxRepeatedBlockLength(s));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def max_repeated_block_length(self, s: str) -> int:
+        return 0
+def max_repeated_block_length(s: str) -> int:
+    return 0
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    s = input_data[0]
+    print(max_repeated_block_length(s))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <unordered_map>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+    const long long MOD = 1e9 + 7;
+    const long long BASE = 313;
+
+public:
+    int maxRepeatedBlockLength(string s) {
+        return 0;
+    }
+    
+    bool check(const string& s, int len) {
+        return false;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    string s;
+    if (getline(cin, s)) {
+        Solution solution;
+        cout << solution.maxRepeatedBlockLength(s) << "\n";
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  maxRepeatedBlockLength(s) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const s = data[0];
+
+  const solution = new Solution();
+  console.log(solution.maxRepeatedBlockLength(s));
+});
+```
 

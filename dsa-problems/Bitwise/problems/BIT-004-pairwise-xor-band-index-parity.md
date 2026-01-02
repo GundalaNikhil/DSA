@@ -83,12 +83,245 @@ Bitwise Operations, XOR, Counting
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    static class TrieNode {
+        TrieNode[] children = new TrieNode[2];
+        int count = 0;
+    }
+
+    private void insert(TrieNode root, int num) {
+        TrieNode curr = root;
+        for (int i = 29; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+            if (curr.children[bit] == null) {
+                curr.children[bit] = new TrieNode();
+            }
+            curr = curr.children[bit];
+            curr.count++;
+        }
+    }
+
+    private int countLessEqual(TrieNode root, int num, int K) {
+        if (K < 0) {
+            return 0;
+        }
+        TrieNode curr = root;
+        int count = 0;
+        for (int i = 29; i >= 0; i--) {
+            if (curr == null) break;
+            int bitNum = (num >> i) & 1;
+            int bitK = (K >> i) & 1;
+
+            if (bitK == 1) {
+                // If we choose path that aligns with bitNum, XOR result is 0 (0 < 1).
+                // All nums in that subtree are strictly smaller.
+                if (curr.children[bitNum] != null) {
+                    count += curr.children[bitNum].count;
+                }
+                // Continue to the path that makes XOR 1 (equal to bitK)
+                curr = curr.children[1 - bitNum];
+            } else {
+                // bitK is 0. We MUST make XOR 0. So must go to child matching bitNum.
+                curr = curr.children[bitNum];
+            }
+        }
+        if (curr != null) count += curr.count;
+        return count;
+    }
+
+    private long countPairsWithLimit(List<Integer> nums, int K) {
+        TrieNode root = new TrieNode();
+        long total = 0;
+        for (int num : nums) {
+            total += countLessEqual(root, num, K);
+            insert(root, num);
+        }
+        return total;
+    }
+
+    public long countPairwiseXorBandParity(int[] a, int L, int U) {
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+        int L = sc.nextInt();
+        int U = sc.nextInt();
+
+        Solution solution = new Solution();
+        System.out.println(solution.countPairwiseXorBandParity(a, L, U));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class TrieNode:
+    def __init__(self):
+        return 0
+def insert(root, num):
+    return 0
+def count_less_equal(root, num, K):
+    return 0
+def solve_for_list(nums, L, U):
+    return 0
+def count_pairwise_xor_band_parity(a: list[int], L: int, U: int) -> int:
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+
+    ptr = 0
+    n = int(data[ptr]); ptr += 1
+    a = []
+    for _ in range(n):
+        a.append(int(data[ptr])); ptr += 1
+
+    L = int(data[ptr]); ptr += 1
+    U = int(data[ptr]); ptr += 1
+
+    result = count_pairwise_xor_band_parity(a, L, U)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+struct TrieNode {
+    TrieNode* children[2];
+    int count;
+
+    TrieNode() {
+        children[0] = children[1] = nullptr;
+        count = 0;
+    }
+};
+
+class Solution {
+    void insert(TrieNode* root, int num) {
+    }
+
+    int countLessEqual(TrieNode* root, int num, int K) {
+        return 0;
+    }
+
+    long long solve(const vector<int>& nums, int L, int U) {
+        TrieNode* root = new TrieNode();
+        long long total = 0;
+        int limitL = L - 1;
+
+        for (int x : nums) {
+            int cU = countLessEqual(root, x, U);
+            int cL = countLessEqual(root, x, limitL);
+            total += (cU - cL);
+            insert(root, x);
+        }
+        // Memory leak check: In CP context, often ignored, but we should traverse delete
+        // For strictness, assume simple struct is fine.
+        return total;
+    }
+
+public:
+    long long countPairwiseXorBandParity(vector<int>& a, int L, int U) {
+        vector<int> evens, odds;
+        for (int i = 0; i < a.size(); i++) {
+            if (i % 2 == 0) evens.push_back(a[i]);
+            else odds.push_back(a[i]);
+        }
+        return solve(evens, L, U) + solve(odds, L, U);
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+    int L, U;
+    cin >> L >> U;
+
+    Solution solution;
+    cout << solution.countPairwiseXorBandParity(a, L, U) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class TrieNode {
+  constructor() {
+    this.children = [null, null];
+    this.count = 0;
+  }
+}
+
+class Solution {
+  insert(root, num) {
+    return 0;
+  }
+
+  countLessEqual(root, num, K) {
+    return 0;
+  }
+
+  solve(nums, L, U) {
+    return 0;
+  }
+
+  countPairwiseXorBandParity(a, L, U) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const a = [];
+  for (let i = 0; i < n; i++) a.push(Number(tokens[ptr++]));
+  const L = Number(tokens[ptr++]);
+  const U = Number(tokens[ptr++]);
+
+  const solution = new Solution();
+  console.log(solution.countPairwiseXorBandParity(a, L, U).toString());
+});
+```
 

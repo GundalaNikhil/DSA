@@ -77,16 +77,152 @@ Kadane, Dynamic Programming, Arrays
 
 ### Java
 
+```java
+import java.util.*;
 
+class Solution {
+    public long bestStreakWithSmoothing(int[] a) {
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+
+        Solution solution = new Solution();
+        long result = solution.bestStreakWithSmoothing(a);
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import math
 
+def best_streak_with_smoothing(a: list[int]) -> int:
+    return 0
+def main():
+    n = int(input())
+    a = list(map(int, input().split()))
+
+    result = best_streak_with_smoothing(a)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+#include <climits>
+using namespace std;
 
+class Solution {
+public:
+    long long bestStreakWithSmoothing(vector<long long>& a) {
+        int n = a.size();
+        if (n < 3) return 0;
+
+        vector<long long> maxEndingAt(n);
+        vector<long long> globalMaxPrefix(n);
+
+        maxEndingAt[0] = a[0];
+        globalMaxPrefix[0] = a[0];
+        for (int i = 1; i < n; i++) {
+            maxEndingAt[i] = max((long long)a[i], maxEndingAt[i - 1] + a[i]);
+            globalMaxPrefix[i] = max(globalMaxPrefix[i - 1], maxEndingAt[i]);
+        }
+
+        vector<long long> maxStartingAt(n);
+        vector<long long> globalMaxSuffix(n);
+
+        maxStartingAt[n - 1] = a[n - 1];
+        globalMaxSuffix[n - 1] = a[n - 1];
+        for (int i = n - 2; i >= 0; i--) {
+            maxStartingAt[i] = max((long long)a[i], maxStartingAt[i + 1] + a[i]);
+            globalMaxSuffix[i] = max(globalMaxSuffix[i + 1], maxStartingAt[i]);
+        }
+
+        long long ans = LLONG_MIN;
+
+        for (int i = 1; i < n - 1; i++) {
+            long long smoothedVal = (long long)floor((double)(a[i - 1] + a[i] + a[i + 1]) / 3.0);
+
+            long long leftPart = max(0LL, maxEndingAt[i - 1]);
+            long long rightPart = max(0LL, maxStartingAt[i + 1]);
+            long long crossSum = leftPart + smoothedVal + rightPart;
+
+            long long globalLeft = globalMaxPrefix[i - 1];
+            long long globalRight = globalMaxSuffix[i + 1];
+
+            long long currentBest = max({crossSum, globalLeft, globalRight});
+            ans = max(ans, currentBest);
+        }
+
+        return ans;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<long long> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+
+    Solution solution;
+    cout << solution.bestStreakWithSmoothing(a) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  bestStreakWithSmoothing(a) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const a = [];
+  for (let i = 0; i < n; i++) a.push(Number(tokens[ptr++]));
+
+  const solution = new Solution();
+  console.log(String(solution.bestStreakWithSmoothing(a)));
+});
+```
 

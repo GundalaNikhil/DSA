@@ -87,12 +87,242 @@ Suffix Automaton, Substring Queries, Counting
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    static class State {
+        int len, link;
+        Map<Character, Integer> next = new HashMap<>();
+        long cnt = 0;
+        boolean isClone = false;
+    }
+
+    State[] st;
+    int sz, last;
+
+    public long[] countOccurrences(String s, String[] queries) {
+        return null;
+    }
+    
+    void extend(char c) {
+        int cur = sz++;
+        st[cur].len = st[last].len + 1;
+        st[cur].cnt = 1; // Original state
+        st[cur].isClone = false;
+        
+        int p = last;
+        while (p != -1 && !st[p].next.containsKey(c)) {
+            st[p].next.put(c, cur);
+            p = st[p].link;
+        }
+        
+        if (p == -1) {
+            st[cur].link = 0;
+        } else {
+            int q = st[p].next.get(c);
+            if (st[p].len + 1 == st[q].len) {
+                st[cur].link = q;
+            } else {
+                int clone = sz++;
+                st[clone].len = st[p].len + 1;
+                st[clone].next = new HashMap<>(st[q].next);
+                st[clone].link = st[q].link;
+                st[clone].cnt = 0; // Clone starts with 0
+                st[clone].isClone = true;
+                
+                while (p != -1 && st[p].next.get(c) == q) {
+                    st[p].next.put(c, clone);
+                    p = st[p].link;
+                }
+                st[q].link = st[cur].link = clone;
+            }
+        }
+        last = cur;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        String s = sc.next();
+        int q = sc.nextInt();
+        String[] queries = new String[q];
+        for (int i = 0; i < q; i++) {
+            queries[i] = sc.next();
+        }
+
+        Solution solution = new Solution();
+        long[] ans = solution.countOccurrences(s, queries);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < ans.length; i++) {
+            sb.append(ans[i]);
+            if (i + 1 < ans.length) sb.append('\n');
+        }
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+sys.setrecursionlimit(200000)
+
+class State:
+    def __init__(self, length=0, link=-1):
+        return 0
+def count_occurrences(s: str, queries: list[str]) -> list[int]:
+    return []
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    s = input_data[0]
+    q = int(input_data[1])
+    queries = input_data[2:2 + q]
+    
+    ans = count_occurrences(s, queries)
+    sys.stdout.write("\n".join(str(x) for x in ans) + "\n")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <map>
+#include <algorithm>
+
+using namespace std;
+
+struct State {
+    int len, link;
+    map<char, int> next;
+    long long cnt = 0;
+};
+
+class Solution {
+    vector<State> st;
+    int sz, last;
+
+    void extend(char c) {
+    }
+
+public:
+    vector<long long> countOccurrences(const string& s, const vector<string>& queries) {
+        st.clear();
+        st.reserve(s.length() * 2 + 5);
+        st.emplace_back(); // Root
+        st[0].len = 0;
+        st[0].link = -1;
+        sz = 1;
+        last = 0;
+        
+        for (char c : s) extend(c);
+        
+        // Propagate counts
+        vector<int> nodes(sz);
+        for (int i = 0; i < sz; i++) nodes[i] = i;
+        sort(nodes.begin(), nodes.end(), [&](int a, int b) {
+            return st[a].len > st[b].len;
+        });
+        
+        for (int u : nodes) {
+            if (u == 0) continue;
+            if (st[u].link != -1) {
+                st[st[u].link].cnt += st[u].cnt;
+            }
+        }
+        
+        vector<long long> ans;
+        ans.reserve(queries.size());
+        for (const string& q : queries) {
+            int curr = 0;
+            bool ok = true;
+            for (char c : q) {
+                if (st[curr].next.find(c) == st[curr].next.end()) {
+                    ok = false;
+                    break;
+                }
+                curr = st[curr].next[c];
+            }
+            if (ok) ans.push_back(st[curr].cnt);
+            else ans.push_back(0);
+        }
+        return ans;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string s;
+    if (cin >> s) {
+        int q;
+        cin >> q;
+        vector<string> queries(q);
+        for (int i = 0; i < q; i++) {
+            cin >> queries[i];
+        }
+        
+        Solution solution;
+        vector<long long> ans = solution.countOccurrences(s, queries);
+        for (long long x : ans) cout << x << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class State {
+  constructor(len = 0, link = -1) {
+    this.len = len;
+    this.link = link;
+    this.next = new Map();
+    this.cnt = 0n;
+  }
+}
+
+class Solution {
+  countOccurrences(s, queries) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part) data.push(part);
+  }
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const s = data[0];
+  const q = parseInt(data[1], 10);
+  const queries = data.slice(2, 2 + q);
+  const solution = new Solution();
+  const ans = solution.countOccurrences(s, queries);
+  console.log(ans.join("\n"));
+});
+```
 

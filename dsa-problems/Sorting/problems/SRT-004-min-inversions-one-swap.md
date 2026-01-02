@@ -78,14 +78,219 @@ Inversion Count, Fenwick Tree, Optimization
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long minInversionsAfterSwap(int[] arr) {
+        return 0;
+    }
+
+    private long countInversions(int[] arr) {
+        int[] temp = new int[arr.length];
+        return mergeSort(arr, temp, 0, arr.length - 1);
+    }
+
+    private long mergeSort(int[] arr, int[] temp, int left, int right) {
+        if (left >= right) {
+            return 0;
+        }
+
+        int mid = left + (right - left) / 2;
+        long inv = mergeSort(arr, temp, left, mid);
+        inv += mergeSort(arr, temp, mid + 1, right);
+        inv += merge(arr, temp, left, mid, right);
+        return inv;
+    }
+
+    private long merge(int[] arr, int[] temp, int left, int mid, int right) {
+        int i = left;
+        int j = mid + 1;
+        int k = left;
+        long inv = 0;
+
+        while (i <= mid && j <= right) {
+            if (arr[i] <= arr[j]) {
+                temp[k++] = arr[i++];
+            } else {
+                temp[k++] = arr[j++];
+                inv += (mid - i + 1);
+            }
+        }
+
+        while (i <= mid) {
+            temp[k++] = arr[i++];
+        }
+
+        while (j <= right) {
+            temp[k++] = arr[j++];
+        }
+
+        for (i = left; i <= right; i++) {
+            arr[i] = temp[i];
+        }
+
+        return inv;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        System.out.println(solution.minInversionsAfterSwap(arr));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def min_inversions_after_swap(arr: list[int]) -> int:
+    return 0
+def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+    result = min_inversions_after_swap(arr)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <vector>
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minInversionsAfterSwap(const vector<int>& arr) {
+        int n = arr.size();
+        long long best = countInversions(arr);
+
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                vector<int> temp = arr;
+                swap(temp[i], temp[j]);
+                long long inv = countInversions(temp);
+                if (inv < best) {
+                    best = inv;
+                }
+            }
+        }
+
+        return best;
+    }
+
+private:
+    long long countInversions(vector<int> arr) {
+        if (arr.empty()) {
+            return 0;
+        }
+        vector<int> temp(arr.size());
+        return mergeSort(arr, temp, 0, (int)arr.size() - 1);
+    }
+
+    long long mergeSort(vector<int>& arr, vector<int>& temp, int left, int right) {
+        if (left >= right) {
+            return 0;
+        }
+        int mid = left + (right - left) / 2;
+        long long inv = mergeSort(arr, temp, left, mid);
+        inv += mergeSort(arr, temp, mid + 1, right);
+        inv += merge(arr, temp, left, mid, right);
+        return inv;
+    }
+
+    long long merge(vector<int>& arr, vector<int>& temp, int left, int mid, int right) {
+        int i = left;
+        int j = mid + 1;
+        int k = left;
+        long long inv = 0;
+
+        while (i <= mid && j <= right) {
+            if (arr[i] <= arr[j]) {
+                temp[k++] = arr[i++];
+            } else {
+                temp[k++] = arr[j++];
+                inv += (mid - i + 1);
+            }
+        }
+
+        while (i <= mid) {
+            temp[k++] = arr[i++];
+        }
+
+        while (j <= right) {
+            temp[k++] = arr[j++];
+        }
+
+        for (i = left; i <= right; i++) {
+            arr[i] = temp[i];
+        }
+
+        return inv;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    cout << solution.minInversionsAfterSwap(arr) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+class Solution {
+  minInversionsAfterSwap(arr) {
+    return 0;
+  }
+
+  countInversions(arr) {
+    return 0;
+  }
+}
+
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+console.log(solution.minInversionsAfterSwap(arr).toString());
+```
 

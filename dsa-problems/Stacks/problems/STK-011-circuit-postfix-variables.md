@@ -87,14 +87,222 @@ Postfix Evaluation, Stack, Parsing
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    long MOD = 1000000007;
+
+    public long evalPostfix(String[] tokens, Map<String, Integer> vars) {
+        return 0;
+    }
+    
+    boolean isNumber(String s) {
+        try {
+            Long.parseLong(s);
+            return true;
+        } catch(NumberFormatException e) {
+            return false;
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        
+        String line = br.readLine();
+        if (line == null) return;
+        int numVars = Integer.parseInt(line.trim());
+        
+        Map<String, Integer> vars = new HashMap<>();
+        for (int i = 0; i < numVars; i++) {
+            String[] parts = br.readLine().trim().split("\\s+");
+            vars.put(parts[0], Integer.parseInt(parts[1]));
+        }
+        
+        String expr = br.readLine();
+        if (expr == null) return;
+        String[] tokens = expr.trim().split("\\s+");
+        
+        Solution sol = new Solution();
+        System.out.println(sol.evalPostfix(tokens, vars));
+    }
+}
+```
 
 ### Python
 
+```python
+def eval_postfix(tokens: list[str], vars: dict[str, int]) -> int:
+    return 0
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if not lines:
+        return
+
+    num_vars = int(lines[0])
+    vars_dict = {}
+    for i in range(1, num_vars + 1):
+        parts = lines[i].split()
+        var_name = parts[0]
+        var_val = int(parts[1])
+        vars_dict[var_name] = var_val
+
+    expr = lines[num_vars + 1].strip()
+    tokens = expr.split()
+    result = eval_postfix(tokens, vars_dict)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <stack>
+#include <map>
+#include <sstream>
+
+using namespace std;
+
+class Solution {
+    long long MOD = 1000000007;
+    
+    bool isNumber(const string& s) {
+        return false;
+    }
+    
+    long long pythonMod(long long a, long long b) {
+        return ((a % b) + b) % b;
+    }
+    
+    long long pythonDiv(long long a, long long b) {
+        long long res = a / b;
+        if ((a < 0) != (b < 0) && (a % b != 0)) {
+            res--;
+        }
+        return res;
+    }
+
+public:
+    long long evalPostfix(vector<string>& tokens, map<string, int>& vars) {
+        stack<long long> st;
+        
+        for (const string& token : tokens) {
+            if (vars.count(token)) {
+                st.push(vars[token] % MOD);
+            } else if (isNumber(token)) {
+                st.push(stoll(token) % MOD);
+            } else if (token == "DUP") {
+                st.push(st.top());
+            } else if (token == "SWAP") {
+                long long a = st.top(); st.pop();
+                long long b = st.top(); st.pop();
+                st.push(a);
+                st.push(b);
+            } else {
+                long long b = st.top(); st.pop();
+                long long a = st.top(); st.pop();
+                long long res = 0;
+                
+                if (token == "+") {
+                    res = (a + b) % MOD;
+                } else if (token == "-") {
+                    res = (a - b + MOD) % MOD;
+                } else if (token == "*") {
+                    res = (a * b) % MOD;
+                } else if (token == "/") {
+                    res = pythonDiv(a, b);
+                } else if (token == "%") {
+                    res = pythonMod(a, b);
+                }
+                st.push(res);
+            }
+        }
+        return st.top();
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int numVars;
+    if (!(cin >> numVars)) return 0;
+    
+    map<string, int> vars;
+    for (int i = 0; i < numVars; i++) {
+        string name;
+        int val;
+        cin >> name >> val;
+        vars[name] = val;
+    }
+    
+    string line;
+    getline(cin >> ws, line); // Consume newline and read line
+    // Wait, cin >> ws consumes whitespace.
+    // If expr is on next line, this works.
+    
+    stringstream ss(line);
+    string token;
+    vector<string> tokens;
+    while (ss >> token) {
+        tokens.push_back(token);
+    }
+    
+    Solution sol;
+    cout << sol.evalPostfix(tokens, vars) << endl;
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+class Solution {
+  evalPostfix(tokens, vars) {
+    return 0;
+  }
+}
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+});
+
+rl.on("close", () => {
+  if (lines.length === 0) return;
+  
+  const numVars = parseInt(lines[0].trim(), 10);
+  const vars = new Map();
+  
+  for (let i = 1; i <= numVars; i++) {
+    const parts = lines[i].trim().split(/\s+/);
+    vars.set(parts[0], parseInt(parts[1], 10));
+  }
+  
+  const expr = lines[numVars + 1].trim();
+  const tokens = expr.split(/\s+/);
+  
+  const solution = new Solution();
+  console.log(solution.evalPostfix(tokens, vars));
+});
+```
 

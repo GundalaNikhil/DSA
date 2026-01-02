@@ -77,14 +77,128 @@ Backtracking, Combinatorics, Recursion
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    int count = 0;
+    int N;
+    boolean[] cols;
+    boolean[] diag1;
+    boolean[] diag2;
+
+    public int countNQueens(int n) {
+        return 0;
+    }
+
+    private void backtrack(int row) {
+        if (row == N) {
+            count++;
+            return;
+        }
+
+        for (int col = 0; col < N; col++) {
+            if (cols[col] || diag1[row + col] || diag2[row - col + N]) continue;
+
+            cols[col] = true;
+            diag1[row + col] = true;
+            diag2[row - col + N] = true;
+
+            backtrack(row + 1);
+
+            cols[col] = false;
+            diag1[row + col] = false;
+            diag2[row - col + N] = false;
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if(!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        
+        Solution sol = new Solution();
+        System.out.println(sol.countNQueens(n));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def count_nqueens(n: int) -> int:
+    return 0
+def main():
+    import sys
+    n = int(sys.stdin.read().strip())
+    result = count_nqueens(n)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+    int N;
+    int count;
+    vector<bool> cols;
+    vector<bool> diag1;
+    vector<bool> diag2;
+
+public:
+    int countNQueens(int n) {
+        return 0;
+    }
+
+    void backtrack(int row) {
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n; 
+    if (!(cin >> n)) return 0;
+    
+    Solution sol;
+    cout << sol.countNQueens(n) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const n = parseInt(tokens[ptr++]);
+    
+    const sol = new Solution();
+    console.log(sol.countNQueens(n));
+});
+
+class Solution {
+    countNQueens(n) {
+    return 0;
+  }
+}
+```
 

@@ -96,12 +96,165 @@ Connected Components, Graph Traversal, BFS, DFS, Union-Find, Disjoint Set Union
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int countComponents(int n, List<List<Integer>> adj) {
+        return 0;
+    }
+    
+    private void bfs(int start, List<List<Integer>> adj, boolean[] visited) {
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(start);
+        visited[start] = true;
+        
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            
+            for (int neighbor : adj.get(node)) {
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    queue.offer(neighbor);
+                }
+            }
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+        
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+        
+        Solution solution = new Solution();
+        System.out.println(solution.countComponents(n, adj));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+sys.setrecursionlimit(200000)
+from collections import deque
+from typing import List
+
+def count_components(n: int, adj: List[List[int]]) -> int:
+    return 0
+def main():
+    n = int(input())
+    m = int(input())
+    
+    adj = [[] for _ in range(n)]
+    
+    for _ in range(m):
+        u, v = map(int, input().split())
+        adj[u].append(v)
+        adj[v].append(u)
+    
+    result = count_components(n, adj)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+using namespace std;
+
+class Solution {
+private:
+    void bfs(int start, vector<vector<int>>& adj, vector<bool>& visited) {
+    }
+    
+public:
+    int countComponents(int n, vector<vector<int>>& adj) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m;
+    cin >> n >> m;
+    
+    vector<vector<int>> adj(n);
+    
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    
+    Solution solution;
+    cout << solution.countComponents(n, adj) << "\n";
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  countComponents(n, adj) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  let ptr = 0;
+  const n = parseInt(data[ptr++]);
+  const m = parseInt(data[ptr++]);
+  
+  const adj = Array.from({ length: n }, () => []);
+
+  for (let i = 0; i < m; i++) {
+    const [u, v] = data[ptr++].split(" ").map(Number);
+    adj[u].push(v);
+    adj[v].push(u);
+  }
+
+  // Sort neighbors for deterministic traversal
+  for (let i = 0; i < n; i++) {
+    adj[i].sort((a, b) => a - b);
+  }
+
+  const solution = new Solution();
+  console.log(solution.countComponents(n, adj));
+});
+```
 

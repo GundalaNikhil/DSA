@@ -82,18 +82,204 @@ Two nodes are at distance at least 3 if they are not adjacent AND do not share a
 
 ### Java
 
+```java
+import java.util.*;
+
+class Main {
+    static List<Integer>[] graph;
+    static long[] weight;
+    static long[][] dp;
+    static int n;
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+
+        weight = new long[n + 1];
+        for (int i = 1; i <= n; i++) {
+            weight[i] = sc.nextLong();
+        }
+
+        graph = new ArrayList[n + 1];
+        for (int i = 0; i <= n; i++) {
+            graph[i] = new ArrayList<>();
+        }
+
+        for (int i = 0; i < n - 1; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            graph[u].add(v);
+            graph[v].add(u);
+        }
+
+        dp = new long[n + 1][3];
+
+        dfs(1, -1);
+
+        long result = Math.max(dp[1][0], Math.max(dp[1][1], dp[1][2]));
+        System.out.println(result);
+
+        sc.close();
+    }
+
+    static void dfs(int u, int parent) {
+        dp[u][0] = 0;
+        dp[u][1] = 0;
+        dp[u][2] = weight[u];
+
+        long sumWithoutSelected = 0;
+        long maxGain = Long.MIN_VALUE;
+
+        for (int v : graph[u]) {
+            if (v == parent) continue;
+
+            dfs(v, u);
+
+            long bestNotSelected = Math.max(dp[v][0], dp[v][1]);
+            sumWithoutSelected += bestNotSelected;
+
+            long gain = dp[v][2] - bestNotSelected;
+            maxGain = Math.max(maxGain, gain);
+
+            dp[u][2] += dp[v][0];
+        }
+
+        dp[u][0] = sumWithoutSelected;
+
+        if (maxGain > Long.MIN_VALUE) {
+            dp[u][1] = sumWithoutSelected + maxGain;
+        }
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+sys.setrecursionlimit(300000)
+
+def solve():
+    return 0
+solve()
+
+def main():
+    import sys
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        return
+
+    # TODO: Parse input and call solution
+    pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <cstring>
+#include <climits>
+using namespace std;
+
+const int MAXN = 200005;
+vector<int> graph[MAXN];
+long long weight[MAXN];
+long long dp[MAXN][3];
+int n;
+
+void dfs(int u, int parent) {
+    dp[u][0] = 0;
+    dp[u][1] = 0;
+    dp[u][2] = weight[u];
+
+    long long sumWithoutSelected = 0;
+    long long maxGain = LLONG_MIN;
+
+    for (int v : graph[u]) {
+        if (v == parent) continue;
+
+        dfs(v, u);
+
+        long long bestNotSelected = max(dp[v][0], dp[v][1]);
+        sumWithoutSelected += bestNotSelected;
+
+        long long gain = dp[v][2] - bestNotSelected;
+        maxGain = max(maxGain, gain);
+
+        dp[u][2] += dp[v][0];
+    }
+
+    dp[u][0] = sumWithoutSelected;
+
+    if (maxGain > LLONG_MIN) {
+        dp[u][1] = sumWithoutSelected + maxGain;
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    cin >> n;
+
+    for (int i = 1; i <= n; i++) {
+        cin >> weight[i];
+    }
+
+    for (int i = 0; i < n - 1; i++) {
+        int u, v;
+        cin >> u >> v;
+        graph[u].push_back(v);
+        graph[v].push_back(u);
+    }
+
+    dfs(1, -1);
+
+    long long result = max({dp[1][0], dp[1][1], dp[1][2]});
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
 
-## Notes
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
-- dp[u][0] = u not selected, no child selected
-- dp[u][1] = u not selected, some child selected
-- dp[u][2] = u selected (all children must be in state 0)
+let lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  solve();
+});
+
+function solve() {
+    return 0;
+  }
+  function dfs(u, parent) {
+    return 0;
+  }
+
+  dfs(1, -1);
+
+  const result = Math.max(dp[1][0], dp[1][1], dp[1][2]);
+  console.log(result);
+}
+```
+

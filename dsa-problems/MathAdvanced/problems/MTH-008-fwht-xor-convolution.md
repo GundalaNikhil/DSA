@@ -87,12 +87,213 @@ fwht, xor-convolution, walsh-hadamard
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private long MOD = 1000000007;
+
+    private long power(long base, long exp) {
+        long res = 1;
+        base %= MOD;
+        while (exp > 0) {
+            if ((exp & 1) == 1) res = (res * base) % MOD;
+            base = (base * base) % MOD;
+            exp >>= 1;
+        }
+        return res;
+    }
+
+    private long modInverse(long n) {
+        return power(n, MOD - 2);
+    }
+
+    private void fwht(long[] a, boolean invert) {
+        int n = a.length;
+        for (int len = 1; len < n; len <<= 1) {
+            for (int i = 0; i < n; i += 2 * len) {
+                for (int j = 0; j < len; j++) {
+                    long u = a[i + j];
+                    long v = a[i + j + len];
+                    a[i + j] = (u + v) % MOD;
+                    a[i + j + len] = (u - v + MOD) % MOD;
+                }
+            }
+        }
+        
+        if (invert) {
+            long invN = modInverse(n);
+            for (int i = 0; i < n; i++) {
+                a[i] = (a[i] * invN) % MOD;
+            }
+        }
+    }
+
+    public long[] fwht_xor_convolution(int k, long[] A, long[] B) {
+        return null;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int k = sc.nextInt();
+        int n = 1 << k;
+        
+        long[] A = new long[n];
+        for (int i = 0; i < n; i++) A[i] = sc.nextLong();
+        
+        long[] B = new long[n];
+        for (int i = 0; i < n; i++) B[i] = sc.nextLong();
+        
+        Solution solution = new Solution();
+        long[] res = solution.fwht_xor_convolution(k, A, B);
+        
+        for (int i = 0; i < n; i++) {
+            System.out.print(res[i] + (i < n - 1 ? " " : ""));
+        }
+        System.out.println();
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def fwht_xor_convolution(self, k: int, A: list[int], B: list[int]) -> list[int]:
+        return []
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    iterator = iter(data)
+    try:
+        k = int(next(iterator))
+        n = 1 << k
+        A = [int(next(iterator)) for _ in range(n)]
+        B = [int(next(iterator)) for _ in range(n)]
+        
+        sol = Solution()
+        res = sol.fwht_xor_convolution(k, A, B)
+        print(*(res))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+    long long MOD = 1000000007;
+
+    long long power(long long base, long long exp) {
+        long long res = 1;
+        base %= MOD;
+        while (exp > 0) {
+            if (exp % 2 == 1) res = (res * base) % MOD;
+            base = (base * base) % MOD;
+            exp /= 2;
+        }
+        return res;
+    }
+
+    long long modInverse(long long n) {
+        return power(n, MOD - 2);
+    }
+
+    void fwht(vector<long long>& a, bool invert) {
+    }
+
+public:
+    vector<long long> fwht_xor_convolution(int k, vector<long long>& A, vector<long long>& B) {
+        fwht(A, false);
+        fwht(B, false);
+
+        int n = A.size();
+        vector<long long> C(n);
+        for (int i = 0; i < n; i++) {
+            C[i] = (A[i] * B[i]) % MOD;
+        }
+
+        fwht(C, true);
+        return C;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int k;
+    if (!(cin >> k)) return 0;
+    int n = 1 << k;
+
+    vector<long long> A(n);
+    for (int i = 0; i < n; i++) cin >> A[i];
+
+    vector<long long> B(n);
+    for (int i = 0; i < n; i++) cin >> B[i];
+
+    Solution solution;
+    vector<long long> result = solution.fwht_xor_convolution(k, A, B);
+
+    for (int i = 0; i < n; i++) {
+        cout << result[i] << (i < n - 1 ? " " : "");
+    }
+    cout << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  fwht_xor_convolution(k, A, B) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let ptr = 0;
+  
+  const k = parseInt(data[ptr++]);
+  const n = 1 << k;
+  
+  const A = [];
+  for(let i=0; i<n; i++) A.push(parseInt(data[ptr++]));
+  
+  const B = [];
+  for(let i=0; i<n; i++) B.push(parseInt(data[ptr++]));
+  
+  const solution = new Solution();
+  const result = solution.fwht_xor_convolution(k, A, B);
+  console.log(result.join(" "));
+});
+```
 

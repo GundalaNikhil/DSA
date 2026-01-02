@@ -82,12 +82,256 @@ Tree Diameter, Rerooting DP, Trees
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private List<List<Integer>> adj;
+    private int[] height, diam;
+    private int[] upHeight, upDiam;
+    private int maxDiam = 0;
+
+    public int maxDiameterAfterRemoval(int n, int[][] edges) {
+        return 0;
+    }
+
+    private void dfs1(int u, int p) {
+        int maxH1 = -1, maxH2 = -1;
+        int maxD = 0;
+
+        for (int v : adj.get(u)) {
+            if (v == p) continue;
+            dfs1(v, u);
+            maxD = Math.max(maxD, diam[v]);
+            if (height[v] > maxH1) {
+                maxH2 = maxH1;
+                maxH1 = height[v];
+            } else if (height[v] > maxH2) {
+                maxH2 = height[v];
+            }
+        }
+
+        height[u] = 1 + maxH1; // -1 if leaf -> 0
+        diam[u] = Math.max(maxD, (maxH1 + 1) + (maxH2 + 1));
+    }
+
+    private void dfs2(int u, int p) {
+        if (p != -1) {
+            // Edge Removal Maximize
+            maxDiam = Math.max(maxDiam, Math.max(diam[u], upDiam[u]));
+        }
+
+        int k = adj.get(u).size();
+        List<Integer> children = new ArrayList<>();
+        for (int v : adj.get(u)) {
+            if (v != p) children.add(v);
+        }
+
+        int m = children.size();
+        
+        // topHeights values initialized to -1 (invalid path)
+        int[] topHeights = {-1, -1, -1}; 
+        int[] topDiams = {0, 0}; // Diams are 0 min
+        
+        if (p != -1) {
+            update(topHeights, upHeight[u]);
+            update(topDiams, upDiam[u]);
+        }
+        
+        for (int v : children) {
+            update(topHeights, height[v] + 1);
+            update(topDiams, diam[v]);
+        }
+        
+        for (int v : children) {
+            // upHeight[v] = 1 + max(others height)
+            int h1 = getMaxExcluding(topHeights, height[v] + 1);
+            upHeight[v] = 1 + h1;
+            
+            // upDiam[v]
+            int d1 = getMaxExcluding(topDiams, diam[v]);
+            
+            int[] h2 = getTop2Excluding(topHeights, height[v] + 1);
+            int pathThroughU = h2[0] + h2[1]; 
+            // If h2 contains -1, path might be skewed. 
+            // -1 + -1 = -2. 1 + -1 = 0.
+            // Python: sum of top 2 lengths. One could be -1.
+            // Correct path logic: sum of valid lengths.
+            // Since -1 represents "no path", it effectively reduces the sum which is fine 
+            // provided comparison with d1 (>=0) handles it.
+            
+            upDiam[v] = Math.max(d1, pathThroughU);
+            
+            dfs2(v, u);
+        }
+    }
+    
+    private void update(int[] top, int val) {
+        for (int i = 0; i < top.length; i++) {
+            if (val > top[i]) {
+                for (int j = top.length - 1; j > i; j--) {
+                    top[j] = top[j-1];
+                }
+                top[i] = val;
+                break;
+            }
+        }
+    }
+    
+    private int getMaxExcluding(int[] top, int val) {
+        if (top[0] == val) return top[1];
+        return top[0];
+    }
+    
+    private int[] getTop2Excluding(int[] top, int val) {
+        int[] res = new int[2];
+        int idx = 0;
+        int count = 0;
+        for (int x : top) {
+            if (x == val && count == 0) { // Skip first occurrence
+                count++;
+                continue;
+            }
+            if (idx < 2) res[idx++] = x;
+        }
+        return res;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        if (n == 0) return; 
+
+        if (n == 1) {
+             System.out.println(0);
+             return;
+        }
+
+        int[][] edges = new int[n - 1][2];
+        for (int i = 0; i < n - 1; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.maxDiameterAfterRemoval(n, edges));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+# Increase recursion depth
+sys.setrecursionlimit(300000)
+
+def max_diameter_after_removal(n: int, edges: list[tuple[int, int]]) -> int:
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        edges = []
+        for _ in range(n - 1):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            edges.append((u, v))
+            
+        print(max_diameter_after_removal(n, edges))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+    vector<vector<int>> adj;
+    vector<int> height, diam;
+    vector<int> upHeight, upDiam;
+    int maxDiam = 0;
+
+    void dfs1(int u, int p) {
+    }
+
+    void dfs2(int u, int p) {
+    }
+
+public:
+    int maxDiameterAfterRemoval(int n, const vector<pair<int, int>>& edges) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<pair<int, int>> edges(n - 1);
+    for (int i = 0; i < n - 1; i++) {
+        cin >> edges[i].first >> edges[i].second;
+    }
+
+    Solution solution;
+    cout << solution.maxDiameterAfterRemoval(n, edges) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  maxDiameterAfterRemoval(n, edges) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => { const parts = line.trim().split(/\s+/); for (const p of parts) if (p) data.push(p); });
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const edges = [];
+  for (let i = 0; i < n - 1; i++) {
+    const u = parseInt(data[idx++], 10);
+    const v = parseInt(data[idx++], 10);
+    edges.push([u, v]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.maxDiameterAfterRemoval(n, edges).toString());
+});
+```
 

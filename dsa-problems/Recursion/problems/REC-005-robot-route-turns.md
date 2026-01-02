@@ -82,14 +82,172 @@ Backtracking, Grid Search, Pruning
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    int R, C, T;
+    Long[][][][] memo;
+
+    public long countPaths(int r, int c, int t) {
+        return 0;
+    }
+
+    private long dfs(int r, int c, int lastDir, int turns) {
+        if (r == R - 1 && c == C - 1) return 1;
+        if (turns > T) return 0;
+        
+        if (memo[r][c][lastDir][turns] != null) return memo[r][c][lastDir][turns];
+
+        long count = 0;
+
+        // Dir 0: Right (c+1)
+        if (c + 1 < C) {
+            int newTurns = turns;
+            if (lastDir != 2 && lastDir != 0) newTurns++;
+            count += dfs(r, c + 1, 0, newTurns);
+        }
+
+        // Dir 1: Down (r+1)
+        if (r + 1 < R) {
+            int newTurns = turns;
+            if (lastDir != 2 && lastDir != 1) newTurns++;
+            count += dfs(r + 1, c, 1, newTurns);
+        }
+
+        return memo[r][c][lastDir][turns] = count;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int r = sc.nextInt();
+        int c = sc.nextInt();
+        int T = sc.nextInt();
+        
+        Solution sol = new Solution();
+        System.out.println(sol.countPaths(r, c, T));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def count_paths(r: int, c: int, T: int) -> int:
+    return 0
+def main():
+    import sys
+    first_line = sys.stdin.read().strip().split()
+    r = int(first_line[0])
+    c = int(first_line[1])
+    T = int(first_line[2])
+    result = count_paths(r, c, T)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <cstring>
+
+using namespace std;
+
+class Solution {
+    int R, C, T;
+    long long memo[55][55][4][20]; // r, c, dir, turns. T <= 15 per problem constraints usually? 
+    // Python constraints? 
+    // If T is large, maybe map? But T usually small for turn limits.
+    // Python code handles T dynamically? 
+    // Let's use a map or bigger array?
+    // r, c usually small?
+    // Let's assume R,C <= 50, T <= 50.
+
+public:
+    long long countPaths(int r, int c, int t) {
+        R = r; C = c; T = t;
+        memset(memo, -1, sizeof(memo));
+        // Start: 0,0, no last dir (-1), 0 turns
+        // lastDir: 0=Right, 1=Down. -1=None.
+        // Array index for -1 -> use 2 or something?
+        // Map: 0->0, 1->1, -1->2.
+        return dfs(0, 0, 2, 0);
+    }
+
+    long long dfs(int r, int c, int lastDir, int turns) {
+        if (r == R - 1 && c == C - 1) return 1;
+        if (turns > T) return 0;
+        
+        if (memo[r][c][lastDir][turns] != -1) return memo[r][c][lastDir][turns];
+
+        long long count = 0;
+
+        // Dir 0: Right (c+1)
+        if (c + 1 < C) {
+            int newTurns = turns;
+            if (lastDir != 2 && lastDir != 0) newTurns++; // Turn if changing from Down(1) to Right(0)
+            count += dfs(r, c + 1, 0, newTurns);
+        }
+
+        // Dir 1: Down (r+1)
+        if (r + 1 < R) {
+            int newTurns = turns;
+            if (lastDir != 2 && lastDir != 1) newTurns++; // Turn if changing from Right(0) to Down(1)
+            count += dfs(r + 1, c, 1, newTurns);
+        }
+
+        return memo[r][c][lastDir][turns] = count;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int r, c, T;
+    if (!(cin >> r >> c >> T)) return 0;
+    
+    Solution sol;
+    cout << sol.countPaths(r, c, T) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const r = parseInt(tokens[ptr++]);
+    const c = parseInt(tokens[ptr++]);
+    const T = parseInt(tokens[ptr++]);
+    
+    const sol = new Solution();
+    console.log(sol.countPaths(r, c, T).toString());
+});
+
+class Solution {
+    countPaths(r, c, T) {
+    return 0;
+  }
+
+    dfs(r, c, lastDir, turns) {
+    return 0;
+  }
+}
+```
 

@@ -78,16 +78,128 @@ Arrays, Prefix Sum, Math
 
 ### Java
 
+```java
+import java.util.*;
 
+class Solution {
+    public int[] prefixAverages(int[] arr) {
+        return null;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        int[] result = solution.prefixAverages(arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            sb.append(result[i]).append(i == n - 1 ? "" : " ");
+        }
+        System.out.println(sb);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
 
+def prefix_averages(arr: list[int]) -> list[int]:
+    return []
+def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+
+    result = prefix_averages(arr)
+    print(" ".join(map(str, result)))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
 
+class Solution {
+public:
+    vector<int> prefixAverages(vector<int>& arr) {
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    Solution solution;
+    vector<int> result = solution.prefixAverages(arr);
+    
+    for (int i = 0; i < n; i++) {
+        cout << result[i] << (i == n - 1 ? "" : " ");
+    }
+    cout << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  prefixAverages(arr) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  // Flatten data in case multiple lines
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+  
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const arr = [];
+  for (let i = 0; i < n; i++) {
+    arr.push(Number(tokens[ptr++]));
+  }
+
+  const solution = new Solution();
+  const result = solution.prefixAverages(arr);
+  console.log(result.join(" "));
+});
+```
 

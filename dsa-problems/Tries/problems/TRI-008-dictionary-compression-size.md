@@ -130,12 +130,189 @@ Trie, String, Data Structures, Memory Optimization
 
 ### Java
 
+```java
+import java.util.*;
+
+class TrieNode {
+    Map<Character, TrieNode> children = new HashMap<>();
+    boolean isEnd = false;
+}
+
+class Solution {
+    private TrieNode root = new TrieNode();
+    private int nodeCount = 1; // Start with root
+
+    public int countTrieNodes(String[] words) {
+        return 0;
+    }
+
+    private void insert(String word) {
+        TrieNode node = root;
+        for (char c : word.toCharArray()) {
+            if (!node.children.containsKey(c)) {
+                node.children.put(c, new TrieNode());
+                nodeCount++;
+            }
+            node = node.children.get(c);
+        }
+        node.isEnd = true;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+
+        String[] words = new String[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNext()) {
+                words[i] = sc.next();
+            } else {
+                words[i] = "";
+            }
+        }
+
+        Solution solution = new Solution();
+        int result = solution.countTrieNodes(words);
+
+        System.out.println(result);
+
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+class TrieNode:
+    def __init__(self):
+        return 0
+class Solution:
+    def __init__(self):
+        return 0
+    def count_trie_nodes(self, words: List[str]) -> int:
+        return 0
+    def _insert(self, word: str):
+        return 0
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+
+    n = int(lines[0])
+    words = [lines[i+1].strip() for i in range(n)]
+
+    solution = Solution()
+    result = solution.count_trie_nodes(words)
+
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <string>
+using namespace std;
+
+struct TrieNode {
+    unordered_map<char, TrieNode*> children;
+    bool isEnd = false;
+};
+
+class Solution {
+private:
+    TrieNode* root;
+    int nodeCount;
+
+    void insert(const string& word) {
+    }
+
+public:
+    Solution() {
+        root = new TrieNode();
+        nodeCount = 1; // Start with root
+    }
+
+    int countTrieNodes(vector<string>& words) {
+        return 0;
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+    cin.ignore();
+
+    vector<string> words(n);
+    for (int i = 0; i < n; i++) {
+        getline(cin, words[i]);
+    }
+
+    Solution solution;
+    int result = solution.countTrieNodes(words);
+
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class TrieNode {
+  constructor() {
+    this.children = new Map();
+    this.isEnd = false;
+  }
+}
+
+class Solution {
+  constructor() {
+    this.root = new TrieNode();
+    this.nodeCount = 1; // Start with root
+  }
+
+  insert(word) {
+    return 0;
+  }
+
+  countTrieNodes(words) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const n = parseInt(lines[0]);
+  const words = [];
+  for (let i = 1; i <= n; i++) {
+    words.push(lines[i].trim());
+  }
+
+  const solution = new Solution();
+  const result = solution.countTrieNodes(words);
+
+  console.log(result);
+});
+```
 

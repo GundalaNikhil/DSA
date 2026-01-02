@@ -87,12 +87,107 @@ Counting Bloom Filters, Poisson Approximation
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public double overflowProbability(int m, int k, int c, int n) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int m = sc.nextInt();
+            int k = sc.nextInt();
+            int c = sc.nextInt();
+            int n = sc.nextInt();
+
+            Solution solution = new Solution();
+            System.out.println(String.format("%.15f", solution.overflowProbability(m, k, c, n)));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import math
+import sys
+
+def overflow_probability(m: int, k: int, c: int, n: int) -> float:
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    m = int(data[0])
+    k = int(data[1])
+    c = int(data[2])
+    n = int(data[3])
+    print(f"{overflow_probability(m, k, c, n):.15f}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+
+class Solution {
+public:
+    double overflowProbability(int m, int k, int c, int n) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int m, k, c, n;
+    if (cin >> m >> k >> c >> n) {
+        Solution solution;
+        cout << fixed << setprecision(15) << solution.overflowProbability(m, k, c, n) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function overflowProbability(m, k, c, n) {
+    return 0;
+  }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const m = parseInt(data[0], 10);
+  const k = parseInt(data[1], 10);
+  const c = parseInt(data[2], 10);
+  const n = parseInt(data[3], 10);
+  console.log(overflowProbability(m, k, c, n).toFixed(15));
+});
+```
 

@@ -93,12 +93,192 @@ Heaps, Greedy Scheduling, Resource Management
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    static class Task {
+        int d, g;
+        public Task(int d, int g) {
+            this.d = d;
+            this.g = g;
+        }
+    }
+    
+    public int maxTasks(int E, int[] duration, int[] gain) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int E = sc.nextInt();
+            int[] duration = new int[n];
+            int[] gain = new int[n];
+            for (int i = 0; i < n; i++) {
+                duration[i] = sc.nextInt();
+                gain[i] = sc.nextInt();
+            }
+            
+            Solution solution = new Solution();
+            System.out.println(solution.maxTasks(E, duration, gain));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import heapq
+
+class Solution:
+    def max_tasks(self, E: int, duration: list, gain: list) -> int:
+        return 0
+def max_tasks(E: int, duration: list, gain: list) -> int:
+    return 0
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    try:
+        n = int(next(it))
+        E = int(next(it))
+        duration = []
+        gain = []
+        for _ in range(n):
+            duration.append(int(next(it)))
+            gain.append(int(next(it)))
+            
+        print(max_tasks(E, duration, gain))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <queue>
+
+using namespace std;
+
+struct Task {
+    int d, g;
+};
+
+class Solution {
+public:
+    int maxTasks(long long E, const vector<int>& duration, const vector<int>& gain) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    long long E;
+    if (cin >> n >> E) {
+        vector<int> duration(n), gain(n);
+        for (int i = 0; i < n; i++) cin >> duration[i] >> gain[i];
+        
+        Solution solution;
+        cout << solution.maxTasks(E, duration, gain) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class PriorityQueue {
+  constructor(compare = (a, b) => a - b) {
+    this.heap = [];
+    this.compare = compare;
+  }
+  size() { return this.heap.length; }
+  isEmpty() { return this.heap.length === 0; }
+  peek() { return this.heap[0]; }
+  push(val) {
+    this.heap.push(val);
+    this.bubbleUp(this.heap.length - 1);
+  }
+  pop() {
+    if (this.size() === 0) return null;
+    const top = this.heap[0];
+    const bottom = this.heap.pop();
+    if (this.size() > 0) {
+      this.heap[0] = bottom;
+      this.bubbleDown(0);
+    }
+    return top;
+  }
+  bubbleUp(idx) {
+    while (idx > 0) {
+      const pIdx = Math.floor((idx - 1) / 2);
+      if (this.compare(this.heap[idx], this.heap[pIdx]) < 0) {
+        [this.heap[idx], this.heap[pIdx]] = [this.heap[pIdx], this.heap[idx]];
+        idx = pIdx;
+      } else break;
+    }
+  }
+  bubbleDown(idx) {
+    while (true) {
+      const left = 2 * idx + 1;
+      const right = 2 * idx + 2;
+      let swap = null;
+      if (left < this.size() && this.compare(this.heap[left], this.heap[idx]) < 0) swap = left;
+      if (right < this.size() && this.compare(this.heap[right], swap === null ? this.heap[idx] : this.heap[swap]) < 0) swap = right;
+      if (swap === null) break;
+      [this.heap[idx], this.heap[swap]] = [this.heap[swap], this.heap[idx]];
+      idx = swap;
+    }
+  }
+}
+
+class Solution {
+  maxTasks(E, duration, gain) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++]);
+  const E = parseInt(data[idx++]);
+  const duration = [];
+  const gain = [];
+  for (let i = 0; i < n; i++) {
+    duration.push(parseInt(data[idx++]));
+    gain.push(parseInt(data[idx++]));
+  }
+  
+  const solution = new Solution();
+  console.log(solution.maxTasks(E, duration, gain));
+});
+```
 

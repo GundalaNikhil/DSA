@@ -104,12 +104,185 @@ Rolling Hash, String Matching, Substring Comparison, Double Hashing
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private static final long MOD1 = 1000000007L;
+    private static final long BASE1 = 313L;
+    private static final long MOD2 = 1000000009L;
+    private static final long BASE2 = 317L;
+
+    public boolean[] checkSubstringEquality(String s, int[][] queries) {
+        return false;
+    }
+    
+    private long getHash(long[] h, long[] p, int l, int r, long mod) {
+        // h is 1-based prefix hash array
+        // substring s[l..r] corresponds to h[r+1] and h[l]
+        // Formula: (h[r+1] - h[l] * p[len]) % mod
+        int len = r - l + 1;
+        long val = (h[r + 1] - (h[l] * p[len]) % mod + mod) % mod;
+        return val;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLine()) {
+            String s = sc.nextLine();
+            if (sc.hasNextInt()) {
+                int q = sc.nextInt();
+                int[][] queries = new int[q][4];
+                for (int i = 0; i < q; i++) {
+                    queries[i][0] = sc.nextInt();
+                    queries[i][1] = sc.nextInt();
+                    queries[i][2] = sc.nextInt();
+                    queries[i][3] = sc.nextInt();
+                }
+                
+                Solution solution = new Solution();
+                boolean[] result = solution.checkSubstringEquality(s, queries);
+                
+                for (boolean ans : result) {
+                    System.out.println(ans);
+                }
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+# Increase recursion depth just in case
+sys.setrecursionlimit(2000)
+
+class Solution:
+    def check_substring_equality(self, s: str, queries: list) -> list:
+        return []
+def check_substring_equality(s: str, queries: list) -> list:
+    return []
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+        
+    iterator = iter(input_data)
+    try:
+        s = next(iterator)
+        q = int(next(iterator))
+        queries = []
+        for _ in range(q):
+            l1 = int(next(iterator))
+            r1 = int(next(iterator))
+            l2 = int(next(iterator))
+            r2 = int(next(iterator))
+            queries.append([l1, r1, l2, r2])
+            
+        result = check_substring_equality(s, queries)
+        for ans in result:
+            print("true" if ans else "false")
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+    const long long MOD1 = 1e9 + 7;
+    const long long BASE1 = 313;
+    const long long MOD2 = 1e9 + 9;
+    const long long BASE2 = 317;
+
+public:
+    vector<bool> checkSubstringEquality(string s, vector<vector<int>>& queries) {
+        return false;
+    }
+    
+    long long getHash(const vector<long long>& h, const vector<long long>& p, int l, int r, long long mod) {
+        int len = r - l + 1;
+        long long val = (h[r + 1] - (h[l] * p[len]) % mod + mod) % mod;
+        return val;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    string s;
+    if (!(cin >> s)) return 0;
+    
+    int q;
+    if (!(cin >> q)) return 0;
+    
+    vector<vector<int>> queries(q, vector<int>(4));
+    for (int i = 0; i < q; i++) {
+        cin >> queries[i][0] >> queries[i][1] >> queries[i][2] >> queries[i][3];
+    }
+    
+    Solution solution;
+    vector<bool> result = solution.checkSubstringEquality(s, queries);
+    
+    for (bool ans : result) {
+        cout << (ans ? "true" : "false") << "\n";
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  checkSubstringEquality(s, queries) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const s = data[ptr++];
+  const q = parseInt(data[ptr++]);
+  
+  const queries = [];
+  for (let i = 0; i < q; i++) {
+    const parts = data[ptr++].split(" ").map(Number);
+    queries.push(parts);
+  }
+  
+  const solution = new Solution();
+  const result = solution.checkSubstringEquality(s, queries);
+  
+  result.forEach((ans) => console.log(ans ? "true" : "false"));
+});
+```
 

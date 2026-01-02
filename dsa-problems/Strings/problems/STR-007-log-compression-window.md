@@ -85,3 +85,105 @@ abc
 - Single-pass algorithm with O(n) time
 - Track consecutive character counts
 - StringBuilder for efficient string building
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public String compressWithWindow(String s, int w) {
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        int w = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.compressWithWindow(s, w));
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+def compress_with_window(s: str, w: int) -> str:
+    return ""
+def main():
+    import sys
+
+    # Read input
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        return
+        
+    parts = input_data.split()
+    if len(parts) >= 2:
+        s = parts[0]
+        try:
+            w = int(parts[1])
+            print(compress_with_window(s, w))
+        except ValueError:
+            pass
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
+
+```cpp
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <iostream>
+class Solution {
+public:
+    string compressWithWindow(string s, int w) {
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s; cin >> s;
+    int w; cin >> w;
+    Solution sol;
+    cout << sol.compressWithWindow(s, w) << endl;
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+function compressWithWindow(s, w) {
+    return 0;
+  }
+
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const s = tokens[ptr++];
+    const w = parseInt(tokens[ptr++]);
+    console.log(compressWithWindow(s, w));
+});
+```
+

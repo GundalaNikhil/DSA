@@ -84,12 +84,148 @@ Geometry, Collinearity, Sliding Window
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private long gcd(long a, long b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+
+    public int maxPointsOnSegment(int[][] points, int L) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int L = sc.nextInt();
+            int[][] points = new int[n][2];
+            for (int i = 0; i < n; i++) {
+                points[i][0] = sc.nextInt();
+                points[i][1] = sc.nextInt();
+            }
+
+            Solution solution = new Solution();
+            System.out.println(solution.maxPointsOnSegment(points, L));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from math import gcd, sqrt
+
+def max_points_on_segment(points, L):
+    return 0
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    try:
+        n = int(next(it))
+        L = int(next(it))
+        points = []
+        for _ in range(n):
+            x = int(next(it))
+            y = int(next(it))
+            points.append((x, y))
+            
+        print(max_points_on_segment(points, L))
+    except (StopIteration, ValueError):
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <algorithm>
+#include <map>
+#include <numeric>
+
+using namespace std;
+
+class Solution {
+    long long gcd(long long a, long long b) {
+        return b == 0 ? a : gcd(b, a % b);
+    }
+
+public:
+    int maxPointsOnSegment(const vector<vector<int>>& points, int L) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, L;
+    if (cin >> n >> L) {
+        vector<vector<int>> points(n, vector<int>(2));
+        for (int i = 0; i < n; i++) {
+            cin >> points[i][0] >> points[i][1];
+        }
+
+        Solution solution;
+        cout << solution.maxPointsOnSegment(points, L) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function gcd(a, b) {
+    return 0;
+  }
+
+function maxPointsOnSegment(points, L) {
+    return 0;
+  }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (let i = 0; i < parts.length; i++) {
+    if (parts[i].length > 0) data.push(parts[i]);
+  }
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const L = parseInt(data[idx++], 10);
+  const points = [];
+  for (let i = 0; i < n; i++) {
+    const x = parseInt(data[idx++], 10);
+    const y = parseInt(data[idx++], 10);
+    points.push([x, y]);
+  }
+  console.log(maxPointsOnSegment(points, L));
+});
+```
 

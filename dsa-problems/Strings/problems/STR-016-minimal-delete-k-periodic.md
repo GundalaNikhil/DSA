@@ -87,3 +87,106 @@ aabbcc
 - Group positions by i mod k
 - Keep most frequent char at each position class
 - O(n) greedy algorithm
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public int minimalDeleteKPeriodic(String s, int k) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        int k = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.minimalDeleteKPeriodic(s, k));
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+def minimal_delete_k_periodic(s: str, k: int) -> int:
+    return 0
+def main():
+    import sys
+
+    # Read input
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        print(0)
+        return
+        
+    parts = input_data.split()
+    if len(parts) >= 2:
+        s = parts[0]
+        try:
+            k = int(parts[1])
+            print(minimal_delete_k_periodic(s, k))
+        except ValueError:
+            pass
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
+
+```cpp
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <iostream>
+class Solution {
+public:
+    int minimalDeleteKPeriodic(string s, int k) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s; cin >> s;
+    int k; cin >> k;
+    Solution sol;
+    cout << sol.minimalDeleteKPeriodic(s, k) << endl;
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+function minimalDeleteKPeriodic(s, k) {
+    return 0;
+  }
+
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const s = tokens[ptr++];
+    const k = parseInt(tokens[ptr++]);
+    console.log(minimalDeleteKPeriodic(s, k));
+});
+```
+

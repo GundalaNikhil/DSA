@@ -108,11 +108,231 @@ Bridges, Tarjan's Algorithm, DFS, Cut Edges, Graph Connectivity
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private int time = 0;
+    private List<int[]> bridges;
+
+    public List<int[]> findBridges(int n, List<List<Integer>> adj) {
+        return null;
+    }
+
+    private void dfs(int u, List<List<Integer>> adj, int[] disc, int[] low, int[] parent) {
+        disc[u] = low[u] = time++;
+
+        // Sort neighbors for deterministic traversal
+        List<Integer> neighbors = new ArrayList<>(adj.get(u));
+        Collections.sort(neighbors);
+
+        for (int v : neighbors) {
+            if (disc[v] == -1) {
+                parent[v] = u;
+                dfs(v, adj, disc, low, parent);
+
+                low[u] = Math.min(low[u], low[v]);
+
+                if (low[v] > disc[u]) {
+                    bridges.add(new int[]{u, v});
+                }
+            } else if (v != parent[u]) {
+                low[u] = Math.min(low[u], disc[v]);
+            }
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+
+        Solution solution = new Solution();
+        List<int[]> bridges = solution.findBridges(n, adj);
+
+        // Sort bridges for deterministic output
+        bridges.sort((a, b) -> {
+            if (a[0] != b[0]) return Integer.compare(a[0], b[0]);
+            return Integer.compare(a[1], b[1]);
+        });
+
+        System.out.println(bridges.size());
+        for (int[] bridge : bridges) {
+            System.out.println(bridge[0] + " " + bridge[1]);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+sys.setrecursionlimit(200000)
+from typing import List
+
+def find_bridges(n: int, adj: List[List[int]]) -> List[tuple]:
+    return []
+def main():
+    n = int(input())
+    m = int(input())
+    
+    adj = [[] for _ in range(n)]
+    
+    for _ in range(m):
+        u, v = map(int, input().split())
+        adj[u].append(v)
+        adj[v].append(u)
+    
+    bridges = find_bridges(n, adj)
+    bridges.sort()
+    
+    print(len(bridges))
+    for u, v in bridges:
+        print(f"{u} {v}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+private:
+    int timer = 0;
+    vector<pair<int,int>> bridges;
+
+    void dfs(int u, vector<vector<int>>& adj, vector<int>& disc,
+             vector<int>& low, vector<int>& parent) {
+        disc[u] = low[u] = timer++;
+
+        for (int v : adj[u]) {
+            if (disc[v] == -1) {
+                parent[v] = u;
+                dfs(v, adj, disc, low, parent);
+
+                low[u] = min(low[u], low[v]);
+
+                if (low[v] > disc[u]) {
+                    bridges.push_back({u, v});
+                }
+            } else if (v != parent[u]) {
+                low[u] = min(low[u], disc[v]);
+            }
+        }
+    }
+
+public:
+    vector<pair<int,int>> findBridges(int n, vector<vector<int>>& adj) {
+        vector<int> disc(n, -1);
+        vector<int> low(n, -1);
+        vector<int> parent(n, -1);
+
+        for (int i = 0; i < n; i++) {
+            if (disc[i] == -1) {
+                dfs(i, adj, disc, low, parent);
+            }
+        }
+
+        return bridges;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    cin >> n >> m;
+
+    vector<vector<int>> adj(n);
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    Solution solution;
+    vector<pair<int,int>> bridges = solution.findBridges(n, adj);
+    sort(bridges.begin(), bridges.end());
+
+    cout << bridges.size() << endl;
+    for (auto [u, v] : bridges) {
+        cout << u << " " << v << endl;
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  findBridges(n, adj) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  const tokens = data.join(" ").split(/\s+/);
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const m = Number(tokens[ptr++]);
+
+  const adj = Array.from({ length: n }, () => []);
+
+  for (let i = 0; i < m; i++) {
+    const u = Number(tokens[ptr++]);
+    const v = Number(tokens[ptr++]);
+    adj[u].push(v);
+    adj[v].push(u);
+  }
+
+  // Sort neighbors for deterministic traversal
+  for (let i = 0; i < n; i++) {
+    adj[i].sort((a, b) => a - b);
+  }
+
+  const solution = new Solution();
+  const bridges = solution.findBridges(n, adj);
+  bridges.sort((a, b) => a[0] !== b[0] ? a[0] - b[0] : a[1] - b[1]);
+
+  console.log(bridges.length);
+  for (const [u, v] of bridges) {
+    console.log(`${u} ${v}`);
+  }
+});
+```
+

@@ -101,12 +101,211 @@ Tree DP, DFS, Aggregation, Bottom-Up DP
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private List<Integer>[] tree;
+    private int[] values;
+    private int[] subtreeSize;
+    private long[] subtreeSum;
+
+    public void computeSubtreeMetrics(int n, int[] nodeValues, int[][] edges) {
+    }
+
+    private void dfs(int node, int parent) {
+        subtreeSize[node] = 1;
+        subtreeSum[node] = values[node];
+
+        for (int child : tree[node]) {
+            if (child == parent) continue;
+
+            dfs(child, node);
+            subtreeSize[node] += subtreeSize[child];
+            subtreeSum[node] += subtreeSum[child];
+        }
+    }
+
+    public int[] getSubtreeSizes() {
+        return null;
+    }
+
+    public long[] getSubtreeSums() {
+        return null;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        int[] values = new int[n];
+        for (int i = 0; i < n; i++) {
+            values[i] = sc.nextInt();
+        }
+
+        int[][] edges = new int[n - 1][2];
+        for (int i = 0; i < n - 1; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        solution.computeSubtreeMetrics(n, values, edges);
+
+        long[] sums = solution.getSubtreeSums();
+        for (int i = 1; i <= n; i++) {
+            System.out.println(sums[i]);
+        }
+
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+import sys
+sys.setrecursionlimit(300000)
+
+class Solution:
+    def __init__(self):
+        return 0
+    def compute_subtree_metrics(self, n: int, node_values: List[int], edges: List[List[int]]) -> None:
+        pass
+    def dfs(self, node: int, parent: int) -> None:
+        pass
+    def get_subtree_sums(self) -> List[int]:
+        return []
+def main():
+    lines = sys.stdin.read().strip().split('\n')
+    n = int(lines[0])
+    values = list(map(int, lines[1].split()))
+
+    edges = []
+    for i in range(2, n + 1):
+        u, v = map(int, lines[i].split())
+        edges.append([u, v])
+
+    solution = Solution()
+    solution.compute_subtree_metrics(n, values, edges)
+
+    sums = solution.get_subtree_sums()
+    for s in sums:
+        print(s)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+private:
+    vector<vector<int>> tree;
+    vector<long long> values;
+    vector<int> subtreeSize;
+    vector<long long> subtreeSum;
+
+    void dfs(int node, int parent) {
+    }
+
+public:
+    void computeSubtreeMetrics(int n, vector<long long>& nodeValues, vector<pair<int, int>>& edges) {
+    }
+
+    vector<long long> getSubtreeSums() {
+        return vector<long long>(subtreeSum.begin() + 1, subtreeSum.end());
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+
+    vector<long long> values(n);
+    for (int i = 0; i < n; i++) {
+        cin >> values[i];
+    }
+
+    vector<pair<int, int>> edges;
+    for (int i = 0; i < n - 1; i++) {
+        int u, v;
+        cin >> u >> v;
+        edges.push_back({u, v});
+    }
+
+    Solution solution;
+    solution.computeSubtreeMetrics(n, values, edges);
+
+    vector<long long> sums = solution.getSubtreeSums();
+    for (long long s : sums) {
+        cout << s << endl;
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  constructor() {
+    this.tree = [];
+    this.values = [];
+    this.subtreeSize = [];
+    this.subtreeSum = [];
+  }
+
+  computeSubtreeMetrics(n, nodeValues, edges) {
+    return 0;
+  }
+
+  dfs(node, parent) {
+    return 0;
+  }
+
+  getSubtreeSums() {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+});
+
+rl.on("close", () => {
+  const n = parseInt(lines[0]);
+  const values = lines[1].split(" ").map(Number);
+
+  const edges = [];
+  for (let i = 2; i < n + 1; i++) {
+    const [u, v] = lines[i].split(" ").map(Number);
+    edges.push([u, v]);
+  }
+
+  const solution = new Solution();
+  solution.computeSubtreeMetrics(n, values, edges);
+
+  const sums = solution.getSubtreeSums();
+  sums.forEach((s) => console.log(s));
+});
+```
 

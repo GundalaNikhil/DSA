@@ -87,14 +87,332 @@ DSU Rollback, Offline Queries, Segment Tree
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    static class Edge {
+        int u, v;
+        Edge(int u, int v) {
+            this.u = u;
+            this.v = v;
+        }
+        
+        @Override
+        public boolean equals(Object o) {
+        return false;
+    }
+        
+        @Override
+        public int hashCode() {
+        return 0;
+    }
+    }
+
+    static class DSU {
+        int[] parent;
+        int[] rank;
+        Stack<int[]> history;
+
+        DSU(int n) {
+            parent = new int[n + 1];
+            rank = new int[n + 1];
+            history = new Stack<>();
+            for (int i = 1; i <= n; i++) {
+                parent[i] = i;
+                rank[i] = 1;
+            }
+        }
+
+        int find(int i) {
+            if (parent[i] == i) return i;
+            return find(parent[i]); // No path compression for rollback
+        }
+
+        void union(int i, int j) {
+            int rootI = find(i);
+            int rootJ = find(j);
+            if (rootI != rootJ) {
+                if (rank[rootI] < rank[rootJ]) {
+                    int temp = rootI;
+                    rootI = rootJ;
+                    rootJ = temp;
+                }
+                parent[rootJ] = rootI;
+                rank[rootI] += rank[rootJ];
+                history.push(new int[]{rootJ, rootI});
+            } else {
+                history.push(new int[]{-1, -1});
+            }
+        }
+
+        void rollback() {
+            int[] op = history.pop();
+            if (op[0] != -1) {
+                int child = op[0];
+                int parentNode = op[1];
+                parent[child] = child;
+                rank[parentNode] -= rank[child];
+            }
+        }
+        
+        boolean connected(int i, int j) {
+            return find(i) == find(j);
+        }
+    }
+
+    private List<Edge>[] tree;
+    private List<String> results;
+    private List<String[]> queries; // Store queries by time index
+
+    public List<String> process(int n, List<String[]> events) {
+        return null;
+    }
+
+    private void addEdge(int node, int start, int end, int l, int r, Edge e) {
+        if (l > end || r < start) return;
+        if (l <= start && end <= r) {
+            tree[node].add(e);
+            return;
+        }
+        int mid = (start + end) / 2;
+        addEdge(2 * node + 1, start, mid, l, r, e);
+        addEdge(2 * node + 2, mid + 1, end, l, r, e);
+    }
+
+    private void dfs(int node, int start, int end, DSU dsu) {
+        int ops = 0;
+        for (Edge e : tree[node]) {
+            dsu.union(e.u, e.v);
+            ops++;
+        }
+        
+        if (start == end) {
+            String[] q = queries.get(start);
+            if (q != null) {
+                int u = Integer.parseInt(q[1]);
+                int v = Integer.parseInt(q[2]);
+                results.add(dsu.connected(u, v) ? "true" : "false");
+            }
+        } else {
+            int mid = (start + end) / 2;
+            dfs(2 * node + 1, start, mid, dsu);
+            dfs(2 * node + 2, mid + 1, end, dsu);
+        }
+        
+        while (ops-- > 0) {
+            dsu.rollback();
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+            List<String[]> events = new ArrayList<>();
+            for (int i = 0; i < m; i++) {
+                String type = sc.next();
+                events.add(new String[]{type, sc.next(), sc.next()});
+            }
+            Solution sol = new Solution();
+            List<String> results = sol.process(n, events);
+            for (String res : results) {
+                System.out.println(res);
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+# Increase recursion depth just in case
+sys.setrecursionlimit(300000)
+
+class DSU:
+    def __init__(self, n):
+        return 0
+    def find(self, i):
+        return 0
+    def union(self, i, j):
+        return 0
+    def rollback(self):
+        return 0
+    def connected(self, i, j):
+        return 0
+class Solution:
+    def process(self, n: int, events: list[list[str]]) -> list[str]:
+        return []
+    def add_edge(self, tree, node, start, end, l, r, edge):
+        return 0
+    def dfs(self, tree, node, start, end, dsu, queries, results):
+        return 0
+def main():
+    import sys
+    sys.setrecursionlimit(500000)
+    def input_gen():
+        return 0
+    it = input_gen()
+    n = int(next(it))
+    m = int(next(it))
+    events = []
+    for _ in range(m):
+        type = next(it)
+        events.append([type, next(it), next(it)])
+    
+    sol = Solution()
+    results = sol.process(n, events)
+    for res in results:
+        print(res)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <vector>
+#include <string>
+#include <map>
+#include <stack>
+#include <algorithm>
+#include <iostream>
+
+using namespace std;
+
+struct Edge {
+    int u, v;
+};
+
+struct DSU {
+    vector<int> parent;
+    vector<int> rank;
+    struct RollbackInfo {
+        int child, parent;
+    };
+    stack<RollbackInfo> history;
+
+    DSU(int n) {
+        parent.resize(n + 1);
+        rank.resize(n + 1, 1);
+        for (int i = 1; i <= n; i++) parent[i] = i;
+    }
+
+    int find(int i) {
+        if (parent[i] == i) return i;
+        return find(parent[i]);
+    }
+
+    void unite(int i, int j) {
+        int rootI = find(i);
+        int rootJ = find(j);
+        if (rootI != rootJ) {
+            if (rank[rootI] < rank[rootJ]) swap(rootI, rootJ);
+            parent[rootJ] = rootI;
+            rank[rootI] += rank[rootJ];
+            history.push({rootJ, rootI});
+        } else {
+            history.push({-1, -1});
+        }
+    }
+
+    void rollback() {
+        RollbackInfo op = history.top();
+        history.pop();
+        if (op.child != -1) {
+            parent[op.child] = op.child;
+            rank[op.parent] -= rank[op.child];
+        }
+    }
+
+    bool connected(int i, int j) {
+        return find(i) == find(j);
+    }
+};
+
+class Solution {
+    vector<vector<Edge>> tree;
+    vector<pair<int, int>> queries;
+    vector<string> results;
+
+    void addEdge(int node, int start, int end, int l, int r, Edge e) {
+    }
+
+    void dfs(int node, int start, int end, DSU& dsu) {
+    }
+
+public:
+    vector<string> process(int n, const vector<vector<string>>& events) {
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    vector<vector<string>> events(m);
+    for (int i = 0; i < m; i++) {
+        string type, u, v;
+        cin >> type >> u >> v;
+        events[i] = {type, u, v};
+    }
+    Solution sol;
+    vector<string> results = sol.process(n, events);
+    for (const string& res : results) {
+        cout << res << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+class Solution {
+  process(n, events) {
+    return 0;
+  }
+}
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const m = parseInt(data[idx++], 10);
+  const events = [];
+  for (let i = 0; i < m; i++) {
+    const type = data[idx++];
+    const u = data[idx++];
+    const v = data[idx++];
+    events.push([type, u, v]);
+  }
+  const solution = new Solution();
+  const out = solution.process(n, events);
+  console.log(out.join("\n"));
+});
+```
 

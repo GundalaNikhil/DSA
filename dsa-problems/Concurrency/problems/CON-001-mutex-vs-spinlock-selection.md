@@ -97,3 +97,15 @@ Use this structure in your solution:
 3. Mention CPU waste (spinning) vs context-switch overhead (mutex)
 4. Mention oversubscription / core count assumptions
 
+
+## Solution Template
+
+### Python
+
+```python
+def solve():
+    return 0
+if __name__ == "__main__":
+    solve()
+```
+

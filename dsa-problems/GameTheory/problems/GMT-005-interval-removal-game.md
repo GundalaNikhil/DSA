@@ -85,12 +85,141 @@ Game Theory, Nim Game, XOR
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public String intervalRemovalGame(int n, int[][] intervals) {
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int[][] intervals = new int[n][2];
+            for (int i = 0; i < n; i++) {
+                intervals[i][0] = sc.nextInt();
+                intervals[i][1] = sc.nextInt();
+            }
+
+            Solution solution = new Solution();
+            System.out.println(solution.intervalRemovalGame(n, intervals));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+def interval_removal_game(n: int, intervals: List[List[int]]) -> str:
+    return ""
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        intervals = []
+        for _ in range(n):
+            l = int(next(iterator))
+            r = int(next(iterator))
+            intervals.append([l, r])
+            
+        print(interval_removal_game(n, intervals))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string intervalRemovalGame(int n, vector<vector<int>>& intervals) {
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (cin >> n) {
+        vector<vector<int>> intervals(n, vector<int>(2));
+        for (int i = 0; i < n; i++) {
+            cin >> intervals[i][0] >> intervals[i][1];
+        }
+        
+        Solution solution;
+        cout << solution.intervalRemovalGame(n, intervals) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  intervalRemovalGame(n, intervals) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  const flatData = [];
+  data.forEach(line => {
+      line.trim().split(/\s+/).forEach(part => {
+          if (part) flatData.push(part);
+      });
+  });
+  
+  if (flatData.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(flatData[idx++]);
+  
+  const intervals = [];
+  for (let i = 0; i < n; i++) {
+      const l = parseInt(flatData[idx++]);
+      const r = parseInt(flatData[idx++]);
+      intervals.push([l, r]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.intervalRemovalGame(n, intervals));
+});
+```
 

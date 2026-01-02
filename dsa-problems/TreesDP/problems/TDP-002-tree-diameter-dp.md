@@ -98,12 +98,175 @@ Tree DP, DFS, Graph Theory, Longest Path
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private List<Integer>[] tree;
+    private int diameter = 0;
+
+    public int treeDiameter(int n, int[][] edges) {
+        return 0;
+    }
+
+    private int dfs(int node, int parent) {
+        int max1 = 0, max2 = 0;
+
+        for (int child : tree[node]) {
+            if (child == parent) continue;
+
+            int childDepth = dfs(child, node);
+
+            if (childDepth > max1) {
+                max2 = max1;
+                max1 = childDepth;
+            } else if (childDepth > max2) {
+                max2 = childDepth;
+            }
+        }
+
+        diameter = Math.max(diameter, max1 + max2);
+        return max1 + 1;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        int[][] edges = new int[n - 1][2];
+        for (int i = 0; i < n - 1; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        int result = solution.treeDiameter(n, edges);
+
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+import sys
+sys.setrecursionlimit(300000)
+
+class Solution:
+    def __init__(self):
+        return 0
+    def tree_diameter(self, n: int, edges: List[List[int]]) -> int:
+        return 0
+    def dfs(self, node: int, parent: int) -> int:
+        return 0
+def main():
+    lines = sys.stdin.read().strip().split('\n')
+    n = int(lines[0])
+
+    edges = []
+    for i in range(1, n):
+        u, v = map(int, lines[i].split())
+        edges.append([u, v])
+
+    solution = Solution()
+    result = solution.tree_diameter(n, edges)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+class Solution {
+private:
+    vector<vector<int>> tree;
+    int diameter;
+
+    int dfs(int node, int parent) {
+        return 0;
+    }
+
+public:
+    int treeDiameter(int n, vector<pair<int, int>>& edges) {
+        return 0;
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+
+    vector<pair<int, int>> edges;
+    for (int i = 0; i < n - 1; i++) {
+        int u, v;
+        cin >> u >> v;
+        edges.push_back({u, v});
+    }
+
+    Solution solution;
+    int result = solution.treeDiameter(n, edges);
+
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  constructor() {
+    this.tree = [];
+    this.diameter = 0;
+  }
+
+  treeDiameter(n, edges) {
+    return 0;
+  }
+
+  dfs(node, parent) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+});
+
+rl.on("close", () => {
+  const n = parseInt(lines[0]);
+
+  const edges = [];
+  for (let i = 1; i < n; i++) {
+    const [u, v] = lines[i].split(" ").map(Number);
+    edges.push([u, v]);
+  }
+
+  const solution = new Solution();
+  const result = solution.treeDiameter(n, edges);
+
+  console.log(result);
+});
+```
 

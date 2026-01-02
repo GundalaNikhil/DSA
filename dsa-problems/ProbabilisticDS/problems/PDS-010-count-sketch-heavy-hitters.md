@@ -89,12 +89,126 @@ Count Sketch, Heavy Hitters, Streaming
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int countSketchEstimate(int[] count, int[] sign) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int d = sc.nextInt();
+            int[] count = new int[d];
+            int[] sign = new int[d];
+            for (int i = 0; i < d; i++) {
+                count[i] = sc.nextInt();
+                sign[i] = sc.nextInt();
+            }
+    
+            Solution solution = new Solution();
+            System.out.println(solution.countSketchEstimate(count, sign));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def count_sketch_estimate(count, sign):
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        d = int(next(iterator))
+        count = []
+        sign = []
+        for _ in range(d):
+            count.append(int(next(iterator)))
+            sign.append(int(next(iterator)))
+            
+        print(count_sketch_estimate(count, sign))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int countSketchEstimate(const vector<int>& count, const vector<int>& sign) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int d;
+    if (cin >> d) {
+        vector<int> count(d), sign(d);
+        for (int i = 0; i < d; i++) {
+            cin >> count[i] >> sign[i];
+        }
+    
+        Solution solution;
+        cout << solution.countSketchEstimate(count, sign) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function countSketchEstimate(count, sign) {
+    return 0;
+  }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const d = parseInt(data[idx++], 10);
+  const count = [];
+  const sign = [];
+  for (let i = 0; i < d; i++) {
+    count.push(parseInt(data[idx++], 10));
+    sign.push(parseInt(data[idx++], 10));
+  }
+  console.log(countSketchEstimate(count, sign));
+});
+```
 

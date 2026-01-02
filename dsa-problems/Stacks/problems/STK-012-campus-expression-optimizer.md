@@ -82,14 +82,124 @@ Infix to Postfix, Stack, Parsing
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    Map<Character, Integer> prec = new HashMap<>();
+    
+    public Solution() {
+        prec.put('+', 1); prec.put('-', 1);
+        prec.put('*', 2); prec.put('/', 2); prec.put('%', 2);
+        prec.put('^', 3);
+        prec.put('(', 0);
+    }
+
+    public String solve(String expr) {
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String expr = br.readLine();
+        if (expr != null) {
+            Solution sol = new Solution();
+            System.out.println(sol.solve(expr.trim()));
+        }
+    }
+}
+```
 
 ### Python
 
+```python
+def solve(expr: str) -> str:
+    return ""
+def main():
+    import sys
+    expr = sys.stdin.read().strip()
+    if not expr:
+        return
+
+    result = solve(expr)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <stack>
+#include <map>
+#include <cctype>
+
+using namespace std;
+
+class Solution {
+    map<char, int> prec;
+
+public:
+    Solution() {
+        prec['+'] = 1; prec['-'] = 1;
+        prec['*'] = 2; prec['/'] = 2; prec['%'] = 2;
+        prec['^'] = 3;
+        prec['('] = 0;
+    }
+
+    string solve(string expr) {
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    string expr;
+    if (getline(cin, expr)) {
+        // Trim right usage of trailing newlines if any
+        while (!expr.empty() && isspace(expr.back())) expr.pop_back();
+        while (!expr.empty() && isspace(expr.front())) expr.erase(0, 1);
+        
+        Solution sol;
+        cout << sol.solve(expr) << endl;
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+class Solution {
+  solve(expr) {
+    return 0;
+  }
+}
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+rl.on("line", (line) => {
+  if (line.trim() !== "") {
+    const solution = new Solution();
+    console.log(solution.solve(line.trim()));
+    process.exit(0);
+  }
+});
+```
 

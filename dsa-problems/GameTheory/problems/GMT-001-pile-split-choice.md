@@ -83,12 +83,98 @@ Game Theory, Sprague-Grundy Theorem, Dynamic Programming
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public String pileSplitGame(int n) {
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            Solution solution = new Solution();
+            System.out.println(solution.pileSplitGame(n));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def pile_split_game(n: int) -> str:
+    return ""
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    n = int(data[0])
+    print(pile_split_game(n))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string pileSplitGame(int n) {
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n;
+    if (cin >> n) {
+        Solution solution;
+        cout << solution.pileSplitGame(n) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  pileSplitGame(n) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const n = parseInt(data[0]);
+  const solution = new Solution();
+  console.log(solution.pileSplitGame(n));
+});
+```
 

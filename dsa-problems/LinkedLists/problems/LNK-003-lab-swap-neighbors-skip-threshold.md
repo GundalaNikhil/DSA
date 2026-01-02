@@ -94,12 +94,209 @@ Linked Lists, Pair Swapping, Constraints Handling
 
 ### Java
 
+```java
+import java.util.*;
+
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) { this.val = val; }
+}
+
+class Result {
+    ListNode head;
+    int swaps;
+    Result(ListNode head, int swaps) {
+        this.head = head;
+        this.swaps = swaps;
+    }
+}
+
+class Solution {
+    public Result swapWithSkip(ListNode head, int K) {
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        ListNode dummy = new ListNode(0);
+        ListNode cur = dummy;
+        for (int i = 0; i < n; i++) {
+            cur.next = new ListNode(sc.nextInt());
+            cur = cur.next;
+        }
+        int K = sc.nextInt();
+
+        Solution solution = new Solution();
+        Result res = solution.swapWithSkip(dummy.next, K);
+        ListNode out = res.head;
+        while (out != null) {
+            System.out.print(out.val + (out.next != null ? " " : ""));
+            out = out.next;
+        }
+        System.out.println();
+        System.out.println(res.swaps);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class ListNode:
+    def __init__(self, val=0):
+        return 0
+def swap_with_skip(head: ListNode, K: int):
+    return 0
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        dummy = ListNode()
+        cur = dummy
+        for _ in range(n):
+            cur.next = ListNode(int(next(iterator)))
+            cur = cur.next
+        
+        K = int(next(iterator))
+        
+        head, swaps = swap_with_skip(dummy.next, K)
+        
+        out = []
+        while head:
+            out.append(str(head.val))
+            head = head.next
+        print(" ".join(out))
+        print(swaps)
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode(int v) : val(v), next(nullptr) {}
+};
+
+struct Result {
+    ListNode* head;
+    int swaps;
+};
+
+class Solution {
+public:
+    Result swapWithSkip(ListNode* head, int K) {
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    ListNode dummy(0);
+    ListNode* cur = &dummy;
+    for (int i = 0; i < n; i++) {
+        int v;
+        cin >> v;
+        cur->next = new ListNode(v);
+        cur = cur->next;
+    }
+    
+    int K;
+    cin >> K;
+
+    Solution solution;
+    Result res = solution.swapWithSkip(dummy.next, K);
+    
+    ListNode* out = res.head;
+    bool first = true;
+    while (out) {
+        if (!first) cout << " ";
+        cout << out->val;
+        first = false;
+        out = out->next;
+    }
+    cout << "\n";
+    cout << res.swaps << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class ListNode {
+  constructor(val) {
+    this.val = val;
+    this.next = null;
+  }
+}
+
+function swapWithSkip(head, K) {
+    return 0;
+  }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  
+  const dummy = new ListNode(0);
+  let cur = dummy;
+  for (let i = 0; i < n; i++) {
+    cur.next = new ListNode(parseInt(data[idx++], 10));
+    cur = cur.next;
+  }
+  
+  if (idx < data.length) {
+      const K = parseInt(data[idx++], 10);
+      const result = swapWithSkip(dummy.next, K);
+      let head = result[0];
+      const swaps = result[1];
+      
+      const out = [];
+      while (head) {
+        out.push(head.val);
+        head = head.next;
+      }
+      console.log(out.join(" "));
+      console.log(swaps);
+  }
+});
+```
 

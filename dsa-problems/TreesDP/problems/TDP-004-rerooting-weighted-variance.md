@@ -114,19 +114,282 @@ Node 2 minimizes the cost.
 
 ### Java
 
+```java
+import java.util.*;
+
+class Main {
+    static class Edge {
+        int to;
+        Edge(int to) {
+            this.to = to;
+        }
+    }
+
+    static List<Edge>[] graph;
+    static long[] weight;
+    static long[] subtreeWeight;
+    static long[] down;
+    static long[] up;
+    static long totalWeight;
+    static int n;
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+
+        weight = new long[n + 1];
+        for (int i = 1; i <= n; i++) {
+            weight[i] = sc.nextLong();
+            totalWeight += weight[i];
+        }
+
+        graph = new ArrayList[n + 1];
+        for (int i = 0; i <= n; i++) {
+            graph[i] = new ArrayList<>();
+        }
+
+        for (int i = 0; i < n - 1; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            graph[u].add(new Edge(v));
+            graph[v].add(new Edge(u));
+        }
+
+        subtreeWeight = new long[n + 1];
+        down = new long[n + 1];
+        up = new long[n + 1];
+
+        // Phase 1: Compute downward DP
+        dfsDown(1, -1);
+
+        // Phase 2: Compute upward DP (rerooting)
+        dfsUp(1, -1, 0, 0);
+
+        // Find minimum cost node
+        long minCost = Long.MAX_VALUE;
+        int bestNode = 1;
+
+        for (int i = 1; i <= n; i++) {
+            long totalCost = down[i] + up[i];
+            if (totalCost < minCost) {
+                minCost = totalCost;
+                bestNode = i;
+            }
+        }
+
+        System.out.println(bestNode);
+        sc.close();
+    }
+
+    static void dfsDown(int u, int parent) {
+        subtreeWeight[u] = weight[u];
+        down[u] = 0;
+
+        for (Edge e : graph[u]) {
+            int v = e.to;
+            if (v == parent) continue;
+
+            dfsDown(v, u);
+
+            // Add contribution of child's subtree
+            // When moving down one level, distances increase by 1
+            long childContribution = down[v] +
+                                    2 * subtreeWeight[v] +
+                                    subtreeWeight[v];
+            down[u] += childContribution;
+            subtreeWeight[u] += subtreeWeight[v];
+        }
+    }
+
+    static void dfsUp(int u, int parent, long parentUp, long parentSubtreeWeight) {
+        // Compute up[u] based on parent's info
+        if (parent != -1) {
+            // Total weight outside u's subtree when rooted at parent
+            long outsideWeight = totalWeight - subtreeWeight[u];
+
+            // Contribution from moving from parent to u
+            long parentTotalDown = down[parent];
+            long uContribution = down[u] + 2 * subtreeWeight[u] + subtreeWeight[u];
+            long parentDownWithoutU = parentTotalDown - uContribution;
+
+            up[u] = parentUp + parentDownWithoutU +
+                   2 * outsideWeight + outsideWeight;
+        }
+
+        // Recur for children
+        for (Edge e : graph[u]) {
+            int v = e.to;
+            if (v == parent) continue;
+
+            dfsUp(v, u, up[u], subtreeWeight[u]);
+        }
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from collections import defaultdict
+
+def solve():
+    return 0
+solve()
+
+def main():
+    import sys
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        return
+
+    # TODO: Parse input and call solution
+    pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <cstring>
+#include <climits>
+using namespace std;
+
+const int MAXN = 200005;
+vector<int> graph[MAXN];
+long long weight[MAXN];
+long long subtreeWeight[MAXN];
+long long down[MAXN];
+long long up[MAXN];
+long long totalWeight = 0;
+int n;
+
+void dfsDown(int u, int parent) {
+    subtreeWeight[u] = weight[u];
+    down[u] = 0;
+
+    for (int v : graph[u]) {
+        if (v == parent) continue;
+
+        dfsDown(v, u);
+
+        long long childContribution = down[v] +
+                                     2LL * subtreeWeight[v] +
+                                     subtreeWeight[v];
+        down[u] += childContribution;
+        subtreeWeight[u] += subtreeWeight[v];
+    }
+}
+
+void dfsUp(int u, int parent) {
+    if (parent != -1) {
+        long long outsideWeight = totalWeight - subtreeWeight[u];
+
+        long long parentTotalDown = down[parent];
+        long long uContribution = down[u] + 2LL * subtreeWeight[u] + subtreeWeight[u];
+        long long parentDownWithoutU = parentTotalDown - uContribution;
+
+        up[u] = up[parent] + parentDownWithoutU +
+               2LL * outsideWeight + outsideWeight;
+    }
+
+    for (int v : graph[u]) {
+        if (v == parent) continue;
+        dfsUp(v, u);
+    }
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    cin >> n;
+
+    for (int i = 1; i <= n; i++) {
+        cin >> weight[i];
+        totalWeight += weight[i];
+    }
+
+    for (int i = 0; i < n - 1; i++) {
+        int u, v;
+        cin >> u >> v;
+        graph[u].push_back(v);
+        graph[v].push_back(u);
+    }
+
+    dfsDown(1, -1);
+    dfsUp(1, -1);
+
+    long long minCost = LLONG_MAX;
+    int bestNode = 1;
+
+    for (int i = 1; i <= n; i++) {
+        long long totalCost = down[i] + up[i];
+        if (totalCost < minCost) {
+            minCost = totalCost;
+            bestNode = i;
+        }
+    }
+
+    cout << bestNode << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
 
-## Notes
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
-- The problem requires rerooting DP technique to achieve O(n) time complexity
-- Naive approach of computing cost for each root separately would be O(n²)
-- Be careful with integer overflow - use long/long long for intermediate calculations
-- The squared distance means we need special handling in the DP transition
+let lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  solve();
+});
+
+function solve() {
+    return 0;
+  }
+  function dfsDown(u, parent) {
+    return 0;
+  }
+
+  function dfsUp(u, parent) {
+    return 0;
+  }
+
+  dfsDown(1, -1);
+  dfsUp(1, -1);
+
+  let minCost = Infinity;
+  let bestNode = 1;
+
+  for (let i = 1; i <= n; i++) {
+    const totalCost = down[i] + up[i];
+    if (totalCost < minCost) {
+      minCost = totalCost;
+      bestNode = i;
+    }
+  }
+
+  console.log(bestNode);
+}
+```
+

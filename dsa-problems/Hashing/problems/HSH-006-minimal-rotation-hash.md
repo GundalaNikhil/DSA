@@ -89,12 +89,152 @@ String Rotation, Hashing, Binary Search, Lexicographic Order
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private static final long MOD = 1_000_000_007L;
+    private static final long BASE = 313L;
+    
+    public String minimalRotation(String s) {
+        return "";
+    }
+    
+    private int getLCP(long[] h, long[] p, int i, int j, int maxLen) {
+        int low = 0, high = maxLen;
+        int ans = 0;
+        
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (mid == 0) {
+                low = mid + 1;
+                continue;
+            }
+            
+            long h1 = getHash(h, p, i, i + mid - 1);
+            long h2 = getHash(h, p, j, j + mid - 1);
+            
+            if (h1 == h2) {
+                ans = mid;
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return ans;
+    }
+    
+    private long getHash(long[] h, long[] p, int l, int r) {
+        int len = r - l + 1;
+        long val = (h[r + 1] - (h[l] * p[len]) % MOD + MOD) % MOD;
+        return val;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLine()) {
+            String s = sc.nextLine();
+            Solution solution = new Solution();
+            System.out.println(solution.minimalRotation(s));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+# Increase recursion depth just in case
+sys.setrecursionlimit(2000)
+
+class Solution:
+    def minimal_rotation(self, s: str) -> str:
+        return ""
+def minimal_rotation(s: str) -> str:
+    return ""
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    s = input_data[0]
+    print(minimal_rotation(s))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+    const long long MOD = 1e9 + 7;
+    const long long BASE = 313;
+
+public:
+    string minimalRotation(string s) {
+        return "";
+    }
+    
+    int getLCP(const vector<long long>& h, const vector<long long>& p, int i, int j, int maxLen) {
+        return 0;
+    }
+    
+    long long getHash(const vector<long long>& h, const vector<long long>& p, int l, int r) {
+        int len = r - l + 1;
+        long long val = (h[r + 1] - (h[l] * p[len]) % MOD + MOD) % MOD;
+        return val;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    string s;
+    if (getline(cin, s)) {
+        Solution solution;
+        cout << solution.minimalRotation(s) << "\n";
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  minimalRotation(s) {
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const s = data[0];
+
+  const solution = new Solution();
+  console.log(solution.minimalRotation(s));
+});
+```
 

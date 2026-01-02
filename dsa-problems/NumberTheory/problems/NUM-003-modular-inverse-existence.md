@@ -79,12 +79,137 @@ Modular Arithmetic, GCD, Euclid Algorithm
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private long gcd(long a, long b) {
+        while (b != 0) {
+            long temp = b;
+            b = a % b;
+            a = temp;
+        }
+        return a;
+    }
+
+    public boolean hasInverse(long a, long m) {
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int q = sc.nextInt();
+            Solution solution = new Solution();
+            for (int i = 0; i < q; i++) {
+                long a = sc.nextLong();
+                long m = sc.nextLong();
+                System.out.println(solution.hasInverse(a, m) ? "true" : "false");
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import math
+
+def has_inverse(a: int, m: int) -> bool:
+    return False
+def main():
+    import sys
+    input_data = sys.stdin.read().strip().split()
+    if not input_data: return
+    q = int(input_data[0])
+    idx = 1
+    results = []
+    for _ in range(q):
+        a = int(input_data[idx])
+        m = int(input_data[idx+1])
+        idx += 2
+        results.append("true" if has_inverse(a, m) else "false")
+    print("\n".join(results))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <numeric>
+
+using namespace std;
+
+class Solution {
+    long long gcd(long long a, long long b) {
+        while (b) {
+            a %= b;
+            swap(a, b);
+        }
+        return a;
+    }
+
+public:
+    bool hasInverse(long long a, long long m) {
+        return false;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int q;
+    if (cin >> q) {
+        Solution solution;
+        for (int i = 0; i < q; i++) {
+            long long a, m;
+            cin >> a >> m;
+            cout << (solution.hasInverse(a, m) ? "true" : "false") << "\n";
+        }
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function gcd(a, b) {
+    return 0;
+  }
+
+function hasInverse(a, m) {
+    return 0;
+  }
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const q = parseInt(data[idx++], 10);
+  const out = [];
+  for (let i = 0; i < q; i++) {
+    const a = parseInt(data[idx++], 10);
+    const m = parseInt(data[idx++], 10);
+    out.push(hasInverse(a, m) ? "true" : "false");
+  }
+  console.log(out.join("\n"));
+});
+```
 
