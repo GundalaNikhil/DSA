@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEO-012: Largest Empty Circle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Lexend', sans-serif;
+            background: linear-gradient(135deg, #0d9488 0%, #14b8a6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 32px; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #0d9488; margin-bottom: 12px; }
+        .tutorial p { font-size: 14px; color: #555; line-height: 1.6; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .canvas-container {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+            cursor: crosshair;
+        }
+
+        .info {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 15px;
+        }
+        .info-item {
+            text-align: center;
+            padding: 12px 20px;
+            background: #f0fdfa;
+            border-radius: 10px;
+        }
+        .info-label { font-size: 11px; color: #666; }
+        .info-value { font-size: 20px; font-weight: 600; color: #0d9488; }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-check { background: #0d9488; color: #fff; }
+        .btn-reveal { background: #f59e0b; color: #fff; }
+        .btn-new { background: #64748b; color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+            margin-top: 15px;
+        }
+        .message.correct { background: #d1fae5; color: #059669; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #f0fdfa; color: #0f766e; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>⭕ Largest Empty Circle</h1>
+        <div style="opacity:0.9">Click to place the largest empty circle!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <p>Find the largest circle that doesn't contain any obstacles (red points). Click to place your circle center, then adjust the radius to maximize it without touching any obstacle!</p>
+    </div>
+
+    <div class="game-card">
+        <div class="canvas-container">
+            <canvas id="canvas" width="500" height="400"></canvas>
+        </div>
+
+        <div class="info">
+            <div class="info-item">
+                <div class="info-label">Your Radius</div>
+                <div class="info-value" id="yourRadius">-</div>
+            </div>
+            <div class="info-item">
+                <div class="info-label">Best Possible</div>
+                <div class="info-value" id="bestRadius">?</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-check" onclick="checkAnswer()">✓ Check</button>
+            <button class="btn btn-reveal" onclick="revealBest()">👁 Reveal</button>
+            <button class="btn btn-new" onclick="newRound()">🔄 New</button>
+        </div>
+
+        <div class="message neutral" id="message">Click on the canvas to place your circle center!</div>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    let obstacles = [];
+    let userCircle = null;
+    let bestCircle = null;
+    let revealed = false;
+
+    function generateObstacles() {
+        obstacles = [];
+        revealed = false;
+        userCircle = null;
+
+        const numObs = 8 + Math.floor(Math.random() * 6);
+        const margin = 50;
+
+        for (let i = 0; i < numObs; i++) {
+            obstacles.push({
+                x: margin + Math.random() * (canvas.width - margin * 2),
+                y: margin + Math.random() * (canvas.height - margin * 2)
+            });
+        }
+
+        // Find best empty circle (simple: try grid of centers)
+        bestCircle = { x: 0, y: 0, r: 0 };
+        for (let x = 40; x < canvas.width - 40; x += 20) {
+            for (let y = 40; y < canvas.height - 40; y += 20) {
+                const r = getMaxRadius(x, y);
+                if (r > bestCircle.r) {
+                    bestCircle = { x, y, r };
+                }
+            }
+        }
+    }
+
+    function getMaxRadius(cx, cy) {
+        // Max radius is distance to nearest obstacle (or canvas edge)
+        let minDist = Math.min(cx, cy, canvas.width - cx, canvas.height - cy);
+        obstacles.forEach(o => {
+            const d = Math.sqrt((o.x - cx) ** 2 + (o.y - cy) ** 2);
+            minDist = Math.min(minDist, d);
+        });
+        return minDist;
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Grid
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 1;
+        for (let x = 0; x <= canvas.width; x += 50) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, canvas.height);
+            ctx.stroke();
+        }
+        for (let y = 0; y <= canvas.height; y += 50) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+        }
+
+        // Draw user circle
+        if (userCircle) {
+            ctx.beginPath();
+            ctx.arc(userCircle.x, userCircle.y, userCircle.r, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(13, 148, 136, 0.15)';
+            ctx.fill();
+            ctx.strokeStyle = '#0d9488';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(userCircle.x, userCircle.y, 5, 0, Math.PI * 2);
+            ctx.fillStyle = '#0d9488';
+            ctx.fill();
+        }
+
+        // Draw best circle if revealed
+        if (revealed) {
+            ctx.beginPath();
+            ctx.arc(bestCircle.x, bestCircle.y, bestCircle.r, 0, Math.PI * 2);
+            ctx.strokeStyle = '#22c55e';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([8, 4]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            ctx.beginPath();
+            ctx.arc(bestCircle.x, bestCircle.y, 5, 0, Math.PI * 2);
+            ctx.fillStyle = '#22c55e';
+            ctx.fill();
+        }
+
+        // Draw obstacles
+        obstacles.forEach(o => {
+            ctx.beginPath();
+            ctx.arc(o.x, o.y, 8, 0, Math.PI * 2);
+            ctx.fillStyle = '#ef4444';
+            ctx.fill();
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        });
+
+        // Update info
+        document.getElementById('yourRadius').textContent = userCircle ? userCircle.r.toFixed(0) : '-';
+        document.getElementById('bestRadius').textContent = revealed ? bestCircle.r.toFixed(0) : '?';
+    }
+
+    canvas.onclick = function(e) {
+        if (revealed) return;
+        const rect = canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const r = getMaxRadius(x, y);
+        userCircle = { x, y, r };
+        draw();
+        document.getElementById('message').textContent = `Circle placed! Radius = ${r.toFixed(0)}px. Click "Check" to compare.`;
+    };
+
+    function checkAnswer() {
+        if (!userCircle) {
+            document.getElementById('message').textContent = 'Click on canvas to place your circle first!';
+            return;
+        }
+
+        const msg = document.getElementById('message');
+        const diff = bestCircle.r - userCircle.r;
+        const percent = (userCircle.r / bestCircle.r) * 100;
+
+        if (percent >= 90) {
+            msg.className = 'message correct';
+            msg.textContent = `✅ Excellent! Your radius is ${percent.toFixed(0)}% of optimal!`;
+        } else if (percent >= 70) {
+            msg.className = 'message neutral';
+            msg.textContent = `👍 Good! ${percent.toFixed(0)}% of optimal (${diff.toFixed(0)}px smaller)`;
+        } else {
+            msg.className = 'message wrong';
+            msg.textContent = `❌ You can do better! Only ${percent.toFixed(0)}% of optimal.`;
+        }
+    }
+
+    function revealBest() {
+        revealed = true;
+        draw();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = `Best empty circle shown in green (radius = ${bestCircle.r.toFixed(0)}px)`;
+    }
+
+    function newRound() {
+        generateObstacles();
+        draw();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Click on the canvas to place your circle center!';
+    }
+
+    window.onload = newRound;
+</script>
+</body>
+</html>

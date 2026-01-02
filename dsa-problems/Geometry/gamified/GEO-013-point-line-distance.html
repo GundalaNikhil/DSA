@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEO-013: Point-Line Distance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(135deg, #dc2626 0%, #f97316 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 32px; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #dc2626; margin-bottom: 12px; }
+        .formula {
+            margin-top: 15px;
+            padding: 15px;
+            background: #fef2f2;
+            border-radius: 10px;
+            font-family: monospace;
+            text-align: center;
+        }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        .score-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 18px;
+            background: linear-gradient(90deg, #dc2626, #f97316);
+            border-radius: 10px;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+
+        .canvas-container {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 10px;
+            margin-bottom: 15px;
+        }
+        canvas {
+            display: block;
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+
+        .guess-area {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            padding: 15px;
+            background: #fef2f2;
+            border-radius: 10px;
+        }
+        .guess-label { font-weight: 600; color: #991b1b; }
+        .guess-input {
+            width: 100px;
+            padding: 12px;
+            font-size: 18px;
+            text-align: center;
+            border: 2px solid #dc2626;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+        .btn-check {
+            padding: 12px 25px;
+            background: #dc2626;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .message.correct { background: #d1fae5; color: #059669; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #fef2f2; color: #991b1b; }
+
+        .new-game {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #dc2626;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>📏 Point-Line Distance</h1>
+        <div style="opacity:0.9">Calculate the perpendicular distance!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 How to Calculate</h2>
+        <p style="color:#555; font-size:14px">The shortest distance from a point to a line is the perpendicular distance.</p>
+        <div class="formula">
+            Distance = |Ax + By + C| / √(A² + B²)
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="score-bar">
+            <span>Score: <strong id="score">0</strong> / <span id="total">0</span></span>
+            <span>Accuracy: <strong id="accuracy">100</strong>%</span>
+        </div>
+
+        <div class="canvas-container">
+            <canvas id="canvas" width="500" height="400"></canvas>
+        </div>
+
+        <div class="guess-area">
+            <span class="guess-label">Distance:</span>
+            <input type="number" class="guess-input" id="guessInput" placeholder="0">
+            <span>px</span>
+            <button class="btn-check" onclick="checkGuess()">Check</button>
+        </div>
+
+        <div class="message neutral" id="message">Estimate the perpendicular distance from point to line!</div>
+
+        <button class="new-game" onclick="newRound()">Next Challenge →</button>
+    </div>
+</div>
+
+<script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    let lineStart = { x: 0, y: 0 };
+    let lineEnd = { x: 0, y: 0 };
+    let point = { x: 0, y: 0 };
+    let correctDistance = 0;
+    let score = 0;
+    let total = 0;
+
+    function generateChallenge() {
+        const margin = 60;
+        lineStart = {
+            x: margin + Math.random() * 100,
+            y: margin + Math.random() * (canvas.height - margin * 2)
+        };
+        lineEnd = {
+            x: canvas.width - margin - Math.random() * 100,
+            y: margin + Math.random() * (canvas.height - margin * 2)
+        };
+        point = {
+            x: margin + Math.random() * (canvas.width - margin * 2),
+            y: margin + Math.random() * (canvas.height - margin * 2)
+        };
+
+        correctDistance = calcDistance(point, lineStart, lineEnd);
+    }
+
+    function calcDistance(p, l1, l2) {
+        const A = l2.y - l1.y;
+        const B = l1.x - l2.x;
+        const C = l2.x * l1.y - l1.x * l2.y;
+        return Math.abs(A * p.x + B * p.y + C) / Math.sqrt(A * A + B * B);
+    }
+
+    function getPerpendicularFoot(p, l1, l2) {
+        const dx = l2.x - l1.x;
+        const dy = l2.y - l1.y;
+        const t = ((p.x - l1.x) * dx + (p.y - l1.y) * dy) / (dx * dx + dy * dy);
+        return {
+            x: l1.x + t * dx,
+            y: l1.y + t * dy
+        };
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Grid
+        ctx.strokeStyle = '#e2e8f0';
+        ctx.lineWidth = 1;
+        for (let x = 0; x <= canvas.width; x += 50) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, canvas.height);
+            ctx.stroke();
+        }
+        for (let y = 0; y <= canvas.height; y += 50) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(canvas.width, y);
+            ctx.stroke();
+        }
+
+        // Extend line beyond endpoints
+        const dx = lineEnd.x - lineStart.x;
+        const dy = lineEnd.y - lineStart.y;
+        const len = Math.sqrt(dx * dx + dy * dy);
+        const extStart = { x: lineStart.x - dx * 2, y: lineStart.y - dy * 2 };
+        const extEnd = { x: lineEnd.x + dx * 2, y: lineEnd.y + dy * 2 };
+
+        // Draw extended line
+        ctx.beginPath();
+        ctx.moveTo(extStart.x, extStart.y);
+        ctx.lineTo(extEnd.x, extEnd.y);
+        ctx.strokeStyle = '#3b82f6';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        // Draw line endpoints
+        [lineStart, lineEnd].forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, 6, 0, Math.PI * 2);
+            ctx.fillStyle = '#3b82f6';
+            ctx.fill();
+        });
+
+        // Draw perpendicular
+        const foot = getPerpendicularFoot(point, lineStart, lineEnd);
+        ctx.beginPath();
+        ctx.moveTo(point.x, point.y);
+        ctx.lineTo(foot.x, foot.y);
+        ctx.strokeStyle = '#f97316';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([5, 5]);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Draw right angle
+        const px = foot.x - point.x;
+        const py = foot.y - point.y;
+        const plen = Math.sqrt(px * px + py * py);
+        if (plen > 20) {
+            const nx = px / plen * 15;
+            const ny = py / plen * 15;
+            const tx = -ny;
+            const ty = nx;
+            ctx.beginPath();
+            ctx.moveTo(foot.x - nx, foot.y - ny);
+            ctx.lineTo(foot.x - nx + tx, foot.y - ny + ty);
+            ctx.lineTo(foot.x + tx, foot.y + ty);
+            ctx.strokeStyle = '#f97316';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        // Draw point
+        ctx.beginPath();
+        ctx.arc(point.x, point.y, 10, 0, Math.PI * 2);
+        ctx.fillStyle = '#dc2626';
+        ctx.fill();
+        ctx.strokeStyle = '#fff';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 10px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText('P', point.x, point.y);
+    }
+
+    function checkGuess() {
+        const guess = parseFloat(document.getElementById('guessInput').value) || 0;
+        total++;
+        const msg = document.getElementById('message');
+
+        const error = Math.abs(guess - correctDistance);
+        const errorPercent = (error / correctDistance) * 100;
+
+        if (errorPercent <= 10) {
+            score++;
+            msg.className = 'message correct';
+            msg.textContent = `✅ Excellent! Distance = ${correctDistance.toFixed(1)}px (${errorPercent.toFixed(0)}% off)`;
+        } else if (errorPercent <= 25) {
+            msg.className = 'message neutral';
+            msg.textContent = `👍 Close! Distance = ${correctDistance.toFixed(1)}px. You guessed ${guess}`;
+        } else {
+            msg.className = 'message wrong';
+            msg.textContent = `❌ Distance = ${correctDistance.toFixed(1)}px. You guessed ${guess}`;
+        }
+
+        document.getElementById('score').textContent = score;
+        document.getElementById('total').textContent = total;
+        document.getElementById('accuracy').textContent = total > 0 ? Math.round(score / total * 100) : 100;
+    }
+
+    function newRound() {
+        generateChallenge();
+        draw();
+        document.getElementById('guessInput').value = '';
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Estimate the perpendicular distance from point to line!';
+    }
+
+    window.onload = newRound;
+</script>
+</body>
+</html>
