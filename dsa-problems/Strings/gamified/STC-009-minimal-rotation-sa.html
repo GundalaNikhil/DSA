@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-009: Safe Cracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@700&family=Staatliches&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a1a; --steel: #4a4a4a; --gold: #ffd700; --red: #e74c3c; --green: #27ae60; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Courier Prime', monospace; background: var(--bg); color: #fff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        header { width: 100%; background: linear-gradient(180deg, #2c2c2c 0%, var(--bg) 100%); padding: 1.5rem; border-bottom: 3px solid var(--gold); text-align: center; }
+        h1 { font-family: 'Staatliches', cursive; color: var(--gold); font-size: 2rem; letter-spacing: 5px; }
+        .subtitle { color: #888; font-size: 0.8rem; }
+        main { padding: 30px; max-width: 600px; display: flex; flex-direction: column; gap: 20px; align-items: center; }
+        .safe { background: radial-gradient(circle at 30% 30%, #555 0%, #333 50%, #222 100%); border: 8px solid var(--steel); border-radius: 20px; padding: 40px; box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 0 50px rgba(0,0,0,0.3); }
+        .dial { width: 280px; height: 280px; background: conic-gradient(from 0deg, #333, #555, #333, #555, #333); border-radius: 50%; border: 6px solid var(--steel); display: flex; align-items: center; justify-content: center; position: relative; box-shadow: inset 0 0 30px rgba(0,0,0,0.5); }
+        .dial-center { width: 100px; height: 100px; background: radial-gradient(circle, #444 0%, #222 100%); border-radius: 50%; border: 3px solid var(--steel); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--gold); font-weight: bold; z-index: 10; }
+        .letter { position: absolute; font-size: 1.2rem; font-weight: bold; color: #888; }
+        .letter.highlight { color: var(--gold); text-shadow: 0 0 10px var(--gold); font-size: 1.5rem; }
+        .controls { display: flex; gap: 15px; }
+        .btn { padding: 15px 30px; border: none; border-radius: 10px; font-family: 'Staatliches', cursive; font-size: 1.2rem; cursor: pointer; transition: all 0.2s; letter-spacing: 2px; }
+        .btn-left { background: var(--steel); color: #fff; }
+        .btn-right { background: var(--steel); color: #fff; }
+        .btn-crack { background: var(--gold); color: #000; }
+        .btn:hover { transform: translateY(-3px); }
+        .input-group { width: 100%; }
+        .input-group label { color: var(--gold); display: block; margin-bottom: 8px; }
+        .input-group input { width: 100%; background: #222; border: 2px solid var(--steel); border-radius: 8px; padding: 12px; color: var(--gold); font-family: 'Courier Prime'; font-size: 1.2rem; text-align: center; letter-spacing: 5px; }
+        .result { background: #222; border: 2px solid var(--green); border-radius: 10px; padding: 20px; text-align: center; width: 100%; }
+        .result-label { color: #888; font-size: 0.8rem; }
+        .result-value { color: var(--green); font-size: 1.8rem; font-weight: bold; letter-spacing: 3px; margin-top: 10px; }
+        #status { text-align: center; padding: 15px; color: #888; }
+    </style>
+</head>
+<body>
+<header><h1>🔐 SAFE CRACKER</h1><div class="subtitle">Find Lexicographically Smallest Rotation</div></header>
+<main>
+    <div class="safe">
+        <div class="dial" id="dial"><div class="dial-center" id="rotation">0</div></div>
+    </div>
+    <div class="controls">
+        <button class="btn btn-left" onclick="game.rotate(-1)">◀ LEFT</button>
+        <button class="btn btn-crack" onclick="game.crack()">🔓 AUTO CRACK</button>
+        <button class="btn btn-right" onclick="game.rotate(1)">RIGHT ▶</button>
+    </div>
+    <div class="input-group"><label>🔒 Combination String</label><input type="text" id="combo" value="BACA" maxlength="8"></div>
+    <div id="status">Rotate to find the smallest combination!</div>
+    <div class="result"><div class="result-label">SMALLEST ROTATION</div><div class="result-value" id="answer">-</div></div>
+</main>
+<script>
+class SafeCracker {
+    constructor() { this.combo = ""; this.rotation = 0; this.load(); }
+    load() { this.combo = document.getElementById('combo').value.toUpperCase(); this.rotation = 0; this.renderDial(); }
+    renderDial() {
+        const dial = document.getElementById('dial'); dial.innerHTML = '<div class="dial-center" id="rotation">' + this.rotation + '</div>';
+        const n = this.combo.length; const radius = 110;
+        for (let i = 0; i < n; i++) {
+            const angle = (i / n) * 2 * Math.PI - Math.PI / 2;
+            const x = 140 + radius * Math.cos(angle) - 10;
+            const y = 140 + radius * Math.sin(angle) - 10;
+            const letter = document.createElement('div');
+            letter.className = 'letter' + (i === 0 ? ' highlight' : '');
+            letter.style.left = x + 'px'; letter.style.top = y + 'px';
+            letter.textContent = this.combo[(i + this.rotation) % n];
+            dial.appendChild(letter);
+        }
+    }
+    rotate(dir) { this.rotation = (this.rotation + dir + this.combo.length) % this.combo.length; this.renderDial(); this.showCurrent(); }
+    showCurrent() {
+        const rotated = this.getRotation(this.rotation);
+        document.getElementById('status').textContent = `Rotation ${this.rotation}: "${rotated}"`;
+    }
+    getRotation(r) { return this.combo.substring(r) + this.combo.substring(0, r); }
+    crack() {
+        this.load(); const n = this.combo.length; let minRot = 0; let minStr = this.combo;
+        for (let i = 1; i < n; i++) { const r = this.getRotation(i); if (r < minStr) { minStr = r; minRot = i; } }
+        this.rotation = minRot; this.renderDial();
+        document.getElementById('answer').textContent = minStr;
+        document.getElementById('status').innerHTML = `<span style="color:var(--green)">🔓 Cracked! Rotation ${minRot} = "${minStr}"</span>`;
+    }
+}
+const game = new SafeCracker();
+document.getElementById('combo').addEventListener('change', () => game.load());
+</script>
+</body>
+</html>

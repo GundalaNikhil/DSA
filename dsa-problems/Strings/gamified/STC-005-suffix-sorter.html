@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-005: Word Library</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #2c1810;
+            --wood: #8b4513;
+            --cream: #f5f0e1;
+            --gold: #d4af37;
+            --green: #2e7d32;
+            --red: #c62828;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background: linear-gradient(135deg, #1a0f0a 0%, #2c1810 50%, #3d251a 100%);
+            color: var(--cream);
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(180deg, #3d251a 0%, var(--bg) 100%);
+            padding: 1.5rem 2rem;
+            border-bottom: 3px solid var(--gold);
+            text-align: center;
+        }
+        h1 {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            font-size: 2.2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        .subtitle { color: #a89080; font-size: 0.9rem; margin-top: 5px; }
+
+        main {
+            padding: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        .bookshelf {
+            background: linear-gradient(180deg, #5d3a1a 0%, #4a2e14 100%);
+            border: 8px solid var(--wood);
+            border-radius: 10px;
+            padding: 25px 20px 30px;
+            box-shadow: inset 0 -10px 30px rgba(0,0,0,0.4), 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        .shelf-label {
+            position: absolute;
+            top: 8px;
+            left: 15px;
+            color: var(--gold);
+            font-family: 'Playfair Display', serif;
+            font-size: 0.8rem;
+        }
+
+        .books-row {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            min-height: 150px;
+            align-items: flex-end;
+            padding-bottom: 10px;
+            border-bottom: 6px solid #3d251a;
+        }
+
+        .book {
+            width: 55px;
+            min-height: 120px;
+            background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
+            border-radius: 3px 8px 8px 3px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            position: relative;
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.4);
+            transition: all 0.3s ease;
+            animation: slideIn 0.3s ease;
+        }
+        .book:nth-child(2n) { background: linear-gradient(135deg, #1565c0 0%, #0d47a1 100%); }
+        .book:nth-child(3n) { background: linear-gradient(135deg, #2e7d32 0%, #1b5e20 100%); }
+        .book:nth-child(4n) { background: linear-gradient(135deg, #6a1b9a 0%, #4a148c 100%); }
+        .book:nth-child(5n) { background: linear-gradient(135deg, #e65100 0%, #bf360c 100%); }
+        
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .book:hover {
+            transform: translateY(-10px);
+            box-shadow: 5px 10px 15px rgba(0,0,0,0.5);
+        }
+        .book.active {
+            box-shadow: 0 0 20px var(--gold);
+            transform: scale(1.1);
+            z-index: 10;
+        }
+        .book.sorted {
+            border: 2px solid var(--gold);
+        }
+
+        .book-spine {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-size: 0.75rem;
+            color: var(--cream);
+            padding: 10px 5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        .book-idx {
+            position: absolute;
+            bottom: 5px;
+            font-size: 0.6rem;
+            color: rgba(255,255,255,0.7);
+        }
+        .sa-rank {
+            position: absolute;
+            top: -25px;
+            background: var(--gold);
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .control-panel {
+            background: rgba(0,0,0,0.3);
+            border: 2px solid var(--wood);
+            border-radius: 10px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .input-group label {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+        }
+        .input-group input {
+            background: rgba(0,0,0,0.4);
+            border: 2px solid var(--wood);
+            border-radius: 5px;
+            padding: 12px;
+            color: var(--cream);
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+        .btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-sort { background: var(--gold); color: #000; }
+        .btn-step { background: var(--green); color: #fff; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
+
+        #status {
+            text-align: center;
+            padding: 15px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            font-size: 1.1rem;
+        }
+
+        .sa-display {
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 20px;
+        }
+        .sa-title {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            margin-bottom: 15px;
+        }
+        .sa-array {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .sa-cell {
+            width: 45px;
+            height: 45px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(139, 69, 19, 0.5);
+            border: 2px solid var(--wood);
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        .sa-cell .suffix { font-size: 0.7rem; color: #a89080; }
+        .sa-cell .rank { font-size: 1rem; color: var(--gold); font-weight: bold; }
+        .sa-cell.highlight { background: var(--gold); border-color: #fff; }
+        .sa-cell.highlight .suffix, .sa-cell.highlight .rank { color: #000; }
+
+        .legend {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 15px;
+            font-size: 0.8rem;
+            color: #a89080;
+        }
+
+        .step-info {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--gold);
+            border-radius: 8px;
+            padding: 15px;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>📚 WORD LIBRARY</h1>
+    <div class="subtitle">Suffix Array Construction • Alphabetical Cataloging</div>
+</header>
+
+<main>
+    <div class="bookshelf">
+        <div class="shelf-label">📖 SUFFIX SHELF</div>
+        <div class="books-row" id="bookshelf"></div>
+    </div>
+
+    <div class="control-panel">
+        <div class="input-group">
+            <label>Enter Word to Catalog</label>
+            <input type="text" id="word" value="BANANA$" maxlength="12" placeholder="Enter word...">
+        </div>
+        <div class="btn-group">
+            <button class="btn btn-sort" onclick="game.autoSort()">📕 AUTO SORT</button>
+            <button class="btn btn-step" onclick="game.step()">▶ STEP</button>
+        </div>
+    </div>
+
+    <div id="status">Enter a word and sort the suffix books alphabetically!</div>
+
+    <div class="sa-display">
+        <div class="sa-title">📋 Suffix Array (SA)</div>
+        <div class="sa-array" id="sa-array"></div>
+        <div class="legend">
+            <span>SA[i] = starting index of the i-th lexicographically smallest suffix</span>
+        </div>
+    </div>
+
+    <div class="step-info">
+        <strong>💡 Suffix Array Explained:</strong> 
+        The suffix array stores starting positions of all suffixes, sorted lexicographically.
+        For "BANANA$", the suffixes are: BANANA$, ANANA$, NANA$, ANA$, NA$, A$, $.
+        Sorted: $, A$, ANA$, ANANA$, BANANA$, NA$, NANA$ → SA = [6, 5, 3, 1, 0, 4, 2]
+    </div>
+</main>
+
+<script>
+class WordLibrary {
+    constructor() {
+        this.word = "";
+        this.suffixes = [];
+        this.sa = [];
+        this.sortStep = 0;
+        this.isRunning = false;
+        this.load();
+    }
+
+    load() {
+        this.word = document.getElementById('word').value.toUpperCase();
+        if (!this.word) return;
+        if (!this.word.endsWith('$')) this.word += '$';
+
+        this.suffixes = [];
+        for (let i = 0; i < this.word.length; i++) {
+            this.suffixes.push({ idx: i, suffix: this.word.substring(i) });
+        }
+        this.sa = [];
+        this.sortStep = 0;
+
+        this.renderBooks();
+        this.renderSA();
+        document.getElementById('status').textContent = `Loaded "${this.word}" - ${this.suffixes.length} suffix books to sort!`;
+    }
+
+    renderBooks() {
+        const shelf = document.getElementById('bookshelf');
+        shelf.innerHTML = '';
+        this.suffixes.forEach((s, i) => {
+            const book = document.createElement('div');
+            book.className = 'book';
+            book.id = `book-${s.idx}`;
+            book.style.animationDelay = `${i * 0.05}s`;
+            
+            const shortLabel = s.suffix.length > 8 ? s.suffix.substring(0, 7) + '…' : s.suffix;
+            book.innerHTML = `
+                <div class="sa-rank" id="rank-${s.idx}" style="display:none;"></div>
+                <div class="book-spine">${shortLabel}</div>
+                <div class="book-idx">${s.idx}</div>
+            `;
+            shelf.appendChild(book);
+        });
+    }
+
+    renderSA() {
+        const container = document.getElementById('sa-array');
+        container.innerHTML = '';
+        for (let i = 0; i < this.word.length; i++) {
+            const cell = document.createElement('div');
+            cell.className = 'sa-cell';
+            cell.id = `sa-${i}`;
+            cell.innerHTML = `
+                <div class="suffix">SA[${i}]</div>
+                <div class="rank">${this.sa[i] !== undefined ? this.sa[i] : '?'}</div>
+            `;
+            container.appendChild(cell);
+        }
+    }
+
+    async step() {
+        if (this.sortStep >= this.suffixes.length) {
+            document.getElementById('status').innerHTML = '<span style="color:var(--gold)">✓ All suffix books sorted!</span>';
+            return;
+        }
+
+        // Simple selection sort for visualization (one step at a time)
+        if (this.sortStep === 0) {
+            // Sort all at once (for simplicity) but animate one by one
+            this.suffixes.sort((a, b) => a.suffix.localeCompare(b.suffix));
+        }
+
+        const current = this.suffixes[this.sortStep];
+        
+        // Highlight current book
+        document.querySelectorAll('.book').forEach(b => b.classList.remove('active'));
+        const bookEl = document.getElementById(`book-${current.idx}`);
+        bookEl.classList.add('active', 'sorted');
+
+        // Show rank
+        const rankEl = document.getElementById(`rank-${current.idx}`);
+        rankEl.textContent = this.sortStep;
+        rankEl.style.display = 'block';
+
+        // Update SA
+        this.sa[this.sortStep] = current.idx;
+        const saCell = document.getElementById(`sa-${this.sortStep}`);
+        saCell.querySelector('.rank').textContent = current.idx;
+        saCell.classList.add('highlight');
+        setTimeout(() => saCell.classList.remove('highlight'), 500);
+
+        document.getElementById('status').textContent = `Rank ${this.sortStep}: "${current.suffix}" starts at index ${current.idx}`;
+
+        this.sortStep++;
+        this.renderSA();
+    }
+
+    async autoSort() {
+        if (this.isRunning) return;
+        this.isRunning = true;
+        this.load();
+
+        while (this.sortStep < this.suffixes.length) {
+            await this.step();
+            await this.delay(400);
+        }
+
+        document.getElementById('status').innerHTML = '<span style="color:var(--gold)">✓ Library fully cataloged! Suffix Array complete.</span>';
+        this.isRunning = false;
+    }
+
+    delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+}
+
+const game = new WordLibrary();
+document.getElementById('word').addEventListener('change', () => game.load());
+</script>
+</body>
+</html>

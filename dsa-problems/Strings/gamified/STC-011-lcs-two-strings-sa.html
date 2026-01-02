@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-011: Puzzle Piece Finder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #4a148c; --purple: #7b1fa2; --pink: #f48fb1; --gold: #ffd54f; --green: #69f0ae; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Fredoka', sans-serif; background: linear-gradient(135deg, var(--bg) 0%, #1a237e 100%); color: #fff; min-height: 100vh; }
+        header { background: rgba(0,0,0,0.3); padding: 1.5rem; text-align: center; border-bottom: 3px solid var(--gold); }
+        h1 { color: var(--gold); font-size: 1.8rem; }
+        .subtitle { color: var(--pink); font-size: 0.8rem; }
+        main { padding: 25px; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+        .puzzles { display: flex; gap: 20px; justify-content: center; }
+        .puzzle-board { background: rgba(0,0,0,0.3); border: 3px solid var(--purple); border-radius: 15px; padding: 20px; flex: 1; }
+        .puzzle-label { color: var(--gold); margin-bottom: 10px; font-weight: 600; }
+        .pieces { display: flex; flex-wrap: wrap; gap: 5px; }
+        .piece { padding: 10px 15px; background: var(--purple); border-radius: 8px; font-size: 1.1rem; transition: all 0.3s; }
+        .piece.A { background: #e91e63; }
+        .piece.B { background: #2196f3; }
+        .piece.common { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold); }
+        .controls { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 20px; display: flex; gap: 15px; align-items: end; }
+        .input-group { flex: 1; }
+        .input-group label { color: var(--pink); display: block; margin-bottom: 8px; font-size: 0.8rem; }
+        .input-group input { width: 100%; background: rgba(0,0,0,0.5); border: 2px solid var(--purple); border-radius: 8px; padding: 12px; color: #fff; font-size: 1rem; letter-spacing: 2px; }
+        .btn { padding: 15px 25px; border: none; border-radius: 10px; font-family: 'Fredoka', sans-serif; font-size: 1rem; cursor: pointer; background: var(--gold); color: #000; font-weight: 600; }
+        .btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(255,213,79,0.4); }
+        .result { background: rgba(0,0,0,0.3); border: 2px solid var(--green); border-radius: 10px; padding: 25px; text-align: center; }
+        .result-title { color: var(--pink); margin-bottom: 10px; }
+        .lcs-value { font-size: 2.5rem; color: var(--gold); font-weight: 600; letter-spacing: 5px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; display: inline-block; }
+        .lcs-info { color: #888; margin-top: 10px; font-size: 0.9rem; }
+        #status { text-align: center; padding: 15px; color: #aaa; }
+    </style>
+</head>
+<body>
+<header><h1>🧩 PUZZLE PIECE FINDER</h1><div class="subtitle">Longest Common Substring of Two Strings using Suffix Array</div></header>
+<main>
+    <div class="puzzles">
+        <div class="puzzle-board"><div class="puzzle-label">🔵 STRING A</div><div class="pieces" id="piecesA"></div></div>
+        <div class="puzzle-board"><div class="puzzle-label">🔴 STRING B</div><div class="pieces" id="piecesB"></div></div>
+    </div>
+    <div class="controls">
+        <div class="input-group"><label>String A</label><input type="text" id="strA" value="ABCDEF" maxlength="12"></div>
+        <div class="input-group"><label>String B</label><input type="text" id="strB" value="XBCDEY" maxlength="12"></div>
+        <button class="btn" onclick="game.find()">🔍 FIND COMMON</button>
+    </div>
+    <div id="status">Find the longest substring common to both puzzles!</div>
+    <div class="result">
+        <div class="result-title">🏆 LONGEST COMMON SUBSTRING</div>
+        <div class="lcs-value" id="lcs-result">-</div>
+        <div class="lcs-info" id="lcs-info">The matching piece will appear here</div>
+    </div>
+</main>
+<script>
+class PuzzleFinder {
+    constructor() { this.strA = ""; this.strB = ""; }
+    renderPieces(str, containerId, type) {
+        const c = document.getElementById(containerId); c.innerHTML = '';
+        str.split('').forEach(ch => { const p = document.createElement('div'); p.className = `piece ${type}`; p.textContent = ch; c.appendChild(p); });
+    }
+    find() {
+        this.strA = document.getElementById('strA').value.toUpperCase();
+        this.strB = document.getElementById('strB').value.toUpperCase();
+        this.renderPieces(this.strA, 'piecesA', 'A');
+        this.renderPieces(this.strB, 'piecesB', 'B');
+        // Concatenate with separator and build SA
+        const combined = this.strA + '#' + this.strB + '$';
+        const n = combined.length, lenA = this.strA.length;
+        let suffixes = []; for (let i = 0; i < n; i++) suffixes.push({ idx: i, suffix: combined.substring(i) });
+        suffixes.sort((a, b) => a.suffix.localeCompare(b.suffix));
+        const sa = suffixes.map(s => s.idx);
+        // Build LCP
+        let lcp = [0]; for (let i = 1; i < n; i++) {
+            const s1 = combined.substring(sa[i-1]), s2 = combined.substring(sa[i]); let l = 0;
+            while (l < s1.length && l < s2.length && s1[l] === s2[l]) l++; lcp.push(l);
+        }
+        // Find max LCP where adjacent suffixes are from different strings
+        let maxLen = 0, maxStr = "";
+        for (let i = 1; i < n; i++) {
+            const fromA1 = sa[i-1] < lenA, fromA2 = sa[i] < lenA;
+            if (fromA1 !== fromA2 && lcp[i] > maxLen) { maxLen = lcp[i]; maxStr = combined.substring(sa[i], sa[i] + maxLen); }
+        }
+        document.getElementById('lcs-result').textContent = maxStr || '(none)';
+        document.getElementById('lcs-info').textContent = maxLen > 0 ? `Length: ${maxLen}` : 'No common substring found';
+        if (maxLen > 0) {
+            document.getElementById('status').innerHTML = `<span style="color:var(--green)">✓ Found matching piece: "${maxStr}"</span>`;
+            this.highlightCommon(maxStr);
+        } else { document.getElementById('status').textContent = 'No common substring found.'; }
+    }
+    highlightCommon(lcs) {
+        const highlightIn = (str, containerId) => {
+            const idx = str.indexOf(lcs); if (idx === -1) return;
+            const pieces = document.getElementById(containerId).querySelectorAll('.piece');
+            for (let i = idx; i < idx + lcs.length && i < pieces.length; i++) pieces[i].classList.add('common');
+        };
+        highlightIn(this.strA, 'piecesA'); highlightIn(this.strB, 'piecesB');
+    }
+}
+const game = new PuzzleFinder();
+</script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-013: Mirror Maze</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1a1a2e; --mirror: #e0e0e0; --purple: #9c27b0; --pink: #e91e63; --cyan: #00bcd4; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Comfortaa', cursive; background: linear-gradient(135deg, var(--bg) 0%, #0f0f1a 100%); color: #fff; min-height: 100vh; }
+        header { background: rgba(0,0,0,0.3); padding: 1.5rem; text-align: center; border-bottom: 3px solid var(--purple); }
+        h1 { color: var(--pink); font-size: 1.8rem; text-shadow: 0 0 20px var(--pink); }
+        .subtitle { color: var(--cyan); font-size: 0.8rem; }
+        main { padding: 25px; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+        .maze { background: linear-gradient(180deg, #2a2a4a 0%, #1a1a2e 100%); border: 3px solid var(--purple); border-radius: 15px; padding: 25px; }
+        .string-display { display: flex; gap: 5px; justify-content: center; margin-bottom: 20px; }
+        .char-box { width: 45px; height: 50px; display: flex; align-items: center; justify-content: center; background: var(--mirror); color: #000; border-radius: 8px; font-size: 1.3rem; font-weight: bold; transition: all 0.3s; box-shadow: 0 0 10px rgba(255,255,255,0.2); }
+        .char-box.highlight { background: var(--pink); color: #fff; box-shadow: 0 0 20px var(--pink); }
+        .tree-container { display: flex; flex-direction: column; align-items: center; gap: 30px; padding: 20px; background: rgba(0,0,0,0.3); border-radius: 10px; min-height: 200px; }
+        .tree-level { display: flex; gap: 20px; justify-content: center; }
+        .tree-node { padding: 10px 15px; background: var(--purple); border-radius: 50%; min-width: 50px; text-align: center; font-weight: bold; box-shadow: 0 0 15px rgba(156, 39, 176, 0.5); transition: all 0.3s; }
+        .tree-node.root { background: #555; }
+        .tree-node.new { animation: pop 0.3s ease; background: var(--cyan); }
+        @keyframes pop { 0% { transform: scale(0); } 50% { transform: scale(1.2); } 100% { transform: scale(1); } }
+        .controls { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 20px; display: flex; gap: 15px; align-items: end; }
+        .input-group { flex: 2; }
+        .input-group label { color: var(--cyan); display: block; margin-bottom: 8px; font-size: 0.8rem; }
+        .input-group input { width: 100%; background: rgba(0,0,0,0.5); border: 2px solid var(--purple); border-radius: 8px; padding: 12px; color: #fff; font-size: 1rem; letter-spacing: 3px; }
+        .btn { flex: 1; padding: 15px; border: none; border-radius: 10px; font-family: 'Comfortaa', cursive; font-weight: bold; cursor: pointer; }
+        .btn-build { background: var(--pink); color: #fff; }
+        .btn-step { background: var(--cyan); color: #000; }
+        .btn:hover { transform: translateY(-3px); }
+        .results { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 20px; text-align: center; }
+        .result-title { color: var(--pink); margin-bottom: 15px; }
+        .palindromes { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+        .pal-chip { padding: 8px 15px; background: var(--purple); border-radius: 20px; font-size: 0.9rem; }
+        #status { text-align: center; padding: 15px; color: #888; }
+    </style>
+</head>
+<body>
+<header><h1>🪞 MIRROR MAZE</h1><div class="subtitle">Palindromic Tree (EERTREE) Construction</div></header>
+<main>
+    <div class="maze">
+        <div class="string-display" id="string-display"></div>
+        <div class="tree-container" id="tree-container">
+            <div class="tree-level"><div class="tree-node root">-1</div><div class="tree-node root">0</div></div>
+        </div>
+    </div>
+    <div class="controls">
+        <div class="input-group"><label>Enter String</label><input type="text" id="str" value="ABAABA" maxlength="12"></div>
+        <button class="btn btn-build" onclick="game.build()">🪞 BUILD TREE</button>
+        <button class="btn btn-step" onclick="game.step()">▶ STEP</button>
+    </div>
+    <div id="status">Build the palindromic tree character by character!</div>
+    <div class="results">
+        <div class="result-title">🏆 DISCOVERED PALINDROMES</div>
+        <div class="palindromes" id="palindromes"><span style="color:#666">Build to discover...</span></div>
+    </div>
+</main>
+<script>
+class MirrorMaze {
+    constructor() { this.str = ""; this.idx = 0; this.pals = new Set(); }
+    renderString() {
+        const d = document.getElementById('string-display'); d.innerHTML = '';
+        this.str.split('').forEach((c, i) => {
+            const b = document.createElement('div'); b.className = 'char-box' + (i < this.idx ? ' highlight' : ''); b.textContent = c; d.appendChild(b);
+        });
+    }
+    findPalindromes() {
+        const s = this.str.substring(0, this.idx); this.pals.clear();
+        for (let i = 0; i < s.length; i++) {
+            for (let j = i + 1; j <= s.length; j++) {
+                const sub = s.substring(i, j);
+                if (sub === sub.split('').reverse().join('')) this.pals.add(sub);
+            }
+        }
+        const c = document.getElementById('palindromes'); c.innerHTML = '';
+        if (this.pals.size === 0) { c.innerHTML = '<span style="color:#666">None yet</span>'; return; }
+        [...this.pals].sort((a,b) => b.length - a.length).forEach(p => {
+            const chip = document.createElement('div'); chip.className = 'pal-chip'; chip.textContent = p; c.appendChild(chip);
+        });
+    }
+    step() {
+        this.str = document.getElementById('str').value.toUpperCase();
+        if (this.idx >= this.str.length) { document.getElementById('status').textContent = 'Tree complete!'; return; }
+        this.idx++; this.renderString(); this.findPalindromes();
+        document.getElementById('status').textContent = `Added character ${this.idx}: "${this.str[this.idx-1]}" - Found ${this.pals.size} unique palindromes`;
+    }
+    build() {
+        this.str = document.getElementById('str').value.toUpperCase(); this.idx = 0;
+        const run = async () => { while (this.idx < this.str.length) { this.step(); await new Promise(r => setTimeout(r, 400)); } };
+        run();
+    }
+}
+const game = new MirrorMaze();
+</script>
+</body>
+</html>

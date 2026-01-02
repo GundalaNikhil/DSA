@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-002: Pattern Hunter</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f0f23;
+            --text: #cccccc;
+            --highlight: #ffff66;
+            --match: #00cc00;
+        }
+
+        body {
+            font-family: 'VT323', monospace;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
+
+        h1 { color: var(--highlight); margin-top: 2rem; font-size: 2.5rem; }
+
+        .search-area {
+            margin-top: 2rem;
+            padding: 20px;
+            background: #10101a;
+            border: 1px solid #333;
+            border-radius: 10px;
+        }
+
+        .text-row, .pattern-row {
+            display: flex;
+            gap: 2px;
+            font-size: 2rem;
+            margin: 10px 0;
+        }
+
+        .char {
+            width: 30px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1a1a2e;
+            border: 1px solid #333;
+        }
+
+        .char.match { background: var(--match); color: #000; }
+        .char.checking { background: #e17055; color: #fff; }
+        .char.found-at { background: var(--highlight); color: #000; }
+
+        .pattern-slider {
+            display: flex;
+            gap: 2px;
+            position: relative;
+            margin-left: 0;
+            transition: margin-left 0.3s;
+        }
+
+        .controls {
+            margin-top: 2rem;
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--highlight);
+            border: 1px solid var(--highlight);
+            padding: 10px 25px;
+            font-family: inherit;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .btn:hover { background: var(--highlight); color: #000; }
+
+        .status { margin-top: 1rem; min-height: 2em; color: #888; font-size: 1.2rem; }
+
+        .found-list { margin-top: 1rem; color: var(--match); font-size: 1.2rem; }
+
+    </style>
+</head>
+<body>
+
+<h1>PATTERN HUNTER (KMP)</h1>
+
+<div class="search-area">
+    <div>Text:</div>
+    <div class="text-row" id="textRow"></div>
+    
+    <div style="margin-top:20px">Pattern:</div>
+    <div class="pattern-slider" id="patternSlider"></div>
+</div>
+
+<div class="controls">
+    <button class="btn" onclick="stepMatch()">STEP →</button>
+    <button class="btn" onclick="autoRun()">AUTO RUN</button>
+    <button class="btn" onclick="init()">RESET</button>
+</div>
+
+<div class="status" id="status">Align pattern and step through...</div>
+<div class="found-list" id="found">Matches: </div>
+
+<script>
+    const TEXT = "ababababcababab";
+    const PATTERN = "abab";
+    
+    let pos = 0; // Current alignment position
+    let matchIdx = 0; // Matching char in pattern
+    let foundAt = [];
+    let running = false;
+
+    function init() {
+        pos = 0;
+        matchIdx = 0;
+        foundAt = [];
+        running = false;
+        render();
+        document.getElementById('found').textContent = "Matches: ";
+        document.getElementById('status').textContent = "Ready to search...";
+    }
+
+    function render() {
+        const textRow = document.getElementById('textRow');
+        const slider = document.getElementById('patternSlider');
+        textRow.innerHTML = '';
+        slider.innerHTML = '';
+
+        for (let i = 0; i < TEXT.length; i++) {
+            const c = document.createElement('div');
+            c.className = 'char';
+            c.textContent = TEXT[i];
+            if (foundAt.includes(i)) c.classList.add('found-at');
+            textRow.appendChild(c);
+        }
+
+        // Slider offset
+        slider.style.marginLeft = (pos * 32) + 'px'; // 30px + 2px gap
+
+        for (let i = 0; i < PATTERN.length; i++) {
+            const c = document.createElement('div');
+            c.className = 'char';
+            c.textContent = PATTERN[i];
+            if (i < matchIdx) c.classList.add('match');
+            else if (i === matchIdx && pos + i < TEXT.length) c.classList.add('checking');
+            slider.appendChild(c);
+        }
+    }
+
+    function stepMatch() {
+        if (pos + matchIdx >= TEXT.length) {
+            document.getElementById('status').textContent = "Search Complete.";
+            return;
+        }
+
+        if (TEXT[pos + matchIdx] === PATTERN[matchIdx]) {
+            matchIdx++;
+            if (matchIdx === PATTERN.length) {
+                foundAt.push(pos);
+                document.getElementById('found').textContent = "Matches at: " + foundAt.join(', ');
+                document.getElementById('status').textContent = `MATCH at index ${pos}!`;
+                // KMP: shift by matchIdx - pi[matchIdx-1]
+                // Simplified: shift by 1 for demo
+                pos++;
+                matchIdx = 0;
+            } else {
+                document.getElementById('status').textContent = `Matched ${matchIdx} chars...`;
+            }
+        } else {
+            if (matchIdx === 0) {
+                pos++;
+                document.getElementById('status').textContent = "Mismatch. Shift pattern.";
+            } else {
+                // KMP fallback (simplified: reset)
+                matchIdx = 0;
+                document.getElementById('status').textContent = "Partial mismatch. Reset match index.";
+            }
+        }
+        render();
+    }
+
+    async function autoRun() {
+        if (running) return;
+        running = true;
+        while (pos + matchIdx < TEXT.length && running) {
+            stepMatch();
+            await new Promise(r => setTimeout(r, 300));
+        }
+        running = false;
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

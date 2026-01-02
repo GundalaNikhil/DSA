@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-012: Species Finder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #1b4332; --green: #40916c; --light: #95d5b2; --gold: #ffd166; --red: #ef476f; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Nunito', sans-serif; background: linear-gradient(135deg, var(--bg) 0%, #081c15 100%); color: #fff; min-height: 100vh; }
+        header { background: rgba(0,0,0,0.3); padding: 1.5rem; text-align: center; border-bottom: 3px solid var(--green); }
+        h1 { color: var(--light); font-size: 1.8rem; }
+        .subtitle { color: var(--green); font-size: 0.8rem; }
+        main { padding: 25px; max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 20px; }
+        .petri-dishes { display: flex; gap: 20px; justify-content: center; }
+        .dish { background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.2) 100%); border: 4px solid var(--green); border-radius: 50%; width: 200px; height: 200px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; padding: 30px; position: relative; }
+        .dish-label { position: absolute; top: -30px; color: var(--gold); font-weight: bold; }
+        .specimen { padding: 5px 10px; margin: 2px; background: var(--green); border-radius: 5px; font-size: 0.9rem; transition: all 0.3s; }
+        .specimen.unique { background: var(--gold); color: #000; box-shadow: 0 0 10px var(--gold); }
+        .specimen.shared { background: var(--red); }
+        .controls { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 20px; display: flex; gap: 15px; align-items: end; }
+        .input-group { flex: 1; }
+        .input-group label { color: var(--light); display: block; margin-bottom: 8px; font-size: 0.8rem; }
+        .input-group input { width: 100%; background: rgba(0,0,0,0.5); border: 2px solid var(--green); border-radius: 8px; padding: 12px; color: #fff; font-size: 1rem; }
+        .btn { padding: 15px 25px; border: none; border-radius: 10px; font-family: 'Nunito', sans-serif; font-weight: bold; cursor: pointer; background: var(--gold); color: #000; }
+        .btn:hover { transform: translateY(-3px); }
+        .results { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 20px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; text-align: center; }
+        .result-card { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px; }
+        .result-value { font-size: 2rem; font-weight: bold; }
+        .result-label { font-size: 0.8rem; color: #888; }
+        .result-card.unique-a { border: 2px solid var(--gold); }
+        .result-card.unique-a .result-value { color: var(--gold); }
+        .result-card.unique-b { border: 2px solid var(--light); }
+        .result-card.unique-b .result-value { color: var(--light); }
+        .result-card.shared { border: 2px solid var(--red); }
+        .result-card.shared .result-value { color: var(--red); }
+        #status { text-align: center; padding: 15px; color: #888; }
+    </style>
+</head>
+<body>
+<header><h1>🔬 SPECIES FINDER</h1><div class="subtitle">Count Different Substrings Between Two Strings</div></header>
+<main>
+    <div class="petri-dishes">
+        <div class="dish"><div class="dish-label">SAMPLE A</div><div id="dishA"></div></div>
+        <div class="dish"><div class="dish-label">SAMPLE B</div><div id="dishB"></div></div>
+    </div>
+    <div class="controls">
+        <div class="input-group"><label>Sample A</label><input type="text" id="strA" value="ABC" maxlength="8"></div>
+        <div class="input-group"><label>Sample B</label><input type="text" id="strB" value="BCD" maxlength="8"></div>
+        <button class="btn" onclick="game.analyze()">🔬 ANALYZE</button>
+    </div>
+    <div id="status">Analyze to find unique and shared species (substrings)!</div>
+    <div class="results">
+        <div class="result-card unique-a"><div class="result-value" id="uniqueA">-</div><div class="result-label">UNIQUE TO A</div></div>
+        <div class="result-card shared"><div class="result-value" id="shared">-</div><div class="result-label">SHARED</div></div>
+        <div class="result-card unique-b"><div class="result-value" id="uniqueB">-</div><div class="result-label">UNIQUE TO B</div></div>
+    </div>
+</main>
+<script>
+class SpeciesFinder {
+    getAllSubstrings(s) { const set = new Set(); for (let i = 0; i < s.length; i++) for (let j = i + 1; j <= s.length; j++) set.add(s.substring(i, j)); return set; }
+    analyze() {
+        const strA = document.getElementById('strA').value.toUpperCase();
+        const strB = document.getElementById('strB').value.toUpperCase();
+        const subsA = this.getAllSubstrings(strA), subsB = this.getAllSubstrings(strB);
+        const uniqueA = new Set([...subsA].filter(x => !subsB.has(x)));
+        const uniqueB = new Set([...subsB].filter(x => !subsA.has(x)));
+        const shared = new Set([...subsA].filter(x => subsB.has(x)));
+        this.renderDish('dishA', strA, uniqueA, shared);
+        this.renderDish('dishB', strB, uniqueB, shared);
+        document.getElementById('uniqueA').textContent = uniqueA.size;
+        document.getElementById('uniqueB').textContent = uniqueB.size;
+        document.getElementById('shared').textContent = shared.size;
+        document.getElementById('status').innerHTML = `<span style="color:var(--light)">✓ Analysis complete! A has ${uniqueA.size} unique, B has ${uniqueB.size} unique, ${shared.size} shared.</span>`;
+    }
+    renderDish(id, str, unique, shared) {
+        const d = document.getElementById(id); d.innerHTML = '';
+        str.split('').forEach(ch => {
+            const s = document.createElement('div');
+            s.className = 'specimen' + (unique.has(ch) ? ' unique' : shared.has(ch) ? ' shared' : '');
+            s.textContent = ch; d.appendChild(s);
+        });
+    }
+}
+const game = new SpeciesFinder();
+</script>
+</body>
+</html>

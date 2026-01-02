@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-011: Common Finder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #dfe4ea;
+            --text: #2f3542;
+            --s1: #3742fa;
+            --s2: #ff4757;
+            --match: #2ed573;
+        }
+
+        body {
+            font-family: 'Ubuntu Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 { margin-top: 2rem; }
+
+        .strings-box {
+            margin-top: 2rem;
+            padding: 30px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .string-row {
+            display: flex;
+            gap: 5px;
+            font-size: 2rem;
+            margin: 10px 0;
+        }
+
+        .char {
+            width: 35px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .char.s1 { background: var(--s1); color: #fff; }
+        .char.s2 { background: var(--s2); color: #fff; }
+        .char.selected { box-shadow: 0 0 0 3px #000; }
+        .char.match { background: var(--match); color: #000; }
+
+        .selection-display {
+            margin: 20px 0;
+            font-size: 1.2rem;
+        }
+
+        .btn {
+            padding: 10px 25px;
+            background: var(--match);
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+        }
+
+        .result { margin-top: 15px; min-height: 1.5em; }
+
+    </style>
+</head>
+<body>
+
+<h1>LONGEST COMMON SUBSTRING</h1>
+<div style="color:#57606f">Click and drag on one string to select. Find the longest substring common to both!</div>
+
+<div class="strings-box">
+    <div>String A:</div>
+    <div class="string-row" id="strA"></div>
+    
+    <div style="margin-top:20px">String B:</div>
+    <div class="string-row" id="strB"></div>
+
+    <div class="selection-display">Selected: <span id="selText" style="font-weight:bold">-</span></div>
+
+    <button class="btn" onclick="submit()">SUBMIT AS LCS</button>
+    <div class="result" id="result"></div>
+</div>
+
+<button style="margin-top:20px; padding:10px 20px; background:#ced6e0; border:none; cursor:pointer; border-radius:5px" onclick="init()">New Strings</button>
+
+<script>
+    const PAIRS = [
+        ["abcdef", "zcdemf"],
+        ["geeks", "geezer"],
+        ["banana", "cabana"]
+    ];
+    let strA = "", strB = "";
+    let selStart = -1, selEnd = -1;
+    let isSelecting = false;
+
+    function findLCS(a, b) {
+        let longest = "";
+        for (let i = 0; i < a.length; i++) {
+            for (let len = 1; len <= a.length - i; len++) {
+                const sub = a.substring(i, i + len);
+                if (b.includes(sub) && sub.length > longest.length) {
+                    longest = sub;
+                }
+            }
+        }
+        return longest;
+    }
+
+    function init() {
+        const pair = PAIRS[Math.floor(Math.random() * PAIRS.length)];
+        strA = pair[0];
+        strB = pair[1];
+        selStart = -1;
+        selEnd = -1;
+        render();
+        document.getElementById('selText').textContent = '-';
+        document.getElementById('result').textContent = '';
+    }
+
+    function render() {
+        const divA = document.getElementById('strA');
+        const divB = document.getElementById('strB');
+        divA.innerHTML = '';
+        divB.innerHTML = '';
+
+        for (let i = 0; i < strA.length; i++) {
+            const c = document.createElement('div');
+            c.className = 'char s1';
+            c.textContent = strA[i];
+            
+            if (selStart !== -1 && selEnd !== -1 && i >= Math.min(selStart, selEnd) && i <= Math.max(selStart, selEnd)) {
+                c.classList.add('selected');
+            }
+
+            c.onmousedown = () => { selStart = i; selEnd = i; isSelecting = true; render(); };
+            c.onmouseenter = () => { if (isSelecting) { selEnd = i; render(); } };
+            c.onmouseup = () => { isSelecting = false; updateSel(); };
+
+            divA.appendChild(c);
+        }
+
+        for (let i = 0; i < strB.length; i++) {
+            const c = document.createElement('div');
+            c.className = 'char s2';
+            c.textContent = strB[i];
+            divB.appendChild(c);
+        }
+    }
+
+    function updateSel() {
+        const s = Math.min(selStart, selEnd);
+        const e = Math.max(selStart, selEnd);
+        const sub = strA.substring(s, e + 1);
+        document.getElementById('selText').textContent = sub;
+    }
+
+    function submit() {
+        if (selStart === -1) return;
+        
+        const s = Math.min(selStart, selEnd);
+        const e = Math.max(selStart, selEnd);
+        const userSub = strA.substring(s, e + 1);
+        const lcs = findLCS(strA, strB);
+
+        const result = document.getElementById('result');
+
+        // Check if in both strings
+        if (!strB.includes(userSub)) {
+            result.textContent = `"${userSub}" is not in String B!`;
+            result.style.color = "#ff4757";
+            return;
+        }
+
+        if (userSub.length === lcs.length) {
+            result.textContent = `CORRECT! LCS = "${userSub}" (length ${lcs.length})`;
+            result.style.color = "#2ed573";
+            highlightInB(userSub);
+        } else if (userSub.length < lcs.length) {
+            result.textContent = `"${userSub}" is common but there's a longer one!`;
+            result.style.color = "#ffa502";
+        }
+    }
+
+    function highlightInB(sub) {
+        const pos = strB.indexOf(sub);
+        const charsB = document.getElementById('strB').children;
+        for (let i = pos; i < pos + sub.length; i++) {
+            charsB[i].classList.add('match');
+        }
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

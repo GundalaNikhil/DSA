@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-002: DNA Helix Lab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a1628;
+            --panel: rgba(20, 40, 80, 0.9);
+            --cyan: #00f5ff;
+            --green: #39ff14;
+            --pink: #ff6ec7;
+            --gold: #ffd700;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background: var(--bg);
+            background-image: 
+                radial-gradient(ellipse at 20% 80%, rgba(0, 245, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(255, 110, 199, 0.1) 0%, transparent 50%);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+        }
+
+        header {
+            width: 100%;
+            background: linear-gradient(135deg, #1a2a4a 0%, #0d1929 100%);
+            padding: 1.5rem;
+            text-align: center;
+            border-bottom: 2px solid var(--cyan);
+            box-shadow: 0 0 30px rgba(0, 245, 255, 0.3);
+        }
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            color: var(--cyan);
+            text-shadow: 0 0 20px var(--cyan);
+            letter-spacing: 3px;
+        }
+        .subtitle { color: var(--pink); font-size: 0.9rem; margin-top: 5px; }
+
+        main { flex: 1; width: 100%; max-width: 1100px; padding: 30px; display: flex; flex-direction: column; gap: 25px; }
+
+        .lab-container {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 20px;
+        }
+
+        .helix-chamber {
+            background: var(--panel);
+            border: 2px solid #2a4a7a;
+            border-radius: 15px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        .chamber-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--cyan);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .chamber-title::before {
+            content: '◈';
+            color: var(--green);
+        }
+
+        .dna-display {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 20px 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            min-height: 120px;
+        }
+
+        .nucleotide {
+            width: 45px;
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+        .nucleotide.A { background: linear-gradient(135deg, #ff6b6b, #c0392b); }
+        .nucleotide.T { background: linear-gradient(135deg, #3498db, #2980b9); }
+        .nucleotide.G { background: linear-gradient(135deg, #2ecc71, #27ae60); }
+        .nucleotide.C { background: linear-gradient(135deg, #f1c40f, #f39c12); }
+        .nucleotide .idx {
+            position: absolute;
+            bottom: -18px;
+            font-size: 0.6rem;
+            color: #666;
+        }
+        .nucleotide.scanning {
+            box-shadow: 0 0 20px var(--cyan);
+            transform: scale(1.1);
+        }
+        .nucleotide.matched {
+            box-shadow: 0 0 25px var(--green);
+            animation: pulse 0.5s ease-in-out;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        .pattern-chamber {
+            background: var(--panel);
+            border: 2px solid var(--pink);
+            border-radius: 15px;
+            padding: 20px;
+        }
+
+        .pattern-input-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .pattern-display {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+            flex-wrap: wrap;
+            min-height: 50px;
+            padding: 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+        }
+        .pattern-display .nucleotide {
+            width: 35px;
+            height: 45px;
+            font-size: 1.1rem;
+        }
+
+        .dna-buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+        }
+        .dna-btn {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .dna-btn.A { background: #ff6b6b; color: #fff; }
+        .dna-btn.T { background: #3498db; color: #fff; }
+        .dna-btn.G { background: #2ecc71; color: #fff; }
+        .dna-btn.C { background: #f1c40f; color: #333; }
+        .dna-btn:hover { transform: scale(1.05); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+        .dna-btn:active { transform: scale(0.95); }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .scan-btn {
+            background: linear-gradient(135deg, var(--cyan), #0088aa);
+            color: #000;
+        }
+        .clear-btn {
+            background: #555;
+            color: #fff;
+        }
+        .action-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+
+        .results-panel {
+            background: var(--panel);
+            border: 2px solid var(--gold);
+            border-radius: 15px;
+            padding: 20px;
+        }
+        .results-title {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--gold);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .results-title::before { content: '🧬'; }
+
+        .match-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        .match-item {
+            background: rgba(57, 255, 20, 0.1);
+            border: 1px solid var(--green);
+            border-radius: 8px;
+            padding: 10px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .match-pos { color: var(--green); font-weight: bold; }
+        .match-label { color: #aaa; font-size: 0.8rem; }
+
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .stat-box {
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--cyan);
+        }
+        .stat-label { font-size: 0.7rem; color: #888; margin-top: 5px; }
+
+        #status {
+            text-align: center;
+            padding: 15px;
+            font-family: 'Orbitron', sans-serif;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .scanning-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: var(--cyan);
+            border-radius: 50%;
+            animation: blink 0.5s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .pi-table {
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        .pi-table-title {
+            color: var(--pink);
+            font-size: 0.8rem;
+            margin-bottom: 10px;
+        }
+        .pi-row {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+        .pi-cell {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #1a2a4a;
+            border: 1px solid #3a5a8a;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        .pi-cell.active { border-color: var(--cyan); box-shadow: 0 0 10px var(--cyan); }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🧬 DNA HELIX LAB</h1>
+    <div class="subtitle">KMP Pattern Matching • Gene Sequence Detection</div>
+</header>
+
+<main>
+    <div class="lab-container">
+        <div class="helix-chamber">
+            <div class="chamber-title">GENOME SEQUENCE</div>
+            <div class="dna-display" id="dna-strand"></div>
+            <div class="pi-table" id="pi-table" style="display:none;">
+                <div class="pi-table-title">π-TABLE (Failure Function)</div>
+                <div class="pi-row" id="pi-row"></div>
+            </div>
+        </div>
+
+        <div class="pattern-chamber">
+            <div class="chamber-title" style="color: var(--pink);">◈ GENE PATTERN</div>
+            <div class="pattern-input-area">
+                <div class="pattern-display" id="pattern-display"></div>
+                <div class="dna-buttons">
+                    <button class="dna-btn A" onclick="game.addBase('A')">A</button>
+                    <button class="dna-btn T" onclick="game.addBase('T')">T</button>
+                    <button class="dna-btn G" onclick="game.addBase('G')">G</button>
+                    <button class="dna-btn C" onclick="game.addBase('C')">C</button>
+                </div>
+                <div class="action-buttons">
+                    <button class="action-btn scan-btn" onclick="game.scan()">🔬 SCAN DNA</button>
+                    <button class="action-btn clear-btn" onclick="game.clearPattern()">✕ CLEAR</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="status">Enter a gene pattern and scan the DNA sequence!</div>
+
+    <div class="results-panel">
+        <div class="results-title">GENE MATCHES DETECTED</div>
+        <div class="match-list" id="match-list">
+            <div style="color:#666; text-align:center;">No matches yet. Scan to discover genes!</div>
+        </div>
+        <div class="stats-bar">
+            <div class="stat-box">
+                <div class="stat-value" id="stat-matches">0</div>
+                <div class="stat-label">MATCHES</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="stat-comparisons">0</div>
+                <div class="stat-label">COMPARISONS</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value" id="stat-skips">0</div>
+                <div class="stat-label">KMP SKIPS</div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+class DNALab {
+    constructor() {
+        this.dna = "ATGCGATAGCATGCGATAGCATGC";
+        this.pattern = "";
+        this.matches = [];
+        this.comparisons = 0;
+        this.skips = 0;
+
+        this.renderDNA();
+    }
+
+    renderDNA() {
+        const container = document.getElementById('dna-strand');
+        container.innerHTML = '';
+        this.dna.split('').forEach((base, i) => {
+            const el = document.createElement('div');
+            el.className = `nucleotide ${base}`;
+            el.id = `base-${i}`;
+            el.innerHTML = `${base}<span class="idx">${i}</span>`;
+            container.appendChild(el);
+        });
+    }
+
+    addBase(base) {
+        if (this.pattern.length >= 10) return;
+        this.pattern += base;
+        this.renderPattern();
+    }
+
+    clearPattern() {
+        this.pattern = "";
+        this.renderPattern();
+        this.clearHighlights();
+        document.getElementById('pi-table').style.display = 'none';
+    }
+
+    renderPattern() {
+        const container = document.getElementById('pattern-display');
+        container.innerHTML = '';
+        this.pattern.split('').forEach(base => {
+            const el = document.createElement('div');
+            el.className = `nucleotide ${base}`;
+            el.textContent = base;
+            container.appendChild(el);
+        });
+    }
+
+    clearHighlights() {
+        document.querySelectorAll('.nucleotide').forEach(el => {
+            el.classList.remove('scanning', 'matched');
+        });
+        document.getElementById('status').innerHTML = 'Enter a gene pattern and scan the DNA sequence!';
+    }
+
+    // KMP Failure Function
+    computePi(pattern) {
+        const n = pattern.length;
+        const pi = new Array(n).fill(0);
+        for (let i = 1; i < n; i++) {
+            let j = pi[i - 1];
+            while (j > 0 && pattern[i] !== pattern[j]) {
+                j = pi[j - 1];
+            }
+            if (pattern[i] === pattern[j]) j++;
+            pi[i] = j;
+        }
+        return pi;
+    }
+
+    showPiTable(pi) {
+        document.getElementById('pi-table').style.display = 'block';
+        const row = document.getElementById('pi-row');
+        row.innerHTML = '';
+        pi.forEach((val, i) => {
+            const cell = document.createElement('div');
+            cell.className = 'pi-cell';
+            cell.id = `pi-${i}`;
+            cell.textContent = val;
+            row.appendChild(cell);
+        });
+    }
+
+    async scan() {
+        if (this.pattern.length === 0) {
+            document.getElementById('status').innerHTML = '<span style="color:#ff6b6b">⚠️ Enter a pattern first!</span>';
+            return;
+        }
+
+        this.clearHighlights();
+        this.matches = [];
+        this.comparisons = 0;
+        this.skips = 0;
+
+        const pi = this.computePi(this.pattern);
+        this.showPiTable(pi);
+
+        document.getElementById('match-list').innerHTML = '';
+        document.getElementById('status').innerHTML = '<span class="scanning-indicator"></span> Scanning genome sequence...';
+
+        const text = this.dna;
+        const pat = this.pattern;
+        const n = text.length;
+        const m = pat.length;
+        let j = 0;
+
+        for (let i = 0; i < n; i++) {
+            // Highlight current position
+            const baseEl = document.getElementById(`base-${i}`);
+            baseEl.classList.add('scanning');
+
+            this.comparisons++;
+            this.updateStats();
+
+            await this.delay(150);
+
+            while (j > 0 && text[i] !== pat[j]) {
+                const skip = j - pi[j - 1];
+                this.skips += skip > 0 ? 1 : 0;
+                j = pi[j - 1];
+                this.updateStats();
+            }
+
+            if (text[i] === pat[j]) {
+                j++;
+            }
+
+            if (j === m) {
+                // Match found!
+                const startPos = i - m + 1;
+                this.matches.push(startPos);
+                this.highlightMatch(startPos, m);
+                this.addMatchResult(startPos);
+                j = pi[j - 1];
+            }
+
+            baseEl.classList.remove('scanning');
+        }
+
+        this.finishScan();
+    }
+
+    highlightMatch(start, len) {
+        for (let k = start; k < start + len; k++) {
+            const el = document.getElementById(`base-${k}`);
+            if (el) el.classList.add('matched');
+        }
+    }
+
+    addMatchResult(pos) {
+        const list = document.getElementById('match-list');
+        const item = document.createElement('div');
+        item.className = 'match-item';
+        item.innerHTML = `
+            <span class="match-label">Gene found at position</span>
+            <span class="match-pos">${pos}</span>
+        `;
+        list.appendChild(item);
+    }
+
+    updateStats() {
+        document.getElementById('stat-matches').textContent = this.matches.length;
+        document.getElementById('stat-comparisons').textContent = this.comparisons;
+        document.getElementById('stat-skips').textContent = this.skips;
+    }
+
+    finishScan() {
+        this.updateStats();
+        if (this.matches.length === 0) {
+            document.getElementById('status').innerHTML = '<span style="color:#ff6b6b">❌ No matches found in genome.</span>';
+            document.getElementById('match-list').innerHTML = '<div style="color:#666; text-align:center;">Pattern not found in sequence.</div>';
+        } else {
+            document.getElementById('status').innerHTML = `<span style="color:var(--green)">✓ Scan complete! Found ${this.matches.length} gene match(es).</span>`;
+        }
+    }
+
+    delay(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+}
+
+const game = new DNALab();
+</script>
+</body>
+</html>

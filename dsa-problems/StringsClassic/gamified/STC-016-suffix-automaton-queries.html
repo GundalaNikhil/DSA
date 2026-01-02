@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-016: Automaton Query</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d0d0d;
+            --text: #00ff00;
+            --input: #003300;
+            --accent: #00cc00;
+        }
+
+        body {
+            font-family: 'IBM Plex Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 { margin-top: 2rem; text-shadow: 0 0 10px var(--text); }
+
+        .terminal {
+            width: 600px;
+            background: #111;
+            border: 2px solid #333;
+            border-radius: 10px;
+            margin-top: 2rem;
+            padding: 20px;
+            font-size: 14px;
+        }
+
+        .prompt { color: #888; margin-bottom: 10px; }
+
+        .output-line {
+            padding: 5px 0;
+            border-bottom: 1px solid #222;
+        }
+
+        .query-input {
+            width: 100%;
+            background: var(--input);
+            border: 1px solid #333;
+            padding: 10px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .query-input:focus { outline: none; border-color: var(--accent); }
+
+        .btn {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: var(--accent);
+            border: none;
+            color: #000;
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        .string-display {
+            margin: 15px 0;
+            padding: 10px;
+            background: #001a00;
+            border-radius: 5px;
+            word-wrap: break-word;
+        }
+
+    </style>
+</head>
+<body>
+
+<h1>SUFFIX AUTOMATON QUERIES</h1>
+
+<div class="terminal">
+    <div class="prompt">$ LOADED STRING:</div>
+    <div class="string-display" id="strDisplay">abcabc</div>
+
+    <div class="prompt">$ ENTER QUERY SUBSTRING:</div>
+    <input type="text" class="query-input" id="queryInput" placeholder="Type a substring...">
+    <button class="btn" onclick="query()">QUERY</button>
+
+    <div style="margin-top:20px">
+        <div class="output-line">Query Log:</div>
+        <div id="log"></div>
+    </div>
+</div>
+
+<button style="margin-top:20px; padding:10px 20px; background:#333; border:none; color:#0f0; cursor:pointer; border-radius:5px" onclick="init()">NEW STRING</button>
+
+<script>
+    const STRINGS = ["abcabc", "banana", "mississippi", "abracadabra"];
+    let str = "";
+    let substrings = new Set();
+
+    function init() {
+        str = STRINGS[Math.floor(Math.random() * STRINGS.length)];
+        document.getElementById('strDisplay').textContent = str;
+        document.getElementById('log').innerHTML = '';
+        document.getElementById('queryInput').value = '';
+
+        // Precompute all substrings
+        substrings.clear();
+        for (let i = 0; i < str.length; i++) {
+            for (let j = i + 1; j <= str.length; j++) {
+                substrings.add(str.substring(i, j));
+            }
+        }
+    }
+
+    function query() {
+        const q = document.getElementById('queryInput').value;
+        if (!q) return;
+
+        const exists = substrings.has(q);
+        
+        // Count occurrences
+        let count = 0;
+        let pos = 0;
+        while ((pos = str.indexOf(q, pos)) !== -1) {
+            count++;
+            pos++;
+        }
+
+        // First occurrence
+        const first = str.indexOf(q);
+
+        const log = document.getElementById('log');
+        const entry = document.createElement('div');
+        entry.className = 'output-line';
+        
+        if (exists) {
+            entry.innerHTML = `<span style="color:#0f0">✓</span> "${q}" EXISTS | Count: ${count} | First at: ${first}`;
+        } else {
+            entry.innerHTML = `<span style="color:#f00">✗</span> "${q}" NOT FOUND`;
+        }
+        
+        log.prepend(entry);
+        document.getElementById('queryInput').value = '';
+    }
+
+    // Enter key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') query();
+    });
+
+    window.onload = init;
+</script>
+</body>
+</html>

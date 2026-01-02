@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STC-012: Diff Counter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cousine:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #636e72;
+            --text: #dfe6e9;
+            --s1: #0984e3;
+            --s2: #d63031;
+            --both: #a29bfe;
+        }
+
+        body {
+            font-family: 'Cousine', monospace;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 { margin-top: 2rem; }
+
+        .game-panel {
+            margin-top: 2rem;
+            padding: 30px;
+            background: #2d3436;
+            border-radius: 15px;
+        }
+
+        .string-display {
+            display: flex;
+            gap: 5px;
+            font-size: 1.5rem;
+            margin: 10px 0;
+        }
+
+        .char {
+            width: 30px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 3px;
+        }
+        .char.s1 { background: var(--s1); }
+        .char.s2 { background: var(--s2); }
+
+        .counters {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .counter-box {
+            text-align: center;
+            padding: 15px;
+            background: #3d3d3d;
+            border-radius: 10px;
+        }
+
+        .counter-box input {
+            width: 60px;
+            font-size: 1.5rem;
+            text-align: center;
+            padding: 5px;
+            border: 2px solid #555;
+            background: #2d3436;
+            color: #fff;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            margin-top: 30px;
+            padding: 10px 30px;
+            background: #00b894;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .result { margin-top: 15px; min-height: 1.5em; }
+
+    </style>
+</head>
+<body>
+
+<h1>DIFFERENT SUBSTRINGS</h1>
+<div style="color:#b2bec3">Count distinct substrings unique to each string and common to both.</div>
+
+<div class="game-panel">
+    <div>String A: <span style="color:var(--s1)">abc</span></div>
+    <div class="string-display" id="strA"></div>
+    
+    <div style="margin-top:15px">String B: <span style="color:var(--s2)">bcd</span></div>
+    <div class="string-display" id="strB"></div>
+
+    <div class="counters">
+        <div class="counter-box">
+            <div style="color:var(--s1)">Only in A</div>
+            <input type="number" id="onlyA" min="0">
+        </div>
+        <div class="counter-box">
+            <div style="color:var(--both)">Common</div>
+            <input type="number" id="common" min="0">
+        </div>
+        <div class="counter-box">
+            <div style="color:var(--s2)">Only in B</div>
+            <input type="number" id="onlyB" min="0">
+        </div>
+    </div>
+
+    <button class="btn" onclick="check()">CHECK</button>
+    <div class="result" id="result"></div>
+</div>
+
+<button style="margin-top:20px; padding:10px 20px; background:#555; border:none; color:#fff; cursor:pointer; border-radius:5px" onclick="init()">New Strings</button>
+
+<script>
+    const PAIRS = [
+        ["abc", "bcd"],
+        ["ab", "cd"],
+        ["aab", "aba"]
+    ];
+    let strA = "", strB = "";
+    let ans = { onlyA: 0, common: 0, onlyB: 0 };
+
+    function getSubstrings(s) {
+        const set = new Set();
+        for (let i = 0; i < s.length; i++) {
+            for (let j = i + 1; j <= s.length; j++) {
+                set.add(s.substring(i, j));
+            }
+        }
+        return set;
+    }
+
+    function init() {
+        const pair = PAIRS[Math.floor(Math.random() * PAIRS.length)];
+        strA = pair[0];
+        strB = pair[1];
+
+        const setA = getSubstrings(strA);
+        const setB = getSubstrings(strB);
+
+        let common = 0, onlyA = 0, onlyB = 0;
+        setA.forEach(s => {
+            if (setB.has(s)) common++;
+            else onlyA++;
+        });
+        setB.forEach(s => {
+            if (!setA.has(s)) onlyB++;
+        });
+
+        ans = { onlyA, common, onlyB };
+
+        render();
+        document.getElementById('onlyA').value = '';
+        document.getElementById('common').value = '';
+        document.getElementById('onlyB').value = '';
+        document.getElementById('result').textContent = '';
+    }
+
+    function render() {
+        const divA = document.getElementById('strA');
+        const divB = document.getElementById('strB');
+        divA.innerHTML = '';
+        divB.innerHTML = '';
+
+        for (let c of strA) {
+            const el = document.createElement('div');
+            el.className = 'char s1';
+            el.textContent = c;
+            divA.appendChild(el);
+        }
+
+        for (let c of strB) {
+            const el = document.createElement('div');
+            el.className = 'char s2';
+            el.textContent = c;
+            divB.appendChild(el);
+        }
+    }
+
+    function check() {
+        const userA = parseInt(document.getElementById('onlyA').value) || 0;
+        const userC = parseInt(document.getElementById('common').value) || 0;
+        const userB = parseInt(document.getElementById('onlyB').value) || 0;
+
+        const result = document.getElementById('result');
+
+        if (userA === ans.onlyA && userC === ans.common && userB === ans.onlyB) {
+            result.textContent = "ALL CORRECT!";
+            result.style.color = "#00b894";
+        } else {
+            result.innerHTML = `Incorrect.<br>Only A: ${ans.onlyA}, Common: ${ans.common}, Only B: ${ans.onlyB}`;
+            result.style.color = "#d63031";
+        }
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>
