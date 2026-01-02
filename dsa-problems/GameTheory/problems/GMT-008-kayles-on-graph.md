@@ -205,39 +205,6 @@ class Solution {
   }
 }
 
-class Solution {
-  kaylesOnGraph(n, edges) {
-    const adjMask = new Int32Array(n);
-    for (const [u, v] of edges) {
-      adjMask[u] |= (1 << v);
-      adjMask[v] |= (1 << u);
-    }
-
-    const memo = new Int8Array(1 << n).fill(-1); // -1: unknown, 0: Losing, 1: Winning
-
-    const canWin = (mask) => {
-      if (mask === 0) return false;
-      if (memo[mask] !== -1) return memo[mask] === 1;
-
-      let canReachLosing = false;
-      for (let u = 0; u < n; u++) {
-        if ((mask & (1 << u)) !== 0) {
-          const removeMask = (1 << u) | adjMask[u];
-          const nextMask = mask & ~removeMask;
-          if (!canWin(nextMask)) {
-            canReachLosing = true;
-            break;
-          }
-        }
-      }
-
-      memo[mask] = canReachLosing ? 1 : 0;
-      return canReachLosing;
-    };
-
-    return canWin((1 << n) - 1) ? "First" : "Second";
-  }
-}
 
 const rl = readline.createInterface({
   input: process.stdin,

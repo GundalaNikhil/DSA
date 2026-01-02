@@ -194,16 +194,6 @@ class Solution {
   }
 }
 
-class Solution {
-  intervalRemovalGame(n, intervals) {
-    let xorSum = 0n; // Use BigInt for safety with large numbers
-    for (const [l, r] of intervals) {
-      const len = BigInt(r) - BigInt(l);
-      xorSum ^= len;
-    }
-    return xorSum > 0n ? "First" : "Second";
-  }
-}
 
 const rl = readline.createInterface({
   input: process.stdin,

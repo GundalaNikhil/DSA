@@ -221,48 +221,6 @@ class Solution {
   }
 }
 
-class Solution {
-  blockingTokens(n, edges, u, v) {
-    const adj = Array.from({ length: n + 1 }, () => []);
-    for (const [a, b] of edges) {
-      adj[a].push(b);
-    }
-
-    // memo[u][v]: 0=unknown, 1=losing, 2=winning
-    const memo = Array.from({ length: n + 1 }, () => new Int8Array(n + 1));
-
-    const canWin = (currU, currV) => {
-      if (memo[currU][currV] !== 0) return memo[currU][currV] === 2;
-
-      let canReachLosing = false;
-
-      // Try moving u
-      for (const nextU of adj[currU]) {
-        if (nextU === currV) continue;
-        if (!canWin(nextU, currV)) {
-          canReachLosing = true;
-          break;
-        }
-      }
-
-      // Try moving v
-      if (!canReachLosing) {
-        for (const nextV of adj[currV]) {
-          if (nextV === currU) continue;
-          if (!canWin(currU, nextV)) {
-            canReachLosing = true;
-            break;
-          }
-        }
-      }
-
-      memo[currU][currV] = canReachLosing ? 2 : 1;
-      return canReachLosing;
-    };
-
-    return canWin(u, v) ? "First" : "Second";
-  }
-}
 
 const rl = readline.createInterface({
   input: process.stdin,

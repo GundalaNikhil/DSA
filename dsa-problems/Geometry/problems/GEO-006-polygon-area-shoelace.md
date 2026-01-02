@@ -101,23 +101,45 @@ class Solution {
 }
 
 class Main {
-static class Solution {
-    public long polygonArea(long[] xs, long[] ys) {
-        int n = xs.length;
-        long sum = 0;
-        for (int i = 0; i < n; i++) {
-            int j = (i + 1) % n;
-            sum += 1L * xs[i] * ys[j] - 1L * xs[j] * ys[i];
-        }
-        return Math.abs(sum) / 2;
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        int n = sc.nextInt();
+        long[] xs = new long[n];
+        long[] ys = new long[n];
+        for(int i=0; i<n; i++) { xs[i] = sc.nextLong(); ys[i] = sc.nextLong(); }
+        System.out.println(new Solution().polygonArea(xs, ys));
+        sc.close();
     }
 }
 ```
 
 ### Python
 
-```
-// No template available
+```python
+def polygon_area(xs: list, ys: list) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    import sys
+    data = list(map(int, sys.stdin.read().strip().split()))
+    if not data:
+        return
+    it = iter(data)
+    try:
+        n = next(it)
+        xs = []
+        ys = []
+        for _ in range(n):
+            xs.append(next(it))
+            ys.append(next(it))
+        print(polygon_area(xs, ys))
+    except StopIteration:
+        return
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
@@ -161,18 +183,7 @@ class Solution {
   }
 }
 
-const readline = require('readline');
 
-function new Solution().polygonArea(xs, ys) {
-  const n = xs.length;
-  let sum = 0n;
-  for (let i = 0; i < n; i++) {
-    const j = (i + 1) % n;
-    sum += BigInt(xs[i]) * BigInt(ys[j]) - BigInt(xs[j]) * BigInt(ys[i]);
-  }
-  const absSum = sum < 0n ? -sum : sum;
-  return absSum / 2n;
-}
 
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });

@@ -198,27 +198,6 @@ class Solution {
   }
 }
 
-class Solution {
-  subtractSquareGame(n, banned) {
-    const bannedSet = new Set(banned);
-    const dp = new Uint8Array(n + 1); // 0: False, 1: True
-    
-    for (let i = 1; i <= n; i++) {
-      for (let j = 1; j * j <= i; j++) {
-        const s = j * j;
-        if (!bannedSet.has(s)) {
-          if (dp[i - s] === 0) {
-            dp[i] = 1;
-            break;
-          }
-        }
-      }
-    }
-    
-    return dp[n] === 1 ? "First" : "Second";
-  }
-}
-
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,

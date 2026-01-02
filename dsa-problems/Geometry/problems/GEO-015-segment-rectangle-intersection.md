@@ -99,42 +99,48 @@ class Solution {
 }
 
 class Main {
-static class Solution {
-    private int orient(long ax,long ay,long bx,long by,long cx,long cy){
-        long v = (bx-ax)*(cy-ay) - (by-ay)*(cx-ax);
-        return Long.compare(v,0);
-    }
-    private boolean onSeg(long ax,long ay,long bx,long by,long cx,long cy){
-        return orient(ax,ay,bx,by,cx,cy)==0 &&
-               Math.min(ax,bx)<=cx && cx<=Math.max(ax,bx) &&
-               Math.min(ay,by)<=cy && cy<=Math.max(ay,by);
-    }
-    private boolean segInter(long ax,long ay,long bx,long by,long cx,long cy,long dx,long dy){
-        int o1=orient(ax,ay,bx,by,cx,cy), o2=orient(ax,ay,bx,by,dx,dy);
-        int o3=orient(cx,cy,dx,dy,ax,ay), o4=orient(cx,cy,dx,dy,bx,by);
-        if (o1==0 && onSeg(ax,ay,bx,by,cx,cy)) return true;
-        if (o2==0 && onSeg(ax,ay,bx,by,dx,dy)) return true;
-        if (o3==0 && onSeg(cx,cy,dx,dy,ax,ay)) return true;
-        if (o4==0 && onSeg(cx,cy,dx,dy,bx,by)) return true;
-        return (long)o1*o2 < 0 && (long)o3*o4 < 0;
-    }
-    public boolean intersects(long xL, long yB, long xR, long yT, long x1, long y1, long x2, long y2) {
-        boolean inside1 = (xL <= x1 && x1 <= xR && yB <= y1 && y1 <= yT);
-        boolean inside2 = (xL <= x2 && x2 <= xR && yB <= y2 && y2 <= yT);
-        if (inside1 || inside2) return true;
-        long[][] edges = {{xL,yB,xR,yB},{xR,yB,xR,yT},{xR,yT,xL,yT},{xL,yT,xL,yB}};
-        for (long[] e: edges) {
-            if (segInter(x1,y1,x2,y2,e[0],e[1],e[2],e[3])) return true;
-        }
-        return false;
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        long xL = sc.nextLong(); long yB = sc.nextLong();
+        long xR = sc.nextLong(); long yT = sc.nextLong();
+        long x1 = sc.nextLong(); long y1 = sc.nextLong();
+        long x2 = sc.nextLong(); long y2 = sc.nextLong();
+        System.out.println(new Solution().intersects(xL, yB, xR, yT, x1, y1, x2, y2) ? "true" : "false");
+        sc.close();
     }
 }
 ```
 
 ### Python
 
-```
-// No template available
+```python
+def intersects(xL: int, yB: int, xR: int, yT: int, x1: int, y1: int, x2: int, y2: int) -> bool:
+    # Implementation here
+    return False
+
+def main():
+    import sys
+    data = list(map(int, sys.stdin.read().strip().split()))
+    if not data:
+        return
+    it = iter(data)
+    try:
+        xL = next(it)
+        yB = next(it)
+        xR = next(it)
+        yT = next(it)
+        x1 = next(it)
+        y1 = next(it)
+        x2 = next(it)
+        y2 = next(it)
+        result = intersects(xL, yB, xR, yT, x1, y1, x2, y2)
+        print("true" if result else "false")
+    except StopIteration:
+        return
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
@@ -182,52 +188,8 @@ class Solution {
 
 class Solution {
   intersects(xL, yB, xR, yT, x1, y1, x2, y2) {
-    xL = BigInt(xL); yB = BigInt(yB); xR = BigInt(xR); yT = BigInt(yT);
-    x1 = BigInt(x1); y1 = BigInt(y1); x2 = BigInt(x2); y2 = BigInt(y2);
-
-    const orient = (ax, ay, bx, by, cx, cy) => {
-      const v = (bx - ax) * (cy - ay) - (by - ay) * (cx - ax);
-      if (v > 0n) return 1;
-      if (v < 0n) return -1;
-      return 0;
-    };
-
-    const onSeg = (ax, ay, bx, by, cx, cy) => {
-      return orient(ax, ay, bx, by, cx, cy) === 0 &&
-             (ax < bx ? ax : bx) <= cx && cx <= (ax > bx ? ax : bx) &&
-             (ay < by ? ay : by) <= cy && cy <= (ay > by ? ay : by);
-    };
-
-    const segInter = (ax, ay, bx, by, cx, cy, dx, dy) => {
-      const o1 = orient(ax, ay, bx, by, cx, cy);
-      const o2 = orient(ax, ay, bx, by, dx, dy);
-      const o3 = orient(cx, cy, dx, dy, ax, ay);
-      const o4 = orient(cx, cy, dx, dy, bx, by);
-
-      if (o1 === 0 && onSeg(ax, ay, bx, by, cx, cy)) return true;
-      if (o2 === 0 && onSeg(ax, ay, bx, by, dx, dy)) return true;
-      if (o3 === 0 && onSeg(cx, cy, dx, dy, ax, ay)) return true;
-      if (o4 === 0 && onSeg(cx, cy, dx, dy, bx, by)) return true;
-
-      return o1 !== o2 && o3 !== o4;
-    };
-
-    const inside1 = (xL <= x1 && x1 <= xR && yB <= y1 && y1 <= yT);
-    const inside2 = (xL <= x2 && x2 <= xR && yB <= y2 && y2 <= yT);
-    if (inside1 || inside2) return true;
-
-    const edges = [
-      [xL, yB, xR, yB],
-      [xR, yB, xR, yT],
-      [xR, yT, xL, yT],
-      [xL, yT, xL, yB]
-    ];
-
-    for (const e of edges) {
-      if (segInter(x1, y1, x2, y2, e[0], e[1], e[2], e[3])) return true;
-    }
-
-    return false;
+    // Implementation here
+    return null;
   }
 }
 

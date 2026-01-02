@@ -92,25 +92,46 @@ class Solution {
 }
 
 class Main {
-static class Solution {
-    public double distancePointSegment(long x1, long y1, long x2, long y2, long px, long py) {
-        long ux = x2 - x1, uy = y2 - y1;
-        long vx = px - x1, vy = py - y1;
-        long denom = ux*ux + uy*uy;
-        if (denom == 0) return Math.hypot(vx, vy);
-        double t = (ux * (double)vx + uy * (double)vy) / denom;
-        t = Math.max(0.0, Math.min(1.0, t));
-        double cx = x1 + t * ux;
-        double cy = y1 + t * uy;
-        return Math.hypot(px - cx, py - cy);
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        long x1 = sc.nextLong(); long y1 = sc.nextLong();
+        long x2 = sc.nextLong(); long y2 = sc.nextLong();
+        long px = sc.nextLong(); long py = sc.nextLong();
+        System.out.printf("%.6f\n", new Solution().distancePointSegment(x1, y1, x2, y2, px, py));
+        sc.close();
     }
 }
 ```
 
 ### Python
 
-```
-// No template available
+```python
+import math
+
+def distance_point_segment(x1: int, y1: int, x2: int, y2: int, px: int, py: int) -> float:
+    # Implementation here
+    return 0.0
+
+def main():
+    import sys
+    data = list(map(int, sys.stdin.read().strip().split()))
+    if not data:
+        return
+    it = iter(data)
+    try:
+        x1 = next(it)
+        y1 = next(it)
+        x2 = next(it)
+        y2 = next(it)
+        px = next(it)
+        py = next(it)
+        print(f"{distance_point_segment(x1, y1, x2, y2, px, py):.6f}")
+    except StopIteration:
+        return
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
@@ -133,9 +154,15 @@ public:
 };
 
 int main() {
-    ios::sync_with_stdio(false); cin.tie(nullptr);
-    long long x1, y1, x2, y2, px, py; cin >> x1 >> y1 >> x2 >> y2 >> px >> py;
-    cout << fixed << setprecision(6) << distancePointSegment(x1, y1, x2, y2, px, py) << endl;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long x1, y1, x2, y2, px, py;
+    if (!(cin >> x1 >> y1 >> x2 >> y2 >> px >> py)) return 0;
+
+    Solution sol;
+    cout << fixed << setprecision(6) << sol.distancePointSegment(x1, y1, x2, y2, px, py) << "\n";
+
     return 0;
 }
 ```
@@ -151,21 +178,6 @@ class Solution {
     return null;
   }
 }
-
-const readline = require('readline');
-
-function new Solution().distancePointSegment(x1, y1, x2, y2, px, py) {
-  const ux = x2 - x1, uy = y2 - y1;
-  const vx = px - x1, vy = py - y1;
-  const denom = ux*ux + uy*uy;
-  if (denom === 0) return Math.hypot(vx, vy);
-  let t = (ux*vx + uy*vy) / denom;
-  t = Math.max(0, Math.min(1, t));
-  const cx = x1 + t * ux;
-  const cy = y1 + t * uy;
-  return Math.hypot(px - cx, py - cy);
-}
-
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 let lines = [];

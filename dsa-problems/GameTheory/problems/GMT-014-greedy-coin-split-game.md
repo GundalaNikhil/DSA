@@ -195,39 +195,6 @@ class Solution {
   }
 }
 
-class Solution {
-  coinSplit(n, A) {
-    const prefixSum = new Array(n + 1).fill(0);
-    for (let i = 0; i < n; i++) prefixSum[i + 1] = prefixSum[i] + A[i];
-
-    const getSum = (i, j) => prefixSum[j + 1] - prefixSum[i];
-    const memo = new Map();
-
-    const solve = (i, j) => {
-      if (i === j) return 0;
-      const key = `${i},${j}`;
-      if (memo.has(key)) return memo.get(key);
-
-      let maxDiff = -Infinity;
-
-      for (let k = i; k < j; k++) {
-        const sumLeft = getSum(i, k);
-        const sumRight = getSum(k + 1, j);
-
-        const valTakeLeft = -sumLeft - solve(k + 1, j);
-        const valTakeRight = -sumRight - solve(i, k);
-
-        const outcome = Math.min(valTakeLeft, valTakeRight);
-        maxDiff = Math.max(maxDiff, outcome);
-      }
-
-      memo.set(key, maxDiff);
-      return maxDiff;
-    };
-
-    return solve(0, n - 1);
-  }
-}
 
 const rl = readline.createInterface({
   input: process.stdin,

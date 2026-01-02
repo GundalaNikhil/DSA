@@ -12,10 +12,14 @@ static class Solution {
 
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
-        if (!sc.hasNext()) return;
-        long x1 = sc.nextLong(); long y1 = sc.nextLong();
-        long x2 = sc.nextLong(); long y2 = sc.nextLong();
-        long x3 = sc.nextLong(); long y3 = sc.nextLong();
-        System.out.println(new Solution().orientation(x1, y1, x2, y2, x3, y3));
+        try {
+            if (!sc.hasNext()) return;
+            long x1 = sc.nextLong(); long y1 = sc.nextLong();
+            long x2 = sc.nextLong(); long y2 = sc.nextLong();
+            long x3 = sc.nextLong(); long y3 = sc.nextLong();
+            System.out.println(new Solution().orientation(x1, y1, x2, y2, x3, y3));
+        } finally {
+            sc.close();
+        }
     }
 }

@@ -118,36 +118,49 @@ class Solution {
 }
 
 class Main {
-
-static class Solution {
-    private boolean onSegment(long xi, long yi, long xj, long yj, long qx, long qy) {
-        long cross = (xj - xi) * (qy - yi) - (yj - yi) * (qx - xi);
-        if (cross != 0) return false;
-        return Math.min(xi, xj) <= qx && qx <= Math.max(xi, xj)
-            && Math.min(yi, yj) <= qy && qy <= Math.max(yi, yj);
-    }
-
-    public String pointInPolygon(long[] xs, long[] ys, long qx, long qy) {
-        int n = xs.length;
-        int wn = 0;
-        for (int i = 0; i < n; i++) {
-            int j = (i + 1) % n;
-            long xi = xs[i], yi = ys[i];
-            long xj = xs[j], yj = ys[j];
-            if (onSegment(xi, yi, xj, yj, qx, qy)) return "boundary";
-            long cross = (xj - xi) * (qy - yi) - (yj - yi) * (qx - xi);
-            if (yi <= qy && yj > qy && cross > 0) wn++;
-            if (yi > qy && yj <= qy && cross < 0) wn--;
-        }
-        return wn != 0 ? "inside" : "outside";
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        long[] xs = new long[n];
+        long[] ys = new long[n];
+        for(int i=0; i<n; i++) { xs[i] = sc.nextLong(); ys[i] = sc.nextLong(); }
+        long qx = sc.nextLong(); long qy = sc.nextLong();
+        System.out.println(new Solution().pointInPolygon(xs, ys, qx, qy));
+        sc.close();
     }
 }
 ```
 
 ### Python
 
-```
-// No template available
+```python
+from typing import List
+
+def classify_point(xs: List[int], ys: List[int], qx: int, qy: int) -> str:
+    # Implementation here
+    return ""
+
+def main():
+    import sys
+    data = list(map(int, sys.stdin.read().strip().split()))
+    if not data:
+        return
+    it = iter(data)
+    try:
+        n = next(it)
+        xs = []
+        ys = []
+        for _ in range(n):
+            xs.append(next(it))
+            ys.append(next(it))
+        qx = next(it)
+        qy = next(it)
+        print(classify_point(xs, ys, qx, qy))
+    except StopIteration:
+        return
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
@@ -191,25 +204,6 @@ class Solution {
     return null;
   }
 }
-
-const readline = require('readline');
-
-function new Solution().classifyPoint(xs, ys, qx, qy) {
-  const n = xs.length;
-  let wn = 0;
-  for (let i = 0; i < n; i++) {
-    const j = (i + 1) % n;
-    const xi = xs[i], yi = ys[i], xj = xs[j], yj = ys[j];
-    const cross = (xj - xi) * (qy - yi) - (yj - yi) * (qx - xi);
-    if (cross === 0 && Math.min(xi, xj) <= qx && qx <= Math.max(xi, xj) && Math.min(yi, yj) <= qy && qy <= Math.max(yi, yj)) {
-      return "boundary";
-    }
-    if (yi <= qy && yj > qy && cross > 0) wn++;
-    else if (yi > qy && yj <= qy && cross < 0) wn--;
-  }
-  return wn !== 0 ? "inside" : "outside";
-}
-
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 let lines = [];

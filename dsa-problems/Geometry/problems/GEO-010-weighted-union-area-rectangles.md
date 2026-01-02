@@ -100,55 +100,6 @@ class Solution {
 }
 
 class Main {
-    public static long solve(int n, int targetW, int[][] rects) {
-        if (n == 0) return 0;
-        
-        List<Integer> xCoords = new ArrayList<>();
-        List<Integer> yCoords = new ArrayList<>();
-        for (int[] r : rects) {
-            xCoords.add(r[0]);
-            xCoords.add(r[2]);
-            yCoords.add(r[1]);
-            yCoords.add(r[3]);
-        }
-        Collections.sort(xCoords);
-        Collections.sort(yCoords);
-        
-        List<Integer> ux = new ArrayList<>();
-        if (!xCoords.isEmpty()) ux.add(xCoords.get(0));
-        for (int i = 1; i < xCoords.size(); i++) if (!xCoords.get(i).equals(xCoords.get(i-1))) ux.add(xCoords.get(i));
-        
-        List<Integer> uy = new ArrayList<>();
-        if (!yCoords.isEmpty()) uy.add(yCoords.get(0));
-        for (int i = 1; i < yCoords.size(); i++) if (!yCoords.get(i).equals(yCoords.get(i-1))) uy.add(yCoords.get(i));
-        
-        long totalArea = 0;
-        for (int i = 0; i < ux.size() - 1; i++) {
-            long dx = (long)ux.get(i + 1) - ux.get(i);
-            if (dx <= 0) continue;
-            
-            long[] yWeights = new long[uy.size() - 1];
-            for (int[] r : rects) {
-                if (r[0] <= ux.get(i) && r[2] >= ux.get(i+1)) {
-                    for (int j = 0; j < uy.size() - 1; j++) {
-                        if (r[1] <= uy.get(j) && r[3] >= uy.get(j+1)) {
-                            yWeights[j] += r[4];
-                        }
-                    }
-                }
-            }
-            
-            long dyCovered = 0;
-            for (int j = 0; j < uy.size() - 1; j++) {
-                if (yWeights[j] >= targetW) {
-                    dyCovered += (long)uy.get(j+1) - uy.get(j);
-                }
-            }
-            totalArea += dx * dyCovered;
-        }
-        return totalArea;
-    }
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
@@ -162,7 +113,7 @@ class Main {
             rects[i][3] = sc.nextInt();
             rects[i][4] = sc.nextInt();
         }
-        System.out.println(solve(n, targetW, rects));
+        System.out.println(new Solution().solve(n, targetW, rects));
         sc.close();
     }
 }
@@ -170,14 +121,70 @@ class Main {
 
 ### Python
 
-```
-// No template available
+```python
+def solve(n: int, targetW: int, rects: list) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    import sys
+    data = list(map(int, sys.stdin.read().strip().split()))
+    if not data:
+        return
+    it = iter(data)
+    try:
+        n = next(it)
+        targetW = next(it)
+        rects = []
+        for _ in range(n):
+            x1 = next(it)
+            y1 = next(it)
+            x2 = next(it)
+            y2 = next(it)
+            w = next(it)
+            rects.append([x1, y1, x2, y2, w])
+        print(solve(n, targetW, rects))
+    except StopIteration:
+        return
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
 
-```
-// No template available
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long long solve(int n, int targetW, const vector<vector<int>>& rects) {
+        // Implementation here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, targetW;
+    if (!(cin >> n >> targetW)) return 0;
+
+    vector<vector<int>> rects(n, vector<int>(5));
+    for (int i = 0; i < n; i++) {
+        cin >> rects[i][0] >> rects[i][1] >> rects[i][2] >> rects[i][3] >> rects[i][4];
+    }
+
+    Solution sol;
+    cout << sol.solve(n, targetW, rects) << "\n";
+
+    return 0;
+}
 ```
 
 ### JavaScript
@@ -186,11 +193,31 @@ class Main {
 const readline = require("readline");
 
 class Solution {
-  solve() {
+  solve(n, targetW, rects) {
     // Implementation here
     return null;
   }
 }
 
-// I/O handling
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let lines = [];
+rl.on('line', (line) => { lines.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if (lines.length === 0) return;
+    let idx = 0;
+    const nextInt = () => parseInt(lines[idx++]);
+    const n = nextInt();
+    const targetW = nextInt();
+    const rects = [];
+    for (let i = 0; i < n; i++) {
+        const x1 = nextInt();
+        const y1 = nextInt();
+        const x2 = nextInt();
+        const y2 = nextInt();
+        const w = nextInt();
+        rects.push([x1, y1, x2, y2, w]);
+    }
+    const sol = new Solution();
+    console.log(sol.solve(n, targetW, rects));
+});
 ```

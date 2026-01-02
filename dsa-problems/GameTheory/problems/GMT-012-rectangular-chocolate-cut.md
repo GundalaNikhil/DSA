@@ -193,12 +193,6 @@ class Solution {
   }
 }
 
-class Solution {
-  chocolateCut(R, C) {
-    const area = R * C;
-    return (area % 2n === 0n) ? "First" : "Second";
-  }
-}
 
 const rl = readline.createInterface({
   input: process.stdin,

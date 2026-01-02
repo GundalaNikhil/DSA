@@ -207,15 +207,6 @@ class Solution {
   }
 }
 
-class Solution {
-  nimLimit(n, A, L) {
-    let xorSum = 0;
-    for (let i = 0; i < n; i++) {
-      xorSum ^= (A[i] % (L[i] + 1));
-    }
-    return xorSum > 0 ? "First" : "Second";
-  }
-}
 
 const rl = readline.createInterface({
   input: process.stdin,

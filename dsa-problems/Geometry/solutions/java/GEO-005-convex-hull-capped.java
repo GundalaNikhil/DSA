@@ -66,14 +66,18 @@ static class Solution {
 
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
-        if (!sc.hasNext()) return;
-        int n = sc.nextInt();
-        long[] xs = new long[n];
-        long[] ys = new long[n];
-        for(int i=0; i<n; i++) { xs[i] = sc.nextLong(); ys[i] = sc.nextLong(); }
-        int theta = sc.nextInt();
-        List<long[]> res = new Solution().cappedHull(xs, ys, theta);
-        System.out.println(res.size());
-        for(long[] p : res) System.out.println(p[0] + " " + p[1]);
+        try {
+            if (!sc.hasNext()) return;
+            int n = sc.nextInt();
+            long[] xs = new long[n];
+            long[] ys = new long[n];
+            for(int i=0; i<n; i++) { xs[i] = sc.nextLong(); ys[i] = sc.nextLong(); }
+            int theta = sc.nextInt();
+            List<long[]> res = new Solution().cappedHull(xs, ys, theta);
+            System.out.println(res.size());
+            for(long[] p : res) System.out.println(p[0] + " " + p[1]);
+        } finally {
+            sc.close();
+        }
     }
 }

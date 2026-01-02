@@ -91,59 +91,24 @@ Computational Geometry, Sweep Line, Balanced BST
 import java.util.*;
 
 class Solution {
-    public int orient(long ax, long ay, long bx, long by, long cx, long cy) {
+    public long countIntersections(long[][] segs) {
         // Implementation here
         return 0;
     }
 }
 
 class Main {
-    private static int orient(long ax, long ay, long bx, long by, long cx, long cy) {
-        long v = (bx - ax) * (cy - ay) - (by - ay) * (cx - ax);
-        if (v == 0) return 0;
-        return (v > 0) ? 1 : -1;
-    }
-
-    private static boolean onSeg(long ax, long ay, long bx, long by, long cx, long cy) {
-        return Math.min(ax, bx) <= cx && cx <= Math.max(ax, bx) &&
-               Math.min(ay, by) <= cy && cy <= Math.max(ay, by);
-    }
-
-    public static boolean intersects(long[] s, long[] t) {
-        int o1 = orient(s[0], s[1], s[2], s[3], t[0], t[1]);
-        int o2 = orient(s[0], s[1], s[2], s[3], t[2], t[3]);
-        int o3 = orient(t[0], t[1], t[2], t[3], s[0], s[1]);
-        int o4 = orient(t[0], t[1], t[2], t[3], s[2], s[3]);
-
-        if (((o1 > 0 && o2 < 0) || (o1 < 0 && o2 > 0)) &&
-            ((o3 > 0 && o4 < 0) || (o3 < 0 && o4 > 0))) return true;
-
-        if (o1 == 0 && onSeg(s[0], s[1], s[2], s[3], t[0], t[1])) return true;
-        if (o2 == 0 && onSeg(s[0], s[1], s[2], s[3], t[2], t[3])) return true;
-        if (o3 == 0 && onSeg(t[0], t[1], t[2], t[3], s[0], s[1])) return true;
-        if (o4 == 0 && onSeg(t[0], t[1], t[2], t[3], s[2], s[3])) return true;
-
-        return false;
-    }
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        if (!sc.hasNextInt()) return;
-        int n = sc.nextInt();
-        long[][] segs = new long[n][4];
-        for (int i = 0; i < n; i++) {
+        int m = sc.nextInt();
+        long[][] segs = new long[m][4];
+        for (int i = 0; i < m; i++) {
             segs[i][0] = sc.nextLong();
             segs[i][1] = sc.nextLong();
             segs[i][2] = sc.nextLong();
             segs[i][3] = sc.nextLong();
         }
-        
-        long count = 0;
-        for (int i = 0; i < n; i++) {
-            for (int j = i + 1; j < n; j++) {
-                if (intersects(segs[i], segs[j])) count++;
-            }
-        }
+        long count = new Solution().countIntersections(segs);
         System.out.println(count);
         sc.close();
     }
@@ -152,8 +117,34 @@ class Main {
 
 ### Python
 
-```
-// No template available
+```python
+from typing import List
+
+def count_intersections(segs: List) -> int:
+    # Implementation here
+    return 0
+
+def main() -> None:
+    import sys
+    data = sys.stdin.read().split()
+    if not data:
+        return
+    it = iter(data)
+    try:
+        m = int(next(it))
+        segs = []
+        for _ in range(m):
+            x1 = int(next(it))
+            y1 = int(next(it))
+            x2 = int(next(it))
+            y2 = int(next(it))
+            segs.append([x1, y1, x2, y2])
+        print(count_intersections(segs))
+    except (StopIteration, ValueError):
+        return
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
@@ -167,9 +158,9 @@ using namespace std;
 
 class Solution {
 public:
-    int orient(long long ax, long long ay, long long bx, long long by, long long cx, long long cy) {
+    long long countIntersections(const vector<vector<long long>>& segs) {
         // Implementation here
-        return {};
+        return 0;
     }
 };
 
@@ -177,22 +168,16 @@ int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int n;
-    if (!(cin >> n)) return 0;
+    int m;
+    if (!(cin >> m)) return 0;
 
-    vector<Seg> segs(n);
-    for (int i = 0; i < n; i++) {
-        cin >> segs[i].x1 >> segs[i].y1 >> segs[i].x2 >> segs[i].y2;
+    vector<vector<long long>> segs(m, vector<long long>(4));
+    for (int i = 0; i < m; i++) {
+        cin >> segs[i][0] >> segs[i][1] >> segs[i][2] >> segs[i][3];
     }
 
-    long long count = 0;
-    for (int i = 0; i < n; i++) {
-        for (int j = i + 1; j < n; j++) {
-            if (intersects(segs[i], segs[j])) count++;
-        }
-    }
-
-    cout << count << endl;
+    Solution sol;
+    cout << sol.countIntersections(segs) << "\n";
 
     return 0;
 }
@@ -204,11 +189,29 @@ int main() {
 const readline = require("readline");
 
 class Solution {
-  orient(ax, ay, bx, by, cx, cy) {
+  countIntersections(segs) {
     // Implementation here
     return null;
   }
 }
 
-// I/O handling
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let lines = [];
+rl.on('line', (line) => { lines.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if (lines.length === 0) return;
+    let idx = 0;
+    const nextInt = () => parseInt(lines[idx++]);
+    const m = nextInt();
+    const segs = [];
+    for (let i = 0; i < m; i++) {
+        const x1 = nextInt();
+        const y1 = nextInt();
+        const x2 = nextInt();
+        const y2 = nextInt();
+        segs.push([x1, y1, x2, y2]);
+    }
+    const sol = new Solution();
+    console.log(sol.countIntersections(segs));
+});
 ```

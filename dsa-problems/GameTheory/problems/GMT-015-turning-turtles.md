@@ -196,18 +196,6 @@ class Solution {
   }
 }
 
-class Solution {
-  turningTurtles(n, k, s) {
-    let xorSum = 0;
-    const mod = k + 1;
-    for (let i = 0; i < s.length; i++) {
-      if (s[i] === 'H') {
-        xorSum ^= ((i % mod) + 1);
-      }
-    }
-    return xorSum > 0 ? "First" : "Second";
-  }
-}
 
 const rl = readline.createInterface({
   input: process.stdin,

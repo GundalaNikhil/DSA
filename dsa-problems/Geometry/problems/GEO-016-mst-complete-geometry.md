@@ -92,14 +92,56 @@ MST, Manhattan Geometry, Kruskal, Sweep
 
 ### Java
 
-```
-// No template available
+```java
+import java.util.*;
+
+class Solution {
+    public long solve(int n, long[] xs, long[] ys) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        int n = sc.nextInt();
+        long[] xs = new long[n];
+        long[] ys = new long[n];
+        for(int i=0; i<n; i++) { xs[i] = sc.nextLong(); ys[i] = sc.nextLong(); }
+        System.out.println(new Solution().solve(n, xs, ys));
+        sc.close();
+    }
+}
 ```
 
 ### Python
 
-```
-// No template available
+```python
+def solve(n: int, xs: list, ys: list) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    import sys
+    data = list(map(int, sys.stdin.read().strip().split()))
+    if not data:
+        return
+    it = iter(data)
+    try:
+        n = next(it)
+        xs = []
+        ys = []
+        for _ in range(n):
+            xs.append(next(it))
+            ys.append(next(it))
+        print(solve(n, xs, ys))
+    except StopIteration:
+        return
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
@@ -108,15 +150,14 @@ MST, Manhattan Geometry, Kruskal, Sweep
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include <numeric>
 
 using namespace std;
 
 class Solution {
 public:
-    void update(int i, long long val, int p_id) {
+    long long solve(int n, const vector<long long>& xs, const vector<long long>& ys) {
         // Implementation here
-        return {};
+        return 0;
     }
 };
 
@@ -126,61 +167,14 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    if (n <= 1) {
-        cout << 0 << endl;
-        return 0;
-    }
 
-    vector<Point> pts(n);
+    vector<long long> xs(n), ys(n);
     for (int i = 0; i < n; i++) {
-        cin >> pts[i].x >> pts[i].y;
-        pts[i].id = i;
+        cin >> xs[i] >> ys[i];
     }
 
-    vector<Edge> edges;
-    for (int s1 = 0; s1 < 2; s1++) {
-        for (int s2 = 0; s2 < 2; s2++) {
-            for (int sw = 0; sw < 2; sw++) {
-                sort(pts.begin(), pts.end(), [](const Point& a, const Point& b) {
-                    return a.x != b.x ? a.x > b.x : a.y > b.y;
-                });
-                
-                vector<int> ys(n);
-                for (int i = 0; i < n; i++) ys[i] = pts[i].y - pts[i].x;
-                vector<int> sorted_ys = ys;
-                sort(sorted_ys.begin(), sorted_ys.end());
-                sorted_ys.erase(unique(sorted_ys.begin(), sorted_ys.end()), sorted_ys.end());
-                
-                int m = sorted_ys.size();
-                BIT bit(m);
-                for (int i = 0; i < n; i++) {
-                    int pos = lower_bound(sorted_ys.begin(), sorted_ys.end(), ys[i]) - sorted_ys.begin() + 1;
-                    int idx = bit.query(pos);
-                    if (idx != -1) {
-                        long long d = abs((long long)pts[i].x - pts[idx].x) + abs((long long)pts[i].y - pts[idx].y);
-                        edges.push_back({pts[i].id, pts[idx].id, d});
-                    }
-                    bit.update(pos, (long long)pts[i].x + pts[i].y, i);
-                }
-
-                for (auto& p : pts) swap(p.x, p.y);
-            }
-            for (auto& p : pts) p.y = -p.y;
-        }
-        for (auto& p : pts) p.x = -p.x;
-    }
-
-    sort(edges.begin(), edges.end());
-    DSU dsu(n);
-    long long mst = 0;
-    int count = 0;
-    for (const auto& e : edges) {
-        if (dsu.unite(e.u, e.v)) {
-            mst += e.w;
-            if (++count == n - 1) break;
-        }
-    }
-    cout << mst << endl;
+    Solution sol;
+    cout << sol.solve(n, xs, ys) << "\n";
 
     return 0;
 }
@@ -192,11 +186,26 @@ int main() {
 const readline = require("readline");
 
 class Solution {
-  solve() {
+  solve(n, xs, ys) {
     // Implementation here
     return null;
   }
 }
 
-// I/O handling
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let lines = [];
+rl.on('line', (line) => { lines.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if (lines.length === 0) return;
+    let idx = 0;
+    const nextInt = () => parseInt(lines[idx++]);
+    const n = nextInt();
+    const xs = [], ys = [];
+    for (let i = 0; i < n; i++) {
+        xs.push(nextInt());
+        ys.push(nextInt());
+    }
+    const sol = new Solution();
+    console.log(sol.solve(n, xs, ys));
+});
 ```

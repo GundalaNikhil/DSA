@@ -100,78 +100,6 @@ class Solution {
 }
 
 class Main {
-    static class Solution {
-        static class Event {
-            long x;
-            int type;
-            int l, r;
-            Event(long x, int type, int l, int r) {
-                this.x = x;
-                this.type = type;
-                this.l = l;
-                this.r = r;
-            }
-        }
-
-        private int[] add;
-        private int[] mx;
-
-        private void update(int node, int l, int r, int ql, int qr, int val) {
-            if (qr <= l || r <= ql) return;
-            if (ql <= l && r <= qr) {
-                int realVal = -val;
-                add[node] += realVal;
-                mx[node] += realVal;
-                return;
-            }
-            int mid = (l + r) / 2;
-            update(node * 2, l, mid, ql, qr, val);
-            update(node * 2 + 1, mid, r, ql, qr, val);
-            mx[node] = add[node] + Math.max(mx[node * 2], mx[node * 2 + 1]);
-        }
-
-        public int maxOverlap(long[] x1, long[] y1, long[] x2, long[] y2) {
-            int n = x1.length;
-            if (n == 0) return 0;
-            List<Long> ys = new ArrayList<>();
-            for (int i = 0; i < n; i++) {
-                ys.add(y1[i]);
-                ys.add(y2[i]);
-            }
-            Collections.sort(ys);
-            List<Long> unique = new ArrayList<>();
-            for (long v : ys) {
-                if (unique.isEmpty() || unique.get(unique.size() - 1) != v) unique.add(v);
-            }
-            ys = unique;
-            int m = ys.size();
-            if (m == 0) return 0;
-            Map<Long, Integer> ymap = new HashMap<>();
-            for (int i = 0; i < ys.size(); i++) ymap.put(ys.get(i), i);
-
-            List<Event> events = new ArrayList<>();
-            for (int i = 0; i < n; i++) {
-                int l = ymap.get(y1[i]);
-                int r = ymap.get(y2[i]) + 1;
-                events.add(new Event(x1[i], -1, l, r));
-                events.add(new Event(x2[i], 1, l, r));
-            }
-            events.sort((a, b) -> {
-                if (a.x != b.x) return Long.compare(a.x, b.x);
-                return Integer.compare(a.type, b.type);
-            });
-
-            add = new int[4 * m];
-            mx = new int[4 * m];
-            int ans = 0;
-            for (Event e : events) {
-                update(1, 0, m, e.l, e.r, e.type);
-                ans = Math.max(ans, mx[1]);
-            }
-            return ans;
-        }
-    }
-
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNext()) return;
@@ -183,14 +111,41 @@ class Main {
             x2[i] = sc.nextLong(); y2[i] = sc.nextLong();
         }
         System.out.println(new Solution().maxOverlap(x1, y1, x2, y2));
+        sc.close();
     }
 }
 ```
 
 ### Python
 
-```
-// No template available
+```python
+def max_overlap(x1: list, y1: list, x2: list, y2: list) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    import sys
+    data = list(map(int, sys.stdin.read().strip().split()))
+    if not data:
+        return
+    it = iter(data)
+    try:
+        m = next(it)
+        x1_arr = []
+        y1_arr = []
+        x2_arr = []
+        y2_arr = []
+        for _ in range(m):
+            x1_arr.append(next(it))
+            y1_arr.append(next(it))
+            x2_arr.append(next(it))
+            y2_arr.append(next(it))
+        print(max_overlap(x1_arr, y1_arr, x2_arr, y2_arr))
+    except StopIteration:
+        return
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
@@ -235,68 +190,21 @@ class Solution {
   }
 }
 
-const readline = require('readline');
-
-class Solution {
-    solve(x1, y1, x2, y2) {
-        let n = x1.length;
-        let ys = new Set();
-        for(let y of y1) ys.add(y);
-        for(let y of y2) ys.add(y);
-        ys = Array.from(ys).sort((a,b) => a-b);
-        let ymap = {};
-        for(let i=0; i<ys.length; i++) ymap[ys[i]] = i;
-        
-        let m = ys.length;
-        let treeAdd = new Array(4*m).fill(0);
-        let treeMx = new Array(4*m).fill(0);
-        
-        const update = (node, l, r, ql, qr, val) => {
-            if (qr <= l || r <= ql) return;
-            if (ql <= l && r <= qr) {
-                treeAdd[node] += val;
-                treeMx[node] += val;
-                return;
-            }
-            let mid = Math.floor((l+r)/2);
-            update(node*2, l, mid, ql, qr, val);
-            update(node*2+1, mid, r, ql, qr, val);
-            treeMx[node] = treeAdd[node] + Math.max(treeMx[node*2], treeMx[node*2+1]);
-        };
-        
-        let events = [];
-        for(let i=0; i<n; i++) {
-            events.push({x: x1[i], type: -1, l: ymap[y1[i]], r: ymap[y2[i]] + 1});
-            events.push({x: x2[i], type: 1, l: ymap[y1[i]], r: ymap[y2[i]] + 1});
-        }
-        events.sort((a,b) => a.x === b.x ? a.type - b.type : a.x - b.x);
-        
-        let ans = 0;
-        for(let e of events) {
-            update(1, 0, m, e.l, e.r, -e.type);
-            ans = Math.max(ans, treeMx[1]);
-        }
-        return ans;
-    }
-}
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 let lines = [];
-rl.on('line', (line) => {
-    let tokens = line.match(/\S+/g) || [];
-    lines.push(...tokens);
-});
+rl.on('line', (line) => { lines.push(...line.trim().split(/\s+/)); });
 rl.on('close', () => {
     if (lines.length === 0) return;
     let idx = 0;
-    const next = () => lines[idx++];
-    const nextInt = () => parseInt(next());
-
-    let m = nextInt();
-    let x1=[], y1=[], x2=[], y2=[];
-    for(let i=0; i<m; i++) {
-        x1.push(nextInt()); y1.push(nextInt()); x2.push(nextInt()); y2.push(nextInt());
+    const nextInt = () => parseInt(lines[idx++]);
+    const m = nextInt();
+    const x1 = [], y1 = [], x2 = [], y2 = [];
+    for (let i = 0; i < m; i++) {
+        x1.push(nextInt());
+        y1.push(nextInt());
+        x2.push(nextInt());
+        y2.push(nextInt());
     }
-
     const sol = new Solution();
     console.log(sol.solve(x1, y1, x2, y2));
 });

@@ -199,15 +199,6 @@ class Solution {
   }
 }
 
-class Solution {
-  takeOrSplit(n, heaps) {
-    let xorSum = 0n;
-    for (const x of heaps) {
-      xorSum ^= BigInt(x - 1);
-    }
-    return xorSum > 0n ? "First" : "Second";
-  }
-}
 
 const rl = readline.createInterface({
   input: process.stdin,

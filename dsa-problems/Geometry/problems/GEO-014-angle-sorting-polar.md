@@ -100,36 +100,89 @@ class Solution {
 }
 
 class Main {
-static class Solution {
-    public List<long[]> sortByAngle(long[] xs, long[] ys) {
-        int n = xs.length;
-        List<long[]> pts = new ArrayList<>();
-        for (int i = 0; i < n; i++) pts.add(new long[]{xs[i], ys[i]});
-        pts.sort((a, b) -> {
-            int ha = (a[1] > 0 || (a[1] == 0 && a[0] > 0)) ? 0 : 1;
-            int hb = (b[1] > 0 || (b[1] == 0 && b[0] > 0)) ? 0 : 1;
-            if (ha != hb) return ha - hb;
-            long cross = a[0]*b[1] - a[1]*b[0];
-            if (cross != 0) return cross > 0 ? -1 : 1;
-            long ra = a[0]*a[0] + a[1]*a[1];
-            long rb = b[0]*b[0] + b[1]*b[1];
-            return Long.compare(ra, rb);
-        });
-        return pts;
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        int n = sc.nextInt();
+        long[] xs = new long[n];
+        long[] ys = new long[n];
+        for(int i=0; i<n; i++) { xs[i] = sc.nextLong(); ys[i] = sc.nextLong(); }
+        List<long[]> res = new Solution().sortByAngle(xs, ys);
+        for(long[] p : res) System.out.println(p[0] + " " + p[1]);
+        sc.close();
     }
 }
 ```
 
 ### Python
 
-```
-// No template available
+```python
+from typing import List
+
+def sort_by_angle(xs: List[int], ys: List[int]) -> List:
+    # Implementation here
+    return []
+
+def main():
+    import sys
+    data = list(map(int, sys.stdin.read().strip().split()))
+    if not data:
+        return
+    it = iter(data)
+    try:
+        n = next(it)
+        xs = []
+        ys = []
+        for _ in range(n):
+            xs.append(next(it))
+            ys.append(next(it))
+        res = sort_by_angle(xs, ys)
+        for p in res:
+            print(p[0], p[1])
+    except StopIteration:
+        return
+
+if __name__ == "__main__":
+    main()
 ```
 
 ### C++
 
-```
-// No template available
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<pair<long long, long long>> sortByAngle(vector<long long>& xs, vector<long long>& ys) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<long long> xs(n), ys(n);
+    for (int i = 0; i < n; i++) {
+        cin >> xs[i] >> ys[i];
+    }
+
+    Solution sol;
+    vector<pair<long long, long long>> res = sol.sortByAngle(xs, ys);
+    for (const auto& p : res) {
+        cout << p.first << " " << p.second << "\n";
+    }
+
+    return 0;
+}
 ```
 
 ### JavaScript
@@ -143,24 +196,6 @@ class Solution {
     return null;
   }
 }
-
-const readline = require('readline');
-
-function new Solution().sortByAngle(xs, ys) {
-  const pts = xs.map((x, i) => [x, ys[i]]);
-  const half = ([x,y]) => (y > 0 || (y === 0 && x > 0)) ? 0 : 1;
-  pts.sort((a, b) => {
-    const ha = half(a), hb = half(b);
-    if (ha !== hb) return ha - hb;
-    const cross = a[0]*b[1] - a[1]*b[0];
-    if (cross !== 0) return cross > 0 ? -1 : 1;
-    const ra = a[0]*a[0] + a[1]*a[1];
-    const rb = b[0]*b[0] + b[1]*b[1];
-    return ra - rb;
-  });
-  return pts;
-}
-
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 let lines = [];

@@ -105,11 +105,13 @@ class Solution {
 }
 
 class Main {
-static class Solution {
-    public String orientation(long x1, long y1, long x2, long y2, long x3, long y3) {
-        long cross = (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1);
-        if (cross == 0) return "collinear";
-        return cross > 0 ? "counterclockwise" : "clockwise";
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        long x1 = sc.nextLong(), y1 = sc.nextLong();
+        long x2 = sc.nextLong(), y2 = sc.nextLong();
+        long x3 = sc.nextLong(), y3 = sc.nextLong();
+        System.out.println(new Solution().orientation(x1, y1, x2, y2, x3, y3));
+        sc.close();
     }
 }
 ```
@@ -142,25 +144,28 @@ if __name__ == "__main__":
 
 ```cpp
 #include <iostream>
-#include <vector>
-#include <algorithm>
-#include <cmath>
-#include <iomanip>
+#include <string>
 
 using namespace std;
 
 class Solution {
 public:
-    long long cross(long long x1, long long y1, long long x2, long long y2, long long x3, long long y3) {
+    string orientation(long long x1, long long y1, long long x2, long long y2, long long x3, long long y3) {
         // Implementation here
-        return {};
+        return "";
     }
 };
 
 int main() {
-    ios::sync_with_stdio(false); cin.tie(nullptr);
-    long long x1,y1,x2,y2,x3,y3;
-    if(cin >> x1 >> y1 >> x2 >> y2 >> x3 >> y3) cout << orientation(x1,y1,x2,y2,x3,y3) << endl;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long x1, y1, x2, y2, x3, y3;
+    if (!(cin >> x1 >> y1 >> x2 >> y2 >> x3 >> y3)) return 0;
+
+    Solution sol;
+    cout << sol.orientation(x1, y1, x2, y2, x3, y3) << "\n";
+
     return 0;
 }
 ```
@@ -177,13 +182,6 @@ class Solution {
   }
 }
 
-const readline = require('readline');
-
-function new Solution().orientation(x1, y1, x2, y2, x3, y3) {
-  const cross = (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1);
-  if (cross === 0) return "collinear";
-  return cross > 0 ? "counterclockwise" : "clockwise";
-}
 
 
 const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
