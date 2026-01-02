@@ -105,43 +105,10 @@ class Solution {
     }
 
     private TreeNode insert(TreeNode node, long val) {
-        if (node == null) return new TreeNode(val);
-        if (val < node.val) {
-            node.left = insert(node.left, val);
-        } else {
-            node.right = insert(node.right, val);
-        }
-        return node;
+        return 0;
     }
 
     private void inorder(TreeNode node, long L, long R, int k) {
-        if (node == null || result != -1) return;
-
-        // Pruning: if node.val < L, left subtree is useless (all < L)
-        // Correct logic: Visit left if it COULD contain values >= L.
-        // Left child values are < node.val.
-        // If node.val <= L, then left child < L. Useless.
-        // So visit left only if node.val > L.
-        
-        if (node.val > L) {
-            inorder(node.left, L, R, k);
-        }
-
-        if (result != -1) return; // Check again after returning from left
-
-        if (node.val >= L && node.val <= R) {
-            count++;
-            if (count == k) {
-                result = node.val;
-                return;
-            }
-        }
-
-        // Pruning: Visit right only if node.val < R.
-        // If node.val >= R, right child > R. Useless.
-        if (node.val < R) {
-            inorder(node.right, L, R, k);
-        }
     }
 }
 
@@ -231,15 +198,7 @@ class Solution {
 
 public:
     long long kthInRange(const vector<long long>& values, long long L, long long R, int k) {
-        TreeNode* root = nullptr;
-        for (long long v : values) {
-            root = insert(root, v);
-        }
-
-        count = 0;
-        result = -1;
-        inorder(root, L, R, k);
-        return result;
+        return 0;
     }
 };
 

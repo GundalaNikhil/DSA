@@ -98,50 +98,15 @@ class Solution {
     }
     
     private boolean isSymmetric(int root, int[] values, int[] left, int[] right) {
-        if (root == -1) return true;
-        return checkMirror(left[root], right[root], values, left, right);
+        return false;
     }
     
     private boolean checkMirror(int u, int v, int[] values, int[] left, int[] right) {
-        if (u == -1 && v == -1) return true;
-        if (u == -1 || v == -1) return false;
-        if (values[u] != values[v]) return false;
-        return checkMirror(left[u], right[v], values, left, right) &&
-               checkMirror(right[u], left[v], values, left, right);
+        return false;
     }
     
     private boolean checkColorBalance(int rootLeft, int rootRight, int[] colors, int[] left, int[] right) {
-        Queue<Integer> qL = new LinkedList<>();
-        Queue<Integer> qR = new LinkedList<>();
-        qL.add(rootLeft);
-        qR.add(rootRight);
-        
-        while (!qL.isEmpty() && !qR.isEmpty()) {
-            int sizeL = qL.size();
-            int sizeR = qR.size();
-            if (sizeL != sizeR) return false; // Should be caught by symmetry
-            
-            int sumL = 0;
-            int sumR = 0;
-            
-            for (int i = 0; i < sizeL; i++) {
-                int u = qL.poll();
-                sumL += colors[u];
-                if (left[u] != -1) qL.add(left[u]);
-                if (right[u] != -1) qL.add(right[u]);
-            }
-            
-            for (int i = 0; i < sizeR; i++) {
-                int v = qR.poll();
-                sumR += colors[v];
-                if (left[v] != -1) qR.add(left[v]);
-                if (right[v] != -1) qR.add(right[v]);
-            }
-            
-            if (sumL != sumR) return false;
-        }
-        
-        return qL.isEmpty() && qR.isEmpty();
+        return false;
     }
 }
 

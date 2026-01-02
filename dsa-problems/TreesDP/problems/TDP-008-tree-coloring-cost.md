@@ -218,6 +218,23 @@ def main():
 
     def dfs(u):
         return 0
+        visited[u] = True
+        for c in range(1, k + 1):
+            dp[u][c] = cost[u][c]
+
+        for v in adj[u]:
+            if not visited[v]:
+                dfs(v)
+
+                # For each color c at u, add minimum cost from child v
+                # where child uses any color except c
+                for c in range(1, k + 1):
+                    min_child_cost = float('inf')
+                    for c2 in range(1, k + 1):
+                        if c2 != c:
+                            min_child_cost = min(min_child_cost, dp[v][c2])
+                    dp[u][c] += min_child_cost
+
     dfs(1)
     print(min(dp[1][c] for c in range(1, k + 1)))
 

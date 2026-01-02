@@ -130,9 +130,8 @@ class Solution {
         int q;
 
         public Part(long w, int q) {
-            this.w = w;
-            this.q = q;
-        }
+        return 0;
+    }
 
         @Override
         public int compareTo(Part other) {
@@ -230,30 +229,7 @@ struct Part {
 class Solution {
 public:
     long long maxBundleWeight(int n, int T, vector<int>& weights, vector<int>& qualities) {
-        priority_queue<Part> pq;
-        
-        for (int i = 0; i < n; i++) {
-            pq.push({(long long)weights[i], qualities[i]});
-        }
-        
-        while (pq.size() > 1) {
-            Part p1 = pq.top(); pq.pop();
-            Part p2 = pq.top(); pq.pop();
-            
-            int newQ = min(p1.q, p2.q) - 1;
-            
-            if (newQ < T) {
-                return -1;
-            }
-            
-            long long minW = min(p1.w, p2.w);
-            long long loss = floor(0.1 * minW);
-            long long newW = p1.w + p2.w - loss;
-            
-            pq.push({newW, newQ});
-        }
-        
-        return pq.empty() ? -1 : pq.top().w;
+        return 0;
     }
 };
 

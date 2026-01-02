@@ -101,27 +101,11 @@ class Solution {
         Map<Integer, Integer> inLarge;
 
         public DualHeap(int k) {
-            this.k = k;
-            this.small = new PriorityQueue<>(Collections.reverseOrder());
-            this.large = new PriorityQueue<>();
-            this.smallCount = 0;
-            this.largeCount = 0;
-            this.lazy = new HashMap<>();
-            this.inSmall = new HashMap<>();
-            this.inLarge = new HashMap<>();
-        }
+        return 0;
+    }
 
         private void prune(PriorityQueue<Integer> heap) {
-            while (!heap.isEmpty()) {
-                int val = heap.peek();
-                if (lazy.getOrDefault(val, 0) > 0) {
-                    lazy.put(val, lazy.get(val) - 1);
-                    heap.poll();
-                } else {
-                    break;
-                }
-            }
-        }
+    }
 
         public void add(int x) {
     }
@@ -130,37 +114,7 @@ class Solution {
     }
 
         private void balance() {
-            prune(small);
-            prune(large);
-
-            while (smallCount < k && !large.isEmpty()) {
-                prune(large);
-                if (large.isEmpty()) break;
-                
-                int val = large.poll();
-                inLarge.put(val, inLarge.get(val) - 1);
-                
-                small.offer(val);
-                inSmall.put(val, inSmall.getOrDefault(val, 0) + 1);
-                smallCount++;
-                largeCount--;
-                prune(small); 
-            }
-            
-            while (smallCount > k) {
-                prune(small);
-                 if (small.isEmpty()) break;
-                 
-                int val = small.poll();
-                inSmall.put(val, inSmall.get(val) - 1);
-                
-                large.offer(val);
-                inLarge.put(val, inLarge.getOrDefault(val, 0) + 1);
-                smallCount--;
-                largeCount++;
-                prune(large);
-            }
-        }
+    }
 
         public Integer getKthSmallest() {
         return 0;

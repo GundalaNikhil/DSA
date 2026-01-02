@@ -113,9 +113,8 @@ class Solution {
         int queueIndex;
 
         public Node(int val, int queueIndex) {
-            this.val = val;
-            this.queueIndex = queueIndex;
-        }
+        return 0;
+    }
 
         @Override
         public int compareTo(Node other) {

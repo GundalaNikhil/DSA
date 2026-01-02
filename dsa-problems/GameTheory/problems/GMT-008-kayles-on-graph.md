@@ -106,23 +106,7 @@ class Solution {
     }
 
     private boolean canWin(int mask, int n) {
-        if (mask == 0) return false;
-        if (memo[mask] != -1) return memo[mask] == 1;
-
-        boolean canReachLosing = false;
-        for (int u = 0; u < n; u++) {
-            if ((mask & (1 << u)) != 0) {
-                int removeMask = (1 << u) | adjMask[u];
-                int nextMask = mask & ~removeMask;
-                if (!canWin(nextMask, n)) {
-                    canReachLosing = true;
-                    break;
-                }
-            }
-        }
-
-        memo[mask] = canReachLosing ? 1 : 0;
-        return canReachLosing;
+        return false;
     }
 }
 

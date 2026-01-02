@@ -275,69 +275,7 @@ class Solution {
 
 public:
     vector<long long> kShortestPaths(int n, const vector<vector<pair<int, int>>>& adjList, int s, int t, int k) {
-        N = n;
-        adj.assign(n, vector<Edge>());
-        for (int u = 0; u < n; u++) {
-            for (auto& p : adjList[u]) {
-                adj[u].push_back({p.first, p.second});
-            }
-        }
-
-        vector<Path> A;
-        set<Path> B; // Use set to keep sorted and unique candidates
-
-        Path p0 = getShortestPath(s, t, {}, {});
-        if (p0.cost == -1) return {};
-        A.push_back(p0);
-
-        for (int i = 1; i < k; i++) {
-            Path prevPath = A.back();
-
-            for (size_t j = 0; j < prevPath.nodes.size() - 1; j++) {
-                int spurNode = prevPath.nodes[j];
-                vector<int> rootPathNodes(prevPath.nodes.begin(), prevPath.nodes.begin() + j + 1);
-                
-                long long rootCost = 0;
-                for (size_t x = 0; x < j; x++) {
-                    int u = prevPath.nodes[x];
-                    int v = prevPath.nodes[x+1];
-                    for (auto& e : adj[u]) if (e.to == v) { rootCost += e.weight; break; }
-                }
-
-                set<int> forbiddenNodes(rootPathNodes.begin(), rootPathNodes.end());
-                forbiddenNodes.erase(spurNode);
-
-                set<pair<int, int>> forbiddenEdges;
-                for (const auto& p : A) {
-                    if (p.nodes.size() > j && 
-                        vector<int>(p.nodes.begin(), p.nodes.begin() + j + 1) == rootPathNodes) {
-                        forbiddenEdges.insert({p.nodes[j], p.nodes[j+1]});
-                    }
-                }
-
-                Path spurPath = getShortestPath(spurNode, t, forbiddenNodes, forbiddenEdges);
-
-                if (spurPath.cost != -1) {
-                    vector<int> totalNodes = rootPathNodes;
-                    totalNodes.pop_back();
-                    totalNodes.insert(totalNodes.end(), spurPath.nodes.begin(), spurPath.nodes.end());
-                    
-                    Path totalPath = {totalNodes, rootCost + spurPath.cost};
-                    B.insert(totalPath);
-                }
-            }
-
-            if (B.empty()) break;
-            
-            // Move best from B to A
-            // Since B is a set, begin() is the smallest
-            A.push_back(*B.begin());
-            B.erase(B.begin());
-        }
-
-        vector<long long> result;
-        for (const auto& p : A) result.push_back(p.cost);
-        return result;
+        return {};
     }
 };
 

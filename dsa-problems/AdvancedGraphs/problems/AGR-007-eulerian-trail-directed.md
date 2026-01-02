@@ -95,12 +95,6 @@ class Solution {
     }
 
     private void dfs(int u) {
-        Deque<Integer> neighbors = adj.get(u);
-        while (!neighbors.isEmpty()) {
-            int v = neighbors.pollLast();
-            dfs(v);
-        }
-        trail.add(u);
     }
 }
 

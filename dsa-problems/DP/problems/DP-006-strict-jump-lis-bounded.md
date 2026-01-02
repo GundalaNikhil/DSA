@@ -104,23 +104,15 @@ class Solution {
             this.t = new int[4 * n];
         }
         void update(int idx, int val) { update(1, 0, n - 1, idx, val); }
+    }
         private void update(int node, int l, int r, int idx, int val) {
-            if (l == r) { t[node] = Math.max(t[node], val); return; }
-            int mid = (l + r) >>> 1;
-            if (idx <= mid) update(node << 1, l, mid, idx, val);
-            else update(node << 1 | 1, mid + 1, r, idx, val);
-            t[node] = Math.max(t[node << 1], t[node << 1 | 1]);
-        }
+    }
         int query(int ql, int qr) {
-            if (ql > qr) return 0;
-            return query(1, 0, n - 1, ql, qr);
-        }
+        return 0;
+    }
         private int query(int node, int l, int r, int ql, int qr) {
-            if (qr < l || r < ql) return 0;
-            if (ql <= l && r <= qr) return t[node];
-            int mid = (l + r) >>> 1;
-            return Math.max(query(node << 1, l, mid, ql, qr), query(node << 1 | 1, mid + 1, r, ql, qr));
-        }
+        return 0;
+    }
     }
 
     private static int lowerBound(long[] a, long x) {

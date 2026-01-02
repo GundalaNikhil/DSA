@@ -102,12 +102,7 @@ class Solution {
     }
     
     boolean isNumber(String s) {
-        try {
-            Long.parseLong(s);
-            return true;
-        } catch(NumberFormatException e) {
-            return false;
-        }
+        return false;
     }
 }
 
@@ -183,53 +178,16 @@ class Solution {
     }
     
     long long pythonMod(long long a, long long b) {
-        return ((a % b) + b) % b;
+        return 0;
     }
     
     long long pythonDiv(long long a, long long b) {
-        long long res = a / b;
-        if ((a < 0) != (b < 0) && (a % b != 0)) {
-            res--;
-        }
-        return res;
+        return 0;
     }
 
 public:
     long long evalPostfix(vector<string>& tokens, map<string, int>& vars) {
-        stack<long long> st;
-        
-        for (const string& token : tokens) {
-            if (vars.count(token)) {
-                st.push(vars[token] % MOD);
-            } else if (isNumber(token)) {
-                st.push(stoll(token) % MOD);
-            } else if (token == "DUP") {
-                st.push(st.top());
-            } else if (token == "SWAP") {
-                long long a = st.top(); st.pop();
-                long long b = st.top(); st.pop();
-                st.push(a);
-                st.push(b);
-            } else {
-                long long b = st.top(); st.pop();
-                long long a = st.top(); st.pop();
-                long long res = 0;
-                
-                if (token == "+") {
-                    res = (a + b) % MOD;
-                } else if (token == "-") {
-                    res = (a - b + MOD) % MOD;
-                } else if (token == "*") {
-                    res = (a * b) % MOD;
-                } else if (token == "/") {
-                    res = pythonDiv(a, b);
-                } else if (token == "%") {
-                    res = pythonMod(a, b);
-                }
-                st.push(res);
-            }
-        }
-        return st.top();
+        return 0;
     }
 };
 

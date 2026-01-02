@@ -128,40 +128,18 @@ class Solution {
         }
 
         int find(int i) {
-            if (parent[i] == i) return i;
-            return find(parent[i]); // No path compression for rollback
-        }
+        return 0;
+    }
 
         void union(int i, int j) {
-            int rootI = find(i);
-            int rootJ = find(j);
-            if (rootI != rootJ) {
-                if (rank[rootI] < rank[rootJ]) {
-                    int temp = rootI;
-                    rootI = rootJ;
-                    rootJ = temp;
-                }
-                parent[rootJ] = rootI;
-                rank[rootI] += rank[rootJ];
-                history.push(new int[]{rootJ, rootI});
-            } else {
-                history.push(new int[]{-1, -1});
-            }
-        }
+    }
 
         void rollback() {
-            int[] op = history.pop();
-            if (op[0] != -1) {
-                int child = op[0];
-                int parentNode = op[1];
-                parent[child] = child;
-                rank[parentNode] -= rank[child];
-            }
-        }
+    }
         
         boolean connected(int i, int j) {
-            return find(i) == find(j);
-        }
+        return false;
+    }
     }
 
     private List<Edge>[] tree;
@@ -173,39 +151,9 @@ class Solution {
     }
 
     private void addEdge(int node, int start, int end, int l, int r, Edge e) {
-        if (l > end || r < start) return;
-        if (l <= start && end <= r) {
-            tree[node].add(e);
-            return;
-        }
-        int mid = (start + end) / 2;
-        addEdge(2 * node + 1, start, mid, l, r, e);
-        addEdge(2 * node + 2, mid + 1, end, l, r, e);
     }
 
     private void dfs(int node, int start, int end, DSU dsu) {
-        int ops = 0;
-        for (Edge e : tree[node]) {
-            dsu.union(e.u, e.v);
-            ops++;
-        }
-        
-        if (start == end) {
-            String[] q = queries.get(start);
-            if (q != null) {
-                int u = Integer.parseInt(q[1]);
-                int v = Integer.parseInt(q[2]);
-                results.add(dsu.connected(u, v) ? "true" : "false");
-            }
-        } else {
-            int mid = (start + end) / 2;
-            dfs(2 * node + 1, start, mid, dsu);
-            dfs(2 * node + 2, mid + 1, end, dsu);
-        }
-        
-        while (ops-- > 0) {
-            dsu.rollback();
-        }
     }
 }
 
@@ -262,6 +210,13 @@ def main():
     sys.setrecursionlimit(500000)
     def input_gen():
         return 0
+
+        for line in sys.stdin:
+
+            for token in line.split():
+
+                yield token
+
     it = input_gen()
     n = int(next(it))
     m = int(next(it))

@@ -120,26 +120,6 @@ class Solution {
     }
 
     private void dfs(int u, List<List<Integer>> adj, int[] disc, int[] low, int[] parent) {
-        disc[u] = low[u] = time++;
-
-        // Sort neighbors for deterministic traversal
-        List<Integer> neighbors = new ArrayList<>(adj.get(u));
-        Collections.sort(neighbors);
-
-        for (int v : neighbors) {
-            if (disc[v] == -1) {
-                parent[v] = u;
-                dfs(v, adj, disc, low, parent);
-
-                low[u] = Math.min(low[u], low[v]);
-
-                if (low[v] > disc[u]) {
-                    bridges.add(new int[]{u, v});
-                }
-            } else if (v != parent[u]) {
-                low[u] = Math.min(low[u], disc[v]);
-            }
-        }
     }
 }
 

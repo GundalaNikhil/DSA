@@ -92,18 +92,11 @@ class Solution {
     private long MOD;
 
     private long power(long base, long exp) {
-        long res = 1;
-        base %= MOD;
-        while (exp > 0) {
-            if ((exp & 1) == 1) res = (res * base) % MOD;
-            base = (base * base) % MOD;
-            exp >>= 1;
-        }
-        return res;
+        return 0;
     }
 
     private long modInverse(long n) {
-        return power(n, MOD - 2);
+        return 0;
     }
 
     public long determinant_gaussian(int n, long mod, long[][] matrix) {
@@ -177,51 +170,16 @@ class Solution {
     long long MOD;
 
     long long power(long long base, long long exp) {
-        long long res = 1;
-        base %= MOD;
-        while (exp > 0) {
-            if (exp % 2 == 1) res = (res * base) % MOD;
-            base = (base * base) % MOD;
-            exp /= 2;
-        }
-        return res;
+        return 0;
     }
 
     long long modInverse(long long n) {
-        return power(n, MOD - 2);
+        return 0;
     }
 
 public:
     long long determinant_gaussian(int n, long long mod, vector<vector<long long>>& matrix) {
-        MOD = mod;
-        long long det = 1;
-
-        for (int i = 0; i < n; i++) {
-            int pivot = i;
-            while (pivot < n && matrix[pivot][i] == 0) pivot++;
-
-            if (pivot == n) return 0;
-
-            if (pivot != i) {
-                swap(matrix[i], matrix[pivot]);
-                det = (MOD - det) % MOD;
-            }
-
-            det = (det * matrix[i][i]) % MOD;
-            long long inv = modInverse(matrix[i][i]);
-
-            for (int j = i + 1; j < n; j++) {
-                if (matrix[j][i] != 0) {
-                    long long factor = (matrix[j][i] * inv) % MOD;
-                    for (int k = i; k < n; k++) {
-                        long long sub = (factor * matrix[i][k]) % MOD;
-                        matrix[j][k] = (matrix[j][k] - sub + MOD) % MOD;
-                    }
-                }
-            }
-        }
-
-        return det;
+        return 0;
     }
 };
 

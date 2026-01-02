@@ -108,34 +108,16 @@ class Solution {
         double r, i;
         Complex(double r, double i) { this.r = r; this.i = i; }
         Complex add(Complex o) { return new Complex(r + o.r, i + o.i); }
+        return 0;
+    }
         Complex sub(Complex o) { return new Complex(r - o.r, i - o.i); }
+        return 0;
+    }
         Complex mul(Complex o) { return new Complex(r * o.r - i * o.i, r * o.i + i * o.r); }
+        return 0;
     }
 
     private void fft(Complex[] a, boolean invert) {
-        int n = a.length;
-        for (int i = 1, j = 0; i < n; i++) {
-            int bit = n >> 1;
-            for (; j >= bit; bit >>= 1) j -= bit;
-            j += bit;
-            if (i < j) { Complex temp = a[i]; a[i] = a[j]; a[j] = temp; }
-        }
-        for (int len = 2; len <= n; len <<= 1) {
-            double ang = 2 * PI / len * (invert ? -1 : 1);
-            Complex wlen = new Complex(Math.cos(ang), Math.sin(ang));
-            for (int i = 0; i < n; i += len) {
-                Complex w = new Complex(1, 0);
-                for (int j = 0; j < len / 2; j++) {
-                    Complex u = a[i + j], v = a[i + j + len / 2].mul(w);
-                    a[i + j] = u.add(v);
-                    a[i + j + len / 2] = u.sub(v);
-                    w = w.mul(wlen);
-                }
-            }
-        }
-        if (invert) {
-            for (int i = 0; i < n; i++) { a[i].r /= n; a[i].i /= n; }
-        }
     }
 
     public long[] multiplyPolynomials(long[] A, long[] B) {
@@ -243,42 +225,7 @@ void fft(vector<cd> & a, bool invert) {
 class Solution {
 public:
     vector<long long> multiplyPolynomials(vector<long long>& A, vector<long long>& B) {
-        int n = 1;
-        while (n < A.size() + B.size()) n <<= 1;
-        
-        int S = 32000;
-        vector<cd> a0(n), a1(n), b0(n), b1(n);
-        
-        for(int i=0; i<A.size(); i++) {
-            a0[i] = cd(A[i] % S, 0);
-            a1[i] = cd(A[i] / S, 0);
-        }
-        for(int i=0; i<B.size(); i++) {
-            b0[i] = cd(B[i] % S, 0);
-            b1[i] = cd(B[i] / S, 0);
-        }
-        
-        fft(a0, false); fft(a1, false);
-        fft(b0, false); fft(b1, false);
-        
-        vector<cd> c0(n), c1(n), c2(n);
-        for(int i=0; i<n; i++) {
-            c0[i] = a0[i] * b0[i];
-            c2[i] = a1[i] * b1[i];
-            c1[i] = (a0[i] + a1[i]) * (b0[i] + b1[i]) - c0[i] - c2[i];
-        }
-        
-        fft(c0, true); fft(c1, true); fft(c2, true);
-        
-        vector<long long> res(A.size() + B.size() - 1);
-        for(int i=0; i<res.size(); i++) {
-            long long v0 = (long long)(c0[i].real() + 0.5) % MOD;
-            long long v1 = (long long)(c1[i].real() + 0.5) % MOD;
-            long long v2 = (long long)(c2[i].real() + 0.5) % MOD;
-            
-            res[i] = (v2 * S % MOD * S % MOD + v1 * S % MOD + v0) % MOD;
-        }
-        return res;
+        return {};
     }
 };
 

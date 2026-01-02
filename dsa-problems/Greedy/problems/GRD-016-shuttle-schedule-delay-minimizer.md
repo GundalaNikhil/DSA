@@ -179,9 +179,11 @@ using namespace std;
 class Solution {
 public:
     long long minTotalDelay(int n, vector<pair<int,int>>& trips) {
+        return 0;
+    }
         sort(trips.begin(), trips.end(), [](const pair<int,int>& a, const pair<int,int>& b) {
-            return (long long)a.first + a.second < (long long)b.first + b.second;
-        });
+        return 0;
+    }
         
         long long currentTime = 0;
         long long totalDelay = 0;

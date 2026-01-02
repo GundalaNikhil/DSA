@@ -98,27 +98,7 @@ class Solution {
     }
 
     private boolean validate(int u, long min, long max, long[] values, int[] left, int[] right, long G) {
-        if (u == -1) return true;
-
-        long val = values[u];
-        // BST Check
-        if (val <= min || val >= max) return false;
-
-        // Left Child Check
-        if (left[u] != -1) {
-            long lVal = values[left[u]];
-            if (Math.abs(val - lVal) < G) return false; // Gap Check
-            if (!validate(left[u], min, val, values, left, right, G)) return false;
-        }
-
-        // Right Child Check
-        if (right[u] != -1) {
-            long rVal = values[right[u]];
-            if (Math.abs(val - rVal) < G) return false; // Gap Check
-            if (!validate(right[u], val, max, values, left, right, G)) return false;
-        }
-
-        return true;
+        return false;
     }
 }
 

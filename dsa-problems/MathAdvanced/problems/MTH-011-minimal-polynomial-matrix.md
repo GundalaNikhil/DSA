@@ -96,61 +96,15 @@ class Solution {
     private long MOD;
 
     private long power(long base, long exp) {
-        long res = 1;
-        base %= MOD;
-        while (exp > 0) {
-            if ((exp & 1) == 1) res = (res * base) % MOD;
-            base = (base * base) % MOD;
-            exp >>= 1;
-        }
-        return res;
+        return 0;
     }
 
     private long modInverse(long n) {
-        return power(n, MOD - 2);
+        return 0;
     }
 
     private ArrayList<Long> berlekampMassey(List<Long> s) {
-        ArrayList<Long> C = new ArrayList<>();
-        ArrayList<Long> B = new ArrayList<>();
-        C.add(1L);
-        B.add(1L);
-        
-        int L = 0;
-        int b = 1;
-        long b_delta = 1;
-        
-        for (int i = 0; i < s.size(); i++) {
-            long delta = s.get(i);
-            for (int j = 1; j < C.size(); j++) {
-                delta = (delta + C.get(j) * s.get(i - j)) % MOD;
-            }
-            
-            if (delta == 0) {
-                b++;
-                continue;
-            }
-            
-            ArrayList<Long> T = new ArrayList<>(C);
-            long factor = (delta * modInverse(b_delta)) % MOD;
-            
-            while (C.size() < B.size() + b) C.add(0L);
-            for (int j = 0; j < B.size(); j++) {
-                long val = (B.get(j) * factor) % MOD;
-                int idx = j + b;
-                C.set(idx, (C.get(idx) - val + MOD) % MOD);
-            }
-            
-            if (2 * L <= i) {
-                L = i + 1 - L;
-                B = T;
-                b_delta = delta;
-                b = 1;
-            } else {
-                b++;
-            }
-        }
-        return C;
+        return null;
     }
 
     public long[] minimal_polynomial_matrix(int n, long mod, long[][] matrix) {
@@ -234,96 +188,20 @@ class Solution {
     long long MOD;
 
     long long power(long long base, long long exp) {
-        long long res = 1;
-        base %= MOD;
-        while (exp > 0) {
-            if (exp % 2 == 1) res = (res * base) % MOD;
-            base = (base * base) % MOD;
-            exp /= 2;
-        }
-        return res;
+        return 0;
     }
 
     long long modInverse(long long n) {
-        return power(n, MOD - 2);
+        return 0;
     }
 
     vector<long long> berlekampMassey(const vector<long long>& s) {
-        vector<long long> C = {1};
-        vector<long long> B = {1};
-        int L = 0;
-        int b = 1;
-        long long b_delta = 1;
-
-        for (int i = 0; i < s.size(); i++) {
-            long long delta = s[i];
-            for (int j = 1; j < C.size(); j++) {
-                delta = (delta + C[j] * s[i - j]) % MOD;
-            }
-
-            if (delta == 0) {
-                b++;
-                continue;
-            }
-
-            vector<long long> T = C;
-            long long factor = (delta * modInverse(b_delta)) % MOD;
-
-            if (C.size() < B.size() + b) C.resize(B.size() + b, 0);
-            for (int j = 0; j < B.size(); j++) {
-                long long val = (B[j] * factor) % MOD;
-                int idx = j + b;
-                C[idx] = (C[idx] - val + MOD) % MOD;
-            }
-
-            if (2 * L <= i) {
-                L = i + 1 - L;
-                B = T;
-                b_delta = delta;
-                b = 1;
-            } else {
-                b++;
-            }
-        }
-        return C;
+        return {};
     }
 
 public:
     vector<long long> minimal_polynomial_matrix(int n, long long mod, vector<vector<long long>>& matrix) {
-        MOD = mod;
-
-        vector<long long> u(n), v(n);
-        mt19937 rng(12345);
-        for (int i = 0; i < n; i++) {
-            u[i] = rng() % MOD;
-            v[i] = rng() % MOD;
-        }
-
-        vector<long long> seq;
-        vector<long long> currV = v;
-
-        for (int k = 0; k < 2 * n + 2; k++) {
-            long long val = 0;
-            for (int i = 0; i < n; i++) val = (val + u[i] * currV[i]) % MOD;
-            seq.push_back(val);
-
-            vector<long long> nextV(n, 0);
-            for (int r = 0; r < n; r++) {
-                for (int c = 0; c < n; c++) {
-                    nextV[r] = (nextV[r] + matrix[r][c] * currV[c]) % MOD;
-                }
-            }
-            currV = nextV;
-        }
-
-        vector<long long> C = berlekampMassey(seq);
-        int d = C.size() - 1;
-        vector<long long> res;
-        res.push_back(d);
-        for (int i = d; i >= 0; i--) {
-            res.push_back(C[i]);
-        }
-        return res;
+        return {};
     }
 };
 

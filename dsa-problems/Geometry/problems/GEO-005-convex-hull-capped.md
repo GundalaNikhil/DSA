@@ -134,7 +134,7 @@ class Main {
 
 static class Solution {
     private long cross(long ox, long oy, long ax, long ay, long bx, long by) {
-        return (ax - ox) * (by - oy) - (ay - oy) * (bx - ox);
+        return 0;
     }
 
     public List<long[]> cappedHull(long[] xs, long[] ys, int theta) {

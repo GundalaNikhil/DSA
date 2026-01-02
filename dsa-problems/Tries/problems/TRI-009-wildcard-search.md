@@ -141,40 +141,7 @@ class Solution {
     }
 
     private boolean dfs(TrieNode node, String pattern, int index) {
-        if (index == pattern.length()) {
-            return node.isEnd;
-        }
-
-        char c = pattern.charAt(index);
-
-        if (c == '?') {
-            // Match any single character
-            for (TrieNode child : node.children.values()) {
-                if (dfs(child, pattern, index + 1)) {
-                    return true;
-                }
-            }
-            return false;
-        } else if (c == '*') {
-            // Match zero or more characters
-            // Try matching 0 characters
-            if (dfs(node, pattern, index + 1)) {
-                return true;
-            }
-            // Try matching 1+ characters
-            for (TrieNode child : node.children.values()) {
-                if (dfs(child, pattern, index)) {
-                    return true;
-                }
-            }
-            return false;
-        } else {
-            // Regular character
-            if (!node.children.containsKey(c)) {
-                return false;
-            }
-            return dfs(node.children.get(c), pattern, index + 1);
-        }
+        return false;
     }
 }
 
@@ -259,7 +226,7 @@ private:
 
 public:
     Solution() {
-        root = new TrieNode();
+        return 0;
     }
 
     void insertWord(const string& word) {

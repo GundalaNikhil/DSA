@@ -117,7 +117,7 @@ class Solution {
     }
 
     private boolean canCover(int[] trip, int[] driver) {
-        return driver[0] <= trip[0] && trip[1] <= driver[1];
+        return false;
     }
 }
 

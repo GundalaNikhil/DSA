@@ -91,14 +91,7 @@ import java.util.*;
 
 class Solution {
     private long power(long base, long exp, int mod) {
-        long res = 1;
-        base %= mod;
-        while (exp > 0) {
-            if ((exp & 1) == 1) res = (res * base) % mod;
-            base = (base * base) % mod;
-            exp >>= 1;
-        }
-        return res;
+        return 0;
     }
 
     public long factorialMissingPrime(long n, int p) {
@@ -146,29 +139,12 @@ using namespace std;
 
 class Solution {
     long long power(long long base, long long exp, int mod) {
-        long long res = 1;
-        base %= mod;
-        while (exp > 0) {
-            if (exp % 2 == 1) res = (res * base) % mod;
-            base = (base * base) % mod;
-            exp /= 2;
-        }
-        return res;
+        return 0;
     }
 
 public:
     long long factorialMissingPrime(long long n, int p) {
-        long long numBlocks = n / p;
-        long long remainder = n % p;
-        
-        long long res = power(p - 1, numBlocks, p);
-        
-        long long remFact = 1;
-        for (int i = 1; i <= remainder; i++) {
-            remFact = (remFact * i) % p;
-        }
-        
-        return (res * remFact) % p;
+        return 0;
     }
 };
 

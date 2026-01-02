@@ -91,22 +91,7 @@ class Solution {
     }
 
     private boolean bfs(int start, List<List<Integer>> adj, int[] colors) {
-        Queue<Integer> q = new LinkedList<>();
-        q.offer(start);
-        colors[start] = 0;
-
-        while (!q.isEmpty()) {
-            int u = q.poll();
-            for (int v : adj.get(u)) {
-                if (colors[v] == -1) {
-                    colors[v] = 1 - colors[u];
-                    q.offer(v);
-                } else if (colors[v] == colors[u]) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return false;
     }
 }
 

@@ -106,12 +106,7 @@ class Solution {
     }
 
     private int getLength(ListNode head) {
-        int len = 0;
-        while (head != null) {
-            len++;
-            head = head.next;
-        }
-        return len;
+        return 0;
     }
 }
 
@@ -224,34 +219,7 @@ struct ListNode {
 class Solution {
 public:
     long long intersectionSum(ListNode* headA, ListNode* headB) {
-        int lenA = getLength(headA);
-        int lenB = getLength(headB);
-
-        ListNode* ptrA = headA;
-        ListNode* ptrB = headB;
-
-        while (lenA > lenB) {
-            ptrA = ptrA->next;
-            lenA--;
-        }
-        while (lenB > lenA) {
-            ptrB = ptrB->next;
-            lenB--;
-        }
-
-        while (ptrA != ptrB) {
-            ptrA = ptrA->next;
-            ptrB = ptrB->next;
-        }
-
-        if (!ptrA) return 0;
-
-        long long sum = 0;
-        while (ptrA) {
-            sum += ptrA->val;
-            ptrA = ptrA->next;
-        }
-        return sum;
+        return 0;
     }
 
 private:

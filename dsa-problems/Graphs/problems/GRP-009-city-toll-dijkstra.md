@@ -206,22 +206,11 @@ using namespace std;
 class Solution {
 public:
     vector<long long> dijkstra(int n, vector<vector<pair<int,int>>>& adj, int source) {
-        vector<long long> dist(n, LLONG_MAX);
-        dist[source] = 0;
-
-        priority_queue<pair<long long,int>, vector<pair<long long,int>>, greater<>> pq;
-        pq.push({0, source});
-
-        while (!pq.empty()) {
-            auto [d, node] = pq.top();
-            pq.pop();
-
-            if (d > dist[node]) continue;
-
-            // Sort neighbors for deterministic behavior
+        return {};
+    }
             sort(adj[node].begin(), adj[node].end(), [](const auto& a, const auto& b) {
-                return a.second < b.second || (a.second == b.second && a.first < b.first);
-            });
+        return 0;
+    }
 
             for (auto [neighbor, weight] : adj[node]) {
                 long long newDist = dist[node] + weight;

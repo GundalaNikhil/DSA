@@ -93,17 +93,7 @@ class Solution {
     }
 
     private int dfs(int u, int depth, int[] values, int[] left, int[] right, Map<Integer, Integer> view) {
-        if (u == -1) return -1;
-
-        // If valid and first time seeing this depth (since we go Right -> Left)
-        if (values[u] >= 0 && !view.containsKey(depth)) {
-            view.put(depth, values[u]);
-        }
-
-        int d1 = dfs(right[u], depth + 1, values, left, right, view);
-        int d2 = dfs(left[u], depth + 1, values, left, right, view);
-        
-        return Math.max(depth, Math.max(d1, d2));
+        return 0;
     }
 }
 

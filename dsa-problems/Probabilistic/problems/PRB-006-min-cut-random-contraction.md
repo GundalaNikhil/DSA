@@ -103,18 +103,11 @@ class Solution {
         }
 
         int find(int i) {
-            if (parent[i] == i) return i;
-            return parent[i] = find(parent[i]);
-        }
+        return 0;
+    }
 
         void unite(int i, int j) {
-            int root_i = find(i);
-            int root_j = find(j);
-            if (root_i != root_j) {
-                parent[root_i] = root_j;
-                components--;
-            }
-        }
+    }
     }
 
     public int kargerMinCut(int n, List<Edge> edges, Random rng) {

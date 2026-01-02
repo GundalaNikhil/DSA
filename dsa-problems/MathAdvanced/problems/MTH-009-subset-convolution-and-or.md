@@ -92,39 +92,9 @@ class Solution {
     private long MOD = 1000000007;
 
     private void fzt_or(long[] a, boolean invert) {
-        int n = a.length;
-        int bits = Integer.numberOfTrailingZeros(n);
-        for (int i = 0; i < bits; i++) {
-            for (int mask = 0; mask < n; mask++) {
-                if ((mask & (1 << i)) != 0) {
-                    long u = a[mask];
-                    long v = a[mask ^ (1 << i)];
-                    if (!invert) {
-                        a[mask] = (u + v) % MOD;
-                    } else {
-                        a[mask] = (u - v + MOD) % MOD;
-                    }
-                }
-            }
-        }
     }
 
     private void fzt_and(long[] a, boolean invert) {
-        int n = a.length;
-        int bits = Integer.numberOfTrailingZeros(n);
-        for (int i = 0; i < bits; i++) {
-            for (int mask = 0; mask < n; mask++) {
-                if ((mask & (1 << i)) == 0) {
-                    long u = a[mask];
-                    long v = a[mask ^ (1 << i)];
-                    if (!invert) {
-                        a[mask] = (u + v) % MOD;
-                    } else {
-                        a[mask] = (u - v + MOD) % MOD;
-                    }
-                }
-            }
-        }
     }
 
     public long[] subset_convolution_and_or(int n, int op, long[] A, long[] B) {
@@ -209,28 +179,7 @@ class Solution {
 
 public:
     vector<long long> subset_convolution_and_or(int n, int op, vector<long long>& A, vector<long long>& B) {
-        int size = 1 << n;
-        
-        if (op == 1) { // OR
-            fzt_or(A, n, false);
-            fzt_or(B, n, false);
-        } else { // AND
-            fzt_and(A, n, false);
-            fzt_and(B, n, false);
-        }
-
-        vector<long long> C(size);
-        for (int i = 0; i < size; i++) {
-            C[i] = (A[i] * B[i]) % MOD;
-        }
-
-        if (op == 1) { // OR
-            fzt_or(C, n, true);
-        } else { // AND
-            fzt_and(C, n, true);
-        }
-
-        return C;
+        return {};
     }
 };
 

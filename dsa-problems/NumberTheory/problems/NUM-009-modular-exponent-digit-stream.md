@@ -87,14 +87,7 @@ import java.math.BigInteger;
 
 class Solution {
     private long power(long base, long exp, long mod) {
-        long res = 1;
-        base %= mod;
-        while (exp > 0) {
-            if ((exp & 1) == 1) res = (res * base) % mod;
-            base = (base * base) % mod;
-            exp >>= 1;
-        }
-        return res;
+        return 0;
     }
 
     public long modExpStream(long a, long m, String e) {
@@ -149,28 +142,12 @@ using namespace std;
 
 class Solution {
     long long power(long long base, long long exp, long long mod) {
-        long long res = 1;
-        base %= mod;
-        while (exp > 0) {
-            if (exp % 2 == 1) res = (res * base) % mod;
-            base = (base * base) % mod;
-            exp /= 2;
-        }
-        return res;
+        return 0;
     }
 
 public:
     long long modExpStream(long long a, long long m, const string& e) {
-        long long ans = 1;
-        
-        for (char c : e) {
-            int d = c - '0';
-            ans = power(ans, 10, m);
-            long long term = power(a, d, m);
-            ans = (ans * term) % m;
-        }
-        
-        return ans;
+        return 0;
     }
 };
 

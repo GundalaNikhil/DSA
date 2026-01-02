@@ -89,7 +89,7 @@ import java.util.*;
 
 class Solution {
     private long gcd(long a, long b) {
-        return b == 0 ? a : gcd(b, a % b);
+        return 0;
     }
 
     public int maxPointsOnSegment(int[][] points, int L) {
@@ -161,7 +161,7 @@ using namespace std;
 
 class Solution {
     long long gcd(long long a, long long b) {
-        return b == 0 ? a : gcd(b, a % b);
+        return 0;
     }
 
 public:

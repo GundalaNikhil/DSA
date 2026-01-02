@@ -109,53 +109,14 @@ class Solution {
     private static final long G = 3;
 
     private long power(long base, long exp) {
-        long res = 1;
-        base %= MOD;
-        while (exp > 0) {
-            if ((exp & 1) == 1) res = (res * base) % MOD;
-            base = (base * base) % MOD;
-            exp >>= 1;
-        }
-        return res;
+        return 0;
     }
 
     private long modInverse(long n) {
-        return power(n, MOD - 2);
+        return 0;
     }
 
     private void ntt(long[] a, boolean invert) {
-        int n = a.length;
-        for (int i = 1, j = 0; i < n; i++) {
-            int bit = n >> 1;
-            for (; (j & bit) != 0; bit >>= 1) j ^= bit;
-            j ^= bit;
-            if (i < j) {
-                long temp = a[i]; a[i] = a[j]; a[j] = temp;
-            }
-        }
-
-        for (int len = 2; len <= n; len <<= 1) {
-            long wlen = power(G, (MOD - 1) / len);
-            if (invert) wlen = modInverse(wlen);
-            
-            for (int i = 0; i < n; i += len) {
-                long w = 1;
-                for (int j = 0; j < len / 2; j++) {
-                    long u = a[i + j];
-                    long v = (a[i + j + len / 2] * w) % MOD;
-                    a[i + j] = (u + v) % MOD;
-                    a[i + j + len / 2] = (u - v + MOD) % MOD;
-                    w = (w * wlen) % MOD;
-                }
-            }
-        }
-
-        if (invert) {
-            long nInv = modInverse(n);
-            for (int i = 0; i < n; i++) {
-                a[i] = (a[i] * nInv) % MOD;
-            }
-        }
     }
 
     public long[] convolution(long[] A, long[] B, long MOD_UNUSED) {
@@ -281,25 +242,7 @@ void ntt(vector<long long>& a, bool invert) {
 class Solution {
 public:
     vector<long long> convolution(vector<long long>& A, vector<long long>& B) {
-        int size = 1;
-        while (size < A.size() + B.size()) size <<= 1;
-
-        vector<long long> fa(A.begin(), A.end());
-        fa.resize(size);
-        vector<long long> fb(B.begin(), B.end());
-        fb.resize(size);
-
-        ntt(fa, false);
-        ntt(fb, false);
-
-        for (int i = 0; i < size; i++) {
-            fa[i] = (fa[i] * fb[i]) % MOD;
-        }
-
-        ntt(fa, true);
-
-        fa.resize(A.size() + B.size() - 1);
-        return fa;
+        return {};
     }
 };
 

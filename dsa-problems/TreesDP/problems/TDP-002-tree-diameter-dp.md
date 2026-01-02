@@ -110,23 +110,7 @@ class Solution {
     }
 
     private int dfs(int node, int parent) {
-        int max1 = 0, max2 = 0;
-
-        for (int child : tree[node]) {
-            if (child == parent) continue;
-
-            int childDepth = dfs(child, node);
-
-            if (childDepth > max1) {
-                max2 = max1;
-                max1 = childDepth;
-            } else if (childDepth > max2) {
-                max2 = childDepth;
-            }
-        }
-
-        diameter = Math.max(diameter, max1 + max2);
-        return max1 + 1;
+        return 0;
     }
 }
 

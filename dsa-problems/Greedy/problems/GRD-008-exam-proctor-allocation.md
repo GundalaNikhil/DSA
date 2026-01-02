@@ -174,6 +174,20 @@ public:
     int minProctors(int n, int r, vector<pair<int,int>>& exams) {
         return 0;
     }
+        sort(events.begin(), events.end(), [](const pair<int,int>& a, const pair<int,int>& b) {
+        return 0;
+    }
+        
+        int maxOverlap = 0;
+        int currentOverlap = 0;
+        
+        for (const auto& event : events) {
+            currentOverlap += event.second;
+            maxOverlap = max(maxOverlap, currentOverlap);
+        }
+        
+        return (maxOverlap + r - 1) / r;
+    }
 };
 
 int main() {

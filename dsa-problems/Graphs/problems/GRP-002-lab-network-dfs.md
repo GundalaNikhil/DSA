@@ -111,16 +111,6 @@ class Solution {
     }
     
     private void dfs(int node, List<List<Integer>> adj) {
-        // Mark as visited and add to result (preorder)
-        visited[node] = true;
-        result.add(node);
-        
-        // Recursively visit all unvisited neighbors
-        for (int neighbor : adj.get(node)) {
-            if (!visited[neighbor]) {
-                dfs(neighbor, adj);
-            }
-        }
     }
 }
 

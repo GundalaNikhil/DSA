@@ -93,53 +93,14 @@ class Solution {
     }
 
     private void insert(TrieNode root, int num) {
-        TrieNode curr = root;
-        for (int i = 29; i >= 0; i--) {
-            int bit = (num >> i) & 1;
-            if (curr.children[bit] == null) {
-                curr.children[bit] = new TrieNode();
-            }
-            curr = curr.children[bit];
-            curr.count++;
-        }
     }
 
     private int countLessEqual(TrieNode root, int num, int K) {
-        if (K < 0) {
-            return 0;
-        }
-        TrieNode curr = root;
-        int count = 0;
-        for (int i = 29; i >= 0; i--) {
-            if (curr == null) break;
-            int bitNum = (num >> i) & 1;
-            int bitK = (K >> i) & 1;
-
-            if (bitK == 1) {
-                // If we choose path that aligns with bitNum, XOR result is 0 (0 < 1).
-                // All nums in that subtree are strictly smaller.
-                if (curr.children[bitNum] != null) {
-                    count += curr.children[bitNum].count;
-                }
-                // Continue to the path that makes XOR 1 (equal to bitK)
-                curr = curr.children[1 - bitNum];
-            } else {
-                // bitK is 0. We MUST make XOR 0. So must go to child matching bitNum.
-                curr = curr.children[bitNum];
-            }
-        }
-        if (curr != null) count += curr.count;
-        return count;
+        return 0;
     }
 
     private long countPairsWithLimit(List<Integer> nums, int K) {
-        TrieNode root = new TrieNode();
-        long total = 0;
-        for (int num : nums) {
-            total += countLessEqual(root, num, K);
-            insert(root, num);
-        }
-        return total;
+        return 0;
     }
 
     public long countPairwiseXorBandParity(int[] a, int L, int U) {
@@ -227,29 +188,12 @@ class Solution {
     }
 
     long long solve(const vector<int>& nums, int L, int U) {
-        TrieNode* root = new TrieNode();
-        long long total = 0;
-        int limitL = L - 1;
-
-        for (int x : nums) {
-            int cU = countLessEqual(root, x, U);
-            int cL = countLessEqual(root, x, limitL);
-            total += (cU - cL);
-            insert(root, x);
-        }
-        // Memory leak check: In CP context, often ignored, but we should traverse delete
-        // For strictness, assume simple struct is fine.
-        return total;
+        return 0;
     }
 
 public:
     long long countPairwiseXorBandParity(vector<int>& a, int L, int U) {
-        vector<int> evens, odds;
-        for (int i = 0; i < a.size(); i++) {
-            if (i % 2 == 0) evens.push_back(a[i]);
-            else odds.push_back(a[i]);
-        }
-        return solve(evens, L, U) + solve(odds, L, U);
+        return 0;
     }
 };
 

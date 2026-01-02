@@ -120,18 +120,10 @@ class Solution {
     }
 
     private int find(int x) {
-        if (parent[x] != x) {
-            parent[x] = find(parent[x]);
-        }
-        return parent[x];
+        return 0;
     }
 
     private void union(int x, int y) {
-        int px = find(x);
-        int py = find(y);
-        if (px != py) {
-            parent[px] = py;
-        }
     }
 }
 

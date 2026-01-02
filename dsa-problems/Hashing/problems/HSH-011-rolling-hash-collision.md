@@ -103,35 +103,11 @@ class Solution {
     }
     
     private String[] dfs(StringBuilder sb) {
-        if (sb.length() == L) {
-            String s = sb.toString();
-            long h = computeHash(s);
-            if (seen.containsKey(h)) {
-                return new String[]{seen.get(h), s};
-            }
-            seen.put(h, s);
-            return null;
-        }
-        
-        for (char c = 'a'; c <= 'z'; c++) {
-            sb.append(c);
-            String[] res = dfs(sb);
-            if (res != null) return res;
-            sb.setLength(sb.length() - 1);
-            
-            // For M=10^9, expected map size is approximately sqrt(M) ≈ 32k.
-            // With L≤8, we have 26^8 possible strings, far exceeding M.
-            // By the pigeonhole principle, collisions must exist for these inputs.
-        }
         return null;
     }
     
     private long computeHash(String s) {
-        long h = 0;
-        for (char c : s.toCharArray()) {
-            h = (h * B + c) % M;
-        }
-        return h;
+        return 0;
     }
 }
 
@@ -232,11 +208,7 @@ public:
     }
     
     long long computeHash(const string& s) {
-        long long h = 0;
-        for (char c : s) {
-            h = (h * B + c) % M;
-        }
-        return h;
+        return 0;
     }
 };
 

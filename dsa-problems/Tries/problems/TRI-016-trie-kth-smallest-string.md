@@ -110,42 +110,9 @@ class Solution {
     }
 
     private void insert(String word) {
-        TrieNode node = root;
-        for (char c : word.toCharArray()) {
-            node.children.putIfAbsent(c, new TrieNode());
-            node = node.children.get(c);
-            node.count++;
-        }
-        node.isEnd = true;
     }
 
     private boolean dfs(TrieNode node, StringBuilder path) {
-        if (node.isEnd) {
-            remaining--;
-            if (remaining == 0) {
-                result = path.toString();
-                return true;
-            }
-        }
-
-        // Traverse children in alphabetical order (TreeMap ensures this)
-        for (Map.Entry<Character, TrieNode> entry : node.children.entrySet()) {
-            char c = entry.getKey();
-            TrieNode child = entry.getValue();
-
-            // Check if k-th string is in this subtree
-            if (child.count >= remaining) {
-                path.append(c);
-                if (dfs(child, path)) {
-                    return true;
-                }
-                path.deleteCharAt(path.length() - 1);
-            } else {
-                // Skip this entire subtree
-                remaining -= child.count;
-            }
-        }
-
         return false;
     }
 }
@@ -235,7 +202,8 @@ private:
 
 public:
     Solution() { root = new TrieNode(); }
-
+        return 0;
+    }
     string kthSmallest(vector<string>& words, int k) {
         return "";
     }

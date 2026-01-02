@@ -99,25 +99,6 @@ class Solution {
     }
 
     private void backtrack(int start, List<String> current) {
-        if (start == N) {
-            int count = current.size();
-            if (count < current_min) {
-                current_min = count;
-                best_partition = new ArrayList<>(current);
-            }
-            return;
-        }
-
-        if (current.size() >= current_min) return;
-
-        int max_end = Math.min(start + L, N);
-        for (int end = start; end < max_end; end++) {
-            if (is_pal[start][end]) {
-                current.add(S.substring(start, end + 1));
-                backtrack(end + 1, current);
-                current.remove(current.size() - 1);
-            }
-        }
     }
 }
 

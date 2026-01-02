@@ -110,18 +110,7 @@ class Main {
         private int[] mx;
 
         private void update(int node, int l, int r, int ql, int qr, int val) {
-            if (qr <= l || r <= ql) return;
-            if (ql <= l && r <= qr) {
-                int realVal = -val;
-                add[node] += realVal;
-                mx[node] += realVal;
-                return;
-            }
-            int mid = (l + r) / 2;
-            update(node * 2, l, mid, ql, qr, val);
-            update(node * 2 + 1, mid, r, ql, qr, val);
-            mx[node] = add[node] + Math.max(mx[node * 2], mx[node * 2 + 1]);
-        }
+    }
 
         public int maxOverlap(long[] x1, long[] y1, long[] x2, long[] y2) {
         return 0;

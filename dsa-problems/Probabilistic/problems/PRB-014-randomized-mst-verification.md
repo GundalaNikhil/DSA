@@ -134,12 +134,7 @@ using namespace std;
 class Solution {
 public:
     long long minTrials(long long n, double C) {
-        double p = 1.0 / ((double)n * n);
-        
-        double num = log(1.0 - C);
-        double den = log(1.0 - p);
-        
-        return (long long) ceil(num / den);
+        return 0;
     }
 };
 

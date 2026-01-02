@@ -115,17 +115,10 @@ class Solution {
     private int[] size;
 
     private int find(int i) {
-        if (parent[i] == i) return i;
-        return parent[i] = find(parent[i]);
+        return 0;
     }
 
     private void union(int i, int j) {
-        int rootI = find(i);
-        int rootJ = find(j);
-        if (rootI != rootJ) {
-            parent[rootI] = rootJ;
-            size[rootJ] += size[rootI];
-        }
     }
 
     public int maxComponentSize(int n, List<int[]> edges, Set<Integer> vips) {

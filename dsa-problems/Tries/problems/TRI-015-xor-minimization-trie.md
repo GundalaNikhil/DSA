@@ -106,34 +106,10 @@ class Solution {
     }
 
     private void insert(int num) {
-        TrieNode node = root;
-        for (int i = MAX_BITS; i >= 0; i--) {
-            int bit = (num >> i) & 1;
-            if (node.children[bit] == null) {
-                node.children[bit] = new TrieNode();
-            }
-            node = node.children[bit];
-        }
     }
 
     private int query(int num) {
-        TrieNode node = root;
-        int result = 0;
-
-        for (int i = MAX_BITS; i >= 0; i--) {
-            int bit = (num >> i) & 1;
-
-            // Prefer same bit (to minimize XOR)
-            if (node.children[bit] != null) {
-                node = node.children[bit];
-            } else {
-                // Take opposite bit
-                result |= (1 << i);
-                node = node.children[1 - bit];
-            }
-        }
-
-        return result;
+        return 0;
     }
 }
 
@@ -221,7 +197,8 @@ private:
 
 public:
     Solution() { root = new TrieNode(); }
-
+        return 0;
+    }
     int minimizeXOR(vector<int>& a, int X) {
         return 0;
     }

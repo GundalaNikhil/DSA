@@ -96,18 +96,7 @@ class Solution {
     }
 
     private boolean dfs(int u) {
-        if (memo[u] != -1) return memo[u] == 1;
-
-        boolean canReachLosing = false;
-        for (int v : adj[u]) {
-            if (!dfs(v)) { // If v is Losing
-                canReachLosing = true;
-                break;
-            }
-        }
-
-        memo[u] = canReachLosing ? 1 : 0;
-        return canReachLosing;
+        return false;
     }
 }
 

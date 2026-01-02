@@ -88,28 +88,7 @@ class Solution {
     private int[] a;
 
     private int solve(int mask) {
-        if (mask == (1 << n) - 1) return 0;
-        if (memo[mask] != -1) return memo[mask];
-
-        int res = Integer.MAX_VALUE;
-        
-        // Find the first unset element
-        int i = 0;
-        while (((mask >> i) & 1) == 1) {
-            i++;
-        }
-        
-        // Try pairing i with every other unset element j
-        for (int j = i + 1; j < n; j++) {
-            if (((mask >> j) & 1) == 0) {
-                int pairXor = a[i] ^ a[j];
-                // Recurse for the rest
-                int subRes = solve(mask | (1 << i) | (1 << j));
-                res = Math.min(res, Math.max(pairXor, subRes));
-            }
-        }
-        
-        return memo[mask] = res;
+        return 0;
     }
 
     public int minimizeMaxPairXor(int[] a) {

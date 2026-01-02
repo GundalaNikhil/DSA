@@ -107,11 +107,8 @@ class Solution {
         int dir; // 1 for TL (increase indices), -1 for BR (decrease indices)
         
         public Node(long val, int r, int c, int dir) {
-            this.val = val;
-            this.r = r;
-            this.c = c;
-            this.dir = dir;
-        }
+        return 0;
+    }
         
         @Override
         public int compareTo(Node other) {
@@ -124,19 +121,9 @@ class Solution {
     }
     
     private void add(PriorityQueue<Node> pq, Set<String> visited, long[] A, long[] B, int r, int c, int dir, int d) {
-        String key = r + "," + c;
-        if (!visited.contains(key)) {
-            visited.add(key);
-            pq.offer(new Node(A[r] * B[c], r, c, dir));
-        }
     }
     
     private void tryAdd(PriorityQueue<Node> pq, Set<String> visited, long[] A, long[] B, int r, int c, int dir, int d) {
-        if (r >= 0 && r < A.length && c >= 0 && c < B.length) {
-            if (Math.abs(r - c) >= d) {
-                add(pq, visited, A, B, r, c, dir, d);
-            }
-        }
     }
 }
 
@@ -231,45 +218,7 @@ class Solution {
     
 public:
     vector<long long> topKProducts(const vector<long long>& A, const vector<long long>& B, int k, int d) {
-        int n = A.size();
-        int m = B.size();
-        priority_queue<Node> pq;
-        set<pair<int,int>> visited;
-        
-        // TL
-        if (d < n) tryAdd(pq, visited, A, B, d, 0, 1, d);
-        if (d < m && d > 0) tryAdd(pq, visited, A, B, 0, d, 1, d);
-        else if (d == 0) tryAdd(pq, visited, A, B, 0, 0, 1, d);
-        
-        // BR
-        if (d < n) {
-            int startI = n - 1;
-            int startJ = min(m - 1, n - 1 - d);
-            if (startJ >= 0) tryAdd(pq, visited, A, B, startI, startJ, -1, d);
-        }
-        if (d < m && d > 0) {
-            int startJ = m - 1;
-            int startI = min(n - 1, m - 1 - d);
-            if (startI >= 0) tryAdd(pq, visited, A, B, startI, startJ, -1, d);
-        }
-        
-        vector<long long> res;
-        while (k > 0 && !pq.empty()) {
-            Node node = pq.top();
-            pq.pop();
-            res.push_back(node.val);
-            k--;
-            
-            if (node.dir == 1) {
-                tryAdd(pq, visited, A, B, node.r + 1, node.c, 1, d);
-                tryAdd(pq, visited, A, B, node.r, node.c + 1, 1, d);
-            } else {
-                tryAdd(pq, visited, A, B, node.r - 1, node.c, -1, d);
-                tryAdd(pq, visited, A, B, node.r, node.c - 1, -1, d);
-            }
-        }
-        
-        return res;
+        return {};
     }
 };
 

@@ -123,13 +123,6 @@ class Solution {
     }
 
     private void dfs(int node, int parent, int d) {
-        up[node][0] = parent;
-        depth[node] = d;
-        for (int child : tree[node]) {
-            if (child != parent) {
-                dfs(child, node, d + 1);
-            }
-        }
     }
 
     public int lca(int u, int v) {

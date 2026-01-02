@@ -103,20 +103,6 @@ class Solution {
     }
 
     private boolean dfs(int node, List<List<Integer>> adj, boolean[] visited, boolean[] recStack) {
-        visited[node] = true;
-        recStack[node] = true;
-
-        for (int neighbor : adj.get(node)) {
-            if (!visited[neighbor]) {
-                if (dfs(neighbor, adj, visited, recStack)) {
-                    return true;
-                }
-            } else if (recStack[neighbor]) {
-                return true; // Back edge - cycle detected
-            }
-        }
-
-        recStack[node] = false;
         return false;
     }
 }

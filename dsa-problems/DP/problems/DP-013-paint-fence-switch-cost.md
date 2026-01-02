@@ -98,6 +98,24 @@ class Solution {
     public long minCost(int n, int k, int[] s) {
         return 0;
     }
+                else if (v < min2) { min2 = v; }
+        return 0;
+    }
+            long[] ndp1 = new long[k];
+            long[] ndp2 = new long[k];
+            Arrays.fill(ndp1, INF);
+            Arrays.fill(ndp2, INF);
+            for (int c = 0; c < k; c++) {
+                if (dp1[c] < INF) ndp2[c] = dp1[c] + 1; // extend streak
+                long bestOther = (c == c1) ? min2 : min1;
+                if (bestOther < INF) ndp1[c] = bestOther + 1 + s[i];
+            }
+            dp1 = ndp1; dp2 = ndp2;
+        }
+        long ans = INF;
+        for (int c = 0; c < k; c++) ans = Math.min(ans, Math.min(dp1[c], dp2[c]));
+        return ans >= INF ? -1 : ans;
+    }
 }
 
 class Main {

@@ -114,10 +114,7 @@ class Main {
 
 static class Solution {
     private boolean onSegment(long xi, long yi, long xj, long yj, long qx, long qy) {
-        long cross = (xj - xi) * (qy - yi) - (yj - yi) * (qx - xi);
-        if (cross != 0) return false;
-        return Math.min(xi, xj) <= qx && qx <= Math.max(xi, xj)
-            && Math.min(yi, yj) <= qy && qy <= Math.max(yi, yj);
+        return false;
     }
 
     public String pointInPolygon(long[] xs, long[] ys, long qx, long qy) {

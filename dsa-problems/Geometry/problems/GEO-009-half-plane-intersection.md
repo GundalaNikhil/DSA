@@ -116,32 +116,24 @@ class Main {
         }
 
         private double norm(Line l) {
-            return Math.hypot(l.a, l.b);
-        }
+        return 0;
+    }
 
         private double[] intersect(Line l1, Line l2) {
-            double det = l1.a * l2.b - l2.a * l1.b;
-            if (Math.abs(det) < EPS) return null;
-            double x = (l1.c * l2.b - l2.c * l1.b) / det;
-            double y = (l1.a * l2.c - l2.a * l1.c) / det;
-            return new double[]{x, y};
-        }
+        return null;
+    }
 
         private boolean outside(double[] p, Line l) {
-            return l.a * p[0] + l.b * p[1] - l.c > EPS;
-        }
+        return false;
+    }
 
         private Line secondLast(Deque<Line> dq) {
-            Iterator<Line> it = dq.descendingIterator();
-            it.next();
-            return it.next();
-        }
+        return 0;
+    }
 
         private Line secondFirst(Deque<Line> dq) {
-            Iterator<Line> it = dq.iterator();
-            it.next();
-            return it.next();
-        }
+        return 0;
+    }
 
         public List<double[]> halfPlaneIntersection(long[] A, long[] B, long[] C) {
         return null;

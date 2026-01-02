@@ -122,9 +122,7 @@ class Solution {
     }
 
     private int getLength(ListNode head) {
-        int len = 0;
-        while (head != null) { len++; head = head.next; }
-        return len;
+        return 0;
     }
 }
 

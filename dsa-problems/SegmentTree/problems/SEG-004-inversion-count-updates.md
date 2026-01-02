@@ -93,90 +93,28 @@ class Solution {
     }
     
     private long countGreaterLeft(List<List<Integer>> blocks, int[] arr, int idx, int val, int blockSize) {
-        long count = 0;
-        int bIdx = idx / blockSize;
-        
-        // Full blocks to the left
-        for (int i = 0; i < bIdx; i++) {
-            List<Integer> b = blocks.get(i);
-            // Count elements > val
-            int pos = upperBound(b, val);
-            count += (b.size() - pos);
-        }
-        
-        // Elements in same block to the left
-        int start = bIdx * blockSize;
-        for (int i = start; i < idx; i++) {
-            if (arr[i] > val) count++;
-        }
-        return count;
+        return 0;
     }
     
     private long countSmallerRight(List<List<Integer>> blocks, int[] arr, int idx, int val, int blockSize) {
-        long count = 0;
-        int bIdx = idx / blockSize;
-        int numBlocks = blocks.size();
-        
-        // Elements in same block to the right
-        int end = Math.min((bIdx + 1) * blockSize, arr.length);
-        for (int i = idx + 1; i < end; i++) {
-            if (arr[i] < val) count++;
-        }
-        
-        // Full blocks to the right
-        for (int i = bIdx + 1; i < numBlocks; i++) {
-            List<Integer> b = blocks.get(i);
-            // Count elements < val
-            int pos = lowerBound(b, val);
-            count += pos;
-        }
-        return count;
+        return 0;
     }
     
     private int lowerBound(List<Integer> list, int val) {
-        int l = 0, r = list.size();
-        while (l < r) {
-            int mid = (l + r) / 2;
-            if (list.get(mid) >= val) r = mid;
-            else l = mid + 1;
-        }
-        return l;
+        return 0;
     }
     
     private int upperBound(List<Integer> list, int val) {
-        int l = 0, r = list.size();
-        while (l < r) {
-            int mid = (l + r) / 2;
-            if (list.get(mid) > val) r = mid;
-            else l = mid + 1;
-        }
-        return l;
+        return 0;
     }
     
     // Standard Merge Sort Inversion Count
     private long countInversions(int[] arr) {
-        return mergeSort(arr.clone(), 0, arr.length - 1);
+        return 0;
     }
     
     private long mergeSort(int[] arr, int l, int r) {
-        if (l >= r) return 0;
-        int mid = (l + r) / 2;
-        long count = mergeSort(arr, l, mid) + mergeSort(arr, mid + 1, r);
-        
-        int[] temp = new int[r - l + 1];
-        int i = l, j = mid + 1, k = 0;
-        while (i <= mid && j <= r) {
-            if (arr[i] <= arr[j]) {
-                temp[k++] = arr[i++];
-            } else {
-                temp[k++] = arr[j++];
-                count += (mid - i + 1);
-            }
-        }
-        while (i <= mid) temp[k++] = arr[i++];
-        while (j <= r) temp[k++] = arr[j++];
-        System.arraycopy(temp, 0, arr, l, temp.length);
-        return count;
+        return 0;
     }
 }
 
@@ -215,6 +153,13 @@ def main():
     import sys
     def input_gen():
         return 0
+
+        for line in sys.stdin:
+
+            for token in line.split():
+
+                yield token
+
     it = input_gen()
     n = int(next(it))
     q = int(next(it))
@@ -244,117 +189,12 @@ using namespace std;
 
 class Solution {
     long long mergeSort(vector<int>& arr, int l, int r) {
-        if (l >= r) return 0;
-        int mid = (l + r) / 2;
-        long long count = mergeSort(arr, l, mid) + mergeSort(arr, mid + 1, r);
-        
-        vector<int> temp;
-        temp.reserve(r - l + 1);
-        int i = l, j = mid + 1;
-        while (i <= mid && j <= r) {
-            if (arr[i] <= arr[j]) {
-                temp.push_back(arr[i++]);
-            } else {
-                temp.push_back(arr[j++]);
-                count += (mid - i + 1);
-            }
-        }
-        while (i <= mid) temp.push_back(arr[i++]);
-        while (j <= r) temp.push_back(arr[j++]);
-        for (int k = 0; k < temp.size(); k++) arr[l + k] = temp[k];
-        return count;
+        return 0;
     }
 
 public:
     vector<long long> process(const vector<int>& inputArr, const vector<pair<int,int>>& updates) {
-        vector<int> arr = inputArr;
-        int n = arr.size();
-        int blockSize = sqrt(n * log2(n + 1)) + 1;
-        if (blockSize < 50) blockSize = 50;
-        
-        int numBlocks = (n + blockSize - 1) / blockSize;
-        vector<vector<int>> blocks(numBlocks);
-        
-        for (int i = 0; i < n; i++) {
-            blocks[i / blockSize].push_back(arr[i]);
-        }
-        for (auto& b : blocks) sort(b.begin(), b.end());
-        
-        vector<int> tempArr = arr;
-        long long currentInversions = mergeSort(tempArr, 0, n - 1);
-        
-        vector<long long> results;
-        results.reserve(updates.size());
-        
-        for (const auto& up : updates) {
-            int idx = up.first;
-            int val = up.second;
-            int oldVal = arr[idx];
-            
-            if (val == oldVal) {
-                results.push_back(currentInversions);
-                continue;
-            }
-            
-            int bIdx = idx / blockSize;
-            
-            // Remove oldVal
-            // Left blocks
-            for (int i = 0; i < bIdx; i++) {
-                auto& b = blocks[i];
-                auto it = upper_bound(b.begin(), b.end(), oldVal);
-                currentInversions -= distance(it, b.end());
-            }
-            // Same block left
-            int start = bIdx * blockSize;
-            for (int i = start; i < idx; i++) {
-                if (arr[i] > oldVal) currentInversions--;
-            }
-            // Same block right
-            int end = min((bIdx + 1) * blockSize, n);
-            for (int i = idx + 1; i < end; i++) {
-                if (arr[i] < oldVal) currentInversions--;
-            }
-            // Right blocks
-            for (int i = bIdx + 1; i < numBlocks; i++) {
-                auto& b = blocks[i];
-                auto it = lower_bound(b.begin(), b.end(), oldVal);
-                currentInversions -= distance(b.begin(), it);
-            }
-            
-            // Update
-            arr[idx] = val;
-            auto& block = blocks[bIdx];
-            auto itRemoval = lower_bound(block.begin(), block.end(), oldVal);
-            block.erase(itRemoval);
-            auto itInsertion = lower_bound(block.begin(), block.end(), val);
-            block.insert(itInsertion, val);
-            
-            // Add val
-            // Left blocks
-            for (int i = 0; i < bIdx; i++) {
-                auto& b = blocks[i];
-                auto it = upper_bound(b.begin(), b.end(), val);
-                currentInversions += distance(it, b.end());
-            }
-            // Same block left
-            for (int i = start; i < idx; i++) {
-                if (arr[i] > val) currentInversions++;
-            }
-            // Same block right
-            for (int i = idx + 1; i < end; i++) {
-                if (arr[i] < val) currentInversions++;
-            }
-            // Right blocks
-            for (int i = bIdx + 1; i < numBlocks; i++) {
-                auto& b = blocks[i];
-                auto it = lower_bound(b.begin(), b.end(), val);
-                currentInversions += distance(b.begin(), it);
-            }
-            
-            results.push_back(currentInversions);
-        }
-        return results;
+        return {};
     }
 };
 

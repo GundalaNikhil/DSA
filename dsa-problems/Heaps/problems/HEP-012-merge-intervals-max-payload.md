@@ -169,6 +169,26 @@ public:
     vector<vector<int>> mergeIntervals(vector<vector<int>>& intervals) {
         return {};
     }
+        sort(intervals.begin(), intervals.end(), [](const vector<int>& a, const vector<int>& b) {
+        return 0;
+    }
+        
+        vector<vector<int>> merged;
+        vector<int> current = intervals[0];
+        
+        for (size_t i = 1; i < intervals.size(); i++) {
+            if (intervals[i][0] <= current[1]) {
+                current[1] = max(current[1], intervals[i][1]);
+                current[2] = max(current[2], intervals[i][2]);
+            } else {
+                merged.push_back(current);
+                current = intervals[i];
+            }
+        }
+        merged.push_back(current);
+        
+        return merged;
+    }
 };
 
 int main() {

@@ -114,16 +114,6 @@ class Solution {
     }
 
     private void dfs(int node, int parent) {
-        subtreeSize[node] = 1;
-        subtreeSum[node] = values[node];
-
-        for (int child : tree[node]) {
-            if (child == parent) continue;
-
-            dfs(child, node);
-            subtreeSize[node] += subtreeSize[child];
-            subtreeSum[node] += subtreeSum[child];
-        }
     }
 
     public int[] getSubtreeSizes() {
@@ -223,7 +213,7 @@ public:
     }
 
     vector<long long> getSubtreeSums() {
-        return vector<long long>(subtreeSum.begin() + 1, subtreeSum.end());
+        return {};
     }
 };
 

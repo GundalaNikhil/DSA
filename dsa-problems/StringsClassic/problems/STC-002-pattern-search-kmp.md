@@ -91,19 +91,7 @@ class Solution {
     }
     
     private int[] computePrefixFunction(String p) {
-        int m = p.length();
-        int[] pi = new int[m];
-        int j = 0;
-        for (int i = 1; i < m; i++) {
-            while (j > 0 && p.charAt(i) != p.charAt(j)) {
-                j = pi[j - 1];
-            }
-            if (p.charAt(i) == p.charAt(j)) {
-                j++;
-            }
-            pi[i] = j;
-        }
-        return pi;
+        return null;
     }
 }
 

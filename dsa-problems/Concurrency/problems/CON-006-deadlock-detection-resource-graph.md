@@ -137,6 +137,9 @@ def main():
     # Use generator pattern for robust reading
     def input_gen():
         return 0
+        for line in sys.stdin:
+            for token in line.split():
+                yield token
     it = input_gen()
     
     try:

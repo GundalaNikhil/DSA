@@ -103,34 +103,7 @@ class Solution {
 
     // Returns [newHead, newTail]
     private ListNode[] rotateList(ListNode head, int len, int k) {
-        if (len <= 1 || k % len == 0) {
-            // Find tail
-            ListNode tail = head;
-            while (tail.next != null) tail = tail.next;
-            return new ListNode[]{head, tail};
-        }
-
-        k = k % len;
-        int moves = len - k; // Moves to new tail
-
-        ListNode newTail = head;
-        for (int i = 0; i < moves - 1; i++) {
-            newTail = newTail.next;
-        }
-        
-        ListNode newHead = newTail.next;
-        newTail.next = null; // Break ring
-        
-        // Find end of newHead to link to old head? 
-        // 1->2->3, k=1. len=3. moves=2.
-        // newTail = 2. newHead = 3.
-        // 3->null. Need 3->1->2.
-        
-        ListNode temp = newHead;
-        while (temp.next != null) temp = temp.next;
-        temp.next = head; // Link end to start
-        
-        return new ListNode[]{newHead, newTail};
+        return null;
     }
 }
 

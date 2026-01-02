@@ -99,91 +99,15 @@ class Solution {
     }
     
     private List<Integer> sqrtDecomposition(int[] arr, List<String[]> ops) {
-        int blockSize = (int) Math.sqrt(n * Math.log(n + 1) / Math.log(2)) + 1;
-        List<List<Integer>> blocks = new ArrayList<>();
-        int numBlocks = (n + blockSize - 1) / blockSize;
-        
-        for (int i = 0; i < numBlocks; i++) blocks.add(new ArrayList<>());
-        for (int i = 0; i < n; i++) blocks.get(i / blockSize).add(arr[i]);
-        for (List<Integer> b : blocks) Collections.sort(b);
-        
-        List<Integer> results = new ArrayList<>();
-        
-        for (String[] op : ops) {
-            if (op[0].equals("SET")) {
-                int idx = Integer.parseInt(op[1]);
-                int val = Integer.parseInt(op[2]);
-                int oldVal = arr[idx];
-                arr[idx] = val;
-                
-                List<Integer> block = blocks.get(idx / blockSize);
-                // Remove oldVal
-                int pos = Collections.binarySearch(block, oldVal);
-                if (pos < 0) pos = -pos - 1; // Should exist
-                // Handle duplicates: binarySearch finds arbitrary. We just remove one.
-                // But we must ensure we remove *a* instance.
-                // If binarySearch returns index, it is present.
-                block.remove(pos);
-                
-                // Add val
-                int ins = Collections.binarySearch(block, val);
-                if (ins < 0) ins = -ins - 1;
-                block.add(ins, val);
-                
-            } else {
-                int l = Integer.parseInt(op[1]);
-                int r = Integer.parseInt(op[2]);
-                int x = Integer.parseInt(op[3]);
-                int y = Integer.parseInt(op[4]);
-                
-                int count = 0;
-                int startBlock = l / blockSize;
-                int endBlock = r / blockSize;
-                
-                if (startBlock == endBlock) {
-                    for (int i = l; i <= r; i++) {
-                        if (arr[i] >= x && arr[i] <= y) count++;
-                    }
-                } else {
-                    for (int i = l; i < (startBlock + 1) * blockSize; i++) {
-                        if (arr[i] >= x && arr[i] <= y) count++;
-                    }
-                    for (int i = startBlock + 1; i < endBlock; i++) {
-                        List<Integer> b = blocks.get(i);
-                        // Count elements in [x, y]
-                        // upper_bound(y) - lower_bound(x)
-                        int upper = upperBound(b, y);
-                        int lower = lowerBound(b, x);
-                        count += (upper - lower);
-                    }
-                    for (int i = endBlock * blockSize; i <= r; i++) {
-                        if (arr[i] >= x && arr[i] <= y) count++;
-                    }
-                }
-                results.add(count);
-            }
-        }
-        return results;
+        return null;
     }
     
     private int lowerBound(List<Integer> list, int val) {
-        int l = 0, r = list.size();
-        while (l < r) {
-            int mid = (l + r) / 2;
-            if (list.get(mid) >= val) r = mid;
-            else l = mid + 1;
-        }
-        return l;
+        return 0;
     }
     
     private int upperBound(List<Integer> list, int val) {
-        int l = 0, r = list.size();
-        while (l < r) {
-            int mid = (l + r) / 2;
-            if (list.get(mid) > val) r = mid;
-            else l = mid + 1;
-        }
-        return l;
+        return 0;
     }
 }
 
@@ -226,6 +150,13 @@ def main():
     import sys
     def input_gen():
         return 0
+
+        for line in sys.stdin:
+
+            for token in line.split():
+
+                yield token
+
     it = input_gen()
     n = int(next(it))
     q = int(next(it))

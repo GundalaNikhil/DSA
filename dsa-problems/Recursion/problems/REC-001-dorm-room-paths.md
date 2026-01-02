@@ -90,19 +90,7 @@ class Solution {
     }
 
     private long helper(int r, int c) {
-        // Base case: Start point
-        if (r == 0 && c == 0) return 1;
-        
-        // Out of bounds
-        if (r < 0 || c < 0) return 0;
-        
-        // Return memoized value
-        if (memo[r][c] != -1) return memo[r][c];
-        
-        // Recursive step
-        long paths = helper(r - 1, c) + helper(r, c - 1);
-        memo[r][c] = paths;
-        return paths;
+        return 0;
     }
 }
 
@@ -153,17 +141,11 @@ class Solution {
     vector<vector<long long>> memo;
 public:
     long long countPaths(int r, int c) {
-        memo.assign(r, vector<long long>(c, -1));
-        return helper(r - 1, c - 1);
+        return 0;
     }
 
     long long helper(int r, int c) {
-        if (r == 0 && c == 0) return 1;
-        if (r < 0 || c < 0) return 0;
-        
-        if (memo[r][c] != -1) return memo[r][c];
-        
-        return memo[r][c] = helper(r - 1, c) + helper(r, c - 1);
+        return 0;
     }
 };
 

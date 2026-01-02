@@ -99,13 +99,6 @@ import java.util.*;
 
 class Solution {
     private int getGrundy(int k) {
-        if (k == 0) return 0;
-        if (k == 1) return 1;
-        if (k == 2) return 0;
-        // Pattern for k >= 3: 2, 1, 0 repeating
-        int rem = k % 3;
-        if (rem == 0) return 2;
-        if (rem == 1) return 1;
         return 0;
     }
 

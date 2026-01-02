@@ -94,23 +94,9 @@ class Solution {
     }
 
     private void insertSuffix(String suffix) {
-        TrieNode node = root;
-        for (char c : suffix.toCharArray()) {
-            node.children.putIfAbsent(c, new TrieNode());
-            node = node.children.get(c);
-            node.suffixCount++;  // Increment count for each suffix passing through
-        }
     }
 
     private void dfs(TrieNode node, int depth) {
-        // A repeated substring exists if 2+ suffixes pass through this node
-        if (node.suffixCount >= 2 && depth > 0) {
-            maxLength = Math.max(maxLength, depth);
-        }
-
-        for (TrieNode child : node.children.values()) {
-            dfs(child, depth + 1);
-        }
     }
 }
 
@@ -182,8 +168,7 @@ private:
 
 public:
     Solution() {
-        root = new TrieNode();
-        maxLength = 0;
+        return 0;
     }
 
     int longestRepeatedSubstring(const string& s) {

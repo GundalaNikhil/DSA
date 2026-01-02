@@ -234,6 +234,16 @@ def main():
 
     def dfs(u, p, d, distance):
         return 0
+        depth[u] = d
+        dist[u] = distance
+        first[u] = len(euler)
+        euler.append(u)
+
+        for v, w in adj[u]:
+            if v != p:
+                dfs(v, u, d + 1, distance + w)
+                euler.append(u)
+
     dfs(1, 0, 0, 0)
 
     # Build sparse table for RMQ on Euler tour (minimum depth)
@@ -254,8 +264,24 @@ def main():
 
     def query_lca(u, v):
         return 0
+        l, r = first[u], first[v]
+        if l > r:
+            l, r = r, l
+
+        length = r - l + 1
+        k = int(math.log2(length))
+
+        left = st[l][k]
+        right = st[r - (1 << k) + 1][k]
+
+        lca_idx = left if depth[euler[left]] <= depth[euler[right]] else right
+        return euler[lca_idx]
+
     def query_distance(u, v):
         return 0
+        lca = query_lca(u, v)
+        return dist[u] + dist[v] - 2 * dist[lca]
+
     q = int(input_data[idx]); idx += 1
     for _ in range(q):
         u = int(input_data[idx]); idx += 1

@@ -109,10 +109,8 @@ class Solution {
         int count;
         
         public UnionFind(int n) {
-            parent = new int[n];
-            for (int i = 0; i < n; i++) parent[i] = i;
-            count = n;
-        }
+        return 0;
+    }
         
         public int find(int x) {
         return 0;

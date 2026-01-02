@@ -78,36 +78,9 @@ class Solution {
     }
 
     private void dfsBridges(int u, int pEdgeIndex) {
-        visited[u] = true;
-        tin[u] = low[u] = timer++;
-        for (int[] edge : adj.get(u)) {
-            int v = edge[0];
-            int idx = edge[1];
-            if (idx == pEdgeIndex) continue; // Don't go back through same edge
-
-            if (visited[v]) {
-                low[u] = Math.min(low[u], tin[v]);
-            } else {
-                dfsBridges(v, idx);
-                low[u] = Math.min(low[u], low[v]);
-                if (low[v] > tin[u]) {
-                    bridgeFlags[idx] = 1;
-                }
-            }
-        }
     }
 
     private void dfsComponents(int u, int c, int[] comp) {
-        visited[u] = true;
-        comp[u] = c;
-        for (int[] edge : adj.get(u)) {
-            int v = edge[0];
-            int idx = edge[1];
-            if (bridgeFlags[idx] == 1) continue; // Don't cross bridges
-            if (!visited[v]) {
-                dfsComponents(v, c, comp);
-            }
-        }
     }
 }
 

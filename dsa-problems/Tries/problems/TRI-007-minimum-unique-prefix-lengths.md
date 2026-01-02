@@ -132,24 +132,10 @@ class Solution {
     }
 
     private void insert(String word) {
-        TrieNode node = root;
-        for (char c : word.toCharArray()) {
-            node.children.putIfAbsent(c, new TrieNode());
-            node = node.children.get(c);
-            node.count++;
-        }
-        node.isEnd = true;
     }
 
     private int findMinLength(String word) {
-        TrieNode node = root;
-        for (int i = 0; i < word.length(); i++) {
-            node = node.children.get(word.charAt(i));
-            if (node.count == 1) {
-                return i + 1;
-            }
-        }
-        return word.length();
+        return 0;
     }
 }
 
@@ -241,7 +227,7 @@ private:
 
 public:
     Solution() {
-        root = new TrieNode();
+        return 0;
     }
 
     vector<int> findMinimumPrefixLengths(vector<string>& words) {

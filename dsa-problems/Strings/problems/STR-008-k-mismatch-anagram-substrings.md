@@ -85,13 +85,7 @@ class Solution {
     }
 
     private int mismatchCost(int[] freqW, int[] freqP) {
-        int cost = 0;
-        for (int i = 0; i < 26; i++) {
-            if (freqP[i] > freqW[i]) {
-                cost += freqP[i] - freqW[i];
-            }
-        }
-        return cost;
+        return 0;
     }
 }
 

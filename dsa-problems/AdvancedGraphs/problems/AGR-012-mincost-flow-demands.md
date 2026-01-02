@@ -119,109 +119,18 @@ class Solution {
     }
 
     private void addEdge(int u, int v, long cap, long cost) {
-        Edge a = new Edge(v, adj.get(v).size(), cap, cost);
-        Edge b = new Edge(u, adj.get(u).size(), 0, -cost);
-        adj.get(u).add(a);
-        adj.get(v).add(b);
     }
 
     private long[] mcmf(int s, int t) {
-        long flow = 0;
-        long cost = 0;
-        h = new long[N];
-        
-        // Initial potentials with SPFA (Bellman-Ford) to handle negative costs
-        if (!spfa(s)) {
-             // If SPFA fails (negative cycle reachable from S), problem is unbounded or tricky.
-             // But here capacities are finite, so we saturate negative cycles?
-             // Standard MCMF assumes no negative cycles initially or handles them.
-             // For this problem, we assume no negative cycles in the residual graph of 0 flow?
-             // Or we just run SPFA.
-        }
-
-        while (dijkstra(s, t)) {
-            long push = INF;
-            int curr = t;
-            while (curr != s) {
-                int p = parentNode[curr];
-                int idx = parentEdge[curr];
-                push = Math.min(push, adj.get(p).get(idx).cap - adj.get(p).get(idx).flow);
-                curr = p;
-            }
-
-            flow += push;
-            curr = t;
-            while (curr != s) {
-                int p = parentNode[curr];
-                int idx = parentEdge[curr];
-                adj.get(p).get(idx).flow += push;
-                int revIdx = adj.get(p).get(idx).rev;
-                adj.get(curr).get(revIdx).flow -= push;
-                cost += push * adj.get(p).get(idx).cost;
-                curr = p;
-            }
-            
-            // Update potentials
-            for (int i = 0; i < N; i++) {
-                if (dist[i] != INF) h[i] += dist[i];
-            }
-        }
-        return new long[]{flow, cost};
+        return null;
     }
 
     private boolean spfa(int s) {
-        Arrays.fill(h, INF);
-        h[s] = 0;
-        boolean[] inQueue = new boolean[N];
-        Queue<Integer> q = new ArrayDeque<>();
-        q.add(s);
-        inQueue[s] = true;
-        
-        while (!q.isEmpty()) {
-            int u = q.poll();
-            inQueue[u] = false;
-            for (Edge e : adj.get(u)) {
-                if (e.cap - e.flow > 0 && h[e.to] > h[u] + e.cost) {
-                    h[e.to] = h[u] + e.cost;
-                    if (!inQueue[e.to]) {
-                        q.add(e.to);
-                        inQueue[e.to] = true;
-                    }
-                }
-            }
-        }
-        return h[s] != INF; // Just return true usually
+        return false;
     }
 
     private boolean dijkstra(int s, int t) {
-        dist = new long[N];
-        Arrays.fill(dist, INF);
-        parentNode = new int[N];
-        parentEdge = new int[N];
-        dist[s] = 0;
-        
-        PriorityQueue<long[]> pq = new PriorityQueue<>(Comparator.comparingLong(a -> a[0]));
-        pq.add(new long[]{0, s});
-
-        while (!pq.isEmpty()) {
-            long[] top = pq.poll();
-            long d = top[0];
-            int u = (int) top[1];
-
-            if (d > dist[u]) continue;
-
-            for (int i = 0; i < adj.get(u).size(); i++) {
-                Edge e = adj.get(u).get(i);
-                long reducedCost = e.cost + h[u] - h[e.to];
-                if (e.cap - e.flow > 0 && dist[e.to] > dist[u] + reducedCost) {
-                    dist[e.to] = dist[u] + reducedCost;
-                    parentNode[e.to] = u;
-                    parentEdge[e.to] = i;
-                    pq.add(new long[]{dist[e.to], e.to});
-                }
-            }
-        }
-        return dist[t] != INF;
+        return false;
     }
 }
 

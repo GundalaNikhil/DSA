@@ -106,28 +106,11 @@ class Solution {
         }
 
         int find(int i) {
-            if (parent[i] != i) {
-                parent[i] = find(parent[i]); // Path compression
-            }
-            return parent[i];
-        }
+        return 0;
+    }
 
         void union(int i, int j) {
-            int rootI = find(i);
-            int rootJ = find(j);
-
-            if (rootI != rootJ) {
-                // Union by rank
-                if (rank[rootI] < rank[rootJ]) {
-                    parent[rootI] = rootJ;
-                } else if (rank[rootI] > rank[rootJ]) {
-                    parent[rootJ] = rootI;
-                } else {
-                    parent[rootI] = rootJ;
-                    rank[rootJ]++;
-                }
-            }
-        }
+    }
     }
 
     public List<Boolean> processQueries(int n, String[] type, int[] u, int[] v) {

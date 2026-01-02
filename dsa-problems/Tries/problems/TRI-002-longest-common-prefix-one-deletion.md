@@ -107,26 +107,9 @@ class Solution {
     }
 
     private void insertWord(String word, int wordId) {
-        TrieNode node = root;
-        for (char c : word.toCharArray()) {
-            node.children.putIfAbsent(c, new TrieNode());
-            node = node.children.get(c);
-            node.wordIds.add(wordId);
-        }
     }
 
     private void dfs(TrieNode node, String prefix, int totalWords) {
-        // If all words are represented at this node, update longest prefix
-        if (node.wordIds.size() == totalWords) {
-            if (prefix.length() > longestPrefix.length()) {
-                longestPrefix = prefix;
-            }
-        }
-
-        // Continue DFS
-        for (Map.Entry<Character, TrieNode> entry : node.children.entrySet()) {
-            dfs(entry.getValue(), prefix + entry.getKey(), totalWords);
-        }
     }
 }
 
@@ -210,8 +193,7 @@ private:
 
 public:
     Solution() {
-        root = new TrieNode();
-        longestPrefix = "";
+        return 0;
     }
 
     string longestCommonPrefixAfterOneDeletion(vector<string>& words) {

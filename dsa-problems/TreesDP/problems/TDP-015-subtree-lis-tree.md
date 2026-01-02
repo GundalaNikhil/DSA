@@ -156,6 +156,24 @@ def main():
 
     def dfs(u, p):
         return 0
+        pos = bisect_left(active, values[u])
+        saved = active[pos] if pos < len(active) else None
+
+        if pos < len(active):
+            active[pos] = values[u]
+        else:
+            active.append(values[u])
+
+        lis[u] = len(active)
+
+        for v in adj[u]:
+            if v != p: dfs(v, u)
+
+        if saved is not None:
+            active[pos] = saved
+        else:
+            active.pop()
+
     dfs(1, 0)
     print(' '.join(map(str, lis[1:])))
 

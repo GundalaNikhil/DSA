@@ -100,42 +100,7 @@ class Solution {
     }
 
     private long[] solveWithDualPQ(int[] values, int k) {
-        int n = values.length;
-        long[] result = new long[n - k + 1];
-        Deque<Integer> minD = new ArrayDeque<>();
-        Deque<Integer> maxD = new ArrayDeque<>();
-        MedianFinder mf = new MedianFinder();
-
-        for (int i = 0; i < n; i++) {
-            // Min/Max
-            while (!minD.isEmpty() && minD.peekFirst() <= i - k) minD.pollFirst();
-            while (!minD.isEmpty() && values[minD.peekLast()] >= values[i]) minD.pollLast();
-            minD.offerLast(i);
-
-            while (!maxD.isEmpty() && maxD.peekFirst() <= i - k) maxD.pollFirst();
-            while (!maxD.isEmpty() && values[maxD.peekLast()] <= values[i]) maxD.pollLast();
-            maxD.offerLast(i);
-
-            // Median
-            mf.add(values[i]);
-            if (i >= k) mf.remove(values[i - k]);
-
-            if (i >= k - 1) {
-                int minVal = values[minD.peekFirst()];
-                int maxVal = values[maxD.peekFirst()];
-                int median = mf.getMedian();
-                if (median == 0) result[i - k + 1] = 0;
-                else {
-                    long diff = (long)maxVal - minVal;
-                    long instability = diff / median;
-                    if (diff % median != 0 && ((diff ^ median) < 0)) {
-                        instability--;
-                    }
-                    result[i - k + 1] = instability;
-                }
-            }
-        }
-        return result;
+        return null;
     }
 
     static class MedianFinder {
@@ -153,74 +118,20 @@ class Solution {
         int largeSize = 0;
 
         void add(int val) {
-            // Add to small first
-            addMap(smallMap, val);
-            smallSize++;
-            
-            // Move max of small to large
-            int maxSmall = smallMap.lastKey();
-            removeMap(smallMap, maxSmall);
-            smallSize--;
-            
-            addMap(largeMap, maxSmall);
-            largeSize++;
-            
-            // Rebalance: small should be >= large
-            if (smallSize < largeSize) {
-                int minLarge = largeMap.firstKey();
-                removeMap(largeMap, minLarge);
-                largeSize--;
-                
-                addMap(smallMap, minLarge);
-                smallSize++;
-            }
-        }
+    }
 
         void remove(int val) {
-            // Try to remove from small first
-            if (smallMap.containsKey(val)) {
-                // Check if it really belongs to small range
-                // It must be <= small.lastKey()
-                // Since small contains smaller elements, if val <= small.lastKey(), it's in small.
-                // If val is in smallMap, we can just remove it?
-                // Yes, because all elements in smallMap are <= all elements in largeMap.
-                // So if val is in smallMap, it MUST be in the small partition.
-                removeMap(smallMap, val);
-                smallSize--;
-            } else {
-                removeMap(largeMap, val);
-                largeSize--;
-            }
-            
-            // Rebalance
-            if (smallSize < largeSize) {
-                int minLarge = largeMap.firstKey();
-                removeMap(largeMap, minLarge);
-                largeSize--;
-                addMap(smallMap, minLarge);
-                smallSize++;
-            } else if (smallSize > largeSize + 1) {
-                int maxSmall = smallMap.lastKey();
-                removeMap(smallMap, maxSmall);
-                smallSize--;
-                addMap(largeMap, maxSmall);
-                largeSize++;
-            }
-        }
+    }
 
         int getMedian() {
-            return smallMap.lastKey();
-        }
+        return 0;
+    }
 
         void addMap(TreeMap<Integer, Integer> map, int val) {
-            map.put(val, map.getOrDefault(val, 0) + 1);
-        }
+    }
 
         void removeMap(TreeMap<Integer, Integer> map, int val) {
-            int count = map.get(val);
-            if (count == 1) map.remove(val);
-            else map.put(val, count - 1);
-        }
+    }
     }
 }
 
@@ -343,72 +254,7 @@ using namespace std;
 class Solution {
 public:
     vector<long long> windowInstability(const vector<int>& values, int k) {
-        int n = values.size();
-        vector<long long> result;
-        deque<int> minD, maxD;
-        
-        // Use multiset for median (simplest in C++ as it supports deletion)
-        // Two multisets: small (max), large (min)
-        multiset<int> small, large;
-        
-        auto balance = [&]() {
-            while (small.size() > large.size() + 1) {
-                large.insert(*small.rbegin());
-                small.erase(prev(small.end()));
-            }
-            while (large.size() > small.size()) {
-                small.insert(*large.begin());
-                large.erase(large.begin());
-            }
-        };
-        
-        auto add = [&](int val) {
-            small.insert(val);
-            large.insert(*small.rbegin());
-            small.erase(prev(small.end()));
-            balance();
-        };
-        
-        auto remove = [&](int val) {
-            auto it = small.find(val);
-            if (it != small.end()) {
-                small.erase(it);
-            } else {
-                large.erase(large.find(val));
-            }
-            balance();
-        };
-        
-        for (int i = 0; i < n; i++) {
-            // Min/Max Deques
-            while (!minD.empty() && minD.front() <= i - k) minD.pop_front();
-            while (!minD.empty() && values[minD.back()] >= values[i]) minD.pop_back();
-            minD.push_back(i);
-            
-            while (!maxD.empty() && maxD.front() <= i - k) maxD.pop_front();
-            while (!maxD.empty() && values[maxD.back()] <= values[i]) maxD.pop_back();
-            maxD.push_back(i);
-            
-            // Median
-            add(values[i]);
-            if (i >= k) remove(values[i - k]);
-            
-            if (i >= k - 1) {
-                int minVal = values[minD.front()];
-                int maxVal = values[maxD.front()];
-                int med = *small.rbegin();
-                if (med == 0) result.push_back(0);
-                else {
-                    long long diff = (long long)maxVal - minVal;
-                    long long instability = diff / med;
-                    if (diff % med != 0 && ((diff ^ med) < 0)) {
-                        instability--;
-                    }
-                    result.push_back(instability);
-                }
-            }
-        }
-        return result;
+        return {};
     }
 };
 

@@ -96,26 +96,6 @@ class Solution {
     }
 
     private boolean backtrack(int index, long current_sum, int negations) {
-        if (index == N) return current_sum == Target;
-
-        String key = index + "," + current_sum + "," + negations;
-        if (memo.containsKey(key)) return memo.get(key);
-
-        // Positive
-        if (backtrack(index + 1, current_sum + Nums.get(index), negations)) {
-            memo.put(key, true);
-            return true;
-        }
-
-        // Negative
-        if (negations < K) {
-            if (backtrack(index + 1, current_sum - Nums.get(index), negations + 1)) {
-                memo.put(key, true);
-                return true;
-            }
-        }
-
-        memo.put(key, false);
         return false;
     }
 }

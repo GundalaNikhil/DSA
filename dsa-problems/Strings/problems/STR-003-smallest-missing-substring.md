@@ -100,21 +100,7 @@ class Solution {
     }
 
     private String dfs(StringBuilder current, int remaining, Set<String> substrings) {
-        if (remaining == 0) {
-            String candidate = current.toString();
-            return substrings.contains(candidate) ? null : candidate;
-        }
-
-        for (char c = 'a'; c <= 'z'; c++) {
-            current.append(c);
-            String result = dfs(current, remaining - 1, substrings);
-            if (result != null) {
-                return result;
-            }
-            current.setLength(current.length() - 1); // backtrack
-        }
-
-        return null;
+        return "";
     }
 }
 

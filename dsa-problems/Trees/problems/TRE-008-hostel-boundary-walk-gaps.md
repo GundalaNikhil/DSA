@@ -100,13 +100,6 @@ class Solution {
     }
 
     private void addLeaves(int u, int[] values, int[] left, int[] right, List<Integer> result) {
-        if (u == -1) return;
-        if (left[u] == -1 && right[u] == -1) {
-            if (values[u] >= 0) result.add(values[u]);
-            return;
-        }
-        addLeaves(left[u], values, left, right, result);
-        addLeaves(right[u], values, left, right, result);
     }
 }
 

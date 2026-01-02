@@ -96,105 +96,20 @@ class Solution {
     }
 
     private void dfs1(int u, int p) {
-        int maxH1 = -1, maxH2 = -1;
-        int maxD = 0;
-
-        for (int v : adj.get(u)) {
-            if (v == p) continue;
-            dfs1(v, u);
-            maxD = Math.max(maxD, diam[v]);
-            if (height[v] > maxH1) {
-                maxH2 = maxH1;
-                maxH1 = height[v];
-            } else if (height[v] > maxH2) {
-                maxH2 = height[v];
-            }
-        }
-
-        height[u] = 1 + maxH1; // -1 if leaf -> 0
-        diam[u] = Math.max(maxD, (maxH1 + 1) + (maxH2 + 1));
     }
 
     private void dfs2(int u, int p) {
-        if (p != -1) {
-            // Edge Removal Maximize
-            maxDiam = Math.max(maxDiam, Math.max(diam[u], upDiam[u]));
-        }
-
-        int k = adj.get(u).size();
-        List<Integer> children = new ArrayList<>();
-        for (int v : adj.get(u)) {
-            if (v != p) children.add(v);
-        }
-
-        int m = children.size();
-        
-        // topHeights values initialized to -1 (invalid path)
-        int[] topHeights = {-1, -1, -1}; 
-        int[] topDiams = {0, 0}; // Diams are 0 min
-        
-        if (p != -1) {
-            update(topHeights, upHeight[u]);
-            update(topDiams, upDiam[u]);
-        }
-        
-        for (int v : children) {
-            update(topHeights, height[v] + 1);
-            update(topDiams, diam[v]);
-        }
-        
-        for (int v : children) {
-            // upHeight[v] = 1 + max(others height)
-            int h1 = getMaxExcluding(topHeights, height[v] + 1);
-            upHeight[v] = 1 + h1;
-            
-            // upDiam[v]
-            int d1 = getMaxExcluding(topDiams, diam[v]);
-            
-            int[] h2 = getTop2Excluding(topHeights, height[v] + 1);
-            int pathThroughU = h2[0] + h2[1]; 
-            // If h2 contains -1, path might be skewed. 
-            // -1 + -1 = -2. 1 + -1 = 0.
-            // Python: sum of top 2 lengths. One could be -1.
-            // Correct path logic: sum of valid lengths.
-            // Since -1 represents "no path", it effectively reduces the sum which is fine 
-            // provided comparison with d1 (>=0) handles it.
-            
-            upDiam[v] = Math.max(d1, pathThroughU);
-            
-            dfs2(v, u);
-        }
     }
     
     private void update(int[] top, int val) {
-        for (int i = 0; i < top.length; i++) {
-            if (val > top[i]) {
-                for (int j = top.length - 1; j > i; j--) {
-                    top[j] = top[j-1];
-                }
-                top[i] = val;
-                break;
-            }
-        }
     }
     
     private int getMaxExcluding(int[] top, int val) {
-        if (top[0] == val) return top[1];
-        return top[0];
+        return 0;
     }
     
     private int[] getTop2Excluding(int[] top, int val) {
-        int[] res = new int[2];
-        int idx = 0;
-        int count = 0;
-        for (int x : top) {
-            if (x == val && count == 0) { // Skip first occurrence
-                count++;
-                continue;
-            }
-            if (idx < 2) res[idx++] = x;
-        }
-        return res;
+        return null;
     }
 }
 

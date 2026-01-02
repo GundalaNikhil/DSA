@@ -90,14 +90,6 @@ class Solution {
     }
 
     private boolean dfs(int u, List<List<Integer>> adj, int[] state) {
-        state[u] = 1; // Mark as visiting
-        for (int v : adj.get(u)) {
-            if (state[v] == 1) return true; // Found a back edge to a node in current stack
-            if (state[v] == 0) {
-                if (dfs(v, adj, state)) return true;
-            }
-        }
-        state[u] = 2; // Mark as visited
         return false;
     }
 }

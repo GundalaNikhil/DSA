@@ -123,32 +123,6 @@ class Solution {
     }
 
     private void dfs(int u, List<List<Integer>> adj, int[] disc, int[] low, int[] parent) {
-        int children = 0;
-        disc[u] = low[u] = time++;
-
-        // Sort neighbors for deterministic traversal
-        List<Integer> neighbors = new ArrayList<>(adj.get(u));
-        Collections.sort(neighbors);
-
-        for (int v : neighbors) {
-            if (disc[v] == -1) {
-                children++;
-                parent[v] = u;
-                dfs(v, adj, disc, low, parent);
-
-                low[u] = Math.min(low[u], low[v]);
-
-                if (parent[u] != -1 && low[v] >= disc[u]) {
-                    ap.add(u);
-                }
-            } else if (v != parent[u]) {
-                low[u] = Math.min(low[u], disc[v]);
-            }
-        }
-
-        if (parent[u] == -1 && children > 1) {
-            ap.add(u);
-        }
     }
 }
 

@@ -148,14 +148,7 @@ using namespace std;
 class Solution {
 public:
     long long maxSumGapThree(const vector<long long>& a) {
-        long long dp_i_3 = 0, dp_i_2 = 0, dp_i_1 = 0;
-        for (long long x : a) {
-            long long cur = max(dp_i_1, x + dp_i_3);
-            dp_i_3 = dp_i_2;
-            dp_i_2 = dp_i_1;
-            dp_i_1 = cur;
-        }
-        return dp_i_1;
+        return 0;
     }
 };
 

@@ -103,29 +103,6 @@ class Solution {
     }
 
     private void dfs(int u) {
-        tin[u] = low[u] = timer++;
-        stack.push(u);
-        onStack[u] = true;
-
-        for (int v : adj.get(u)) {
-            if (tin[v] == -1) {
-                dfs(v);
-                low[u] = Math.min(low[u], low[v]);
-            } else if (onStack[v]) {
-                low[u] = Math.min(low[u], tin[v]);
-            }
-        }
-
-        if (low[u] == tin[u]) {
-            List<Integer> component = new ArrayList<>();
-            while (true) {
-                int v = stack.pop();
-                onStack[v] = false;
-                component.add(v);
-                if (u == v) break;
-            }
-            sccs.add(component);
-        }
     }
 }
 

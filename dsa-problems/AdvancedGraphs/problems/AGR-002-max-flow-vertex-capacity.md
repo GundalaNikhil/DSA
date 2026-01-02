@@ -114,42 +114,13 @@ class Solution {
     }
 
     private void addEdge(int from, int to, long cap) {
-        Edge a = new Edge(to, cap, adj.get(to).size());
-        Edge b = new Edge(from, 0, adj.get(from).size()); // Residual
-        adj.get(from).add(a);
-        adj.get(to).add(b);
     }
 
     private boolean bfs(int s, int t, int n) {
-        level = new int[n];
-        Arrays.fill(level, -1);
-        level[s] = 0;
-        Queue<Integer> q = new LinkedList<>();
-        q.add(s);
-        while (!q.isEmpty()) {
-            int u = q.poll();
-            for (Edge e : adj.get(u)) {
-                if (e.capacity - e.flow > 0 && level[e.to] == -1) {
-                    level[e.to] = level[u] + 1;
-                    q.add(e.to);
-                }
-            }
-        }
-        return level[t] != -1;
+        return false;
     }
 
     private long dfs(int u, int t, long pushed) {
-        if (pushed == 0) return 0;
-        if (u == t) return pushed;
-        for (; ptr[u] < adj.get(u).size(); ptr[u]++) {
-            Edge e = adj.get(u).get(ptr[u]);
-            if (level[u] + 1 != level[e.to] || e.capacity - e.flow == 0) continue;
-            long tr = dfs(e.to, t, Math.min(pushed, e.capacity - e.flow));
-            if (tr == 0) continue;
-            e.flow += tr;
-            adj.get(e.to).get(e.rev).flow -= tr;
-            return tr;
-        }
         return 0;
     }
 }
@@ -257,17 +228,6 @@ class Solution {
     }
 
     long long dfs(int u, int t, long long pushed) {
-        if (pushed == 0) return 0;
-        if (u == t) return pushed;
-        for (int& cid = ptr[u]; cid < adj[u].size(); ++cid) {
-            auto& e = adj[u][cid];
-            if (level[u] + 1 != level[e.to] || e.capacity - e.flow == 0) continue;
-            long long tr = dfs(e.to, t, min(pushed, e.capacity - e.flow));
-            if (tr == 0) continue;
-            e.flow += tr;
-            adj[e.to][e.rev].flow -= tr;
-            return tr;
-        }
         return 0;
     }
 

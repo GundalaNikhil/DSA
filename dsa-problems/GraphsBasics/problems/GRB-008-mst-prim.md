@@ -161,38 +161,7 @@ using namespace std;
 class Solution {
 public:
     long long mstPrim(int n, const vector<vector<pair<int, int>>>& adj) {
-        long long mstWeight = 0;
-        vector<bool> visited(n, false);
-        
-        // Min-heap: {weight, node}
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-        pq.push({0, 0});
-        
-        int nodesCount = 0;
-        
-        while (!pq.empty()) {
-            int w = pq.top().first;
-            int u = pq.top().second;
-            pq.pop();
-            
-            if (visited[u]) continue;
-            
-            visited[u] = true;
-            mstWeight += w;
-            nodesCount++;
-            
-            if (nodesCount == n) break;
-            
-            for (auto& edge : adj[u]) {
-                int v = edge.first;
-                int weight = edge.second;
-                if (!visited[v]) {
-                    pq.push({weight, v});
-                }
-            }
-        }
-        
-        return mstWeight;
+        return 0;
     }
 };
 

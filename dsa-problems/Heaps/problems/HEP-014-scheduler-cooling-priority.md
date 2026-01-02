@@ -104,11 +104,8 @@ class Solution {
         int x; // assigned count
         
         public Task(String id, int count, long priority) {
-            this.id = id;
-            this.count = count;
-            this.priority = priority;
-            this.x = count;
-        }
+        return "";
+    }
     }
     
     public long maxPriority(int T, int cooldown, String[] ids, int[] count, long[] priority) {
@@ -231,8 +228,8 @@ public:
             long long allowed = T - (long long)(maxX - 1) * (cooldown + 1);
             
             sort(atMax.begin(), atMax.end(), [](Task* a, Task* b) {
-                return a->priority > b->priority;
-            });
+        return 0;
+    }
             
             for (size_t i = allowed; i < atMax.size(); i++) {
                 atMax[i]->x--;
@@ -246,8 +243,8 @@ public:
         if (sumX > T) {
             long long toRemove = sumX - T;
             sort(tasks.begin(), tasks.end(), [](const Task& a, const Task& b) {
-                return a.priority < b.priority;
-            });
+        return 0;
+    }
             
             for (auto& t : tasks) {
                 if (toRemove <= 0) break;

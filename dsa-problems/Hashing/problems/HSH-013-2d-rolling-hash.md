@@ -118,20 +118,7 @@ class Solution {
     }
     
     private long computeMatrixHash(int[][] M, int p, int q) {
-        long[] rowH = new long[p];
-        for (int i = 0; i < p; i++) {
-            long h = 0;
-            for (int j = 0; j < q; j++) {
-                h = (h * BASE1 + M[i][j]) % MOD;
-            }
-            rowH[i] = h;
-        }
-        
-        long finalH = 0;
-        for (int i = 0; i < p; i++) {
-            finalH = (finalH * BASE2 + rowH[i]) % MOD;
-        }
-        return finalH;
+        return 0;
     }
 }
 
@@ -228,20 +215,7 @@ public:
     }
     
     long long computeMatrixHash(const vector<vector<int>>& M, int p, int q) {
-        vector<long long> rowH(p);
-        for (int i = 0; i < p; i++) {
-            long long h = 0;
-            for (int j = 0; j < q; j++) {
-                h = (h * BASE1 + M[i][j]) % MOD;
-            }
-            rowH[i] = h;
-        }
-        
-        long long finalH = 0;
-        for (int i = 0; i < p; i++) {
-            finalH = (finalH * BASE2 + rowH[i]) % MOD;
-        }
-        return finalH;
+        return 0;
     }
 };
 

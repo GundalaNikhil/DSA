@@ -120,27 +120,10 @@ class Solution {
     }
 
     private void insert(String word) {
-        TrieNode node = root;
-        for (char c : word.toCharArray()) {
-            node.children.putIfAbsent(c, new TrieNode());
-            node = node.children.get(c);
-        }
-        node.isEnd = true;
     }
 
     private int countPrefixes(String word) {
-        TrieNode node = root;
-        int count = 0;
-
-        // Traverse path, count END markers (excluding the final position)
-        for (int i = 0; i < word.length(); i++) {
-            node = node.children.get(word.charAt(i));
-            if (i < word.length() - 1 && node.isEnd) {
-                count++;
-            }
-        }
-
-        return count;
+        return 0;
     }
 }
 
@@ -227,7 +210,8 @@ private:
 
 public:
     Solution() { root = new TrieNode(); }
-
+        return 0;
+    }
     string longestWordWithKPrefixes(vector<string>& words, int k) {
         return "";
     }

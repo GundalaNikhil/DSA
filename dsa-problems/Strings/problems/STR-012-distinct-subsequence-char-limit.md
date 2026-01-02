@@ -87,20 +87,11 @@ class Solution {
     }
 
     private String encode(int[] freq) {
-        StringBuilder sb = new StringBuilder();
-        for (int f : freq) {
-            sb.append(f).append(",");
-        }
-        return sb.toString();
+        return "";
     }
 
     private int[] decode(String s) {
-        String[] parts = s.split(",");
-        int[] freq = new int[26];
-        for (int i = 0; i < 26; i++) {
-            freq[i] = Integer.parseInt(parts[i]);
-        }
-        return freq;
+        return null;
     }
 }
 

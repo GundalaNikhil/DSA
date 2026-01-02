@@ -145,20 +145,7 @@ using namespace std;
 class Solution {
 public:
     long long maxSubarrayXorWithStart(vector<int>& a, int s) {
-        long long currentXor = 0;
-        long long maxXor = 0;
-        bool first = true;
-        
-        for (int i = s; i < a.size(); i++) {
-            currentXor ^= a[i];
-            if (first) {
-                maxXor = currentXor;
-                first = false;
-            } else {
-                maxXor = max(maxXor, currentXor);
-            }
-        }
-        return maxXor;
+        return 0;
     }
 };
 

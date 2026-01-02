@@ -168,6 +168,16 @@ public:
     vector<int> topKWithDecay(vector<pair<int,int>>& events, int now, int D, int k) {
         return {};
     }
+        sort(items.begin(), items.end(), [](const Item& a, const Item& b) {
+        return 0;
+    }
+        
+        vector<int> result;
+        for (int i = 0; i < k && i < items.size(); i++) {
+            result.push_back(items[i].value);
+        }
+        return result;
+    }
 };
 
 int main() {

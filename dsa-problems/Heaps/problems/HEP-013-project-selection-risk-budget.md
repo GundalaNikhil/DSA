@@ -105,10 +105,8 @@ class Solution {
     static class Project {
         long c, p, r;
         public Project(long c, long p, long r) {
-            this.c = c;
-            this.p = p;
-            this.r = r;
-        }
+        return 0;
+    }
     }
     
     public long maximizeCapital(int k, long C, long R, long[] cost, long[] profit, long[] risk) {
@@ -209,8 +207,8 @@ public:
         }
         
         sort(projects.begin(), projects.end(), [](const Project& a, const Project& b) {
-            return a.c < b.c;
-        });
+        return 0;
+    }
         
         priority_queue<Project, vector<Project>, CompareProfit> pq;
         int ptr = 0;

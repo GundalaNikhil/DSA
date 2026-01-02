@@ -144,41 +144,10 @@ class Solution {
     }
 
     private void insert(String word, int rarity) {
-        TrieNode curr = root;
-
-        for (char c : word.toCharArray()) {
-            curr.children.putIfAbsent(c, new TrieNode());
-            curr = curr.children.get(c);
-        }
-
-        // Update only if this is better
-        if (rarity < curr.rarity ||
-            (rarity == curr.rarity && (curr.word == null || word.length() < curr.word.length()))) {
-            curr.word = word;
-            curr.rarity = rarity;
-        }
     }
 
     private String findReplacement(String word) {
-        TrieNode curr = root;
-        String best = null;
-        int bestRarity = Integer.MAX_VALUE;
-
-        for (char c : word.toCharArray()) {
-            if (!curr.children.containsKey(c)) break;
-
-            curr = curr.children.get(c);
-
-            if (curr.word != null) {
-                if (curr.rarity < bestRarity ||
-                    (curr.rarity == bestRarity && curr.word.length() < best.length())) {
-                    best = curr.word;
-                    bestRarity = curr.rarity;
-                }
-            }
-        }
-
-        return best != null ? best : word;
+        return "";
     }
 }
 

@@ -106,39 +106,6 @@ class Solution {
     }
     
     void extend(char c) {
-        int cur = sz++;
-        st[cur].len = st[last].len + 1;
-        st[cur].cnt = 1; // Original state
-        st[cur].isClone = false;
-        
-        int p = last;
-        while (p != -1 && !st[p].next.containsKey(c)) {
-            st[p].next.put(c, cur);
-            p = st[p].link;
-        }
-        
-        if (p == -1) {
-            st[cur].link = 0;
-        } else {
-            int q = st[p].next.get(c);
-            if (st[p].len + 1 == st[q].len) {
-                st[cur].link = q;
-            } else {
-                int clone = sz++;
-                st[clone].len = st[p].len + 1;
-                st[clone].next = new HashMap<>(st[q].next);
-                st[clone].link = st[q].link;
-                st[clone].cnt = 0; // Clone starts with 0
-                st[clone].isClone = true;
-                
-                while (p != -1 && st[p].next.get(c) == q) {
-                    st[p].next.put(c, clone);
-                    p = st[p].link;
-                }
-                st[q].link = st[cur].link = clone;
-            }
-        }
-        last = cur;
     }
 }
 
@@ -218,22 +185,11 @@ class Solution {
 
 public:
     vector<long long> countOccurrences(const string& s, const vector<string>& queries) {
-        st.clear();
-        st.reserve(s.length() * 2 + 5);
-        st.emplace_back(); // Root
-        st[0].len = 0;
-        st[0].link = -1;
-        sz = 1;
-        last = 0;
-        
-        for (char c : s) extend(c);
-        
-        // Propagate counts
-        vector<int> nodes(sz);
-        for (int i = 0; i < sz; i++) nodes[i] = i;
+        return {};
+    }
         sort(nodes.begin(), nodes.end(), [&](int a, int b) {
-            return st[a].len > st[b].len;
-        });
+        return 0;
+    }
         
         for (int u : nodes) {
             if (u == 0) continue;

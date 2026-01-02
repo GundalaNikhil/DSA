@@ -113,28 +113,7 @@ import java.util.*;
 
 class Solution {
     private boolean checkStart(int n, int[] gain, int[] cost, int startIdx) {
-        long fuel = 0;
-        long maxC = 0;
-        boolean used = false;
-
-        for (int i = 0; i < n; i++) {
-            int idx = (startIdx + i) % n;
-            fuel += gain[idx];
-            maxC = Math.max(maxC, cost[idx]);
-            fuel -= cost[idx];
-
-            if (fuel < 0) {
-                if (!used) {
-                    fuel += maxC;
-                    used = true;
-                    if (fuel < 0) return false;
-                } else {
-                    return false;
-                }
-            }
-        }
-
-        return true;
+        return false;
     }
 
     public int findStart(int n, int[] gain, int[] cost) {

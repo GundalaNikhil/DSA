@@ -163,19 +163,7 @@ using namespace std;
 class Solution {
 public:
     vector<long long> computePrefixHashes(string s, long long B, long long M) {
-        vector<long long> hashes;
-        hashes.reserve(s.length());
-
-        long long currentHash = 0;
-
-        for (char c : s) {
-            // (currentHash * B) can exceed 2^63-1 if M is large (~10^18)
-            // But constraints say M <= 10^9 + 7, so long long is safe.
-            currentHash = (currentHash * B + c) % M;
-            hashes.push_back(currentHash);
-        }
-
-        return hashes;
+        return {};
     }
 };
 

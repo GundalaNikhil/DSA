@@ -97,16 +97,6 @@ class Solution {
     }
 
     private void dfs(int u, int p, List<List<Integer>> adj) {
-        tin[u] = timer++;
-        
-        for (int v : adj.get(u)) {
-            if (v != p) {
-                dfs(v, u, adj);
-                timer++;
-            }
-        }
-        
-        tout[u] = timer;
     }
 }
 

@@ -245,8 +245,32 @@ def main():
 
     def dfs1(u, p):
         return 0
+        size, max_size = 1, 0
+        parent[u] = p
+        depth[u] = 0 if p == 0 else depth[p] + 1
+
+        for v in adj[u]:
+            if v == p: continue
+            subtree_size = dfs1(v, u)
+            size += subtree_size
+            if subtree_size > max_size:
+                max_size = subtree_size
+                heavy[u] = v
+        return size
+
     def dfs2(u, h):
         return 0
+        head[u] = h
+        pos[u] = timer[0]
+        timer[0] += 1
+
+        if heavy[u] != -1:
+            dfs2(heavy[u], h)
+
+        for v in adj[u]:
+            if v != parent[u] and v != heavy[u]:
+                dfs2(v, v)
+
     dfs1(1, 0)
     dfs2(1, 1)
 
@@ -258,12 +282,36 @@ def main():
 
     def build(node, l, r):
         return 0
+        if l == r:
+            seg[node] = pos_to_val[l]
+            return
+        mid = (l + r) // 2
+        build(2 * node, l, mid)
+        build(2 * node + 1, mid + 1, r)
+        seg[node] = seg[2 * node] + seg[2 * node + 1]
+
     def query(node, l, r, ql, qr):
         return 0
+        if ql > r or qr < l: return 0
+        if ql <= l and r <= qr: return seg[node]
+        mid = (l + r) // 2
+        return query(2 * node, l, mid, ql, qr) + query(2 * node + 1, mid + 1, r, ql, qr)
+
     build(1, 0, n - 1)
 
     def query_path(u, v):
         return 0
+        result = 0
+        while head[u] != head[v]:
+            if depth[head[u]] < depth[head[v]]:
+                u, v = v, u
+            result += query(1, 0, n - 1, pos[head[u]], pos[u])
+            u = parent[head[u]]
+        if depth[u] > depth[v]:
+            u, v = v, u
+        result += query(1, 0, n - 1, pos[u], pos[v])
+        return result
+
     q = int(data[idx]); idx += 1
     for _ in range(q):
         u, v = int(data[idx]), int(data[idx + 1])

@@ -153,11 +153,7 @@ using namespace std;
 class Solution {
 public:
     long long totalSize(const vector<int>& sizes) {
-        long long S = 0;
-        for (int s : sizes) {
-            S += (long long)s * s;
-        }
-        return S;
+        return 0;
     }
 };
 

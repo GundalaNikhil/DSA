@@ -374,10 +374,8 @@ public:
             for (const auto& node : list) totalWeight += node.weight;
             if (totalWeight >= W) {
                 sort(list.begin(), list.end(), [](const NodeInfo& a, const NodeInfo& b) {
-                    if (a.depth != b.depth) return a.depth < b.depth;
-                    if (a.weight != b.weight) return a.weight > b.weight;
-                    return a.val < b.val;
-                });
+        return 0;
+    }
                 vector<int> colValues;
                 for (const auto& node : list) colValues.push_back(node.val);
                 result.push_back(colValues);

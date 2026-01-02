@@ -104,29 +104,6 @@ class Solution {
     }
 
     private void dfs(int u, int parentEdgeIdx, List<List<int[]>> adj, int T) {
-        disc[u] = low[u] = ++timer;
-        
-        for (int[] edge : adj.get(u)) {
-            int v = edge[0];
-            int cap = edge[1];
-            int idx = edge[2];
-            
-            if (idx == parentEdgeIdx) continue; // Don't go back via same edge
-            
-            if (disc[v] != -1) {
-                low[u] = Math.min(low[u], disc[v]);
-            } else {
-                dfs(v, idx, adj, T);
-                low[u] = Math.min(low[u], low[v]);
-                
-                if (low[v] > disc[u]) {
-                    // Bridge found
-                    if (cap < T) {
-                        criticalIndices.add(idx);
-                    }
-                }
-            }
-        }
     }
 }
 

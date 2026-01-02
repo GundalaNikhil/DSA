@@ -83,12 +83,7 @@ import java.util.*;
 
 class Solution {
     private long gcd(long a, long b) {
-        while (b != 0) {
-            long temp = b;
-            b = a % b;
-            a = temp;
-        }
-        return a;
+        return 0;
     }
 
     public long latticePoints(long x1, long y1, long x2, long y2) {
@@ -144,18 +139,12 @@ using namespace std;
 
 class Solution {
     long long gcd(long long a, long long b) {
-        while (b) {
-            a %= b;
-            swap(a, b);
-        }
-        return a;
+        return 0;
     }
 
 public:
     long long latticePoints(long long x1, long long y1, long long x2, long long y2) {
-        long long dx = abs(x1 - x2);
-        long long dy = abs(y1 - y2);
-        return gcd(dx, dy) + 1;
+        return 0;
     }
 };
 

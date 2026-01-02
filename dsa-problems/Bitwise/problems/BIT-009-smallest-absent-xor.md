@@ -138,26 +138,7 @@ using namespace std;
 class Solution {
 public:
     long long smallestAbsentXor(vector<int>& a) {
-        vector<int> basis(32, 0);
-        
-        for (int x : a) {
-            for (int i = 30; i >= 0; i--) {
-                if ((x >> i) & 1) {
-                    if (basis[i] == 0) {
-                        basis[i] = x;
-                        break;
-                    }
-                    x ^= basis[i];
-                }
-            }
-        }
-        
-        for (int i = 0; i <= 30; i++) {
-            if (basis[i] == 0) {
-                return (1LL << i);
-            }
-        }
-        return (1LL << 31);
+        return 0;
     }
 };
 

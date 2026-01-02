@@ -94,18 +94,11 @@ class Solution {
     private long MOD;
 
     private long power(long base, long exp) {
-        long res = 1;
-        base %= MOD;
-        while (exp > 0) {
-            if ((exp & 1) == 1) res = (res * base) % MOD;
-            base = (base * base) % MOD;
-            exp >>= 1;
-        }
-        return res;
+        return 0;
     }
 
     private long modInverse(long n) {
-        return power(n, MOD - 2);
+        return 0;
     }
 
     public long lagrange_interpolation_mod(int k, long X, long MOD, long[][] points) {
@@ -179,46 +172,16 @@ class Solution {
     long long MOD;
 
     long long power(long long base, long long exp) {
-        long long res = 1;
-        base %= MOD;
-        while (exp > 0) {
-            if (exp % 2 == 1) res = (res * base) % MOD;
-            base = (base * base) % MOD;
-            exp /= 2;
-        }
-        return res;
+        return 0;
     }
 
     long long modInverse(long long n) {
-        return power(n, MOD - 2);
+        return 0;
     }
 
 public:
     long long lagrange_interpolation_mod(int k, long long X, long long mod, vector<pair<long long, long long>>& points) {
-        MOD = mod;
-        long long ans = 0;
-
-        for (int i = 0; i < k; i++) {
-            long long xi = points[i].first;
-            long long yi = points[i].second;
-
-            long long num = 1;
-            long long den = 1;
-
-            for (int j = 0; j < k; j++) {
-                if (i == j) continue;
-                long long xj = points[j].first;
-
-                num = (num * (X - xj + MOD)) % MOD;
-                den = (den * (xi - xj + MOD)) % MOD;
-            }
-
-            long long term = (yi * num) % MOD;
-            term = (term * modInverse(den)) % MOD;
-            ans = (ans + term) % MOD;
-        }
-
-        return ans;
+        return 0;
     }
 };
 

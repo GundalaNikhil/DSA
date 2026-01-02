@@ -97,14 +97,7 @@ class Solution {
     // Extended Euclidean Algorithm
     // Returns [g, x, y] such that ax + by = g
     private BigInteger[] extendedGCD(BigInteger a, BigInteger b) {
-        if (b.equals(BigInteger.ZERO)) return new BigInteger[]{a, BigInteger.ONE, BigInteger.ZERO};
-        BigInteger[] vals = extendedGCD(b, a.mod(b));
-        BigInteger g = vals[0];
-        BigInteger x1 = vals[1];
-        BigInteger y1 = vals[2];
-        BigInteger x = y1;
-        BigInteger y = x1.subtract(a.divide(b).multiply(y1));
-        return new BigInteger[]{g, x, y};
+        return null;
     }
 
     public String crtSolve(long[] a, long[] m) {

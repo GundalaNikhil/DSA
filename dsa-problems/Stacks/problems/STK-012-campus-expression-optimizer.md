@@ -93,10 +93,7 @@ class Solution {
     Map<Character, Integer> prec = new HashMap<>();
     
     public Solution() {
-        prec.put('+', 1); prec.put('-', 1);
-        prec.put('*', 2); prec.put('/', 2); prec.put('%', 2);
-        prec.put('^', 3);
-        prec.put('(', 0);
+        return 0;
     }
 
     public String solve(String expr) {
@@ -150,10 +147,7 @@ class Solution {
 
 public:
     Solution() {
-        prec['+'] = 1; prec['-'] = 1;
-        prec['*'] = 2; prec['/'] = 2; prec['%'] = 2;
-        prec['^'] = 3;
-        prec['('] = 0;
+        return 0;
     }
 
     string solve(string expr) {

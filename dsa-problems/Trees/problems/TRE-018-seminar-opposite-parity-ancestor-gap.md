@@ -99,32 +99,6 @@ class Solution {
     // minE/maxE are valid because root is even.
     // minO/maxO might be invalid (sentinels).
     private void dfs(int u, int depth, int minE, int maxE, int minO, int maxO, int[] values, int[] left, int[] right) {
-        if (u == -1) return;
-
-        int val = values[u];
-
-        if (depth % 2 == 0) {
-            // Current is Even. Compare with Odd ancestors.
-            if (minO != Integer.MAX_VALUE) {
-                maxDiff = Math.max(maxDiff, Math.abs((long)val - minO));
-                maxDiff = Math.max(maxDiff, Math.abs((long)val - maxO));
-            }
-            // Update Even bounds for children
-            minE = Math.min(minE, val);
-            maxE = Math.max(maxE, val);
-        } else {
-            // Current is Odd. Compare with Even ancestors.
-            // Even ancestors always exist (root).
-            maxDiff = Math.max(maxDiff, Math.abs((long)val - minE));
-            maxDiff = Math.max(maxDiff, Math.abs((long)val - maxE));
-            
-            // Update Odd bounds for children
-            minO = Math.min(minO, val);
-            maxO = Math.max(maxO, val);
-        }
-
-        if (left[u] != -1) dfs(left[u], depth + 1, minE, maxE, minO, maxO, values, left, right);
-        if (right[u] != -1) dfs(right[u], depth + 1, minE, maxE, minO, maxO, values, left, right);
     }
 }
 

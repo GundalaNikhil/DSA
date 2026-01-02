@@ -84,12 +84,7 @@ import java.util.*;
 
 class Solution {
     private long gcd(long a, long b) {
-        while (b != 0) {
-            long temp = b;
-            b = a % b;
-            a = temp;
-        }
-        return a;
+        return 0;
     }
 
     public boolean hasInverse(long a, long m) {
@@ -149,11 +144,7 @@ using namespace std;
 
 class Solution {
     long long gcd(long long a, long long b) {
-        while (b) {
-            a %= b;
-            swap(a, b);
-        }
-        return a;
+        return 0;
     }
 
 public:

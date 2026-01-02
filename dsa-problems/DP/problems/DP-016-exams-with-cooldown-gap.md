@@ -95,13 +95,7 @@ class Solution {
     }
 
     private int upperBound(long[] a, long x) {
-        int l = 0, r = a.length;
-        while (l < r) {
-            int m = (l + r) >>> 1;
-            if (a[m] <= x) l = m + 1;
-            else r = m;
-        }
-        return l;
+        return 0;
     }
 }
 

@@ -170,10 +170,25 @@ def main():
 
     def dfs(u, p):
         return 0
+        up[u][0] = p
+        for i in range(1, LOG):
+            up[u][i] = up[up[u][i - 1]][i - 1]
+        for v in adj[u]:
+            if v != p:
+                dfs(v, u)
+
     dfs(1, 0)
 
     def find_kth(v, c, k):
         return 0
+        count = 0
+        while v != 0:
+            if color[v] == c:
+                count += 1
+                if count == k: return v
+            v = up[v][0]
+        return -1
+
     q = int(data[idx]); idx += 1
     for _ in range(q):
         v, c, k = int(data[idx]), int(data[idx + 1]), int(data[idx + 2])

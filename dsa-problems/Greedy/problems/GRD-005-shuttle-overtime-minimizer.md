@@ -180,22 +180,7 @@ using namespace std;
 class Solution {
 public:
     long long minOvertimeCost(int n, long long H, vector<pair<int,int>>& shifts) {
-        long long totalStandard = 0;
-        int minRate = 2e9; // Initialize with a large value
-        
-        for (const auto& shift : shifts) {
-            totalStandard += shift.first;
-            if (shift.second < minRate) {
-                minRate = shift.second;
-            }
-        }
-        
-        if (totalStandard >= H) {
-            return 0;
-        }
-        
-        long long needed = H - totalStandard;
-        return needed * minRate;
+        return 0;
     }
 };
 

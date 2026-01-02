@@ -100,33 +100,10 @@ class Solution {
         List<int[]> candidates = new ArrayList<>();
         
         void add(int val, int count) {
-            for (int[] c : candidates) {
-                if (c[0] == val) {
-                    c[1] += count;
-                    return;
-                }
-            }
-            candidates.add(new int[]{val, count});
-            if (candidates.size() > K) {
-                // Prune
-                // Find min count
-                int minCnt = Integer.MAX_VALUE;
-                for (int[] c : candidates) minCnt = Math.min(minCnt, c[1]);
-                
-                List<int[]> next = new ArrayList<>();
-                for (int[] c : candidates) {
-                    c[1] -= minCnt;
-                    if (c[1] > 0) next.add(c);
-                }
-                candidates = next;
-            }
-        }
+    }
         
         void merge(Summary other) {
-            for (int[] c : other.candidates) {
-                add(c[0], c[1]);
-            }
-        }
+    }
     }
     
     private Random random = new Random();
@@ -138,42 +115,14 @@ class Solution {
     }
     
     private int getFreq(int valId, int l, int r) {
-        List<Integer> pos = positions[valId];
-        int leftIdx = Collections.binarySearch(pos, l);
-        if (leftIdx < 0) leftIdx = -leftIdx - 1;
-        int rightIdx = Collections.binarySearch(pos, r);
-        if (rightIdx < 0) rightIdx = -rightIdx - 2;
-        
-        if (leftIdx > rightIdx) return 0;
-        return rightIdx - leftIdx + 1;
+        return 0;
     }
 
     private void build(int[] a, int node, int start, int end) {
-        if (start == end) {
-            tree[node] = new Summary();
-            tree[node].add(a[start], 1);
-        } else {
-            int mid = (start + end) / 2;
-            build(a, 2 * node + 1, start, mid);
-            build(a, 2 * node + 2, mid + 1, end);
-            tree[node] = new Summary();
-            tree[node].merge(tree[2 * node + 1]);
-            tree[node].merge(tree[2 * node + 2]);
-        }
     }
 
     private Summary query(int node, int start, int end, int l, int r) {
-        if (l > end || r < start) return new Summary();
-        if (l <= start && end <= r) return tree[node];
-        
-        int mid = (start + end) / 2;
-        Summary s1 = query(2 * node + 1, start, mid, l, r);
-        Summary s2 = query(2 * node + 2, mid + 1, end, l, r);
-        
-        Summary res = new Summary();
-        res.merge(s1);
-        res.merge(s2);
-        return res;
+        return 0;
     }
 }
 
@@ -224,6 +173,13 @@ def main():
     sys.setrecursionlimit(300000)
     def input_gen():
         return 0
+
+        for line in sys.stdin:
+
+            for token in line.split():
+
+                yield token
+
     it = input_gen()
     n = int(next(it))
     q = int(next(it))

@@ -136,23 +136,7 @@ using namespace std;
 class Solution {
 public:
     long long maxWindowSumWithDrop(vector<int>& arr, int k) {
-        int n = arr.size();
-        if (n < k) return 0;
-        
-        long long currentSum = 0;
-        for (int i = 0; i < k; i++) {
-            currentSum += arr[i];
-        }
-        
-        long long maxTotal = currentSum;
-        
-        for (int i = k; i < n; i++) {
-            currentSum += arr[i];
-            currentSum -= arr[i - k];
-            maxTotal = max(maxTotal, currentSum);
-        }
-        
-        return maxTotal;
+        return 0;
     }
 };
 

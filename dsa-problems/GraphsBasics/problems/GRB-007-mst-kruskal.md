@@ -93,14 +93,10 @@ class Solution {
             for (int i = 0; i < n; i++) parent[i] = i;
         }
         int find(int i) {
-            if (parent[i] == i) return i;
-            return parent[i] = find(parent[i]);
-        }
+        return 0;
+    }
         void union(int i, int j) {
-            int rootI = find(i);
-            int rootJ = find(j);
-            if (rootI != rootJ) parent[rootI] = rootJ;
-        }
+    }
     }
 
     public long mstKruskal(int n, int[][] edges) {
@@ -199,9 +195,11 @@ public:
 class Solution {
 public:
     long long mstKruskal(int n, vector<array<int, 3>>& edges) {
+        return 0;
+    }
         sort(edges.begin(), edges.end(), [](const array<int, 3>& a, const array<int, 3>& b) {
-            return a[2] < b[2];
-        });
+        return 0;
+    }
 
         DSU dsu(n);
         long long mstWeight = 0;

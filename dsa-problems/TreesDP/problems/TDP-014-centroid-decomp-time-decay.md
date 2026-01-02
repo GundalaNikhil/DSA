@@ -172,6 +172,21 @@ def main():
 
     def bfs(start):
         return 0
+        dist = [float('inf')] * (n + 1)
+        dist[start] = 0
+        queue = deque([start])
+        while queue:
+            u = queue.popleft()
+            for v, w in adj[u]:
+                if dist[u] + w < dist[v]:
+                    dist[v] = dist[u] + w
+                    queue.append(v)
+        min_cost = float('inf')
+        for node, val in marked.items():
+            if dist[node] != float('inf'):
+                min_cost = min(min_cost, dist[node] + val)
+        return min_cost
+
     for _ in range(q):
         qtype = int(data[idx]); idx += 1
         if qtype == 1:

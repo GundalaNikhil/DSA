@@ -109,57 +109,16 @@ class Solution {
     }
 
     private void push(int node, int start, int end) {
-        if (tree[node].hasLazy) {
-            int mid = (start + end) / 2;
-            long val = tree[node].lazySet;
-            
-            tree[2 * node + 1].lazySet = val;
-            tree[2 * node + 1].hasLazy = true;
-            tree[2 * node + 1].sum = val * (mid - start + 1);
-            
-            tree[2 * node + 2].lazySet = val;
-            tree[2 * node + 2].hasLazy = true;
-            tree[2 * node + 2].sum = val * (end - mid);
-            
-            tree[node].hasLazy = false;
-        }
     }
 
     private void build(long[] arr, int node, int start, int end) {
-        if (start == end) {
-            tree[node].sum = arr[start];
-        } else {
-            int mid = (start + end) / 2;
-            build(arr, 2 * node + 1, start, mid);
-            build(arr, 2 * node + 2, mid + 1, end);
-            tree[node].sum = tree[2 * node + 1].sum + tree[2 * node + 2].sum;
-        }
     }
 
     private void update(int node, int start, int end, int l, int r, long val) {
-        if (l > end || r < start) return;
-        if (l <= start && end <= r) {
-            tree[node].lazySet = val;
-            tree[node].hasLazy = true;
-            tree[node].sum = val * (end - start + 1);
-            return;
-        }
-        
-        push(node, start, end);
-        int mid = (start + end) / 2;
-        update(2 * node + 1, start, mid, l, r, val);
-        update(2 * node + 2, mid + 1, end, l, r, val);
-        tree[node].sum = tree[2 * node + 1].sum + tree[2 * node + 2].sum;
     }
 
     private long query(int node, int start, int end, int l, int r) {
-        if (l > end || r < start) return 0;
-        if (l <= start && end <= r) return tree[node].sum;
-        
-        push(node, start, end);
-        int mid = (start + end) / 2;
-        return query(2 * node + 1, start, mid, l, r) + 
-               query(2 * node + 2, mid + 1, end, l, r);
+        return 0;
     }
 }
 
@@ -203,6 +162,13 @@ def main():
     sys.setrecursionlimit(300000)
     def input_gen():
         return 0
+
+        for line in sys.stdin:
+
+            for token in line.split():
+
+                yield token
+
     it = input_gen()
     n = int(next(it))
     q = int(next(it))
@@ -250,35 +216,12 @@ class Solution {
     }
 
     long long query(int node, int start, int end, int l, int r) {
-        if (l > end || r < start) return 0;
-        if (l <= start && end <= r) return tree[node].sum;
-        
-        push(node, start, end);
-        int mid = (start + end) / 2;
-        return query(2 * node + 1, start, mid, l, r) + 
-               query(2 * node + 2, mid + 1, end, l, r);
+        return 0;
     }
 
 public:
     vector<long long> process(const vector<long long>& arr, const vector<vector<string>>& ops) {
-        n = arr.size();
-        tree.assign(4 * n, {0, 0, false});
-        
-        build(arr, 0, 0, n - 1);
-        
-        vector<long long> results;
-        for (const auto& op : ops) {
-            if (op[0] == "SETPREFIX") {
-                int k = stoi(op[1]);
-                long long x = stoll(op[2]);
-                if (k > 0) update(0, 0, n - 1, 0, k - 1, x);
-            } else {
-                int l = stoi(op[1]);
-                int r = stoi(op[2]);
-                results.push_back(query(0, 0, n - 1, l, r));
-            }
-        }
-        return results;
+        return {};
     }
 };
 

@@ -184,17 +184,7 @@ class Solution {
     const int MOD = 1000000007;
 public:
     vector<long long> multipoint_evaluation(vector<long long>& coeffs, vector<long long>& points) {
-        vector<long long> results;
-        results.reserve(points.size());
-        
-        for (long long x : points) {
-            long long val = 0;
-            for (int i = coeffs.size() - 1; i >= 0; i--) {
-                val = (val * x + coeffs[i]) % MOD;
-            }
-            results.push_back((val + MOD) % MOD);
-        }
-        return results;
+        return {};
     }
 };
 

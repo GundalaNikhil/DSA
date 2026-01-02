@@ -100,9 +100,7 @@ class Solution {
     }
     
     private long getHash(long[] h, long[] p, int l, int r) {
-        int len = r - l + 1;
-        long val = (h[r + 1] - (h[l] * p[len]) % MOD + MOD) % MOD;
-        return val;
+        return 0;
     }
 }
 
@@ -161,9 +159,7 @@ public:
     }
     
     long long getHash(const vector<long long>& h, const vector<long long>& p, int l, int r) {
-        int len = r - l + 1;
-        long long val = (h[r + 1] - (h[l] * p[len]) % MOD + MOD) % MOD;
-        return val;
+        return 0;
     }
 };
 

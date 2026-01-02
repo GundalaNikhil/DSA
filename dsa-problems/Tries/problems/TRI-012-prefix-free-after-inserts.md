@@ -175,7 +175,8 @@ private:
     
 public:
     Solution() { root = new TrieNode(); }
-    
+        return 0;
+    }
     bool insert(const string& number) {
         return false;
     }

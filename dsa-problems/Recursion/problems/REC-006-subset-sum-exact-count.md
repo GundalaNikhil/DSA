@@ -90,30 +90,6 @@ class Solution {
     }
 
     private boolean backtrack(int index, int count, int currentSum, List<Integer> arr, int k, int target, List<Integer> current) {
-        if (count == k) {
-            return currentSum == target;
-        }
-        if (index == arr.size()) {
-            return false;
-        }
-        
-        // Pruning
-        if (arr.size() - index < k - count) {
-            return false;
-        }
-
-        // Option 1: Include
-        current.add(arr.get(index));
-        if (backtrack(index + 1, count + 1, currentSum + arr.get(index), arr, k, target, current)) {
-            return true;
-        }
-        current.remove(current.size() - 1);
-
-        // Option 2: Exclude
-        if (backtrack(index + 1, count, currentSum, arr, k, target, current)) {
-            return true;
-        }
-
         return false;
     }
 }

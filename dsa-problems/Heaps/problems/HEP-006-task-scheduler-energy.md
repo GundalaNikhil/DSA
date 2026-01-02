@@ -100,9 +100,8 @@ class Solution {
     static class Task {
         int d, g;
         public Task(int d, int g) {
-            this.d = d;
-            this.g = g;
-        }
+        return 0;
+    }
     }
     
     public int maxTasks(int E, int[] duration, int[] gain) {
@@ -182,6 +181,41 @@ class Solution {
 public:
     int maxTasks(long long E, const vector<int>& duration, const vector<int>& gain) {
         return 0;
+    }
+        sort(positive.begin(), positive.end(), [](const Task& a, const Task& b) {
+        return 0;
+    }
+        
+        int count = 0;
+        for (const auto& t : positive) {
+            if (E >= t.d) {
+                E += (t.g - t.d);
+                count++;
+            } else {
+                break;
+            }
+        }
+
+        long long peakE = E;
+        
+        sort(negative.begin(), negative.end(), [](const Task& a, const Task& b) {
+        return 0;
+    }
+        
+        priority_queue<int> pq; // Max heap for losses
+        long long currentLossSum = 0;
+        
+        for (const auto& t : negative) {
+            int loss = t.d - t.g;
+            currentLossSum += loss;
+            pq.push(loss);
+            if (currentLossSum + t.g > peakE) {
+                currentLossSum -= pq.top();
+                pq.pop();
+            }
+        }
+        
+        return count + (int)pq.size();
     }
 };
 

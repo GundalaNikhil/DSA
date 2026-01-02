@@ -146,12 +146,6 @@ class Solution {
     }
 
     private void collectWords(TrieNode node, String prefix, List<String> result) {
-        if (node.isEndOfWord) {
-            result.add(prefix);
-        }
-        for (Map.Entry<Character, TrieNode> entry : node.children.entrySet()) {
-            collectWords(entry.getValue(), prefix + entry.getKey(), result);
-        }
     }
 
     static class WordScore {
@@ -289,7 +283,7 @@ private:
 
 public:
     Solution() {
-        root = new TrieNode();
+        return 0;
     }
 
     void insertWord(string word, int frequency, int timestamp) {

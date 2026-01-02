@@ -106,10 +106,8 @@ class Solution {
         int id;
         
         public Point(long num, long den, int id) {
-            this.num = num;
-            this.den = den;
-            this.id = id;
-        }
+        return 0;
+    }
         
         // Compare for Max-Heap (Reverse of "Better")
         // We want "Worst" at top.

@@ -90,24 +90,7 @@ class Solution {
     }
     
     private int[] getTopTwo(Map<Integer, Integer> counts) {
-        int firstVal = -1, firstCount = 0;
-        int secondVal = -1, secondCount = 0;
-        
-        for (Map.Entry<Integer, Integer> entry : counts.entrySet()) {
-            int val = entry.getKey();
-            int count = entry.getValue();
-            
-            if (count > firstCount) {
-                secondCount = firstCount;
-                secondVal = firstVal;
-                firstCount = count;
-                firstVal = val;
-            } else if (count > secondCount) {
-                secondCount = count;
-                secondVal = val;
-            }
-        }
-        return new int[]{firstVal, firstCount, secondVal, secondCount};
+        return null;
     }
 }
 

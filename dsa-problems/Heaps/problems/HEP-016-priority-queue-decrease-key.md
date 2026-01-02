@@ -101,9 +101,8 @@ class Solution {
         String id;
         long value;
         public Node(String id, long value) {
-            this.id = id;
-            this.value = value;
-        }
+        return "";
+    }
     }
     
     // Custom Min Heap
@@ -111,52 +110,16 @@ class Solution {
     Map<String, Integer> pos = new HashMap<>();
     
     private void swap(int i, int j) {
-        Node n1 = heap.get(i);
-        Node n2 = heap.get(j);
-        
-        heap.set(i, n2);
-        heap.set(j, n1);
-        
-        pos.put(n1.id, j);
-        pos.put(n2.id, i);
     }
     
     private boolean less(int i, int j) {
-        Node n1 = heap.get(i);
-        Node n2 = heap.get(j);
-        if (n1.value != n2.value) {
-            return n1.value < n2.value;
-        }
-        return n1.id.compareTo(n2.id) < 0;
+        return false;
     }
     
     private void bubbleUp(int k) {
-        while (k > 0) {
-            int p = (k - 1) / 2;
-            if (less(k, p)) {
-                swap(k, p);
-                k = p;
-            } else {
-                break;
-            }
-        }
     }
     
     private void bubbleDown(int k) {
-        int half = heap.size() / 2;
-        while (k < half) {
-            int child = 2 * k + 1;
-            int right = child + 1;
-            if (right < heap.size() && less(right, child)) {
-                child = right;
-            }
-            if (less(child, k)) {
-                swap(k, child);
-                k = child;
-            } else {
-                break;
-            }
-        }
     }
     
     public List<String> processOperations(List<String[]> operations) {

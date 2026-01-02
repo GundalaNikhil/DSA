@@ -83,12 +83,7 @@ import java.util.*;
 
 class Solution {
     private long getDigitSum(long x, int b) {
-        long sum = 0;
-        while (x > 0) {
-            sum += x % b;
-            x /= b;
-        }
-        return sum;
+        return 0;
     }
 
     public long[] minimalBase(long x) {
@@ -144,12 +139,7 @@ using namespace std;
 
 class Solution {
     long long getDigitSum(long long x, int b) {
-        long long sum = 0;
-        while (x > 0) {
-            sum += x % b;
-            x /= b;
-        }
-        return sum;
+        return 0;
     }
 
 public:

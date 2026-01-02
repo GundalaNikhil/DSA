@@ -109,18 +109,6 @@ class Solution {
     }
 
     private boolean dfs(int node, int parent, List<List<Integer>> adj, boolean[] visited) {
-        visited[node] = true;
-
-        for (int neighbor : adj.get(node)) {
-            if (!visited[neighbor]) {
-                if (dfs(neighbor, node, adj, visited)) {
-                    return true;
-                }
-            } else if (neighbor != parent) {
-                return true; // Cycle detected
-            }
-        }
-
         return false;
     }
 }

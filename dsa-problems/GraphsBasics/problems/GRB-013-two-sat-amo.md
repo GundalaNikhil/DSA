@@ -80,45 +80,26 @@ class Solution {
     }
 
     private void addClause(int a, int b, int N) {
-        // a OR b  <=>  ¬a -> b  AND  ¬b -> a
-        addEdge(neg(a, N), map(b, N));
-        addEdge(neg(b, N), map(a, N));
     }
     
     private void addImplication(int a, int b, int N) {
-        // a -> b  <=>  ¬b -> ¬a
-        addEdge(map(a, N), map(b, N));
-        addEdge(neg(b, N), neg(a, N));
     }
 
     private void addEdge(int u, int v) {
-        adj.get(u).add(v);
-        revAdj.get(v).add(u);
     }
 
     private int map(int literal, int N) {
-        if (literal > 0) return literal;
-        return -literal + N;
+        return 0;
     }
 
     private int neg(int literal, int N) {
-        if (literal > 0) return literal + N;
-        return -literal;
+        return 0;
     }
 
     private void dfs1(int u) {
-        visited[u] = true;
-        for (int v : adj.get(u)) {
-            if (!visited[v]) dfs1(v);
-        }
-        order.add(u);
     }
 
     private void dfs2(int u, int c) {
-        component[u] = c;
-        for (int v : revAdj.get(u)) {
-            if (component[v] == -1) dfs2(v, c);
-        }
     }
 }
 

@@ -175,6 +175,22 @@ public:
     int maxStalls(vector<pair<int,int>>& stalls, int d) {
         return 0;
     }
+        sort(stalls.begin(), stalls.end(), [](const pair<int,int>& a, const pair<int,int>& b) {
+        return 0;
+    }
+        
+        int count = 0;
+        long long lastEnd = -2e18; // Sufficiently small number
+        
+        for (const auto& stall : stalls) {
+            if (stall.first - lastEnd >= d) {
+                count++;
+                lastEnd = stall.second;
+            }
+        }
+        
+        return count;
+    }
 };
 
 int main() {

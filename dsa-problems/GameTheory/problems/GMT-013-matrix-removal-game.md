@@ -116,36 +116,7 @@ class Solution {
     private int N, M;
 
     private int solve(int r1, int r2, int c1, int c2) {
-        if (r1 == r2 && c1 == c2) return mat[r1][c1];
-        if (memo[r1][r2][c1][c2] != Integer.MIN_VALUE) return memo[r1][r2][c1][c2];
-
-        int movesMade = (N - (r2 - r1 + 1)) + (M - (c2 - c1 + 1));
-        boolean isMax = (movesMade % 2 == 0);
-
-        int res;
-        if (isMax) {
-            res = Integer.MIN_VALUE;
-            if (r1 < r2) {
-                res = Math.max(res, solve(r1 + 1, r2, c1, c2)); // Remove Top
-                res = Math.max(res, solve(r1, r2 - 1, c1, c2)); // Remove Bottom
-            }
-            if (c1 < c2) {
-                res = Math.max(res, solve(r1, r2, c1 + 1, c2)); // Remove Left
-                res = Math.max(res, solve(r1, r2, c1, c2 - 1)); // Remove Right
-            }
-        } else {
-            res = Integer.MAX_VALUE;
-            if (r1 < r2) {
-                res = Math.min(res, solve(r1 + 1, r2, c1, c2));
-                res = Math.min(res, solve(r1, r2 - 1, c1, c2));
-            }
-            if (c1 < c2) {
-                res = Math.min(res, solve(r1, r2, c1 + 1, c2));
-                res = Math.min(res, solve(r1, r2, c1, c2 - 1));
-            }
-        }
-
-        return memo[r1][r2][c1][c2] = res;
+        return 0;
     }
 
     public int matrixGame(int n, int m, int[][] matrix) {

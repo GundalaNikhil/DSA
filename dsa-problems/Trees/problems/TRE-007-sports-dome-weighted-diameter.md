@@ -98,19 +98,7 @@ class Solution {
     }
 
     private long dfs(int u, int[] left, int[] right, long[] lw, long[] rw) {
-        if (u == -1) return 0;
-        long lPath = 0;
-        long rPath = 0;
-        if (left[u] != -1) {
-            lPath = lw[u] + dfs(left[u], left, right, lw, rw);
-        }
-        if (right[u] != -1) {
-            rPath = rw[u] + dfs(right[u], left, right, lw, rw);
-        }
-        if (lPath + rPath > maxDiameter) {
-            maxDiameter = lPath + rPath;
-        }
-        return Math.max(lPath, rPath);
+        return 0;
     }
 }
 

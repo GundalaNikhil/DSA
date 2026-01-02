@@ -98,9 +98,7 @@ class Solution {
     }
 
     private double logFactorial(int n) {
-        double res = 0.0;
-        for (int i = 1; i <= n; i++) res += Math.log(i);
-        return res;
+        return 0;
     }
 
     public Result solve(int n, double p, int k) {

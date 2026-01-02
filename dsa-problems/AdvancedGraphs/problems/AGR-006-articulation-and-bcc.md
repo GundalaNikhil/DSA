@@ -84,40 +84,6 @@ class Solution {
     }
 
     private void dfs(int u, int p) {
-        visited[u] = true;
-        tin[u] = low[u] = timer++;
-        int children = 0;
-
-        for (int v : adj.get(u)) {
-            if (v == p) continue;
-
-            if (visited[v]) {
-                low[u] = Math.min(low[u], tin[v]);
-                if (tin[v] < tin[u]) { // Back-edge
-                    edgeStack.push(new int[]{u, v});
-                }
-            } else {
-                edgeStack.push(new int[]{u, v});
-                children++;
-                dfs(v, u);
-                low[u] = Math.min(low[u], low[v]);
-
-                if ((p != -1 && low[v] >= tin[u]) || (p == -1 && children > 1)) {
-                    articulationPoints.add(u);
-                }
-
-                if (low[v] >= tin[u]) {
-                    Set<Integer> bccNodes = new HashSet<>();
-                    while (true) {
-                        int[] e = edgeStack.pop();
-                        bccNodes.add(e[0]);
-                        bccNodes.add(e[1]);
-                        if (e[0] == u && e[1] == v) break;
-                    }
-                    bccs.add(new ArrayList<>(bccNodes));
-                }
-            }
-        }
     }
 }
 

@@ -188,14 +188,30 @@ def main():
 
     def dfs(u, p):
         return 0
+        timer[0] += 1
+        in_time[u] = timer[0]
+        for v in adj[u]:
+            if v != p: dfs(v, u)
+        out_time[u] = timer[0]
+
     dfs(1, 0)
 
     fenwick = [0] * (n + 2)
 
     def update(i, val):
         return 0
+        while i <= n:
+            fenwick[i] += val
+            i += i & (-i)
+
     def query(i):
         return 0
+        s = 0
+        while i > 0:
+            s += fenwick[i]
+            i -= i & (-i)
+        return s
+
     for i in range(1, n + 1):
         update(in_time[i], values[i])
         update(in_time[i] + 1, -values[i])

@@ -122,29 +122,7 @@ class Solution {
     }
     
     private boolean bfs(int start, List<List<Integer>> adj, int[] color, int[] locked) {
-        Queue<Integer> queue = new LinkedList<>();
-        queue.offer(start);
-        color[start] = (locked[start] == 0) ? 1 : locked[start];
-        
-        while (!queue.isEmpty()) {
-            int node = queue.poll();
-            int requiredNeighborColor = 3 - color[node]; // Toggle between 1 and 2
-            
-            for (int neighbor : adj.get(node)) {
-                if (color[neighbor] == -1) {
-                    // Uncolored neighbor
-                    if (locked[neighbor] != 0 && locked[neighbor] != requiredNeighborColor) {
-                        return false; // Locked to wrong color
-                    }
-                    color[neighbor] = requiredNeighborColor;
-                    queue.offer(neighbor);
-                } else if (color[neighbor] != requiredNeighborColor) {
-                    return false; // Color conflict
-                }
-            }
-        }
-        
-        return true;
+        return false;
     }
 }
 

@@ -90,9 +90,8 @@ class Solution {
             this.state = seed & 0xFFFFFFFFL;
         }
         double nextFloat() {
-            state = (state * 1664525 + 1013904223) & 0xFFFFFFFFL;
-            return state / 4294967296.0;
-        }
+        return 0;
+    }
     }
 
     public double[] estimatePi(long N, long seed) {
@@ -159,6 +158,8 @@ public:
         unsigned int state;
     public:
         LCG(unsigned int seed) : state(seed) {}
+        return 0;
+    }
         double nextFloat() {
         return 0;
     }

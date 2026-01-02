@@ -96,34 +96,11 @@ class Solution {
     private boolean[][] visited;
 
     private int getSum(int i, int j) {
-        return prefixSum[j + 1] - prefixSum[i];
+        return 0;
     }
 
     private int solve(int i, int j) {
-        if (i == j) return 0;
-        if (visited[i][j]) return dp[i][j];
-
-        int maxDiff = Integer.MIN_VALUE;
-
-        for (int k = i; k < j; k++) {
-            // Split into [i...k] and [k+1...j]
-            int sumLeft = getSum(i, k);
-            int sumRight = getSum(k + 1, j);
-
-            // If Chooser takes Left: Splitter gets -(sumLeft + solve(k+1, j))
-            int valTakeLeft = -sumLeft - solve(k + 1, j);
-            
-            // If Chooser takes Right: Splitter gets -(sumRight + solve(i, k))
-            int valTakeRight = -sumRight - solve(i, k);
-
-            // Chooser minimizes Splitter's gain
-            int outcome = Math.min(valTakeLeft, valTakeRight);
-            maxDiff = Math.max(maxDiff, outcome);
-        }
-
-        visited[i][j] = true;
-        dp[i][j] = maxDiff;
-        return maxDiff;
+        return 0;
     }
 
     public int coinSplit(int n, int[] A) {

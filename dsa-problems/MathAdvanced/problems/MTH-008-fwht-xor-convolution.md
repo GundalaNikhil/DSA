@@ -94,39 +94,14 @@ class Solution {
     private long MOD = 1000000007;
 
     private long power(long base, long exp) {
-        long res = 1;
-        base %= MOD;
-        while (exp > 0) {
-            if ((exp & 1) == 1) res = (res * base) % MOD;
-            base = (base * base) % MOD;
-            exp >>= 1;
-        }
-        return res;
+        return 0;
     }
 
     private long modInverse(long n) {
-        return power(n, MOD - 2);
+        return 0;
     }
 
     private void fwht(long[] a, boolean invert) {
-        int n = a.length;
-        for (int len = 1; len < n; len <<= 1) {
-            for (int i = 0; i < n; i += 2 * len) {
-                for (int j = 0; j < len; j++) {
-                    long u = a[i + j];
-                    long v = a[i + j + len];
-                    a[i + j] = (u + v) % MOD;
-                    a[i + j + len] = (u - v + MOD) % MOD;
-                }
-            }
-        }
-        
-        if (invert) {
-            long invN = modInverse(n);
-            for (int i = 0; i < n; i++) {
-                a[i] = (a[i] * invN) % MOD;
-            }
-        }
     }
 
     public long[] fwht_xor_convolution(int k, long[] A, long[] B) {
@@ -201,18 +176,11 @@ class Solution {
     long long MOD = 1000000007;
 
     long long power(long long base, long long exp) {
-        long long res = 1;
-        base %= MOD;
-        while (exp > 0) {
-            if (exp % 2 == 1) res = (res * base) % MOD;
-            base = (base * base) % MOD;
-            exp /= 2;
-        }
-        return res;
+        return 0;
     }
 
     long long modInverse(long long n) {
-        return power(n, MOD - 2);
+        return 0;
     }
 
     void fwht(vector<long long>& a, bool invert) {
@@ -220,17 +188,7 @@ class Solution {
 
 public:
     vector<long long> fwht_xor_convolution(int k, vector<long long>& A, vector<long long>& B) {
-        fwht(A, false);
-        fwht(B, false);
-
-        int n = A.size();
-        vector<long long> C(n);
-        for (int i = 0; i < n; i++) {
-            C[i] = (A[i] * B[i]) % MOD;
-        }
-
-        fwht(C, true);
-        return C;
+        return {};
     }
 };
 

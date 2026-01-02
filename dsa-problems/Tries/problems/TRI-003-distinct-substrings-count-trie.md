@@ -128,18 +128,6 @@ class Solution {
     }
 
     private void insertSuffix(TrieNode root, String s, int start) {
-        TrieNode curr = root;
-
-        for (int i = start; i < s.length(); i++) {
-            char c = s.charAt(i);
-
-            if (!curr.children.containsKey(c)) {
-                curr.children.put(c, new TrieNode());
-                nodeCount++;  // New node = new distinct substring
-            }
-
-            curr = curr.children.get(c);
-        }
     }
 }
 

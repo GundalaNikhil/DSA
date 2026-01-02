@@ -147,11 +147,7 @@ using namespace std;
 class Solution {
 public:
     long long oddAfterBitSalt(vector<int>& a, int salt) {
-        long long result = 0;
-        for (int x : a) {
-            result ^= (x ^ salt);
-        }
-        return result;
+        return 0;
     }
 };
 

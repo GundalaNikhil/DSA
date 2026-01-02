@@ -99,57 +99,16 @@ class Solution {
     }
 
     private void build(long[] arr, int node, int start, int end) {
-        if (start == end) {
-            tree[node] = arr[start];
-        } else {
-            int mid = (start + end) / 2;
-            build(arr, 2 * node + 1, start, mid);
-            build(arr, 2 * node + 2, mid + 1, end);
-            tree[node] = Math.min(tree[2 * node + 1], tree[2 * node + 2]);
-        }
     }
 
     private void push(int node) {
-        if (lazy[node] != 0) {
-            // Left child
-            tree[2 * node + 1] += lazy[node];
-            lazy[2 * node + 1] += lazy[node];
-            
-            // Right child
-            tree[2 * node + 2] += lazy[node];
-            lazy[2 * node + 2] += lazy[node];
-            
-            lazy[node] = 0;
-        }
     }
 
     private void update(int node, int start, int end, int l, int r, long val) {
-        if (l > end || r < start) return;
-
-        if (l <= start && end <= r) {
-            tree[node] += val;
-            lazy[node] += val;
-            return;
-        }
-
-        push(node);
-        int mid = (start + end) / 2;
-        update(2 * node + 1, start, mid, l, r, val);
-        update(2 * node + 2, mid + 1, end, l, r, val);
-        tree[node] = Math.min(tree[2 * node + 1], tree[2 * node + 2]);
     }
 
     private long query(int node, int start, int end, int l, int r) {
-        if (l > end || r < start) return Long.MAX_VALUE;
-
-        if (l <= start && end <= r) {
-            return tree[node];
-        }
-
-        push(node);
-        int mid = (start + end) / 2;
-        return Math.min(query(2 * node + 1, start, mid, l, r),
-                        query(2 * node + 2, mid + 1, end, l, r));
+        return 0;
     }
 }
 
@@ -196,6 +155,13 @@ def main():
     import sys
     def input_gen():
         return 0
+
+        for line in sys.stdin:
+
+            for token in line.split():
+
+                yield token
+
     it = input_gen()
     n = int(next(it))
     q = int(next(it))
@@ -242,40 +208,12 @@ class Solution {
     }
 
     long long query(int node, int start, int end, int l, int r) {
-        if (l > end || r < start) return LLONG_MAX;
-
-        if (l <= start && end <= r) {
-            return tree[node];
-        }
-
-        push(node);
-        int mid = (start + end) / 2;
-        return min(query(2 * node + 1, start, mid, l, r),
-                   query(2 * node + 2, mid + 1, end, l, r));
+        return 0;
     }
 
 public:
     vector<long long> process(const vector<long long>& arr, const vector<vector<string>>& ops) {
-        n = arr.size();
-        tree.assign(4 * n, 0);
-        lazy.assign(4 * n, 0);
-        
-        build(arr, 0, 0, n - 1);
-        
-        vector<long long> results;
-        for (const auto& op : ops) {
-            if (op[0] == "ADD") {
-                int l = stoi(op[1]);
-                int r = stoi(op[2]);
-                long long x = stoll(op[3]);
-                update(0, 0, n - 1, l, r, x);
-            } else {
-                int l = stoi(op[1]);
-                int r = stoi(op[2]);
-                results.push_back(query(0, 0, n - 1, l, r));
-            }
-        }
-        return results;
+        return {};
     }
 };
 

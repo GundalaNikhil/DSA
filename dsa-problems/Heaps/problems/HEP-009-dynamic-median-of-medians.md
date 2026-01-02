@@ -108,31 +108,18 @@ class Solution {
         PriorityQueue<Integer> right = new PriorityQueue<>();
         
         void add(int val) {
-            if (left.isEmpty() || val <= left.peek()) {
-                left.offer(val);
-            } else {
-                right.offer(val);
-            }
-            rebalance();
-        }
+    }
         
         void rebalance() {
-            while (left.size() > right.size() + 1) {
-                right.offer(left.poll());
-            }
-            while (right.size() > left.size()) {
-                left.offer(right.poll());
-            }
-        }
+    }
         
         int getMedian() {
-            if (left.isEmpty()) return 0;
-            return left.peek();
-        }
+        return 0;
+    }
         
         int size() {
-            return left.size() + right.size();
-        }
+        return 0;
+    }
     }
     
     // Global heaps with tracking
@@ -148,78 +135,15 @@ class Solution {
     Map<String, Group> groups = new HashMap<>();
     
     private void cleanGlobal() {
-        while (!gLeft.isEmpty()) {
-            int val = gLeft.peek();
-            if (gDeletedLeft.getOrDefault(val, 0) > 0) {
-                gDeletedLeft.put(val, gDeletedLeft.get(val) - 1);
-                gLeft.poll();
-            } else {
-                break;
-            }
-        }
-        while (!gRight.isEmpty()) {
-            int val = gRight.peek();
-            if (gDeletedRight.getOrDefault(val, 0) > 0) {
-                gDeletedRight.put(val, gDeletedRight.get(val) - 1);
-                gRight.poll();
-            } else {
-                break;
-            }
-        }
     }
     
     private void addToGlobal(int val) {
-        cleanGlobal();
-        if (gLeft.isEmpty() || val <= gLeft.peek()) {
-            gLeft.offer(val);
-            gInLeft.put(val, gInLeft.getOrDefault(val, 0) + 1);
-            gLeftSize++;
-        } else {
-            gRight.offer(val);
-            gInRight.put(val, gInRight.getOrDefault(val, 0) + 1);
-            gRightSize++;
-        }
-        rebalanceGlobal();
     }
     
     private void removeFromGlobal(int val) {
-        if (gInLeft.getOrDefault(val, 0) > 0) {
-            gInLeft.put(val, gInLeft.get(val) - 1);
-            gDeletedLeft.put(val, gDeletedLeft.getOrDefault(val, 0) + 1);
-            gLeftSize--;
-        } else {
-            gInRight.put(val, gInRight.getOrDefault(val, 0) - 1);
-            gDeletedRight.put(val, gDeletedRight.getOrDefault(val, 0) + 1);
-            gRightSize--;
-        }
-        rebalanceGlobal();
     }
     
     private void rebalanceGlobal() {
-        while (gLeftSize > gRightSize + 1) {
-            cleanGlobal();
-            if (gLeft.isEmpty()) break; // Should not happen if sizes consistent
-            int val = gLeft.poll();
-            gInLeft.put(val, gInLeft.getOrDefault(val, 0) - 1);
-            
-            gRight.offer(val);
-            gInRight.put(val, gInRight.getOrDefault(val, 0) + 1);
-            gLeftSize--;
-            gRightSize++;
-            cleanGlobal();
-        }
-        while (gRightSize > gLeftSize) {
-            cleanGlobal();
-            if (gRight.isEmpty()) break;
-            int val = gRight.poll();
-            gInRight.put(val, gInRight.getOrDefault(val, 0) - 1);
-            
-            gLeft.offer(val);
-            gInLeft.put(val, gInLeft.getOrDefault(val, 0) + 1);
-            gLeftSize++;
-            gRightSize--;
-            cleanGlobal();
-        }
     }
     
     public List<String> processOperations(List<String[]> operations) {

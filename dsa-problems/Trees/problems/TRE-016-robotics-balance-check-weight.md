@@ -111,22 +111,7 @@ class Solution {
     }
 
     private Result dfs(int u, long[] weight, int[] left, int[] right, long W) {
-        if (u == -1) return new Result(0, 0, true);
-
-        Result l = dfs(left[u], weight, left, right, W);
-        if (!l.balanced) return new Result(0, 0, false); // Optimization: propagate failure
-
-        Result r = dfs(right[u], weight, left, right, W);
-        if (!r.balanced) return new Result(0, 0, false);
-
-        boolean hBal = Math.abs(l.height - r.height) <= 1;
-        boolean wBal = Math.abs(l.weight - r.weight) <= W;
-
-        if (hBal && wBal) {
-            return new Result(Math.max(l.height, r.height) + 1, l.weight + r.weight + weight[u], true);
-        } else {
-            return new Result(0, 0, false);
-        }
+        return 0;
     }
 }
 

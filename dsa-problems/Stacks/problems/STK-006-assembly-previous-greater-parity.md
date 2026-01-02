@@ -85,27 +85,7 @@ import java.io.*;
 
 class Solution {
     private int findNearestGreater(List<Integer> stack, int val, int[] arr) {
-        // Stack stores indices. 
-        // arr[stack[i]] is decreasing as i increases.
-        // We want largest index (largest i) such that arr[stack[i]] > val.
-        // Since decreasing, valid prefix: [0 ... k]. We want k.
-        
-        if (stack.isEmpty()) return -1;
-        
-        int l = 0, r = stack.size() - 1;
-        int ansIdx = -1;
-        
-        while (l <= r) {
-            int mid = l + (r - l) / 2;
-            int idx = stack.get(mid);
-            if (arr[idx] > val) {
-                ansIdx = idx;
-                l = mid + 1; // Try to find rightmost (larger index/smaller value that is still > val)
-            } else {
-                r = mid - 1;
-            }
-        }
-        return ansIdx;
+        return 0;
     }
 
     public int[] prevGreaterOppositeParity(int[] arr) {

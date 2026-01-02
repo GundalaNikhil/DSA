@@ -105,48 +105,7 @@ class Solution {
     }
 
     private Node buildAhoCorasick(String[] patterns, long[] weights) {
-        Node root = new Node();
-
-        // 1. Build Trie
-        for (int i = 0; i < patterns.length; i++) {
-            Node curr = root;
-            for (char c : patterns[i].toCharArray()) {
-                int idx = c - 'a';
-                if (curr.children[idx] == null) curr.children[idx] = new Node();
-                curr = curr.children[idx];
-            }
-            curr.lens.add(patterns[i].length());
-            curr.weights.add(weights[i]);
-        }
-
-        // 2. Build Failure Links
-        Queue<Node> q = new LinkedList<>();
-        for (int i = 0; i < 26; i++) {
-            if (root.children[i] != null) {
-                root.children[i].fail = root;
-                q.add(root.children[i]);
-            } else {
-                root.children[i] = root;
-            }
-        }
-
-        while (!q.isEmpty()) {
-            Node curr = q.poll();
-            // Compute output link
-            if (!curr.fail.lens.isEmpty()) curr.output = curr.fail;
-            else curr.output = curr.fail.output;
-
-            for (int i = 0; i < 26; i++) {
-                if (curr.children[i] != null) {
-                    curr.children[i].fail = curr.fail.children[i];
-                    q.add(curr.children[i]);
-                } else {
-                    curr.children[i] = curr.fail.children[i];
-                }
-            }
-        }
-
-        return root;
+        return 0;
     }
 
     public long maxCooldownScore(String text, String[] patterns, long[] weights, int g) {
@@ -377,22 +336,7 @@ public:
     }
 
     long long countMatches(const string& text, const vector<string>& patterns) {
-        Node* root = buildAhoCorasick(patterns);
-        long long count = 0;
-        Node* curr = root;
-
-        for (char c : text) {
-            curr = curr->children[c - 'a'];
-
-            Node* temp = curr;
-            while (temp != root) {
-                count += temp->patterns.size();
-                if (temp->output == nullptr) break;
-                temp = temp->output;
-            }
-        }
-
-        return count;
+        return 0;
     }
 };
 

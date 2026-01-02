@@ -147,15 +147,6 @@ class Solution {
     }
 
     private void insert(String word) {
-        TrieNode node = root;
-        for (char c : word.toCharArray()) {
-            if (!node.children.containsKey(c)) {
-                node.children.put(c, new TrieNode());
-                nodeCount++;
-            }
-            node = node.children.get(c);
-        }
-        node.isEnd = true;
     }
 }
 
@@ -239,8 +230,7 @@ private:
 
 public:
     Solution() {
-        root = new TrieNode();
-        nodeCount = 1; // Start with root
+        return 0;
     }
 
     int countTrieNodes(vector<string>& words) {

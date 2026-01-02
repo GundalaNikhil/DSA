@@ -103,9 +103,8 @@ class Solution {
         int streamIdx;
         
         public Element(int val, int streamIdx) {
-            this.val = val;
-            this.streamIdx = streamIdx;
-        }
+        return 0;
+    }
         
         @Override
         public int compareTo(Element other) {

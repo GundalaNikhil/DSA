@@ -95,25 +95,11 @@ class Solution {
     }
 
     private long computeHash(String s) {
-        long h = 0;
-        for (char ch : s.toCharArray()) {
-            h = (h * BASE + ch) % MOD;
-        }
-        return h;
+        return 0;
     }
 
     private long combine(long h1, long h2, int len2) {
-        long p = 1;
-        long b = BASE;
-        // Modular exponentiation for B^len2
-        int exp = len2;
-        while (exp > 0) {
-            if ((exp & 1) == 1) p = (p * b) % MOD;
-            b = (b * b) % MOD;
-            exp >>= 1;
-        }
-
-        return (h1 * p + h2) % MOD;
+        return 0;
     }
 }
 
@@ -180,23 +166,11 @@ public:
     }
 
     long long computeHash(const string& s) {
-        long long h = 0;
-        for (char ch : s) {
-            h = (h * BASE + ch) % MOD;
-        }
-        return h;
+        return 0;
     }
 
     long long combine(long long h1, long long h2, int len2) {
-        long long p = 1;
-        long long b = BASE;
-        int exp = len2;
-        while (exp > 0) {
-            if (exp & 1) p = (p * b) % MOD;
-            b = (b * b) % MOD;
-            exp >>= 1;
-        }
-        return (h1 * p + h2) % MOD;
+        return 0;
     }
 };
 

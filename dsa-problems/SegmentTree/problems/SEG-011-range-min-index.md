@@ -109,41 +109,17 @@ class Solution {
     }
 
     private Pair merge(Pair p1, Pair p2) {
-        if (p1.val < p2.val) return p1;
-        if (p2.val < p1.val) return p2;
-        return p1.idx < p2.idx ? p1 : p2;
+        return 0;
     }
 
     private void build(long[] arr, int node, int start, int end) {
-        if (start == end) {
-            tree[node] = new Pair(arr[start], start);
-        } else {
-            int mid = (start + end) / 2;
-            build(arr, 2 * node + 1, start, mid);
-            build(arr, 2 * node + 2, mid + 1, end);
-            tree[node] = merge(tree[2 * node + 1], tree[2 * node + 2]);
-        }
     }
 
     private void update(int node, int start, int end, int idx, long val) {
-        if (start == end) {
-            tree[node] = new Pair(val, idx);
-        } else {
-            int mid = (start + end) / 2;
-            if (idx <= mid) update(2 * node + 1, start, mid, idx, val);
-            else update(2 * node + 2, mid + 1, end, idx, val);
-            tree[node] = merge(tree[2 * node + 1], tree[2 * node + 2]);
-        }
     }
 
     private Pair query(int node, int start, int end, int l, int r) {
-        if (l > end || r < start) return new Pair(Long.MAX_VALUE, -1);
-        if (l <= start && end <= r) return tree[node];
-        
-        int mid = (start + end) / 2;
-        Pair p1 = query(2 * node + 1, start, mid, l, r);
-        Pair p2 = query(2 * node + 2, mid + 1, end, l, r);
-        return merge(p1, p2);
+        return 0;
     }
 }
 
@@ -187,6 +163,13 @@ def main():
     sys.setrecursionlimit(300000)
     def input_gen():
         return 0
+
+        for line in sys.stdin:
+
+            for token in line.split():
+
+                yield token
+
     it = input_gen()
     n = int(next(it))
     q = int(next(it))

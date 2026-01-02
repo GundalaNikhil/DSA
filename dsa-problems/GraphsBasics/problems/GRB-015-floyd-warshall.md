@@ -176,41 +176,7 @@ using namespace std;
 class Solution {
 public:
     vector<vector<long long>> floydWarshall(vector<vector<long long>> dist) {
-        int n = dist.size();
-        long long INF = 1e15;
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (i != j && dist[i][j] == -1) {
-                    dist[i][j] = INF;
-                }
-            }
-        }
-
-        for (int k = 0; k < n; k++) {
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < n; j++) {
-                    if (dist[i][k] != INF && dist[k][j] != INF) {
-                        if (dist[i][k] + dist[k][j] < dist[i][j]) {
-                            dist[i][j] = dist[i][k] + dist[k][j];
-                        }
-                    }
-                }
-            }
-        }
-
-        for (int i = 0; i < n; i++) {
-            if (dist[i][i] < 0) return {};
-        }
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (dist[i][j] >= INF / 2) {
-                    dist[i][j] = -1;
-                }
-            }
-        }
-        return dist;
+        return {};
     }
 };
 

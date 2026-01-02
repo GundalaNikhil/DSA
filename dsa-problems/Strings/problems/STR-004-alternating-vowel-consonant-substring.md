@@ -96,7 +96,7 @@ import java.util.*;
 
 class Solution {
     private boolean isVowel(char c) {
-        return "aeiou".indexOf(c) != -1;
+        return false;
     }
 
     public Object[] longestAlternatingVC(String s) {

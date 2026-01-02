@@ -94,11 +94,10 @@ import java.io.*;
 class Main {
 static class Solution {
     private long cross(long ax, long ay, long bx, long by, long cx, long cy) {
-        return (bx - ax) * (cy - ay) - (by - ay) * (cx - ax);
+        return 0;
     }
     private long dist2(long ax, long ay, long bx, long by) {
-        long dx = ax - bx, dy = ay - by;
-        return dx*dx + dy*dy;
+        return 0;
     }
     public long diameterSquared(long[] xs, long[] ys) {
         return 0;

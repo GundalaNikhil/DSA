@@ -94,92 +94,27 @@ class Solution {
     private List<int[]>[] seg;
 
     private void addRange(int node, int start, int end, int l, int r, int u, int v) {
-        if (r < start || end < l) return;
-        if (l <= start && end <= r) {
-            seg[node].add(new int[]{u, v});
-            return;
-        }
-        int mid = (start + end) / 2;
-        addRange(node * 2, start, mid, l, r, u, v);
-        addRange(node * 2 + 1, mid + 1, end, l, r, u, v);
     }
 
     private void solve(int node, int start, int end, int[] queryMap, int[] results, List<Query> queries) {
-        int ops = 0;
-        for (int[] edge : seg[node]) {
-            if (union(edge[0], edge[1])) ops++;
-        }
-
-        if (start == end) {
-            if (queryMap[start] != -1) {
-                Query q = queries.get(queryMap[start]);
-                if (find(q.u) == find(q.v)) {
-                    results[queryMap[start]] = getLCA(q.u, q.v);
-                } else {
-                    results[queryMap[start]] = -1;
-                }
-            }
-        } else {
-            int mid = (start + end) / 2;
-            solve(node * 2, start, mid, queryMap, results, queries);
-            solve(node * 2 + 1, mid + 1, end, queryMap, results, queries);
-        }
-
-        // Rollback
-        while (ops-- > 0) rollback();
     }
 
     private void dfsLCA(int u, int d, int p) {
-        depth[u] = d;
-        up[u][0] = p;
-        for (int i = 1; i < LOG; i++) {
-            if (up[u][i-1] != -1) up[u][i] = up[up[u][i-1]][i-1];
-            else up[u][i] = -1;
-        }
-        for (int v : adj.get(u)) {
-            if (v != p) dfsLCA(v, d + 1, u);
-        }
     }
 
     private int getLCA(int u, int v) {
-        if (depth[u] < depth[v]) { int t = u; u = v; v = t; }
-        for (int i = LOG - 1; i >= 0; i--) {
-            if (depth[u] - (1 << i) >= depth[v]) u = up[u][i];
-        }
-        if (u == v) return u;
-        for (int i = LOG - 1; i >= 0; i--) {
-            if (up[u][i] != up[v][i]) {
-                u = up[u][i];
-                v = up[v][i];
-            }
-        }
-        return up[u][0];
+        return 0;
     }
 
     private int find(int i) {
-        while (i != dsuParent[i]) i = dsuParent[i];
-        return i;
+        return 0;
     }
 
     private boolean union(int i, int j) {
-        int root_i = find(i);
-        int root_j = find(j);
-        if (root_i != root_j) {
-            if (dsuSz[root_i] < dsuSz[root_j]) { int t = root_i; root_i = root_j; root_j = t; }
-            dsuParent[root_j] = root_i;
-            dsuSz[root_i] += dsuSz[root_j];
-            history.push(new int[]{root_j, root_i});
-            return true;
-        }
         return false;
     }
 
     private void rollback() {
-        int[] op = history.pop();
-        int child = op[0];
-        int parent = op[1];
-        dsuParent[child] = child;
-        dsuSz[parent] -= dsuSz[child];
     }
 
     static class EdgeInterval {

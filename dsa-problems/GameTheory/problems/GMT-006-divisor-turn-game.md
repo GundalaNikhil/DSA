@@ -110,26 +110,7 @@ class Solution {
     }
 
     private boolean canWin(int n) {
-        if (memo[n] != 0) return memo[n] == 1;
-
-        boolean canReachLosing = false;
-        for (int i = 2; i * i <= n; i++) {
-            if (n % i == 0) {
-                int d1 = i;
-                if (!canWin(d1)) {
-                    canReachLosing = true;
-                    break;
-                }
-                int d2 = n / i;
-                if (d2 < n && !canWin(d2)) {
-                    canReachLosing = true;
-                    break;
-                }
-            }
-        }
-
-        memo[n] = canReachLosing ? 1 : 2;
-        return canReachLosing;
+        return false;
     }
 }
 

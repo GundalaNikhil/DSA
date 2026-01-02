@@ -108,10 +108,8 @@ class Solution {
     static class Edge implements Comparable<Edge> {
         int u, v, cost;
         public Edge(int u, int v, int cost) {
-            this.u = u;
-            this.v = v;
-            this.cost = cost;
-        }
+        return 0;
+    }
         @Override
         public int compareTo(Edge other) {
         return 0;
@@ -121,9 +119,8 @@ class Solution {
     static class DSU {
         int[] parent;
         public DSU(int n) {
-            parent = new int[n];
-            for (int i = 0; i < n; i++) parent[i] = i;
-        }
+        return 0;
+    }
         public int find(int x) {
         return 0;
     }
@@ -241,37 +238,7 @@ struct DSU {
 class Solution {
 public:
     long long minCost(int n, vector<int>& heights, vector<pair<int,int>>& existingCables) {
-        DSU dsu(n);
-        
-        for (auto& cable : existingCables) {
-            dsu.unite(cable.first, cable.second);
-        }
-        
-        vector<pair<int,int>> sortedBuildings(n);
-        for (int i = 0; i < n; i++) {
-            sortedBuildings[i] = {heights[i], i};
-        }
-        
-        sort(sortedBuildings.begin(), sortedBuildings.end());
-        
-        vector<Edge> edges;
-        for (int i = 0; i < n - 1; i++) {
-            int u = sortedBuildings[i].second;
-            int v = sortedBuildings[i+1].second;
-            int cost = sortedBuildings[i+1].first - sortedBuildings[i].first;
-            edges.push_back({u, v, cost});
-        }
-        
-        sort(edges.begin(), edges.end());
-        
-        long long totalCost = 0;
-        for (const auto& edge : edges) {
-            if (dsu.unite(edge.u, edge.v)) {
-                totalCost += edge.cost;
-            }
-        }
-        
-        return totalCost;
+        return 0;
     }
 };
 

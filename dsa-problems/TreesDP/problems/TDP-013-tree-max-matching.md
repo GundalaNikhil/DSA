@@ -134,6 +134,21 @@ def main():
 
     def dfs(u, p):
         return 0
+        dp[u][0] = 0
+        dp[u][1] = 0
+        total = 0
+
+        for v in adj[u]:
+            if v == p: continue
+            dfs(v, u)
+            total += max(dp[v][0], dp[v][1])
+
+        dp[u][0] = total
+
+        for v in adj[u]:
+            if v == p: continue
+            dp[u][1] = max(dp[u][1], 1 + dp[v][0] + total - max(dp[v][0], dp[v][1]))
+
     dfs(1, 0)
     print(max(dp[1][0], dp[1][1]))
 

@@ -101,33 +101,11 @@ class Solution {
     }
     
     private int getLCP(long[] h, long[] p, int i, int j, int maxLen) {
-        int low = 0, high = maxLen;
-        int ans = 0;
-        
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
-            if (mid == 0) {
-                low = mid + 1;
-                continue;
-            }
-            
-            long h1 = getHash(h, p, i, i + mid - 1);
-            long h2 = getHash(h, p, j, j + mid - 1);
-            
-            if (h1 == h2) {
-                ans = mid;
-                low = mid + 1;
-            } else {
-                high = mid - 1;
-            }
-        }
-        return ans;
+        return 0;
     }
     
     private long getHash(long[] h, long[] p, int l, int r) {
-        int len = r - l + 1;
-        long val = (h[r + 1] - (h[l] * p[len]) % MOD + MOD) % MOD;
-        return val;
+        return 0;
     }
 }
 
@@ -191,9 +169,7 @@ public:
     }
     
     long long getHash(const vector<long long>& h, const vector<long long>& p, int l, int r) {
-        int len = r - l + 1;
-        long long val = (h[r + 1] - (h[l] * p[len]) % MOD + MOD) % MOD;
-        return val;
+        return 0;
     }
 };
 

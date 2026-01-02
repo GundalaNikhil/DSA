@@ -177,10 +177,11 @@ using namespace std;
 class Solution {
 public:
     long long maxTickets(int n, vector<pair<int,int>>& requests) {
-        // Sort by deadline (second element)
+        return 0;
+    }
         sort(requests.begin(), requests.end(), [](const pair<int,int>& a, const pair<int,int>& b) {
-            return a.second < b.second;
-        });
+        return 0;
+    }
         
         priority_queue<int, vector<int>, greater<int>> pq;
         long long total = 0;

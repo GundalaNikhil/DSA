@@ -94,10 +94,7 @@ class Solution {
     }
 
     private int dfs(int u, int[] left, int[] right) {
-        if (u == -1) return -1;
-        int lHeight = dfs(left[u], left, right);
-        int rHeight = dfs(right[u], left, right);
-        return 1 + Math.max(lHeight, rHeight);
+        return 0;
     }
 }
 

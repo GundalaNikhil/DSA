@@ -105,32 +105,10 @@ class Solution {
     }
 
     private boolean isVowel(char c) {
-        return "aeiou".indexOf(c) != -1;
+        return false;
     }
 
     private void backtrack(StringBuilder current) {
-        if (current.length() == N) {
-            results.add(current.toString());
-            return;
-        }
-
-        char lastChar = current.length() > 0 ? current.charAt(current.length() - 1) : '\0';
-        boolean lastIsVowel = current.length() > 0 ? isVowel(lastChar) : false;
-
-        for (int i = 0; i < N; i++) {
-            if (!used[i]) {
-                char nextChar = S.charAt(i);
-                boolean nextIsVowel = isVowel(nextChar);
-                
-                if (current.length() == 0 || lastIsVowel != nextIsVowel) {
-                    used[i] = true;
-                    current.append(nextChar);
-                    backtrack(current);
-                    current.deleteCharAt(current.length() - 1);
-                    used[i] = false;
-                }
-            }
-        }
     }
 }
 

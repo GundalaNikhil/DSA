@@ -95,12 +95,6 @@ class Solution {
     }
 
     private void dfs(int u, List<List<int[]>> adj) {
-        visited[u] = true;
-        for (int[] edge : adj.get(u)) {
-            int v = edge[0];
-            if (!visited[v]) dfs(v, adj);
-        }
-        stack.push(u);
     }
 }
 
@@ -189,34 +183,7 @@ class Solution {
 
 public:
     vector<long long> shortestPathDAG(int n, const vector<vector<pair<int, int>>>& adj, int s) {
-        visited.assign(n, false);
-        
-        for (int i = 0; i < n; i++) {
-            if (!visited[i]) dfs(i, adj);
-        }
-
-        vector<long long> dist(n, 2e18); // Large value for infinity
-        dist[s] = 0;
-
-        while (!st.empty()) {
-            int u = st.top();
-            st.pop();
-
-            if (dist[u] != 2e18) {
-                for (auto& edge : adj[u]) {
-                    int v = edge.first;
-                    int w = edge.second;
-                    if (dist[u] + w < dist[v]) {
-                        dist[v] = dist[u] + w;
-                    }
-                }
-            }
-        }
-
-        for (int i = 0; i < n; i++) {
-            if (dist[i] == 2e18) dist[i] = -1;
-        }
-        return dist;
+        return {};
     }
 };
 

@@ -106,35 +106,15 @@ class Solution {
     }
     
     private Node build(int l, int r) {
-        if (l == r) return new Node(0, null, null);
-        int mid = (l + r) / 2;
-        return new Node(0, build(l, mid), build(mid + 1, r));
+        return 0;
     }
     
     private Node update(Node node, int l, int r, int idx) {
-        if (l == r) {
-            return new Node(node.count + 1, null, null);
-        }
-        int mid = (l + r) / 2;
-        Node left = node.left;
-        Node right = node.right;
-        if (idx <= mid) {
-            left = update(left, l, mid, idx);
-        } else {
-            right = update(right, mid + 1, r, idx);
-        }
-        return new Node(left.count + right.count, left, right);
+        return 0;
     }
     
     private int query(Node node, int l, int r, int k) {
-        if (l == r) return l;
-        int mid = (l + r) / 2;
-        int leftCount = node.left.count;
-        if (k <= leftCount) {
-            return query(node.left, l, mid, k);
-        } else {
-            return query(node.right, mid + 1, r, k - leftCount);
-        }
+        return 0;
     }
 }
 
@@ -182,6 +162,13 @@ def main():
     sys.setrecursionlimit(300000)
     def input_gen():
         return 0
+
+        for line in sys.stdin:
+
+            for token in line.split():
+
+                yield token
+
     it = input_gen()
     n = int(next(it))
     q = int(next(it))

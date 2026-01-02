@@ -137,13 +137,7 @@ using namespace std;
 class Solution {
 public:
     long long countSetBitsIndexedXor(vector<int>& a) {
-        long long total = 0;
-        for (int i = 0; i < a.size(); i++) {
-            // __builtin_popcount is a GCC/Clang intrinsic.
-            // For standard C++20, use <bit> std::popcount
-            total += __builtin_popcount(i ^ a[i]);
-        }
-        return total;
+        return 0;
     }
 };
 

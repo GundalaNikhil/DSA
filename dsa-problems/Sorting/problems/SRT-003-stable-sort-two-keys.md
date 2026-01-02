@@ -157,6 +157,11 @@ public:
     vector<vector<int>> stableSort(vector<vector<int>> records) {
         return {};
     }
+        stable_sort(records.begin(), records.end(), [](const vector<int>& a, const vector<int>& b) {
+        return 0;
+    }
+        return records;
+    }
 };
 
 int main() {

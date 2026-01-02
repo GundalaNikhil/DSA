@@ -114,88 +114,22 @@ class Solution {
     }
     
     private void add(int x) {
-        cleanLeft();
-        if (left.isEmpty() || x <= left.peek()) {
-            left.offer(x);
-            validLeft++;
-        } else {
-            right.offer(x);
-            validRight++;
-        }
-        rebalance();
     }
     
     private void del(int x) {
-        cleanLeft();
-        cleanRight();
-        
-        boolean inLeft = false;
-        if (!left.isEmpty() && x <= left.peek()) inLeft = true;
-        else inLeft = false;
-        
-        if (inLeft) {
-            leftDebt.put(x, leftDebt.getOrDefault(x, 0) + 1);
-            validLeft--;
-        } else {
-            rightDebt.put(x, rightDebt.getOrDefault(x, 0) + 1);
-            validRight--;
-        }
-        
-        rebalance();
     }
     
     private String getMedian(int T) {
-        cleanLeft();
-        
-        int total = validLeft + validRight;
-        if (total == 0) return "EMPTY";
-        if (total < T) return "NA";
-        
-        // Safety check for empty queue though logic implies it shouldn't be empty if total > 0
-        if (left.isEmpty()) return "EMPTY"; 
-        return String.valueOf(left.peek());
+        return "";
     }
     
     private void rebalance() {
-        // Invariant: validLeft == validRight OR validLeft == validRight + 1
-        
-        cleanLeft();
-        cleanRight();
-        
-        while (validLeft > validRight + 1) {
-            cleanLeft(); // ensure top is valid
-            if (left.isEmpty()) break; 
-            int val = left.poll();
-            validLeft--;
-            right.offer(val);
-            validRight++;
-            cleanLeft();
-        }
-        
-        cleanRight();
-        while (validRight > validLeft) {
-            cleanRight(); // ensure top is valid
-            if (right.isEmpty()) break;
-            int val = right.poll();
-            validRight--;
-            left.offer(val);
-            validLeft++;
-            cleanRight();
-        }
     }
     
     private void cleanLeft() {
-        while (!left.isEmpty() && leftDebt.getOrDefault(left.peek(), 0) > 0) {
-            int val = left.poll();
-            leftDebt.put(val, leftDebt.get(val) - 1);
-        }
     }
 
     private void cleanRight() {
-        while (!right.isEmpty() && rightDebt.getOrDefault(right.peek(), 0) > 0) {
-            int val = right.poll();
-            rightDebt.put(val, rightDebt.get(val) - 1);
-        }
     }
 }
 

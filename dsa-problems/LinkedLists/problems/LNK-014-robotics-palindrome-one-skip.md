@@ -95,14 +95,7 @@ class Solution {
     }
 
     private boolean isPalindrome(List<Integer> vals, int left, int right) {
-        while (left < right) {
-            if (!vals.get(left).equals(vals.get(right))) {
-                return false;
-            }
-            left++;
-            right--;
-        }
-        return true;
+        return false;
     }
 }
 

@@ -97,57 +97,13 @@ class Solution {
     }
     
     private void dfs(int u, boolean[] visited, List<List<Integer>> adj) {
-        visited[u] = true;
-        for (int v : adj.get(u)) {
-            if (!visited[v]) dfs(v, visited, adj);
-        }
     }
     
     private List<Integer> bfs(int start, int target, int n, List<List<int[]>> adj) {
-        if (start == target) return new ArrayList<>();
-        int[] parentEdge = new int[n];
-        int[] parentNode = new int[n];
-        Arrays.fill(parentEdge, -1);
-        Arrays.fill(parentNode, -1);
-        
-        Queue<Integer> q = new ArrayDeque<>();
-        q.add(start);
-        parentNode[start] = start;
-        
-        while (!q.isEmpty()) {
-            int u = q.poll();
-            if (u == target) break;
-            for (int[] edge : adj.get(u)) {
-                int v = edge[0];
-                int idx = edge[1];
-                if (parentNode[v] == -1) {
-                    parentNode[v] = u;
-                    parentEdge[v] = idx;
-                    q.add(v);
-                }
-            }
-        }
-        
-        if (parentNode[target] == -1) return null;
-        
-        List<Integer> path = new ArrayList<>();
-        int curr = target;
-        while (curr != start) {
-            path.add(parentEdge[curr]);
-            curr = parentNode[curr];
-        }
-        Collections.reverse(path);
-        return path;
+        return null;
     }
     
     private boolean insert(BitSet[] basis, BitSet vec) {
-        for (int i = vec.nextSetBit(0); i >= 0; i = vec.nextSetBit(i + 1)) {
-            if (basis[i] == null) {
-                basis[i] = (BitSet) vec.clone();
-                return true;
-            }
-            vec.xor(basis[i]);
-        }
         return false;
     }
 }

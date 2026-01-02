@@ -96,22 +96,6 @@ class Solution {
     }
 
     private void backtrack(int start_pos, int lights_placed, int n, int k, int d, List<Integer> current) {
-        if (lights_placed == k) {
-            result.add(new ArrayList<>(current));
-            return;
-        }
-
-        int remaining_lights = k - lights_placed;
-        int remaining_positions = n - start_pos;
-        if (remaining_positions < remaining_lights) return;
-
-        for (int pos = start_pos; pos < n; pos++) {
-            if (current.isEmpty() || pos - current.get(current.size() - 1) >= d) {
-                current.add(pos);
-                backtrack(pos + 1, lights_placed + 1, n, k, d, current);
-                current.remove(current.size() - 1);
-            }
-        }
     }
 }
 

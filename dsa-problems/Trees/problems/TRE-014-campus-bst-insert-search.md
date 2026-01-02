@@ -107,28 +107,14 @@ class Solution {
     }
 
     private TreeNode insert(TreeNode node, int val) {
-        if (node == null) return new TreeNode(val);
-        if (val < node.val) {
-            node.left = insert(node.left, val);
-        } else {
-            // Duplicates to the right
-            node.right = insert(node.right, val);
-        }
-        return node;
+        return 0;
     }
 
     private void inorder(TreeNode node, List<Integer> result) {
-        if (node == null) return;
-        inorder(node.left, result);
-        result.add(node.val);
-        inorder(node.right, result);
     }
 
     private boolean search(TreeNode node, int x) {
-        if (node == null) return false;
-        if (node.val == x) return true;
-        if (x < node.val) return search(node.left, x);
-        return search(node.right, x);
+        return false;
     }
 }
 

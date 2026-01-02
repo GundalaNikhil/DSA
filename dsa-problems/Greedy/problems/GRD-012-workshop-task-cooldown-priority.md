@@ -121,11 +121,8 @@ class Solution {
         int readyTime;
 
         public Task(char name, int count, int priority) {
-            this.name = name;
-            this.count = count;
-            this.priority = priority;
-            this.readyTime = 0;
-        }
+        return 0;
+    }
 
         @Override
         public int compareTo(Task other) {

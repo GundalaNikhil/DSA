@@ -103,42 +103,10 @@ class Solution {
     }
 
     int countOnward(int r, int c) {
-        int cnt = 0;
-        for(int i=0; i<8; i++) {
-            int nr = r + dr[i];
-            int nc = c + dc[i];
-            if(nr >= 0 && nr < N && nc >= 0 && nc < N && !blocked[nr][nc] && !visited[nr][nc]) {
-                cnt++;
-            }
-        }
-        return cnt;
+        return 0;
     }
 
     boolean dfs(int r, int c, int count) {
-        if (count == total_unblocked) return true;
-
-        List<int[]> moves = new ArrayList<>(); // {priority, dr_index}
-        for(int i=0; i<8; i++) {
-            int nr = r + dr[i];
-            int nc = c + dc[i];
-            if(nr >= 0 && nr < N && nc >= 0 && nc < N && !blocked[nr][nc] && !visited[nr][nc]) {
-                moves.add(new int[]{countOnward(nr, nc), i});
-            }
-        }
-        
-        if(moves.isEmpty()) return false;
-        
-        moves.sort((a, b) -> Integer.compare(a[0], b[0]));
-
-        for(int[] p : moves) {
-            int i = p[1];
-            int nr = r + dr[i];
-            int nc = c + dc[i];
-            
-            visited[nr][nc] = true;
-            if(dfs(nr, nc, count + 1)) return true;
-            visited[nr][nc] = false;
-        }
         return false;
     }
 }
