@@ -82,12 +82,127 @@ Bitwise Operations, XOR, Trie
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long maxSubarrayXorWithStart(int[] a, int s) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+        int s = sc.nextInt();
+
+        Solution solution = new Solution();
+        System.out.println(solution.maxSubarrayXorWithStart(a, s));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def max_subarray_xor_with_start(a: list[int], s: int) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    input_data = sys.stdin.read()
+    data = input_data.split()
+    if not data: return
+    
+    ptr = 0
+    n = int(data[ptr]); ptr += 1
+    a = []
+    for _ in range(n):
+        a.append(int(data[ptr])); ptr += 1
+    
+    s = int(data[ptr]); ptr += 1
+    
+    result = max_subarray_xor_with_start(a, s)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long maxSubarrayXorWithStart(vector<int>& a, int s) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+    int s;
+    cin >> s;
+    
+    Solution solution;
+    cout << solution.maxSubarrayXorWithStart(a, s) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  maxSubarrayXorWithStart(a, s) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    let ptr = 0;
+    const n = Number(tokens[ptr++]);
+    const a = [];
+    for (let i = 0; i < n; i++) a.push(Number(tokens[ptr++]));
+    const s = Number(tokens[ptr++]);
+    
+    const solution = new Solution();
+    console.log(String(solution.maxSubarrayXorWithStart(a, s)));
+});
+```

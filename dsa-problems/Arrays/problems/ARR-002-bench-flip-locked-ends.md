@@ -119,6 +119,11 @@ def bench_flip_locked_ends(arr: list[int]) -> None:
     pass
 
 def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+
+    bench_flip_locked_ends(arr)
+    print(" ".join(map(str, arr)))
 
 if __name__ == "__main__":
     main()

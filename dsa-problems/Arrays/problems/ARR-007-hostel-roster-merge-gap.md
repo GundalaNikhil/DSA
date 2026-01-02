@@ -127,6 +127,26 @@ def merge_with_priority(A: list[int], B: list[int]) -> list[int]:
     return []
 
 def main():
+    import sys
+    data = sys.stdin.read().split()
+    if not data:
+        return
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        A = []
+        for _ in range(n):
+            A.append(int(next(iterator)))
+            
+        m = int(next(iterator))
+        B = []
+        for _ in range(m):
+            B.append(int(next(iterator)))
+            
+        result = merge_with_priority(A, B)
+        print(" ".join(map(str, result)))
+    except StopIteration:
+        return
 
 if __name__ == "__main__":
     main()

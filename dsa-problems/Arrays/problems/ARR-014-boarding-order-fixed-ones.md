@@ -117,6 +117,11 @@ def sort_with_fixed_ones(arr: list[int]) -> None:
     pass
 
 def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+
+    sort_with_fixed_ones(arr)
+    print(" ".join(map(str, arr)))
 
 if __name__ == "__main__":
     main()

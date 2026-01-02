@@ -43,11 +43,13 @@ Print the integer after swapping adjacent 2-bit blocks.
 ## Example
 
 **Input:**
+
 ```
 6
 ```
 
 **Output:**
+
 ```
 9
 ```
@@ -73,16 +75,90 @@ Bitwise Operations
 
 ### Java
 
+```java
+import java.util.*;
 
+class Solution {
+    public long swapAdjacent2BitBlocks(long x) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextLong()) return;
+        long x = sc.nextLong();
+
+        Solution solution = new Solution();
+        System.out.println(solution.swapAdjacent2BitBlocks(x));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
-
+```
+// No template available
+```
 
 ### C++
 
+```cpp
+#include <iostream>
 
+using namespace std;
+
+class Solution {
+public:
+    long swapAdjacent2BitBlocks(int x) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    unsigned int x;
+    if (!(cin >> x)) return 0;
+
+    Solution solution;
+    cout << solution.swapAdjacent2BitBlocks((int)x) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
 
+class Solution {
+  swapAdjacent2BitBlocks(x) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    const x = Number(tokens[0]);
+    
+    const solution = new Solution();
+    console.log(solution.swapAdjacent2BitBlocks(x));
+});
+```

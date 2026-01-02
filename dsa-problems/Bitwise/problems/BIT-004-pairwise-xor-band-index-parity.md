@@ -83,12 +83,129 @@ Bitwise Operations, XOR, Counting
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long countPairwiseXorBandParity(int[] a, int L, int U) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+        int L = sc.nextInt();
+        int U = sc.nextInt();
+
+        Solution solution = new Solution();
+        System.out.println(solution.countPairwiseXorBandParity(a, L, U));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def insert(root, num):
+    # Implementation here
+    return None
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+
+    ptr = 0
+    n = int(data[ptr]); ptr += 1
+    a = []
+    for _ in range(n):
+        a.append(int(data[ptr])); ptr += 1
+
+    L = int(data[ptr]); ptr += 1
+    U = int(data[ptr]); ptr += 1
+
+    result = count_pairwise_xor_band_parity(a, L, U)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long countPairwiseXorBandParity(vector<int>& a, int L, int U) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+    int L, U;
+    cin >> L >> U;
+
+    Solution solution;
+    cout << solution.countPairwiseXorBandParity(a, L, U) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  insert(root, num) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const a = [];
+  for (let i = 0; i < n; i++) a.push(Number(tokens[ptr++]));
+  const L = Number(tokens[ptr++]);
+  const U = Number(tokens[ptr++]);
+
+  const solution = new Solution();
+  console.log(solution.countPairwiseXorBandParity(a, L, U).toString());
+});
+```

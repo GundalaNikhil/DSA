@@ -76,16 +76,111 @@ Bitwise Operations, Combinatorics
 
 ### Java
 
+```java
+import java.util.*;
 
+class Solution {
+    public long countBitwisePalindromesBalancedOnes(long L, long R) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextLong()) return;
+        long L = sc.nextLong();
+        long R = sc.nextLong();
+
+        Solution solution = new Solution();
+        System.out.println(solution.countBitwisePalindromesBalancedOnes(L, R));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
 
+def make_palindrome(half, length):
+    # Implementation here
+    return None
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+
+    L = int(data[0])
+    R = int(data[1])
+
+    result = count_bitwise_palindromes_balanced_ones(L, R)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    long countBitwisePalindromesBalancedOnes(long long L, long long R) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long L, R;
+    if (!(cin >> L >> R)) return 0;
+
+    Solution solution;
+    cout << solution.countBitwisePalindromesBalancedOnes(L, R) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
 
+class Solution {
+  makePalindrome(half, len) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  const L = BigInt(tokens[0]);
+  const R = BigInt(tokens[1]);
+
+  const solution = new Solution();
+  console.log(solution.countBitwisePalindromesBalancedOnes(L, R).toString());
+});
+```

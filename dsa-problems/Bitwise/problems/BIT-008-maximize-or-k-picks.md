@@ -80,16 +80,128 @@ Bitwise Operations, Greedy
 
 ### Java
 
+```java
+import java.util.*;
 
+class Solution {
+    public long maximizeOrWithKPicks(int[] a, int k) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+        int k = sc.nextInt();
+
+        Solution solution = new Solution();
+        System.out.println(solution.maximizeOrWithKPicks(a, k));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
 
+def maximize_or_with_k_picks(a: list[int], k: int) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    input_data = sys.stdin.read()
+    data = input_data.split()
+    if not data: return
+    
+    ptr = 0
+    n = int(data[ptr]); ptr += 1
+    a = []
+    for _ in range(n):
+        a.append(int(data[ptr])); ptr += 1
+    
+    k = int(data[ptr]); ptr += 1
+    
+    result = maximize_or_with_k_picks(a, k)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <numeric>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    long maximizeOrWithKPicks(vector<int>& a, int k) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+    int k;
+    cin >> k;
+
+    Solution solution;
+    cout << solution.maximizeOrWithKPicks(a, k) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
 
+class Solution {
+  maximizeOrWithKPicks(a, k) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    let ptr = 0;
+    const n = Number(tokens[ptr++]);
+    const a = [];
+    for (let i = 0; i < n; i++) a.push(Number(tokens[ptr++]));
+    const k = Number(tokens[ptr++]);
+    
+    const solution = new Solution();
+    console.log(solution.maximizeOrWithKPicks(a, k));
+});
+```

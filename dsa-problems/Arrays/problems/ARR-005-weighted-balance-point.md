@@ -118,6 +118,12 @@ def weighted_balance_point(a: list[int], L: int, R: int) -> int:
     return 0
 
 def main():
+    n = int(input())
+    a = list(map(int, input().split()))
+    L, R = map(int, input().split())
+
+    result = weighted_balance_point(a, L, R)
+    print(result)
 
 if __name__ == "__main__":
     main()

@@ -211,6 +211,35 @@ def process_temperature_queries(temps: list[int], queries: list[tuple]) -> list[
     return []
 
 def main():
+    try:
+        input_data = sys.stdin.read().split()
+    except Exception:
+        return
+
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        temps = [int(next(iterator)) for _ in range(n)]
+        q_count = int(next(iterator))
+        
+        queries = []
+        for _ in range(q_count):
+            type = next(iterator)
+            l = int(next(iterator))
+            r = int(next(iterator))
+            if type == "add":
+                x = int(next(iterator))
+                queries.append((type, l, r, x))
+            else:
+                queries.append((type, l, r))
+                
+        result = process_temperature_queries(temps, queries)
+        print("\n".join(map(str, result)))
+    except StopIteration:
+        pass
 
 if __name__ == "__main__":
     main()

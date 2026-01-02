@@ -82,12 +82,128 @@ Bitwise Operations, DP, Subsets
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long subsetAndEqualsX(int[] a, int X) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+        int X = sc.nextInt();
+
+        Solution solution = new Solution();
+        System.out.println(solution.subsetAndEqualsX(a, X));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def subset_and_equals_x(a: list[int], X: int) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    input_data = sys.stdin.read()
+    data = input_data.split()
+    if not data: return
+
+    ptr = 0
+    n = int(data[ptr]); ptr += 1
+    a = []
+    for _ in range(n):
+        a.append(int(data[ptr])); ptr += 1
+
+    X = int(data[ptr]); ptr += 1
+
+    result = subset_and_equals_x(a, X)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long subsetAndEqualsX(vector<int>& a, int X) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+
+    int X;
+    cin >> X;
+    
+    Solution solution;
+    cout << solution.subsetAndEqualsX(a, X) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  subsetAndEqualsX(a, X) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    let ptr = 0;
+    const n = Number(tokens[ptr++]);
+    const a = [];
+    for (let i = 0; i < n; i++) a.push(Number(tokens[ptr++]));
+    
+    const X = Number(tokens[ptr++]);
+    
+    const solution = new Solution();
+    console.log(String(solution.subsetAndEqualsX(a, X)));
+});
+```

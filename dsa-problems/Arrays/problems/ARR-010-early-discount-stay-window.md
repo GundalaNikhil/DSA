@@ -120,6 +120,12 @@ def max_profit_with_constraints(prices: list[int], dMin: int, dMax: int, C: int)
     return 0
 
 def main():
+    n = int(input())
+    prices = list(map(int, input().split()))
+    dMin, dMax, C = map(int, input().split())
+
+    result = max_profit_with_constraints(prices, dMin, dMax, C)
+    print(result)
 
 if __name__ == "__main__":
     main()

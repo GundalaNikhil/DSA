@@ -114,6 +114,11 @@ def best_streak_with_smoothing(a: list[int]) -> int:
     return 0
 
 def main():
+    n = int(input())
+    a = list(map(int, input().split()))
+
+    result = best_streak_with_smoothing(a)
+    print(result)
 
 if __name__ == "__main__":
     main()

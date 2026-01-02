@@ -134,6 +134,14 @@ def shuttle_shift_blackout(arr: list[int], k: int, blackout: set[int]) -> list[i
     return []
 
 def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+    k = int(input())
+    b = int(input())
+    blackout = set(map(int, input().split())) if b > 0 else set()
+
+    result = shuttle_shift_blackout(arr, k, blackout)
+    print(" ".join(map(str, result)))
 
 if __name__ == "__main__":
     main()

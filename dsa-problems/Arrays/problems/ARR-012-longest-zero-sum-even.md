@@ -114,6 +114,11 @@ def longest_zero_sum_even_length(arr: list[int]) -> int:
     return 0
 
 def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+
+    result = longest_zero_sum_even_length(arr)
+    print(result)
 
 if __name__ == "__main__":
     main()

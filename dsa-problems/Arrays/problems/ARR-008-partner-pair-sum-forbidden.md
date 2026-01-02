@@ -124,6 +124,14 @@ def has_pair_with_forbidden(arr: list[int], target: int, forbidden: set[int]) ->
     return False
 
 def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+    target = int(input())
+    f = int(input())
+    forbidden = set(map(int, input().split())) if f > 0 else set()
+
+    result = has_pair_with_forbidden(arr, target, forbidden)
+    print("true" if result else "false")
 
 if __name__ == "__main__":
     main()

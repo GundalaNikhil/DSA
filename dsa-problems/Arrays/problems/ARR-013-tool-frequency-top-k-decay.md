@@ -131,6 +131,15 @@ def top_k_with_decay(events: list[tuple[int, int]], now: int, D: int, k: int) ->
     return []
 
 def main():
+    n = int(input())
+    events = []
+    for _ in range(n):
+        value, timestamp = map(int, input().split())
+        events.append((value, timestamp))
+    now, D, k = map(int, input().split())
+
+    result = top_k_with_decay(events, now, D, k)
+    print(" ".join(map(str, result)))
 
 if __name__ == "__main__":
     main()

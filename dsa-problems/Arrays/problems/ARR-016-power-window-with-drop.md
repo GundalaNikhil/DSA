@@ -117,6 +117,12 @@ def max_window_sum_with_drop(arr: list[int], k: int) -> int:
     return 0
 
 def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+    k = int(input())
+
+    result = max_window_sum_with_drop(arr, k)
+    print(result)
 
 if __name__ == "__main__":
     main()

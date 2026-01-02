@@ -121,6 +121,11 @@ def prefix_averages(arr: list[int]) -> list[int]:
     return []
 
 def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+
+    result = prefix_averages(arr)
+    print(" ".join(map(str, result)))
 
 if __name__ == "__main__":
     main()

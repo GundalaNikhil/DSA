@@ -78,16 +78,129 @@ Bitwise Operations, Greedy
 
 ### Java
 
+```java
+import java.util.*;
 
+class Solution {
+    public int toggleRangesMinFlips(int[] A, int[] B) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] A = new int[n];
+        for (int i = 0; i < n; i++) A[i] = sc.nextInt();
+        int[] B = new int[n];
+        for (int i = 0; i < n; i++) B[i] = sc.nextInt();
+
+        Solution solution = new Solution();
+        System.out.println(solution.toggleRangesMinFlips(A, B));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
 
+def toggle_ranges_min_flips(A: list[int], B: list[int]) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    ptr = 0
+    n = int(data[ptr]); ptr += 1
+    A = []
+    for _ in range(n):
+        A.append(int(data[ptr])); ptr += 1
+    B = []
+    for _ in range(n):
+        B.append(int(data[ptr])); ptr += 1
+        
+    result = toggle_ranges_min_flips(A, B)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
 
+using namespace std;
+
+class Solution {
+public:
+    int toggleRangesMinFlips(vector<int>& A, vector<int>& B) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> A(n);
+    for (int i = 0; i < n; i++) cin >> A[i];
+    vector<int> B(n);
+    for (int i = 0; i < n; i++) cin >> B[i];
+
+    Solution solution;
+    cout << solution.toggleRangesMinFlips(A, B) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
 
+class Solution {
+  toggleRangesMinFlips(A, B) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    let ptr = 0;
+    const n = Number(tokens[ptr++]);
+    const A = [];
+    for (let i = 0; i < n; i++) A.push(Number(tokens[ptr++]));
+    const B = [];
+    for (let i = 0; i < n; i++) B.push(Number(tokens[ptr++]));
+    
+    const solution = new Solution();
+    console.log(solution.toggleRangesMinFlips(A, B));
+});
+```

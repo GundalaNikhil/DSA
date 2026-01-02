@@ -120,6 +120,12 @@ def zero_slide_with_limit(arr: list[int], m: int) -> list[int]:
     return []
 
 def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+    m = int(input())
+
+    result = zero_slide_with_limit(arr, m)
+    print(" ".join(map(str, result)))
 
 if __name__ == "__main__":
     main()

@@ -113,6 +113,11 @@ def min_planks_for_roof(height: list[int]) -> int:
     return 0
 
 def main():
+    n = int(input())
+    height = list(map(int, input().split()))
+
+    result = min_planks_for_roof(height)
+    print(result)
 
 if __name__ == "__main__":
     main()
