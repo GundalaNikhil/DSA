@@ -93,11 +93,9 @@ class Solution {
         return 0;
     }
 
-    private void insertSuffix(String suffix) {
-    }
 
-    private void dfs(TrieNode node, int depth) {
-    }
+
+
 }
 
 class Main {
@@ -125,10 +123,8 @@ class Solution:
         return 0
     def longest_repeated_substring(self, s: str) -> int:
         return 0
-    def _insert_suffix(self, suffix: str):
-        return 0
-    def _dfs(self, node: TrieNode, depth: int):
-        return 0
+
+
 def main():
     import sys
     s = sys.stdin.read().strip()
@@ -160,11 +156,9 @@ private:
     TrieNode* root;
     int maxLength;
 
-    void insertSuffix(const string& suffix) {
-    }
 
-    void dfs(TrieNode* node, int depth) {
-    }
+
+
 
 public:
     Solution() {
@@ -206,14 +200,6 @@ class Solution {
     this.maxLength = 0;
   }
 
-  insertSuffix(suffix) {
-    return 0;
-  }
-
-  dfs(node, depth) {
-    return 0;
-  }
-
   longestRepeatedSubstring(s) {
     return 0;
   }
@@ -234,4 +220,3 @@ rl.on("line", (line) => {
   console.log(result);
 });
 ```
-

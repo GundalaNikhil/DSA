@@ -96,52 +96,33 @@ Trie, String, Combinatorics, DFS, Missing Elements
 ```java
 import java.util.*;
 
+class Solution {
+    public String kthMissingString(List<String> inserted, int L, int k) {
+        return "";
+    }
+}
+
 class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        
+
         // Read all tokens
         int n = sc.nextInt();
         int L = sc.nextInt();
         int k = sc.nextInt();
-        
-        Set<String> inserted = new HashSet<>();
+
+        List<String> inserted = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             if (sc.hasNext()) {
                 inserted.add(sc.next());
             }
         }
-        
-        List<String> allStrings = new ArrayList<>();
-        
-        // Order: a, aa, ab, ..., az, b, ba, bb, ..., bz, c, ...
-        for (char c = 'a'; c <= 'z'; c++) {
-            // Add single character if not inserted and L >= 1
-            if (L >= 1 && !inserted.contains(String.valueOf(c))) {
-                allStrings.add(String.valueOf(c));
-            }
-            
-            // Add all multi-char strings starting with this char
-            for (int length = 2; length <= L; length++) {
-                generateCombinations(String.valueOf(c), length - 1, inserted, allStrings);
-            }
-        }
-        
-        System.out.println(k <= allStrings.size() ? allStrings.get(k - 1) : "");
+
+        Solution solution = new Solution();
+        String result = solution.kthMissingString(inserted, L, k);
+
+        System.out.println(result);
         sc.close();
-    }
-    
-    static void generateCombinations(String prefix, int remaining, Set<String> inserted, List<String> result) {
-        if (remaining == 0) {
-            if (!inserted.contains(prefix)) {
-                result.add(prefix);
-            }
-            return;
-        }
-        
-        for (char c = 'a'; c <= 'z'; c++) {
-            generateCombinations(prefix + c, remaining - 1, inserted, result);
-        }
     }
 }
 ```
@@ -151,10 +132,8 @@ class Main {
 ```python
 from itertools import product
 
-def all_combinations_of_length(length):
-    return 0
-def custom_sort_key(s):
-    return 0
+
+
 def naive(inserted, L, k):
     return 0
 def main():
@@ -190,19 +169,7 @@ public:
     }
 
 private:
-    void generateCombinations(const string& prefix, int remaining,
-                              const unordered_set<string>& inserted,
-                              vector<string>& result) {
-        if (remaining == 0) {
-            if (inserted.find(prefix) == inserted.end()) {
-                result.push_back(prefix);
-            }
-            return;
-        }
-        for (char c = 'a'; c <= 'z'; c++) {
-            generateCombinations(prefix + c, remaining - 1, inserted, result);
-        }
-    }
+
 };
 
 int main() {
@@ -227,61 +194,33 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require('readline');
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    terminal: false
-});
+const readline = require("readline");
 
-function* allCombinationsOfLength(length) {
-    const chars = 'abcdefghijklmnopqrstuvwxyz';
-    
-    function* helper(current, remaining) {
-        if (remaining === 0) {
-            yield current;
-            return;
-        }
-        for (const c of chars) {
-            yield* helper(current + c, remaining - 1);
-        }
-    }
-    
-    yield* helper('', length);
+class Solution {
+  kthMissingString(inserted, L, k) {
+    return "";
+  }
 }
 
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false,
+});
+
 const lines = [];
-rl.on('line', (line) => lines.push(line.trim()));
-rl.on('close', () => {
-    const [n, L, k] = lines[0].split(' ').map(Number);
-    
-    const inserted = new Set();
-    for (let i = 1; i <= n; i++) {
-        inserted.add(lines[i]);
-    }
-    
-    const allStrings = [];
-    
-    // Order: a, aa, ab, ..., az, b, ba, bb, ..., bz, c, ...
-    const chars = 'abcdefghijklmnopqrstuvwxyz';
-    for (const char of chars) {
-        // Add single character if not inserted and L >= 1
-        if (L >= 1 && !inserted.has(char)) {
-            allStrings.push(char);
-        }
-        
-        // Add all multi-char strings starting with this char
-        for (let length = 2; length <= L; length++) {
-            for (const rest of allCombinationsOfLength(length - 1)) {
-                const combo = char + rest;
-                if (!inserted.has(combo)) {
-                    allStrings.push(combo);
-                }
-            }
-        }
-    }
-    
-    console.log(k <= allStrings.length ? allStrings[k - 1] : '');
+rl.on("line", (line) => lines.push(line.trim()));
+rl.on("close", () => {
+  if (lines.length === 0) return;
+  const [n, L, k] = lines[0].split(" ").map(Number);
+
+  const inserted = [];
+  for (let i = 1; i <= n; i++) {
+    if (lines[i]) inserted.push(lines[i]);
+  }
+
+  const solution = new Solution();
+  const result = solution.kthMissingString(inserted, L, k);
+  console.log(result);
 });
 ```
-

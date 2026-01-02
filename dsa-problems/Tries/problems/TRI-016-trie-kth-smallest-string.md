@@ -109,12 +109,9 @@ class Solution {
         return "";
     }
 
-    private void insert(String word) {
-    }
 
-    private boolean dfs(TrieNode node, StringBuilder path) {
-        return false;
-    }
+
+
 }
 
 class Main {
@@ -152,10 +149,8 @@ class Solution:
         return 0
     def kth_smallest(self, words: List[str], k: int) -> str:
         return ""
-    def _insert(self, word: str):
-        return 0
-    def _dfs(self, node: TrieNode, path: List[str]) -> bool:
-        return False
+
+
 def main():
     import sys
     lines = sys.stdin.read().strip().split('\n')
@@ -193,17 +188,12 @@ private:
     string result;
     int remaining;
 
-    void insert(const string& word) {
-    }
 
-    bool dfs(TrieNode* node, string& path) {
-        return false;
-    }
+
+
 
 public:
     Solution() { root = new TrieNode(); }
-        return 0;
-    }
     string kthSmallest(vector<string>& words, int k) {
         return "";
     }
@@ -248,14 +238,6 @@ class Solution {
     this.remaining = 0;
   }
 
-  insert(word) {
-    return 0;
-  }
-
-  dfs(node, path) {
-    return 0;
-  }
-
   kthSmallest(words, k) {
     return 0;
   }
@@ -282,4 +264,3 @@ rl.on("line", (line) => {
   console.log(result);
 });
 ```
-

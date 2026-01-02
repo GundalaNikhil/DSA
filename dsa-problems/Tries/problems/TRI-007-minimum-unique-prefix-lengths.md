@@ -131,12 +131,9 @@ class Solution {
         return null;
     }
 
-    private void insert(String word) {
-    }
 
-    private int findMinLength(String word) {
-        return 0;
-    }
+
+
 }
 
 class Main {
@@ -179,10 +176,8 @@ class Solution:
         return 0
     def find_minimum_prefix_lengths(self, words: List[str]) -> List[int]:
         return []
-    def _insert(self, word: str):
-        return 0
-    def _find_min_length(self, word: str) -> int:
-        return 0
+
+
 def main():
     import sys
     lines = sys.stdin.read().strip().split('\n')
@@ -218,12 +213,9 @@ class Solution {
 private:
     TrieNode* root;
 
-    void insert(const string& word) {
-    }
 
-    int findMinLength(const string& word) {
-        return 0;
-    }
+
+
 
 public:
     Solution() {
@@ -277,14 +269,6 @@ class Solution {
     this.root = new TrieNode();
   }
 
-  insert(word) {
-    return 0;
-  }
-
-  findMinLength(word) {
-    return 0;
-  }
-
   findMinimumPrefixLengths(words) {
     return 0;
   }
@@ -311,4 +295,3 @@ rl.on("line", (line) => {
   console.log("[" + result.join(",") + "]");
 });
 ```
-

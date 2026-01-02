@@ -97,7 +97,7 @@ class TrieNode {
 
 class Solution {
     private TrieNode root = new TrieNode();
-    
+
     public boolean insert(String number) {
         return false;
     }
@@ -108,15 +108,15 @@ class Main {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         sc.nextLine();
-        
+
         Solution solution = new Solution();
         List<Boolean> results = new ArrayList<>();
-        
+
         for (int i = 0; i < n; i++) {
             String number = sc.nextLine().trim();
             results.add(solution.insert(number));
         }
-        
+
         System.out.print("[");
         for (int i = 0; i < results.size(); i++) {
             System.out.print(results.get(i));
@@ -143,12 +143,12 @@ def main():
     import sys
     lines = sys.stdin.read().strip().split('\n')
     n = int(lines[0])
-    
+
     solution = Solution()
     results = []
     for i in range(1, n + 1):
         results.append(solution.insert(lines[i].strip()))
-    
+
     print("[" + ",".join(str(r).lower() for r in results) + "]")
 
 if __name__ == "__main__":
@@ -172,10 +172,10 @@ struct TrieNode {
 class Solution {
 private:
     TrieNode* root;
-    
+
 public:
-    Solution() { root = new TrieNode(); }
-        return 0;
+    Solution() {
+        root = new TrieNode();
     }
     bool insert(const string& number) {
         return false;
@@ -186,23 +186,23 @@ int main() {
     int n;
     cin >> n;
     cin.ignore();
-    
+
     Solution solution;
     vector<bool> results;
-    
+
     for (int i = 0; i < n; i++) {
         string number;
         getline(cin, number);
         results.push_back(solution.insert(number));
     }
-    
+
     cout << "[";
     for (int i = 0; i < results.size(); i++) {
         cout << (results[i] ? "true" : "false");
         if (i < results.size() - 1) cout << ",";
     }
     cout << "]" << endl;
-    
+
     return 0;
 }
 ```
@@ -210,7 +210,7 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require('readline');
+const readline = require("readline");
 
 class TrieNode {
   constructor() {
@@ -231,22 +231,21 @@ class Solution {
 
 const rl = readline.createInterface({
   input: process.stdin,
-  output: process.stdout
+  output: process.stdout,
 });
 
 const lines = [];
-rl.on('line', (line) => {
+rl.on("line", (line) => {
   lines.push(line);
-}).on('close', () => {
+}).on("close", () => {
   const n = parseInt(lines[0]);
   const solution = new Solution();
   const results = [];
-  
+
   for (let i = 1; i <= n; i++) {
     results.push(solution.insert(lines[i].trim()));
   }
-  
-  console.log('[' + results.join(',') + ']');
+
+  console.log("[" + results.join(",") + "]");
 });
 ```
-

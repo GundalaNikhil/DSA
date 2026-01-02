@@ -146,8 +146,7 @@ class Solution {
         return 0;
     }
 
-    private void insert(String word) {
-    }
+
 }
 
 class Main {
@@ -188,8 +187,7 @@ class Solution:
         return 0
     def count_trie_nodes(self, words: List[str]) -> int:
         return 0
-    def _insert(self, word: str):
-        return 0
+
 def main():
     import sys
     lines = sys.stdin.read().strip().split('\n')
@@ -225,8 +223,7 @@ private:
     TrieNode* root;
     int nodeCount;
 
-    void insert(const string& word) {
-    }
+
 
 public:
     Solution() {
@@ -275,10 +272,6 @@ class Solution {
     this.nodeCount = 1; // Start with root
   }
 
-  insert(word) {
-    return 0;
-  }
-
   countTrieNodes(words) {
     return 0;
   }
@@ -305,4 +298,3 @@ rl.on("line", (line) => {
   console.log(result);
 });
 ```
-

@@ -140,9 +140,7 @@ class Solution {
         return false;
     }
 
-    private boolean dfs(TrieNode node, String pattern, int index) {
-        return false;
-    }
+
 }
 
 class Main {
@@ -182,8 +180,7 @@ class Solution:
         return 0
     def search(self, pattern: str) -> bool:
         return False
-    def _dfs(self, node: TrieNode, pattern: str, index: int) -> bool:
-        return False
+
 def main():
     import sys
     lines = sys.stdin.read().strip().split('\n')
@@ -220,9 +217,7 @@ class Solution {
 private:
     TrieNode* root;
 
-    bool dfs(TrieNode* node, const string& pattern, int index) {
-        return false;
-    }
+
 
 public:
     Solution() {
@@ -283,10 +278,6 @@ class Solution {
   search(pattern) {
     return 0;
   }
-
-  dfs(node, pattern, index) {
-    return 0;
-  }
 }
 
 const rl = readline.createInterface({
@@ -311,4 +302,3 @@ rl.on("line", (line) => {
   console.log(result ? "true" : "false");
 });
 ```
-

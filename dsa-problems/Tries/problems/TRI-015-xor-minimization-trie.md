@@ -105,12 +105,9 @@ class Solution {
         return 0;
     }
 
-    private void insert(int num) {
-    }
 
-    private int query(int num) {
-        return 0;
-    }
+
+
 }
 
 class Main {
@@ -149,10 +146,8 @@ class Solution:
         return 0
     def minimize_xor(self, a: List[int], X: int) -> int:
         return 0
-    def _insert(self, num: int):
-        return 0
-    def _query(self, num: int) -> int:
-        return 0
+
+
 def main():
     import sys
     input_data = sys.stdin.read().strip().split()
@@ -188,17 +183,12 @@ private:
     TrieNode* root;
     static const int MAX_BITS = 30;
 
-    void insert(int num) {
-    }
 
-    int query(int num) {
-        return 0;
-    }
+
+
 
 public:
     Solution() { root = new TrieNode(); }
-        return 0;
-    }
     int minimizeXOR(vector<int>& a, int X) {
         return 0;
     }
@@ -239,14 +229,6 @@ class Solution {
     this.MAX_BITS = 30;
   }
 
-  insert(num) {
-    return 0;
-  }
-
-  query(num) {
-    return 0;
-  }
-
   minimizeXOR(a, X) {
     return 0;
   }
@@ -270,4 +252,3 @@ rl.on("line", (line) => {
   console.log(result);
 });
 ```
-

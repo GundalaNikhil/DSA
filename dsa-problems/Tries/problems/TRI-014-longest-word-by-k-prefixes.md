@@ -119,12 +119,9 @@ class Solution {
         return "";
     }
 
-    private void insert(String word) {
-    }
 
-    private int countPrefixes(String word) {
-        return 0;
-    }
+
+
 }
 
 class Main {
@@ -162,10 +159,8 @@ class Solution:
         return 0
     def longest_word_with_k_prefixes(self, words: List[str], k: int) -> str:
         return ""
-    def _insert(self, word: str):
-        return 0
-    def _count_prefixes(self, word: str) -> int:
-        return 0
+
+
 def main():
     import sys
     lines = sys.stdin.read().strip().split('\n')
@@ -201,17 +196,12 @@ class Solution {
 private:
     TrieNode* root;
 
-    void insert(const string& word) {
-    }
 
-    int countPrefixes(const string& word) {
-        return 0;
-    }
+
+
 
 public:
     Solution() { root = new TrieNode(); }
-        return 0;
-    }
     string longestWordWithKPrefixes(vector<string>& words, int k) {
         return "";
     }
@@ -253,14 +243,6 @@ class Solution {
     this.root = new TrieNode();
   }
 
-  insert(word) {
-    return 0;
-  }
-
-  countPrefixes(word) {
-    return 0;
-  }
-
   longestWordWithKPrefixes(words, k) {
     return 0;
   }
@@ -287,4 +269,3 @@ rl.on("line", (line) => {
   console.log(result);
 });
 ```
-

@@ -127,15 +127,14 @@ class Solution {
         return 0;
     }
 
-    private void insertSuffix(TrieNode root, String s, int start) {
-    }
+
 }
 
 class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String s = sc.next();
-        
+
         Solution sol = new Solution();
         System.out.println(sol.countDistinctSubstrings(s));
         sc.close();
@@ -198,37 +197,32 @@ int main() {
 
 ```javascript
 class TrieNode {
-    constructor() {
-        this.children = new Map();
-    }
+  constructor() {
+    this.children = new Map();
+  }
 }
 
 class Solution {
-    constructor() {
-        this.nodeCount = 0;
-    }
-
-    countDistinctSubstrings(s) {
-    return 0;
+  constructor() {
+    this.nodeCount = 0;
   }
 
-    insertSuffix(root, s, start) {
+  countDistinctSubstrings(s) {
     return 0;
   }
 }
 
-const readline = require('readline');
+const readline = require("readline");
 const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    terminal: false
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false,
 });
 
-rl.on('line', (line) => {
-    const s = line.trim();
-    const sol = new Solution();
-    console.log(sol.countDistinctSubstrings(s));
-    rl.close();
+rl.on("line", (line) => {
+  const s = line.trim();
+  const sol = new Solution();
+  console.log(sol.countDistinctSubstrings(s));
+  rl.close();
 });
 ```
-

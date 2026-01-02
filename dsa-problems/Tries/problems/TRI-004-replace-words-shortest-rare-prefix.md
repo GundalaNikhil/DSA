@@ -143,30 +143,27 @@ class Solution {
         return "";
     }
 
-    private void insert(String word, int rarity) {
-    }
 
-    private String findReplacement(String word) {
-        return "";
-    }
+
+
 }
 
 class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        
+
         int n = sc.nextInt();
         Map<String, Integer> dictionary = new HashMap<>();
-        
+
         for (int i = 0; i < n; i++) {
             String word = sc.next();
             int rarity = sc.nextInt();
             dictionary.put(word, rarity);
         }
-        
+
         sc.nextLine(); // consume newline
         String sentence = sc.nextLine();
-        
+
         Solution sol = new Solution();
         System.out.println(sol.replaceWords(dictionary, sentence));
         sc.close();
@@ -228,12 +225,9 @@ public:
 private:
     TrieNode* root = nullptr;
 
-    void insert(const string& word, int rarity) {
-    }
 
-    string findReplacement(const string& word) {
-        return "";
-    }
+
+
 };
 
 int main() {
@@ -266,55 +260,46 @@ int main() {
 
 ```javascript
 class TrieNode {
-    constructor() {
-        this.children = new Map();
-        this.word = null;
-        this.rarity = Infinity;
-    }
+  constructor() {
+    this.children = new Map();
+    this.word = null;
+    this.rarity = Infinity;
+  }
 }
 
 class Solution {
-    constructor() {
-        this.root = new TrieNode();
-    }
-
-    replaceWords(dictionary, sentence) {
-    return 0;
+  constructor() {
+    this.root = new TrieNode();
   }
 
-    insert(word, rarity) {
-    return 0;
-  }
-
-    findReplacement(word) {
+  replaceWords(dictionary, sentence) {
     return 0;
   }
 }
 
-const readline = require('readline');
+const readline = require("readline");
 const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout,
-    terminal: false
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false,
 });
 
 const lines = [];
-rl.on('line', (line) => lines.push(line.trim()));
-rl.on('close', () => {
-    const n = parseInt(lines[0]);
-    const dictionary = {};
-    
-    for (let i = 1; i <= n; i++) {
-        const parts = lines[i].split(' ');
-        const word = parts[0];
-        const rarity = parseInt(parts[1]);
-        dictionary[word] = rarity;
-    }
-    
-    const sentence = lines[n + 1];
-    
-    const sol = new Solution();
-    console.log(sol.replaceWords(dictionary, sentence));
+rl.on("line", (line) => lines.push(line.trim()));
+rl.on("close", () => {
+  const n = parseInt(lines[0]);
+  const dictionary = {};
+
+  for (let i = 1; i <= n; i++) {
+    const parts = lines[i].split(" ");
+    const word = parts[0];
+    const rarity = parseInt(parts[1]);
+    dictionary[word] = rarity;
+  }
+
+  const sentence = lines[n + 1];
+
+  const sol = new Solution();
+  console.log(sol.replaceWords(dictionary, sentence));
 });
 ```
-

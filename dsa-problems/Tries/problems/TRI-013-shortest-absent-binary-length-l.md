@@ -105,12 +105,9 @@ class Solution {
         return "";
     }
 
-    private void insert(String s) {
-    }
 
-    private String dfs(TrieNode node, String path, int L) {
-        return "";
-    }
+
+
 }
 
 class Main {
@@ -151,10 +148,8 @@ class Solution:
         return 0
     def find_shortest_absent(self, binary_strings: List[str], L: int) -> str:
         return ""
-    def _insert(self, s: str):
-        return 0
-    def _dfs(self, node: TrieNode, path: str, L: int) -> str:
-        return ""
+
+
 def main():
     import sys
     lines = sys.stdin.read().strip().split('\n')
@@ -191,17 +186,12 @@ class Solution {
 private:
     TrieNode* root;
 
-    void insert(const string& s) {
-    }
 
-    string dfs(TrieNode* node, string path, int L) {
-        return "";
-    }
+
+
 
 public:
     Solution() { root = new TrieNode(); }
-        return 0;
-    }
     string findShortestAbsent(vector<string>& binaryStrings, int L) {
         return "";
     }
@@ -243,14 +233,6 @@ class Solution {
     this.root = new TrieNode();
   }
 
-  insert(s) {
-    return 0;
-  }
-
-  dfs(node, path, L) {
-    return 0;
-  }
-
   findShortestAbsent(binaryStrings, L) {
     return 0;
   }
@@ -277,4 +259,3 @@ rl.on("line", (line) => {
   console.log(result);
 });
 ```
-

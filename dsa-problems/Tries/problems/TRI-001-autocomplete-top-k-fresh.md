@@ -145,18 +145,9 @@ class Solution {
         return null;
     }
 
-    private void collectWords(TrieNode node, String prefix, List<String> result) {
-    }
 
-    static class WordScore {
-        String word;
-        double score;
 
-        WordScore(String w, double s) {
-            word = w;
-            score = s;
-        }
-    }
+
 }
 
 class Main {
@@ -210,8 +201,7 @@ class Solution:
         return 0
     def autocomplete(self, prefix: str, current_time: int, D: int, k: int) -> List[str]:
         return []
-    def _collect_words(self, node: TrieNode, prefix: str, result: List[str]):
-        return 0
+
 def main():
     import sys
     input_data = sys.stdin.read().strip().split()
@@ -261,25 +251,17 @@ struct WordMetadata {
     int lastUsed;
 };
 
-struct WordScore {
-    string word;
-    double score;
 
-    bool operator<(const WordScore& other) const {
-        if (abs(score - other.score) > 1e-9) {
-            return score < other.score; // Max-heap by score
-        }
-        return word > other.word; // Min-heap by lexicographic
-    }
-};
+
+
+
 
 class Solution {
 private:
     TrieNode* root;
     unordered_map<string, WordMetadata> metadata;
 
-    void collectWords(TrieNode* node, string prefix, vector<string>& result) {
-    }
+
 
 public:
     Solution() {
@@ -348,10 +330,6 @@ class Solution {
   autocomplete(prefix, currentTime, D, k) {
     return 0;
   }
-
-  _collectWords(node, prefix, result) {
-    return 0;
-  }
 }
 
 const rl = readline.createInterface({
@@ -383,7 +361,6 @@ rl.on("line", (line) => {
 
   const result = solution.autocomplete(prefix, currentTime, D, k);
   // Output in Python list format with single quotes
-  console.log('[' + result.map(s => "'" + s + "'").join(', ') + ']');
+  console.log("[" + result.map((s) => "'" + s + "'").join(", ") + "]");
 });
 ```
-

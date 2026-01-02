@@ -106,11 +106,9 @@ class Solution {
         return "";
     }
 
-    private void insertWord(String word, int wordId) {
-    }
 
-    private void dfs(TrieNode node, String prefix, int totalWords) {
-    }
+
+
 }
 
 class Main {
@@ -145,10 +143,8 @@ class Solution:
         return 0
     def longest_common_prefix_after_one_deletion(self, words: List[str]) -> str:
         return ""
-    def _insert_word(self, word: str, word_id: int):
-        return 0
-    def _dfs(self, node: TrieNode, prefix: str, total_words: int):
-        return 0
+
+
 def main():
     import sys
     input_data = sys.stdin.read().strip().split()
@@ -185,11 +181,9 @@ private:
     TrieNode* root;
     string longestPrefix;
 
-    void insertWord(const string& word, int wordId) {
-    }
 
-    void dfs(TrieNode* node, string prefix, int totalWords) {
-    }
+
+
 
 public:
     Solution() {
@@ -240,14 +234,6 @@ class Solution {
   longestCommonPrefixAfterOneDeletion(words) {
     return 0;
   }
-
-  _insertWord(word, wordId) {
-    return 0;
-  }
-
-  _dfs(node, prefix, totalWords) {
-    return 0;
-  }
 }
 
 const rl = readline.createInterface({
@@ -270,4 +256,3 @@ rl.on("line", (line) => {
   console.log(result);
 });
 ```
-

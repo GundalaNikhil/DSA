@@ -142,9 +142,7 @@ class Solution {
         return false;
     }
 
-    private boolean dfs(TrieNode node, String query, int index, int edits) {
-        return false;
-    }
+
 }
 
 class Main {
@@ -184,8 +182,7 @@ class Solution:
         return 0
     def has_edit_distance_1(self, query: str) -> bool:
         return False
-    def _dfs(self, node: TrieNode, query: str, index: int, edits: int) -> bool:
-        return False
+
 def main():
     import sys
     lines = sys.stdin.read().strip().split('\n')
@@ -222,9 +219,7 @@ class Solution {
 private:
     TrieNode* root;
 
-    bool dfs(TrieNode* node, const string& query, int index, int edits) {
-        return false;
-    }
+
 
 public:
     Solution() {
@@ -285,10 +280,6 @@ class Solution {
   hasEditDistance1(query) {
     return 0;
   }
-
-  dfs(node, query, index, edits) {
-    return 0;
-  }
 }
 
 const rl = readline.createInterface({
@@ -313,4 +304,3 @@ rl.on("line", (line) => {
   console.log(result ? "true" : "false");
 });
 ```
-
