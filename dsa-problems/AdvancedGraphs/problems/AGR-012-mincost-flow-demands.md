@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # AGR-012: Minimum-Cost Flow With Demands
 
 ## Problem Statement
@@ -87,12 +88,121 @@ Min-Cost Flow, Circulation, Potentials
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public Long minCostFlow(int n, long[] b, int[][] edges) {
+        // Implementation here
+        return null;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt(), m = sc.nextInt();
+        long[] b = new long[n];
+        for (int i = 0; i < n; i++) b[i] = sc.nextLong();
+        int[][] edges = new int[m][5];
+        for (int i = 0; i < m; i++) { for (int j = 0; j < 5; j++) edges[i][j] = sc.nextInt(); }
+        Long ans = new Solution().minCostFlow(n, b, edges);
+        System.out.print(ans == null ? "INFEASIBLE" : "FEASIBLE\n" + ans);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def min_cost_flow(n: int, b: list[int], edges: list[tuple[int, int, int, int, int]]):
+    # Implementation here
+    return None
+
+def main():
+    data = sys.stdin.read().split()
+    if not data: return
+    it = iter(data)
+    n, m = int(next(it)), int(next(it))
+    b = [int(next(it)) for _ in range(n)]
+    edges = [(int(next(it)), int(next(it)), int(next(it)), int(next(it)), int(next(it))) for _ in range(m)]
+    ans = min_cost_flow(n, b, edges)
+    print("INFEASIBLE" if ans is None else f"FEASIBLE\n{ans}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    pair<bool, long long> minCostFlow(int n, const vector<long long>& b, const vector<array<int, 5>>& edges) {
+        // Implementation here
+        return {false, 0};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    vector<long long> b(n);
+    for (int i = 0; i < n; i++) cin >> b[i];
+    vector<array<int, 5>> edges(m);
+    for (int i = 0; i < m; i++) for (int j = 0; j < 5; j++) cin >> edges[i][j];
+    auto [ok, ans] = Solution().minCostFlow(n, b, edges);
+    cout << (ok ? "FEASIBLE\n" + to_string(ans) : "INFEASIBLE");
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  minCostFlow(n, b, edges) {
+    /* Implementation */ return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+let data = [];
+rl.on("line", (line) => {
+  for (const p of line.trim().split(/\s+/)) if (p) data.push(p);
+});
+rl.on("close", () => {
+  let idx = 0;
+  const n = parseInt(data[idx++], 10),
+    m = parseInt(data[idx++], 10);
+  const b = [];
+  for (let i = 0; i < n; i++) b.push(parseInt(data[idx++], 10));
+  const edges = [];
+  for (let i = 0; i < m; i++)
+    edges.push([
+      parseInt(data[idx++], 10),
+      parseInt(data[idx++], 10),
+      parseInt(data[idx++], 10),
+      parseInt(data[idx++], 10),
+      parseInt(data[idx++], 10),
+    ]);
+  const ans = new Solution().minCostFlow(n, b, edges);
+  console.log(ans === null ? "INFEASIBLE" : `FEASIBLE\n${ans}`);
+});
+```

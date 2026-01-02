@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # AGR-009: Maximum Matching with Node Capacities
 
 ## Problem Statement
@@ -88,12 +89,145 @@ Bipartite Matching, Max Flow, Capacity Constraints
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long maxMatching(int nU, int nV, int[] capU, int[] capV, int[][] edges) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int nU = sc.nextInt();
+        int nV = sc.nextInt();
+        int m = sc.nextInt();
+        int[] capU = new int[nU];
+        int[] capV = new int[nV];
+        for (int i = 0; i < nU; i++) capU[i] = sc.nextInt();
+        for (int i = 0; i < nV; i++) capV[i] = sc.nextInt();
+        int[][] edges = new int[m][2];
+        for (int i = 0; i < m; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.maxMatching(nU, nV, capU, capV, edges));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def max_matching(nU: int, nV: int, capU: list[int], capV: list[int], edges: list[tuple[int, int]]) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+
+    iterator = iter(data)
+    try:
+        nU = int(next(iterator))
+        nV = int(next(iterator))
+        m = int(next(iterator))
+        capU = [int(next(iterator)) for _ in range(nU)]
+        capV = [int(next(iterator)) for _ in range(nV)]
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            edges.append((u, v))
+
+        print(max_matching(nU, nV, capU, capV, edges))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    long long maxMatching(int nU, int nV, const vector<int>& capU, const vector<int>& capV, const vector<pair<int,int>>& edges) {
+        // Implementation here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int nU, nV, m;
+    if (!(cin >> nU >> nV >> m)) return 0;
+    vector<int> capU(nU), capV(nV);
+    for (int i = 0; i < nU; i++) cin >> capU[i];
+    for (int i = 0; i < nV; i++) cin >> capV[i];
+    vector<pair<int,int>> edges(m);
+    for (int i = 0; i < m; i++) cin >> edges[i].first >> edges[i].second;
+
+    Solution solution;
+    cout << solution.maxMatching(nU, nV, capU, capV, edges) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  maxMatching(nU, nV, capU, capV, edges) {
+    // Implementation here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+let data = [];
+rl.on("line", (line) => {
+  for (const p of line.trim().split(/\s+/)) if (p) data.push(p);
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const nU = parseInt(data[idx++], 10);
+  const nV = parseInt(data[idx++], 10);
+  const m = parseInt(data[idx++], 10);
+  const capU = [];
+  for (let i = 0; i < nU; i++) capU.push(parseInt(data[idx++], 10));
+  const capV = [];
+  for (let i = 0; i < nV; i++) capV.push(parseInt(data[idx++], 10));
+  const edges = [];
+  for (let i = 0; i < m; i++)
+    edges.push([parseInt(data[idx++], 10), parseInt(data[idx++], 10)]);
+  const solution = new Solution();
+  console.log(solution.maxMatching(nU, nV, capU, capV, edges).toString());
+});
+```

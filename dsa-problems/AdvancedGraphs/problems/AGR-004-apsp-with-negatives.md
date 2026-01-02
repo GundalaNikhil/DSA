@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # AGR-004: All-Pairs Shortest Path With Negative Edges
 
 ## Problem Statement
@@ -85,12 +86,241 @@ APSP, Johnson, Dijkstra
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long[][] allPairsShortestPaths(int n, int[][] edges) {
+        // Implementation here
+        return new long[n][n];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[][] edges = new int[m][3];
+        for (int i = 0; i < m; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+            edges[i][2] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        long[][] dist = solution.allPairsShortestPaths(n, edges);
+        long INF = 1_000_000_000_000_000_000L;
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (j > 0) sb.append(' ');
+                if (dist[i][j] >= INF / 2) sb.append("INF");
+                else sb.append(dist[i][j]);
+            }
+            if (i + 1 < n) sb.append('\n');
+        }
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import heapq
+
+def all_pairs_shortest_paths(n: int, edges: list[tuple[int, int, int]]) -> list[list[int]]:
+    # Implementation here
+    return [[0] * n for _ in range(n)]
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            w = int(next(iterator))
+            edges.append((u, v, w))
+
+        dist = all_pairs_shortest_paths(n, edges)
+        INF = 10**18
+        out = []
+        for i in range(n):
+            row = []
+            for x in dist[i]:
+                if x >= INF // 2:
+                    row.append("INF")
+                else:
+                    row.append(str(x))
+            out.append(" ".join(row))
+        print("\n".join(out))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <array>
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+const long long INF = 1e18;
+
+class Solution {
+public:
+    vector<vector<long long>> allPairsShortestPaths(int n, const vector<array<int, 3>>& edges) {
+        // Implementation here
+        return vector<vector<long long>>(n, vector<long long>(n, 0));
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    vector<array<int, 3>> edges(m);
+    for (int i = 0; i < m; i++) {
+        cin >> edges[i][0] >> edges[i][1] >> edges[i][2];
+    }
+
+    Solution solution;
+    vector<vector<long long>> dist = solution.allPairsShortestPaths(n, edges);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (j) cout << ' ';
+            if (dist[i][j] >= INF / 2) cout << "INF";
+            else cout << dist[i][j];
+        }
+        if (i + 1 < n) cout << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class PriorityQueue {
+  constructor(comparator = (a, b) => a - b) {
+    this.heap = [];
+    this.comparator = comparator;
+  }
+  push(val) {
+    this.heap.push(val);
+    this.bubbleUp(this.heap.length - 1);
+  }
+  pop() {
+    if (this.heap.length === 0) return null;
+    const top = this.heap[0];
+    const bottom = this.heap.pop();
+    if (this.heap.length > 0) {
+      this.heap[0] = bottom;
+      this.bubbleDown(0);
+    }
+    return top;
+  }
+  isEmpty() {
+    return this.heap.length === 0;
+  }
+  bubbleUp(idx) {
+    while (idx > 0) {
+      const pIdx = Math.floor((idx - 1) / 2);
+      if (this.comparator(this.heap[idx], this.heap[pIdx]) < 0) {
+        [this.heap[idx], this.heap[pIdx]] = [this.heap[pIdx], this.heap[idx]];
+        idx = pIdx;
+      } else break;
+    }
+  }
+  bubbleDown(idx) {
+    while (true) {
+      const lIdx = 2 * idx + 1;
+      const rIdx = 2 * idx + 2;
+      let swapIdx = null;
+      if (
+        lIdx < this.heap.length &&
+        this.comparator(this.heap[lIdx], this.heap[idx]) < 0
+      )
+        swapIdx = lIdx;
+      if (
+        rIdx < this.heap.length &&
+        this.comparator(
+          this.heap[rIdx],
+          swapIdx === null ? this.heap[idx] : this.heap[swapIdx]
+        ) < 0
+      )
+        swapIdx = rIdx;
+      if (swapIdx !== null) {
+        [this.heap[idx], this.heap[swapIdx]] = [
+          this.heap[swapIdx],
+          this.heap[idx],
+        ];
+        idx = swapIdx;
+      } else break;
+    }
+  }
+}
+
+class Solution {
+  allPairsShortestPaths(n, edges) {
+    // Implementation here
+    return Array.from({ length: n }, () => new Array(n).fill(0));
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const p of parts) if (p) data.push(p);
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const m = parseInt(data[idx++], 10);
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(data[idx++], 10);
+    const v = parseInt(data[idx++], 10);
+    const w = parseInt(data[idx++], 10);
+    edges.push([u, v, w]);
+  }
+
+  const solution = new Solution();
+  const dist = solution.allPairsShortestPaths(n, edges);
+  const INF = 1e15;
+  const out = dist.map((row) =>
+    row.map((x) => (x >= INF / 2 ? "INF" : x)).join(" ")
+  );
+  console.log(out.join("\n"));
+});
+```
