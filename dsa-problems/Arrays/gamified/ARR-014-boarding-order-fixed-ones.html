@@ -3,322 +3,344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARR-014: Priority Boarding</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Oswald&display=swap" rel="stylesheet">
+    <title>ARR-014: Sort by Ones</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #f3f4f6;
-            --primary: #1e3a8a; /* Blue */
-            --accent: #f59e0b; /* Gold for VIP */
-            --eco: #10b981; /* Green */
-            --bus: #3b82f6; /* Business Blue */
-            --text: #1f2937;
-            --locked: #d1d5db;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Montserrat', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            user-select: none;
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            min-height: 100vh;
+            padding: 20px;
         }
 
-        header {
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .header h1 { font-size: 36px; }
+
+        .tutorial {
             background: #fff;
-            padding: 1rem 2rem;
-            display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
         }
+        .tutorial h2 { color: #1e40af; margin-bottom: 15px; }
 
-        h1 { margin:0; font-family:'Oswald'; letter-spacing:1px; color: var(--primary); text-transform: uppercase; }
-
-        .gate-display {
-            background: var(--primary); color: #fff;
-            padding: 5px 15px; border-radius: 4px; font-weight: bold;
-        }
-
-        main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            position: relative;
-            background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
-            background-size: 20px 20px;
-        }
-
-        /* Queue / Seats */
-        .queue-container {
-            display: flex; gap: 10px; flex-wrap: wrap; justify-content: center;
-            max-width: 900px;
-            padding: 40px;
-            background: rgba(255,255,255,0.8);
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-        }
-
-        .pax {
-            width: 70px; height: 100px;
+        .goal-box {
+            background: #eff6ff;
+            border: 2px solid #93c5fd;
             border-radius: 12px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            position: relative;
-            font-weight: bold; color: #fff;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: all 0.3s;
+            padding: 15px;
+            line-height: 1.6;
+        }
+
+        .example {
+            margin-top: 10px;
+            padding: 10px;
+            background: #1e40af;
+            color: #93c5fd;
+            border-radius: 8px;
+            font-family: monospace;
+        }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .numbers-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 20px;
+            background: #eff6ff;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .num-card {
+            width: 100px;
+            padding: 12px;
+            border-radius: 12px;
+            background: #fff;
+            border: 3px solid #e5e7eb;
+            text-align: center;
+            cursor: grab;
+            transition: all 0.2s;
+        }
+        .num-card:hover { border-color: #3b82f6; }
+        .num-card.dragging { opacity: 0.5; }
+
+        .num-val { font-size: 22px; font-weight: 700; color: #1e40af; }
+        .num-binary { font-size: 11px; color: #666; font-family: monospace; }
+        .num-ones { 
+            font-size: 12px; 
+            background: #3b82f6; 
+            color: #fff; 
+            padding: 2px 8px; 
+            border-radius: 10px;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        .drop-zone {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            padding: 20px;
+            background: #f0fdf4;
+            border: 3px dashed #86efac;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            min-height: 120px;
+        }
+        .drop-zone.over { background: #dcfce7; border-color: #22c55e; }
+
+        .drop-label {
+            width: 100%;
+            text-align: center;
+            color: #16a34a;
+            font-weight: 600;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
         }
-        
-        .pax.drag-target { border: 2px dashed #000; opacity: 0.5; }
+        .btn-check { background: #22c55e; color: #fff; }
+        .btn-reset { background: #64748b; color: #fff; }
+        .btn:hover { transform: scale(1.05); }
 
-        .type-0 { background: var(--eco); } /* Eco */
-        .type-0::after { content:'ECO'; font-size:0.7rem; margin-top:5px; }
-        
-        .type-1 { background: var(--accent); cursor: not-allowed; } /* VIP - Locked */
-        .type-1::before { content:'🔒'; font-size:1.2rem; margin-bottom:5px; }
-        .type-1::after { content:'VIP'; font-size:0.7rem; margin-top:5px; color:#78350f; }
-        
-        .type-2 { background: var(--bus); } /* Business */
-        .type-2::after { content:'BIZ'; font-size:0.7rem; margin-top:5px; }
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .message.correct { background: #dcfce7; color: #16a34a; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #eff6ff; color: #1e40af; }
 
-        .idx-badge {
-            position: absolute; top: -10px; background: #fff; color: #000;
-            width: 20px; height: 20px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.8rem; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        .new-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #1e40af;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
         }
-
-        /* Sorting Info */
-        .info-panel {
-            margin-top: 3rem;
-            display: flex; gap: 20px;
-        }
-        
-        .zone {
-            padding: 15px 30px; border-radius: 8px; font-family: 'Oswald';
-            text-align: center; opacity: 0.8;
-        }
-        .zone.eco { background: var(--eco); color: #fff; }
-        .zone.vip { background: var(--accent); color: #fff; }
-        .zone.biz { background: var(--bus); color: #fff; }
-
-        /* Controls */
-        button {
-            background: var(--primary); color: #fff; border: none;
-            padding: 12px 30px; border-radius: 30px;
-            font-family: 'Oswald'; font-size: 1.2rem;
-            cursor: pointer; margin-top: 30px;
-            box-shadow: 0 4px 10px rgba(30, 58, 138, 0.3);
-        }
-        button:hover { transform: translateY(-2px); }
-
-        /* Modal */
-        .modal {
-            position: fixed; inset: 0; background: rgba(31, 41, 55, 0.95);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 100;
-        }
-        .modal.hidden { display: none; }
-        
-        .dialog {
-            background: #fff; padding: 40px; border-radius: 16px;
-            max-width: 500px; text-align: center; color: var(--text);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-
-    
-        .alert-modal-wrap {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-            display: none; justify-content: center; align-items: center;
-            z-index: 100;
-        }
-        .alert-modal {
-            background: white; padding: 2rem; border-radius: 8px;
-            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-        .alert-modal button {
-            background: #4b5563; color: white; padding: 0.8rem 2rem;
-            border: none; border-radius: 6px; cursor: pointer;
-        }
-        .alert-modal button:hover { opacity: 0.9; }
-</style>
+    </style>
 </head>
 <body>
 
-<header>
-    <h1>PRIORITY BOARDING</h1>
-    <div class="gate-display">GATE A-14</div>
-</header>
-
-<main>
-    <div class="queue-container" id="queue">
-        <!-- PAX -->
+<div class="container">
+    <div class="header">
+        <h1>🔢 Sort by Ones</h1>
+        <div style="opacity:0.9">Sort numbers by their count of 1-bits!</div>
     </div>
 
-    <div class="info-panel">
-        <div class="zone eco">ECO (Front via Left)</div>
-        <div class="zone vip">VIP (Fixed)</div>
-        <div class="zone biz">BIZ (Rear via Right)</div>
-    </div>
-
-    <button onclick="game.checkSort()">VALIDATE ORDER</button>
-</main>
-
-<div id="modal" class="modal">
-    <div class="dialog">
-        <h2 style="font-family:'Oswald'; font-size:2rem; margin-bottom:10px; color:var(--primary)">PASSENGER MANIFEST</h2>
-        <div style="text-align:left; font-size:1.1rem; margin:1.5rem 0; line-height:1.6; color:#4b5563;">
-            1. <b>Task</b>: Sort the passengers based on class.<br>
-            2. <b>Order</b>: <span style="color:var(--eco)">ECO (0)</span> -> <span style="color:var(--accent)">VIP (1)</span> -> <span style="color:var(--bus)">BIZ (2)</span>.<br>
-            3. <b>Critical Rule</b>: <span style="color:var(--accent)">VIPs (1)</span> are <b>LOCKED</b> in their seats. You cannot move them.<br>
-            4. <b>Action</b>: Drag and Drop ECO/BIZ passengers to valid empty slots (swapping them).<br>
-            5. <b>Hint</b>: Move 0s to available slots on Left, 2s to available slots on Right.
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="goal-box">
+            <strong>🎯 Goal:</strong> Drag numbers into the sorted area.
+            <br>Sort by the count of 1-bits. If equal, smaller number first.
+            <div class="example">
+                7 = 111 (3 ones) | 5 = 101 (2 ones) | 4 = 100 (1 one)
+                <br>Sorted: 4, 5, 7
+            </div>
         </div>
-        <button onclick="game.start()">OPEN GATE</button>
+    </div>
+
+    <div class="game-card">
+        <div class="numbers-row" id="numbersRow"></div>
+
+        <div class="drop-zone" id="dropZone">
+            <div class="drop-label">↓ Drag numbers here in sorted order ↓</div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-check" onclick="checkOrder()">✓ Check Order</button>
+            <button class="btn btn-reset" onclick="resetGame()">↺ Reset</button>
+        </div>
+
+        <div class="message neutral" id="message">Drag cards from top to bottom in order of 1-bit count!</div>
+
+        <button class="new-btn" onclick="newGame()">🔄 New Numbers</button>
     </div>
 </div>
 
 <script>
-    class Game {
-        constructor() {
-            this.arr = [];
-            this.n = 10;
-            this.dragSrc = null;
-            
-            this.ui = {
-                queue: document.getElementById('queue'),
-                modal: document.getElementById('modal')
-            };
-        }
+    let numbers = [];
+    let sorted = [];
+    let draggedIdx = -1;
 
-        start() {
-            this.ui.modal.classList.add('hidden');
-            this.loadLevel();
+    function countOnes(n) {
+        let count = 0;
+        while (n > 0) {
+            count += n & 1;
+            n >>= 1;
         }
+        return count;
+    }
 
-        loadLevel() {
-            this.n = 8 + Math.floor(Math.random()*4);
-            this.arr = [];
-            // generate 0, 1, 2
-            for(let i=0; i<this.n; i++) {
-                this.arr.push(Math.floor(Math.random()*3));
+    function generateNumbers() {
+        const n = 5 + Math.floor(Math.random() * 2); // 5-6 numbers
+        const used = new Set();
+        numbers = [];
+
+        while (numbers.length < n) {
+            const val = Math.floor(Math.random() * 30) + 1;
+            if (!used.has(val)) {
+                used.add(val);
+                numbers.push(val);
             }
-            
-            // Ensure at least one of each and multiple 1s to make constraint meaningful
-            if(!this.arr.includes(1)) this.arr[Math.floor(this.n/2)] = 1;
-            
-            this.render();
         }
 
-        render() {
-            this.ui.queue.innerHTML = '';
-            this.arr.forEach((val, i) => {
-                const el = document.createElement('div');
-                el.className = `pax type-${val}`;
-                el.draggable = (val !== 1); // VIP locked
-                
-                el.innerHTML = `<span></span><div class="idx-badge">${i}</div>`;
-                
-                if (val !== 1) {
-                    el.ondragstart = (e) => this.handleDragStart(e, i);
-                    el.ondragover = (e) => e.preventDefault();
-                    el.ondrop = (e) => this.handleDrop(e, i);
-                } else {
-                    el.ondragover = (e) => e.preventDefault(); // Can drop ONTO a VIP?
-                    // Problem says 1s fixed. Usually means you can't move them.
-                    // But can you swap a 0 into a 1's position?
-                    // "All 1s are fixed in their current positions".
-                    // That means arr[i] must remain 1 if it started as 1.
-                    // So we cannot swap ANYTHING into a slot that currently holds a 1.
-                    // AND we cannot move a 1 to somewhere else.
-                    // Check if Problem allows "swapping 1 with 1"? Pointless.
-                    // So Drop target cannot be a 1.
-                }
-                
-                this.ui.queue.appendChild(el);
-            });
-        }
+        sorted = [];
+    }
 
-        handleDragStart(e, i) {
-            this.dragSrc = i;
-            e.dataTransfer.effectAllowed = 'move';
-            e.target.style.opacity = '0.4';
-        }
+    function createCard(val, inDropZone = false) {
+        const ones = countOnes(val);
+        const binary = val.toString(2).padStart(5, '0');
 
-        handleDrop(e, i) {
+        const card = document.createElement('div');
+        card.className = 'num-card';
+        card.draggable = true;
+        card.dataset.val = val;
+        card.innerHTML = `
+            <div class="num-val">${val}</div>
+            <div class="num-binary">${binary}</div>
+            <div class="num-ones">${ones} ones</div>
+        `;
+
+        card.ondragstart = (e) => {
+            e.dataTransfer.setData('text/plain', val);
+            card.classList.add('dragging');
+        };
+
+        card.ondragend = () => {
+            card.classList.remove('dragging');
+        };
+
+        return card;
+    }
+
+    function render() {
+        const row = document.getElementById('numbersRow');
+        const zone = document.getElementById('dropZone');
+
+        row.innerHTML = '';
+        zone.innerHTML = '<div class="drop-label">↓ Drag numbers here in sorted order ↓</div>';
+
+        // Numbers not yet sorted
+        numbers.forEach(val => {
+            if (!sorted.includes(val)) {
+                row.appendChild(createCard(val));
+            }
+        });
+
+        // Sorted area
+        sorted.forEach(val => {
+            zone.appendChild(createCard(val, true));
+        });
+    }
+
+    function setupDropZone() {
+        const zone = document.getElementById('dropZone');
+
+        zone.ondragover = (e) => {
             e.preventDefault();
-            const srcIdx = this.dragSrc;
-            const destIdx = i;
-            
-            // Validation
-            if (this.arr[srcIdx] === 1 || this.arr[destIdx] === 1) {
-                // Should not happen due to draggable=false and check logic
-                // But just in case
-                this.showGameAlert("CANNOT MOVE OR DISPLACE VIP!");
-                this.render();
-                return;
+            zone.classList.add('over');
+        };
+
+        zone.ondragleave = () => {
+            zone.classList.remove('over');
+        };
+
+        zone.ondrop = (e) => {
+            e.preventDefault();
+            zone.classList.remove('over');
+
+            const val = parseInt(e.dataTransfer.getData('text/plain'));
+            if (!sorted.includes(val)) {
+                sorted.push(val);
+                render();
             }
-            
-            // Swap
-            [this.arr[srcIdx], this.arr[destIdx]] = [this.arr[destIdx], this.arr[srcIdx]];
-            this.render();
+        };
+    }
+
+    function checkOrder() {
+        const msg = document.getElementById('message');
+
+        if (sorted.length !== numbers.length) {
+            msg.className = 'message wrong';
+            msg.textContent = 'Drag all numbers into the sorted area first!';
+            return;
         }
 
-        checkSort() {
-            // Check if sorted, IGNORING the fixed 1s relative order?
-            // "Sort the array so 0s come first, then 1s, then 2s".
-            // But 1s are fixed.
-            // This means effectively:
-            // All slots NOT containing 1s form a sub-sequence.
-            // That sub-sequence should be sorted (0s then 2s).
-            // Example input: 2 1 0 2 0 1
-            // 1s at index 1 and 5.
-            // Remaining slots: 0, 2, 3, 4.
-            // Values in those: 2, 0, 2, 0. Needs sort -> 0, 0, 2, 2.
-            // Result: 0 1 0 1 2 2.
-            
-            // implementation check
-            const nonOnes = [];
-            const indices = []; // indices that are NOT 1
-            
-            for(let i=0; i<this.n; i++) {
-                if(this.arr[i] !== 1) {
-                    nonOnes.push(this.arr[i]);
-                    indices.push(i);
-                }
-            }
-            
-            // Check if nonOnes is sorted (0s then 2s)
-            let isSorted = true;
-            for(let k=0; k<nonOnes.length-1; k++) {
-                if(nonOnes[k] > nonOnes[k+1]) {
-                    isSorted = false; break;
-                }
-            }
-            
-            if (isSorted) {
-                this.showGameAlert("BOARDING COMPLETE. PERFECT ORDER.");
-                this.loadLevel();
-            } else {
-                this.showGameAlert("ORDER INCORRECT. SORT 0s BEFORE 2s.");
-                // highlight error?
-                const queue = this.ui.queue.children;
-                for(let idx of indices) {
-                    queue[idx].style.border = "2px solid red";
-                }
-                setTimeout(() => this.render(), 1000);
-            }
+        // Correct order: sort by ones count, then by value
+        const correct = [...numbers].sort((a, b) => {
+            const onesA = countOnes(a);
+            const onesB = countOnes(b);
+            if (onesA !== onesB) return onesA - onesB;
+            return a - b;
+        });
+
+        const isCorrect = sorted.every((val, i) => val === correct[i]);
+
+        if (isCorrect) {
+            msg.className = 'message correct';
+            msg.textContent = '✅ Perfect! Numbers are correctly sorted by 1-bit count!';
+        } else {
+            const correctStr = correct.map(v => `${v}(${countOnes(v)})`).join(', ');
+            msg.className = 'message wrong';
+            msg.textContent = `❌ Wrong order! Correct: ${correctStr}`;
         }
     }
 
-    const game = new Game();
+    function resetGame() {
+        sorted = [];
+        render();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Drag cards from top to bottom in order of 1-bit count!';
+    }
+
+    function newGame() {
+        generateNumbers();
+        render();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Drag cards from top to bottom in order of 1-bit count!';
+    }
+
+    window.onload = () => {
+        newGame();
+        setupDropZone();
+    };
 </script>
 </body>
 </html>

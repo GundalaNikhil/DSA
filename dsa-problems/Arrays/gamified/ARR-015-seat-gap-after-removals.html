@@ -3,347 +3,368 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARR-015: Cinema Distancing</title>
-    <link href="https://fonts.googleapis.com/css2?family=Limelight&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <title>ARR-015: Max Gap</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #2c0000;
-            --curtain: #800000;
-            --gold: #d4af37;
-            --seat-avail: #e74c3c;
-            --seat-taken: #555;
-            --seat-removed: #2c0000; /* Fade into bg */
-            --floor: #111;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Lato', sans-serif;
-            background: var(--bg);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #dc2626 0%, #f97316 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 850px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
             color: #fff;
-            margin: 0;
-            height: 100vh;
+        }
+        .header h1 { font-size: 36px; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #dc2626; margin-bottom: 15px; }
+
+        .goal-box {
+            background: #fef2f2;
+            border: 2px solid #fca5a5;
+            border-radius: 12px;
+            padding: 15px;
+            line-height: 1.6;
+        }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .number-line {
+            position: relative;
+            height: 120px;
+            background: #fef2f2;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            padding: 20px;
+        }
+
+        .axis {
+            position: absolute;
+            bottom: 40px;
+            left: 30px;
+            right: 30px;
+            height: 4px;
+            background: #dc2626;
+            border-radius: 2px;
+        }
+
+        .point {
+            position: absolute;
+            bottom: 35px;
+            width: 30px;
+            height: 30px;
+            background: #dc2626;
+            border-radius: 50%;
+            transform: translateX(-50%);
             display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            user-select: none;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
         }
-
-        header {
-            background: linear-gradient(to bottom, #400, #200);
-            border-bottom: 4px solid var(--gold);
-            padding: 1rem 2rem;
-            display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-        }
-
-        h1 { margin:0; font-family:'Limelight'; letter-spacing:2px; color: var(--gold); text-shadow: 2px 2px 0 #000; }
+        .point:hover { transform: translateX(-50%) scale(1.2); }
+        .point.selected { background: #22c55e; box-shadow: 0 0 10px #22c55e; }
 
         .gap-display {
-            font-family: 'Limelight'; font-size: 1.5rem; color: #fff;
-            border: 2px solid var(--gold); padding: 5px 15px; border-radius: 8px;
-        }
-
-        main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 2rem;
-            position: relative;
-            background: radial-gradient(circle at center bottom, #300 0%, #000 100%);
-        }
-
-        /* Screen */
-        .screen {
-            width: 80%; height: 20px;
-            background: #fff;
-            border-radius: 50% 50% 0 0 / 100% 100% 0 0;
-            box-shadow: 0 0 50px rgba(255,255,255,0.5);
-            margin-bottom: 50px; opacity: 0.8;
-            transform: perspective(500px) rotateX(-5deg);
-        }
-
-        /* Seating Row */
-        .row-container {
-            display: flex; gap: 2px;
-            width: 100%; max-width: 1000px;
-            height: 100px;
-            align-items: flex-end;
-            padding: 0 20px;
-            position: relative;
-            background: var(--floor);
-            border-top: 2px solid #333;
-        }
-
-        .seat-slot {
-            flex: 1; height: 60px;
-            position: relative;
-            display: flex; align-items: flex-end; justify-content: center;
-        }
-        
-        .seat {
-            width: 80%; height: 100%;
-            background: var(--seat-avail);
-            border-radius: 8px 8px 0 0;
-            box-shadow: 0 -2px 5px rgba(0,0,0,0.5);
-            transition: all 0.5s;
-            position: relative;
-        }
-        .seat::after {
-            content:''; position: absolute; top: 10px; left: 10%; width: 80%; height: 5px;
-            background: rgba(0,0,0,0.2); border-radius: 2px;
-        }
-        
-        .seat.marker-removed {
-            transform: translateY(20px) scale(0.8);
-            opacity: 0.2;
-            background: #000;
-        }
-
-        .seat-num {
-            position: absolute; bottom: -25px; font-size: 0.7rem; color: #666;
-        }
-
-        /* Gap Tape Measure */
-        .tape-measure {
             position: absolute;
-            height: 10px; background: var(--gold);
-            top: -30px;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: bold; color: #000; font-size: 0.9rem;
-            border-radius: 4px; border: 1px dashed #000;
-            transition: all 0.5s; opacity: 0;
-            box-shadow: 0 5px 10px rgba(0,0,0,0.5);
+            top: 10px;
+            background: #fef3c7;
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #92400e;
+            transform: translateX(-50%);
         }
-        .tape-measure::before, .tape-measure::after {
-            content:''; position: absolute; width: 2px; height: 20px; background: var(--gold); top: -5px;
-        }
-        .tape-measure::before { left: 0; }
-        .tape-measure::after { right: 0; }
-        .tape-measure.visible { opacity: 1; }
 
-        /* Controls */
-        .control-panel {
-            margin-top: 5rem;
+        .pair-selection {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: #fef2f2;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .selected-point {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 700;
+            color: #374151;
+        }
+        .selected-point.filled { background: #dc2626; color: #fff; }
+
+        .arrow { font-size: 28px; color: #dc2626; }
+
+        .gap-result {
+            padding: 15px 25px;
+            background: #dc2626;
+            color: #fff;
+            border-radius: 12px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-check { background: #22c55e; color: #fff; }
+        .btn-clear { background: #64748b; color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+
+        .message {
             text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
         }
-        
-        .task-info { font-style: italic; color: #ccc; margin-bottom: 20px; }
+        .message.correct { background: #dcfce7; color: #16a34a; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #fef2f2; color: #dc2626; }
 
-        button {
-            background: var(--gold); color: #2c0000; border: none;
-            padding: 10px 30px; font-family: 'Limelight'; font-size: 1.2rem;
-            cursor: pointer; transition: 0.2s;
-            border-radius: 4px; box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            min-width: 200px;
+        .new-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #dc2626;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
         }
-        button:hover { background: #fff; transform: scale(1.05); }
-        button:disabled { background: #555; color: #888; cursor: not-allowed; transform: none; box-shadow: none; }
-
-        /* Modal */
-        .modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 100;
-        }
-        .modal.hidden { display: none; }
-        
-        .dialog {
-            background: #200; padding: 40px; border: 4px double var(--gold);
-            max-width: 500px; text-align: center;
-            box-shadow: 0 0 50px rgba(212, 175, 55, 0.3);
-        }
-
     </style>
 </head>
 <body>
 
-<header>
-    <h1>CINEMA DISTANCING</h1>
-    <div class="gap-display">GAP: <span id="gap-val">?</span></div>
-</header>
-
-<main>
-    <div class="screen"></div>
-
-    <div class="row-container" id="row">
-        <!-- Seats generated here -->
-        <div class="tape-measure" id="tape"></div>
+<div class="container">
+    <div class="header">
+        <h1>📏 Max Gap</h1>
+        <div style="opacity:0.9">Find the maximum gap between consecutive elements!</div>
     </div>
 
-    <div class="control-panel">
-        <div class="task-info">
-            <span id="remove-msg">REMOVING SEATS...</span>
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="goal-box">
+            <strong>🎯 Goal:</strong> When sorted, find the LARGEST gap between adjacent numbers.
+            <br>Click on TWO adjacent (when sorted) numbers that have the maximum gap.
         </div>
-        <button id="btn-submit" onclick="game.verify()">MEASURE MAX GAP</button>
     </div>
-</main>
 
-<div id="modal" class="modal">
-    <div class="dialog">
-        <h2 style="font-family:'Limelight'; margin-bottom:10px; color:var(--gold)">SEAT REMOVAL</h2>
-        <div style="text-align:left; font-size:1.1rem; margin:1.5rem 0; line-height:1.6; color:#ddd;">
-            1. <b>Scenario</b>: A sorted row of seats.<br>
-            2. <b>Event</b>: Specific seats are marked for **REMOVAL**.<br>
-            3. <b>Goal</b>: Calculate the **MAX GAP** between remaining consecutive seats.<br>
-            4. <b>Action</b>: Observe the removal, then predict/confirm the gap.
+    <div class="game-card">
+        <div class="number-line" id="numberLine">
+            <div class="axis"></div>
         </div>
-        <button onclick="game.start()">START SHOW</button>
+
+        <div class="pair-selection">
+            <div class="selected-point" id="sel1">?</div>
+            <div class="arrow">→</div>
+            <div class="selected-point" id="sel2">?</div>
+            <div class="arrow">=</div>
+            <div class="gap-result" id="gapResult">Gap: ?</div>
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-check" onclick="checkAnswer()">✓ Check</button>
+            <button class="btn btn-clear" onclick="clearSelection()">↺ Clear</button>
+        </div>
+
+        <div class="message neutral" id="message">Click two points that form the maximum gap when sorted!</div>
+
+        <button class="new-btn" onclick="newGame()">🔄 New Numbers</button>
     </div>
 </div>
 
 <script>
-    class Game {
-        constructor() {
-            this.seats = [];
-            this.toRemove = new Set();
-            this.maxGap = 0;
-            this.showingGap = false;
-            
-            this.ui = {
-                row: document.getElementById('row'),
-                tape: document.getElementById('tape'),
-                btn: document.getElementById('btn-submit'),
-                msg: document.getElementById('remove-msg'),
-                gapDisp: document.getElementById('gap-val'),
-                modal: document.getElementById('modal')
-            };
+    let numbers = [];
+    let selected = [];
+    let maxGap = 0;
+    let maxGapPair = [];
+
+    function generateNumbers() {
+        const n = 6 + Math.floor(Math.random() * 3); // 6-8 numbers
+        const used = new Set();
+        numbers = [];
+
+        while (numbers.length < n) {
+            const val = Math.floor(Math.random() * 50) + 1;
+            if (!used.has(val)) {
+                used.add(val);
+                numbers.push(val);
+            }
         }
 
-        start() {
-            this.ui.modal.classList.add('hidden');
-            this.loadLevel();
+        // Calculate max gap
+        const sorted = [...numbers].sort((a, b) => a - b);
+        maxGap = 0;
+        maxGapPair = [];
+
+        for (let i = 1; i < sorted.length; i++) {
+            const gap = sorted[i] - sorted[i-1];
+            if (gap > maxGap) {
+                maxGap = gap;
+                maxGapPair = [sorted[i-1], sorted[i]];
+            }
         }
 
-        loadLevel() {
-            this.ui.tape.classList.remove('visible');
-            this.ui.gapDisp.innerText = "?";
-            this.ui.msg.innerText = "SEATS MARKED FOR REMOVAL";
-            this.ui.btn.disabled = false;
-            this.ui.btn.innerText = "MEASURE MAX GAP";
-            this.showingGap = false;
+        selected = [];
+    }
 
-            // Gen seat positions
-            // To simulate "sorted seats", we can just use Indices?
-            // "You are given sorted seat positions". E.g. [2, 5, 9, 10].
-            // Let's visualize a continuous row of say 20 slots.
-            // And "Occuppied" seats are at specific indices?
-            // No, problem says "sorted seat positions".
-            // e.g. Seat at pos 2, Seat at pos 5.
-            // Let's visualize a linear scale 0..30?
-            // And place CHAIRS at those positions.
-            
-            const maxPos = 30; // Scale
-            const n = 6 + Math.floor(Math.random()*4); // 6-10 seats
-            const positions = new Set();
-            while(positions.size < n) {
-                positions.add(Math.floor(Math.random() * (maxPos-2)) + 1);
-            }
-            this.seats = Array.from(positions).sort((a,b)=>a-b);
-            
-            // Pick removals
-            const r = 1 + Math.floor(Math.random() * (n-3)); // At least 2 remain
-            this.toRemove = new Set();
-            // We need to pick INDICES of the 'seats' array to remove?
-            // Problem: "Fourth line: r space-separated indices to remove"
-            // "indices refer to the original array".
-            // So if seats = [2, 5, 9], removal "1" means remove seat at index 1 (value 5).
-            
-            while(this.toRemove.size < r) {
-                this.toRemove.add(Math.floor(Math.random() * n));
-            }
-            
-            this.calcMaxGap();
-            this.render();
+    function render() {
+        const line = document.getElementById('numberLine');
+        line.innerHTML = '<div class="axis"></div>';
+
+        const minVal = Math.min(...numbers);
+        const maxVal = Math.max(...numbers);
+        const range = maxVal - minVal;
+
+        numbers.forEach(val => {
+            const pct = ((val - minVal) / range) * 80 + 10; // 10% to 90%
+
+            const point = document.createElement('div');
+            point.className = 'point' + (selected.includes(val) ? ' selected' : '');
+            point.style.left = pct + '%';
+            point.textContent = val;
+            point.onclick = () => selectPoint(val);
+            line.appendChild(point);
+        });
+
+        // Show gap if 2 selected
+        if (selected.length === 2) {
+            const sorted = [...selected].sort((a, b) => a - b);
+            const gap = sorted[1] - sorted[0];
+            const midPct = ((sorted[0] + sorted[1]) / 2 - minVal) / range * 80 + 10;
+
+            const gapDisp = document.createElement('div');
+            gapDisp.className = 'gap-display';
+            gapDisp.style.left = midPct + '%';
+            gapDisp.textContent = `Gap: ${gap}`;
+            line.appendChild(gapDisp);
         }
 
-        calcMaxGap() {
-            const remaining = [];
-            for(let i=0; i<this.seats.length; i++) {
-                if(!this.toRemove.has(i)) remaining.push(this.seats[i]);
-            }
-            
-            // Gap = difference between consecutive elements
-            let maxG = 0;
-            this.optPair = null; // {start, end}
-            
-            for(let i=0; i<remaining.length-1; i++) {
-                const g = remaining[i+1] - remaining[i];
-                if(g > maxG) {
-                    maxG = g;
-                    this.optPair = { start: remaining[i], end: remaining[i+1] };
-                }
-            }
-            this.maxGap = maxG;
+        // Update selection display
+        const sel1 = document.getElementById('sel1');
+        const sel2 = document.getElementById('sel2');
+        const gapResult = document.getElementById('gapResult');
+
+        if (selected.length >= 1) {
+            sel1.textContent = selected[0];
+            sel1.classList.add('filled');
+        } else {
+            sel1.textContent = '?';
+            sel1.classList.remove('filled');
         }
 
-        render() {
-            // Remove old seats
-            const children = Array.from(this.ui.row.children);
-            children.forEach(c => {
-                if(c.id !== 'tape') c.remove();
-            });
-            
-            // Map 0..30 to width %
-            const scale = 30;
-            
-            this.seats.forEach((pos, idx) => {
-                const el = document.createElement('div');
-                el.className = 'seat-slot';
-                el.style.position = 'absolute';
-                el.style.left = ((pos / scale) * 100) + '%';
-                el.style.width = '40px'; // fixed width visual
-                
-                const chair = document.createElement('div');
-                chair.className = 'seat';
-                if(this.toRemove.has(idx)) {
-                    chair.classList.add('marker-removed');
-                }
-                
-                const lbl = document.createElement('div');
-                lbl.className = 'seat-num';
-                lbl.innerText = pos;
-                
-                chair.appendChild(lbl);
-                el.appendChild(chair);
-                this.ui.row.appendChild(el);
-            });
-        }
-
-        verify() {
-            if(this.showingGap) {
-                this.loadLevel();
-                return;
-            }
-            
-            this.showingGap = true;
-            this.ui.gapDisp.innerText = this.maxGap;
-            this.ui.btn.innerText = "NEXT SHOW";
-            
-            // Visualize Tape
-            if(this.optPair) {
-                const scale = 30;
-                const startPct = (this.optPair.start / scale) * 100;
-                const endPct = (this.optPair.end / scale) * 100;
-                const distPct = endPct - startPct;
-                
-                this.ui.tape.style.left = startPct + '%';
-                // Add half width of seat (approx 20px?)
-                // Actually startPct is left edge of slot. Seat is centered.
-                // Let's refine. left pos is percent. +20px offset.
-                // It's tricky to mix % and px.
-                // Let's just rely on %.
-                
-                this.ui.tape.style.width = distPct + '%';
-                this.ui.tape.innerText = `GAP: ${this.maxGap}`;
-                this.ui.tape.classList.add('visible');
-                
-                this.ui.msg.innerText = `MAX GAP IS ${this.maxGap} BETWEEN SEAT ${this.optPair.start} AND ${this.optPair.end}`;
-            }
+        if (selected.length >= 2) {
+            sel2.textContent = selected[1];
+            sel2.classList.add('filled');
+            const gap = Math.abs(selected[1] - selected[0]);
+            gapResult.textContent = `Gap: ${gap}`;
+        } else {
+            sel2.textContent = '?';
+            sel2.classList.remove('filled');
+            gapResult.textContent = 'Gap: ?';
         }
     }
 
-    const game = new Game();
+    function selectPoint(val) {
+        if (selected.includes(val)) {
+            selected = selected.filter(v => v !== val);
+        } else if (selected.length < 2) {
+            selected.push(val);
+        }
+        render();
+    }
+
+    function clearSelection() {
+        selected = [];
+        render();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Click two points that form the maximum gap when sorted!';
+    }
+
+    function checkAnswer() {
+        const msg = document.getElementById('message');
+
+        if (selected.length !== 2) {
+            msg.className = 'message wrong';
+            msg.textContent = 'Select exactly 2 points!';
+            return;
+        }
+
+        const sorted = [...selected].sort((a, b) => a - b);
+        const userGap = sorted[1] - sorted[0];
+
+        // Check if they are adjacent in sorted array
+        const fullSorted = [...numbers].sort((a, b) => a - b);
+        const idx1 = fullSorted.indexOf(sorted[0]);
+        const idx2 = fullSorted.indexOf(sorted[1]);
+
+        if (Math.abs(idx2 - idx1) !== 1) {
+            msg.className = 'message wrong';
+            msg.textContent = `❌ ${sorted[0]} and ${sorted[1]} are not adjacent when sorted!`;
+            return;
+        }
+
+        if (userGap === maxGap) {
+            msg.className = 'message correct';
+            msg.textContent = `✅ Correct! Maximum gap is ${maxGap}!`;
+        } else {
+            msg.className = 'message wrong';
+            msg.textContent = `❌ Gap ${userGap} is not the maximum. Max gap is ${maxGap} (${maxGapPair[0]} → ${maxGapPair[1]})`;
+        }
+    }
+
+    function newGame() {
+        generateNumbers();
+        render();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Click two points that form the maximum gap when sorted!';
+    }
+
+    window.onload = newGame;
 </script>
 </body>
 </html>

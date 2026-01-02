@@ -1,1258 +1,334 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ARR-002: Theater Shuffle - Seat Swap Challenge</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARR-002: Card Flip</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Bungee&family=Oxanium:wght@400;600;700&display=swap");
-
-      :root {
-        --bg: #f7efe0;
-        --ink: #1b1b1f;
-        --muted: #5c5f66;
-        --accent: #ff6b35;
-        --accent-2: #2ec4b6;
-        --accent-3: #011627;
-        --panel: #ffffff;
-        --panel-2: #fff5e2;
-        --stroke: #e6d6c4;
-        --shadow: 0 18px 40px rgba(1, 22, 39, 0.14);
-        --danger: #ff4d4d;
-        --success: #27b77b;
-        --active: #ffb703;
-      }
-
-      * {
-        box-sizing: border-box;
-        margin: 0;
-        padding: 0;
-      }
-
-      body {
-        font-family: "Oxanium", sans-serif;
-        color: var(--ink);
-        background: radial-gradient(
-            60% 70% at 8% 10%,
-            rgba(255, 107, 53, 0.18),
-            transparent 60%
-          ),
-          radial-gradient(
-            60% 70% at 90% 10%,
-            rgba(46, 196, 182, 0.16),
-            transparent 60%
-          ),
-          linear-gradient(135deg, #f7efe0 0%, #f3e6cf 100%);
-        min-height: 100vh;
-        padding: 24px;
-      }
-
-      .shell {
-        max-width: 1100px;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-      }
-
-      header.hud {
-        background: var(--panel);
-        border-radius: 18px;
-        border: 1px solid var(--stroke);
-        box-shadow: var(--shadow);
-        padding: 18px 22px;
-        display: grid;
-        grid-template-columns: 1.4fr 1fr;
-        gap: 20px;
-        position: relative;
-        overflow: hidden;
-      }
-
-      header.hud::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-          90deg,
-          rgba(255, 107, 53, 0.08),
-          rgba(46, 196, 182, 0.08)
-        );
-        opacity: 0.6;
-        pointer-events: none;
-      }
-
-      .title-block {
-        position: relative;
-        z-index: 1;
-      }
-
-      .title-block .eyebrow {
-        text-transform: uppercase;
-        letter-spacing: 0.2em;
-        font-size: 0.7rem;
-        color: var(--muted);
-        margin-bottom: 6px;
-      }
-
-      .title-block h1 {
-        font-family: "Bungee", sans-serif;
-        font-size: 1.8rem;
-        margin-bottom: 8px;
-        color: var(--accent-3);
-      }
-
-      .title-block p {
-        color: var(--muted);
-        line-height: 1.5;
-        font-size: 0.92rem;
-      }
-
-      .stats-grid {
-        position: relative;
-        z-index: 1;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 10px;
-      }
-
-      .stat {
-        background: var(--panel-2);
-        border-radius: 12px;
-        border: 1px solid var(--stroke);
-        padding: 10px 12px;
-        text-align: center;
-        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
-      }
-
-      .stat .label {
-        font-size: 0.7rem;
-        text-transform: uppercase;
-        letter-spacing: 0.12em;
-        color: var(--muted);
-      }
-
-      .stat .value {
-        font-weight: 700;
-        font-size: 1.3rem;
-        margin-top: 4px;
-        color: var(--accent-3);
-      }
-
-      .panel {
-        background: var(--panel);
-        border-radius: 18px;
-        border: 1px solid var(--stroke);
-        box-shadow: var(--shadow);
-        padding: 18px;
-      }
-
-      .panel h2 {
-        font-family: "Bungee", sans-serif;
-        font-size: 1.1rem;
-        color: var(--accent-3);
-        margin-bottom: 14px;
-      }
-
-      .mission {
-        background: linear-gradient(135deg, #fff9ef 0%, #ffefd6 100%);
-        border: 1px solid var(--stroke);
-        border-left: 4px solid var(--accent);
-        border-radius: 12px;
-        padding: 14px 16px;
-        margin-bottom: 16px;
-        line-height: 1.6;
-      }
-
-      .mission strong {
-        color: var(--accent-3);
-      }
-
-      .stage {
-        background: repeating-linear-gradient(
-            0deg,
-            rgba(1, 22, 39, 0.04),
-            rgba(1, 22, 39, 0.04) 1px,
-            transparent 1px,
-            transparent 20px
-          ),
-          repeating-linear-gradient(
-            90deg,
-            rgba(1, 22, 39, 0.04),
-            rgba(1, 22, 39, 0.04) 1px,
-            transparent 1px,
-            transparent 20px
-          ),
-          #fffbf0;
-        border-radius: 16px;
-        border: 2px solid var(--accent-3);
-        padding: 40px 20px;
-        min-height: 200px;
-        position: relative;
-      }
-
-      .seats {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 8px;
-        flex-wrap: wrap;
-        margin-bottom: 30px;
-      }
-
-      .seat {
-        width: 68px;
-        height: 68px;
-        border-radius: 14px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 1.4rem;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.25s ease;
-        box-shadow: 0 6px 14px rgba(1, 22, 39, 0.12);
-        position: relative;
-      }
-
-      .seat.student {
-        background: linear-gradient(135deg, var(--accent-2), #24ab99);
-        color: white;
-      }
-
-      .seat.student:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 12px 22px rgba(1, 22, 39, 0.2);
-      }
-
-      .seat.teacher {
-        background: linear-gradient(135deg, var(--accent), #e6592c);
-        color: white;
-        cursor: not-allowed;
-        opacity: 0.85;
-      }
-
-      .seat.principal {
-        background: linear-gradient(135deg, #8b6ce8, #6a4fc4);
-        color: white;
-        cursor: not-allowed;
-        opacity: 0.85;
-      }
-
-      .seat.picked {
-        background: linear-gradient(135deg, var(--active), #e6a602);
-        transform: translateY(-4px) scale(1.08);
-        box-shadow: 0 0 0 3px rgba(255, 183, 3, 0.3);
-      }
-
-      .seat.correct {
-        animation: celebrate 0.6s ease;
-      }
-
-      .seat-label {
-        position: absolute;
-        bottom: -22px;
-        font-size: 0.65rem;
-        color: var(--muted);
-        font-weight: 600;
-      }
-
-      @keyframes celebrate {
-        0%,
-        100% {
-          transform: scale(1) rotate(0);
-        }
-        25% {
-          transform: scale(1.15) rotate(-8deg);
-        }
-        75% {
-          transform: scale(1.15) rotate(8deg);
-        }
-      }
-
-      @keyframes swing {
-        0%,
-        100% {
-          transform: translateX(0);
-        }
-        50% {
-          transform: translateX(6px);
-        }
-      }
-
-      .target-display {
-        background: var(--panel-2);
-        border-radius: 12px;
-        padding: 12px 16px;
-        text-align: center;
-        margin-top: 20px;
-        border: 1px solid var(--stroke);
-      }
-
-      .target-display .label {
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 0.15em;
-        color: var(--muted);
-        margin-bottom: 8px;
-      }
-
-      .target-display .nums {
-        font-family: "Courier New", monospace;
-        font-weight: 700;
-        font-size: 1rem;
-        color: var(--accent-3);
-      }
-
-      .controls {
-        display: flex;
-        gap: 10px;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-top: 20px;
-      }
-
-      .btn {
-        border: none;
-        padding: 11px 18px;
-        border-radius: 999px;
-        font-weight: 700;
-        font-family: "Oxanium", sans-serif;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        font-size: 0.9rem;
-        box-shadow: 0 4px 10px rgba(1, 22, 39, 0.12);
-      }
-
-      .btn:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 16px rgba(1, 22, 39, 0.18);
-      }
-
-      .btn:active {
-        transform: translateY(0);
-      }
-
-      .btn.primary {
-        background: var(--accent-3);
-        color: white;
-      }
-
-      .btn.secondary {
-        background: var(--panel-2);
-        border: 1px solid var(--stroke);
-        color: var(--accent-3);
-      }
-
-      .btn.success {
-        background: linear-gradient(135deg, var(--success), #1fa16a);
-        color: white;
-      }
-
-      .btn.warn {
-        background: linear-gradient(135deg, var(--active), #e6a602);
-        color: white;
-      }
-
-      .hint {
-        background: #fffaeb;
-        border-left: 4px solid var(--active);
-        border-radius: 10px;
-        padding: 14px 16px;
-        margin-top: 16px;
-        font-size: 0.9rem;
-        line-height: 1.6;
-        display: none;
-      }
-
-      .hint.show {
-        display: block;
-        animation: slideDown 0.3s ease;
-      }
-
-      @keyframes slideDown {
-        from {
-          opacity: 0;
-          transform: translateY(-10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
-      }
-
-      .algo-viz {
-        margin-top: 20px;
-      }
-
-      .algo-controls {
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        flex-wrap: wrap;
-        margin-bottom: 16px;
-      }
-
-      .speed-slider {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 8px 14px;
-        background: var(--panel-2);
-        border-radius: 999px;
-        border: 1px solid var(--stroke);
-      }
-
-      .speed-slider input {
-        width: 100px;
-      }
-
-      .step-info {
-        background: var(--panel-2);
-        border-radius: 12px;
-        padding: 16px;
-        min-height: 80px;
-        border: 1px solid var(--stroke);
-        line-height: 1.7;
-      }
-
-      .pointers-legend {
-        display: flex;
-        gap: 20px;
-        justify-content: center;
-        margin-top: 16px;
-        flex-wrap: wrap;
-      }
-
-      .legend-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 0.88rem;
-      }
-
-      .legend-box {
-        width: 28px;
-        height: 28px;
-        border-radius: 8px;
-        box-shadow: 0 2px 6px rgba(1, 22, 39, 0.15);
-      }
-
-      .seat.left-ptr::before {
-        content: "L";
-        position: absolute;
-        top: -28px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background: var(--accent-2);
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.75rem;
-        font-weight: 700;
-      }
-
-      .seat.right-ptr::before {
-        content: "R";
-        position: absolute;
-        top: -28px;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
-        background: var(--accent);
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.75rem;
-        font-weight: 700;
-      }
-
-      .toast {
-        position: fixed;
-        top: 30px;
-        right: 30px;
-        padding: 14px 20px;
-        border-radius: 999px;
-        color: white;
-        font-weight: 700;
-        box-shadow: 0 12px 24px rgba(1, 22, 39, 0.25);
-        z-index: 1000;
-        animation: slideInRight 0.4s ease;
-        font-size: 0.95rem;
-      }
-
-      .toast.success {
-        background: linear-gradient(135deg, var(--success), #1fa16a);
-      }
-      .toast.error {
-        background: linear-gradient(135deg, var(--danger), #e63939);
-      }
-      .toast.info {
-        background: linear-gradient(135deg, var(--accent-2), #24ab99);
-      }
-
-      @keyframes slideInRight {
-        from {
-          transform: translateX(400px);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-
-      .lessons {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 14px;
-      }
-
-      .lesson-card {
-        background: var(--panel-2);
-        border-radius: 12px;
-        padding: 16px;
-        border: 1px solid var(--stroke);
-        transition: all 0.2s ease;
-        box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
-      }
-
-      .lesson-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 10px 18px rgba(1, 22, 39, 0.12);
-      }
-
-      .lesson-card h3 {
-        font-size: 1rem;
-        margin-bottom: 8px;
-        color: var(--accent-3);
-      }
-
-      .lesson-card p {
-        font-size: 0.88rem;
-        line-height: 1.6;
-        color: var(--muted);
-      }
-
-      .badges {
-        display: flex;
-        gap: 14px;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-top: 20px;
-      }
-
-      .badge {
-        background: var(--panel);
-        border: 2px solid var(--stroke);
-        border-radius: 14px;
-        padding: 14px 18px;
-        text-align: center;
-        min-width: 110px;
-        box-shadow: 0 6px 12px rgba(1, 22, 39, 0.1);
-        animation: pop 0.5s ease;
-      }
-
-      .badge-icon {
-        font-size: 2.2rem;
-        margin-bottom: 6px;
-      }
-
-      .badge-name {
-        font-weight: 700;
-        font-size: 0.85rem;
-        color: var(--accent-3);
-      }
-
-      @keyframes pop {
-        0% {
-          transform: scale(0);
-          opacity: 0;
-        }
-        50% {
-          transform: scale(1.1);
-        }
-        100% {
-          transform: scale(1);
-          opacity: 1;
-        }
-      }
-
-      .progress-wrap {
-        margin: 20px 0;
-        text-align: center;
-      }
-
-      .progress-bar {
-        width: 100%;
-        height: 12px;
-        background: #f2e2cf;
-        border-radius: 999px;
-        overflow: hidden;
-        border: 1px solid var(--stroke);
-      }
-
-      .progress-fill {
-        height: 100%;
-        background: linear-gradient(90deg, var(--accent-2), var(--accent));
-        transition: width 0.5s ease;
-      }
-
-      .progress-text {
-        font-size: 0.9rem;
-        color: var(--accent-3);
-        font-weight: 700;
-        margin-top: 10px;
-      }
-
-      footer {
-        background: var(--panel);
-        border-radius: 18px;
-        border: 1px solid var(--stroke);
-        box-shadow: var(--shadow);
-        padding: 14px 18px;
-        text-align: center;
-        color: var(--muted);
-        font-style: italic;
-        font-size: 0.9rem;
-      }
-
-      .tabs {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 20px;
-        justify-content: center;
-      }
-
-      .tab {
-        padding: 10px 18px;
-        border: 2px solid var(--accent-3);
-        background: var(--panel);
-        color: var(--accent-3);
-        border-radius: 999px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        font-size: 0.9rem;
-      }
-
-      .tab:hover {
-        transform: translateY(-2px);
-      }
-
-      .tab.active {
-        background: var(--accent-3);
-        color: white;
-      }
-
-      .view {
-        display: none;
-      }
-
-      .view.active {
-        display: block;
-      }
-
-      @media (max-width: 768px) {
-        header.hud {
-          grid-template-columns: 1fr;
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #1e3a5f 0%, #0d1b2a 100%);
+            min-height: 100vh;
+            padding: 20px;
         }
 
-        .stats-grid {
-          grid-template-columns: repeat(3, 1fr);
+        .container { max-width: 850px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .header h1 { font-size: 36px; text-shadow: 0 0 20px #3b82f6; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #1e40af; margin-bottom: 15px; }
+
+        .goal-box {
+            background: #dbeafe;
+            border: 2px solid #3b82f6;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .goal-box strong { color: #1e40af; }
+
+        .rules {
+            display: flex;
+            gap: 15px;
+        }
+        .rule {
+            flex: 1;
+            padding: 12px;
+            background: #f0f9ff;
+            border-radius: 10px;
+            border-left: 4px solid #3b82f6;
+        }
+        .rule-title { font-weight: 700; color: #1e40af; margin-bottom: 5px; }
+        .rule-text { font-size: 13px; color: #555; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
         }
 
-        .seat {
-          width: 54px;
-          height: 54px;
-          font-size: 1.1rem;
+        .info-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 18px;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            border-radius: 10px;
+            color: #fff;
+            margin-bottom: 20px;
         }
 
-        .title-block h1 {
-          font-size: 1.5rem;
+        .card-row {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
         }
-      }
-      /* Modal */
-      .modal {
-        position: fixed; inset: 0; background: rgba(0,0,0,0.9);
-        display: flex; align-items: center; justify-content: center;
-        z-index: 2000; opacity: 1; transition: opacity 0.3s;
-      }
-      .modal.hidden { opacity: 0; pointer-events: none; }
-      
-      .dialog {
-        background: var(--panel); padding: 30px; border-radius: 12px;
-        max-width: 500px; text-align: center;
-        border: 2px solid var(--accent);
-        box-shadow: 0 0 40px rgba(0,0,0,0.5);
-      }
-      
-      .start-btn {
-        background: var(--accent); color: white; border: none;
-        padding: 12px 30px; font-size: 1.2rem; border-radius: 999px;
-        margin-top: 20px; cursor: pointer; font-weight: 700;
-        font-family: "Oxanium"; transition: transform 0.2s;
-      }
-      .start-btn:hover { transform: scale(1.05); }
 
+        .card {
+            width: 60px;
+            height: 80px;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 22px;
+            font-weight: 700;
+            transition: all 0.3s;
+            position: relative;
+        }
+        .card.normal {
+            background: linear-gradient(145deg, #3b82f6, #2563eb);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+        }
+        .card.locked {
+            background: linear-gradient(145deg, #ef4444, #dc2626);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+        }
+        .card.locked::after {
+            content: "🔒";
+            font-size: 10px;
+            position: absolute;
+            top: 3px;
+            right: 5px;
+        }
+        .card.flipped {
+            background: linear-gradient(145deg, #22c55e, #16a34a);
+        }
+        .card:hover:not(.locked) { transform: translateY(-5px); }
+
+        .card-idx {
+            font-size: 10px;
+            color: rgba(255,255,255,0.7);
+            margin-top: 5px;
+        }
+
+        .flip-range {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f0f9ff;
+            border-radius: 12px;
+        }
+        .flip-range label { font-weight: 600; color: #1e40af; }
+        .flip-range input {
+            width: 60px;
+            padding: 8px;
+            font-size: 16px;
+            text-align: center;
+            border: 2px solid #3b82f6;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+        .flip-btn {
+            padding: 10px 25px;
+            background: #3b82f6;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .flip-btn:hover { background: #2563eb; }
+
+        .status {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .status.pending { background: #fef3c7; color: #92400e; }
+        .status.success { background: #dcfce7; color: #16a34a; }
+        .status.error { background: #fee2e2; color: #dc2626; }
+
+        .new-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #1e40af;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+        }
     </style>
-  </head>
-  <body>
-    <div class="shell">
-      <header class="hud">
-        <div class="title-block">
-          <div class="eyebrow">ARR-002 · Two-Pointer Technique</div>
-          <h1>🎭 Theater Shuffle</h1>
-          <p>
-            It's opening night! The director needs students facing the other
-            way. But the Teacher and Principal must stay put!
-          </p>
-        </div>
-        <div class="stats-grid">
-          <div class="stat">
-            <div class="label">Round</div>
-            <div class="value" id="round">1</div>
-          </div>
-          <div class="stat">
-            <div class="label">Moves</div>
-            <div class="value" id="moves">0</div>
-          </div>
-          <div class="stat">
-            <div class="label">Stars</div>
-            <div class="value" id="stars">0</div>
-          </div>
-        </div>
-      </header>
+</head>
+<body>
 
-      <div class="panel">
-        <div class="tabs">
-          <div class="tab active" data-tab="play">Play</div>
-          <div class="tab" data-tab="watch">Watch Algorithm</div>
-        </div>
-
-        <div id="playView" class="view active">
-          <div class="mission">
-            <strong>Mission:</strong> Swap students so they face backward for
-            Act 2. Click two students to swap them. Remember: Teacher (first)
-            and Principal (last) can't move!
-          </div>
-
-          <div class="stage">
-            <div class="seats" id="seats"></div>
-            <div class="target-display">
-              <div class="label">Target Order</div>
-              <div class="nums" id="target">--</div>
-            </div>
-          </div>
-
-          <div class="controls">
-            <button class="btn primary" id="newGame">New Puzzle</button>
-            <button class="btn secondary" id="reset">Reset</button>
-            <button class="btn success" id="check">Check Answer</button>
-            <button class="btn warn" id="hint">Need a Hint?</button>
-          </div>
-
-          <div class="hint" id="hintBox"></div>
-        </div>
-
-        <div id="watchView" class="view">
-          <div class="mission">
-            <strong>Watch the two-pointer algorithm in action!</strong> Left and
-            Right pointers move inward, swapping as they go.
-          </div>
-
-          <div class="stage">
-            <div class="seats" id="algoSeats"></div>
-          </div>
-
-          <div class="algo-viz">
-            <div class="algo-controls">
-              <button class="btn primary" id="algoStart">Start</button>
-              <button class="btn secondary" id="algoStep">Step</button>
-              <button class="btn secondary" id="algoReset">Reset</button>
-              <div class="speed-slider">
-                <span style="font-size: 0.85rem; font-weight: 600">Speed</span>
-                <input
-                  type="range"
-                  id="speed"
-                  min="300"
-                  max="1500"
-                  value="800"
-                  step="100"
-                />
-              </div>
-            </div>
-            <div class="step-info" id="stepInfo">
-              Click Start to see how the algorithm works step by step
-            </div>
-            <div class="pointers-legend">
-              <div class="legend-item">
-                <div
-                  class="legend-box"
-                  style="
-                    background: linear-gradient(
-                      135deg,
-                      var(--accent-2),
-                      #24ab99
-                    );
-                  "
-                ></div>
-                <span>Left Pointer</span>
-              </div>
-              <div class="legend-item">
-                <div
-                  class="legend-box"
-                  style="
-                    background: linear-gradient(135deg, var(--accent), #e6592c);
-                  "
-                ></div>
-                <span>Right Pointer</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <h2>💡 Key Concepts</h2>
-        <div class="lessons">
-          <div class="lesson-card">
-            <h3>Two Pointers</h3>
-            <p>
-              Start from both ends (index 1 and n-2) and move inward until they
-              meet
-            </p>
-          </div>
-          <div class="lesson-card">
-            <h3>In-Place Swap</h3>
-            <p>Swap elements directly in the array without using extra space</p>
-          </div>
-          <div class="lesson-card">
-            <h3>Time: O(n)</h3>
-            <p>Visit each element once, requiring roughly n/2 swaps</p>
-          </div>
-          <div class="lesson-card">
-            <h3>Space: O(1)</h3>
-            <p>
-              Only need two pointer variables, no matter how big the array is
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="panel">
-        <h2>🏆 Your Progress</h2>
-        <div class="progress-wrap">
-          <div class="progress-bar">
-            <div class="progress-fill" id="progressBar" style="width: 0%"></div>
-          </div>
-          <p class="progress-text" id="progressText">0 / 10 rounds completed</p>
-        </div>
-        <div class="badges" id="badges"></div>
-      </div>
-
-      <footer>
-        it?
-      </footer>
+<div class="container">
+    <div class="header">
+        <h1>🃏 Card Flip</h1>
+        <div style="opacity:0.9">Flip cards in a range to reverse their order!</div>
     </div>
 
-    <div id="modal" class="modal">
-      <div class="dialog">
-        <h2 style="font-family:'Bungee'; margin-bottom:15px; color:var(--accent-3);">🎭 OPENING NIGHT</h2>
-        <b>Protocol:</b>
-        <div style="text-align:left; font-size:1rem; margin:1.5rem 0; line-height:1.6; color:var(--muted);">
-          1. <b>Objective</b>: Reverse the student seating order (Index 1 to N-2).<br>
-          2. <b>Constraint</b>: Teacher (First) and Principal (Last) are LOCKED.<br>
-          3. <b>Action</b>: Click two students to SWAP positions.<br>
-          4. <b>Win</b>: Match the Target sequence.
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="goal-box">
+            <strong>🎯 Goal:</strong> Flip a range of cards [L, R] to reverse them.
+            <br>Red cards (🔒) are LOCKED and can't move - skip them when flipping!
         </div>
-        <button class="start-btn" id="startBtn">START SHOW</button>
-      </div>
+        <div class="rules">
+            <div class="rule">
+                <div class="rule-title">Step 1</div>
+                <div class="rule-text">Enter the LEFT index (L)</div>
+            </div>
+            <div class="rule">
+                <div class="rule-title">Step 2</div>
+                <div class="rule-text">Enter the RIGHT index (R)</div>
+            </div>
+            <div class="rule">
+                <div class="rule-title">Step 3</div>
+                <div class="rule-text">Click FLIP! Only unlocked cards reverse.</div>
+            </div>
+        </div>
     </div>
 
-    <script>
-      const game = {
-        current: [],
-        original: [],
-        target: [],
-        picked: null,
-        moves: 0,
-        round: 1,
-        stars: 0,
-        completed: 0,
-        achievements: new Set(),
-      };
+    <div class="game-card">
+        <div class="info-bar">
+            <span>Flips Made: <strong id="flipCount">0</strong></span>
+            <span>Cards: <strong id="cardCount">0</strong></span>
+        </div>
 
-      const algo = {
-        arr: [],
-        left: 0,
-        right: 0,
-        running: false,
-        step: 0,
-        speed: 800,
-      };
+        <div class="card-row" id="cardRow"></div>
 
-      const el = {
-        seats: document.getElementById("seats"),
-        algoSeats: document.getElementById("algoSeats"),
-        round: document.getElementById("round"),
-        moves: document.getElementById("moves"),
-        stars: document.getElementById("stars"),
-        target: document.getElementById("target"),
-        hintBox: document.getElementById("hintBox"),
-        stepInfo: document.getElementById("stepInfo"),
-        progressBar: document.getElementById("progressBar"),
-        progressText: document.getElementById("progressText"),
-        badges: document.getElementById("badges"),
-        playView: document.getElementById("playView"),
-        watchView: document.getElementById("watchView"),
-      };
+        <div class="flip-range">
+            <label>Left (L):</label>
+            <input type="number" id="inputL" min="0" value="0">
+            <label>Right (R):</label>
+            <input type="number" id="inputR" min="0" value="0">
+            <button class="flip-btn" onclick="flipRange()">↻ FLIP!</button>
+        </div>
 
-      function init() {
-        document.querySelectorAll(".tab").forEach((tab) => {
-          tab.addEventListener("click", () => switchTab(tab.dataset.tab));
-        });
+        <div class="status pending" id="status">Enter L and R, then click FLIP to reverse cards in that range!</div>
 
-        document.getElementById("newGame").addEventListener("click", newPuzzle);
-        document.getElementById("reset").addEventListener("click", resetPuzzle);
-        document.getElementById("check").addEventListener("click", checkAnswer);
-        document.getElementById("hint").addEventListener("click", giveHint);
+        <button class="new-btn" onclick="newGame()">🔄 New Cards</button>
+    </div>
+</div>
 
-        document.getElementById("algoStart").addEventListener("click", runAlgo);
-        document.getElementById("algoStep").addEventListener("click", stepAlgo);
-        document
-          .getElementById("algoReset")
-          .addEventListener("click", resetAlgo);
-        document.getElementById("speed").addEventListener("input", (e) => {
-          algo.speed = parseInt(e.target.value);
-        });
-        
-        document.getElementById('startBtn').addEventListener('click', () => {
-            document.getElementById('modal').classList.add('hidden');
-        });
+<script>
+    let cards = [];
+    let locked = [];
+    let flipCount = 0;
 
-        newPuzzle();
-        updateUI();
-      }
+    function generateCards() {
+        const n = 8 + Math.floor(Math.random() * 4); // 8-11 cards
+        cards = [];
+        locked = [];
 
-      function switchTab(tab) {
-        document
-          .querySelectorAll(".tab")
-          .forEach((t) => t.classList.remove("active"));
-        document
-          .querySelectorAll(".view")
-          .forEach((v) => v.classList.remove("active"));
-
-        event.target.classList.add("active");
-        if (tab === "play") {
-          el.playView.classList.add("active");
-        } else {
-          el.watchView.classList.add("active");
-          resetAlgo();
+        for (let i = 0; i < n; i++) {
+            cards.push(Math.floor(Math.random() * 90) + 10);
+            // 20% chance of being locked, but not first or last
+            locked.push(i > 0 && i < n - 1 && Math.random() < 0.2);
         }
-      }
 
-      function newPuzzle() {
-        const size = Math.min(5 + game.round, 10);
-        game.current = Array.from(
-          { length: size },
-          () => Math.floor(Math.random() * 90) + 10
-        );
-        game.original = [...game.current];
-        game.target = calcTarget(game.current);
-        game.picked = null;
-        game.moves = 0;
-        el.hintBox.classList.remove("show");
-        renderSeats(el.seats, game.current, true);
-        el.target.textContent = `[ ${game.target.join(", ")} ]`;
-        updateUI();
-      }
+        flipCount = 0;
+    }
 
-      function calcTarget(arr) {
-        if (arr.length < 3) return [...arr];
-        const res = [...arr];
-        let l = 1,
-          r = arr.length - 2;
-        while (l < r) {
-          [res[l], res[r]] = [res[r], res[l]];
-          l++;
-          r--;
+    function render() {
+        const row = document.getElementById('cardRow');
+        row.innerHTML = '';
+
+        cards.forEach((val, i) => {
+            const card = document.createElement('div');
+            card.className = 'card ' + (locked[i] ? 'locked' : 'normal');
+            card.innerHTML = `${val}<span class="card-idx">[${i}]</span>`;
+            row.appendChild(card);
+        });
+
+        document.getElementById('cardCount').textContent = cards.length;
+        document.getElementById('flipCount').textContent = flipCount;
+        document.getElementById('inputR').max = cards.length - 1;
+    }
+
+    function flipRange() {
+        const L = parseInt(document.getElementById('inputL').value);
+        const R = parseInt(document.getElementById('inputR').value);
+        const status = document.getElementById('status');
+
+        if (isNaN(L) || isNaN(R) || L < 0 || R >= cards.length || L > R) {
+            status.className = 'status error';
+            status.textContent = `Invalid range! L must be 0-${cards.length-1}, L ≤ R.`;
+            return;
         }
-        return res;
-      }
 
-      function renderSeats(container, arr, interactive = false) {
-        container.innerHTML = "";
-        arr.forEach((val, i) => {
-          const seat = document.createElement("div");
-          seat.className = "seat";
-          seat.textContent = val;
+        // Extract unlocked cards in range
+        const unlocked = [];
+        const unlockedIdx = [];
 
-          if (i === 0) {
-            seat.classList.add("teacher");
-            const label = document.createElement("div");
-            label.className = "seat-label";
-            label.textContent = "Teacher";
-            seat.appendChild(label);
-          } else if (i === arr.length - 1) {
-            seat.classList.add("principal");
-            const label = document.createElement("div");
-            label.className = "seat-label";
-            label.textContent = "Principal";
-            seat.appendChild(label);
-          } else {
-            seat.classList.add("student");
-            if (interactive) {
-              seat.addEventListener("click", () => handleClick(i));
+        for (let i = L; i <= R; i++) {
+            if (!locked[i]) {
+                unlocked.push(cards[i]);
+                unlockedIdx.push(i);
             }
-          }
-
-          container.appendChild(seat);
-        });
-      }
-
-      function handleClick(idx) {
-        if (idx === 0 || idx === game.current.length - 1) {
-          toast("❌ Can't move Teacher or Principal!", "error");
-          return;
         }
 
-        const seats = el.seats.children;
+        // Reverse the unlocked values
+        unlocked.reverse();
 
-        if (game.picked === null) {
-          game.picked = idx;
-          seats[idx].classList.add("picked");
-        } else if (game.picked === idx) {
-          game.picked = null;
-          seats[idx].classList.remove("picked");
-        } else {
-          seats[game.picked].classList.remove("picked");
-
-          [game.current[game.picked], game.current[idx]] = [
-            game.current[idx],
-            game.current[game.picked],
-          ];
-          game.moves++;
-          game.picked = null;
-
-          setTimeout(() => {
-            renderSeats(el.seats, game.current, true);
-            updateUI();
-          }, 200);
-        }
-      }
-
-      function resetPuzzle() {
-        game.current = [...game.original];
-        game.picked = null;
-        game.moves = 0;
-        el.hintBox.classList.remove("show");
-        renderSeats(el.seats, game.current, true);
-        updateUI();
-      }
-
-      function checkAnswer() {
-        const correct = arraysMatch(game.current, game.target);
-        const optimal = Math.floor((game.current.length - 2) / 2);
-
-        if (correct) {
-          let points = 100;
-          const extra = game.moves - optimal;
-          points -= extra * 10;
-          points = Math.max(points, 50);
-
-          game.stars += points;
-          game.completed++;
-
-          checkBadges(extra, optimal);
-
-          toast(`🎉 Perfect! +${points} stars!`, "success");
-
-          document.querySelectorAll("#seats .student").forEach((s) => {
-            s.classList.add("correct");
-          });
-
-          setTimeout(() => {
-            game.round++;
-            newPuzzle();
-          }, 2000);
-        } else {
-          toast("Not quite right. Keep trying!", "error");
+        // Put them back
+        for (let i = 0; i < unlockedIdx.length; i++) {
+            cards[unlockedIdx[i]] = unlocked[i];
         }
 
-        updateUI();
-      }
+        flipCount++;
+        render();
 
-      function checkBadges(extra, optimal) {
-        if (extra === 0 && !game.achievements.has("perfect")) {
-          game.achievements.add("perfect");
-          addBadge("🎯", "Perfect");
+        // Highlight flipped cards
+        const row = document.getElementById('cardRow');
+        for (let i = L; i <= R; i++) {
+            if (!locked[i]) {
+                row.children[i].classList.add('flipped');
+            }
         }
 
-        if (game.completed === 5 && !game.achievements.has("streak")) {
-          game.achievements.add("streak");
-          addBadge("🔥", "On Fire");
-        }
+        status.className = 'status success';
+        status.textContent = `✅ Flipped ${unlocked.length} unlocked cards in range [${L}, ${R}]!`;
 
-        if (game.completed === 10 && !game.achievements.has("master")) {
-          game.achievements.add("master");
-          addBadge("👑", "Master");
-        }
-      }
+        setTimeout(() => {
+            for (let i = L; i <= R; i++) {
+                if (!locked[i]) {
+                    row.children[i].classList.remove('flipped');
+                }
+            }
+        }, 800);
+    }
 
-      function addBadge(icon, name) {
-        const badge = document.createElement("div");
-        badge.className = "badge";
-        badge.innerHTML = `
-        <div class="badge-icon">${icon}</div>
-        <div class="badge-name">${name}</div>
-      `;
-        el.badges.appendChild(badge);
-      }
+    function newGame() {
+        generateCards();
+        render();
+        document.getElementById('inputL').value = 0;
+        document.getElementById('inputR').value = cards.length - 1;
+        document.getElementById('status').className = 'status pending';
+        document.getElementById('status').textContent = 'Enter L and R, then click FLIP to reverse cards in that range!';
+    }
 
-      function giveHint() {
-        const hints = [
-          `💡 Start by swapping positions 1 and ${game.current.length - 2}`,
-          `💡 You need exactly ${Math.floor(
-            (game.current.length - 2) / 2
-          )} swaps for optimal solution`,
-          `💡 Think of it like mirrors - swap symmetric positions from the edges inward`,
-          `💡 Target: [ ${game.target.join(", ")} ]`,
-        ];
-        el.hintBox.textContent =
-          hints[Math.floor(Math.random() * hints.length)];
-        el.hintBox.classList.add("show");
-      }
-
-      function resetAlgo() {
-        algo.running = false;
-        algo.step = 0;
-        algo.arr = Array.from(
-          { length: 7 },
-          () => Math.floor(Math.random() * 90) + 10
-        );
-        algo.left = 1;
-        algo.right = algo.arr.length - 2;
-        renderAlgoSeats();
-        el.stepInfo.textContent =
-          "Click Start to see how the algorithm works step by step";
-      }
-
-      function renderAlgoSeats() {
-        el.algoSeats.innerHTML = "";
-        algo.arr.forEach((val, i) => {
-          const seat = document.createElement("div");
-          seat.className = "seat";
-          seat.textContent = val;
-
-          if (i === 0) {
-            seat.classList.add("teacher");
-          } else if (i === algo.arr.length - 1) {
-            seat.classList.add("principal");
-          } else {
-            seat.classList.add("student");
-          }
-
-          if (i === algo.left && algo.step > 0) seat.classList.add("left-ptr");
-          if (i === algo.right && algo.step > 0)
-            seat.classList.add("right-ptr");
-
-          el.algoSeats.appendChild(seat);
-        });
-      }
-
-      async function runAlgo() {
-        if (algo.running) return;
-
-        resetAlgo();
-        algo.running = true;
-        algo.step = 1;
-
-        el.stepInfo.innerHTML = `<strong>Step 1:</strong> Initialize pointers: Left at position ${algo.left}, Right at position ${algo.right}`;
-        renderAlgoSeats();
-
-        await sleep(algo.speed);
-
-        while (algo.left < algo.right && algo.running) {
-          await stepAlgo();
-          await sleep(algo.speed);
-        }
-
-        if (algo.running) {
-          el.stepInfo.innerHTML = `<strong>Done!</strong> Array reversed (middle part). Total swaps: ${Math.floor(
-            (algo.arr.length - 2) / 2
-          )}`;
-          algo.running = false;
-        }
-      }
-
-      async function stepAlgo() {
-        if (algo.left >= algo.right) {
-          el.stepInfo.innerHTML =
-            "<strong>Complete!</strong> Pointers have met. All done!";
-          algo.running = false;
-          return;
-        }
-
-        algo.step++;
-
-        el.stepInfo.innerHTML = `<strong>Step ${
-          algo.step
-        }:</strong> Swap positions ${algo.left} and ${algo.right} → (${
-          algo.arr[algo.left]
-        } ↔ ${algo.arr[algo.right]})`;
-        renderAlgoSeats();
-        await sleep(300);
-
-        [algo.arr[algo.left], algo.arr[algo.right]] = [
-          algo.arr[algo.right],
-          algo.arr[algo.left],
-        ];
-        algo.left++;
-        algo.right--;
-
-        renderAlgoSeats();
-        el.stepInfo.innerHTML += `<br>Move pointers: Left → ${algo.left}, Right → ${algo.right}`;
-      }
-
-      function arraysMatch(a, b) {
-        if (a.length !== b.length) return false;
-        return a.every((v, i) => v === b[i]);
-      }
-
-      function updateUI() {
-        el.round.textContent = game.round;
-        el.moves.textContent = game.moves;
-        el.stars.textContent = game.stars;
-
-        const progress = (game.completed / 10) * 100;
-        el.progressBar.style.width = `${progress}%`;
-        el.progressText.textContent = `${game.completed} / 10 rounds completed`;
-      }
-
-      function toast(msg, type) {
-        const existing = document.querySelector(".toast");
-        if (existing) existing.remove();
-
-        const t = document.createElement("div");
-        t.className = `toast ${type}`;
-        t.textContent = msg;
-        document.body.appendChild(t);
-
-        setTimeout(() => t.remove(), 3000);
-      }
-
-      function sleep(ms) {
-        return new Promise((resolve) => setTimeout(resolve, ms));
-      }
-
-      window.addEventListener("DOMContentLoaded", init);
-    </script>
-  </body>
+    window.onload = newGame;
+</script>
+</body>
 </html>

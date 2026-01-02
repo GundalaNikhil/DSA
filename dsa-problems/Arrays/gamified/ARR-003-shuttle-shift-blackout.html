@@ -3,430 +3,384 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARR-003: Shuttle Operations</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    <title>ARR-003: Rotate Train</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #0b0d17;
-            --panel: #15192b;
-            --accent: #00d4ff;
-            --accent-dim: rgba(0, 212, 255, 0.1);
-            --danger: #ff0055;
-            --locked: #4a506a;
-            --text: #e0e6ed;
-            --success: #00ff9d;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Rajdhani', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            height: 100vh;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 850px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .header h1 { font-size: 36px; text-shadow: 0 0 20px #8b5cf6; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #7c3aed; margin-bottom: 15px; }
+
+        .goal-box {
+            background: #f5f3ff;
+            border: 2px solid #8b5cf6;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .example {
+            background: #faf5ff;
+            border-radius: 10px;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        .example-title { font-weight: 600; color: #7c3aed; margin-bottom: 8px; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .info-bar {
             display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            user-select: none;
+            justify-content: space-between;
+            padding: 12px 18px;
+            background: linear-gradient(90deg, #8b5cf6, #a78bfa);
+            border-radius: 10px;
+            color: #fff;
+            margin-bottom: 20px;
         }
 
-        header {
-            background: var(--panel);
-            padding: 1rem 2rem;
-            border-bottom: 2px solid var(--accent);
-            display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 0 20px var(--accent-dim);
+        .train-track {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 25px 15px;
+            margin-bottom: 20px;
         }
 
-        h1 { margin:0; font-family:'Orbitron', sans-serif; color:var(--accent); letter-spacing:2px; font-size:1.5rem; }
-        
-        .status-badge {
-            background: var(--accent-dim); border: 1px solid var(--accent);
-            padding: 5px 15px; border-radius: 4px; color: var(--accent);
-            text-transform: uppercase; font-weight: 700;
+        .train-row {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        main {
-            flex: 1;
+        .car {
+            width: 60px;
+            height: 70px;
+            border-radius: 8px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: linear-gradient(180deg, var(--bg) 0%, #1a1e32 100%);
-            padding: 2rem;
+            font-size: 20px;
+            font-weight: 600;
+            transition: all 0.4s;
             position: relative;
         }
-        
-        /* Hangar Floor */
-        .hangar {
-            width: 100%; max-width: 900px;
-            display: flex; gap: 15px; justify-content: center;
-            padding: 40px 20px;
-            background: rgba(255,255,255,0.02);
-            border-radius: 20px;
-            border: 1px solid #2a2e45;
-            flex-wrap: wrap;
-            position: relative;
+        .car.movable {
+            background: linear-gradient(145deg, #8b5cf6, #7c3aed);
+            color: #fff;
         }
-        .hangar::before {
-            content: "HANGAR BAY A-03";
-            position: absolute; top: -15px; left: 30px;
-            background: var(--bg); padding: 0 10px;
-            color: #4a506a; font-family: 'Orbitron'; font-size: 0.8rem;
+        .car.locked {
+            background: linear-gradient(145deg, #64748b, #475569);
+            color: #e2e8f0;
+        }
+        .car.locked::after {
+            content: "🔒";
+            font-size: 10px;
+            position: absolute;
+            top: 3px;
+            right: 5px;
         }
 
-        .slot-container {
-            display: flex; flex-direction: column; align-items: center; gap: 10px;
+        .car-idx {
+            font-size: 10px;
+            opacity: 0.7;
+            margin-top: 5px;
         }
 
-        .shuttle {
-            width: 60px; height: 80px;
-            background: linear-gradient(135deg, #2a2e45, #15192b);
-            border: 2px solid var(--accent);
-            border-radius: 10px 10px 4px 4px;
-            display: flex; align-items: center; justify-content: center;
-            font-family: 'Orbitron'; font-size: 1.5rem; color: #fff;
-            position: relative;
-            box-shadow: 0 0 15px var(--accent-dim);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            z-index: 10;
-        }
-        
-        /* Locked State */
-        .shuttle.locked {
-            border-color: var(--danger);
-            background: linear-gradient(135deg, #3a1a25, #220f16);
-            box-shadow: 0 0 10px rgba(255, 0, 85, 0.2);
-        }
-        .shuttle.locked::after {
-            content: "🔒"; font-size: 0.8rem;
-            position: absolute; top: -10px; right: -10px;
-        }
-        
-        /* Slot Indicator */
-        .slot-num {
-            font-size: 0.8rem; color: #4a506a; font-family: 'Orbitron';
-        }
-
-        /* Controls */
-        .control-deck {
-            margin-top: 3rem;
-            background: var(--panel);
-            padding: 2rem;
+        .control-panel {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: #f5f3ff;
             border-radius: 12px;
-            border: 1px solid #2a2e45;
-            display: flex; gap: 30px; align-items: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
         }
 
-        .display-panel {
-            background: #000;
-            border: 1px solid #333;
-            padding: 10px 20px;
-            min-width: 150px;
+        .stat-box {
             text-align: center;
+            padding: 10px 20px;
+            background: #fff;
+            border-radius: 10px;
+            border: 2px solid #8b5cf6;
         }
-        .disp-label { color: #666; font-size: 0.8rem; margin-bottom: 5px; }
-        .disp-val { color: var(--accent); font-family: 'Orbitron'; font-size: 1.2rem; }
-        .disp-val.warn { color: var(--danger); }
+        .stat-label { font-size: 12px; color: #666; }
+        .stat-value { font-size: 24px; font-weight: 600; color: #7c3aed; }
 
-        .input-group {
-            display: flex; flex-direction: column; gap: 5px;
+        .answer-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
         }
-        input {
-            background: #0b0d17; border: 1px solid var(--accent); color: var(--accent);
-            padding: 10px; font-family: 'Orbitron'; font-size: 1.2rem;
-            width: 80px; text-align: center;
+        .answer-row label { font-weight: 600; color: #7c3aed; }
+        .answer-row input {
+            width: 80px;
+            padding: 12px;
+            font-size: 20px;
+            text-align: center;
+            border: 3px solid #8b5cf6;
+            border-radius: 10px;
+            font-family: inherit;
         }
-        
-        button {
-            background: var(--accent); color: #000;
-            border: none; padding: 10px 25px;
-            font-family: 'Rajdhani'; font-weight: 700; text-transform: uppercase;
-            font-size: 1.1rem; cursor: pointer;
-            transition: all 0.2s;
-            clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
+        .check-btn {
+            padding: 12px 30px;
+            background: #8b5cf6;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
         }
-        button:hover { background: #fff; box-shadow: 0 0 15px var(--accent); }
-        button:disabled { opacity: 0.3; pointer-events: none; }
+        .check-btn:hover { background: #7c3aed; }
 
-        /* Animations */
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
         }
-        .shuttle:not(.locked) { animation: float 3s ease-in-out infinite; }
+        .message.correct { background: #dcfce7; color: #16a34a; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #f5f3ff; color: #7c3aed; }
 
-        /* Modal */
-        .modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.95);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 100; opacity: 1; transition: opacity 0.3s;
+        .new-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #0f172a;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
         }
-        .modal.hidden { opacity: 0; pointer-events: none; }
-        
-        .dialog {
-            background: var(--panel); padding: 30px; border-radius: 4px;
-            max-width: 500px; text-align: center;
-            border: 1px solid var(--accent);
-            box-shadow: 0 0 50px var(--accent-dim);
-            position: relative;
-        }
-        .dialog::before {
-            content:''; position: absolute; top:0; left:0; width:100%; height:2px;
-            background: var(--accent);
-            box-shadow: 0 0 10px var(--accent);
-        }
-
-    
-        .alert-modal-wrap {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-            display: none; justify-content: center; align-items: center;
-            z-index: 100;
-        }
-        .alert-modal {
-            background: white; padding: 2rem; border-radius: 8px;
-            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-        .alert-modal button {
-            background: #4b5563; color: white; padding: 0.8rem 2rem;
-            border: none; border-radius: 6px; cursor: pointer;
-        }
-        .alert-modal button:hover { opacity: 0.9; }
-</style>
+    </style>
 </head>
 <body>
 
-<header>
-    <h1>SHUTTLE OPS</h1>
-    <div class="status-badge" id="mission-status">STANDBY</div>
-</header>
-
-<main>
-    <div class="hangar" id="hangar">
-        <!-- Generated -->
+<div class="container">
+    <div class="header">
+        <h1>🚂 Rotate Train</h1>
+        <div style="opacity:0.9; color:#e2e8f0">Rotate movable train cars by K positions!</div>
     </div>
 
-    <div class="control-deck">
-        <div class="display-panel">
-            <div class="disp-label">REQUIRED ROTATION (K)</div>
-            <div class="disp-val" id="val-k">--</div>
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="goal-box">
+            <strong>🎯 Goal:</strong> Calculate how many EFFECTIVE rotations are needed.
+            <br>Purple cars rotate. Gray cars (🔒) are LOCKED and stay in place.
+            <br><br>
+            <strong>Formula:</strong> Effective Rotations = K % (number of movable cars)
         </div>
-        
-        <div class="display-panel">
-            <div class="disp-label">MOVABLE UNITS</div>
-            <div class="disp-val" id="val-cnt">--</div>
+        <div class="example">
+            <div class="example-title">Example:</div>
+            K = 10, Movable Cars = 4<br>
+            Effective Rotations = 10 % 4 = <b>2</b>
         </div>
-
-        <div class="input-group">
-            <label class="disp-label">OPTIMAL SHIFTS</label>
-            <input type="number" id="inp-eff" placeholder="?">
-        </div>
-
-        <button onclick="game.execute()" id="btn-exec">INITIALIZE SHIFT</button>
     </div>
-</main>
 
-<div id="modal" class="modal">
-    <div class="dialog">
-        <h2 style="font-family:'Orbitron'; color:var(--accent); margin-bottom:10px;">ROTATION PROTOCOL</h2>
-        <b>Mission:</b>
-        <div style="text-align:left; font-size:1.1rem; margin:1.5rem 0; line-height:1.5; color:#aaa;">
-            1. <b>Analyze</b>: Identify Locked Shuttles (Red) vs Movable (Blue).<br>
-            2. <b>Calculate</b>: Compute Effective Shifts for Movable units.<br>
-            <span style="color:var(--accent); display:block; margin-left:20px; font-size:0.9rem;">Formula: K % MovableCount</span>
-            3. <b>Execute</b>: Input optimal value to trigger sequence.
+    <div class="game-card">
+        <div class="info-bar">
+            <span>Score: <strong id="score">0</strong></span>
+            <span>Round: <strong id="round">1</strong></span>
         </div>
-        <button onclick="game.start()">ACCEPT MISSION</button>
+
+        <div class="train-track">
+            <div class="train-row" id="trainRow"></div>
+        </div>
+
+        <div class="control-panel">
+            <div class="stat-box">
+                <div class="stat-label">Rotation Amount (K)</div>
+                <div class="stat-value" id="kValue">--</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-label">Movable Cars</div>
+                <div class="stat-value" id="movableCount">--</div>
+            </div>
+        </div>
+
+        <div class="answer-row">
+            <label>Effective Rotations:</label>
+            <input type="number" id="answerInput" placeholder="?">
+            <button class="check-btn" onclick="checkAnswer()">✓ Check</button>
+        </div>
+
+        <div class="message neutral" id="message" style="margin-top:15px">Calculate K % MovableCount and enter your answer!</div>
+
+        <button class="new-btn" onclick="newRound()">🔄 New Train</button>
     </div>
 </div>
 
 <script>
-    class Game {
-        constructor() {
-            this.n = 8;
-            this.shuttles = []; // {id, val, locked, el}
-            this.k = 0;
-            this.movableCount = 0;
-            
-            this.ui = {
-                hangar: document.getElementById('hangar'),
-                k: document.getElementById('val-k'),
-                cnt: document.getElementById('val-cnt'),
-                inp: document.getElementById('inp-eff'),
-                status: document.getElementById('mission-status'),
-                modal: document.getElementById('modal'),
-                btn: document.getElementById('btn-exec')
-            };
+    let cars = [];
+    let locked = [];
+    let K = 0;
+    let movableCount = 0;
+    let score = 0;
+    let round = 1;
+
+    function generateTrain() {
+        const n = 6 + Math.floor(Math.random() * 4); // 6-9 cars
+        cars = [];
+        locked = [];
+        movableCount = 0;
+
+        for (let i = 0; i < n; i++) {
+            cars.push(Math.floor(Math.random() * 90) + 10);
+            // 25% chance of being locked
+            const isLocked = Math.random() < 0.25;
+            locked.push(isLocked);
+            if (!isLocked) movableCount++;
         }
 
-        start() {
-            this.ui.modal.classList.add('hidden');
-            this.loadLevel();
+        // Ensure at least 2 movable
+        if (movableCount < 2) {
+            generateTrain();
+            return;
         }
 
-        loadLevel() {
-            this.ui.hangar.innerHTML = '';
-            this.n = 6 + Math.floor(Math.random()*4); // 6-9
-            
-            this.shuttles = [];
-            this.movableCount = 0;
-            
-            // Gen shuttles
-            for(let i=0; i<this.n; i++) {
-                const isLocked = Math.random() > 0.7; // 30% chance locked
-                if (!isLocked) this.movableCount++;
-                
-                this.shuttles.push({
-                    id: i,
-                    val: Math.floor(Math.random()*90)+10,
-                    locked: isLocked,
-                    el: null
-                });
-            }
-            
-            // Ensure at least 2 movable
-            if (this.movableCount < 2) {
-                this.loadLevel(); return;
-            }
-            
-            // Gen K
-            // Make K large sometimes to force modulo logic
-            if (Math.random() > 0.5) {
-                this.k = this.movableCount + Math.floor(Math.random() * this.movableCount * 2); 
-            } else {
-                this.k = Math.floor(Math.random() * this.movableCount);
-            }
-            // Ensure K > 0
-            if (this.k === 0) this.k = 1;
-
-            this.ui.k.innerText = this.k;
-            this.ui.cnt.innerText = this.movableCount;
-            this.ui.inp.value = '';
-            this.ui.status.innerText = "AWAITING INPUT";
-            this.ui.status.style.color = "var(--accent)";
-            this.ui.status.style.borderColor = "var(--accent)";
-            this.ui.btn.disabled = false;
-
-            this.render();
-        }
-
-        render() {
-            this.ui.hangar.innerHTML = '';
-            this.shuttles.forEach((s, i) => {
-                const cont = document.createElement('div');
-                cont.className = 'slot-container';
-                
-                const el = document.createElement('div');
-                el.className = `shuttle ${s.locked ? 'locked' : ''}`;
-                el.innerText = s.val;
-                s.el = el;
-                
-                const label = document.createElement('div');
-                label.className = 'slot-num';
-                label.innerText = `SLOT ${i}`;
-                
-                cont.appendChild(el);
-                cont.appendChild(label);
-                this.ui.hangar.appendChild(cont);
-            });
-        }
-
-        execute() {
-            const userEff = parseInt(this.ui.inp.value);
-            const correctEff = this.k % this.movableCount;
-            
-            if (isNaN(userEff)) {
-                this.showGameAlert("Please enter a value."); return;
-            }
-            
-            if (userEff === correctEff) {
-                this.animateSuccess(correctEff);
-            } else {
-                this.animateFail();
-            }
-        }
-
-        animateFail() {
-            this.ui.status.innerText = "CALCULATION ERROR";
-            this.ui.status.style.color = "var(--danger)";
-            this.ui.status.style.borderColor = "var(--danger)";
-            this.ui.inp.style.borderColor = "var(--danger)";
-            
-            // Shake all movable
-            this.shuttles.forEach(s => {
-                if(!s.locked) {
-                    s.el.style.transform = "translateX(5px)";
-                    setTimeout(() => s.el.style.transform = "translateX(-5px)", 100);
-                    setTimeout(() => s.el.style.transform = "translateX(0)", 200);
-                }
-            });
-            
-            setTimeout(() => {
-                this.ui.inp.style.borderColor = "var(--accent)";
-                this.ui.status.innerText = "RETRY REQUIRED";
-            }, 1000);
-        }
-
-        animateSuccess(eff) {
-            this.ui.btn.disabled = true;
-            this.ui.status.innerText = "SEQUENCE INITIATED";
-            this.ui.status.style.color = "var(--success)";
-            this.ui.status.style.borderColor = "var(--success)";
-            
-            // Perform Animation
-            // We need to move MOVABLE items LEFT by 'eff' positions cyclically.
-            // But visually, let's just update the values after a cool transition?
-            // Or slide them?
-            // Sliding non-adjacent items in DOM is hard.
-            // Let's do a "Teleport" effect. Fade out, Swap values, Fade in.
-            
-            const movables = this.shuttles.filter(s => !s.locked);
-            const values = movables.map(s => s.val);
-            
-            // Rotate values array left by eff
-            // arr[i] moves to arr[i-eff] (modulo)
-            // Left rotation: New[i] = Old[(i+eff)%len]
-            
-            const newValues = [];
-            for(let i=0; i<values.length; i++) {
-                newValues.push(values[(i + eff) % values.length]);
-            }
-            
-            // Anim: 
-            // 1. Scale Down / Opacity 0
-            movables.forEach(s => {
-                s.el.style.transform = "scale(0) rotate(180deg)";
-                s.el.style.opacity = "0";
-            });
-            
-            setTimeout(() => {
-                // 2. Update Values
-                movables.forEach((s, i) => {
-                    s.val = newValues[i];
-                    s.el.innerText = s.val;
-                });
-                
-                // 3. Scale Up
-                movables.forEach(s => {
-                    s.el.style.transform = "scale(1) rotate(0deg)";
-                    s.el.style.opacity = "1";
-                    s.el.style.boxShadow = "0 0 20px var(--success)";
-                    s.el.style.borderColor = "var(--success)";
-                });
-                
-                this.ui.status.innerText = "OPTIMIZATION COMPLETE";
-                
-                setTimeout(() => {
-                    this.showGameAlert("SYSTEM STABILIZED. PROCEEDING.");
-                    this.loadLevel();
-                }, 1000);
-                
-            }, 600);
+        // Generate K (sometimes larger than movableCount to test modulo)
+        if (Math.random() > 0.5) {
+            K = movableCount + Math.floor(Math.random() * movableCount * 2) + 1;
+        } else {
+            K = Math.floor(Math.random() * (movableCount * 2)) + 1;
         }
     }
 
-    const game = new Game();
+    function render() {
+        const row = document.getElementById('trainRow');
+        row.innerHTML = '';
+
+        cars.forEach((val, i) => {
+            const car = document.createElement('div');
+            car.className = 'car ' + (locked[i] ? 'locked' : 'movable');
+            car.innerHTML = `${val}<span class="car-idx">[${i}]</span>`;
+            row.appendChild(car);
+        });
+
+        document.getElementById('kValue').textContent = K;
+        document.getElementById('movableCount').textContent = movableCount;
+        document.getElementById('answerInput').value = '';
+    }
+
+    function checkAnswer() {
+        const userAnswer = parseInt(document.getElementById('answerInput').value);
+        const correctAnswer = K % movableCount;
+        const msg = document.getElementById('message');
+
+        if (isNaN(userAnswer)) {
+            msg.className = 'message wrong';
+            msg.textContent = 'Please enter a number!';
+            return;
+        }
+
+        if (userAnswer === correctAnswer) {
+            score += 10;
+            msg.className = 'message correct';
+            msg.textContent = `✅ Correct! ${K} % ${movableCount} = ${correctAnswer}`;
+
+            // Animate the rotation
+            animateRotation(correctAnswer);
+        } else {
+            msg.className = 'message wrong';
+            msg.textContent = `❌ Wrong! ${K} % ${movableCount} = ${correctAnswer} (not ${userAnswer})`;
+        }
+
+        document.getElementById('score').textContent = score;
+    }
+
+    function animateRotation(rotations) {
+        if (rotations === 0) return;
+
+        // Get movable indices and values
+        const movableIdx = [];
+        const movableVals = [];
+        for (let i = 0; i < cars.length; i++) {
+            if (!locked[i]) {
+                movableIdx.push(i);
+                movableVals.push(cars[i]);
+            }
+        }
+
+        // Rotate values by 'rotations' positions (left rotation)
+        const rotated = [];
+        for (let i = 0; i < movableVals.length; i++) {
+            rotated.push(movableVals[(i + rotations) % movableVals.length]);
+        }
+
+        // Apply back
+        for (let i = 0; i < movableIdx.length; i++) {
+            cars[movableIdx[i]] = rotated[i];
+        }
+
+        // Animate
+        const row = document.getElementById('trainRow');
+        movableIdx.forEach(i => {
+            row.children[i].style.transform = 'scale(0.8)';
+            row.children[i].style.opacity = '0.5';
+        });
+
+        setTimeout(() => {
+            render();
+            movableIdx.forEach(i => {
+                row.children[i].style.transition = 'all 0.3s';
+                row.children[i].style.transform = 'scale(1.1)';
+                row.children[i].style.boxShadow = '0 0 15px #22c55e';
+            });
+
+            setTimeout(() => {
+                movableIdx.forEach(i => {
+                    row.children[i].style.transform = 'scale(1)';
+                    row.children[i].style.boxShadow = '';
+                });
+            }, 400);
+        }, 300);
+    }
+
+    function newRound() {
+        round++;
+        generateTrain();
+        render();
+        document.getElementById('round').textContent = round;
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Calculate K % MovableCount and enter your answer!';
+    }
+
+    window.onload = () => { generateTrain(); render(); };
 </script>
 </body>
 </html>

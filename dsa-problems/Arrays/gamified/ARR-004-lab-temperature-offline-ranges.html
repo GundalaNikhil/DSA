@@ -3,433 +3,419 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARR-004: Lab Monitor</title>
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Teko:wght@400;600&display=swap" rel="stylesheet">
+    <title>ARR-004: Range Query</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #bdc3c7;
-            --panel: #ecf0f1;
-            --liquid: #3498db;
-            --glass: rgba(255,255,255,0.3);
-            --border: #7f8c8d;
-            --text: #2c3e50;
-            --accent: #e74c3c;
-            --success: #2ecc71;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Share Tech Mono', monospace;
-            background: #95a5a6;
-            margin: 0;
-            height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 850px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .header h1 { font-size: 36px; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #0f766e; margin-bottom: 15px; }
+
+        .goal-box {
+            background: #f0fdfa;
+            border: 2px solid #14b8a6;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .steps {
             display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            user-select: none;
+            gap: 10px;
         }
-
-        header {
-            background: #2c3e50;
-            color: #ecf0f1;
-            padding: 1rem 2rem;
-            display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-
-        h1 { margin:0; font-family:'Teko'; font-size:2rem; letter-spacing:1px; }
-
-        .phase-badge {
-            background: #e67e22; color: #fff; padding: 5px 15px; border-radius: 4px;
-        }
-
-        main {
+        .step {
             flex: 1;
+            background: #f0fdfa;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .step-num {
+            width: 30px;
+            height: 30px;
+            background: #14b8a6;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            margin: 0 auto 8px;
+        }
+        .step-text { font-size: 13px; color: #555; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .score-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 18px;
+            background: linear-gradient(90deg, #0f766e, #14b8a6);
+            border-radius: 10px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .array-container {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .array-row {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .cell {
+            width: 55px;
+            height: 55px;
+            background: #e2e8f0;
+            border-radius: 8px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
-            background: radial-gradient(circle at center, #ecf0f1 0%, #bdc3c7 100%);
-        }
-
-        /* Lab Bench */
-        .bench {
-            width: 900px;
-            background: #dcdde1;
-            border-bottom: 20px solid #718093;
-            padding: 40px 20px;
-            display: flex; justify-content: space-around;
-            position: relative;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-        }
-
-        .flask-container {
-            display: flex; flex-direction: column; align-items: center; gap: 10px;
-            position: relative;
-            width: 60px;
-        }
-
-        .flask {
-            width: 40px; height: 150px;
-            background: var(--glass);
-            border: 2px solid #7f8c8d;
-            border-radius: 0 0 10px 10px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .liquid {
-            position: absolute; bottom: 0; left: 0; width: 100%;
-            background: var(--liquid);
-            height: 50%; /* variable */
-            transition: height 0.5s ease;
-        }
-        .liquid::after {
-            content:''; position: absolute; top:0; left:0; width:100%; height:5px; background:rgba(255,255,255,0.5);
-        }
-
-        .marker-slot {
-            width: 40px; height: 40px;
-            border: 2px dashed #95a5a6;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.9rem; color: #7f8c8d;
             cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
             transition: all 0.2s;
+            border: 2px solid transparent;
         }
-        .marker-slot:hover { border-color: var(--accent); color: var(--accent); }
-        .marker-slot.filled { border-style: solid; background: #fff; color: #000; font-weight: bold; }
+        .cell:hover { border-color: #14b8a6; }
+        .cell.in-range {
+            background: linear-gradient(145deg, #14b8a6, #0d9488);
+            color: #fff;
+        }
+        .cell-idx { font-size: 10px; color: #888; margin-top: 3px; }
+        .cell.in-range .cell-idx { color: rgba(255,255,255,0.8); }
 
-        .idx-label {
-            font-size: 1.2rem; font-family: 'Teko'; color: #2c3e50;
+        .range-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            position: relative;
+            margin-top: 10px;
         }
-        .val-label {
-            font-size: 0.9rem; color: #34495e;
+        .range-fill {
+            position: absolute;
+            height: 100%;
+            background: linear-gradient(90deg, #14b8a6, #2dd4bf);
+            border-radius: 4px;
+            transition: all 0.3s;
         }
 
-        /* Controls */
-        .control-panel {
-            margin-top: 3rem;
-            background: #fff;
-            padding: 2rem; border-radius: 8px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            display: flex; gap: 30px; align-items: center;
+        .query-panel {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: #f0fdfa;
+            border-radius: 12px;
+            margin-bottom: 20px;
         }
 
         .query-box {
-            background: #f1f2f6; border: 1px solid #dfe4ea;
-            padding: 10px 20px;
             text-align: center;
         }
-        .q-label { font-size: 0.8rem; color: #7f8c8d; }
-        .q-val { font-size: 1.5rem; color: #2c3e50; font-weight: bold; }
-
-        button {
-            background: #2c3e50; color: #fff; border: none;
-            padding: 10px 25px; font-family: 'Teko'; font-size: 1.3rem; 
-            cursor: pointer; transition: 0.2s;
-        }
-        button:hover { background: #34495e; transform: translateY(-2px); }
-        button:disabled { opacity: 0.5; transform: none; cursor: not-allowed; }
-        
-        #btn-sweep { background: #e67e22; }
-        #btn-sweep:hover { background: #d35400; }
-
-        /* Markers UI */
-        .marker-store {
-            display: flex; gap: 10px;
-        }
-        .marker {
-            width: 40px; height: 40px; border-radius: 50%;
-            background: #fff; border: 2px solid #2c3e50;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: bold; cursor: grab;
-        }
-        .marker.neg { border-color: #e74c3c; color: #e74c3c; }
-        .marker.pos { border-color: #2ecc71; color: #27ae60; }
-        
-        /* Modal */
-        .modal {
-            position: fixed; inset: 0; background: rgba(44, 62, 80, 0.9);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 100;
-        }
-        .modal.hidden { display: none; }
-        
-        .dialog {
-            background: #fff; padding: 40px; border-radius: 8px;
-            max-width: 500px; text-align: center;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        .query-label { font-size: 12px; color: #666; margin-bottom: 5px; }
+        .query-input {
+            width: 60px;
+            padding: 10px;
+            font-size: 18px;
+            text-align: center;
+            border: 2px solid #14b8a6;
+            border-radius: 8px;
+            font-family: inherit;
         }
 
-    
-        .alert-modal-wrap {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-            display: none; justify-content: center; align-items: center;
-            z-index: 100;
+        .result-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .alert-modal {
-            background: white; padding: 2rem; border-radius: 8px;
-            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        .equals { font-size: 24px; color: #14b8a6; }
+        .sum-display {
+            font-size: 28px;
+            font-weight: 700;
+            color: #0f766e;
+            min-width: 80px;
         }
-        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-        .alert-modal button {
-            background: #4b5563; color: white; padding: 0.8rem 2rem;
-            border: none; border-radius: 6px; cursor: pointer;
+
+        .btn {
+            padding: 12px 25px;
+            background: #14b8a6;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
         }
-        .alert-modal button:hover { opacity: 0.9; }
-</style>
+        .btn:hover { background: #0f766e; }
+
+        .quiz-section {
+            background: #fffbeb;
+            border: 2px solid #f59e0b;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+        }
+        .quiz-title { font-weight: 600; color: #92400e; margin-bottom: 15px; }
+        .quiz-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+        }
+        .quiz-input {
+            width: 100px;
+            padding: 12px;
+            font-size: 20px;
+            text-align: center;
+            border: 3px solid #f59e0b;
+            border-radius: 10px;
+            font-family: inherit;
+        }
+
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+        .message.correct { background: #dcfce7; color: #16a34a; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #f0fdfa; color: #0f766e; }
+
+        .new-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #0f766e;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
 
-<header>
-    <h1>LAB MONITOR V4</h1>
-    <div class="phase-badge" id="phase-disp">PHASE: UPDATES</div>
-</header>
-
-<main>
-    <div class="bench" id="bench">
-        <!-- Vials gen here -->
+<div class="container">
+    <div class="header">
+        <h1>📊 Range Query</h1>
+        <div style="opacity:0.9">Find the sum of elements in a range!</div>
     </div>
 
-    <div class="control-panel">
-        <div class="query-box">
-            <div class="q-label">CURRENT QUERY</div>
-            <div class="q-val" id="q-text">ADD [2..4] +10</div>
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="goal-box">
+            <strong>🎯 Goal:</strong> Calculate the sum of all numbers from index L to R (inclusive).
         </div>
-        
-        <div class="marker-store">
-            <button id="btn-apply-l" onclick="game.selectSlot('L')">MARK L</button>
-            <button id="btn-apply-r" onclick="game.selectSlot('R')">MARK R+1</button>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-text">Enter Left index (L)</div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-text">Enter Right index (R)</div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-text">Calculate the sum in your head</div>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-text">Enter your answer!</div>
+            </div>
         </div>
-
-        <button id="btn-sweep" onclick="game.sweep()" disabled>RUN SWEEP</button>
     </div>
-</main>
 
-<div id="modal" class="modal">
-    <div class="dialog">
-        <h2 style="font-family:'Teko'; font-size:2rem; margin-bottom:10px; color:#2c3e50">THERMAL REGULATION</h2>
-        <b>Protocol:</b>
-        <div style="text-align:left; font-size:1.1rem; margin:1.5rem 0; line-height:1.6; color:#7f8c8d;">
-            1. <b>Updates</b>: Apply Range Updates using Difference Array logic.<br>
-            <span style="color:#e67e22; margin-left:20px;">• Add +V at Start (L)</span><br>
-            <span style="color:#e67e22; margin-left:20px;">• Add -V at End+1 (R+1)</span><br>
-            2. <b>Sweep</b>: Calculate Prefix Sums to finalize temperatures.<br>
-            3. <b>Verify</b>: Ensure all levels are optimal.
+    <div class="game-card">
+        <div class="score-bar">
+            <span>🏆 Score: <strong id="score">0</strong></span>
+            <span>🎯 Streak: <strong id="streak">0</strong></span>
         </div>
-        <button onclick="game.start()">ENTER LAB</button>
+
+        <div class="array-container">
+            <div class="array-row" id="arrayRow"></div>
+            <div class="range-bar">
+                <div class="range-fill" id="rangeFill"></div>
+            </div>
+        </div>
+
+        <div class="query-panel">
+            <div class="query-box">
+                <div class="query-label">Left (L)</div>
+                <input type="number" class="query-input" id="inputL" value="0" min="0">
+            </div>
+            <div class="query-box">
+                <div class="query-label">Right (R)</div>
+                <input type="number" class="query-input" id="inputR" value="0" min="0">
+            </div>
+            <button class="btn" onclick="showRange()">Show Range</button>
+            <div class="result-box">
+                <span class="equals">=</span>
+                <span class="sum-display" id="sumDisplay">?</span>
+            </div>
+        </div>
+
+        <div class="quiz-section">
+            <div class="quiz-title">💡 What's the sum of the highlighted range?</div>
+            <div class="quiz-row">
+                <input type="number" class="quiz-input" id="answerInput" placeholder="Sum?">
+                <button class="btn" onclick="checkAnswer()">Check Answer</button>
+            </div>
+        </div>
+
+        <div class="message neutral" id="message">Set L and R, click "Show Range", then calculate the sum!</div>
+
+        <button class="new-btn" onclick="newGame()">🔄 New Array</button>
     </div>
 </div>
 
 <script>
-    class Game {
-        constructor() {
-            this.n = 8;
-            this.arr = []; // initial
-            this.diff = []; // difference arr
-            this.queries = [];
-            this.currQ = 0;
-            
-            this.phase = 'UPDATE'; // UPDATE, SWEEP
-            
-            this.ui = {
-                bench: document.getElementById('bench'),
-                qText: document.getElementById('q-text'),
-                btnSweep: document.getElementById('btn-sweep'),
-                modal: document.getElementById('modal'),
-                phase: document.getElementById('phase-disp')
-            };
+    let arr = [];
+    let prefixSum = [];
+    let currentL = 0;
+    let currentR = 0;
+    let score = 0;
+    let streak = 0;
+
+    function generateArray() {
+        const n = 8 + Math.floor(Math.random() * 4); // 8-11 elements
+        arr = [];
+        prefixSum = [0];
+
+        for (let i = 0; i < n; i++) {
+            const val = Math.floor(Math.random() * 15) + 1;
+            arr.push(val);
+            prefixSum.push(prefixSum[prefixSum.length - 1] + val);
         }
 
-        start() {
-            this.ui.modal.classList.add('hidden');
-            this.loadLevel();
-        }
-
-        loadLevel() {
-            this.ui.bench.innerHTML = '';
-            this.n = 8;
-            this.arr = Array(this.n).fill(50);
-            this.diff = Array(this.n + 1).fill(0);
-            
-            // Gen 3 queries
-            this.queries = [];
-            for(let i=0; i<3; i++) {
-                const l = Math.floor(Math.random() * (this.n - 2));
-                const r = l + Math.floor(Math.random() * (this.n - l));
-                const val = (Math.floor(Math.random()*4)+1) * 10 * (Math.random()>0.5?1:-1);
-                this.queries.push({ l, r, val });
-            }
-            this.currQ = 0;
-            this.phase = 'UPDATE';
-            
-            this.renderBench();
-            this.updateQueryDisplay();
-        }
-
-        renderBench() {
-            this.ui.bench.innerHTML = '';
-            // N flasks + 1 ghost flask for R+1
-            for(let i=0; i<=this.n; i++) {
-                const div = document.createElement('div');
-                div.className = 'flask-container';
-                div.id = `fc-${i}`;
-                
-                // Marker Slot
-                const slot = document.createElement('div');
-                slot.className = 'marker-slot';
-                slot.id = `slot-${i}`;
-                slot.onclick = () => this.handleSlotClick(i);
-                slot.innerText = '+';
-                
-                div.appendChild(slot);
-                
-                // Flask (only for 0..n-1, but visual ghost for n)
-                const flask = document.createElement('div');
-                flask.className = 'flask';
-                if(i === this.n) flask.style.borderStyle = 'dashed';
-                
-                const liquid = document.createElement('div');
-                liquid.className = 'liquid';
-                if (i < this.n) liquid.style.height = this.arr[i] + '%';
-                else liquid.style.height = '0%';
-                liquid.id = `liq-${i}`;
-                
-                flask.appendChild(liquid);
-                div.appendChild(flask);
-                
-                // Label
-                const lbl = document.createElement('div');
-                lbl.className = 'idx-label';
-                lbl.innerText = i;
-                div.appendChild(lbl);
-                
-                this.ui.bench.appendChild(div);
-            }
-        }
-
-        updateQueryDisplay() {
-            if(this.currQ < this.queries.length) {
-                const q = this.queries[this.currQ];
-                this.ui.qText.innerHTML = `UPDATE <span style="color:#e67e22">[${q.l} ... ${q.r}]</span> BY ${q.val>0?'+':''}${q.val}`;
-                this.ui.phase.innerText = `QUERY ${this.currQ+1}/${this.queries.length}`;
-            } else {
-                this.ui.qText.innerHTML = "ALL UPDATES LOGGED. READY TO SWEEP.";
-                this.ui.phase.innerText = "PHASE: SWEEP";
-                this.ui.btnSweep.disabled = false;
-                this.phase = 'SWEEP';
-                
-                // Disable slots
-                document.querySelectorAll('.marker-slot').forEach(s => s.style.pointerEvents = 'none');
-            }
-        }
-
-        handleSlotClick(i) {
-            if (this.phase !== 'UPDATE') return;
-            // Simplified Interaction: User just clicks correct slots for current query?
-            // Or Drag and Drop?
-            // "Clicking on slot applies pending marker part."
-            
-            const q = this.queries[this.currQ];
-            // We need to place +V at L, and -V at R+1.
-            
-            // Logic: Is this slot L or R+1?
-            if (i === q.l) {
-                this.placeMarker(i, q.val);
-                this.checkQueryComplete();
-            } else if (i === q.r + 1) {
-                this.placeMarker(i, -q.val);
-                this.checkQueryComplete();
-            } else {
-                // Wrong slot
-                const s = document.getElementById(`slot-${i}`);
-                s.style.borderColor = '#e74c3c';
-                setTimeout(() => s.style.borderColor = '#95a5a6', 500);
-            }
-        }
-
-        placeMarker(i, val) {
-            const slot = document.getElementById(`slot-${i}`);
-            // Check if already filled for this query?
-            // Our logic: update diff array.
-            // Visually stack values? Just show sum.
-            
-            // Since multiple queries might hit same slot, we should accumulate visually or just flash?
-            // Let's accumulate in diff array and show "marker" permanently.
-            
-            if (slot.dataset.markedQ === String(this.currQ)) return; // already marked for this Q
-            
-            this.diff[i] += val;
-            
-            // Visual
-            const exist = slot.querySelector('.marker-pill');
-            if (!exist) {
-                slot.innerHTML = `<span class="marker-pill" style="font-size:0.8rem; font-weight:bold; color:${val>0?'#2ecc71':'#e74c3c'}">${val>0?'+':''}${val}</span>`;
-                slot.classList.add('filled');
-            } else {
-                 // Append? Or Sum?
-                 // Just Sum visual
-                 // For complex overlapping visuals, just flashing "OK" and updating diff is safer.
-                 // Let's Append small text
-                 slot.innerHTML += `<br><span class="marker-pill" style="font-size:0.8rem; font-weight:bold; color:${val>0?'#2ecc71':'#e74c3c'}">${val>0?'+':''}${val}</span>`;
-            }
-            
-            slot.dataset.markedQ = this.currQ;
-        }
-
-        checkQueryComplete() {
-            const q = this.queries[this.currQ];
-            const lSlot = document.getElementById(`slot-${q.l}`);
-            const rSlot = document.getElementById(`slot-${q.r+1}`);
-            
-            if (lSlot.dataset.markedQ === String(this.currQ) && rSlot.dataset.markedQ === String(this.currQ)) {
-                // Next Query
-                setTimeout(() => {
-                    this.currQ++;
-                    this.updateQueryDisplay();
-                }, 500);
-            }
-        }
-
-        sweep() {
-            if (this.phase !== 'SWEEP') return;
-            this.ui.btnSweep.disabled = true;
-            
-            // Animate Prefix Sum
-            let currentAdd = 0;
-            
-            const animateStep = (i) => {
-                if (i >= this.n) {
-                    setTimeout(() => {
-                        this.showGameAlert("PROCESS COMPLETE. TEMPERATURES STABILIZED.");
-                        this.loadLevel();
-                    }, 1000);
-                    return;
-                }
-                
-                const d = this.diff[i];
-                currentAdd += d;
-                this.arr[i] += currentAdd;
-                
-                // Visual Update
-                const liq = document.getElementById(`liq-${i}`);
-                liq.style.height = Math.max(0, Math.min(100, this.arr[i])) + '%';
-                liq.style.backgroundColor = (this.arr[i] > 80) ? '#e74c3c' : (this.arr[i] < 20 ? '#3498db' : '#2ecc71');
-                
-                // Highlight
-                const fc = document.getElementById(`fc-${i}`);
-                fc.style.transform = "scale(1.1)";
-                setTimeout(() => fc.style.transform = "scale(1)", 200);
-                
-                setTimeout(() => animateStep(i+1), 300);
-            };
-            
-            animateStep(0);
-        }
+        currentL = 0;
+        currentR = 0;
     }
 
-    const game = new Game();
+    function render() {
+        const row = document.getElementById('arrayRow');
+        row.innerHTML = '';
+
+        arr.forEach((val, i) => {
+            const cell = document.createElement('div');
+            cell.className = 'cell' + (i >= currentL && i <= currentR ? ' in-range' : '');
+            cell.innerHTML = `${val}<span class="cell-idx">[${i}]</span>`;
+            row.appendChild(cell);
+        });
+
+        // Update range bar
+        const fill = document.getElementById('rangeFill');
+        const leftPct = (currentL / arr.length) * 100;
+        const widthPct = ((currentR - currentL + 1) / arr.length) * 100;
+        fill.style.left = leftPct + '%';
+        fill.style.width = widthPct + '%';
+
+        document.getElementById('inputR').max = arr.length - 1;
+    }
+
+    function showRange() {
+        const L = parseInt(document.getElementById('inputL').value);
+        const R = parseInt(document.getElementById('inputR').value);
+
+        if (isNaN(L) || isNaN(R) || L < 0 || R >= arr.length || L > R) {
+            document.getElementById('message').className = 'message wrong';
+            document.getElementById('message').textContent = `Invalid range! L: 0-${arr.length-1}, L ≤ R`;
+            return;
+        }
+
+        currentL = L;
+        currentR = R;
+        render();
+
+        document.getElementById('sumDisplay').textContent = '?';
+        document.getElementById('answerInput').value = '';
+        document.getElementById('answerInput').focus();
+
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = `Range [${L}, ${R}] selected. Calculate the sum!`;
+    }
+
+    function checkAnswer() {
+        const userAnswer = parseInt(document.getElementById('answerInput').value);
+        const correctSum = prefixSum[currentR + 1] - prefixSum[currentL];
+        const msg = document.getElementById('message');
+
+        if (isNaN(userAnswer)) {
+            msg.className = 'message wrong';
+            msg.textContent = 'Please enter a number!';
+            return;
+        }
+
+        document.getElementById('sumDisplay').textContent = correctSum;
+
+        if (userAnswer === correctSum) {
+            score += 10;
+            streak++;
+            msg.className = 'message correct';
+            msg.textContent = `✅ Correct! Sum[${currentL}..${currentR}] = ${correctSum}. Streak: ${streak}!`;
+        } else {
+            streak = 0;
+            msg.className = 'message wrong';
+            msg.textContent = `❌ Wrong! Sum[${currentL}..${currentR}] = ${correctSum} (not ${userAnswer})`;
+        }
+
+        document.getElementById('score').textContent = score;
+        document.getElementById('streak').textContent = streak;
+    }
+
+    function newGame() {
+        generateArray();
+        render();
+        document.getElementById('inputL').value = 0;
+        document.getElementById('inputR').value = Math.min(3, arr.length - 1);
+        document.getElementById('sumDisplay').textContent = '?';
+        document.getElementById('answerInput').value = '';
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Set L and R, click "Show Range", then calculate the sum!';
+    }
+
+    window.onload = newGame;
 </script>
 </body>
 </html>

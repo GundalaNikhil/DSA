@@ -3,351 +3,368 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARR-007: Registry Merge</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cabin:wght@400;700&family=Oswald:wght@400;600&display=swap" rel="stylesheet">
+    <title>ARR-007: Merge Intervals</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #2d3436;
-            --felt: #27ae60;
-            --card-a: #f1c40f;
-            --card-b: #3498db;
-            --slot-bg: rgba(0,0,0,0.2);
-            --border: #ecf0f1;
-            --text: #fff;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Cabin', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            user-select: none;
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            min-height: 100vh;
+            padding: 20px;
         }
 
-        header {
-            background: #2c3e50;
-            padding: 1rem 2rem;
-            border-bottom: 4px solid #34495e;
-            display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        .container { max-width: 850px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .header h1 { font-size: 36px; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #059669; margin-bottom: 15px; }
+
+        .goal-box {
+            background: #ecfdf5;
+            border: 2px solid #6ee7b7;
+            border-radius: 12px;
+            padding: 15px;
+            line-height: 1.6;
         }
 
-        h1 { margin:0; font-family:'Oswald', sans-serif; letter-spacing:1px; font-size:1.8rem; }
-        .score-board { font-size: 1.2rem; font-family: 'Oswald'; }
+        .example {
+            margin-top: 15px;
+            padding: 15px;
+            background: #f0fdf4;
+            border-radius: 10px;
+            font-family: monospace;
+        }
 
-        main {
-            flex: 1;
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .info-bar {
             display: flex;
-            flex-direction: column;
+            justify-content: space-between;
+            padding: 12px 18px;
+            background: linear-gradient(90deg, #059669, #10b981);
+            border-radius: 10px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .timeline {
+            padding: 30px 20px;
+            background: #f0fdf4;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            position: relative;
+            min-height: 150px;
+        }
+
+        .timeline-axis {
+            height: 4px;
+            background: #94a3b8;
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            top: 50%;
+        }
+
+        .interval {
+            position: absolute;
+            height: 40px;
+            border-radius: 8px;
+            display: flex;
             align-items: center;
             justify-content: center;
-            background: radial-gradient(circle at center, #27ae60 0%, #1e8449 100%); /* Felt Table */
-            position: relative;
+            font-weight: 600;
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.2s;
+            top: calc(50% - 20px);
+        }
+        .interval:hover { transform: scale(1.05); }
+        .interval.merged { opacity: 0.4; }
+
+        .merge-area {
+            padding: 20px;
+            background: #ecfdf5;
+            border-radius: 12px;
+            margin-bottom: 20px;
         }
 
-        /* Card Mechanics */
-        .decks-area {
-            display: flex; gap: 100px;
-            margin-bottom: 50px;
+        .selected-intervals {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 15px;
+            min-height: 50px;
         }
 
-        .deck-container {
-            display: flex; flex-direction: column; align-items: center;
-        }
-
-        .deck-title {
-            font-family: 'Oswald'; font-size: 1.5rem; margin-bottom: 10px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .card-stack {
-            width: 120px; height: 160px;
-            position: relative;
-        }
-        .card-stack::before {
-            content:'EMPTY'; position: absolute; inset:0;
-            display:flex; align-items:center; justify-content:center;
-            border: 2px dashed rgba(255,255,255,0.3); border-radius:10px;
-            color: rgba(255,255,255,0.3); font-weight:bold;
-        }
-
-        .card {
-            width: 120px; height: 160px;
-            background: #fff;
-            border-radius: 10px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            font-size: 3rem; font-family: 'Oswald'; font-weight: 700;
-            color: #2c3e50;
-            position: absolute; top: 0; left: 0;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            cursor: grab;
-            border: 5px solid transparent;
-        }
-        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
-        .card.dragging { opacity: 0.8; cursor: grabbing; z-index: 100 !important; }
-
-        .card-type-a { border-color: var(--card-a); background: #fffbe6; }
-        .card-type-a::after { content:'ROSTER A'; position:absolute; bottom:10px; font-size:0.8rem; color:#f39c12; }
-        
-        .card-type-b { border-color: var(--card-b); background: #e6f7ff; }
-        .card-type-b::after { content:'ROSTER B'; position:absolute; bottom:10px; font-size:0.8rem; color:#2980b9; }
-
-        /* Master List */
-        .master-track {
-            width: 90%; max-width: 1000px; height: 180px;
-            background: rgba(0,0,0,0.2);
+        .selected-chip {
+            padding: 10px 15px;
+            background: #10b981;
+            color: #fff;
             border-radius: 20px;
-            border: 4px solid rgba(255,255,255,0.1);
-            display: flex; align-items: center; gap: 10px;
-            padding: 0 20px;
-            overflow-x: auto;
-            position: relative;
+            font-weight: 600;
+            cursor: pointer;
         }
-        .master-track::after { content:'MASTER ROSTER (SORTED)'; position: absolute; bottom: 5px; right: 20px; font-size: 1rem; opacity: 0.5; font-family: 'Oswald'; }
+        .selected-chip:hover { background: #dc2626; }
 
-        .slot-card {
-            min-width: 80px; height: 110px;
-            background: #fff; border-radius: 6px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem; font-family: 'Oswald'; color: #333;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            animation: slideIn 0.3s ease; border: 3px solid #ccc;
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
         }
-        @keyframes slideIn { from { transform:translateX(50px) scale(0); opacity:0; } to { transform:translateX(0) scale(1); opacity:1; } }
-        
-        .slot-card.from-a { border-color: var(--card-a); }
-        .slot-card.from-b { border-color: var(--card-b); }
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-merge { background: #10b981; color: #fff; }
+        .btn-clear { background: #64748b; color: #fff; }
+        .btn:hover { transform: scale(1.05); }
 
-        /* Messages */
-        .msg-toast {
-            position: absolute; top: 100px;
-            background: rgba(0,0,0,0.8); color: #fff; padding: 10px 20px; border-radius: 30px;
-            font-size: 1.2rem; opacity: 0; pointer-events: none; transition: opacity 0.2s;
+        .result {
+            padding: 15px;
+            background: #f0fdf4;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 15px;
         }
-        .msg-toast.visible { opacity: 1; }
-        .msg-toast.err { background: #c0392b; }
 
-        /* Modal */
-        .modal {
-            position: fixed; inset: 0; background: rgba(44, 62, 80, 0.95);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 200;
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
         }
-        .modal.hidden { display: none; }
-        
-        .dialog {
-            background: #fff; padding: 40px; border-radius: 8px;
-            max-width: 500px; text-align: center; color: #2c3e50;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
-        }
-        
-        button {
-            background: #27ae60; color: #fff; border: none;
-            padding: 12px 30px; font-family: 'Oswald'; font-size: 1.3rem; 
-            cursor: pointer; transition: 0.2s; box-shadow: 0 5px 0 #1e8449;
-        }
-        button:hover { transform: translateY(-2px); }
-        button:active { transform: translateY(2px); box-shadow: none; }
+        .message.correct { background: #dcfce7; color: #16a34a; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #ecfdf5; color: #059669; }
 
-    
-        .alert-modal-wrap {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-            display: none; justify-content: center; align-items: center;
-            z-index: 100;
+        .new-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #059669;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
         }
-        .alert-modal {
-            background: white; padding: 2rem; border-radius: 8px;
-            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-        .alert-modal button {
-            background: #4b5563; color: white; padding: 0.8rem 2rem;
-            border: none; border-radius: 6px; cursor: pointer;
-        }
-        .alert-modal button:hover { opacity: 0.9; }
-</style>
+    </style>
 </head>
 <body>
 
-<header>
-    <h1>HOSTEL REGISTRY</h1>
-    <div class="score-board">CARDS LEFT: <span id="count-val">--</span></div>
-</header>
+<div class="container">
+    <div class="header">
+        <h1>📅 Merge Intervals</h1>
+        <div style="opacity:0.9">Select overlapping intervals and merge them!</div>
+    </div>
 
-<main>
-    <div class="msg-toast" id="msg">Correct!</div>
-
-    <div class="decks-area">
-        <div class="deck-container">
-            <div class="deck-title" style="color:var(--card-a)">ROSTER A</div>
-            <div class="card-stack" id="stack-a">
-                <!-- Top Card A -->
-            </div>
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="goal-box">
+            <strong>🎯 Goal:</strong> Click on OVERLAPPING intervals to select them, then MERGE.
+            <br>Overlapping means [1,5] and [3,7] → merged into [1,7].
         </div>
-
-        <div class="deck-container">
-            <div class="deck-title" style="color:var(--card-b)">ROSTER B</div>
-            <div class="card-stack" id="stack-b">
-                <!-- Top Card B -->
-            </div>
+        <div class="example">
+            <strong>Example:</strong> [1,4] + [3,6] = [1,6] (they overlap at 3-4)
         </div>
     </div>
 
-    <div class="master-track" id="master">
-        <!-- Sorted Cards Go Here -->
-    </div>
-</main>
-
-<div id="modal" class="modal">
-    <div class="dialog">
-        <h2 style="font-family:'Oswald'; font-size:2rem; margin-bottom:10px;">MERGE PROTOCOL</h2>
-        <b>Mission:</b>
-        <div style="text-align:left; font-size:1.1rem; margin:1.5rem 0; line-height:1.6; color:#555;">
-            1. <b>Compare</b>: Look at the top cards of Roster A (Yellow) and B (Blue).<br>
-            2. <b>Select</b>: Click the SMALLER value to move it to Master.<br>
-            3. <b>Tie-Breaker</b>: If Values are Equal, <b>ROSTER A</b> has Priority.<br>
-            4. <b>Complete</b>: Sort all cards.
+    <div class="game-card">
+        <div class="info-bar">
+            <span>Intervals: <strong id="intervalCount">0</strong></span>
+            <span>Merged: <strong id="mergedCount">0</strong></span>
         </div>
-        <button onclick="game.start()">START SORTING</button>
+
+        <div class="timeline" id="timeline">
+            <div class="timeline-axis"></div>
+        </div>
+
+        <div class="merge-area">
+            <div style="text-align:center; margin-bottom:10px; color:#666">Selected Intervals (click to remove):</div>
+            <div class="selected-intervals" id="selectedIntervals"></div>
+            <div class="controls">
+                <button class="btn btn-merge" onclick="mergeSelected()">🔗 Merge Selected</button>
+                <button class="btn btn-clear" onclick="clearSelection()">Clear</button>
+            </div>
+        </div>
+
+        <div class="result" id="result">Select overlapping intervals to merge!</div>
+
+        <div class="message neutral" id="message">Click intervals on the timeline to select them.</div>
+
+        <button class="new-btn" onclick="newGame()">🔄 New Intervals</button>
     </div>
 </div>
 
 <script>
-    class Game {
-        constructor() {
-            this.deckA = [];
-            this.deckB = [];
-            this.master = [];
-            
-            this.ui = {
-                stackA: document.getElementById('stack-a'),
-                stackB: document.getElementById('stack-b'),
-                master: document.getElementById('master'),
-                msg: document.getElementById('msg'),
-                count: document.getElementById('count-val'),
-                modal: document.getElementById('modal')
-            };
+    let intervals = [];
+    let selected = [];
+    let mergedCount = 0;
+    const colors = ['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#14b8a6', '#ef4444'];
+
+    function generateIntervals() {
+        const n = 4 + Math.floor(Math.random() * 3); // 4-6 intervals
+        intervals = [];
+        const maxEnd = 20;
+
+        for (let i = 0; i < n; i++) {
+            const start = Math.floor(Math.random() * (maxEnd - 3));
+            const end = start + 2 + Math.floor(Math.random() * 5);
+            intervals.push({ start, end: Math.min(end, maxEnd), color: colors[i % colors.length], merged: false });
         }
 
-        start() {
-            this.ui.modal.classList.add('hidden');
-            this.loadLevel();
-        }
-
-        loadLevel() {
-            this.ui.master.innerHTML = '';
-            // Gen sorted arrays
-            this.deckA = this.genSorted(5);
-            this.deckB = this.genSorted(5);
-            
-            // Create overlaps for tie-breaker testing
-            // Inject a value from A into B? No, random usually works.
-            // Let's force a duplicate.
-            const dup = this.deckA[2];
-            this.deckB[2] = dup;
-            this.deckB.sort((a,b)=>a-b); // re-sort
-            
-            this.updateStacks();
-        }
-
-        genSorted(n) {
-            const arr = Array.from({length:n}, ()=>Math.floor(Math.random()*20)+1);
-            arr.sort((a,b)=>a-b);
-            return arr;
-        }
-
-        updateStacks() {
-            this.renderTopCard('A', this.deckA, this.ui.stackA);
-            this.renderTopCard('B', this.deckB, this.ui.stackB);
-            this.ui.count.innerText = this.deckA.length + this.deckB.length;
-            
-            if (this.deckA.length === 0 && this.deckB.length === 0) {
-                setTimeout(() => {
-                    this.showGameAlert("REGISTRY MERGE COMPLETE!");
-                    this.loadLevel();
-                }, 500);
-            }
-        }
-
-        renderTopCard(type, deck, container) {
-            container.innerHTML = '';
-            if (deck.length === 0) return; // Shows EMPTY
-            
-            const val = deck[0];
-            const card = document.createElement('div');
-            card.className = `card card-type-${type.toLowerCase()}`;
-            card.innerText = val;
-            
-            // Interaction
-            card.onclick = () => this.tryPick(type);
-            
-            container.appendChild(card);
-        }
-
-        tryPick(type) {
-            // Logic Check
-            const valA = this.deckA.length > 0 ? this.deckA[0] : Infinity;
-            const valB = this.deckB.length > 0 ? this.deckB[0] : Infinity;
-            
-            let correctType = null;
-            
-            if (valA < valB) {
-                correctType = 'A';
-            } else if (valB < valA) {
-                correctType = 'B';
-            } else {
-                // Tie: A is priority
-                correctType = 'A';
-            }
-            
-            if (type === correctType) {
-                // Success
-                this.moveCardToMaster(type);
-            } else {
-                // Fail
-                this.showMsg("Incorrect! Check Rules.", true);
-                // Shake effect
-                const stack = type === 'A' ? this.ui.stackA : this.ui.stackB;
-                const card = stack.firstChild;
-                if(card) {
-                    card.style.transform = "translateX(5px)";
-                    setTimeout(() => card.style.transform = "translateX(0)", 100);
-                }
-            }
-        }
-
-        moveCardToMaster(type) {
-            const deck = type === 'A' ? this.deckA : this.deckB;
-            const val = deck.shift();
-            
-            // Visual Move?
-            // Just create in master
-            const slot = document.createElement('div');
-            slot.className = `slot-card from-${type.toLowerCase()}`;
-            slot.innerText = val;
-            this.ui.master.prepend(slot); // Add to left (newest first? Or append?)
-            // Normally merge builds left to right.
-            // Let's Append. But prepend for visual "Stacking"? No, Append is logical order.
-            // But scroll view... Append and scroll.
-            this.ui.master.appendChild(slot);
-            this.ui.master.scrollLeft = this.ui.master.scrollWidth;
-            
-            this.updateStacks();
-        }
-
-        showMsg(text, isErr) {
-            this.ui.msg.innerText = text;
-            this.ui.msg.className = `msg-toast visible ${isErr?'err':''}`;
-            setTimeout(() => this.ui.msg.className = 'msg-toast', 1000);
-        }
+        // Sort by start
+        intervals.sort((a, b) => a.start - b.start);
+        selected = [];
+        mergedCount = 0;
     }
 
-    const game = new Game();
+    function render() {
+        const timeline = document.getElementById('timeline');
+        // Keep axis, clear intervals
+        timeline.innerHTML = '<div class="timeline-axis"></div>';
+
+        const maxEnd = Math.max(...intervals.map(i => i.end));
+        const width = timeline.clientWidth - 40;
+
+        intervals.forEach((intv, i) => {
+            if (intv.merged) return;
+
+            const left = 20 + (intv.start / maxEnd) * width;
+            const w = ((intv.end - intv.start) / maxEnd) * width;
+
+            const el = document.createElement('div');
+            el.className = 'interval' + (selected.includes(i) ? ' selected' : '');
+            el.style.left = left + 'px';
+            el.style.width = Math.max(w, 40) + 'px';
+            el.style.background = intv.color;
+            el.style.border = selected.includes(i) ? '3px solid #000' : 'none';
+            el.textContent = `[${intv.start},${intv.end}]`;
+            el.onclick = () => toggleSelect(i);
+            timeline.appendChild(el);
+        });
+
+        // Update selected chips
+        const chips = document.getElementById('selectedIntervals');
+        chips.innerHTML = '';
+        selected.forEach(i => {
+            const chip = document.createElement('div');
+            chip.className = 'selected-chip';
+            chip.textContent = `[${intervals[i].start}, ${intervals[i].end}]`;
+            chip.onclick = () => { selected = selected.filter(x => x !== i); render(); };
+            chips.appendChild(chip);
+        });
+
+        document.getElementById('intervalCount').textContent = intervals.filter(i => !i.merged).length;
+        document.getElementById('mergedCount').textContent = mergedCount;
+    }
+
+    function toggleSelect(idx) {
+        if (selected.includes(idx)) {
+            selected = selected.filter(i => i !== idx);
+        } else {
+            selected.push(idx);
+        }
+        render();
+    }
+
+    function doOverlap(a, b) {
+        return a.start <= b.end && b.start <= a.end;
+    }
+
+    function mergeSelected() {
+        const msg = document.getElementById('message');
+        const result = document.getElementById('result');
+
+        if (selected.length < 2) {
+            msg.className = 'message wrong';
+            msg.textContent = 'Select at least 2 intervals to merge!';
+            return;
+        }
+
+        // Check if all selected intervals overlap with at least one other
+        const selIntervals = selected.map(i => intervals[i]);
+
+        // Check pairwise overlap (at least form a chain)
+        let allOverlap = true;
+        for (let i = 0; i < selIntervals.length && allOverlap; i++) {
+            let hasOverlap = false;
+            for (let j = 0; j < selIntervals.length; j++) {
+                if (i !== j && doOverlap(selIntervals[i], selIntervals[j])) {
+                    hasOverlap = true;
+                    break;
+                }
+            }
+            if (!hasOverlap && selIntervals.length > 1) allOverlap = false;
+        }
+
+        if (!allOverlap) {
+            msg.className = 'message wrong';
+            msg.textContent = '❌ These intervals don\'t overlap! Select overlapping ones.';
+            return;
+        }
+
+        // Merge
+        const minStart = Math.min(...selIntervals.map(i => i.start));
+        const maxEnd = Math.max(...selIntervals.map(i => i.end));
+
+        // Mark as merged
+        selected.forEach(i => { intervals[i].merged = true; });
+
+        // Add new merged interval
+        intervals.push({ start: minStart, end: maxEnd, color: '#22c55e', merged: false });
+        intervals.sort((a, b) => a.start - b.start);
+
+        mergedCount++;
+        selected = [];
+
+        msg.className = 'message correct';
+        msg.textContent = `✅ Merged into [${minStart}, ${maxEnd}]!`;
+        result.textContent = `Created: [${minStart}, ${maxEnd}]`;
+
+        render();
+    }
+
+    function clearSelection() {
+        selected = [];
+        render();
+    }
+
+    function newGame() {
+        generateIntervals();
+        render();
+        document.getElementById('result').textContent = 'Select overlapping intervals to merge!';
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Click intervals on the timeline to select them.';
+    }
+
+    window.onload = newGame;
 </script>
 </body>
 </html>

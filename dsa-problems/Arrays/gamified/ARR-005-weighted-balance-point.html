@@ -3,366 +3,334 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARR-005: Equilibrium Scale</title>
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;700&family=Teko:wght@400;600&display=swap" rel="stylesheet">
+    <title>ARR-005: Balance Scale</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #1e1e2e;
-            --panel: #262a42;
-            --beam: #a0a0b0;
-            --border: #4a4e69;
-            --text: #cdd6f4;
-            --accent: #f9e2af;
-            --danger: #f38ba8;
-            --success: #a6e3a1;
-            --highlight: #89b4fa;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Chakra Petch', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            height: 100vh;
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #4c1d95 0%, #7c3aed 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .header h1 { font-size: 36px; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #7c3aed; margin-bottom: 15px; }
+
+        .goal-box {
+            background: #f5f3ff;
+            border: 2px solid #8b5cf6;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+        .formula {
+            background: #1e1b4b;
+            color: #a78bfa;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-family: monospace;
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .weights-row {
             display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            user-select: none;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #f5f3ff;
+            border-radius: 12px;
         }
 
-        header {
-            background: var(--panel);
-            padding: 1rem 2rem;
-            border-bottom: 2px solid var(--border);
-            display: flex; justify-content: space-between; align-items: center;
-        }
-
-        h1 { margin:0; font-family:'Teko'; font-size:2rem; letter-spacing:2px; color:var(--highlight); }
-
-        .param-badge {
-            background: rgba(255,255,255,0.1); border-radius: 4px; padding: 5px 15px;
-            font-family: 'Teko'; font-size: 1.2rem; display: flex; gap: 10px;
-        }
-
-        main {
-            flex: 1;
+        .weight {
+            width: 55px;
+            height: 60px;
+            border-radius: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
-            position: relative;
-        }
-
-        /* Scale Mechanism */
-        .scale-container {
-            width: 1000px;
-            display: flex; flex-direction: column; align-items: center;
-            position: relative;
-            margin-top: 50px;
-        }
-
-        .beam-wrapper {
-            position: relative;
-            width: 100%;
-            display: flex; justify-content: center;
-            /* Rotation container */
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform-origin: center bottom;
-        }
-
-        .beam {
-            width: 900px; height: 10px;
-            background: var(--beam);
-            border-radius: 5px;
-            position: relative;
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0 40px;
-        }
-
-        .weights-container {
-            position: absolute; top: -60px; left: 0; width: 100%;
-            display: flex; justify-content: space-around;
-            padding: 0 40px; box-sizing: border-box;
-        }
-
-        .weight-box {
-            width: 50px; height: 50px;
-            background: #313244;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
             cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
             transition: all 0.2s;
+            border: 3px solid transparent;
+        }
+        .weight.left-side { background: #fecaca; color: #991b1b; }
+        .weight.pivot { background: #fcd34d; color: #78350f; border-color: #f59e0b; transform: scale(1.1); }
+        .weight.right-side { background: #bbf7d0; color: #166534; }
+        .weight:hover { transform: scale(1.1); }
+        .weight-idx { font-size: 10px; opacity: 0.7; margin-top: 3px; }
+
+        .scale-visual {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            margin-bottom: 20px;
+            height: 120px;
             position: relative;
         }
-        .weight-box:hover { border-color: var(--highlight); transform: translateY(-5px); }
-        .weight-box.pivot { 
-            background: var(--highlight); color: #1e1e2e; border-color: #fff;
-            transform: scale(1.1); box-shadow: 0 0 20px var(--highlight);
-            z-index: 10;
-        }
-        
-        /* Fulcrum Triangle */
-        .fulcrum-track {
-            width: 900px; height: 40px;
-            margin-top: 5px;
+
+        .scale-beam {
+            width: 400px;
+            height: 8px;
+            background: #64748b;
+            border-radius: 4px;
             position: relative;
+            transform-origin: center;
+            transition: transform 0.5s;
         }
+
         .fulcrum {
-            width: 0; height: 0;
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-bottom: 40px solid var(--accent);
-            position: absolute; bottom: 0; left: 50%; /* variable */
-            transform: translateX(-50%);
-            transition: left 0.3s ease;
+            width: 0;
+            height: 0;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 50px solid #fcd34d;
+            position: absolute;
+            bottom: 0;
         }
 
-        /* Gauges */
-        .gauges-panel {
-            display: flex; justify-content: space-between; width: 100%; max-width: 900px;
-            margin-top: 100px;
+        .torque-display {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
         }
 
-        .gauge {
-            width: 300px; padding: 20px;
-            background: var(--panel); border: 2px solid var(--border);
+        .torque-box {
+            text-align: center;
+            padding: 15px 30px;
+            border-radius: 12px;
+            min-width: 150px;
+        }
+        .torque-box.left { background: #fee2e2; border: 2px solid #fca5a5; }
+        .torque-box.right { background: #dcfce7; border: 2px solid #86efac; }
+
+        .torque-label { font-size: 14px; color: #666; margin-bottom: 5px; }
+        .torque-value { font-size: 32px; font-weight: 700; }
+        .torque-box.left .torque-value { color: #dc2626; }
+        .torque-box.right .torque-value { color: #16a34a; }
+
+        .params {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f5f3ff;
             border-radius: 10px;
-            display: flex; flex-direction: column; align-items: center;
         }
-        .gauge-title { font-family: 'Teko'; font-size: 1.5rem; color: #aaa; }
-        .gauge-val { font-size: 2.5rem; font-weight: bold; margin: 10px 0; }
-        .gauge-calc { font-size: 0.9rem; color: #7f8c8d; }
-        
-        #g-left { border-color: #f38ba8; }
-        #g-right { border-color: #a6e3a1; }
+        .param {
+            text-align: center;
+        }
+        .param-label { font-size: 12px; color: #666; }
+        .param-value { font-size: 24px; font-weight: 600; color: #7c3aed; }
 
-        /* Modal */
-        .modal {
-            position: fixed; inset: 0; background: rgba(30, 30, 46, 0.95);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 100;
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
         }
-        .modal.hidden { display: none; }
-        
-        .dialog {
-            background: var(--panel); padding: 40px; border-radius: 12px;
-            max-width: 500px; text-align: center;
-            box-shadow: 0 0 30px rgba(0,0,0,0.5); border: 1px solid var(--highlight);
-        }
+        .message.balanced { background: #dcfce7; color: #16a34a; }
+        .message.unbalanced { background: #fef3c7; color: #92400e; }
+        .message.neutral { background: #f5f3ff; color: #7c3aed; }
 
-        button {
-            background: var(--highlight); color: #1e1e2e; border: none;
-            padding: 10px 30px; font-family: 'Teko'; font-size: 1.5rem;
-            cursor: pointer; margin-top: 20px; transition: 0.2s;
+        .new-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #7c3aed;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
         }
-        button:hover { background: #fff; transform: scale(1.05); }
-
-    
-        .alert-modal-wrap {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-            display: none; justify-content: center; align-items: center;
-            z-index: 100;
-        }
-        .alert-modal {
-            background: white; padding: 2rem; border-radius: 8px;
-            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-        .alert-modal button {
-            background: #4b5563; color: white; padding: 0.8rem 2rem;
-            border: none; border-radius: 6px; cursor: pointer;
-        }
-        .alert-modal button:hover { opacity: 0.9; }
-</style>
+    </style>
 </head>
 <body>
 
-<header>
-    <h1>EQUILIBRIUM SCALE</h1>
-    <div class="param-badge">
-        <span>L-FACTOR: <span id="val-l" style="color:var(--danger)">--</span></span>
-        <span style="color:#666">|</span>
-        <span>R-FACTOR: <span id="val-r" style="color:var(--success)">--</span></span>
+<div class="container">
+    <div class="header">
+        <h1>⚖️ Balance Scale</h1>
+        <div style="opacity:0.9">Find the pivot point that balances the scale!</div>
     </div>
-</header>
 
-<main>
-    <div class="scale-container">
-        <div class="beam-wrapper" id="beam-wrap">
-            <div class="weights-container" id="w-cont">
-                <!-- Weights -->
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="goal-box">
+            <strong>🎯 Goal:</strong> Click on weights to set them as the PIVOT point.
+            <br>Find the index where LEFT TORQUE = RIGHT TORQUE.
+            <br><br>
+            <strong>Torque Formula:</strong>
+            <div class="formula">Left Torque = Sum(Left) × L-Factor<br>Right Torque = Sum(Right) × R-Factor</div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="params">
+            <div class="param">
+                <div class="param-label">L-Factor</div>
+                <div class="param-value" id="lFactor">1</div>
             </div>
-            <div class="beam"></div>
+            <div class="param">
+                <div class="param-label">R-Factor</div>
+                <div class="param-value" id="rFactor">1</div>
+            </div>
         </div>
-        
-        <div class="fulcrum-track">
-            <div class="fulcrum" id="fulcrum"></div>
-        </div>
-    </div>
 
-    <div class="gauges-panel">
-        <div class="gauge" id="g-left">
-            <div class="gauge-title">LEFT TORQUE</div>
-            <div class="gauge-val" id="disp-l">0</div>
-            <div class="gauge-calc">SUM(Left) × L</div>
-        </div>
-        
-        <div class="gauge" id="g-right">
-            <div class="gauge-title">RIGHT TORQUE</div>
-            <div class="gauge-val" id="disp-r">0</div>
-            <div class="gauge-calc">SUM(Right) × R</div>
-        </div>
-    </div>
-</main>
+        <div class="weights-row" id="weightsRow"></div>
 
-<div id="modal" class="modal">
-    <div class="dialog">
-        <h2 style="font-family:'Teko'; font-size:2rem; margin-bottom:10px; color:var(--highlight)">BALANCE PROTOCOL</h2>
-        <b>Objective:</b>
-        <div style="text-align:left; font-size:1.1rem; margin:1.5rem 0; line-height:1.6; color:var(--text);">
-            Find the **Pivot Index** `i` that balances the scale.<br>
-            <br>
-            <b>Condition:</b><br>
-            <span style="font-family:monospace; background:rgba(0,0,0,0.3); padding:2px 5px;">(SumLeft × L) == (SumRight × R)</span><br>
-            <br>
-            <b>Controls:</b><br>
-            Click a weight to set it as the Pivot (Fulcrum).
+        <div class="scale-visual">
+            <div class="scale-beam" id="scaleBeam"></div>
+            <div class="fulcrum"></div>
         </div>
-        <button onclick="game.start()">CALIBRATE</button>
+
+        <div class="torque-display">
+            <div class="torque-box left">
+                <div class="torque-label">Left Torque</div>
+                <div class="torque-value" id="leftTorque">0</div>
+            </div>
+            <div class="torque-box right">
+                <div class="torque-label">Right Torque</div>
+                <div class="torque-value" id="rightTorque">0</div>
+            </div>
+        </div>
+
+        <div class="message neutral" id="message">Click a weight to set it as the pivot!</div>
+
+        <button class="new-btn" onclick="newGame()">🔄 New Weights</button>
     </div>
 </div>
 
 <script>
-    class Game {
-        constructor() {
-            this.n = 7;
-            this.arr = [];
-            this.L = 1;
-            this.R = 1;
-            
-            this.ui = {
-                wCont: document.getElementById('w-cont'),
-                fulcrum: document.getElementById('fulcrum'),
-                beamWrap: document.getElementById('beam-wrap'),
-                dispL: document.getElementById('disp-l'),
-                dispR: document.getElementById('disp-r'),
-                valL: document.getElementById('val-l'),
-                valR: document.getElementById('val-r'),
-                modal: document.getElementById('modal')
-            };
+    let weights = [];
+    let L = 1;
+    let R = 1;
+    let pivotIdx = -1;
+    let solutionIdx = -1;
+
+    function generateWeights() {
+        const n = 7 + Math.floor(Math.random() * 4); // 7-10 weights
+        weights = [];
+
+        for (let i = 0; i < n; i++) {
+            weights.push(Math.floor(Math.random() * 9) + 1);
         }
 
-        start() {
-            this.ui.modal.classList.add('hidden');
-            this.loadLevel();
-        }
+        // Pick a solution index and calculate L, R factors
+        solutionIdx = 1 + Math.floor(Math.random() * (n - 2)); // avoid ends
 
-        loadLevel() {
-            this.n = 7 + Math.floor(Math.random()*4); // 7-10
-            this.arr = Array.from({length: this.n}, () => Math.floor(Math.random()*10)+1);
-            
-            // Generate L and R such that a solution exists?
-            // Random L, R usually results in NO solution.
-            // Let's force a solution.
-            // Pick a pivot index 'p'.
-            // Calc sumL (exc p), sumR (exc p).
-            // Need sumL * L == sumR * R.
-            // Let L = sumR, R = sumL. Simplify by GCD.
-            
-            const p = Math.floor(Math.random() * (this.n - 2)) + 1; // avoid ends
-            let sumL = 0; for(let i=0; i<p; i++) sumL += this.arr[i];
-            let sumR = 0; for(let i=p+1; i<this.n; i++) sumR += this.arr[i];
-            
-            // If sum is 0 (unlikely with positive nums), just use 1.
-            // Simplify ratio
-            const gcd = (a, b) => b==0 ? a : gcd(b, a%b);
-            const common = gcd(sumL, sumR);
-            
-            this.L = sumR / common;
-            this.R = sumL / common;
-            
-            // Randomly scale L and R? No, keep simple.
-            
-            this.ui.valL.innerText = this.L;
-            this.ui.valR.innerText = this.R;
-            
-            this.renderWeights();
-            this.setPivot(Math.floor(this.n/2)); // Initial center, likely unbalanced
-        }
+        let sumL = 0;
+        for (let i = 0; i < solutionIdx; i++) sumL += weights[i];
 
-        renderWeights() {
-            this.ui.wCont.innerHTML = '';
-            this.arr.forEach((val, i) => {
-                const box = document.createElement('div');
-                box.className = 'weight-box';
-                box.innerHTML = `<span style="font-size:0.8rem; color:#aaa; margin-bottom:2px">${i}</span><b>${val}</b>`;
-                box.onclick = () => this.setPivot(i);
-                box.id = `w-${i}`;
-                this.ui.wCont.appendChild(box);
-            });
-        }
+        let sumR = 0;
+        for (let i = solutionIdx + 1; i < n; i++) sumR += weights[i];
 
-        setPivot(idx) {
-            // Update UI Pivot Highlight
-            document.querySelectorAll('.weight-box').forEach(b => b.classList.remove('pivot'));
-            document.getElementById(`w-${idx}`).classList.add('pivot');
-            
-            // Move Fulcrum
-            // Calculate position % based on index spread
-            // Weights spread 0 to 100% in w-cont (with padding).
-            // Actually flex space-around places them uniformly.
-            // Center of item i is at roughly (i + 0.5) / n * 100% of w-cont width?
-            // Let's rely on DOM offset.
-            
-            const target = document.getElementById(`w-${idx}`);
-            // We need relative position of center of target within container
-            const contRect = this.ui.wCont.getBoundingClientRect();
-            const targetRect = target.getBoundingClientRect();
-            
-            const relCenter = (targetRect.left + targetRect.width/2) - contRect.left;
-            const pct = (relCenter / contRect.width) * 100;
-            
-            this.ui.fulcrum.style.left = pct + '%';
-            
-            this.checkBalance(idx);
-        }
+        // Set L = sumR, R = sumL (simplify by GCD)
+        const gcd = (a, b) => b === 0 ? a : gcd(b, a % b);
+        const d = gcd(sumL, sumR) || 1;
+        L = sumR / d;
+        R = sumL / d;
 
-        checkBalance(idx) {
-            let sL = 0; for(let i=0; i<idx; i++) sL += this.arr[i];
-            let sR = 0; for(let i=idx+1; i<this.n; i++) sR += this.arr[i];
-            
-            const torqueL = sL * this.L;
-            const torqueR = sR * this.R;
-            
-            this.ui.dispL.innerText = torqueL;
-            this.ui.dispR.innerText = torqueR;
-            
-            // Animate Beam Tilt
-            let tilt = 0;
-            if (torqueL > torqueR) tilt = -10; // Left heavy -> tilt CCW
-            else if (torqueR > torqueL) tilt = 10; // Right heavy -> tilt CW
-            else tilt = 0;
-            
-            this.ui.beamWrap.style.transform = `rotate(${tilt}deg)`;
-            
-            if (tilt === 0) {
-                // Success
-                this.ui.dispL.style.color = "var(--success)";
-                this.ui.dispR.style.color = "var(--success)";
-                setTimeout(() => {
-                    this.showGameAlert("BALANCE ACHIEVED!");
-                    this.loadLevel();
-                }, 1000);
-            } else {
-                this.ui.dispL.style.color = "var(--text)";
-                this.ui.dispR.style.color = "var(--text)";
-            }
+        pivotIdx = Math.floor(n / 2); // start at center
+    }
+
+    function render() {
+        const row = document.getElementById('weightsRow');
+        row.innerHTML = '';
+
+        weights.forEach((val, i) => {
+            const weight = document.createElement('div');
+            let cls = 'weight';
+            if (i === pivotIdx) cls += ' pivot';
+            else if (i < pivotIdx) cls += ' left-side';
+            else cls += ' right-side';
+
+            weight.className = cls;
+            weight.innerHTML = `${val}<span class="weight-idx">[${i}]</span>`;
+            weight.onclick = () => setPivot(i);
+            row.appendChild(weight);
+        });
+
+        document.getElementById('lFactor').textContent = L;
+        document.getElementById('rFactor').textContent = R;
+
+        updateTorques();
+    }
+
+    function setPivot(idx) {
+        pivotIdx = idx;
+        render();
+    }
+
+    function updateTorques() {
+        let sumL = 0;
+        for (let i = 0; i < pivotIdx; i++) sumL += weights[i];
+
+        let sumR = 0;
+        for (let i = pivotIdx + 1; i < weights.length; i++) sumR += weights[i];
+
+        const torqueL = sumL * L;
+        const torqueR = sumR * R;
+
+        document.getElementById('leftTorque').textContent = torqueL;
+        document.getElementById('rightTorque').textContent = torqueR;
+
+        // Animate beam tilt
+        const beam = document.getElementById('scaleBeam');
+        const msg = document.getElementById('message');
+
+        if (torqueL > torqueR) {
+            beam.style.transform = 'rotate(-8deg)';
+            msg.className = 'message unbalanced';
+            msg.textContent = '⬅️ Left side is heavier! Try another pivot.';
+        } else if (torqueR > torqueL) {
+            beam.style.transform = 'rotate(8deg)';
+            msg.className = 'message unbalanced';
+            msg.textContent = '➡️ Right side is heavier! Try another pivot.';
+        } else {
+            beam.style.transform = 'rotate(0deg)';
+            msg.className = 'message balanced';
+            msg.textContent = '✅ BALANCED! You found the equilibrium point!';
         }
     }
 
-    const game = new Game();
+    function newGame() {
+        generateWeights();
+        render();
+    }
+
+    window.onload = newGame;
 </script>
 </body>
 </html>

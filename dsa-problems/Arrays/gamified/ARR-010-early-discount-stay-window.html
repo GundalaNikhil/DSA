@@ -3,414 +3,344 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARR-010: Trade Terminal</title>
-    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&family=Krona+One&display=swap" rel="stylesheet">
+    <title>ARR-010: Sliding Window Max</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #0d1117;
-            --panel: #161b22;
-            --grid: #30363d;
-            --text: #c9d1d9;
-            --up: #2ea043;
-            --down: #da3633;
-            --accent: #58a6ff;
-            --window: rgba(88, 166, 255, 0.1);
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'IBM Plex Mono', monospace;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            height: 100vh;
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .header h1 { font-size: 36px; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #0ea5e9; margin-bottom: 15px; }
+
+        .goal-box {
+            background: #f0f9ff;
+            border: 2px solid #7dd3fc;
+            border-radius: 12px;
+            padding: 15px;
+            line-height: 1.6;
+        }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .params {
             display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            user-select: none;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f0f9ff;
+            border-radius: 10px;
+        }
+        .param { text-align: center; }
+        .param-label { font-size: 12px; color: #666; }
+        .param-value { font-size: 28px; font-weight: 700; color: #0ea5e9; }
+
+        .array-container {
+            position: relative;
+            padding: 30px 10px;
+            margin-bottom: 20px;
         }
 
-        header {
-            background: var(--panel);
-            border-bottom: 1px solid var(--grid);
-            padding: 1rem 2rem;
-            display: flex; justify-content: space-between; align-items: center;
+        .array-row {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
         }
 
-        h1 { margin:0; font-family:'Krona One'; font-size:1.5rem; color:var(--text); }
-        
-        .market-ticker {
-            display: flex; gap: 20px; font-size: 0.9rem;
-        }
-        .tick-item span { font-weight: bold; }
-
-        main {
-            flex: 1;
+        .cell {
+            width: 50px;
+            height: 55px;
+            border-radius: 8px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            font-size: 18px;
+            font-weight: 600;
+            background: #e2e8f0;
+            color: #374151;
+            transition: all 0.3s;
             position: relative;
         }
+        .cell.in-window {
+            background: #0ea5e9;
+            color: #fff;
+            transform: scale(1.05);
+        }
+        .cell.is-max {
+            background: #22c55e;
+            box-shadow: 0 0 15px #22c55e;
+        }
+        .cell-idx { font-size: 9px; opacity: 0.6; margin-top: 2px; }
 
-        /* Chart Area */
-        .chart-container {
-            width: 900px; height: 400px;
-            background: var(--panel);
-            border: 1px solid var(--grid);
-            position: relative;
-            display: flex; align-items: flex-end; justify-content: space-between;
-            padding: 0 40px; box-sizing: border-box;
-        }
-        
-        /* Grid Lines */
-        .chart-container::before {
-            content:''; position: absolute; inset:0;
-            background-image: linear-gradient(var(--grid) 1px, transparent 1px), linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-            background-size: 40px 40px; opacity: 0.3; pointer-events: none;
-        }
-
-        /* Ceiling Line */
-        .ceiling-line {
-            position: absolute; left: 0; width: 100%; height: 2px;
-            background: var(--text);
-            border-bottom: 1px dashed #000;
-            z-index: 5; pointer-events: none;
-        }
-        .ceiling-label {
-            position: absolute; right: 10px; top: -20px;
-            background: var(--bg); padding: 2px 5px; font-size: 0.8rem;
-            color: var(--text); border: 1px solid var(--grid);
+        .window-frame {
+            position: absolute;
+            height: 70px;
+            border: 4px solid #0ea5e9;
+            border-radius: 12px;
+            top: 20px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            pointer-events: none;
         }
 
-        /* Candles */
-        .candle-slot {
-            flex: 1; height: 100%;
-            display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
-            position: relative;
-            cursor: pointer;
-            transition: background 0.2s;
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 20px;
         }
-        .candle-slot:hover { background: rgba(255,255,255,0.05); }
-        .candle-slot.buy-point { background: rgba(46, 160, 67, 0.2); border-bottom: 4px solid var(--up); }
-        .candle-slot.sell-point { background: rgba(218, 54, 51, 0.2); border-top: 4px solid var(--down); }
-        
-        .candle-body {
-            width: 12px;
-            background: var(--accent);
-            border: 1px solid #fff;
-            position: relative;
-            transition: height 0.5s;
-        }
-        .candle-label {
-            margin-top: 10px; font-size: 0.8rem; color: #8b949e;
-        }
-
-        /* Window Highlight */
-        .window-zone {
-            position: absolute; height: 100%; background: var(--window);
-            border-left: 1px dashed var(--accent);
-            border-right: 1px dashed var(--accent);
-            pointer-events: none; display: none;
-            top: 0;
-        }
-
-        /* Controls */
-        .trade-panel {
-            margin-top: 2rem;
-            display: flex; gap: 30px; align-items: center;
-            background: var(--panel); padding: 20px; border: 1px solid var(--grid);
-            border-radius: 6px;
-        }
-
-        .stat-box { text-align: center; min-width: 100px; }
-        .stat-label { font-size: 0.7rem; color: #8b949e; margin-bottom: 5px; }
-        .stat-val { font-size: 1.2rem; font-weight: bold; }
-        .stat-val.profit { color: var(--up); }
-        
-        button {
-            background: var(--up); color: #fff; border: none;
-            padding: 10px 20px; font-family: 'IBM Plex Mono'; font-weight: bold;
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
         }
-        button:disabled { background: var(--grid); color: #8b949e; cursor: not-allowed; }
+        .btn-slide { background: #0ea5e9; color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-        /* Modal */
-        .modal {
-            position: fixed; inset: 0; background: rgba(13, 17, 23, 0.95);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 100;
+        .quiz-section {
+            background: #fffbeb;
+            border: 2px solid #fcd34d;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            text-align: center;
         }
-        .modal.hidden { display: none; }
-        
-        .dialog {
-            background: var(--panel); padding: 40px; border: 1px solid var(--grid);
-            max-width: 600px; text-align: center; color: var(--text);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+        .quiz-question { font-weight: 600; color: #92400e; margin-bottom: 15px; }
+        .quiz-row {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            align-items: center;
         }
+        .quiz-input {
+            width: 80px;
+            padding: 12px;
+            font-size: 20px;
+            text-align: center;
+            border: 3px solid #f59e0b;
+            border-radius: 10px;
+            font-family: inherit;
+        }
+        .btn-check { background: #22c55e; color: #fff; }
 
-    
-        .alert-modal-wrap {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-            display: none; justify-content: center; align-items: center;
-            z-index: 100;
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
         }
-        .alert-modal {
-            background: white; padding: 2rem; border-radius: 8px;
-            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        .message.correct { background: #dcfce7; color: #16a34a; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #f0f9ff; color: #0ea5e9; }
+
+        .new-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #0ea5e9;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
         }
-        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-        .alert-modal button {
-            background: #4b5563; color: white; padding: 0.8rem 2rem;
-            border: none; border-radius: 6px; cursor: pointer;
-        }
-        .alert-modal button:hover { opacity: 0.9; }
-</style>
+    </style>
 </head>
 <body>
 
-<header>
-    <h1>ALGO TRADER</h1>
-    <div class="market-ticker">
-        <div class="tick-item">HOLD MIN: <span id="v-min">--</span></div>
-        <div class="tick-item">HOLD MAX: <span id="v-max">--</span></div>
-        <div class="tick-item">CAP (C): <span id="v-cap">--</span></div>
-    </div>
-</header>
-
-<main>
-    <div class="chart-container" id="chart">
-        <div class="ceiling-line" id="ceil-line">
-            <div class="ceiling-label">CAP: <span id="ceil-val"></span></div>
-        </div>
-        <div class="window-zone" id="win-zone"></div>
-        <!-- Candles gen here -->
+<div class="container">
+    <div class="header">
+        <h1>🪟 Sliding Window</h1>
+        <div style="opacity:0.9">Find the maximum in each window position!</div>
     </div>
 
-    <div class="trade-panel">
-        <div class="stat-box">
-            <div class="stat-label">BUY PRICE</div>
-            <div class="stat-val" id="p-buy">--</div>
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="goal-box">
+            <strong>🎯 Goal:</strong> A window of size K slides across the array.
+            <br>For each position, identify the MAXIMUM value inside the window.
+            <br>Enter your answer and slide to the next position!
         </div>
-        <div class="stat-box">
-            <div class="stat-label">SELL PRICE</div>
-            <div class="stat-val" id="p-sell">--</div>
-        </div>
-        <div class="stat-box">
-            <div class="stat-label">NET P/L</div>
-            <div class="stat-val profit" id="p-net">--</div>
-        </div>
-        
-        <button id="btn-action" onclick="game.confirmTrade()" disabled>CONFIRM TRADE</button>
     </div>
-</main>
 
-<div id="modal" class="modal">
-    <div class="dialog">
-        <h2 style="font-family:'Krona One'; margin-bottom:10px; color:var(--accent);">MARKET RULES</h2>
-        <div style="text-align:left; font-size:1rem; margin:1.5rem 0; line-height:1.6; color:#8b949e;">
-            1. <b>Buy</b>: Click a candle to set ENTRY point.<br>
-            2. <b>Window</b>: Valid SELL range is highlighted (dMin to dMax days later).<br>
-            3. <b>Sell</b>: Click a candle inside the window to set EXIT point.<br>
-            4. <b>Cap</b>: Sell Price is CAPPED at value C. Effective = min(Price, C).<br>
-            5. <b>Goal</b>: Maximize Profit.
+    <div class="game-card">
+        <div class="params">
+            <div class="param">
+                <div class="param-label">Window Size (K)</div>
+                <div class="param-value" id="windowSize">3</div>
+            </div>
+            <div class="param">
+                <div class="param-label">Window Position</div>
+                <div class="param-value" id="windowPos">0</div>
+            </div>
         </div>
-        <button onclick="game.start()">OPEN TERMINAL</button>
+
+        <div class="array-container" id="arrayContainer">
+            <div class="array-row" id="arrayRow"></div>
+            <div class="window-frame" id="windowFrame"></div>
+        </div>
+
+        <div class="quiz-section">
+            <div class="quiz-question">What is the MAXIMUM value in the current window?</div>
+            <div class="quiz-row">
+                <input type="number" class="quiz-input" id="answerInput" placeholder="?">
+                <button class="btn btn-check" onclick="checkMax()">✓ Check</button>
+                <button class="btn btn-slide" id="slideBtn" onclick="slideWindow()" disabled>→ Slide</button>
+            </div>
+        </div>
+
+        <div class="message neutral" id="message">Look at the highlighted cells and find the maximum!</div>
+
+        <button class="new-btn" onclick="newGame()">🔄 New Array</button>
     </div>
 </div>
 
 <script>
-    class Game {
-        constructor() {
-            this.prices = [];
-            this.n = 15;
-            this.dMin = 2;
-            this.dMax = 5;
-            this.C = 10;
-            
-            this.buyIdx = -1;
-            this.sellIdx = -1;
-            
-            this.ui = {
-                chart: document.getElementById('chart'),
-                ceilLine: document.getElementById('ceil-line'),
-                ceilVal: document.getElementById('ceil-val'),
-                winZone: document.getElementById('win-zone'),
-                vMin: document.getElementById('v-min'),
-                vMax: document.getElementById('v-max'),
-                vCap: document.getElementById('v-cap'),
-                pBuy: document.getElementById('p-buy'),
-                pSell: document.getElementById('p-sell'),
-                pNet: document.getElementById('p-net'),
-                btn: document.getElementById('btn-action'),
-                modal: document.getElementById('modal')
-            };
+    let arr = [];
+    let K = 3;
+    let windowStart = 0;
+    let score = 0;
+
+    function generateArray() {
+        const n = 10 + Math.floor(Math.random() * 4); // 10-13 elements
+        arr = [];
+
+        for (let i = 0; i < n; i++) {
+            arr.push(Math.floor(Math.random() * 20) + 1);
         }
 
-        start() {
-            this.ui.modal.classList.add('hidden');
-            this.loadLevel();
-        }
+        K = 3 + Math.floor(Math.random() * 2); // 3-4
+        windowStart = 0;
+    }
 
-        loadLevel() {
-            this.n = 12 + Math.floor(Math.random()*4);
-            const prices = [];
-            let curr = 10;
-            for(let i=0; i<this.n; i++) {
-                curr += Math.floor(Math.random()*7) - 3;
-                if(curr < 1) curr = 1;
-                prices.push(curr);
+    function render() {
+        const row = document.getElementById('arrayRow');
+        row.innerHTML = '';
+
+        const maxInWindow = Math.max(...arr.slice(windowStart, windowStart + K));
+
+        arr.forEach((val, i) => {
+            const cell = document.createElement('div');
+            let cls = 'cell';
+
+            if (i >= windowStart && i < windowStart + K) {
+                cls += ' in-window';
             }
-            this.prices = prices;
-            
-            this.dMin = 2 + Math.floor(Math.random()*2);
-            this.dMax = this.dMin + 2 + Math.floor(Math.random()*3);
-            
-            const maxP = Math.max(...prices);
-            const minP = Math.min(...prices);
-            this.C = minP + Math.floor((maxP - minP) * 0.7); // Cap at 70% of range roughly
-            
-            this.buyIdx = -1;
-            this.sellIdx = -1;
-            
-            this.ui.vMin.innerText = this.dMin;
-            this.ui.vMax.innerText = this.dMax;
-            this.ui.vCap.innerText = this.C;
-            this.ui.ceilVal.innerText = this.C;
-            
-            this.renderChart();
-        }
 
-        renderChart() {
-             const maxVal = Math.max(...this.prices, this.C) + 2;
-             
-             // Update Ceiling Line Position
-             // Height = (C / maxVal) * 100%
-             const ceilH = (this.C / maxVal) * 100;
-             this.ui.ceilLine.style.bottom = ceilH + '%';
-             
-             // Remove old candles
-             document.querySelectorAll('.candle-slot').forEach(e => e.remove());
-             
-             this.prices.forEach((p, i) => {
-                 const slot = document.createElement('div');
-                 slot.className = 'candle-slot';
-                 slot.onclick = () => this.handleSlotClick(i);
-                 slot.id = `slot-${i}`;
-                 
-                 const body = document.createElement('div');
-                 body.className = 'candle-body';
-                 const h = (p / maxVal) * 100;
-                 body.style.height = h + '%';
-                 
-                 // If p > C, maybe visual indication?
-                 // Let's make it hollow or dashed if above cap?
-                 if(p > this.C) {
-                     body.style.opacity = '0.6';
-                     body.style.borderStyle = 'dashed';
-                 }
-                 
-                 const lbl = document.createElement('div');
-                 lbl.className = 'candle-label';
-                 lbl.innerText = p;
-                 
-                 slot.appendChild(body);
-                 slot.appendChild(lbl);
-                 this.ui.chart.appendChild(slot);
-             });
-             
-             this.updateOverlays();
-        }
+            cell.className = cls;
+            cell.innerHTML = `${val}<span class="cell-idx">[${i}]</span>`;
+            row.appendChild(cell);
+        });
 
-        handleSlotClick(i) {
-            // State Logic:
-            // If Buy not set -> Set Buy
-            // If Buy set -> Set Sell if valid, OR Reset Buy if clicked outside/before
-            
-            if (this.buyIdx === -1) {
-                // Set Buy
-                this.buyIdx = i;
-                this.sellIdx = -1;
-            } else {
-                // Check if valid sell
-                if (i >= this.buyIdx + this.dMin && i <= this.buyIdx + this.dMax) {
-                    this.sellIdx = i;
-                } else {
-                    // Reset Buy to new pos
-                    this.buyIdx = i;
-                    this.sellIdx = -1;
-                }
+        // Position the window frame
+        setTimeout(() => {
+            const container = document.getElementById('arrayContainer');
+            const firstCell = row.children[windowStart];
+            const lastCell = row.children[windowStart + K - 1];
+
+            if (firstCell && lastCell) {
+                const frame = document.getElementById('windowFrame');
+                const containerRect = container.getBoundingClientRect();
+                const firstRect = firstCell.getBoundingClientRect();
+                const lastRect = lastCell.getBoundingClientRect();
+
+                frame.style.left = (firstRect.left - containerRect.left - 5) + 'px';
+                frame.style.width = (lastRect.right - firstRect.left + 10) + 'px';
             }
-            this.updateOverlays();
+        }, 10);
+
+        document.getElementById('windowSize').textContent = K;
+        document.getElementById('windowPos').textContent = windowStart;
+        document.getElementById('answerInput').value = '';
+        document.getElementById('slideBtn').disabled = true;
+    }
+
+    function checkMax() {
+        const userAnswer = parseInt(document.getElementById('answerInput').value);
+        const correctMax = Math.max(...arr.slice(windowStart, windowStart + K));
+        const msg = document.getElementById('message');
+
+        if (isNaN(userAnswer)) {
+            msg.className = 'message wrong';
+            msg.textContent = 'Enter a number!';
+            return;
         }
 
-        updateOverlays() {
-            document.querySelectorAll('.candle-slot').forEach(e => {
-                e.classList.remove('buy-point');
-                e.classList.remove('sell-point');
-            });
-            this.ui.winZone.style.display = 'none';
-            this.ui.btn.disabled = true;
-            this.ui.pBuy.innerText = '--';
-            this.ui.pSell.innerText = '--';
-            this.ui.pNet.innerText = '--';
-            
-            if (this.buyIdx !== -1) {
-                document.getElementById(`slot-${this.buyIdx}`).classList.add('buy-point');
-                this.ui.pBuy.innerText = this.prices[this.buyIdx];
-                
-                // Show Window
-                // Need left position of start and end candles
-                // Start = buy + dMin
-                // End = buy + dMax
-                const startIdx = Math.min(this.n-1, this.buyIdx + this.dMin);
-                const endIdx = Math.min(this.n-1, this.buyIdx + this.dMax);
-                
-                if (startIdx < this.n) {
-                    const startEl = document.getElementById(`slot-${startIdx}`);
-                    const endEl = document.getElementById(`slot-${endIdx}`);
-                    
-                    if(startEl && endEl) {
-                        const contRect = this.ui.chart.getBoundingClientRect();
-                        const sRect = startEl.getBoundingClientRect();
-                        const eRect = endEl.getBoundingClientRect();
-                        
-                        const l = sRect.left - contRect.left;
-                        const w = (eRect.right - contRect.left) - l;
-                        
-                        this.ui.winZone.style.display = 'block';
-                        this.ui.winZone.style.left = l + 'px';
-                        this.ui.winZone.style.width = w + 'px';
-                    }
-                }
-            }
-            
-            if (this.sellIdx !== -1) {
-                document.getElementById(`slot-${this.sellIdx}`).classList.add('sell-point');
-                const rawSell = this.prices[this.sellIdx];
-                const effSell = Math.min(rawSell, this.C);
-                this.ui.pSell.innerText = `${effSell} (${rawSell > this.C ? 'CAPPED' : 'RAW'})`;
-                
-                const profit = effSell - this.prices[this.buyIdx];
-                this.ui.pNet.innerText = profit;
-                this.ui.pNet.style.color = profit > 0 ? "var(--up)" : "var(--down)";
-                
-                this.ui.btn.disabled = false;
+        // Highlight the max in window
+        const row = document.getElementById('arrayRow');
+        for (let i = windowStart; i < windowStart + K; i++) {
+            if (arr[i] === correctMax) {
+                row.children[i].classList.add('is-max');
+                break;
             }
         }
 
-        confirmTrade() {
-            const profit = parseFloat(this.ui.pNet.innerText);
-            if (profit > 0) {
-                this.showGameAlert(`TRADE EXECUTED. PROFIT: ${profit}`);
-            } else {
-                this.showGameAlert(`TRADE EXECUTED. LOSS/NEUTRAL: ${profit}`);
-            }
-            this.loadLevel();
+        if (userAnswer === correctMax) {
+            score += 10;
+            msg.className = 'message correct';
+            msg.textContent = `✅ Correct! Max = ${correctMax}`;
+            document.getElementById('slideBtn').disabled = false;
+        } else {
+            msg.className = 'message wrong';
+            msg.textContent = `❌ Wrong! Max = ${correctMax} (not ${userAnswer})`;
+            document.getElementById('slideBtn').disabled = false;
         }
     }
 
-    const game = new Game();
+    function slideWindow() {
+        if (windowStart + K >= arr.length) {
+            document.getElementById('message').className = 'message correct';
+            document.getElementById('message').textContent = '🎉 Completed! All windows processed.';
+            document.getElementById('slideBtn').disabled = true;
+            return;
+        }
+
+        windowStart++;
+        render();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Find the maximum in the new window!';
+    }
+
+    function newGame() {
+        generateArray();
+        score = 0;
+        render();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Look at the highlighted cells and find the maximum!';
+    }
+
+    window.onload = newGame;
 </script>
 </body>
 </html>

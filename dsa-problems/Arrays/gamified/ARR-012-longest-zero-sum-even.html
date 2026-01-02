@@ -3,360 +3,362 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARR-012: EM Balance</title>
-    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <title>ARR-012: Even Subarray</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #050510;
-            --pos: #00f3ff;
-            --neg: #ff0055;
-            --neutral: #888;
-            --grid: rgba(255,255,255,0.1);
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'Exo 2', sans-serif;
-            background: var(--bg);
+            font-family: 'Nunito', sans-serif;
+            background: linear-gradient(135deg, #059669 0%, #34d399 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 850px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
             color: #fff;
-            margin: 0;
-            height: 100vh;
+        }
+        .header h1 { font-size: 36px; }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .tutorial h2 { color: #059669; margin-bottom: 15px; }
+
+        .goal-box {
+            background: #ecfdf5;
+            border: 2px solid #6ee7b7;
+            border-radius: 12px;
+            padding: 15px;
+            line-height: 1.6;
+        }
+
+        .game-card {
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+        }
+
+        .score-bar {
             display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            user-select: none;
+            justify-content: space-between;
+            padding: 12px 18px;
+            background: linear-gradient(90deg, #059669, #34d399);
+            border-radius: 10px;
+            color: #fff;
+            margin-bottom: 20px;
         }
 
-        header {
-            border-bottom: 1px solid var(--grid);
-            padding: 1rem 2rem;
-            display: flex; justify-content: space-between; align-items: center;
-            background: rgba(0,0,0,0.5);
-            backdrop-filter: blur(5px);
+        .tiles-row {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #ecfdf5;
+            border-radius: 12px;
         }
 
-        h1 { margin:0; font-family:'Orbitron'; letter-spacing:2px; font-size: 1.5rem; text-shadow: 0 0 10px var(--pos); }
-
-        .status-bar {
-            font-family: 'Orbitron'; font-size: 1.2rem;
-        }
-
-        main {
-            flex: 1;
+        .tile {
+            width: 50px;
+            height: 55px;
+            border-radius: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
-            position: relative;
-        }
-
-        /* Particle Track */
-        .track-container {
-            width: 100%; max-width: 1000px;
-            overflow-x: auto;
-            border: 1px solid var(--grid);
-            padding: 20px;
-            border-radius: 12px;
-            background: rgba(255,255,255,0.02);
-            position: relative;
-        }
-
-        .particles {
-            display: flex; gap: 5px; min-width: 800px;
-            padding-bottom: 20px;
-        }
-
-        .charge-unit {
-            width: 50px; height: 50px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: bold; font-family: 'Orbitron';
-            position: relative;
             cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
             transition: all 0.2s;
-            border: 2px solid transparent;
+            border: 3px solid transparent;
         }
-        .charge-unit:hover { transform: scale(1.1); z-index: 10; }
-        
-        .c-pos { background: radial-gradient(circle, #00f3ff, #005f66); box-shadow: 0 0 10px var(--pos); color: #000; }
-        .c-neg { background: radial-gradient(circle, #ff0055, #660022); box-shadow: 0 0 10px var(--neg); color: #fff; }
-        
-        /* Selection Highlight */
-        .charge-unit.in-range { border-color: #fff; }
-        .charge-unit.start-range { box-shadow: 0 0 20px #fff; }
-        .charge-unit.end-range { box-shadow: 0 0 20px #fff; }
+        .tile.positive { background: #dcfce7; color: #16a34a; }
+        .tile.negative { background: #fee2e2; color: #dc2626; }
+        .tile.zero { background: #fef3c7; color: #92400e; }
+        .tile.selected { border-color: #059669; box-shadow: 0 0 10px rgba(5, 150, 105, 0.5); }
+        .tile:hover { transform: scale(1.1); }
+        .tile-idx { font-size: 9px; opacity: 0.6; margin-top: 2px; }
 
-        .idx-label {
-            position: absolute; bottom: -25px;
-            font-size: 0.8rem; color: #888;
+        .info-panel {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f0fdf4;
+            border-radius: 10px;
         }
+        .info-box { text-align: center; }
+        .info-label { font-size: 12px; color: #666; }
+        .info-value { font-size: 24px; font-weight: 700; color: #059669; }
+        .info-value.even { color: #22c55e; }
+        .info-value.odd { color: #dc2626; }
 
-        /* Graph Overlay (Prefix Sum) */
-        .graph-area {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; opacity: 0.3;
+        .controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-bottom: 15px;
         }
-        
-        /* Controls */
-        .control-panel {
-            margin-top: 3rem;
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-check { background: #22c55e; color: #fff; }
+        .btn-clear { background: #64748b; color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+
+        .requirement {
             text-align: center;
-        }
-        
-        .readout {
-            background: #111; border: 1px solid #333;
-            padding: 15px 30px; border-radius: 8px;
-            display: inline-flex; gap: 30px;
-            font-family: 'Orbitron';
-        }
-        .r-item { display: flex; flex-direction: column; align-items: center; }
-        .r-label { font-size: 0.7rem; color: #666; margin-bottom: 5px; }
-        .r-val { font-size: 1.5rem; color: #fff; }
-
-        button {
-            background: transparent; border: 2px solid var(--pos); color: var(--pos);
-            padding: 10px 40px; font-family: 'Orbitron'; font-size: 1.2rem;
-            margin-top: 20px; cursor: pointer; transition: 0.2s;
-        }
-        button:hover { background: var(--pos); color: #000; box-shadow: 0 0 20px var(--pos); }
-        button:disabled { border-color: #555; color: #555; pointer-events: none; box-shadow: none; }
-
-        /* Modal */
-        .modal {
-            position: fixed; inset: 0; background: rgba(5, 5, 16, 0.95);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 100;
-        }
-        .modal.hidden { display: none; }
-        
-        .dialog {
-            background: #0a0a1a; padding: 40px; border: 1px solid var(--pos);
-            max-width: 500px; text-align: center;
-            box-shadow: 0 0 50px rgba(0,243,255,0.2);
+            padding: 10px;
+            background: #fef3c7;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #92400e;
         }
 
-    
-        .alert-modal-wrap {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-            display: none; justify-content: center; align-items: center;
-            z-index: 100;
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: 600;
         }
-        .alert-modal {
-            background: white; padding: 2rem; border-radius: 8px;
-            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        .message.correct { background: #dcfce7; color: #16a34a; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #ecfdf5; color: #059669; }
+
+        .new-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #059669;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
         }
-        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-        .alert-modal button {
-            background: #4b5563; color: white; padding: 0.8rem 2rem;
-            border: none; border-radius: 6px; cursor: pointer;
-        }
-        .alert-modal button:hover { opacity: 0.9; }
-</style>
+    </style>
 </head>
 <body>
 
-<header>
-    <h1>E.M. BALANCE</h1>
-    <div class="status-bar">MAX LEN FOUND: <span id="best-len" style="color:var(--pos)">0</span></div>
-</header>
+<div class="container">
+    <div class="header">
+        <h1>🔢 Even Subarray</h1>
+        <div style="opacity:0.9">Find subarrays with zero sum AND even length!</div>
+    </div>
 
-<main>
-    <div class="track-container">
-        <div class="particles" id="particles">
-            <!-- Gen -->
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="goal-box">
+            <strong>🎯 Goal:</strong> Select a contiguous range that:
+            <br>1. Has SUM = 0
+            <br>2. Has EVEN length (2, 4, 6, ...)
+            <br><br>
+            Find the LONGEST such subarray!
         </div>
     </div>
 
-    <div class="control-panel">
-        <div class="readout">
-            <div class="r-item">
-                <span class="r-label">SELECTED SUM</span>
-                <span class="r-val" id="sel-sum">--</span>
-            </div>
-            <div class="r-item">
-                <span class="r-label">LENGTH</span>
-                <span class="r-val" id="sel-len">--</span>
-            </div>
-            <div class="r-item">
-                <span class="r-label">VALIDITY</span>
-                <span class="r-val" id="sel-valid">--</span>
-            </div>
+    <div class="game-card">
+        <div class="score-bar">
+            <span>🏆 Score: <strong id="score">0</strong></span>
+            <span>Best Length: <strong id="best">0</strong></span>
         </div>
-        <br>
-        <button id="btn-submit" onclick="game.submitRange()" disabled>VALIDATE</button>
-    </div>
-</main>
 
-<div id="modal" class="modal">
-    <div class="dialog">
-        <h2 style="font-family:'Orbitron'; margin-bottom:10px; color:var(--pos)">CHARGE NEUTRALIZATION</h2>
-        <div style="text-align:left; font-size:1.1rem; margin:1.5rem 0; line-height:1.6; color:#aaa;">
-            1. <b>Objective</b>: Find the LONGEST subarray with <b>Net Charge 0</b>.<br>
-            2. <b>Constraint</b>: Length must be <b>EVEN</b>.<br>
-            3. <b>Interaction</b>: Click START and END particles to select a range.<br>
-            4. <b>Win</b>: Identify the optimal range.
+        <div class="tiles-row" id="tilesRow"></div>
+
+        <div class="info-panel">
+            <div class="info-box">
+                <div class="info-label">Range</div>
+                <div class="info-value" id="rangeDisplay">-</div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">Sum</div>
+                <div class="info-value" id="sumDisplay">0</div>
+            </div>
+            <div class="info-box">
+                <div class="info-label">Length</div>
+                <div class="info-value" id="lenDisplay">0</div>
+            </div>
         </div>
-        <button onclick="game.start()">ENGAGE</button>
+
+        <div class="requirement" id="requirements">
+            ✓ Sum = 0 | ✓ Even Length
+        </div>
+
+        <div class="controls">
+            <button class="btn btn-check" onclick="checkSelection()">✓ Submit</button>
+            <button class="btn btn-clear" onclick="clearSelection()">↺ Clear</button>
+        </div>
+
+        <div class="message neutral" id="message">Click tiles to select a range with sum=0 and even length!</div>
+
+        <button class="new-btn" onclick="newGame()">🔄 New Numbers</button>
     </div>
 </div>
 
 <script>
-    class Game {
-        constructor() {
-            this.arr = [];
-            this.n = 15;
-            this.startIdx = -1;
-            this.endIdx = -1;
-            this.optimalLen = 0;
-            
-            this.ui = {
-                cont: document.getElementById('particles'),
-                sum: document.getElementById('sel-sum'),
-                len: document.getElementById('sel-len'),
-                valid: document.getElementById('sel-valid'),
-                btn: document.getElementById('btn-submit'),
-                best: document.getElementById('best-len'),
-                modal: document.getElementById('modal')
-            };
+    let tiles = [];
+    let startIdx = -1;
+    let endIdx = -1;
+    let score = 0;
+    let best = 0;
+    let foundRanges = new Set();
+
+    function generateTiles() {
+        const n = 10 + Math.floor(Math.random() * 4); // 10-13 tiles
+        tiles = [];
+
+        for (let i = 0; i < n; i++) {
+            tiles.push(Math.floor(Math.random() * 11) - 5); // -5 to +5
         }
 
-        start() {
-            this.ui.modal.classList.add('hidden');
-            this.loadLevel();
-        }
+        // Inject a guaranteed zero-sum even-length subarray
+        const start = Math.floor(Math.random() * (n - 4));
+        const len = 4; // Even length
+        let sum = 0;
+        for (let i = start; i < start + len - 1; i++) sum += tiles[i];
+        tiles[start + len - 1] = -sum;
 
-        loadLevel() {
-            this.n = 12 + Math.floor(Math.random()*4);
-            this.arr = [];
-            // Generate +1, -1 mainly, maybe some bigger values to make it tricky?
-            // "Longest zero sum even length" usually implies simpler values or subsets.
-            // Problem ARR-012 example uses small ints.
-            // Let's stick to -3 to +3.
-            for(let i=0; i<this.n; i++) {
-                let val = Math.floor(Math.random()*7)-3; 
-                if(val === 0) val = 1; // avoid zeros for visual clarity? No, 0 is fine.
-                // 0 makes length +1 with sum +0.
-                this.arr.push(val);
-            }
-            
-            this.calcOptimal();
-            this.startIdx = -1;
-            this.endIdx = -1;
-            
-            this.render();
-            this.resetStats();
-        }
-
-        calcOptimal() {
-            // Brute force optimal for small N
-            let maxLen = 0;
-            for(let i=0; i<this.n; i++) {
-                let sum = 0;
-                for(let j=i; j<this.n; j++) {
-                    sum += this.arr[j];
-                    const len = j - i + 1;
-                    if(sum === 0 && len % 2 === 0) {
-                        maxLen = Math.max(maxLen, len);
-                    }
-                }
-            }
-            this.optimalLen = maxLen;
-        }
-
-        render() {
-            this.ui.cont.innerHTML = '';
-            this.arr.forEach((val, i) => {
-                const el = document.createElement('div');
-                el.className = `charge-unit ${val >= 0 ? 'c-pos' : 'c-neg'}`;
-                el.innerText = Math.abs(val);
-                if(val < 0) el.innerText = '-' + Math.abs(val);
-                if(val > 0) el.innerText = '+' + val;
-                
-                const idx = document.createElement('div');
-                idx.className = 'idx-label';
-                idx.innerText = i;
-                
-                el.appendChild(idx);
-                el.onclick = () => this.selectIdx(i);
-                el.id = `p-${i}`;
-                
-                this.ui.cont.appendChild(el);
-            });
-        }
-
-        selectIdx(i) {
-            if (this.startIdx === -1) {
-                this.startIdx = i;
-                this.endIdx = i; // Single selection initially
-            } else {
-                // Determine range
-                if (i < this.startIdx) {
-                    this.startIdx = i;
-                } else if (i > this.startIdx) {
-                    this.endIdx = i;
-                } else {
-                    // Clicked start again? Reset?
-                    // allow re-click to just set end to start
-                    this.endIdx = i;
-                }
-            }
-            this.updateSelection();
-        }
-
-        updateSelection() {
-            // Visuals
-            document.querySelectorAll('.charge-unit').forEach(e => {
-                e.className = e.className.replace(/ (in-range|start-range|end-range)/g, '');
-            });
-            
-            if (this.startIdx !== -1) {
-                for(let i=this.startIdx; i<=this.endIdx; i++) {
-                    const el = document.getElementById(`p-${i}`);
-                    el.classList.add('in-range');
-                    if(i===this.startIdx) el.classList.add('start-range');
-                    if(i===this.endIdx) el.classList.add('end-range');
-                }
-                
-                // Calc Stats
-                let sum = 0;
-                for(let i=this.startIdx; i<=this.endIdx; i++) sum += this.arr[i];
-                const len = this.endIdx - this.startIdx + 1;
-                
-                this.ui.sum.innerText = sum;
-                this.ui.len.innerText = len;
-                
-                const valid = (sum === 0 && len % 2 === 0);
-                this.ui.valid.innerText = valid ? "OK" : "INVALID";
-                this.ui.valid.style.color = valid ? "var(--pos)" : "var(--neg)";
-                
-                this.ui.btn.disabled = !valid;
-            }
-        }
-
-        resetStats() {
-            this.ui.sum.innerText = '--';
-            this.ui.len.innerText = '--';
-            this.ui.valid.innerText = '--';
-            this.ui.btn.disabled = true;
-            this.ui.best.innerText = this.optimalLen > 0 ? '?' : 'NONE';
-        }
-
-        submitRange() {
-            const len = parseInt(this.ui.len.innerText);
-            if (len === this.optimalLen) {
-                this.ui.best.innerText = len;
-                setTimeout(() => {
-                    this.showGameAlert("OPTIMAL SOLUTION FOUND! SYSTEM BALANCED.");
-                    this.loadLevel();
-                }, 500);
-            } else {
-                // Sub-optimal but valid?
-                this.showGameAlert(`VALID, BUT NOT LONGEST. OPTIMAL IS ${this.optimalLen}. KEEP SEARCHING.`);
-            }
-        }
+        startIdx = -1;
+        endIdx = -1;
+        foundRanges = new Set();
     }
 
-    const game = new Game();
+    function render() {
+        const row = document.getElementById('tilesRow');
+        row.innerHTML = '';
+
+        tiles.forEach((val, i) => {
+            const tile = document.createElement('div');
+            let cls = 'tile';
+            if (val > 0) cls += ' positive';
+            else if (val < 0) cls += ' negative';
+            else cls += ' zero';
+
+            if (startIdx >= 0 && endIdx >= 0 && i >= startIdx && i <= endIdx) {
+                cls += ' selected';
+            }
+
+            tile.className = cls;
+            tile.innerHTML = `${val >= 0 ? '+' : ''}${val}<span class="tile-idx">[${i}]</span>`;
+            tile.onclick = () => selectTile(i);
+            row.appendChild(tile);
+        });
+
+        updateInfo();
+    }
+
+    function selectTile(idx) {
+        if (startIdx < 0) {
+            startIdx = idx;
+            endIdx = idx;
+        } else if (idx === startIdx) {
+            startIdx = -1;
+            endIdx = -1;
+        } else {
+            endIdx = idx;
+            if (endIdx < startIdx) {
+                [startIdx, endIdx] = [endIdx, startIdx];
+            }
+        }
+        render();
+    }
+
+    function updateInfo() {
+        let sum = 0;
+        let len = 0;
+
+        if (startIdx >= 0 && endIdx >= 0) {
+            for (let i = startIdx; i <= endIdx; i++) sum += tiles[i];
+            len = endIdx - startIdx + 1;
+            document.getElementById('rangeDisplay').textContent = `[${startIdx}, ${endIdx}]`;
+        } else {
+            document.getElementById('rangeDisplay').textContent = '-';
+        }
+
+        document.getElementById('sumDisplay').textContent = sum;
+        document.getElementById('lenDisplay').textContent = len;
+
+        // Update requirements
+        const sumOk = sum === 0;
+        const lenOk = len > 0 && len % 2 === 0;
+
+        document.getElementById('sumDisplay').className = 'info-value ' + (sumOk ? 'even' : 'odd');
+        document.getElementById('lenDisplay').className = 'info-value ' + (lenOk ? 'even' : 'odd');
+
+        document.getElementById('requirements').innerHTML = 
+            `${sumOk ? '✅' : '❌'} Sum = 0 | ${lenOk ? '✅' : '❌'} Even Length`;
+    }
+
+    function checkSelection() {
+        if (startIdx < 0 || endIdx < 0) {
+            document.getElementById('message').textContent = 'Select a range first!';
+            return;
+        }
+
+        let sum = 0;
+        for (let i = startIdx; i <= endIdx; i++) sum += tiles[i];
+        const len = endIdx - startIdx + 1;
+        const key = `${startIdx}-${endIdx}`;
+        const msg = document.getElementById('message');
+
+        if (sum !== 0) {
+            msg.className = 'message wrong';
+            msg.textContent = `❌ Sum = ${sum} ≠ 0. Keep trying!`;
+        } else if (len % 2 !== 0) {
+            msg.className = 'message wrong';
+            msg.textContent = `❌ Length ${len} is odd. Need even length!`;
+        } else if (foundRanges.has(key)) {
+            msg.className = 'message neutral';
+            msg.textContent = 'Already found this range! Find another.';
+        } else {
+            foundRanges.add(key);
+            score += len * 10;
+            best = Math.max(best, len);
+            msg.className = 'message correct';
+            msg.textContent = `✅ Valid! Length ${len}. +${len * 10} points!`;
+        }
+
+        document.getElementById('score').textContent = score;
+        document.getElementById('best').textContent = best;
+    }
+
+    function clearSelection() {
+        startIdx = -1;
+        endIdx = -1;
+        render();
+    }
+
+    function newGame() {
+        generateTiles();
+        score = 0;
+        best = 0;
+        render();
+        document.getElementById('score').textContent = score;
+        document.getElementById('best').textContent = best;
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Click tiles to select a range with sum=0 and even length!';
+    }
+
+    window.onload = newGame;
 </script>
 </body>
 </html>

@@ -3,428 +3,389 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARR-001: Snack Snapshot</title>
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <title>ARR-001: Cookie Counter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #222;
-            --panel: #333;
-            --lcd-bg: #2B3E50;
-            --lcd-on: #66FCF1;
-            --lcd-dim: #1F2833;
-            --text: #C5C6C7;
-            --accent: #45A29E;
-            --highlight: #66FCF1;
-            --danger: #FF0055;
-            --success: #00FF99;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'VT323', monospace;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            height: 100vh;
+            font-family: 'Fredoka', sans-serif;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 36px;
+            color: #92400e;
+            text-shadow: 2px 2px 0 #fcd34d;
+        }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 3px solid #f59e0b;
+        }
+        .tutorial h2 {
+            color: #d97706;
+            font-size: 22px;
+            margin-bottom: 15px;
             display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            user-select: none;
+            align-items: center;
+            gap: 10px;
         }
 
-        header {
-            background: var(--panel);
-            padding: 1rem 2rem;
-            border-bottom: 2px solid #000;
-            display: flex; justify-content: space-between; align-items: center;
+        .steps {
+            display: flex;
+            gap: 15px;
         }
-
-        h1 { margin:0; font-size:1.8rem; color:var(--highlight); letter-spacing:2px; text-transform:uppercase; text-shadow: 0 0 5px rgba(102, 252, 241, 0.4); }
-
-        .stat-panel {
-            display: flex; gap: 20px; font-size: 1.2rem;
-        }
-        
-        .val-lcd {
-            color: var(--lcd-on); font-size: 1.4rem;
-        }
-
-        main {
+        .step {
             flex: 1;
+            background: #fffbeb;
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #fcd34d;
+        }
+        .step-num {
+            width: 40px;
+            height: 40px;
+            background: #f59e0b;
+            color: #fff;
+            border-radius: 50%;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: radial-gradient(circle at center, #2a2a2a 0%, #1a1a1a 100%);
-            padding: 2rem;
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0 auto 10px;
+        }
+        .step-text { font-size: 14px; color: #78350f; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
 
-        /* Dashboard Container */
-        .dashboard {
-            width: 800px;
-            background: var(--panel);
-            border: 4px solid #111;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            display: flex; flex-direction: column; gap: 2rem;
-            position: relative;
-        }
-        .dashboard::before {
-            content: "INVENTORY TRACKER V1.0";
-            position: absolute; top: 10px; left: 20px;
-            font-size: 0.8rem; color: #555;
-        }
-
-        /* Chart Area */
-        .chart-area {
-            height: 250px;
-            background: var(--lcd-bg);
-            border: 2px inset #111;
-            position: relative;
+        .score-bar {
             display: flex;
-            align-items: flex-end;
-            justify-content: space-around;
-            padding: 0 20px;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #f59e0b, #fbbf24);
+            border-radius: 12px;
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .cookie-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: #fef3c7;
+            border-radius: 15px;
+        }
+
+        .cookie {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(145deg, #92400e, #78350f);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 22px;
+            font-weight: 600;
+            color: #fef3c7;
+            transition: all 0.2s;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .cookie:hover { transform: scale(1.1); }
+        .cookie.selected {
+            background: linear-gradient(145deg, #16a34a, #15803d);
+            box-shadow: 0 0 15px #22c55e;
+        }
+        .cookie.counted {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+        .cookie-label {
+            position: absolute;
+            bottom: -25px;
+            font-size: 12px;
+            color: #78350f;
+        }
+
+        .highlight-bar {
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            margin-bottom: 20px;
             overflow: hidden;
         }
-        
-        /* Grid Lines */
-        .chart-area::after {
-            content:''; position:absolute; inset:0;
-            background: repeating-linear-gradient(0deg, rgba(102, 252, 241, 0.05) 0px, rgba(102, 252, 241, 0.05) 1px, transparent 1px, transparent 20px);
-            pointer-events: none;
-        }
-
-        .bar-col {
-            flex: 1; margin: 0 2px;
-            display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
+        .highlight-fill {
             height: 100%;
-            cursor: pointer;
-            position: relative;
-            transition: opacity 0.2s;
-        }
-        .bar-col:hover .bar { opacity: 1; }
-        .bar-col.active .bar { background: var(--highlight); box-shadow: 0 0 10px var(--highlight); }
-        .bar-col.processed { opacity: 0.3; pointer-events: none; }
-
-        .bar {
-            width: 80%;
-            background: var(--accent);
-            opacity: 0.7;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            min-height: 4px; /* Ensure visibility for 0 */
-            border-top: 2px solid var(--lcd-on);
-        }
-        
-        .bar-val {
-            position: absolute; bottom: -25px; 
-            font-size: 0.9rem; color: #888;
-        }
-        .bar-top-val {
-            margin-bottom: 5px; font-size: 1rem; color: var(--lcd-on); opacity: 0; transition: opacity 0.2s;
-        }
-        .bar-col:hover .bar-top-val, .bar-col.active .bar-top-val { opacity: 1; }
-
-        /* Highlight Overlay */
-        .range-highlight {
-            position: absolute; bottom: 0; left: 0; height: 100%;
-            background: rgba(102, 252, 241, 0.1);
-            border-right: 2px solid var(--highlight);
-            pointer-events: none;
-            transition: width 0.3s ease;
-            display: none;
+            background: linear-gradient(90deg, #22c55e, #86efac);
+            transition: width 0.3s;
         }
 
-        /* Controls */
-        .control-panel {
-            display: flex; justify-content: space-between; align-items: center;
-            background: #252525; padding: 1rem; border-radius: 8px; border: 1px solid #444;
+        .calc-area {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: #f0fdf4;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #86efac;
         }
 
-        .info-box {
-            display: flex; flex-direction: column;
+        .calc-box {
+            text-align: center;
         }
-        .label { font-size: 0.8rem; color: #666; letter-spacing: 1px; }
-        .data { font-size: 1.5rem; color: var(--text); }
-        
-        .action-area {
-            display: flex; gap: 10px; align-items: center;
+        .calc-label { font-size: 13px; color: #666; margin-bottom: 5px; }
+        .calc-value {
+            font-size: 28px;
+            font-weight: 600;
+            color: #16a34a;
         }
+
+        .divider { font-size: 24px; color: #16a34a; }
+
+        .answer-area {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .answer-input {
+            width: 100px;
+            padding: 15px;
+            font-size: 24px;
+            text-align: center;
+            border: 3px solid #f59e0b;
+            border-radius: 12px;
+            font-family: inherit;
+        }
+        .answer-input:focus { outline: none; border-color: #22c55e; }
 
         .btn {
-            background: var(--accent); color: #000;
-            border: none; padding: 10px 20px; 
-            font-family: inherit; font-size: 1.2rem; cursor: pointer;
-            text-transform: uppercase; letter-spacing: 1px;
-            box-shadow: 0 4px 0 #2C7A7B;
-            transition: all 0.1s;
+            padding: 15px 30px;
+            background: #22c55e;
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
         }
-        .btn:hover:not(:disabled) { background: var(--highlight); box-shadow: 0 4px 0 #45A29E; }
-        .btn:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 0 0; }
-        .btn:disabled { background: #555; box-shadow: 0 0 0; cursor: not-allowed; opacity: 0.5; }
+        .btn:hover { background: #16a34a; transform: scale(1.05); }
 
-        /* Modal */
-        .modal {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.9);
-            display: flex; align-items: center; justify-content: center;
-            z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        .message {
+            text-align: center;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 500;
+            margin-top: 15px;
         }
-        .modal.active { opacity: 1; pointer-events: all; }
-        
-        .dialog {
-            border: 2px solid var(--highlight); padding: 30px;
-            background: #111; color: var(--text);
-            font-family: 'VT323'; text-align: center;
-            box-shadow: 0 0 20px rgba(102, 252, 241, 0.2);
-            max-width: 500px;
-        }
+        .message.correct { background: #dcfce7; color: #16a34a; }
+        .message.wrong { background: #fee2e2; color: #dc2626; }
+        .message.neutral { background: #fef3c7; color: #92400e; }
 
-        .modal-btn {
-            background: transparent; border: 2px solid var(--highlight); color: var(--highlight);
-            padding: 10px 30px; font-size: 1.5rem; margin-top: 20px; cursor: pointer;
-            font-family: inherit; transition: all 0.2s;
+        .new-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 12px;
+            background: #f59e0b;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
         }
-        .modal-btn:hover { background: var(--highlight); color: #000; }
-
-    
-        .alert-modal-wrap {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-            display: none; justify-content: center; align-items: center;
-            z-index: 100;
-        }
-        .alert-modal {
-            background: white; padding: 2rem; border-radius: 8px;
-            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
-        .alert-modal button {
-            background: #4b5563; color: white; padding: 0.8rem 2rem;
-            border: none; border-radius: 6px; cursor: pointer;
-        }
-        .alert-modal button:hover { opacity: 0.9; }
-</style>
+    </style>
 </head>
 <body>
 
-<header>
-    <h1>SNACK SNAPSHOT</h1>
-    <div class="stat-panel">
-        <span>SCORE: <span id="score" class="val-lcd">0</span></span>
+<div class="container">
+    <div class="header">
+        <h1>🍪 Cookie Counter</h1>
+        <div style="color:#78350f; font-size:16px">Calculate the average cookies per jar!</div>
     </div>
-</header>
 
-<main>
-    <div class="dashboard">
-        <div class="chart-area" id="chart">
-            <div class="range-highlight" id="range-hl"></div>
-            <!-- Bars Generated Here -->
-        </div>
-
-        <div class="control-panel">
-            <div class="info-box">
-                <div class="label">CURRENT RANGE SUM (0..i)</div>
-                <div class="data" id="curr-sum">--</div>
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-text">Click a <b>cookie jar</b> to select it</div>
             </div>
-            <div class="info-box">
-                <div class="label">DAYS COUNT (i+1)</div>
-                <div class="data" id="curr-cnt">--</div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-text">See the <b>total cookies</b> from jar 0 to your jar</div>
             </div>
-            <div class="action-area">
-                <div style="text-align:right; margin-right:10px;">
-                    <div class="label">CALCULATE AVERAGE</div>
-                    <div style="font-size:0.8rem; color:#555;">(Floor Integer)</div>
-                </div>
-                <!-- Interactive Avg Input? Or just "Verify" button for mentally calculated? -->
-                <!-- Let's make user input the avg -->
-                <input type="number" id="inp-avg" placeholder="?" style="width:60px; font-family:'VT323'; font-size:1.5rem; background:#111; border:1px solid #444; color:var(--highlight); padding:5px; text-align:center;">
-                <button class="btn" id="btn-snap" onclick="game.submitSnapshot()">SNAPSHOT</button>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-text">Calculate the <b>average</b> (Total ÷ Count, round down)</div>
             </div>
         </div>
-        
-        <div style="font-size:1.2rem; text-align:center; height:1.5em; color:var(--lcd-on);" id="msg-display">SELECT A DAY TO START</div>
     </div>
-</main>
 
-<div id="modal" class="modal active">
-    <div class="dialog">
-        <h2 style="color:var(--highlight); font-size:2rem; margin-bottom:10px;">SYSTEM BOOT</h2>
-        <b>Protocol:</b>
-        <div style="text-align:left; font-size:1.3rem; margin:1.5rem 0; line-height:1.4;">
-            1. <b>Select Target</b>: Click a day (bar) to analyze history.<br>
-            2. <b>Compute</b>: Calculate Average of deliveries from Day 0 to Target.<br>
-            <span style="color:#666; display:block; margin-left:20px; font-size:1rem;">Formula: Floor(Sum / Count)</span>
-            3. <b>Input</b>: Enter value and calculate Snapshot.
+    <div class="game-card">
+        <div class="score-bar">
+            <span>🏆 Score: <strong id="score">0</strong></span>
+            <span>🎯 Streak: <strong id="streak">0</strong></span>
         </div>
-        <button class="modal-btn" onclick="game.start()">INITIALIZE</button>
+
+        <div class="cookie-row" id="cookieRow"></div>
+
+        <div class="highlight-bar">
+            <div class="highlight-fill" id="highlightFill" style="width: 0%"></div>
+        </div>
+
+        <div class="calc-area">
+            <div class="calc-box">
+                <div class="calc-label">Total Cookies (Sum)</div>
+                <div class="calc-value" id="totalSum">?</div>
+            </div>
+            <div class="divider">÷</div>
+            <div class="calc-box">
+                <div class="calc-label">Number of Jars</div>
+                <div class="calc-value" id="jarCount">?</div>
+            </div>
+            <div class="divider">=</div>
+            <div class="calc-box">
+                <div class="calc-label">Average (Round Down)</div>
+                <input type="number" class="answer-input" id="answerInput" placeholder="?">
+            </div>
+            <button class="btn" onclick="checkAnswer()">✓ Check</button>
+        </div>
+
+        <div class="message neutral" id="message">Click a cookie jar to start counting!</div>
+
+        <button class="new-btn" onclick="newGame()">🔄 New Cookies</button>
     </div>
 </div>
 
 <script>
-    class Game {
-        constructor() {
-            this.data = [];
-            this.n = 10;
-            this.currIdx = -1;
-            this.prefixSum = [];
-            this.score = 0;
-            
-            this.ui = {
-                chart: document.getElementById('chart'),
-                hl: document.getElementById('range-hl'),
-                sum: document.getElementById('curr-sum'),
-                cnt: document.getElementById('curr-cnt'),
-                inp: document.getElementById('inp-avg'),
-                msg: document.getElementById('msg-display'),
-                score: document.getElementById('score'),
-                btn: document.getElementById('btn-snap')
-            };
+    let jars = [];
+    let prefixSum = [];
+    let selectedIdx = -1;
+    let score = 0;
+    let streak = 0;
+
+    function generateJars() {
+        const n = 6 + Math.floor(Math.random() * 4); // 6-9 jars
+        jars = [];
+        prefixSum = [];
+        let sum = 0;
+
+        for (let i = 0; i < n; i++) {
+            const cookies = Math.floor(Math.random() * 12) + 1;
+            jars.push(cookies);
+            sum += cookies;
+            prefixSum.push(sum);
         }
 
-        start() {
-            document.getElementById('modal').classList.remove('active');
-            this.loadLevel();
-        }
-
-        loadLevel() {
-            this.ui.chart.innerHTML = '';
-            this.ui.chart.appendChild(this.ui.hl); // preserve HL element
-            
-            this.n = 8 + Math.floor(Math.random()*5); // 8-12 days
-            this.data = Array.from({length: this.n}, () => Math.floor(Math.random()*15) + 1);
-            
-            // Calc prefix sums for validation
-            this.prefixSum = [];
-            let s = 0;
-            for(let x of this.data) {
-                s += x;
-                this.prefixSum.push(s);
-            }
-            
-            this.currIdx = -1;
-            this.processed = new Set();
-            
-            // Render Bars
-            this.data.forEach((val, i) => {
-                const col = document.createElement('div');
-                col.className = 'bar-col';
-                col.onclick = () => this.selectDay(i);
-                
-                // Height pct. Max ~20.
-                const pct = (val / 20) * 80; 
-                
-                col.innerHTML = `
-                    <div class="bar-top-val">${val}</div>
-                    <div class="bar" style="height:${pct}%"></div>
-                    <div class="bar-val">D${i}</div>
-                `;
-                
-                this.ui.chart.appendChild(col);
-            });
-            
-            this.resetSelection();
-        }
-
-        selectDay(idx) {
-            if (this.processed.has(idx)) return;
-            
-            this.currIdx = idx;
-            
-            // Update Visuals
-            const cols = this.ui.chart.querySelectorAll('.bar-col');
-            cols.forEach(c => c.classList.remove('active'));
-            cols[idx].classList.add('active');
-            
-            // Highlight Range (0 to idx)
-            // Calculate width based on idx position + half col width?
-            // Easier: Set width to (idx+1) / n * 100% ? No, gaps.
-            // Let's use bounding box logic or flex calculation
-            // Flex basis is uniform.
-            // The range covers cols 0..idx.
-            // There are n cols. Range width ~= (idx+1)/n * 100%
-            this.ui.hl.style.display = 'block';
-            this.ui.hl.style.width = `calc(${(idx+1)/this.n * 100}%)`;
-            
-            // Update Data Panel
-            const sum = this.prefixSum[idx];
-            const cnt = idx + 1;
-            
-            this.ui.sum.innerText = sum;
-            this.ui.cnt.innerText = cnt;
-            
-            this.ui.inp.value = '';
-            this.ui.inp.focus();
-            this.ui.msg.innerText = `ANALYZING RANGE DAY 0 - DAY ${idx}`;
-        }
-        
-        resetSelection() {
-            this.currIdx = -1;
-            this.ui.hl.style.display = 'none';
-            this.ui.sum.innerText = '--';
-            this.ui.cnt.innerText = '--';
-            this.ui.inp.value = '';
-            this.ui.msg.innerText = "SELECT A DAY TO ANALYZE";
-            
-            const cols = this.ui.chart.querySelectorAll('.bar-col');
-            cols.forEach(c => c.classList.remove('active'));
-        }
-
-        submitSnapshot() {
-            if (this.currIdx === -1) {
-                this.ui.msg.innerText = "ERROR: NO DAY SELECTED";
-                return;
-            }
-            
-            const userVal = parseInt(this.ui.inp.value);
-            if (isNaN(userVal)) {
-                this.ui.msg.innerText = "ERROR: INVALID INPUT";
-                return;
-            }
-            
-            const realSum = this.prefixSum[this.currIdx];
-            const count = this.currIdx + 1;
-            const correctAvg = Math.floor(realSum / count);
-            
-            if (userVal === correctAvg) {
-                // Success
-                this.score += 10;
-                this.ui.score.innerText = this.score;
-                this.ui.msg.innerText = "SNAPSHOT CONFIRMED: VALID";
-                this.ui.msg.style.color = "var(--success)";
-                
-                // Mark processed
-                this.processed.add(this.currIdx);
-                const cols = this.ui.chart.querySelectorAll('.bar-col');
-                cols[this.currIdx].classList.add('processed');
-                // Visual marker "OK"
-                cols[this.currIdx].querySelector('.bar-top-val').innerHTML = '<span style="color:var(--success)">✓</span>';
-                cols[this.currIdx].querySelector('.bar-top-val').style.opacity = 1;
-
-                setTimeout(() => {
-                    this.ui.msg.style.color = "var(--lcd-on)";
-                    this.resetSelection();
-                    this.checkWin();
-                }, 1000);
-            } else {
-                // Fail
-                this.score -= 5;
-                this.ui.score.innerText = this.score;
-                this.ui.msg.innerText = `ERROR: EXPECTED ${correctAvg}`;
-                this.ui.msg.style.color = "var(--danger)";
-                setTimeout(() => this.ui.msg.style.color = "var(--lcd-on)", 1500);
-            }
-        }
-        
-        checkWin() {
-            if (this.processed.size === this.n) {
-                setTimeout(() => {
-                    this.showGameAlert("ALL DATA PROCESSED. SYSTEM SYNCHRONIZED.");
-                    this.loadLevel();
-                }, 500);
-            }
-        }
+        selectedIdx = -1;
     }
 
-    const game = new Game();
+    function render() {
+        const row = document.getElementById('cookieRow');
+        row.innerHTML = '';
+
+        jars.forEach((count, i) => {
+            const jar = document.createElement('div');
+            jar.className = 'cookie' + (i === selectedIdx ? ' selected' : '');
+            jar.innerHTML = `${count}<span class="cookie-label">Jar ${i}</span>`;
+            jar.onclick = () => selectJar(i);
+            row.appendChild(jar);
+        });
+
+        // Update highlight bar
+        const fill = document.getElementById('highlightFill');
+        if (selectedIdx >= 0) {
+            fill.style.width = ((selectedIdx + 1) / jars.length * 100) + '%';
+        } else {
+            fill.style.width = '0%';
+        }
+
+        // Update calculation display
+        if (selectedIdx >= 0) {
+            document.getElementById('totalSum').textContent = prefixSum[selectedIdx];
+            document.getElementById('jarCount').textContent = selectedIdx + 1;
+        } else {
+            document.getElementById('totalSum').textContent = '?';
+            document.getElementById('jarCount').textContent = '?';
+        }
+
+        document.getElementById('answerInput').value = '';
+    }
+
+    function selectJar(idx) {
+        selectedIdx = idx;
+        render();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = `Selected jars 0 to ${idx}. Calculate the average!`;
+        document.getElementById('answerInput').focus();
+    }
+
+    function checkAnswer() {
+        if (selectedIdx < 0) {
+            document.getElementById('message').textContent = 'Click a jar first!';
+            return;
+        }
+
+        const userAnswer = parseInt(document.getElementById('answerInput').value);
+        const correctAnswer = Math.floor(prefixSum[selectedIdx] / (selectedIdx + 1));
+        const msg = document.getElementById('message');
+
+        if (userAnswer === correctAnswer) {
+            score += 10;
+            streak++;
+            msg.className = 'message correct';
+            msg.textContent = `✅ Correct! ${prefixSum[selectedIdx]} ÷ ${selectedIdx + 1} = ${correctAnswer}. Streak: ${streak}!`;
+        } else {
+            streak = 0;
+            msg.className = 'message wrong';
+            msg.textContent = `❌ Wrong! ${prefixSum[selectedIdx]} ÷ ${selectedIdx + 1} = ${correctAnswer} (not ${userAnswer})`;
+        }
+
+        document.getElementById('score').textContent = score;
+        document.getElementById('streak').textContent = streak;
+    }
+
+    function newGame() {
+        generateJars();
+        render();
+        document.getElementById('message').className = 'message neutral';
+        document.getElementById('message').textContent = 'Click a cookie jar to start counting!';
+    }
+
+    window.onload = newGame;
 </script>
 </body>
 </html>
