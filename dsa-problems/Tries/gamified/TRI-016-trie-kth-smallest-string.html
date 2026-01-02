@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRI-016: K-th String Finder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #ec4899 0%, #f97316 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 25px; }
+        .header h1 { font-size: 36px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+
+        /* Tutorial */
+        .tutorial {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .tutorial h2 { color: #ec4899; margin-bottom: 15px; }
+
+        .concept {
+            background: #fdf2f8;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .concept-title { font-weight: 700; color: #ec4899; margin-bottom: 10px; }
+        .concept-example {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .ex-item {
+            padding: 8px 16px;
+            background: #fff;
+            border: 2px solid #f9a8d4;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+        .ex-item span { color: #ec4899; font-size: 10px; }
+
+        .how-to { display: flex; gap: 15px; }
+        .how-item {
+            flex: 1;
+            background: #fdf2f8;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .how-num { font-size: 32px; font-weight: 700; color: #ec4899; }
+        .how-text { font-size: 13px; color: #666; margin-top: 5px; }
+
+        /* Game */
+        .game-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .goal {
+            background: linear-gradient(90deg, #ec4899, #f97316);
+            padding: 15px;
+            border-radius: 12px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        /* Word Display */
+        .word-section { margin-bottom: 25px; }
+        .section-title { font-size: 14px; color: #888; margin-bottom: 15px; }
+
+        .sorted-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-height: 250px;
+            overflow-y: auto;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 12px;
+        }
+        .sorted-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 18px;
+            background: #fff;
+            border-radius: 10px;
+            border: 2px solid #e2e8f0;
+        }
+        .sorted-item.highlight { border-color: #ec4899; background: #fdf2f8; }
+        .item-rank { font-size: 18px; font-weight: 700; color: #ec4899; min-width: 40px; }
+        .item-word { font-size: 18px; font-weight: 600; }
+
+        /* K Selector */
+        .k-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #fdf2f8;
+            border-radius: 12px;
+        }
+        .k-label { font-weight: 600; color: #333; }
+        .k-input {
+            width: 100px;
+            padding: 15px;
+            font-size: 24px;
+            text-align: center;
+            border: 3px solid #ec4899;
+            border-radius: 12px;
+            font-family: inherit;
+        }
+        .k-input:focus { outline: none; box-shadow: 0 0 15px rgba(236, 72, 153, 0.3); }
+        .btn {
+            padding: 15px 30px;
+            background: #ec4899;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+        }
+        .btn:hover { background: #db2777; }
+
+        /* Result */
+        .result-panel {
+            padding: 25px;
+            background: linear-gradient(135deg, #fdf2f8, #fff);
+            border: 3px solid #ec4899;
+            border-radius: 15px;
+            text-align: center;
+        }
+        .result-label { font-size: 14px; color: #888; }
+        .result-value {
+            font-size: 48px;
+            font-weight: 700;
+            color: #ec4899;
+            margin: 10px 0;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🎯 K-th String Finder</h1>
+        <div>Find the K-th smallest string in lexicographic order!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 What is Lexicographic Order?</h2>
+        <div class="concept">
+            <div class="concept-title">Like dictionary order! Example:</div>
+            <div class="concept-example">
+                <div class="ex-item">apple <span>#1</span></div>
+                <div class="ex-item">apply <span>#2</span></div>
+                <div class="ex-item">banana <span>#3</span></div>
+                <div class="ex-item">bat <span>#4</span></div>
+                <div class="ex-item">cat <span>#5</span></div>
+            </div>
+        </div>
+        <div class="how-to">
+            <div class="how-item">
+                <div class="how-num">1</div>
+                <div class="how-text">See the sorted list</div>
+            </div>
+            <div class="how-item">
+                <div class="how-num">2</div>
+                <div class="how-text">Enter K (which one?)</div>
+            </div>
+            <div class="how-item">
+                <div class="how-num">3</div>
+                <div class="how-text">Click Find!</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="goal">
+            <strong>🎯 GOAL:</strong> Find the K-th smallest string in the dictionary!
+        </div>
+
+        <div class="word-section">
+            <div class="section-title">📚 Strings in Lexicographic (Dictionary) Order:</div>
+            <div class="sorted-list" id="sortedList"></div>
+        </div>
+
+        <div class="k-section">
+            <span class="k-label">Find the</span>
+            <input type="number" class="k-input" id="kInput" value="3" min="1">
+            <span class="k-label">-th smallest string</span>
+            <button class="btn" onclick="findKth()">Find!</button>
+        </div>
+
+        <div class="result-panel">
+            <div class="result-label">The K-th Smallest String is:</div>
+            <div class="result-value" id="result">?</div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const WORDS = ["cat", "apple", "banana", "dog", "apply", "bat", "car", "can", "ant"];
+    let sorted = [];
+
+    function init() {
+        sorted = [...WORDS].sort();
+        renderList();
+    }
+
+    function renderList(highlightIdx = -1) {
+        const list = document.getElementById('sortedList');
+        list.innerHTML = sorted.map((word, i) => `
+            <div class="sorted-item ${i === highlightIdx ? 'highlight' : ''}">
+                <span class="item-rank">#${i + 1}</span>
+                <span class="item-word">${word}</span>
+            </div>
+        `).join('');
+    }
+
+    function findKth() {
+        const k = parseInt(document.getElementById('kInput').value);
+        if (k < 1 || k > sorted.length) {
+            document.getElementById('result').textContent = '(invalid K)';
+            renderList();
+            return;
+        }
+
+        const result = sorted[k - 1];
+        document.getElementById('result').textContent = `"${result}"`;
+        renderList(k - 1);
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRI-001: Word Wizard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .game-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .header h1 { font-size: 36px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .header .tagline { opacity: 0.9; margin-top: 5px; }
+
+        /* How to Play Panel */
+        .how-to-play {
+            background: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .how-to-play h2 { color: #764ba2; font-size: 18px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .how-to-play h2::before { content: '🎯'; }
+        .steps { display: flex; gap: 15px; flex-wrap: wrap; }
+        .step {
+            flex: 1;
+            min-width: 200px;
+            background: linear-gradient(135deg, #f5f7fa, #e4e8eb);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #764ba2;
+        }
+        .step-num { font-size: 24px; color: #764ba2; font-weight: bold; }
+        .step-text { font-size: 14px; color: #555; margin-top: 5px; }
+
+        /* Goal Box */
+        .goal-box {
+            background: linear-gradient(135deg, #ffecd2, #fcb69f);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .goal-label { font-size: 14px; color: #c0392b; margin-bottom: 5px; }
+        .goal-text { font-size: 20px; color: #e74c3c; font-weight: bold; }
+
+        /* Game Area */
+        .game-area {
+            background: #fff;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Search Box */
+        .search-box {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            font-size: 20px;
+            border: 3px solid #667eea;
+            border-radius: 50px;
+            font-family: inherit;
+            outline: none;
+        }
+        .search-input:focus { border-color: #764ba2; box-shadow: 0 0 15px rgba(118, 75, 162, 0.3); }
+
+        /* Results */
+        .results {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .result-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #f8f9fa, #fff);
+            border-radius: 10px;
+            border-left: 5px solid #667eea;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .result-item:hover { transform: translateX(10px); background: #e8f4fd; }
+        .result-item.selected { border-left-color: #27ae60; background: #d5f5e3; }
+        .result-word { font-size: 18px; color: #333; }
+        .result-word .match { background: #ffeb3b; padding: 0 3px; border-radius: 3px; }
+        .result-score { display: flex; align-items: center; gap: 5px; color: #764ba2; }
+
+        /* Scoreboard */
+        .scoreboard {
+            display: flex;
+            justify-content: space-around;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 15px;
+            color: #fff;
+        }
+        .score-item { text-align: center; }
+        .score-label { font-size: 12px; opacity: 0.8; }
+        .score-value { font-size: 28px; font-weight: bold; }
+
+        /* Word Bank */
+        .word-bank {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        .word-bank-title { font-size: 14px; color: #888; margin-bottom: 10px; }
+        .word-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+        .word-tag {
+            padding: 8px 15px;
+            background: #fff;
+            border: 2px solid #ddd;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .word-tag:hover { border-color: #667eea; background: #e8f4fd; }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #888;
+        }
+        .empty-state .icon { font-size: 48px; margin-bottom: 10px; }
+
+    </style>
+</head>
+<body>
+
+<div class="game-container">
+    <div class="header">
+        <h1>✨ Word Wizard ✨</h1>
+        <div class="tagline">Autocomplete Challenge - Find words using prefix search!</div>
+    </div>
+
+    <div class="how-to-play">
+        <h2>How to Play</h2>
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-text"><strong>Type a prefix</strong> in the search box (e.g., "app")</div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-text"><strong>See matching words</strong> appear ranked by freshness score</div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-text"><strong>Click a word</strong> to select it and earn points!</div>
+            </div>
+            <div class="step">
+                <div class="step-num">4</div>
+                <div class="step-text"><strong>Find all words</strong> to complete the challenge!</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="goal-box">
+        <div class="goal-label">🎯 YOUR GOAL</div>
+        <div class="goal-text">Find and select all 15 words by typing prefixes!</div>
+    </div>
+
+    <div class="game-area">
+        <div class="search-box">
+            <input type="text" class="search-input" id="searchInput" placeholder="Type a prefix to search..." oninput="search()">
+        </div>
+
+        <div class="results" id="results">
+            <div class="empty-state">
+                <div class="icon">🔍</div>
+                <div>Start typing to discover words!</div>
+            </div>
+        </div>
+
+        <div class="scoreboard">
+            <div class="score-item">
+                <div class="score-label">WORDS FOUND</div>
+                <div class="score-value"><span id="found">0</span>/15</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">SCORE</div>
+                <div class="score-value" id="score">0</div>
+            </div>
+            <div class="score-item">
+                <div class="score-label">SEARCHES</div>
+                <div class="score-value" id="searches">0</div>
+            </div>
+        </div>
+
+        <div class="word-bank">
+            <div class="word-bank-title">💡 HINT: Click any word below to auto-fill its prefix</div>
+            <div class="word-tags" id="wordBank"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const WORDS = [
+        { word: "apple", score: 95 },
+        { word: "application", score: 88 },
+        { word: "apply", score: 72 },
+        { word: "banana", score: 60 },
+        { word: "band", score: 45 },
+        { word: "bandana", score: 30 },
+        { word: "cat", score: 90 },
+        { word: "catalog", score: 75 },
+        { word: "category", score: 65 },
+        { word: "magic", score: 100 },
+        { word: "magical", score: 92 },
+        { word: "magician", score: 85 },
+        { word: "spell", score: 98 },
+        { word: "spellbook", score: 80 },
+        { word: "wizard", score: 99 }
+    ];
+
+    let found = new Set();
+    let totalScore = 0;
+    let searchCount = 0;
+
+    // Build Trie
+    class TrieNode {
+        constructor() { this.children = {}; this.words = []; }
+    }
+
+    const root = new TrieNode();
+    WORDS.forEach(item => {
+        let node = root;
+        for (const ch of item.word) {
+            if (!node.children[ch]) node.children[ch] = new TrieNode();
+            node = node.children[ch];
+            node.words.push(item);
+        }
+    });
+
+    function init() {
+        renderWordBank();
+    }
+
+    function renderWordBank() {
+        const bank = document.getElementById('wordBank');
+        bank.innerHTML = '';
+        WORDS.forEach(item => {
+            const tag = document.createElement('div');
+            tag.className = 'word-tag';
+            tag.textContent = found.has(item.word) ? '✓ ' + item.word : '? ' + item.word.substring(0, 2) + '...';
+            tag.style.opacity = found.has(item.word) ? '0.5' : '1';
+            tag.onclick = () => {
+                if (!found.has(item.word)) {
+                    document.getElementById('searchInput').value = item.word.substring(0, 2);
+                    search();
+                }
+            };
+            bank.appendChild(tag);
+        });
+    }
+
+    function search() {
+        const prefix = document.getElementById('searchInput').value.toLowerCase();
+        const results = document.getElementById('results');
+
+        if (!prefix) {
+            results.innerHTML = `<div class="empty-state"><div class="icon">🔍</div><div>Start typing to discover words!</div></div>`;
+            return;
+        }
+
+        searchCount++;
+        document.getElementById('searches').textContent = searchCount;
+
+        // Find in trie
+        let node = root;
+        for (const ch of prefix) {
+            if (!node.children[ch]) {
+                results.innerHTML = `<div class="empty-state"><div class="icon">😕</div><div>No words found with prefix "${prefix}"</div></div>`;
+                return;
+            }
+            node = node.children[ch];
+        }
+
+        const matches = node.words.sort((a, b) => b.score - a.score).slice(0, 5);
+
+        if (matches.length === 0) {
+            results.innerHTML = `<div class="empty-state"><div class="icon">😕</div><div>No words found</div></div>`;
+            return;
+        }
+
+        results.innerHTML = matches.map(item => `
+            <div class="result-item ${found.has(item.word) ? 'selected' : ''}" onclick="selectWord('${item.word}', ${item.score})">
+                <span class="result-word">${highlightMatch(item.word, prefix)}</span>
+                <span class="result-score">⭐ ${item.score} ${found.has(item.word) ? '✓' : ''}</span>
+            </div>
+        `).join('');
+    }
+
+    function highlightMatch(word, prefix) {
+        return `<span class="match">${word.substring(0, prefix.length)}</span>${word.substring(prefix.length)}`;
+    }
+
+    function selectWord(word, score) {
+        if (found.has(word)) return;
+        
+        found.add(word);
+        totalScore += score;
+        
+        document.getElementById('found').textContent = found.size;
+        document.getElementById('score').textContent = totalScore;
+        
+        search(); // Refresh display
+        renderWordBank();
+
+        if (found.size === WORDS.length) {
+            setTimeout(() => alert('🎉 CONGRATULATIONS! You found all words!\nFinal Score: ' + totalScore), 300);
+        }
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

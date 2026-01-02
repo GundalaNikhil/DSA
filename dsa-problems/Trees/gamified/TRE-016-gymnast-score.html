@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRE-016: Gymnast Score</title>
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        :root { --mat: #2980b9; --gold: #f1c40f; --silver: #bdc3c7; --bronze: #e67e22; --balanced: #27ae60; --unbalanced: #e74c3c; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', sans-serif; background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); min-height: 100vh; color: #fff; }
+        header { background: var(--mat); padding: 15px; text-align: center; }
+        h1 { font-family: 'Russo One', sans-serif; color: var(--gold); font-size: 1.8rem; }
+        main { padding: 20px; max-width: 900px; margin: 0 auto; }
+        .arena { background: radial-gradient(circle, #2d3f6e 0%, #1a1a2e 100%); border: 3px solid var(--mat); border-radius: 15px; padding: 30px; min-height: 350px; position: relative; }
+        .gymnast { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); font-size: 3rem; transition: all 0.5s; }
+        .gymnast.balanced { animation: flip 0.5s ease; }
+        .gymnast.wobble { animation: wobble 0.5s ease; }
+        @keyframes flip { 0% { transform: translateX(-50%) rotate(0); } 50% { transform: translateX(-50%) rotate(180deg); } 100% { transform: translateX(-50%) rotate(360deg); } }
+        @keyframes wobble { 0%,100% { transform: translateX(-50%) rotate(0); } 25% { transform: translateX(-50%) rotate(-20deg); } 75% { transform: translateX(-50%) rotate(20deg); } }
+        .tree-container { display: flex; flex-direction: column; align-items: center; gap: 25px; margin-top: 60px; }
+        .tree-level { display: flex; gap: 20px; }
+        .node { width: 55px; height: 55px; background: var(--silver); border: 3px solid #7f8c8d; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 1rem; font-weight: bold; color: #333; cursor: pointer; transition: all 0.3s; }
+        .node .val { font-size: 1.2rem; }
+        .node .heights { font-size: 0.6rem; color: #666; }
+        .node.checking { animation: check 0.3s ease; }
+        .node.balanced { border-color: var(--balanced); background: #d5f5e3; }
+        .node.unbalanced { border-color: var(--unbalanced); background: #fadbd8; }
+        @keyframes check { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        .scoreboard { display: flex; justify-content: center; gap: 30px; margin-top: 20px; }
+        .score-card { background: rgba(255,255,255,0.1); padding: 15px 25px; border-radius: 10px; text-align: center; }
+        .score-label { font-size: 0.8rem; color: var(--silver); }
+        .score-value { font-size: 2rem; font-weight: bold; }
+        .score-value.yes { color: var(--balanced); }
+        .score-value.no { color: var(--unbalanced); }
+        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
+        .btn { padding: 15px 25px; border: none; border-radius: 10px; font-family: 'Russo One', sans-serif; font-size: 1rem; cursor: pointer; }
+        .btn-check { background: var(--gold); color: #333; }
+        .btn-new { background: var(--mat); color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+        #message { text-align: center; color: var(--gold); padding: 10px; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🤸 GYMNAST SCORE</h1>
+</header>
+<main>
+    <div id="message">Is the tree height-balanced? Check now!</div>
+    <div class="arena">
+        <div class="gymnast" id="gymnast">🤸</div>
+        <div class="tree-container" id="tree"></div>
+    </div>
+    <div class="scoreboard">
+        <div class="score-card"><div class="score-label">BALANCE STATUS</div><div class="score-value" id="status">?</div></div>
+    </div>
+    <div class="controls">
+        <button class="btn btn-check" onclick="game.check()">⚖️ CHECK BALANCE</button>
+        <button class="btn btn-new" onclick="game.newTree()">🌲 NEW TREE</button>
+    </div>
+</main>
+<script>
+class GymnastScore {
+    constructor() {
+        this.trees = [
+            { tree: { val: 1, left: { val: 2, left: { val: 4 }, right: { val: 5 } }, right: { val: 3, left: { val: 6 }, right: { val: 7 } } }, balanced: true },
+            { tree: { val: 1, left: { val: 2, left: { val: 4, left: { val: 8 } } }, right: { val: 3 } }, balanced: false },
+            { tree: { val: 1, left: { val: 2 }, right: { val: 3 } }, balanced: true }
+        ];
+        this.currentIdx = 0;
+        this.render();
+    }
+    render() {
+        const container = document.getElementById('tree');
+        container.innerHTML = '';
+        const tree = this.trees[this.currentIdx].tree;
+        const levels = [[tree]];
+        let queue = [tree];
+        while (queue.length) {
+            const next = [];
+            queue.forEach(n => { if (n.left) next.push(n.left); if (n.right) next.push(n.right); });
+            if (next.length) levels.push(next);
+            queue = next;
+        }
+        levels.forEach(level => {
+            const row = document.createElement('div');
+            row.className = 'tree-level';
+            level.forEach(node => {
+                const el = document.createElement('div');
+                el.className = 'node';
+                el.id = `node-${node.val}`;
+                el.innerHTML = `<span class="val">${node.val}</span>`;
+                row.appendChild(el);
+            });
+            container.appendChild(row);
+        });
+        document.getElementById('status').textContent = '?';
+        document.getElementById('status').className = 'score-value';
+    }
+    getHeight(node) {
+        if (!node) return 0;
+        return 1 + Math.max(this.getHeight(node.left), this.getHeight(node.right));
+    }
+    isBalanced(node) {
+        if (!node) return { balanced: true, height: 0 };
+        const left = this.isBalanced(node.left);
+        const right = this.isBalanced(node.right);
+        const balanced = left.balanced && right.balanced && Math.abs(left.height - right.height) <= 1;
+        return { balanced, height: 1 + Math.max(left.height, right.height), node: node.val, leftH: left.height, rightH: right.height };
+    }
+    async check() {
+        const tree = this.trees[this.currentIdx].tree;
+        document.querySelectorAll('.node').forEach(n => n.classList.remove('checking', 'balanced', 'unbalanced'));
+        const result = this.checkWithAnimation(tree);
+        for (const r of result) {
+            const el = document.getElementById(`node-${r.node}`);
+            el.classList.add('checking');
+            el.innerHTML = `<span class="val">${r.node}</span><span class="heights">L:${r.leftH} R:${r.rightH}</span>`;
+            await this.delay(400);
+            el.classList.remove('checking');
+            el.classList.add(r.balanced ? 'balanced' : 'unbalanced');
+        }
+        const isBalanced = this.trees[this.currentIdx].balanced;
+        const gymnast = document.getElementById('gymnast');
+        const status = document.getElementById('status');
+        if (isBalanced) {
+            gymnast.classList.add('balanced');
+            status.textContent = '✓ BALANCED';
+            status.className = 'score-value yes';
+        } else {
+            gymnast.classList.add('wobble');
+            status.textContent = '✗ UNBALANCED';
+            status.className = 'score-value no';
+        }
+        setTimeout(() => gymnast.classList.remove('balanced', 'wobble'), 500);
+    }
+    checkWithAnimation(node, results = []) {
+        if (!node) return results;
+        this.checkWithAnimation(node.left, results);
+        this.checkWithAnimation(node.right, results);
+        const leftH = this.getHeight(node.left);
+        const rightH = this.getHeight(node.right);
+        const balanced = Math.abs(leftH - rightH) <= 1;
+        results.push({ node: node.val, leftH, rightH, balanced });
+        return results;
+    }
+    newTree() {
+        this.currentIdx = (this.currentIdx + 1) % this.trees.length;
+        this.render();
+        document.getElementById('message').textContent = 'New tree! Is it balanced?';
+    }
+    delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+}
+const game = new GymnastScore();
+</script>
+</body>
+</html>

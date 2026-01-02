@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRE-009: Rain Catcher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --rain: #3498db; --cloud: #bdc3c7; --ground: #8b4513; --bucket: #e67e22; --sky: #87ceeb; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Comfortaa', cursive; background: linear-gradient(180deg, var(--sky) 0%, #a8d8ea 60%, #95a5a6 100%); min-height: 100vh; }
+        header { background: var(--cloud); padding: 15px; text-align: center; border-bottom: 4px solid var(--rain); }
+        h1 { color: var(--rain); font-size: 1.8rem; }
+        main { padding: 20px; max-width: 900px; margin: 0 auto; }
+        .sky-scene { background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 100%); border-radius: 15px; padding: 30px; min-height: 400px; position: relative; }
+        .tree-container { display: flex; flex-direction: column; align-items: center; gap: 25px; }
+        .tree-level { display: flex; gap: 20px; }
+        .cloud-node { width: 55px; height: 55px; background: var(--cloud); border: 3px solid #95a5a6; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold; color: #333; cursor: pointer; transition: all 0.3s; position: relative; }
+        .cloud-node:hover { transform: scale(1.1); }
+        .cloud-node.raining { animation: rain 0.5s ease infinite; }
+        .cloud-node .column { position: absolute; bottom: -20px; background: var(--bucket); color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 0.7rem; }
+        @keyframes rain { 0%,100% { transform: translateY(0); } 50% { transform: translateY(3px); } }
+        .drop { position: absolute; width: 6px; height: 15px; background: var(--rain); border-radius: 50%; animation: dropFall 0.8s ease-out forwards; }
+        @keyframes dropFall { 0% { opacity: 1; } 100% { opacity: 0; transform: translateY(100px); } }
+        .buckets { display: flex; justify-content: space-around; padding: 20px; margin-top: 20px; background: var(--ground); border-radius: 10px; }
+        .bucket { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .bucket-label { color: #fff; font-weight: bold; }
+        .bucket-icon { font-size: 2rem; }
+        .bucket-contents { background: rgba(255,255,255,0.9); padding: 5px 10px; border-radius: 10px; min-width: 60px; text-align: center; }
+        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
+        .btn { padding: 15px 25px; border: none; border-radius: 10px; font-family: 'Comfortaa', cursive; font-size: 1rem; cursor: pointer; font-weight: bold; }
+        .btn-rain { background: var(--rain); color: #fff; }
+        .btn-reset { background: var(--cloud); color: #333; }
+        .btn:hover { transform: scale(1.05); }
+        .result { background: rgba(255,255,255,0.95); border-radius: 15px; padding: 20px; margin-top: 20px; }
+        .column-row { display: flex; gap: 15px; align-items: center; margin: 8px 0; padding: 10px; background: rgba(52,152,219,0.1); border-radius: 10px; }
+        .column-label { background: var(--rain); color: #fff; padding: 5px 12px; border-radius: 10px; font-weight: bold; min-width: 80px; text-align: center; }
+        .column-values { display: flex; gap: 8px; }
+        .value-tag { background: var(--bucket); color: #fff; padding: 5px 12px; border-radius: 8px; font-weight: bold; }
+        #message { text-align: center; color: var(--rain); padding: 10px; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🌧️ RAIN CATCHER</h1>
+</header>
+<main>
+    <div id="message">Catch raindrops in buckets by column!</div>
+    <div class="sky-scene">
+        <div class="tree-container" id="tree"></div>
+    </div>
+    <div class="controls">
+        <button class="btn btn-rain" onclick="game.makeItRain()">🌧️ MAKE IT RAIN</button>
+        <button class="btn btn-reset" onclick="game.reset()">🔄 RESET</button>
+    </div>
+    <div class="result">
+        <div style="text-align:center; font-weight:bold; color:var(--rain); margin-bottom:15px;">📊 VERTICAL ORDER</div>
+        <div id="columns"></div>
+    </div>
+</main>
+<script>
+class RainCatcher {
+    constructor() {
+        this.tree = { val: 1, left: { val: 2, left: { val: 4 }, right: { val: 5 } }, right: { val: 3, left: { val: 6 }, right: { val: 7 } } };
+        this.columns = {};
+        this.render();
+    }
+    render() {
+        const container = document.getElementById('tree');
+        container.innerHTML = '';
+        const levels = [[{ node: this.tree, col: 0 }]];
+        let queue = [{ node: this.tree, col: 0 }];
+        while (queue.length) {
+            const next = [];
+            queue.forEach(({ node, col }) => {
+                if (node.left) next.push({ node: node.left, col: col - 1 });
+                if (node.right) next.push({ node: node.right, col: col + 1 });
+            });
+            if (next.length) levels.push(next);
+            queue = next;
+        }
+        levels.forEach(level => {
+            const row = document.createElement('div');
+            row.className = 'tree-level';
+            level.forEach(({ node, col }) => {
+                const el = document.createElement('div');
+                el.className = 'cloud-node';
+                el.id = `cloud-${node.val}`;
+                el.dataset.col = col;
+                el.innerHTML = `${node.val}<span class="column">col ${col}</span>`;
+                row.appendChild(el);
+            });
+            container.appendChild(row);
+        });
+    }
+    getVerticalOrder(node, col = 0, level = 0) {
+        if (!node) return;
+        if (!this.columns[col]) this.columns[col] = [];
+        this.columns[col].push({ val: node.val, level });
+        this.getVerticalOrder(node.left, col - 1, level + 1);
+        this.getVerticalOrder(node.right, col + 1, level + 1);
+    }
+    async makeItRain() {
+        this.columns = {};
+        document.getElementById('columns').innerHTML = '';
+        document.querySelectorAll('.cloud-node').forEach(c => c.classList.remove('raining'));
+        document.getElementById('message').textContent = '🌧️ Collecting raindrops...';
+        this.getVerticalOrder(this.tree);
+        const sortedCols = Object.keys(this.columns).map(Number).sort((a, b) => a - b);
+        for (const col of sortedCols) {
+            const items = this.columns[col].sort((a, b) => a.level - b.level);
+            for (const item of items) {
+                const el = document.getElementById(`cloud-${item.val}`);
+                el.classList.add('raining');
+                await this.delay(300);
+            }
+            this.addColumnResult(col, items.map(i => i.val));
+        }
+        document.getElementById('message').innerHTML = '<span style="color:var(--bucket)">🎉 All raindrops collected!</span>';
+    }
+    addColumnResult(col, values) {
+        const container = document.getElementById('columns');
+        const row = document.createElement('div');
+        row.className = 'column-row';
+        row.innerHTML = `
+            <span class="column-label">Col ${col}</span>
+            <div class="column-values">${values.map(v => `<span class="value-tag">${v}</span>`).join('')}</div>
+        `;
+        container.appendChild(row);
+    }
+    reset() {
+        document.querySelectorAll('.cloud-node').forEach(c => c.classList.remove('raining'));
+        document.getElementById('columns').innerHTML = '';
+        document.getElementById('message').textContent = 'Click MAKE IT RAIN!';
+    }
+    delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+}
+const game = new RainCatcher();
+</script>
+</body>
+</html>

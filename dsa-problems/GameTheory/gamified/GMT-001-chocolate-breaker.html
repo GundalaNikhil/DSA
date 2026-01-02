@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMT-001: Chocolate Breaker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --choco: #5d3a1a; --milk: #8b5e3c; --wrapper: #ff6b6b; --gold: #ffd700; --win: #27ae60; --lose: #e74c3c; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Fredoka', sans-serif; background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); min-height: 100vh; }
+        header { background: var(--choco); padding: 15px; text-align: center; color: #fff; }
+        h1 { font-size: 1.8rem; color: var(--gold); }
+        main { padding: 20px; max-width: 900px; margin: 0 auto; }
+        .instructions { background: #fff; border-radius: 15px; padding: 20px; margin-bottom: 20px; border-left: 5px solid var(--wrapper); }
+        .instructions h2 { color: var(--choco); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .instructions ul { margin-left: 20px; line-height: 1.8; }
+        .instructions li { margin: 5px 0; }
+        .highlight { background: var(--gold); padding: 2px 8px; border-radius: 5px; font-weight: 600; }
+        .game-area { background: rgba(255,255,255,0.9); border-radius: 15px; padding: 25px; }
+        .status-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 15px; background: var(--choco); border-radius: 10px; color: #fff; }
+        .turn-indicator { padding: 10px 20px; border-radius: 20px; font-weight: 600; }
+        .turn-indicator.player { background: var(--win); }
+        .turn-indicator.ai { background: var(--lose); }
+        .chocolate-bar { display: flex; flex-wrap: wrap; gap: 5px; justify-content: center; margin: 20px 0; }
+        .piece { width: 40px; height: 50px; background: linear-gradient(135deg, var(--milk) 0%, var(--choco) 100%); border-radius: 5px; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: bold; cursor: pointer; transition: all 0.2s; box-shadow: 2px 2px 5px rgba(0,0,0,0.3); }
+        .piece:hover { transform: scale(1.1); box-shadow: 0 0 10px var(--gold); }
+        .piece.selected { box-shadow: 0 0 15px var(--gold); border: 2px solid var(--gold); }
+        .split-preview { display: flex; gap: 20px; justify-content: center; margin: 20px 0; align-items: center; }
+        .split-group { background: rgba(93,58,26,0.1); padding: 15px; border-radius: 10px; text-align: center; }
+        .split-group .count { font-size: 2rem; font-weight: bold; color: var(--choco); }
+        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+        .btn { padding: 15px 30px; border: none; border-radius: 10px; font-family: 'Fredoka', sans-serif; font-size: 1rem; cursor: pointer; transition: all 0.2s; }
+        .btn-split { background: var(--wrapper); color: #fff; }
+        .btn-reset { background: #95a5a6; color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .result { text-align: center; padding: 30px; font-size: 1.5rem; font-weight: bold; border-radius: 15px; margin-top: 20px; display: none; }
+        .result.win { background: var(--win); color: #fff; display: block; }
+        .result.lose { background: var(--lose); color: #fff; display: block; }
+        .piles { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin: 20px 0; }
+        .pile { background: rgba(93,58,26,0.1); padding: 15px; border-radius: 10px; text-align: center; cursor: pointer; transition: all 0.2s; min-width: 80px; }
+        .pile:hover { background: rgba(93,58,26,0.2); }
+        .pile.selected { border: 3px solid var(--gold); }
+        .pile .size { font-size: 2rem; font-weight: bold; color: var(--choco); }
+        .pile .label { font-size: 0.8rem; color: #666; }
+        .split-slider { width: 100%; max-width: 300px; margin: 10px auto; }
+        .slider-container { text-align: center; margin: 15px 0; }
+        #message { text-align: center; padding: 15px; font-size: 1.1rem; color: var(--choco); min-height: 50px; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🍫 CHOCOLATE BREAKER</h1>
+</header>
+<main>
+    <div class="instructions">
+        <h2>📋 HOW TO PLAY</h2>
+        <ul>
+            <li><strong>Goal:</strong> Be the <span class="highlight">last player to make a valid break</span></li>
+            <li><strong>Your Move:</strong> Select a pile and break it into <span class="highlight">two UNEQUAL pieces</span></li>
+            <li><strong>Invalid:</strong> You CANNOT break into equal halves (e.g., 4 → 2+2 is NOT allowed)</li>
+            <li><strong>Win:</strong> If the AI cannot make any valid break, <span class="highlight">YOU WIN!</span></li>
+            <li><strong>Lose:</strong> If you cannot make any valid break, the AI wins</li>
+        </ul>
+    </div>
+    <div class="game-area">
+        <div class="status-bar">
+            <div class="turn-indicator player" id="turn">🟢 YOUR TURN</div>
+            <div>Piles: <span id="pile-count">1</span></div>
+        </div>
+        <div id="message">Select a pile to break!</div>
+        <div class="piles" id="piles"></div>
+        <div class="slider-container" id="slider-area" style="display:none;">
+            <div>Break into: <strong><span id="left-size">?</span></strong> + <strong><span id="right-size">?</span></strong></div>
+            <input type="range" class="split-slider" id="split-slider" min="1" max="1">
+        </div>
+        <div class="controls">
+            <button class="btn btn-split" id="btn-split" onclick="game.makeMove()" disabled>🔨 BREAK</button>
+            <button class="btn btn-reset" onclick="game.reset()">🔄 NEW GAME</button>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+</main>
+<script>
+class ChocolateBreaker {
+    constructor() {
+        this.initialSize = 8;
+        this.piles = [];
+        this.selectedPile = -1;
+        this.isPlayerTurn = true;
+        this.grundy = [];
+        this.calcGrundy(this.initialSize);
+        this.reset();
+    }
+    calcGrundy(maxN) {
+        this.grundy = new Array(maxN + 1).fill(0);
+        for (let i = 3; i <= maxN; i++) {
+            const reachable = new Set();
+            for (let j = 1; 2 * j < i; j++) {
+                reachable.add(this.grundy[j] ^ this.grundy[i - j]);
+            }
+            let mex = 0;
+            while (reachable.has(mex)) mex++;
+            this.grundy[i] = mex;
+        }
+    }
+    reset() {
+        this.piles = [this.initialSize];
+        this.selectedPile = -1;
+        this.isPlayerTurn = true;
+        this.render();
+        document.getElementById('result').className = 'result';
+        document.getElementById('result').textContent = '';
+        document.getElementById('message').textContent = 'Select a pile to break!';
+        this.updateTurn();
+    }
+    render() {
+        const container = document.getElementById('piles');
+        container.innerHTML = '';
+        this.piles.forEach((size, i) => {
+            const pile = document.createElement('div');
+            pile.className = 'pile' + (i === this.selectedPile ? ' selected' : '');
+            const canSplit = this.canSplit(size);
+            pile.innerHTML = `<div class="size">${size}</div><div class="label">${canSplit ? 'Click to select' : 'Cannot break'}</div>`;
+            if (canSplit && this.isPlayerTurn) {
+                pile.onclick = () => this.selectPile(i);
+            } else {
+                pile.style.opacity = canSplit ? '1' : '0.5';
+                pile.style.cursor = canSplit ? 'pointer' : 'not-allowed';
+            }
+            container.appendChild(pile);
+        });
+        document.getElementById('pile-count').textContent = this.piles.length;
+    }
+    canSplit(n) { return n >= 3; }
+    selectPile(i) {
+        this.selectedPile = i;
+        this.render();
+        const size = this.piles[i];
+        const slider = document.getElementById('split-slider');
+        slider.min = 1;
+        slider.max = Math.floor((size - 1) / 2);
+        slider.value = 1;
+        this.updateSlider();
+        document.getElementById('slider-area').style.display = 'block';
+        document.getElementById('btn-split').disabled = false;
+    }
+    updateSlider() {
+        const size = this.piles[this.selectedPile];
+        const left = parseInt(document.getElementById('split-slider').value);
+        const right = size - left;
+        document.getElementById('left-size').textContent = left;
+        document.getElementById('right-size').textContent = right;
+    }
+    makeMove() {
+        if (this.selectedPile < 0) return;
+        const size = this.piles[this.selectedPile];
+        const left = parseInt(document.getElementById('split-slider').value);
+        const right = size - left;
+        if (left === right) {
+            document.getElementById('message').textContent = '❌ Cannot break into equal pieces!';
+            return;
+        }
+        this.piles.splice(this.selectedPile, 1, left, right);
+        this.selectedPile = -1;
+        document.getElementById('slider-area').style.display = 'none';
+        document.getElementById('btn-split').disabled = true;
+        this.render();
+        if (!this.hasValidMove()) {
+            this.endGame(true);
+            return;
+        }
+        this.isPlayerTurn = false;
+        this.updateTurn();
+        document.getElementById('message').textContent = '🤖 AI is thinking...';
+        setTimeout(() => this.aiMove(), 1000);
+    }
+    aiMove() {
+        // Calculate XOR of all pile Grundy values
+        let totalXor = 0;
+        for (const p of this.piles) totalXor ^= this.grundy[p];
+        // Find a winning move (if exists)
+        let moved = false;
+        for (let i = 0; i < this.piles.length; i++) {
+            const size = this.piles[i];
+            if (!this.canSplit(size)) continue;
+            for (let j = 1; 2 * j < size; j++) {
+                const newXor = totalXor ^ this.grundy[size] ^ (this.grundy[j] ^ this.grundy[size - j]);
+                if (newXor === 0) {
+                    // Winning move found
+                    this.piles.splice(i, 1, j, size - j);
+                    document.getElementById('message').textContent = `🤖 AI breaks ${size} into ${j} + ${size - j}`;
+                    moved = true;
+                    break;
+                }
+            }
+            if (moved) break;
+        }
+        if (!moved) {
+            // No winning move, make any valid move
+            for (let i = 0; i < this.piles.length; i++) {
+                const size = this.piles[i];
+                if (this.canSplit(size)) {
+                    this.piles.splice(i, 1, 1, size - 1);
+                    document.getElementById('message').textContent = `🤖 AI breaks ${size} into 1 + ${size - 1}`;
+                    break;
+                }
+            }
+        }
+        this.render();
+        if (!this.hasValidMove()) {
+            this.endGame(false);
+            return;
+        }
+        this.isPlayerTurn = true;
+        this.updateTurn();
+        document.getElementById('message').textContent = 'Your turn! Select a pile to break.';
+    }
+    hasValidMove() {
+        return this.piles.some(p => this.canSplit(p));
+    }
+    endGame(playerWins) {
+        const result = document.getElementById('result');
+        if (playerWins) {
+            result.className = 'result win';
+            result.textContent = '🎉 YOU WIN! The AI cannot make any more moves!';
+        } else {
+            result.className = 'result lose';
+            result.textContent = '😢 AI WINS! You cannot make any more moves.';
+        }
+    }
+    updateTurn() {
+        const turn = document.getElementById('turn');
+        if (this.isPlayerTurn) {
+            turn.className = 'turn-indicator player';
+            turn.textContent = '🟢 YOUR TURN';
+        } else {
+            turn.className = 'turn-indicator ai';
+            turn.textContent = '🔴 AI\'S TURN';
+        }
+    }
+}
+const game = new ChocolateBreaker();
+document.getElementById('split-slider').oninput = () => game.updateSlider();
+</script>
+</body>
+</html>

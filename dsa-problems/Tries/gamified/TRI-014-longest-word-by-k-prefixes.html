@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRI-014: Prefix Chain Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 25px; }
+        .header h1 { font-size: 36px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+
+        /* Tutorial */
+        .tutorial {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .tutorial h2 { color: #7c3aed; margin-bottom: 15px; }
+
+        .example-box {
+            background: #f5f3ff;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        .example-title { font-weight: 700; color: #7c3aed; margin-bottom: 10px; }
+        .example-chain {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+        }
+        .chain-word { padding: 8px 16px; background: #7c3aed; color: #fff; border-radius: 20px; }
+        .chain-arrow { color: #a855f7; }
+
+        .rules { display: flex; gap: 15px; }
+        .rule {
+            flex: 1;
+            background: #f5f3ff;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .rule-num { font-size: 24px; font-weight: 700; color: #7c3aed; }
+        .rule-text { font-size: 13px; color: #555; }
+
+        /* Game */
+        .game-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .challenge {
+            background: linear-gradient(90deg, #7c3aed, #a855f7);
+            padding: 15px;
+            border-radius: 12px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        /* Word Bank */
+        .word-bank {
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 12px;
+            margin-bottom: 25px;
+        }
+        .bank-title { font-size: 14px; color: #64748b; margin-bottom: 15px; }
+        .bank-words { display: flex; flex-wrap: wrap; gap: 10px; }
+        .bank-word {
+            padding: 10px 20px;
+            background: #fff;
+            border: 2px solid #e2e8f0;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .bank-word:hover { border-color: #7c3aed; }
+        .bank-word.used { opacity: 0.4; cursor: not-allowed; }
+        .bank-word.selected { border-color: #7c3aed; background: #f5f3ff; }
+
+        /* Chain Builder */
+        .chain-section { margin-bottom: 25px; }
+        .section-title { font-size: 14px; color: #64748b; margin-bottom: 15px; }
+        .chain-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 20px;
+            background: #f5f3ff;
+            border-radius: 12px;
+            min-height: 70px;
+            flex-wrap: wrap;
+        }
+        .chain-item { padding: 10px 18px; background: #7c3aed; color: #fff; border-radius: 20px; font-weight: 600; }
+        .chain-arrow { color: #a855f7; font-size: 20px; }
+
+        .btn {
+            padding: 10px 25px;
+            background: #7c3aed;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        .btn:hover { background: #6d28d9; }
+        .btn.secondary { background: #e2e8f0; color: #475569; }
+
+        /* Result */
+        .result-panel {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .result-panel.success { background: #dcfce7; border: 2px solid #22c55e; }
+        .result-panel.warning { background: #fef3c7; border: 2px solid #f59e0b; }
+        .result-icon { font-size: 36px; }
+        .result-text { font-size: 18px; font-weight: 600; margin-top: 10px; }
+        .result-panel.success .result-text { color: #15803d; }
+        .result-panel.warning .result-text { color: #b45309; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>⛓️ Prefix Chain Builder</h1>
+        <div>Build the longest word chain using K prefixes!</div>
+    </div>
+
+    <div class="tutorial">
+        <h2>📖 What is a Prefix Chain?</h2>
+        <div class="example-box">
+            <div class="example-title">Example Chain (K=1):</div>
+            <div class="example-chain">
+                <span class="chain-word">a</span>
+                <span class="chain-arrow">→</span>
+                <span class="chain-word">ap</span>
+                <span class="chain-arrow">→</span>
+                <span class="chain-word">app</span>
+                <span class="chain-arrow">→</span>
+                <span class="chain-word">appl</span>
+                <span class="chain-arrow">→</span>
+                <span class="chain-word">apple</span>
+            </div>
+            <p style="margin-top:10px; font-size:13px; color:#666">Each word adds exactly 1 character to the previous!</p>
+        </div>
+        <div class="rules">
+            <div class="rule">
+                <div class="rule-num">1</div>
+                <div class="rule-text">Start with any word</div>
+            </div>
+            <div class="rule">
+                <div class="rule-num">2</div>
+                <div class="rule-text">Each next word must extend previous by 1 char</div>
+            </div>
+            <div class="rule">
+                <div class="rule-num">3</div>
+                <div class="rule-text">Build the longest chain!</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="challenge">
+            <strong>🎯 CHALLENGE:</strong> Build the longest prefix chain from the word bank!
+        </div>
+
+        <div class="word-bank">
+            <div class="bank-title">📚 Word Bank (click to add to chain):</div>
+            <div class="bank-words" id="wordBank"></div>
+        </div>
+
+        <div class="chain-section">
+            <div class="section-title">🔗 Your Chain:</div>
+            <div class="chain-display" id="chainDisplay">
+                <span style="color:#94a3b8">Click a word to start building...</span>
+            </div>
+            <div style="margin-top:15px">
+                <button class="btn secondary" onclick="undoLast()">↩ Undo</button>
+                <button class="btn secondary" onclick="resetChain()">🔄 Reset</button>
+            </div>
+        </div>
+
+        <div class="result-panel success" id="resultPanel">
+            <div class="result-icon">🏆</div>
+            <div class="result-text">Chain Length: <span id="chainLength">0</span></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const WORDS = ["a", "ap", "app", "appl", "apple", "b", "ba", "ban", "bana", "banan", "banana", "c", "ca", "cat"];
+    let chain = [];
+
+    function init() {
+        renderWordBank();
+        renderChain();
+    }
+
+    function renderWordBank() {
+        const bank = document.getElementById('wordBank');
+        bank.innerHTML = WORDS.map(word => {
+            const used = chain.includes(word);
+            const canAdd = canAddToChain(word);
+            return `
+                <div class="bank-word ${used ? 'used' : ''} ${canAdd && !used ? 'selected' : ''}" 
+                     onclick="${!used ? `addWord('${word}')` : ''}">
+                    ${word}
+                </div>
+            `;
+        }).join('');
+    }
+
+    function canAddToChain(word) {
+        if (chain.length === 0) return true;
+        const last = chain[chain.length - 1];
+        return word.startsWith(last) && word.length === last.length + 1;
+    }
+
+    function addWord(word) {
+        if (chain.includes(word)) return;
+        if (!canAddToChain(word)) return;
+        chain.push(word);
+        renderWordBank();
+        renderChain();
+    }
+
+    function renderChain() {
+        const display = document.getElementById('chainDisplay');
+        if (chain.length === 0) {
+            display.innerHTML = '<span style="color:#94a3b8">Click a word to start building...</span>';
+        } else {
+            display.innerHTML = chain.map((word, i) => 
+                `<span class="chain-item">${word}</span>${i < chain.length - 1 ? '<span class="chain-arrow">→</span>' : ''}`
+            ).join('');
+        }
+        document.getElementById('chainLength').textContent = chain.length;
+    }
+
+    function undoLast() {
+        chain.pop();
+        renderWordBank();
+        renderChain();
+    }
+
+    function resetChain() {
+        chain = [];
+        renderWordBank();
+        renderChain();
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

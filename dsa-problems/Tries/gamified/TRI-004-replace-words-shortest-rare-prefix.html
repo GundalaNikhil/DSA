@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRI-004: Word Replacer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f4f8;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .header h1 { font-size: 32px; color: #2d3748; }
+        .header p { color: #718096; margin-top: 5px; }
+
+        /* Tutorial Card */
+        .tutorial-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 20px;
+            padding: 25px;
+            color: #fff;
+            margin-bottom: 25px;
+        }
+        .tutorial-card h2 { font-size: 18px; margin-bottom: 20px; }
+
+        .tutorial-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .tutorial-item {
+            text-align: center;
+            flex: 1;
+        }
+        .tutorial-item .icon { font-size: 32px; margin-bottom: 8px; }
+        .tutorial-item .title { font-weight: 700; margin-bottom: 4px; }
+        .tutorial-item .desc { font-size: 12px; opacity: 0.9; }
+        .tutorial-arrow { font-size: 24px; opacity: 0.5; }
+
+        /* Main Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .card-title {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Dictionary */
+        .dict-list { display: flex; flex-direction: column; gap: 8px; }
+        .dict-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            background: #edf2f7;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        .dict-word { font-weight: 600; color: #2d3748; }
+        .dict-remove {
+            width: 24px;
+            height: 24px;
+            background: #fc8181;
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .add-row { display: flex; gap: 8px; margin-top: 15px; }
+        .add-input {
+            flex: 1;
+            padding: 10px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-family: inherit;
+        }
+        .add-input:focus { outline: none; border-color: #667eea; }
+        .add-btn {
+            padding: 10px 20px;
+            background: #667eea;
+            border: none;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Sentence Editor */
+        .sentence-editor {
+            grid-column: span 1;
+        }
+
+        .sentence-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        .sentence-input:focus { outline: none; border-color: #667eea; }
+
+        .output-box {
+            padding: 20px;
+            background: #f0fff4;
+            border: 2px solid #9ae6b4;
+            border-radius: 10px;
+            font-size: 18px;
+            line-height: 1.8;
+            min-height: 80px;
+        }
+        .replaced { background: #c6f6d5; padding: 2px 6px; border-radius: 4px; font-weight: 600; color: #22543d; }
+
+        /* Stats */
+        .stats-row {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .stat-box {
+            flex: 1;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 10px;
+            color: #fff;
+            text-align: center;
+        }
+        .stat-label { font-size: 11px; opacity: 0.8; }
+        .stat-value { font-size: 24px; font-weight: 700; }
+
+        /* How it works */
+        .explanation {
+            margin-top: 15px;
+            padding: 15px;
+            background: #ebf4ff;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        .explanation-title { font-weight: 700; color: #434190; margin-bottom: 8px; }
+        .explanation-text { font-size: 13px; color: #5a67d8; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>✂️ Word Replacer</h1>
+        <p>Replace words with their shortest dictionary prefix</p>
+    </div>
+
+    <div class="tutorial-card">
+        <h2>🎮 How It Works</h2>
+        <div class="tutorial-flow">
+            <div class="tutorial-item">
+                <div class="icon">📚</div>
+                <div class="title">1. Build Dictionary</div>
+                <div class="desc">Add root words like "cat", "bat"</div>
+            </div>
+            <div class="tutorial-arrow">→</div>
+            <div class="tutorial-item">
+                <div class="icon">✍️</div>
+                <div class="title">2. Type Sentence</div>
+                <div class="desc">Enter words like "cattle", "battle"</div>
+            </div>
+            <div class="tutorial-arrow">→</div>
+            <div class="tutorial-item">
+                <div class="icon">⚡</div>
+                <div class="title">3. Auto Replace</div>
+                <div class="desc">"cattle" → "cat", "battle" → "bat"</div>
+            </div>
+            <div class="tutorial-arrow">→</div>
+            <div class="tutorial-item">
+                <div class="icon">📊</div>
+                <div class="title">4. See Stats</div>
+                <div class="desc">Track replacements & chars saved</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-grid">
+        <div class="card">
+            <div class="card-title">📚 Dictionary (Root Prefixes)</div>
+            <div class="dict-list" id="dictList"></div>
+            <div class="add-row">
+                <input type="text" class="add-input" id="newWord" placeholder="Add word...">
+                <button class="add-btn" onclick="addWord()">Add</button>
+            </div>
+        </div>
+
+        <div class="card sentence-editor">
+            <div class="card-title">✍️ Input Sentence</div>
+            <input type="text" class="sentence-input" id="sentenceInput" 
+                   value="the cattle were battling in the cathedral"
+                   oninput="process()">
+
+            <div class="card-title" style="margin-top:15px">✅ Output (Replaced)</div>
+            <div class="output-box" id="output"></div>
+
+            <div class="stats-row">
+                <div class="stat-box">
+                    <div class="stat-label">Words Replaced</div>
+                    <div class="stat-value" id="replacedCount">0</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">Characters Saved</div>
+                    <div class="stat-value" id="charsSaved">0</div>
+                </div>
+            </div>
+
+            <div class="explanation">
+                <div class="explanation-title">💡 How the Trie helps:</div>
+                <div class="explanation-text">
+                    Each dictionary word is stored in a Trie. When checking a sentence word, 
+                    we traverse the Trie character by character. The first matching endpoint 
+                    gives us the shortest prefix replacement!
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    let dictionary = ["cat", "bat", "rat"];
+
+    class TrieNode {
+        constructor() { this.children = {}; this.isEnd = false; this.word = null; }
+    }
+
+    function buildTrie() {
+        const root = new TrieNode();
+        dictionary.forEach(word => {
+            let node = root;
+            for (const ch of word) {
+                if (!node.children[ch]) node.children[ch] = new TrieNode();
+                node = node.children[ch];
+            }
+            node.isEnd = true;
+            node.word = word;
+        });
+        return root;
+    }
+
+    function findPrefix(root, word) {
+        let node = root;
+        for (let i = 0; i < word.length; i++) {
+            if (!node.children[word[i]]) return word;
+            node = node.children[word[i]];
+            if (node.isEnd) return node.word;
+        }
+        return word;
+    }
+
+    function renderDict() {
+        const list = document.getElementById('dictList');
+        list.innerHTML = '';
+        dictionary.forEach((word, i) => {
+            const item = document.createElement('div');
+            item.className = 'dict-item';
+            item.innerHTML = `
+                <span class="dict-word">${word}</span>
+                <button class="dict-remove" onclick="removeWord(${i})">×</button>
+            `;
+            list.appendChild(item);
+        });
+    }
+
+    function addWord() {
+        const input = document.getElementById('newWord');
+        const word = input.value.trim().toLowerCase();
+        if (word && !dictionary.includes(word)) {
+            dictionary.push(word);
+            input.value = '';
+            renderDict();
+            process();
+        }
+    }
+
+    function removeWord(i) {
+        dictionary.splice(i, 1);
+        renderDict();
+        process();
+    }
+
+    function process() {
+        const sentence = document.getElementById('sentenceInput').value;
+        const trie = buildTrie();
+        const words = sentence.split(/\s+/);
+
+        let replacedCount = 0;
+        let charsSaved = 0;
+
+        const result = words.map(word => {
+            const lower = word.toLowerCase();
+            const replacement = findPrefix(trie, lower);
+            if (replacement !== lower) {
+                replacedCount++;
+                charsSaved += word.length - replacement.length;
+                return `<span class="replaced">${replacement}</span>`;
+            }
+            return word;
+        });
+
+        document.getElementById('output').innerHTML = result.join(' ');
+        document.getElementById('replacedCount').textContent = replacedCount;
+        document.getElementById('charsSaved').textContent = charsSaved;
+    }
+
+    window.onload = () => { renderDict(); process(); };
+</script>
+</body>
+</html>

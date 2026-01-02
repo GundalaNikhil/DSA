@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRI-005: XOR Minimizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Space Mono', monospace;
+            background: #0d1117;
+            color: #c9d1d9;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .header h1 { font-size: 32px; color: #58a6ff; }
+        .header p { color: #8b949e; }
+
+        /* Rules Card */
+        .rules-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        .rules-card h2 { color: #58a6ff; font-size: 16px; margin-bottom: 20px; }
+
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        .rule {
+            background: #21262d;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .rule-icon { font-size: 28px; margin-bottom: 10px; }
+        .rule-title { font-weight: 700; color: #58a6ff; margin-bottom: 5px; }
+        .rule-text { font-size: 12px; color: #8b949e; }
+
+        /* Game Area */
+        .game-card {
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .objective {
+            background: linear-gradient(90deg, #238636, #1f6feb);
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .objective-label { font-size: 12px; opacity: 0.8; }
+        .objective-text { font-size: 18px; font-weight: 700; }
+
+        /* Number Grid */
+        .number-section {
+            margin-bottom: 25px;
+        }
+        .section-title { color: #8b949e; font-size: 14px; margin-bottom: 15px; }
+
+        .number-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .number-card {
+            background: #21262d;
+            border: 2px solid #30363d;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .number-card:hover { border-color: #58a6ff; }
+        .number-card.selected { border-color: #3fb950; background: #1c3d2e; }
+        .number-card.selected:nth-child(n+1) { border-color: #58a6ff; background: #1a2e4a; }
+
+        .num-decimal { font-size: 24px; font-weight: 700; color: #58a6ff; }
+        .num-binary { font-size: 12px; color: #8b949e; font-family: monospace; }
+
+        /* XOR Visualization */
+        .xor-visual {
+            background: #21262d;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+
+        .xor-row {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 8px 0;
+            font-family: monospace;
+            font-size: 18px;
+        }
+        .xor-label { width: 80px; color: #8b949e; font-size: 12px; }
+        .xor-bits { letter-spacing: 8px; }
+        .bit-0 { color: #8b949e; }
+        .bit-1 { color: #3fb950; }
+        .bit-diff { color: #f85149; background: #4a1c1c; padding: 0 4px; border-radius: 3px; }
+
+        /* Result */
+        .result-panel {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .result-box {
+            background: #21262d;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+        .result-label { font-size: 12px; color: #8b949e; }
+        .result-value { font-size: 32px; font-weight: 700; color: #3fb950; margin-top: 5px; }
+        .result-value.highlight { color: #f0883e; }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background: #238636;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .btn:hover { background: #2ea043; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>⊕ XOR Minimizer</h1>
+        <p>Find the pair with minimum XOR using Binary Trie logic!</p>
+    </div>
+
+    <div class="rules-card">
+        <h2>🎮 How to Play</h2>
+        <div class="rules-grid">
+            <div class="rule">
+                <div class="rule-icon">1️⃣</div>
+                <div class="rule-title">Select First Number</div>
+                <div class="rule-text">Click any number to select it as your first choice</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">2️⃣</div>
+                <div class="rule-title">Select Second Number</div>
+                <div class="rule-text">Click another number to pair with the first</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">3️⃣</div>
+                <div class="rule-title">Check XOR Result</div>
+                <div class="rule-text">See the XOR calculated bit-by-bit. Lower = Better!</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="objective">
+            <div class="objective-label">🎯 YOUR GOAL</div>
+            <div class="objective-text">Find the pair with the SMALLEST XOR value!</div>
+        </div>
+
+        <div class="number-section">
+            <div class="section-title">📊 Available Numbers (click two to compare):</div>
+            <div class="number-grid" id="numberGrid"></div>
+        </div>
+
+        <div class="xor-visual" id="xorVisual">
+            <div style="text-align:center; color:#8b949e; padding:20px">
+                Select two numbers to see XOR calculation
+            </div>
+        </div>
+
+        <div class="result-panel">
+            <div class="result-box">
+                <div class="result-label">Your XOR Result</div>
+                <div class="result-value" id="yourXor">-</div>
+            </div>
+            <div class="result-box">
+                <div class="result-label">Minimum Possible</div>
+                <div class="result-value highlight" id="minXor">?</div>
+            </div>
+        </div>
+
+        <button class="btn" onclick="showAnswer()">🔍 Reveal Minimum XOR Pair</button>
+    </div>
+</div>
+
+<script>
+    const NUMBERS = [3, 10, 5, 25, 2, 8];
+    const BITS = 5;
+    let selected = [];
+    let minXorPair = null;
+    let minXorValue = Infinity;
+
+    function init() {
+        // Find actual min XOR
+        for (let i = 0; i < NUMBERS.length; i++) {
+            for (let j = i + 1; j < NUMBERS.length; j++) {
+                const xor = NUMBERS[i] ^ NUMBERS[j];
+                if (xor < minXorValue) {
+                    minXorValue = xor;
+                    minXorPair = [NUMBERS[i], NUMBERS[j]];
+                }
+            }
+        }
+
+        renderNumbers();
+    }
+
+    function renderNumbers() {
+        const grid = document.getElementById('numberGrid');
+        grid.innerHTML = '';
+
+        NUMBERS.forEach((num, i) => {
+            const card = document.createElement('div');
+            card.className = 'number-card';
+            if (selected.includes(num)) card.classList.add('selected');
+            card.innerHTML = `
+                <div class="num-decimal">${num}</div>
+                <div class="num-binary">${num.toString(2).padStart(BITS, '0')}</div>
+            `;
+            card.onclick = () => toggleSelect(num);
+            grid.appendChild(card);
+        });
+    }
+
+    function toggleSelect(num) {
+        if (selected.includes(num)) {
+            selected = selected.filter(n => n !== num);
+        } else if (selected.length < 2) {
+            selected.push(num);
+        } else {
+            selected = [num];
+        }
+
+        renderNumbers();
+        updateXorVisual();
+    }
+
+    function updateXorVisual() {
+        const visual = document.getElementById('xorVisual');
+
+        if (selected.length !== 2) {
+            visual.innerHTML = `<div style="text-align:center; color:#8b949e; padding:20px">Select two numbers to see XOR calculation</div>`;
+            document.getElementById('yourXor').textContent = '-';
+            return;
+        }
+
+        const [a, b] = selected;
+        const xor = a ^ b;
+        const aBits = a.toString(2).padStart(BITS, '0');
+        const bBits = b.toString(2).padStart(BITS, '0');
+        const xorBits = xor.toString(2).padStart(BITS, '0');
+
+        let xorHtml = '';
+        for (let i = 0; i < BITS; i++) {
+            if (aBits[i] !== bBits[i]) {
+                xorHtml += `<span class="bit-diff">${xorBits[i]}</span>`;
+            } else {
+                xorHtml += `<span class="bit-0">${xorBits[i]}</span>`;
+            }
+        }
+
+        visual.innerHTML = `
+            <div class="xor-row"><span class="xor-label">Number A:</span><span class="xor-bits">${colorBits(aBits)}</span><span style="margin-left:20px">= ${a}</span></div>
+            <div class="xor-row"><span class="xor-label">Number B:</span><span class="xor-bits">${colorBits(bBits)}</span><span style="margin-left:20px">= ${b}</span></div>
+            <div class="xor-row" style="border-top:1px solid #30363d; padding-top:10px; margin-top:10px">
+                <span class="xor-label">A ⊕ B:</span><span class="xor-bits">${xorHtml}</span><span style="margin-left:20px; color:#3fb950; font-weight:700">= ${xor}</span>
+            </div>
+        `;
+
+        document.getElementById('yourXor').textContent = xor;
+
+        if (xor === minXorValue) {
+            document.getElementById('yourXor').style.color = '#3fb950';
+        } else {
+            document.getElementById('yourXor').style.color = '#f85149';
+        }
+    }
+
+    function colorBits(bits) {
+        return bits.split('').map(b => `<span class="${b === '1' ? 'bit-1' : 'bit-0'}">${b}</span>`).join('');
+    }
+
+    function showAnswer() {
+        document.getElementById('minXor').textContent = minXorValue;
+        selected = minXorPair;
+        renderNumbers();
+        updateXorVisual();
+        alert(`🎉 Minimum XOR is ${minXorValue} from pair (${minXorPair[0]}, ${minXorPair[1]})`);
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

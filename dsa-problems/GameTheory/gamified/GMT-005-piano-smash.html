@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMT-005: Piano Key Smash</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Lato&display=swap" rel="stylesheet">
+    <style>
+        :root { --piano: #1a1a1a; --white: #fafafa; --black: #2d3436; --gold: #f1c40f; --player: #00b894; --ai: #d63031; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Lato', sans-serif; background: linear-gradient(135deg, #2c3e50 0%, #1a1a2e 100%); min-height: 100vh; color: #fff; }
+        header { background: var(--piano); padding: 15px; text-align: center; border-bottom: 3px solid var(--gold); }
+        h1 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); }
+        main { padding: 20px; max-width: 900px; margin: 0 auto; }
+        .instructions { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-bottom: 20px; border-left: 5px solid var(--gold); }
+        .instructions h2 { color: var(--gold); margin-bottom: 10px; }
+        .instructions ul { margin-left: 20px; line-height: 1.8; }
+        .highlight { background: var(--gold); color: #333; padding: 2px 8px; border-radius: 5px; font-weight: 600; }
+        .game-area { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 25px; }
+        .status-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; }
+        .turn-indicator { padding: 10px 20px; border-radius: 20px; font-weight: 600; }
+        .turn-indicator.player { background: var(--player); }
+        .turn-indicator.ai { background: var(--ai); }
+        .piano-container { display: flex; justify-content: center; margin: 30px 0; }
+        .piano { display: flex; gap: 4px; padding: 20px; background: var(--piano); border-radius: 10px; }
+        .key { width: 50px; height: 150px; border-radius: 0 0 8px 8px; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; padding-bottom: 10px; cursor: pointer; transition: all 0.2s; font-weight: bold; }
+        .key.white { background: var(--white); color: #333; }
+        .key.removed { background: #555; color: #888; cursor: not-allowed; }
+        .key:not(.removed):hover { transform: translateY(-5px); box-shadow: 0 5px 20px var(--gold); }
+        .key.selected { box-shadow: 0 0 20px var(--player); border: 3px solid var(--player); }
+        .selection-info { text-align: center; margin: 20px 0; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; }
+        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+        .btn { padding: 15px 30px; border: none; border-radius: 10px; font-family: 'Playfair Display', serif; font-size: 1rem; cursor: pointer; }
+        .btn-remove { background: var(--player); color: #fff; }
+        .btn-reset { background: var(--gold); color: #333; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .result { text-align: center; padding: 30px; font-size: 1.5rem; font-weight: bold; border-radius: 15px; margin-top: 20px; display: none; }
+        .result.win { background: var(--player); display: block; }
+        .result.lose { background: var(--ai); display: block; }
+        #message { text-align: center; padding: 15px; font-size: 1.1rem; color: var(--gold); min-height: 50px; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🎹 PIANO KEY SMASH</h1>
+</header>
+<main>
+    <div class="instructions">
+        <h2>📋 HOW TO PLAY</h2>
+        <ul>
+            <li><strong>Goal:</strong> Be the <span class="highlight">last player to remove keys</span></li>
+            <li><strong>Your Move:</strong> Click a key to start, then click another to select a <span class="highlight">range of consecutive keys</span></li>
+            <li><strong>Rule:</strong> You can only remove keys that are <span class="highlight">still on the piano</span></li>
+            <li><strong>Win:</strong> If the AI cannot remove any keys, <span class="highlight">YOU WIN!</span></li>
+        </ul>
+    </div>
+    <div class="game-area">
+        <div class="status-bar">
+            <div class="turn-indicator player" id="turn">🟢 YOUR TURN</div>
+            <div>Keys left: <span id="keys-left">10</span></div>
+        </div>
+        <div id="message">Click the first key of the range you want to remove!</div>
+        <div class="piano-container">
+            <div class="piano" id="piano"></div>
+        </div>
+        <div class="selection-info" id="selection-info" style="display:none;">
+            Removing keys: <strong><span id="range-start">?</span></strong> to <strong><span id="range-end">?</span></strong>
+        </div>
+        <div class="controls">
+            <button class="btn btn-remove" id="btn-remove" onclick="game.confirmRemove()" disabled>🎹 REMOVE KEYS</button>
+            <button class="btn btn-reset" onclick="game.reset()">🔄 NEW GAME</button>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+</main>
+<script>
+class PianoKeySmash {
+    constructor() {
+        this.totalKeys = 10;
+        this.reset();
+    }
+    reset() {
+        this.keys = new Array(this.totalKeys).fill(true);
+        this.selectStart = -1;
+        this.selectEnd = -1;
+        this.isPlayerTurn = true;
+        this.gameOver = false;
+        this.render();
+        document.getElementById('result').className = 'result';
+        document.getElementById('selection-info').style.display = 'none';
+        document.getElementById('btn-remove').disabled = true;
+        document.getElementById('message').textContent = 'Click the first key of the range!';
+    }
+    render() {
+        const container = document.getElementById('piano');
+        container.innerHTML = '';
+        let keysLeft = 0;
+        this.keys.forEach((hasKey, i) => {
+            const key = document.createElement('div');
+            key.className = 'key white' + (hasKey ? '' : ' removed');
+            if (i >= this.selectStart && i <= this.selectEnd && this.selectStart >= 0) {
+                key.classList.add('selected');
+            }
+            key.textContent = hasKey ? i + 1 : '✗';
+            if (hasKey && this.isPlayerTurn && !this.gameOver) {
+                key.onclick = () => this.selectKey(i);
+            }
+            container.appendChild(key);
+            if (hasKey) keysLeft++;
+        });
+        document.getElementById('keys-left').textContent = keysLeft;
+        this.updateTurn();
+    }
+    selectKey(i) {
+        if (this.selectStart < 0) {
+            this.selectStart = i;
+            this.selectEnd = i;
+            document.getElementById('message').textContent = 'Now click the last key of the range (or same key for single).';
+        } else {
+            this.selectEnd = Math.max(i, this.selectStart);
+            this.selectStart = Math.min(i, this.selectStart);
+            // Validate range is continuous
+            for (let j = this.selectStart; j <= this.selectEnd; j++) {
+                if (!this.keys[j]) {
+                    document.getElementById('message').textContent = '❌ Invalid range - contains removed keys!';
+                    this.selectStart = -1;
+                    this.selectEnd = -1;
+                    this.render();
+                    return;
+                }
+            }
+            document.getElementById('btn-remove').disabled = false;
+        }
+        document.getElementById('selection-info').style.display = 'block';
+        document.getElementById('range-start').textContent = this.selectStart + 1;
+        document.getElementById('range-end').textContent = this.selectEnd + 1;
+        this.render();
+    }
+    confirmRemove() {
+        if (this.selectStart < 0) return;
+        for (let i = this.selectStart; i <= this.selectEnd; i++) {
+            this.keys[i] = false;
+        }
+        this.selectStart = -1;
+        this.selectEnd = -1;
+        document.getElementById('selection-info').style.display = 'none';
+        document.getElementById('btn-remove').disabled = true;
+        this.render();
+        if (!this.hasValidMove()) {
+            this.endGame(true);
+            return;
+        }
+        this.isPlayerTurn = false;
+        this.updateTurn();
+        document.getElementById('message').textContent = '🤖 AI is thinking...';
+        setTimeout(() => this.aiMove(), 1000);
+    }
+    hasValidMove() {
+        return this.keys.some(k => k);
+    }
+    findIntervals() {
+        const intervals = [];
+        let start = -1;
+        for (let i = 0; i < this.totalKeys; i++) {
+            if (this.keys[i]) {
+                if (start < 0) start = i;
+            } else {
+                if (start >= 0) {
+                    intervals.push({ start, end: i - 1, len: i - start });
+                    start = -1;
+                }
+            }
+        }
+        if (start >= 0) {
+            intervals.push({ start, end: this.totalKeys - 1, len: this.totalKeys - start });
+        }
+        return intervals;
+    }
+    aiMove() {
+        const intervals = this.findIntervals();
+        if (intervals.length === 0) {
+            this.endGame(true);
+            return;
+        }
+        // Simple AI: remove from largest interval
+        intervals.sort((a, b) => b.len - a.len);
+        const interval = intervals[0];
+        const removeCount = Math.min(3, interval.len);
+        for (let i = 0; i < removeCount; i++) {
+            this.keys[interval.start + i] = false;
+        }
+        document.getElementById('message').textContent = `🤖 AI removes keys ${interval.start + 1} to ${interval.start + removeCount}`;
+        this.render();
+        if (!this.hasValidMove()) {
+            this.endGame(false);
+            return;
+        }
+        this.isPlayerTurn = true;
+        this.updateTurn();
+        document.getElementById('message').textContent = 'Your turn! Click a key.';
+    }
+    endGame(playerWins) {
+        this.gameOver = true;
+        const result = document.getElementById('result');
+        if (playerWins) {
+            result.className = 'result win';
+            result.textContent = '🎉 YOU WIN! No keys left for AI!';
+        } else {
+            result.className = 'result lose';
+            result.textContent = '😢 AI WINS! No keys left.';
+        }
+    }
+    updateTurn() {
+        const turn = document.getElementById('turn');
+        if (this.isPlayerTurn) {
+            turn.className = 'turn-indicator player';
+            turn.textContent = '🟢 YOUR TURN';
+        } else {
+            turn.className = 'turn-indicator ai';
+            turn.textContent = '🔴 AI\'S TURN';
+        }
+    }
+}
+const game = new PianoKeySmash();
+</script>
+</body>
+</html>

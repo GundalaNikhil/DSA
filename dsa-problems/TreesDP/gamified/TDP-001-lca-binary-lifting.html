@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDP-001: Ancestor Quest</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        :root {
+            --bg: #0f0f23;
+            --tree-bg: #1a1a2e;
+            --node: #16213e;
+            --node-hl: #e94560;
+            --lca: #ffd700;
+            --path: #00ff88;
+        }
+
+        body {
+            font-family: 'Press Start 2P', cursive;
+            background: var(--bg);
+            color: #fff;
+            margin: 0;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .hud {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 800px;
+            padding: 10px;
+            background: rgba(0,0,0,0.5);
+            border: 2px solid #333;
+            margin-bottom: 20px;
+        }
+
+        .hud-item { text-align: center; }
+        .hud-label { font-size: 8px; color: #888; }
+        .hud-val { font-size: 16px; color: var(--lca); }
+
+        .tree-canvas {
+            width: 700px;
+            height: 400px;
+            background: var(--tree-bg);
+            border: 3px solid #333;
+            position: relative;
+            border-radius: 10px;
+            box-shadow: 0 0 30px rgba(233, 69, 96, 0.2);
+        }
+
+        .node {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: var(--node);
+            border: 3px solid #0f4c75;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+        .node:hover { transform: scale(1.2); border-color: #fff; }
+        .node.selected { border-color: var(--node-hl); box-shadow: 0 0 20px var(--node-hl); animation: pulse 0.5s infinite; }
+        .node.lca { background: var(--lca); color: #000; border-color: #fff; animation: glow 1s infinite; }
+        .node.path { border-color: var(--path); box-shadow: 0 0 15px var(--path); }
+
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.1)} }
+        @keyframes glow { 0%,100%{box-shadow:0 0 10px var(--lca)} 50%{box-shadow:0 0 30px var(--lca)} }
+
+        svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        line { stroke: #333; stroke-width: 3; }
+        line.path-line { stroke: var(--path); stroke-width: 4; }
+
+        .quest-box {
+            margin-top: 20px;
+            padding: 20px;
+            background: #1a1a2e;
+            border: 2px solid #e94560;
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .quest-text { font-size: 10px; color: #aaa; margin-bottom: 15px; }
+        .quest-target { font-size: 14px; color: var(--node-hl); }
+
+        .btn {
+            margin-top: 15px;
+            padding: 15px 30px;
+            background: var(--node-hl);
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 10px;
+            cursor: pointer;
+        }
+        .btn:hover { background: #ff6b8a; }
+
+        .message {
+            margin-top: 15px;
+            font-size: 10px;
+            min-height: 20px;
+        }
+        .message.success { color: var(--path); }
+        .message.error { color: #ff4757; }
+
+        .combo { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 40px; color: var(--lca); animation: comboAnim 1s forwards; pointer-events: none; }
+        @keyframes comboAnim { 0%{opacity:1;transform:translate(-50%,-50%) scale(1)} 100%{opacity:0;transform:translate(-50%,-100%) scale(2)} }
+
+    </style>
+</head>
+<body>
+
+<div class="game-container">
+    <div class="hud">
+        <div class="hud-item">
+            <div class="hud-label">LEVEL</div>
+            <div class="hud-val" id="level">1</div>
+        </div>
+        <div class="hud-item">
+            <div class="hud-label">SCORE</div>
+            <div class="hud-val" id="score">0</div>
+        </div>
+        <div class="hud-item">
+            <div class="hud-label">STREAK</div>
+            <div class="hud-val" id="streak">0</div>
+        </div>
+        <div class="hud-item">
+            <div class="hud-label">TIME</div>
+            <div class="hud-val" id="timer">30</div>
+        </div>
+    </div>
+
+    <div class="tree-canvas" id="canvas">
+        <svg id="edges"></svg>
+    </div>
+
+    <div class="quest-box">
+        <div class="quest-text">FIND THE LOWEST COMMON ANCESTOR OF:</div>
+        <div class="quest-target">Node <span id="nodeA">?</span> and Node <span id="nodeB">?</span></div>
+        <div class="message" id="msg"></div>
+    </div>
+</div>
+
+<script>
+    const TREE = {
+        nodes: [
+            {id:1, x:325, y:30},
+            {id:2, x:175, y:120}, {id:3, x:475, y:120},
+            {id:4, x:100, y:220}, {id:5, x:250, y:220}, {id:6, x:400, y:220}, {id:7, x:550, y:220},
+            {id:8, x:60, y:320}, {id:9, x:140, y:320}, {id:10, x:210, y:320}, {id:11, x:290, y:320}
+        ],
+        edges: [[1,2],[1,3],[2,4],[2,5],[3,6],[3,7],[4,8],[4,9],[5,10],[5,11]],
+        parent: {1:null, 2:1, 3:1, 4:2, 5:2, 6:3, 7:3, 8:4, 9:4, 10:5, 11:5}
+    };
+
+    let score = 0, streak = 0, level = 1, timer = 30;
+    let targetA = 0, targetB = 0, correctLCA = 0;
+    let selectedNode = null;
+    let timerInterval = null;
+
+    function init() {
+        renderTree();
+        newQuest();
+        startTimer();
+    }
+
+    function renderTree() {
+        const canvas = document.getElementById('canvas');
+        const svg = document.getElementById('edges');
+        svg.innerHTML = '';
+
+        // Edges
+        TREE.edges.forEach(([a, b]) => {
+            const n1 = TREE.nodes.find(n => n.id === a);
+            const n2 = TREE.nodes.find(n => n.id === b);
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', n1.x + 25);
+            line.setAttribute('y1', n1.y + 25);
+            line.setAttribute('x2', n2.x + 25);
+            line.setAttribute('y2', n2.y + 25);
+            line.id = `edge-${a}-${b}`;
+            svg.appendChild(line);
+        });
+
+        // Remove old nodes
+        canvas.querySelectorAll('.node').forEach(n => n.remove());
+
+        // Nodes
+        TREE.nodes.forEach(n => {
+            const el = document.createElement('div');
+            el.className = 'node';
+            el.id = `node-${n.id}`;
+            el.style.left = n.x + 'px';
+            el.style.top = n.y + 'px';
+            el.textContent = n.id;
+            el.onclick = () => selectNode(n.id);
+            canvas.appendChild(el);
+        });
+    }
+
+    function newQuest() {
+        clearHighlights();
+        selectedNode = null;
+        
+        // Pick two random nodes
+        const ids = TREE.nodes.map(n => n.id);
+        targetA = ids[Math.floor(Math.random() * ids.length)];
+        do { targetB = ids[Math.floor(Math.random() * ids.length)]; } while (targetB === targetA);
+        
+        correctLCA = computeLCA(targetA, targetB);
+        
+        document.getElementById('nodeA').textContent = targetA;
+        document.getElementById('nodeB').textContent = targetB;
+        document.getElementById('msg').textContent = '';
+        
+        // Highlight targets
+        document.getElementById(`node-${targetA}`).classList.add('selected');
+        document.getElementById(`node-${targetB}`).classList.add('selected');
+    }
+
+    function computeLCA(a, b) {
+        const ancestorsA = new Set();
+        let curr = a;
+        while (curr !== null) {
+            ancestorsA.add(curr);
+            curr = TREE.parent[curr];
+        }
+        curr = b;
+        while (curr !== null) {
+            if (ancestorsA.has(curr)) return curr;
+            curr = TREE.parent[curr];
+        }
+        return 1;
+    }
+
+    function selectNode(id) {
+        if (id === correctLCA) {
+            // Correct!
+            streak++;
+            score += 100 * streak;
+            updateHUD();
+            showCombo('+' + (100 * streak));
+            
+            document.getElementById(`node-${id}`).classList.add('lca');
+            highlightPath(targetA, id);
+            highlightPath(targetB, id);
+            
+            document.getElementById('msg').textContent = 'CORRECT!';
+            document.getElementById('msg').className = 'message success';
+            
+            setTimeout(newQuest, 1500);
+        } else {
+            streak = 0;
+            updateHUD();
+            document.getElementById('msg').textContent = 'WRONG! Try again.';
+            document.getElementById('msg').className = 'message error';
+        }
+    }
+
+    function highlightPath(from, to) {
+        let curr = from;
+        while (curr !== to) {
+            document.getElementById(`node-${curr}`).classList.add('path');
+            const parent = TREE.parent[curr];
+            // Highlight edge
+            const edge = document.getElementById(`edge-${Math.min(curr, parent)}-${Math.max(curr, parent)}`) ||
+                         document.getElementById(`edge-${parent}-${curr}`);
+            if (edge) edge.classList.add('path-line');
+            curr = parent;
+        }
+    }
+
+    function clearHighlights() {
+        document.querySelectorAll('.node').forEach(n => n.classList.remove('selected', 'lca', 'path'));
+        document.querySelectorAll('line').forEach(l => l.classList.remove('path-line'));
+    }
+
+    function updateHUD() {
+        document.getElementById('score').textContent = score;
+        document.getElementById('streak').textContent = streak;
+        document.getElementById('level').textContent = level;
+    }
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            timer--;
+            document.getElementById('timer').textContent = timer;
+            if (timer <= 0) {
+                clearInterval(timerInterval);
+                endGame();
+            }
+        }, 1000);
+    }
+
+    function endGame() {
+        document.getElementById('msg').innerHTML = `GAME OVER!<br>Final Score: ${score}`;
+        document.getElementById('msg').className = 'message';
+        document.getElementById('msg').style.color = '#ffd700';
+    }
+
+    function showCombo(text) {
+        const combo = document.createElement('div');
+        combo.className = 'combo';
+        combo.textContent = text;
+        document.body.appendChild(combo);
+        setTimeout(() => combo.remove(), 1000);
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

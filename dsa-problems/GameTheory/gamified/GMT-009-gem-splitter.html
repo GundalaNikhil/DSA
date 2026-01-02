@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMT-009: Gem Splitter</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --gem: #9b59b6; --gold: #f1c40f; --dark: #1a1a2e; --player: #27ae60; --ai: #e74c3c; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Cinzel', serif; background: linear-gradient(135deg, var(--dark) 0%, #16213e 100%); min-height: 100vh; color: #fff; }
+        header { background: rgba(0,0,0,0.3); padding: 15px; text-align: center; border-bottom: 3px solid var(--gold); }
+        h1 { font-size: 1.8rem; color: var(--gold); }
+        main { padding: 20px; max-width: 900px; margin: 0 auto; }
+        .instructions { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-bottom: 20px; border-left: 5px solid var(--gem); }
+        .instructions h2 { color: var(--gold); margin-bottom: 10px; }
+        .instructions ul { margin-left: 20px; line-height: 1.8; }
+        .highlight { background: var(--gold); color: #333; padding: 2px 8px; border-radius: 5px; font-weight: 600; }
+        .game-area { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 25px; }
+        .status-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; }
+        .turn-indicator { padding: 10px 20px; border-radius: 20px; font-weight: 600; }
+        .turn-indicator.player { background: var(--player); }
+        .turn-indicator.ai { background: var(--ai); }
+        .piles-container { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin: 30px 0; }
+        .pile { background: rgba(255,255,255,0.1); padding: 20px; border-radius: 15px; text-align: center; cursor: pointer; transition: all 0.3s; min-width: 100px; }
+        .pile:hover { transform: scale(1.05); box-shadow: 0 0 20px var(--gem); }
+        .pile.selected { border: 3px solid var(--gold); }
+        .pile .gems { font-size: 1.5rem; margin-bottom: 10px; }
+        .pile .count { font-size: 2rem; color: var(--gold); font-weight: bold; }
+        .action-selector { display: flex; gap: 20px; justify-content: center; margin: 20px 0; flex-wrap: wrap; }
+        .action-btn { padding: 15px 25px; border: 2px solid var(--gem); background: transparent; color: #fff; border-radius: 10px; cursor: pointer; transition: all 0.2s; font-family: 'Cinzel', serif; }
+        .action-btn:hover { background: var(--gem); }
+        .action-btn.selected { background: var(--gem); }
+        .split-options { display: flex; gap: 10px; justify-content: center; margin: 15px 0; flex-wrap: wrap; }
+        .split-btn { padding: 10px 20px; border: none; border-radius: 8px; background: var(--gold); color: #333; cursor: pointer; font-family: 'Cinzel', serif; }
+        .split-btn:hover { transform: scale(1.05); }
+        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
+        .btn { padding: 15px 30px; border: none; border-radius: 10px; font-family: 'Cinzel', serif; font-size: 1rem; cursor: pointer; }
+        .btn-confirm { background: var(--player); color: #fff; }
+        .btn-reset { background: var(--gem); color: #fff; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .result { text-align: center; padding: 30px; font-size: 1.5rem; font-weight: bold; border-radius: 15px; margin-top: 20px; display: none; }
+        .result.win { background: var(--player); display: block; }
+        .result.lose { background: var(--ai); display: block; }
+        #message { text-align: center; padding: 15px; font-size: 1.1rem; color: var(--gold); min-height: 50px; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>💎 GEM SPLITTER</h1>
+</header>
+<main>
+    <div class="instructions">
+        <h2>📋 HOW TO PLAY</h2>
+        <ul>
+            <li><strong>Goal:</strong> Be the <span class="highlight">last player to make a valid move</span></li>
+            <li><strong>Your Move:</strong> Select a pile, then either:</li>
+            <li>→ <span class="highlight">TAKE</span> all gems from that pile, OR</li>
+            <li>→ <span class="highlight">SPLIT</span> it into two smaller non-empty piles</li>
+            <li><strong>Win:</strong> If the AI cannot make any move, <span class="highlight">YOU WIN!</span></li>
+        </ul>
+    </div>
+    <div class="game-area">
+        <div class="status-bar">
+            <div class="turn-indicator player" id="turn">🟢 YOUR TURN</div>
+            <div>Total Gems: <span id="total-gems">7</span></div>
+        </div>
+        <div id="message">Select a pile to take or split!</div>
+        <div class="piles-container" id="piles"></div>
+        <div class="action-selector" id="action-selector" style="display:none;">
+            <button class="action-btn" onclick="game.selectAction('take')">💎 TAKE ALL</button>
+            <button class="action-btn" onclick="game.selectAction('split')">✂️ SPLIT</button>
+        </div>
+        <div class="split-options" id="split-options" style="display:none;"></div>
+        <div class="controls">
+            <button class="btn btn-confirm" id="btn-confirm" onclick="game.confirmMove()" disabled>✓ CONFIRM</button>
+            <button class="btn btn-reset" onclick="game.reset()">🔄 NEW GAME</button>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+</main>
+<script>
+class GemSplitter {
+    constructor() {
+        this.reset();
+    }
+    reset() {
+        this.piles = [7];
+        this.selectedPile = -1;
+        this.action = null;
+        this.splitValue = 0;
+        this.isPlayerTurn = true;
+        this.gameOver = false;
+        this.render();
+        document.getElementById('result').className = 'result';
+        document.getElementById('action-selector').style.display = 'none';
+        document.getElementById('split-options').style.display = 'none';
+        document.getElementById('btn-confirm').disabled = true;
+        document.getElementById('message').textContent = 'Select a pile!';
+    }
+    render() {
+        const container = document.getElementById('piles');
+        container.innerHTML = '';
+        let total = 0;
+        this.piles.forEach((size, i) => {
+            const pile = document.createElement('div');
+            pile.className = 'pile' + (i === this.selectedPile ? ' selected' : '');
+            pile.innerHTML = `<div class="gems">${'💎'.repeat(Math.min(size, 5))}${size > 5 ? '...' : ''}</div><div class="count">${size}</div>`;
+            if (this.isPlayerTurn && !this.gameOver) {
+                pile.onclick = () => this.selectPile(i);
+            }
+            container.appendChild(pile);
+            total += size;
+        });
+        document.getElementById('total-gems').textContent = total;
+        this.updateTurn();
+    }
+    selectPile(i) {
+        this.selectedPile = i;
+        this.action = null;
+        this.splitValue = 0;
+        document.getElementById('action-selector').style.display = 'flex';
+        document.getElementById('split-options').style.display = 'none';
+        document.getElementById('btn-confirm').disabled = true;
+        document.querySelectorAll('.action-btn').forEach(b => b.classList.remove('selected'));
+        this.render();
+    }
+    selectAction(action) {
+        this.action = action;
+        document.querySelectorAll('.action-btn').forEach(b => b.classList.remove('selected'));
+        event.target.classList.add('selected');
+        if (action === 'take') {
+            document.getElementById('split-options').style.display = 'none';
+            document.getElementById('btn-confirm').disabled = false;
+        } else {
+            this.showSplitOptions();
+        }
+    }
+    showSplitOptions() {
+        const size = this.piles[this.selectedPile];
+        const container = document.getElementById('split-options');
+        container.innerHTML = '';
+        container.style.display = 'flex';
+        for (let i = 1; i < size; i++) {
+            const btn = document.createElement('button');
+            btn.className = 'split-btn';
+            btn.textContent = `${i} + ${size - i}`;
+            btn.onclick = () => {
+                this.splitValue = i;
+                document.querySelectorAll('.split-btn').forEach(b => b.style.background = '#f1c40f');
+                btn.style.background = '#27ae60';
+                document.getElementById('btn-confirm').disabled = false;
+            };
+            container.appendChild(btn);
+        }
+    }
+    confirmMove() {
+        if (this.selectedPile < 0 || !this.action) return;
+        const size = this.piles[this.selectedPile];
+        if (this.action === 'take') {
+            this.piles.splice(this.selectedPile, 1);
+        } else {
+            this.piles.splice(this.selectedPile, 1, this.splitValue, size - this.splitValue);
+        }
+        this.selectedPile = -1;
+        this.action = null;
+        document.getElementById('action-selector').style.display = 'none';
+        document.getElementById('split-options').style.display = 'none';
+        document.getElementById('btn-confirm').disabled = true;
+        this.render();
+        if (!this.hasValidMove()) {
+            this.endGame(true);
+            return;
+        }
+        this.isPlayerTurn = false;
+        this.updateTurn();
+        document.getElementById('message').textContent = '🤖 AI is thinking...';
+        setTimeout(() => this.aiMove(), 1000);
+    }
+    hasValidMove() {
+        return this.piles.length > 0;
+    }
+    aiMove() {
+        if (this.piles.length === 0) {
+            this.endGame(true);
+            return;
+        }
+        // Simple AI: take smallest pile or split largest
+        const maxIdx = this.piles.indexOf(Math.max(...this.piles));
+        const maxSize = this.piles[maxIdx];
+        if (maxSize > 1 && Math.random() > 0.5) {
+            // Split
+            const split = Math.floor(maxSize / 2);
+            this.piles.splice(maxIdx, 1, split, maxSize - split);
+            document.getElementById('message').textContent = `🤖 AI splits ${maxSize} into ${split} + ${maxSize - split}`;
+        } else {
+            // Take
+            const size = this.piles[maxIdx];
+            this.piles.splice(maxIdx, 1);
+            document.getElementById('message').textContent = `🤖 AI takes pile of ${size}`;
+        }
+        this.render();
+        if (!this.hasValidMove()) {
+            this.endGame(false);
+            return;
+        }
+        this.isPlayerTurn = true;
+        this.updateTurn();
+        document.getElementById('message').textContent = 'Your turn!';
+    }
+    endGame(playerWins) {
+        this.gameOver = true;
+        const result = document.getElementById('result');
+        if (playerWins) {
+            result.className = 'result win';
+            result.textContent = '🎉 YOU WIN!';
+        } else {
+            result.className = 'result lose';
+            result.textContent = '😢 AI WINS!';
+        }
+    }
+    updateTurn() {
+        const turn = document.getElementById('turn');
+        if (this.isPlayerTurn) {
+            turn.className = 'turn-indicator player';
+            turn.textContent = '🟢 YOUR TURN';
+        } else {
+            turn.className = 'turn-indicator ai';
+            turn.textContent = '🔴 AI\'S TURN';
+        }
+    }
+}
+const game = new GemSplitter();
+</script>
+</body>
+</html>

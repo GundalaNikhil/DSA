@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDP-009: Query Runner</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            background: #0f111a;
+            color: #c3c7d1;
+            min-height: 100vh;
+        }
+
+        .terminal-ui {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 { color: #82aaff; font-size: 24px; margin-bottom: 15px; }
+
+        .tree-panel {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 20px;
+        }
+
+        .tree-view {
+            width: 500px;
+            height: 350px;
+            background: #1a1c25;
+            border: 2px solid #2d303e;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+        line { stroke: #3d4155; stroke-width: 3; }
+        line.path { stroke: #c3e88d; stroke-width: 5; filter: drop-shadow(0 0 5px #c3e88d); }
+
+        .node {
+            position: absolute;
+            width: 45px;
+            height: 45px;
+            background: #2d303e;
+            border: 3px solid #3d4155;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+        .node:hover { border-color: #82aaff; }
+        .node.selected { border-color: #ff5370; background: #3d2d3e; }
+        .node .id { font-size: 12px; color: #82aaff; }
+        .node .val { font-size: 10px; color: #c3e88d; }
+
+        .query-panel {
+            width: 280px;
+            background: #1a1c25;
+            border: 2px solid #2d303e;
+            border-radius: 10px;
+            padding: 20px;
+        }
+
+        .query-title { color: #82aaff; font-size: 14px; margin-bottom: 15px; }
+
+        .endpoints {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .endpoint-box {
+            flex: 1;
+            background: #2d303e;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .endpoint-label { font-size: 10px; color: #666; }
+        .endpoint-val { font-size: 20px; color: #ff5370; }
+
+        .query-type {
+            margin-bottom: 15px;
+        }
+
+        .query-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            background: #2d303e;
+            border: 2px solid #3d4155;
+            color: #c3c7d1;
+            font-family: inherit;
+            font-size: 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: left;
+        }
+        .query-btn:hover { border-color: #82aaff; }
+        .query-btn.active { border-color: #c3e88d; background: #2d3e2d; }
+
+        .result-box {
+            background: #0f111a;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .result-label { font-size: 10px; color: #666; }
+        .result-val { font-size: 28px; color: #c3e88d; }
+
+        .actions { margin-top: 20px; display: flex; gap: 15px; }
+
+        .btn {
+            padding: 12px 30px;
+            background: #82aaff;
+            border: none;
+            color: #0f111a;
+            font-family: inherit;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .btn:hover { filter: brightness(1.1); }
+
+    </style>
+</head>
+<body>
+
+<div class="terminal-ui">
+    <h1>// QUERY RUNNER</h1>
+    <div style="color:#666; font-size:10px; margin-bottom:15px">PATH QUERIES: Select two nodes and query MIN/MAX/SUM on path</div>
+
+    <div class="tree-panel">
+        <div class="tree-view" id="treeView">
+            <svg id="edges"></svg>
+        </div>
+
+        <div class="query-panel">
+            <div class="query-title">QUERY CONSOLE</div>
+
+            <div class="endpoints">
+                <div class="endpoint-box">
+                    <div class="endpoint-label">FROM</div>
+                    <div class="endpoint-val" id="fromNode">-</div>
+                </div>
+                <div class="endpoint-box">
+                    <div class="endpoint-label">TO</div>
+                    <div class="endpoint-val" id="toNode">-</div>
+                </div>
+            </div>
+
+            <div class="query-type">
+                <button class="query-btn active" id="btnMin" onclick="setQuery('min')">MIN on path</button>
+                <button class="query-btn" id="btnMax" onclick="setQuery('max')">MAX on path</button>
+                <button class="query-btn" id="btnSum" onclick="setQuery('sum')">SUM on path</button>
+            </div>
+
+            <button class="btn" style="width:100%" onclick="runQuery()">EXECUTE QUERY</button>
+
+            <div class="result-box" style="margin-top:15px">
+                <div class="result-label">RESULT</div>
+                <div class="result-val" id="result">-</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="actions">
+        <button class="btn" style="background:#3d4155; color:#c3c7d1" onclick="clearSelection()">CLEAR</button>
+    </div>
+</div>
+
+<script>
+    const TREE = {
+        nodes: [
+            {id:1, x:227, y:20, val:10},
+            {id:2, x:100, y:100, val:5}, {id:3, x:350, y:100, val:15},
+            {id:4, x:40, y:190, val:3}, {id:5, x:160, y:190, val:8}, {id:6, x:290, y:190, val:12}, {id:7, x:410, y:190, val:6},
+            {id:8, x:100, y:280, val:20}
+        ],
+        edges: [[1,2],[1,3],[2,4],[2,5],[3,6],[3,7],[5,8]],
+        adj: {}
+    };
+
+    TREE.nodes.forEach(n => TREE.adj[n.id] = []);
+    TREE.edges.forEach(([a,b]) => { TREE.adj[a].push(b); TREE.adj[b].push(a); });
+
+    let selected = [];
+    let queryType = 'min';
+
+    function init() {
+        renderTree();
+    }
+
+    function renderTree() {
+        const view = document.getElementById('treeView');
+        const svg = document.getElementById('edges');
+        svg.innerHTML = '';
+        view.querySelectorAll('.node').forEach(n => n.remove());
+
+        TREE.edges.forEach(([a, b]) => {
+            const n1 = TREE.nodes.find(n => n.id === a);
+            const n2 = TREE.nodes.find(n => n.id === b);
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', n1.x + 22);
+            line.setAttribute('y1', n1.y + 22);
+            line.setAttribute('x2', n2.x + 22);
+            line.setAttribute('y2', n2.y + 22);
+            line.id = `edge-${Math.min(a,b)}-${Math.max(a,b)}`;
+            svg.appendChild(line);
+        });
+
+        TREE.nodes.forEach(n => {
+            const el = document.createElement('div');
+            el.className = 'node';
+            if (selected.includes(n.id)) el.classList.add('selected');
+            el.id = `node-${n.id}`;
+            el.style.left = n.x + 'px';
+            el.style.top = n.y + 'px';
+            el.innerHTML = `<span class="id">#${n.id}</span><span class="val">${n.val}</span>`;
+            el.onclick = () => selectNode(n.id);
+            view.appendChild(el);
+        });
+    }
+
+    function selectNode(id) {
+        if (selected.includes(id)) {
+            selected = selected.filter(x => x !== id);
+        } else if (selected.length < 2) {
+            selected.push(id);
+        } else {
+            selected = [id];
+        }
+
+        document.getElementById('fromNode').textContent = selected[0] || '-';
+        document.getElementById('toNode').textContent = selected[1] || '-';
+        document.getElementById('result').textContent = '-';
+        renderTree();
+    }
+
+    function setQuery(type) {
+        queryType = type;
+        document.querySelectorAll('.query-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById('btn' + type.charAt(0).toUpperCase() + type.slice(1)).classList.add('active');
+    }
+
+    function getPath(start, end) {
+        const queue = [[start, [start]]];
+        const visited = new Set([start]);
+        while (queue.length) {
+            const [node, path] = queue.shift();
+            if (node === end) return path;
+            for (const next of TREE.adj[node]) {
+                if (!visited.has(next)) {
+                    visited.add(next);
+                    queue.push([next, [...path, next]]);
+                }
+            }
+        }
+        return [];
+    }
+
+    function runQuery() {
+        if (selected.length !== 2) {
+            document.getElementById('result').textContent = 'ERR';
+            return;
+        }
+
+        const path = getPath(selected[0], selected[1]);
+        
+        // Highlight path
+        document.querySelectorAll('line').forEach(l => l.classList.remove('path'));
+        for (let i = 0; i < path.length - 1; i++) {
+            const a = Math.min(path[i], path[i+1]);
+            const b = Math.max(path[i], path[i+1]);
+            const edge = document.getElementById(`edge-${a}-${b}`);
+            if (edge) edge.classList.add('path');
+        }
+
+        const values = path.map(id => TREE.nodes.find(n => n.id === id).val);
+        let result;
+        if (queryType === 'min') result = Math.min(...values);
+        else if (queryType === 'max') result = Math.max(...values);
+        else result = values.reduce((a, b) => a + b, 0);
+
+        document.getElementById('result').textContent = result;
+    }
+
+    function clearSelection() {
+        selected = [];
+        document.getElementById('fromNode').textContent = '-';
+        document.getElementById('toNode').textContent = '-';
+        document.getElementById('result').textContent = '-';
+        document.querySelectorAll('line').forEach(l => l.classList.remove('path'));
+        renderTree();
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

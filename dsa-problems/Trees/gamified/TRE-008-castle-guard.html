@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRE-008: Castle Guard</title>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Lora&display=swap" rel="stylesheet">
+    <style>
+        :root { --stone: #7f8c8d; --gold: #f1c40f; --night: #2c3e50; --torch: #e67e22; --grass: #27ae60; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Lora', serif; background: linear-gradient(180deg, var(--night) 0%, #1a1a2e 100%); min-height: 100vh; color: #fff; }
+        header { background: rgba(0,0,0,0.3); padding: 15px; text-align: center; border-bottom: 3px solid var(--gold); }
+        h1 { font-family: 'MedievalSharp', cursive; color: var(--gold); font-size: 1.8rem; }
+        main { padding: 20px; max-width: 900px; margin: 0 auto; }
+        .castle-grounds { background: linear-gradient(180deg, transparent 0%, rgba(39,174,96,0.2) 100%); border-radius: 15px; padding: 30px; min-height: 400px; position: relative; }
+        .tree-container { display: flex; flex-direction: column; align-items: center; gap: 25px; }
+        .tree-level { display: flex; gap: 20px; }
+        .tower { width: 55px; height: 55px; background: var(--stone); border: 3px solid #555; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold; position: relative; cursor: pointer; transition: all 0.3s; }
+        .tower.boundary { background: var(--gold); color: #333; box-shadow: 0 0 20px var(--torch); animation: glow 1s ease infinite alternate; }
+        @keyframes glow { from { box-shadow: 0 0 10px var(--torch); } to { box-shadow: 0 0 25px var(--torch); } }
+        .tower.left-bound { border-left: 5px solid #e74c3c; }
+        .tower.right-bound { border-right: 5px solid #3498db; }
+        .tower.leaf { border-bottom: 5px solid var(--grass); }
+        .guard { position: absolute; font-size: 2rem; transition: all 0.6s ease; z-index: 100; }
+        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
+        .btn { padding: 15px 25px; border: none; border-radius: 10px; font-family: 'MedievalSharp', cursive; font-size: 1rem; cursor: pointer; }
+        .btn-patrol { background: var(--torch); color: #fff; }
+        .btn-reset { background: var(--stone); color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+        .boundary-display { background: rgba(255,255,255,0.95); border-radius: 15px; padding: 20px; margin-top: 20px; color: #333; }
+        .section { margin: 10px 0; padding: 10px; background: rgba(0,0,0,0.05); border-radius: 10px; }
+        .section-title { font-family: 'MedievalSharp', cursive; color: var(--night); margin-bottom: 8px; }
+        .node-list { display: flex; gap: 8px; flex-wrap: wrap; }
+        .node-tag { padding: 5px 12px; border-radius: 15px; font-weight: bold; }
+        .node-tag.left { background: #e74c3c; color: #fff; }
+        .node-tag.leaf { background: var(--grass); color: #fff; }
+        .node-tag.right { background: #3498db; color: #fff; }
+        #message { text-align: center; color: var(--gold); padding: 10px; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🏰 CASTLE GUARD</h1>
+</header>
+<main>
+    <div id="message">Patrol the boundary of the castle (tree)!</div>
+    <div class="castle-grounds">
+        <div class="guard" id="guard">🛡️</div>
+        <div class="tree-container" id="tree"></div>
+    </div>
+    <div class="controls">
+        <button class="btn btn-patrol" onclick="game.patrol()">🏃 PATROL BOUNDARY</button>
+        <button class="btn btn-reset" onclick="game.reset()">🔄 RESET</button>
+    </div>
+    <div class="boundary-display">
+        <div class="section">
+            <div class="section-title">🔴 Left Boundary</div>
+            <div class="node-list" id="left-bound"></div>
+        </div>
+        <div class="section">
+            <div class="section-title">🟢 Leaves</div>
+            <div class="node-list" id="leaves"></div>
+        </div>
+        <div class="section">
+            <div class="section-title">🔵 Right Boundary</div>
+            <div class="node-list" id="right-bound"></div>
+        </div>
+    </div>
+</main>
+<script>
+class CastleGuard {
+    constructor() {
+        this.tree = { val: 1, left: { val: 2, left: { val: 4 }, right: { val: 5, left: { val: 7 }, right: { val: 8 } } }, right: { val: 3, left: { val: 6, right: { val: 9 } } } };
+        this.render();
+    }
+    render() {
+        const container = document.getElementById('tree');
+        container.innerHTML = '<div class="guard" id="guard">🛡️</div>';
+        // Simplified level-based rendering
+        const levels = [[this.tree]];
+        let queue = [this.tree];
+        while (queue.length) {
+            const next = [];
+            queue.forEach(n => { if (n.left) next.push(n.left); if (n.right) next.push(n.right); });
+            if (next.length) levels.push(next);
+            queue = next;
+        }
+        levels.forEach(level => {
+            const row = document.createElement('div');
+            row.className = 'tree-level';
+            level.forEach(node => {
+                const el = document.createElement('div');
+                el.className = 'tower';
+                el.id = `tower-${node.val}`;
+                el.textContent = node.val;
+                row.appendChild(el);
+            });
+            container.appendChild(row);
+        });
+    }
+    getLeftBoundary(node, isLeft = true) {
+        if (!node) return [];
+        if (!node.left && !node.right) return []; // Leaves handled separately
+        const result = [node.val];
+        if (node.left) return result.concat(this.getLeftBoundary(node.left, true));
+        return result.concat(this.getLeftBoundary(node.right, true));
+    }
+    getLeaves(node) {
+        if (!node) return [];
+        if (!node.left && !node.right) return [node.val];
+        return [...this.getLeaves(node.left), ...this.getLeaves(node.right)];
+    }
+    getRightBoundary(node) {
+        if (!node) return [];
+        if (!node.left && !node.right) return [];
+        const result = [node.val];
+        if (node.right) return result.concat(this.getRightBoundary(node.right));
+        return result.concat(this.getRightBoundary(node.left));
+    }
+    async patrol() {
+        document.querySelectorAll('.tower').forEach(t => t.classList.remove('boundary', 'left-bound', 'right-bound', 'leaf'));
+        const left = this.getLeftBoundary(this.tree);
+        const leaves = this.getLeaves(this.tree);
+        const right = this.getRightBoundary(this.tree).slice(1).reverse(); // Exclude root, reverse
+        document.getElementById('message').textContent = '🛡️ Patrolling left boundary...';
+        for (const val of left) {
+            await this.highlight(val, 'left-bound');
+            this.addTag('left-bound', val, 'left');
+        }
+        document.getElementById('message').textContent = '🛡️ Patrolling leaves...';
+        for (const val of leaves) {
+            if (!left.includes(val) && !right.includes(val)) {
+                await this.highlight(val, 'leaf');
+                this.addTag('leaves', val, 'leaf');
+            }
+        }
+        document.getElementById('message').textContent = '🛡️ Patrolling right boundary...';
+        for (const val of right) {
+            await this.highlight(val, 'right-bound');
+            this.addTag('right-bound', val, 'right');
+        }
+        document.getElementById('message').innerHTML = '<span style="color:var(--gold)">🎉 Patrol complete!</span>';
+    }
+    async highlight(val, cls) {
+        const el = document.getElementById(`tower-${val}`);
+        if (el) { el.classList.add('boundary', cls); }
+        await this.delay(400);
+    }
+    addTag(containerId, val, type) {
+        const container = document.getElementById(containerId);
+        const tag = document.createElement('span');
+        tag.className = `node-tag ${type}`;
+        tag.textContent = val;
+        container.appendChild(tag);
+    }
+    reset() {
+        document.querySelectorAll('.tower').forEach(t => t.classList.remove('boundary', 'left-bound', 'right-bound', 'leaf'));
+        document.getElementById('left-bound').innerHTML = '';
+        document.getElementById('leaves').innerHTML = '';
+        document.getElementById('right-bound').innerHTML = '';
+        document.getElementById('message').textContent = 'Click PATROL to start!';
+    }
+    delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+}
+const game = new CastleGuard();
+</script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDP-008: Color Lab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .lab-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 32px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+            margin-bottom: 5px;
+        }
+
+        .subtitle { color: rgba(255,255,255,0.7); font-size: 12px; margin-bottom: 20px; }
+
+        .cost-panel {
+            display: flex;
+            gap: 30px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(10px);
+            padding: 15px 40px;
+            border-radius: 50px;
+            margin-bottom: 20px;
+        }
+
+        .cost-item { text-align: center; color: #fff; }
+        .cost-label { font-size: 10px; opacity: 0.7; }
+        .cost-val { font-size: 28px; font-weight: bold; }
+
+        .color-palette {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .color-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            cursor: pointer;
+            transition: transform 0.2s;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+        .color-btn:hover { transform: scale(1.2); }
+        .color-btn.selected { transform: scale(1.2); box-shadow: 0 0 30px #fff; }
+        .color-btn.red { background: #e74c3c; }
+        .color-btn.green { background: #2ecc71; }
+        .color-btn.blue { background: #3498db; }
+
+        .tree-canvas {
+            width: 750px;
+            height: 400px;
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+            border-radius: 20px;
+            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+
+        svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+        line { stroke: rgba(255,255,255,0.3); stroke-width: 4; }
+
+        .tree-node {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 10;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        .tree-node:hover { transform: scale(1.1); }
+
+        .tree-node.red { background: #e74c3c; color: #fff; }
+        .tree-node.green { background: #2ecc71; color: #fff; }
+        .tree-node.blue { background: #3498db; color: #fff; }
+
+        .node-id { font-size: 16px; font-weight: bold; }
+        .node-cost { font-size: 10px; opacity: 0.8; }
+
+        .actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 15px 35px;
+            background: #fff;
+            border: none;
+            color: #764ba2;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .btn:hover { transform: translateY(-3px); }
+
+        .result { margin-top: 20px; font-size: 18px; color: #fff; min-height: 25px; }
+
+    </style>
+</head>
+<body>
+
+<div class="lab-container">
+    <h1>🎨 COLOR LAB</h1>
+    <div class="subtitle">TREE COLORING: Paint all nodes. Adjacent nodes = different colors. Minimize cost!</div>
+
+    <div class="cost-panel">
+        <div class="cost-item">
+            <div class="cost-label">CURRENT COST</div>
+            <div class="cost-val" id="currentCost">0</div>
+        </div>
+        <div class="cost-item">
+            <div class="cost-label">NODES COLORED</div>
+            <div class="cost-val" id="nodesColored">0 / 9</div>
+        </div>
+        <div class="cost-item">
+            <div class="cost-label">VIOLATIONS</div>
+            <div class="cost-val" id="violations">0</div>
+        </div>
+    </div>
+
+    <div class="color-palette">
+        <div class="color-btn red selected" onclick="selectColor('red')"></div>
+        <div class="color-btn green" onclick="selectColor('green')"></div>
+        <div class="color-btn blue" onclick="selectColor('blue')"></div>
+    </div>
+
+    <div class="tree-canvas" id="canvas">
+        <svg id="edges"></svg>
+    </div>
+
+    <div class="actions">
+        <button class="btn" onclick="verify()">CHECK SOLUTION</button>
+        <button class="btn" style="background:#ddd" onclick="reset()">RESET</button>
+    </div>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    const TREE = {
+        nodes: [
+            {id:1, x:345, y:30, costs: {red:5, green:3, blue:7}},
+            {id:2, x:170, y:120, costs: {red:4, green:6, blue:2}},
+            {id:3, x:520, y:120, costs: {red:3, green:5, blue:4}},
+            {id:4, x:70, y:230, costs: {red:6, green:2, blue:5}},
+            {id:5, x:270, y:230, costs: {red:2, green:7, blue:3}},
+            {id:6, x:420, y:230, costs: {red:5, green:3, blue:6}},
+            {id:7, x:620, y:230, costs: {red:4, green:4, blue:2}},
+            {id:8, x:170, y:330, costs: {red:3, green:5, blue:4}},
+            {id:9, x:520, y:330, costs: {red:6, green:2, blue:5}}
+        ],
+        edges: [[1,2],[1,3],[2,4],[2,5],[3,6],[3,7],[5,8],[6,9]],
+        adj: {}
+    };
+
+    TREE.nodes.forEach(n => TREE.adj[n.id] = []);
+    TREE.edges.forEach(([a,b]) => { TREE.adj[a].push(b); TREE.adj[b].push(a); });
+
+    let selectedColor = 'red';
+    let nodeColors = {};
+
+    function init() {
+        renderCanvas();
+    }
+
+    function selectColor(color) {
+        selectedColor = color;
+        document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('selected'));
+        document.querySelector(`.color-btn.${color}`).classList.add('selected');
+    }
+
+    function renderCanvas() {
+        const canvas = document.getElementById('canvas');
+        const svg = document.getElementById('edges');
+        svg.innerHTML = '';
+        canvas.querySelectorAll('.tree-node').forEach(n => n.remove());
+
+        TREE.edges.forEach(([a, b]) => {
+            const n1 = TREE.nodes.find(n => n.id === a);
+            const n2 = TREE.nodes.find(n => n.id === b);
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', n1.x + 30);
+            line.setAttribute('y1', n1.y + 30);
+            line.setAttribute('x2', n2.x + 30);
+            line.setAttribute('y2', n2.y + 30);
+            svg.appendChild(line);
+        });
+
+        TREE.nodes.forEach(n => {
+            const el = document.createElement('div');
+            el.className = 'tree-node';
+            if (nodeColors[n.id]) el.classList.add(nodeColors[n.id]);
+            el.id = `node-${n.id}`;
+            el.style.left = n.x + 'px';
+            el.style.top = n.y + 'px';
+            
+            const costText = nodeColors[n.id] ? n.costs[nodeColors[n.id]] : `R${n.costs.red} G${n.costs.green} B${n.costs.blue}`;
+            el.innerHTML = `<span class="node-id">${n.id}</span><span class="node-cost">${costText}</span>`;
+            el.onclick = () => colorNode(n.id);
+            canvas.appendChild(el);
+        });
+
+        updateStats();
+    }
+
+    function colorNode(id) {
+        nodeColors[id] = selectedColor;
+        renderCanvas();
+    }
+
+    function updateStats() {
+        let cost = 0;
+        let colored = 0;
+        TREE.nodes.forEach(n => {
+            if (nodeColors[n.id]) {
+                cost += n.costs[nodeColors[n.id]];
+                colored++;
+            }
+        });
+
+        let violations = 0;
+        TREE.edges.forEach(([a, b]) => {
+            if (nodeColors[a] && nodeColors[b] && nodeColors[a] === nodeColors[b]) {
+                violations++;
+            }
+        });
+
+        document.getElementById('currentCost').textContent = cost;
+        document.getElementById('nodesColored').textContent = `${colored} / ${TREE.nodes.length}`;
+        document.getElementById('violations').textContent = violations;
+    }
+
+    function verify() {
+        const colored = Object.keys(nodeColors).length;
+        const violations = parseInt(document.getElementById('violations').textContent);
+        const result = document.getElementById('result');
+
+        if (colored < TREE.nodes.length) {
+            result.textContent = 'Color all nodes first!';
+        } else if (violations > 0) {
+            result.textContent = `Invalid! ${violations} adjacent pairs have same color.`;
+        } else {
+            const cost = parseInt(document.getElementById('currentCost').textContent);
+            result.textContent = `✓ Valid coloring! Total cost: ${cost}`;
+        }
+    }
+
+    function reset() {
+        nodeColors = {};
+        document.getElementById('result').textContent = '';
+        renderCanvas();
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

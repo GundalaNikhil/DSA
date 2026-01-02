@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMT-011: Roadblock Race</title>
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        :root { --road: #34495e; --car: #e74c3c; --ai-car: #3498db; --gold: #f1c40f; --block: #7f8c8d; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', sans-serif; background: linear-gradient(135deg, #2c3e50 0%, #1a1a2e 100%); min-height: 100vh; color: #fff; }
+        header { background: var(--road); padding: 15px; text-align: center; }
+        h1 { font-family: 'Russo One', sans-serif; font-size: 1.8rem; color: var(--gold); }
+        main { padding: 20px; max-width: 900px; margin: 0 auto; }
+        .instructions { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-bottom: 20px; border-left: 5px solid var(--car); }
+        .instructions h2 { color: var(--gold); margin-bottom: 10px; }
+        .instructions ul { margin-left: 20px; line-height: 1.8; }
+        .highlight { background: var(--gold); color: #333; padding: 2px 8px; border-radius: 5px; }
+        .game-area { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 25px; }
+        .status-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; }
+        .turn-indicator { padding: 10px 20px; border-radius: 20px; font-weight: 600; }
+        .turn-indicator.player { background: var(--car); }
+        .turn-indicator.ai { background: var(--ai-car); }
+        .road-container { display: flex; justify-content: center; margin: 30px 0; }
+        .road { display: flex; gap: 10px; padding: 20px; background: var(--road); border-radius: 10px; }
+        .lane { width: 60px; height: 60px; background: #555; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; transition: all 0.3s; position: relative; }
+        .lane.open { background: #27ae60; }
+        .lane.blocked { background: var(--block); cursor: not-allowed; }
+        .lane.player { background: var(--car); }
+        .lane.valid { box-shadow: 0 0 15px var(--gold); animation: pulse 1s infinite; }
+        @keyframes pulse { 0%,100% { box-shadow: 0 0 10px var(--gold); } 50% { box-shadow: 0 0 25px var(--gold); } }
+        .lane-num { position: absolute; bottom: 3px; font-size: 0.7rem; color: #aaa; }
+        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
+        .btn { padding: 15px 30px; border: none; border-radius: 10px; font-family: 'Russo One', sans-serif; font-size: 1rem; cursor: pointer; }
+        .btn-reset { background: var(--gold); color: #333; }
+        .result { text-align: center; padding: 30px; font-size: 1.5rem; font-weight: bold; border-radius: 15px; margin-top: 20px; display: none; }
+        .result.win { background: var(--car); display: block; }
+        .result.lose { background: var(--ai-car); display: block; }
+        #message { text-align: center; padding: 15px; font-size: 1.1rem; color: var(--gold); min-height: 50px; }
+        .legend { display: flex; gap: 20px; justify-content: center; margin: 15px 0; flex-wrap: wrap; }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+        .legend-dot { width: 25px; height: 25px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🚧 ROADBLOCK RACE</h1>
+</header>
+<main>
+    <div class="instructions">
+        <h2>📋 HOW TO PLAY</h2>
+        <ul>
+            <li><strong>Goal:</strong> Be the <span class="highlight">last player to move your car</span></li>
+            <li><strong>Your Move:</strong> Move your car 🚗 to any <span class="highlight">open lane ahead</span></li>
+            <li><strong>Effect:</strong> When you move, your old lane becomes <span class="highlight">BLOCKED</span></li>
+            <li><strong>Win:</strong> If the AI cannot move forward, <span class="highlight">YOU WIN!</span></li>
+        </ul>
+    </div>
+    <div class="game-area">
+        <div class="status-bar">
+            <div class="turn-indicator player" id="turn">🟢 YOUR TURN</div>
+            <div>Position: <span id="position">0</span></div>
+        </div>
+        <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:var(--car)"></div> Your Car</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#27ae60"></div> Open</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--block)"></div> Blocked</div>
+        </div>
+        <div id="message">Click an open lane ahead to move!</div>
+        <div class="road-container">
+            <div class="road" id="road"></div>
+        </div>
+        <div class="controls">
+            <button class="btn btn-reset" onclick="game.reset()">🔄 NEW GAME</button>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+</main>
+<script>
+class RoadblockRace {
+    constructor() {
+        this.totalLanes = 10;
+        this.reset();
+    }
+    reset() {
+        this.lanes = new Array(this.totalLanes).fill('open');
+        this.playerPos = 0;
+        this.lanes[0] = 'player';
+        this.isPlayerTurn = true;
+        this.gameOver = false;
+        this.render();
+        document.getElementById('result').className = 'result';
+        document.getElementById('message').textContent = 'Click an open lane ahead!';
+    }
+    render() {
+        const container = document.getElementById('road');
+        container.innerHTML = '';
+        this.lanes.forEach((state, i) => {
+            const lane = document.createElement('div');
+            lane.className = 'lane ' + state;
+            if (state === 'player') lane.textContent = '🚗';
+            else if (state === 'blocked') lane.textContent = '🚧';
+            else lane.textContent = '→';
+            const validMove = state === 'open' && i > this.playerPos;
+            if (validMove && this.isPlayerTurn && !this.gameOver) {
+                lane.classList.add('valid');
+                lane.onclick = () => this.move(i);
+            }
+            lane.innerHTML += `<span class="lane-num">${i}</span>`;
+            container.appendChild(lane);
+        });
+        document.getElementById('position').textContent = this.playerPos;
+        this.updateTurn();
+    }
+    move(to) {
+        if (this.gameOver) return;
+        this.lanes[this.playerPos] = 'blocked';
+        this.playerPos = to;
+        this.lanes[to] = 'player';
+        this.render();
+        if (!this.hasValidMove()) {
+            this.endGame(true);
+            return;
+        }
+        this.isPlayerTurn = false;
+        this.updateTurn();
+        document.getElementById('message').textContent = '🤖 AI is moving...';
+        setTimeout(() => this.aiMove(), 1000);
+    }
+    hasValidMove() {
+        for (let i = this.playerPos + 1; i < this.totalLanes; i++) {
+            if (this.lanes[i] === 'open') return true;
+        }
+        return false;
+    }
+    aiMove() {
+        // Find valid moves
+        const validMoves = [];
+        for (let i = this.playerPos + 1; i < this.totalLanes; i++) {
+            if (this.lanes[i] === 'open') validMoves.push(i);
+        }
+        if (validMoves.length === 0) {
+            this.endGame(true);
+            return;
+        }
+        // AI picks optimal move (leave player with no moves if possible)
+        let bestMove = validMoves[0];
+        for (const move of validMoves) {
+            // Simulate: after this move, how many options does player have?
+            let playerOptions = 0;
+            for (let i = move + 1; i < this.totalLanes; i++) {
+                if (this.lanes[i] === 'open') playerOptions++;
+            }
+            if (playerOptions === 0) {
+                bestMove = move;
+                break;
+            }
+        }
+        this.lanes[this.playerPos] = 'blocked';
+        this.playerPos = bestMove;
+        this.lanes[bestMove] = 'player';
+        document.getElementById('message').textContent = `🤖 AI moves to lane ${bestMove}`;
+        this.render();
+        if (!this.hasValidMove()) {
+            this.endGame(false);
+            return;
+        }
+        this.isPlayerTurn = true;
+        this.updateTurn();
+        document.getElementById('message').textContent = 'Your turn!';
+    }
+    endGame(playerWins) {
+        this.gameOver = true;
+        const result = document.getElementById('result');
+        if (playerWins) {
+            result.className = 'result win';
+            result.textContent = '🎉 YOU WIN! AI is stuck!';
+        } else {
+            result.className = 'result lose';
+            result.textContent = '😢 AI WINS! You are stuck.';
+        }
+    }
+    updateTurn() {
+        const turn = document.getElementById('turn');
+        if (this.isPlayerTurn) {
+            turn.className = 'turn-indicator player';
+            turn.textContent = '🟢 YOUR TURN';
+        } else {
+            turn.className = 'turn-indicator ai';
+            turn.textContent = '🔴 AI\'S TURN';
+        }
+    }
+}
+const game = new RoadblockRace();
+</script>
+</body>
+</html>

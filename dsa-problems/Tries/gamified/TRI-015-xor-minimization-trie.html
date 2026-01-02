@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRI-015: XOR Maximizer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Fira Code', monospace;
+            background: #18181b;
+            color: #fafafa;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header { text-align: center; margin-bottom: 25px; }
+        .header h1 { font-size: 32px; color: #22c55e; }
+        .header p { color: #71717a; }
+
+        /* Guide */
+        .guide {
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        .guide h2 { color: #22c55e; margin-bottom: 15px; }
+        .guide-text { font-size: 14px; color: #a1a1aa; line-height: 1.8; }
+
+        .strategy {
+            margin-top: 20px;
+            padding: 15px;
+            background: #18181b;
+            border-radius: 10px;
+            border-left: 4px solid #22c55e;
+        }
+        .strategy-title { color: #22c55e; font-weight: 600; margin-bottom: 5px; }
+        .strategy-text { font-size: 12px; color: #71717a; }
+
+        .steps { display: flex; gap: 15px; margin-top: 20px; }
+        .step {
+            flex: 1;
+            background: #18181b;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #3f3f46;
+        }
+        .step-num { font-size: 24px; color: #22c55e; }
+        .step-text { font-size: 11px; color: #71717a; }
+
+        /* Game */
+        .game-card {
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .goal {
+            background: linear-gradient(90deg, #166534, #15803d);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        /* Numbers */
+        .numbers-section { margin-bottom: 25px; }
+        .section-title { font-size: 12px; color: #71717a; margin-bottom: 10px; text-transform: uppercase; }
+
+        .number-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .number-card {
+            padding: 15px;
+            background: #18181b;
+            border: 2px solid #3f3f46;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .number-card:hover { border-color: #22c55e; }
+        .number-card.selected { border-color: #22c55e; background: #14532d; }
+        .num-dec { font-size: 24px; color: #22c55e; }
+        .num-bin { font-size: 10px; color: #52525b; margin-top: 5px; }
+
+        /* XOR Display */
+        .xor-calc {
+            background: #18181b;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+        .xor-row { display: flex; gap: 15px; margin: 8px 0; }
+        .xor-label { width: 100px; color: #71717a; }
+        .xor-bits { letter-spacing: 5px; }
+        .bit-match { color: #71717a; }
+        .bit-diff { color: #22c55e; background: #14532d; padding: 0 3px; border-radius: 2px; }
+
+        /* Result */
+        .result-row {
+            display: flex;
+            gap: 20px;
+        }
+        .result-box {
+            flex: 1;
+            padding: 20px;
+            background: #18181b;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .result-label { font-size: 11px; color: #71717a; }
+        .result-value { font-size: 32px; color: #22c55e; margin-top: 5px; }
+        .result-value.best { color: #fbbf24; }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            margin-top: 20px;
+            background: #22c55e;
+            border: none;
+            color: #18181b;
+            font-family: inherit;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .btn:hover { background: #16a34a; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>⚡ XOR Maximizer</h1>
+        <p>Find the pair with MAXIMUM XOR value!</p>
+    </div>
+
+    <div class="guide">
+        <h2>🎮 How to Play</h2>
+        <div class="guide-text">
+            Select two numbers from the pool. The game calculates their XOR (exclusive or). 
+            Your goal is to find the pair that produces the <strong>highest</strong> XOR value!
+        </div>
+
+        <div class="strategy">
+            <div class="strategy-title">💡 Pro Tip</div>
+            <div class="strategy-text">XOR is maximized when bits differ! Look for numbers with opposite bit patterns.</div>
+        </div>
+
+        <div class="steps">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-text">Select first number</div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-text">Select second number</div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-text">Maximize the XOR!</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="goal">
+            <strong>🎯 GOAL:</strong> Find the pair with the MAXIMUM XOR!
+        </div>
+
+        <div class="numbers-section">
+            <div class="section-title">Select two numbers:</div>
+            <div class="number-grid" id="numberGrid"></div>
+        </div>
+
+        <div class="xor-calc" id="xorCalc">
+            <div style="text-align:center; color:#71717a">Select two numbers to see XOR calculation</div>
+        </div>
+
+        <div class="result-row">
+            <div class="result-box">
+                <div class="result-label">Your XOR</div>
+                <div class="result-value" id="yourXor">-</div>
+            </div>
+            <div class="result-box">
+                <div class="result-label">Maximum Possible</div>
+                <div class="result-value best" id="maxXor">?</div>
+            </div>
+        </div>
+
+        <button class="btn" onclick="showMax()">🔍 Show Maximum Pair</button>
+    </div>
+</div>
+
+<script>
+    const NUMBERS = [5, 25, 10, 4, 30, 15, 2, 8];
+    const BITS = 5;
+    let selected = [];
+    let maxXorValue = 0;
+    let maxPair = [];
+
+    function init() {
+        // Find max XOR
+        for (let i = 0; i < NUMBERS.length; i++) {
+            for (let j = i + 1; j < NUMBERS.length; j++) {
+                const xor = NUMBERS[i] ^ NUMBERS[j];
+                if (xor > maxXorValue) {
+                    maxXorValue = xor;
+                    maxPair = [NUMBERS[i], NUMBERS[j]];
+                }
+            }
+        }
+
+        renderNumbers();
+    }
+
+    function renderNumbers() {
+        const grid = document.getElementById('numberGrid');
+        grid.innerHTML = NUMBERS.map(num => `
+            <div class="number-card ${selected.includes(num) ? 'selected' : ''}" onclick="toggle(${num})">
+                <div class="num-dec">${num}</div>
+                <div class="num-bin">${num.toString(2).padStart(BITS, '0')}</div>
+            </div>
+        `).join('');
+    }
+
+    function toggle(num) {
+        if (selected.includes(num)) {
+            selected = selected.filter(n => n !== num);
+        } else if (selected.length < 2) {
+            selected.push(num);
+        } else {
+            selected = [num];
+        }
+        renderNumbers();
+        updateCalc();
+    }
+
+    function updateCalc() {
+        const calc = document.getElementById('xorCalc');
+
+        if (selected.length !== 2) {
+            calc.innerHTML = '<div style="text-align:center; color:#71717a">Select two numbers to see XOR calculation</div>';
+            document.getElementById('yourXor').textContent = '-';
+            return;
+        }
+
+        const [a, b] = selected;
+        const xor = a ^ b;
+        const aBits = a.toString(2).padStart(BITS, '0');
+        const bBits = b.toString(2).padStart(BITS, '0');
+        const xorBits = xor.toString(2).padStart(BITS, '0');
+
+        let xorHtml = '';
+        for (let i = 0; i < BITS; i++) {
+            xorHtml += aBits[i] !== bBits[i] 
+                ? `<span class="bit-diff">${xorBits[i]}</span>` 
+                : `<span class="bit-match">${xorBits[i]}</span>`;
+        }
+
+        calc.innerHTML = `
+            <div class="xor-row"><span class="xor-label">Number A:</span><span class="xor-bits">${aBits}</span> = ${a}</div>
+            <div class="xor-row"><span class="xor-label">Number B:</span><span class="xor-bits">${bBits}</span> = ${b}</div>
+            <div class="xor-row" style="border-top:1px solid #3f3f46; padding-top:10px; margin-top:10px">
+                <span class="xor-label">A ⊕ B:</span><span class="xor-bits">${xorHtml}</span> = <strong style="color:#22c55e">${xor}</strong>
+            </div>
+        `;
+
+        document.getElementById('yourXor').textContent = xor;
+        document.getElementById('yourXor').style.color = xor === maxXorValue ? '#fbbf24' : '#22c55e';
+    }
+
+    function showMax() {
+        document.getElementById('maxXor').textContent = maxXorValue;
+        selected = maxPair;
+        renderNumbers();
+        updateCalc();
+        alert(`Maximum XOR is ${maxXorValue} from pair (${maxPair[0]}, ${maxPair[1]})`);
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

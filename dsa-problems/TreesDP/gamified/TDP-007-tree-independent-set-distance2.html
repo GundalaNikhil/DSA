@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDP-007: Safe House</title>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Special Elite', cursive;
+            background: #1a1a1a;
+            min-height: 100vh;
+            color: #d4af37;
+        }
+
+        .game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 { font-size: 32px; text-shadow: 2px 2px 0 #000; }
+
+        .briefing { color: #888; font-size: 12px; margin: 10px 0 20px; max-width: 500px; text-align: center; }
+
+        .intel-panel {
+            display: flex;
+            gap: 30px;
+            background: #2a2a2a;
+            border: 2px solid #444;
+            padding: 15px 40px;
+            margin-bottom: 20px;
+        }
+
+        .intel-box { text-align: center; }
+        .intel-label { font-size: 10px; color: #666; }
+        .intel-val { font-size: 24px; }
+        .intel-val.safe { color: #2ecc71; }
+        .intel-val.danger { color: #e74c3c; }
+
+        .city-map {
+            width: 800px;
+            height: 420px;
+            background: linear-gradient(180deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 3px solid #444;
+            position: relative;
+        }
+
+        /* Street grid pattern */
+        .city-map::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                linear-gradient(90deg, rgba(100,100,100,0.1) 1px, transparent 1px),
+                linear-gradient(rgba(100,100,100,0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+        line { stroke: #444; stroke-width: 4; }
+
+        .house {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: #333;
+            border: 3px solid #555;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 10;
+            clip-path: polygon(50% 0%, 100% 30%, 100% 100%, 0% 100%, 0% 30%);
+        }
+        .house:hover { transform: scale(1.1); }
+        .house .id { font-size: 14px; color: #aaa; }
+
+        .house.safe {
+            background: linear-gradient(180deg, #2ecc71, #27ae60);
+            border-color: #fff;
+            box-shadow: 0 0 20px #2ecc71;
+        }
+
+        .house.blocked {
+            background: #555;
+            border-color: #777;
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .house.conflict {
+            animation: conflict 0.5s;
+        }
+
+        @keyframes conflict {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: #d4af37;
+            border: none;
+            color: #1a1a1a;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+        }
+        .btn:hover { background: #e6c547; }
+
+        .result-msg { margin-top: 15px; font-size: 18px; min-height: 25px; }
+
+    </style>
+</head>
+<body>
+
+<div class="game-container">
+    <h1>🏠 SAFE HOUSE NETWORK</h1>
+    <div class="briefing">INDEPENDENT SET (Distance 2): Select safe houses. No two can be within 2 edges of each other!</div>
+
+    <div class="intel-panel">
+        <div class="intel-box">
+            <div class="intel-label">SAFE HOUSES</div>
+            <div class="intel-val safe" id="safeCount">0</div>
+        </div>
+        <div class="intel-box">
+            <div class="intel-label">VIOLATIONS</div>
+            <div class="intel-val danger" id="violations">0</div>
+        </div>
+        <div class="intel-box">
+            <div class="intel-label">BEST POSSIBLE</div>
+            <div class="intel-val" id="optimal">?</div>
+        </div>
+    </div>
+
+    <div class="city-map" id="map">
+        <svg id="streets"></svg>
+    </div>
+
+    <div class="actions">
+        <button class="btn" onclick="verify()">VERIFY NETWORK</button>
+        <button class="btn" style="background:#555; color:#ccc;" onclick="reset()">RESET</button>
+    </div>
+
+    <div class="result-msg" id="result"></div>
+</div>
+
+<script>
+    const TREE = {
+        nodes: [
+            {id:1, x:375, y:30},
+            {id:2, x:175, y:120}, {id:3, x:575, y:120},
+            {id:4, x:75, y:230}, {id:5, x:275, y:230}, {id:6, x:475, y:230}, {id:7, x:675, y:230},
+            {id:8, x:175, y:340}, {id:9, x:575, y:340}
+        ],
+        edges: [[1,2],[1,3],[2,4],[2,5],[3,6],[3,7],[5,8],[6,9]],
+        adj: {}
+    };
+
+    TREE.nodes.forEach(n => TREE.adj[n.id] = []);
+    TREE.edges.forEach(([a,b]) => { TREE.adj[a].push(b); TREE.adj[b].push(a); });
+
+    let safeHouses = new Set();
+
+    function getDistance2Neighbors(id) {
+        const neighbors = new Set();
+        // Distance 1
+        for (const n1 of TREE.adj[id]) {
+            neighbors.add(n1);
+            // Distance 2
+            for (const n2 of TREE.adj[n1]) {
+                if (n2 !== id) neighbors.add(n2);
+            }
+        }
+        return neighbors;
+    }
+
+    function init() {
+        renderMap();
+    }
+
+    function renderMap() {
+        const map = document.getElementById('map');
+        const svg = document.getElementById('streets');
+        svg.innerHTML = '';
+        map.querySelectorAll('.house').forEach(h => h.remove());
+
+        TREE.edges.forEach(([a, b]) => {
+            const n1 = TREE.nodes.find(n => n.id === a);
+            const n2 = TREE.nodes.find(n => n.id === b);
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', n1.x + 25);
+            line.setAttribute('y1', n1.y + 25);
+            line.setAttribute('x2', n2.x + 25);
+            line.setAttribute('y2', n2.y + 25);
+            svg.appendChild(line);
+        });
+
+        // Determine blocked houses (within distance 2 of any safe house)
+        const blocked = new Set();
+        safeHouses.forEach(id => {
+            getDistance2Neighbors(id).forEach(n => blocked.add(n));
+        });
+
+        TREE.nodes.forEach(n => {
+            const el = document.createElement('div');
+            el.className = 'house';
+            el.id = `house-${n.id}`;
+            el.style.left = n.x + 'px';
+            el.style.top = n.y + 'px';
+            el.innerHTML = `<span class="id">${n.id}</span>`;
+
+            if (safeHouses.has(n.id)) {
+                el.classList.add('safe');
+            } else if (blocked.has(n.id)) {
+                el.classList.add('blocked');
+            }
+
+            el.onclick = () => toggleHouse(n.id, blocked.has(n.id));
+            map.appendChild(el);
+        });
+
+        updateStats();
+    }
+
+    function toggleHouse(id, isBlocked) {
+        if (safeHouses.has(id)) {
+            safeHouses.delete(id);
+        } else if (!isBlocked) {
+            safeHouses.add(id);
+        } else {
+            // Show conflict animation
+            document.getElementById(`house-${id}`).classList.add('conflict');
+            setTimeout(() => document.getElementById(`house-${id}`).classList.remove('conflict'), 500);
+            return;
+        }
+        renderMap();
+    }
+
+    function updateStats() {
+        document.getElementById('safeCount').textContent = safeHouses.size;
+        
+        // Check violations
+        let violations = 0;
+        safeHouses.forEach(id => {
+            getDistance2Neighbors(id).forEach(n => {
+                if (safeHouses.has(n) && n > id) violations++;
+            });
+        });
+        document.getElementById('violations').textContent = violations;
+    }
+
+    function verify() {
+        const violations = parseInt(document.getElementById('violations').textContent);
+        const result = document.getElementById('result');
+        
+        if (violations === 0 && safeHouses.size > 0) {
+            result.textContent = `✓ Valid network with ${safeHouses.size} safe houses!`;
+            result.style.color = '#2ecc71';
+        } else if (violations > 0) {
+            result.textContent = `✗ Invalid! ${violations} houses are too close.`;
+            result.style.color = '#e74c3c';
+        } else {
+            result.textContent = 'Select at least one safe house.';
+            result.style.color = '#888';
+        }
+    }
+
+    function reset() {
+        safeHouses.clear();
+        document.getElementById('result').textContent = '';
+        renderMap();
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDP-010: Color Corridor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Righteous', cursive;
+            background: linear-gradient(180deg, #1a0033 0%, #330066 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .game-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 { color: #ff00ff; text-shadow: 0 0 30px #ff00ff; font-size: 28px; }
+
+        .rule { color: #888; font-size: 12px; margin: 10px 0 20px; }
+
+        .stats {
+            display: flex;
+            gap: 30px;
+            background: rgba(255,0,255,0.1);
+            border: 2px solid #ff00ff;
+            padding: 15px 40px;
+            border-radius: 30px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item { text-align: center; }
+        .stat-label { font-size: 10px; color: #888; }
+        .stat-val { font-size: 24px; color: #ff00ff; }
+        .stat-val.valid { color: #00ff88; }
+        .stat-val.invalid { color: #ff4444; }
+
+        .maze {
+            width: 700px;
+            height: 380px;
+            background: rgba(0,0,0,0.5);
+            border: 3px solid #660099;
+            border-radius: 15px;
+            position: relative;
+        }
+
+        svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+        line { stroke: #333; stroke-width: 4; }
+        line.path { filter: drop-shadow(0 0 10px #ff00ff); }
+        line.path-red { stroke: #ff4444; }
+        line.path-blue { stroke: #4444ff; }
+        line.path-yellow { stroke: #ffff00; }
+
+        .node {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            z-index: 10;
+            transition: all 0.2s;
+            border: 4px solid transparent;
+        }
+        .node:hover { transform: scale(1.15); }
+        .node.selected { border-color: #fff; box-shadow: 0 0 30px #fff; }
+
+        .node.red { background: linear-gradient(135deg, #ff4444, #cc0000); }
+        .node.blue { background: linear-gradient(135deg, #4444ff, #0000cc); }
+        .node.yellow { background: linear-gradient(135deg, #ffff00, #cccc00); color: #000; }
+
+        .controls { margin-top: 20px; display: flex; gap: 15px; }
+
+        .btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #ff00ff, #8800ff);
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+        .btn:hover { filter: brightness(1.2); }
+
+        .result { margin-top: 15px; font-size: 18px; min-height: 25px; }
+
+    </style>
+</head>
+<body>
+
+<div class="game-area">
+    <h1>🌈 COLOR CORRIDOR</h1>
+    <div class="rule">Find paths where you visit each color AT MOST ONCE!</div>
+
+    <div class="stats">
+        <div class="stat-item">
+            <div class="stat-label">PATH LENGTH</div>
+            <div class="stat-val" id="pathLen">0</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-label">COLORS USED</div>
+            <div class="stat-val" id="colorsUsed">0</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-label">STATUS</div>
+            <div class="stat-val valid" id="status">VALID</div>
+        </div>
+    </div>
+
+    <div class="maze" id="maze">
+        <svg id="edges"></svg>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="checkPath()">CHECK PATH</button>
+        <button class="btn" style="background:#444" onclick="reset()">RESET</button>
+    </div>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    const TREE = {
+        nodes: [
+            {id:1, x:325, y:20, color:'red'},
+            {id:2, x:150, y:100, color:'blue'}, {id:3, x:500, y:100, color:'yellow'},
+            {id:4, x:50, y:200, color:'red'}, {id:5, x:250, y:200, color:'yellow'}, 
+            {id:6, x:400, y:200, color:'blue'}, {id:7, x:600, y:200, color:'red'},
+            {id:8, x:150, y:300, color:'yellow'}, {id:9, x:500, y:300, color:'blue'}
+        ],
+        edges: [[1,2],[1,3],[2,4],[2,5],[3,6],[3,7],[5,8],[6,9]],
+        adj: {}
+    };
+
+    TREE.nodes.forEach(n => TREE.adj[n.id] = []);
+    TREE.edges.forEach(([a,b]) => { TREE.adj[a].push(b); TREE.adj[b].push(a); });
+
+    let path = [];
+
+    function init() {
+        renderMaze();
+    }
+
+    function renderMaze() {
+        const maze = document.getElementById('maze');
+        const svg = document.getElementById('edges');
+        svg.innerHTML = '';
+        maze.querySelectorAll('.node').forEach(n => n.remove());
+
+        TREE.edges.forEach(([a, b]) => {
+            const n1 = TREE.nodes.find(n => n.id === a);
+            const n2 = TREE.nodes.find(n => n.id === b);
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', n1.x + 25);
+            line.setAttribute('y1', n1.y + 25);
+            line.setAttribute('x2', n2.x + 25);
+            line.setAttribute('y2', n2.y + 25);
+            line.id = `edge-${Math.min(a,b)}-${Math.max(a,b)}`;
+            svg.appendChild(line);
+        });
+
+        TREE.nodes.forEach(n => {
+            const el = document.createElement('div');
+            el.className = 'node ' + n.color;
+            if (path.includes(n.id)) el.classList.add('selected');
+            el.id = `node-${n.id}`;
+            el.style.left = n.x + 'px';
+            el.style.top = n.y + 'px';
+            el.textContent = n.id;
+            el.onclick = () => addToPath(n.id);
+            maze.appendChild(el);
+        });
+
+        highlightPath();
+        updateStats();
+    }
+
+    function addToPath(id) {
+        if (path.length === 0) {
+            path.push(id);
+        } else {
+            const last = path[path.length - 1];
+            if (TREE.adj[last].includes(id) && !path.includes(id)) {
+                path.push(id);
+            } else if (path.includes(id)) {
+                // Remove from this point
+                path = path.slice(0, path.indexOf(id) + 1);
+            }
+        }
+        renderMaze();
+    }
+
+    function highlightPath() {
+        document.querySelectorAll('line').forEach(l => l.className = '');
+        for (let i = 0; i < path.length - 1; i++) {
+            const a = Math.min(path[i], path[i+1]);
+            const b = Math.max(path[i], path[i+1]);
+            const edge = document.getElementById(`edge-${a}-${b}`);
+            if (edge) {
+                const color = TREE.nodes.find(n => n.id === path[i]).color;
+                edge.classList.add('path', `path-${color}`);
+            }
+        }
+    }
+
+    function updateStats() {
+        document.getElementById('pathLen').textContent = path.length;
+        
+        const colors = new Set(path.map(id => TREE.nodes.find(n => n.id === id).color));
+        document.getElementById('colorsUsed').textContent = colors.size;
+
+        // Check if valid (each color at most once)
+        const colorCount = {};
+        let valid = true;
+        path.forEach(id => {
+            const c = TREE.nodes.find(n => n.id === id).color;
+            colorCount[c] = (colorCount[c] || 0) + 1;
+            if (colorCount[c] > 1) valid = false;
+        });
+
+        const status = document.getElementById('status');
+        status.textContent = valid ? 'VALID' : 'INVALID';
+        status.className = 'stat-val ' + (valid ? 'valid' : 'invalid');
+    }
+
+    function checkPath() {
+        const result = document.getElementById('result');
+        if (path.length < 2) {
+            result.textContent = 'Build a longer path!';
+            result.style.color = '#888';
+            return;
+        }
+
+        const colorCount = {};
+        path.forEach(id => {
+            const c = TREE.nodes.find(n => n.id === id).color;
+            colorCount[c] = (colorCount[c] || 0) + 1;
+        });
+
+        const valid = Object.values(colorCount).every(v => v <= 1);
+        if (valid) {
+            result.textContent = `✓ Valid path of length ${path.length}!`;
+            result.style.color = '#00ff88';
+        } else {
+            result.textContent = '✗ Some colors repeat!';
+            result.style.color = '#ff4444';
+        }
+    }
+
+    function reset() {
+        path = [];
+        document.getElementById('result').textContent = '';
+        renderMaze();
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

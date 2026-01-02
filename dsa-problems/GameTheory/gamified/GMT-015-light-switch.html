@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMT-015: Light Switch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --on: #f1c40f; --off: #2c3e50; --glow: #27ae60; --player: #27ae60; --ai: #e74c3c; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Orbitron', sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0a 100%); min-height: 100vh; color: #fff; }
+        header { background: rgba(255,255,0,0.1); padding: 15px; text-align: center; border-bottom: 3px solid var(--on); }
+        h1 { font-size: 1.6rem; color: var(--on); }
+        main { padding: 20px; max-width: 900px; margin: 0 auto; }
+        .instructions { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 20px; margin-bottom: 20px; border-left: 5px solid var(--on); }
+        .instructions h2 { color: var(--on); margin-bottom: 10px; }
+        .instructions ul { margin-left: 20px; line-height: 1.8; font-size: 0.9rem; }
+        .highlight { background: var(--on); color: #333; padding: 2px 8px; border-radius: 5px; }
+        .game-area { background: rgba(255,255,255,0.02); border-radius: 15px; padding: 25px; }
+        .status-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; }
+        .turn-indicator { padding: 10px 20px; border-radius: 20px; font-weight: 600; font-size: 0.8rem; }
+        .turn-indicator.player { background: var(--player); }
+        .turn-indicator.ai { background: var(--ai); }
+        .panel { background: #111; border-radius: 10px; padding: 20px; margin: 20px 0; }
+        .switches-container { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .switch { width: 50px; height: 80px; background: var(--off); border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; transition: all 0.3s; position: relative; }
+        .switch.on { background: var(--on); box-shadow: 0 0 30px var(--on); }
+        .switch:hover:not(.selected) { transform: scale(1.05); }
+        .switch.selected { border: 3px solid var(--glow); }
+        .switch-label { position: absolute; bottom: 5px; font-size: 0.6rem; color: #888; }
+        .bulb { font-size: 1.5rem; }
+        .move-info { text-align: center; margin: 15px 0; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; }
+        .move-info span { color: var(--on); font-weight: bold; }
+        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+        .btn { padding: 15px 25px; border: none; border-radius: 10px; font-family: 'Orbitron', sans-serif; font-size: 0.8rem; cursor: pointer; }
+        .btn-flip { background: var(--player); color: #fff; }
+        .btn-reset { background: var(--on); color: #333; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+        .result { text-align: center; padding: 30px; font-size: 1.3rem; font-weight: bold; border-radius: 15px; margin-top: 20px; display: none; }
+        .result.win { background: var(--player); display: block; }
+        .result.lose { background: var(--ai); display: block; }
+        #message { text-align: center; padding: 15px; font-size: 1rem; color: var(--on); min-height: 50px; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>💡 LIGHT SWITCH</h1>
+</header>
+<main>
+    <div class="instructions">
+        <h2>📋 HOW TO PLAY (TURNING TURTLES)</h2>
+        <ul>
+            <li><strong>Goal:</strong> Be the <span class="highlight">last player to flip a light</span></li>
+            <li><strong>Your Move:</strong> Click an <span class="highlight">ON light to turn it OFF</span></li>
+            <li><strong>Optional:</strong> You may ALSO flip one light <span class="highlight">to its left</span></li>
+            <li><strong>Win:</strong> If the AI has no ON lights to flip, <span class="highlight">YOU WIN!</span></li>
+        </ul>
+    </div>
+    <div class="game-area">
+        <div class="status-bar">
+            <div class="turn-indicator player" id="turn">YOUR TURN</div>
+            <div>ON: <span id="on-count">5</span></div>
+        </div>
+        <div id="message">Click an ON light (must turn it OFF, optionally flip one to its left)</div>
+        <div class="panel">
+            <div class="switches-container" id="switches"></div>
+        </div>
+        <div class="move-info" id="move-info" style="display:none;">
+            Primary: <span id="primary">-</span> | 
+            Also flip: <span id="secondary">None</span>
+        </div>
+        <div class="controls">
+            <button class="btn btn-flip" id="btn-flip" onclick="game.confirmFlip()" disabled>⚡ FLIP</button>
+            <button class="btn btn-reset" onclick="game.reset()">🔄 RESET</button>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+</main>
+<script>
+class LightSwitch {
+    constructor() {
+        this.total = 10;
+        this.reset();
+    }
+    reset() {
+        // Random initial state with some ON
+        this.lights = [true, false, true, true, false, true, false, false, true, false];
+        this.primaryIdx = -1;
+        this.secondaryIdx = -1;
+        this.isPlayerTurn = true;
+        this.gameOver = false;
+        this.render();
+        document.getElementById('result').className = 'result';
+        document.getElementById('move-info').style.display = 'none';
+        document.getElementById('btn-flip').disabled = true;
+        document.getElementById('message').textContent = 'Click an ON light to turn it OFF!';
+    }
+    render() {
+        const container = document.getElementById('switches');
+        container.innerHTML = '';
+        let onCount = 0;
+        this.lights.forEach((on, i) => {
+            const sw = document.createElement('div');
+            sw.className = 'switch' + (on ? ' on' : '');
+            if (i === this.primaryIdx) sw.classList.add('selected');
+            if (i === this.secondaryIdx) sw.classList.add('selected');
+            sw.innerHTML = `<span class="bulb">${on ? '💡' : '⚫'}</span><span class="switch-label">${i}</span>`;
+            if (this.isPlayerTurn && !this.gameOver) {
+                sw.onclick = () => this.selectSwitch(i);
+            }
+            container.appendChild(sw);
+            if (on) onCount++;
+        });
+        document.getElementById('on-count').textContent = onCount;
+        this.updateTurn();
+    }
+    selectSwitch(i) {
+        if (this.primaryIdx < 0) {
+            // Must select an ON light as primary
+            if (!this.lights[i]) {
+                document.getElementById('message').textContent = 'Must select an ON light first!';
+                return;
+            }
+            this.primaryIdx = i;
+            this.secondaryIdx = -1;
+            document.getElementById('btn-flip').disabled = false;
+            document.getElementById('message').textContent = 'Click a light to the LEFT to also flip it, or confirm.';
+        } else if (i === this.primaryIdx) {
+            // Deselect
+            this.primaryIdx = -1;
+            this.secondaryIdx = -1;
+            document.getElementById('btn-flip').disabled = true;
+        } else if (i < this.primaryIdx) {
+            // Select secondary
+            this.secondaryIdx = i;
+        } else {
+            // Select new primary
+            if (this.lights[i]) {
+                this.primaryIdx = i;
+                this.secondaryIdx = -1;
+            }
+        }
+        document.getElementById('move-info').style.display = this.primaryIdx >= 0 ? 'block' : 'none';
+        document.getElementById('primary').textContent = this.primaryIdx >= 0 ? this.primaryIdx : '-';
+        document.getElementById('secondary').textContent = this.secondaryIdx >= 0 ? this.secondaryIdx : 'None';
+        this.render();
+    }
+    confirmFlip() {
+        if (this.primaryIdx < 0) return;
+        // Must turn OFF primary
+        this.lights[this.primaryIdx] = false;
+        // Optionally toggle secondary
+        if (this.secondaryIdx >= 0) {
+            this.lights[this.secondaryIdx] = !this.lights[this.secondaryIdx];
+        }
+        this.primaryIdx = -1;
+        this.secondaryIdx = -1;
+        document.getElementById('move-info').style.display = 'none';
+        document.getElementById('btn-flip').disabled = true;
+        this.render();
+        if (!this.hasOnLights()) {
+            this.endGame(true);
+            return;
+        }
+        this.isPlayerTurn = false;
+        this.updateTurn();
+        document.getElementById('message').textContent = '🤖 AI is flipping...';
+        setTimeout(() => this.aiMove(), 1000);
+    }
+    hasOnLights() {
+        return this.lights.some(l => l);
+    }
+    aiMove() {
+        // Find ON lights
+        const onLights = this.lights.map((l, i) => ({ on: l, i })).filter(x => x.on);
+        if (onLights.length === 0) {
+            this.endGame(true);
+            return;
+        }
+        // Pick rightmost ON light
+        const primary = onLights[onLights.length - 1].i;
+        this.lights[primary] = false;
+        // Optionally flip one to the left
+        let secondary = -1;
+        if (primary > 0 && Math.random() > 0.5) {
+            secondary = Math.floor(Math.random() * primary);
+            this.lights[secondary] = !this.lights[secondary];
+        }
+        const msg = secondary >= 0 ? 
+            `🤖 AI turns OFF ${primary}, flips ${secondary}` : 
+            `🤖 AI turns OFF ${primary}`;
+        document.getElementById('message').textContent = msg;
+        this.render();
+        if (!this.hasOnLights()) {
+            this.endGame(false);
+            return;
+        }
+        this.isPlayerTurn = true;
+        this.updateTurn();
+        setTimeout(() => document.getElementById('message').textContent = 'Your turn!', 500);
+    }
+    endGame(playerWins) {
+        this.gameOver = true;
+        const result = document.getElementById('result');
+        if (playerWins) {
+            result.className = 'result win';
+            result.textContent = '🎉 YOU WIN! All lights are off!';
+        } else {
+            result.className = 'result lose';
+            result.textContent = '😢 AI WINS!';
+        }
+    }
+    updateTurn() {
+        const turn = document.getElementById('turn');
+        if (this.isPlayerTurn) {
+            turn.className = 'turn-indicator player';
+            turn.textContent = 'YOUR TURN';
+        } else {
+            turn.className = 'turn-indicator ai';
+            turn.textContent = 'AI TURN';
+        }
+    }
+}
+const game = new LightSwitch();
+</script>
+</body>
+</html>

@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GMT-002: Chess Knight Duel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --board: #2c3e50; --light: #ecf0f1; --dark: #34495e; --player: #27ae60; --ai: #e74c3c; --gold: #f1c40f; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Cinzel', serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); min-height: 100vh; color: #fff; }
+        header { background: rgba(0,0,0,0.3); padding: 15px; text-align: center; border-bottom: 3px solid var(--gold); }
+        h1 { font-size: 1.8rem; color: var(--gold); }
+        main { padding: 20px; max-width: 900px; margin: 0 auto; }
+        .instructions { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-bottom: 20px; border-left: 5px solid var(--gold); }
+        .instructions h2 { color: var(--gold); margin-bottom: 10px; }
+        .instructions ul { margin-left: 20px; line-height: 1.8; }
+        .highlight { background: var(--gold); color: #333; padding: 2px 8px; border-radius: 5px; font-weight: 600; }
+        .game-area { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 25px; }
+        .status-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; }
+        .turn-indicator { padding: 10px 20px; border-radius: 20px; font-weight: 600; }
+        .turn-indicator.player { background: var(--player); }
+        .turn-indicator.ai { background: var(--ai); }
+        .graph-container { display: flex; justify-content: center; margin: 20px 0; }
+        .graph { display: grid; grid-template-columns: repeat(5, 60px); gap: 10px; }
+        .node { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; transition: all 0.3s; position: relative; }
+        .node.empty { background: var(--dark); border: 2px solid var(--light); }
+        .node.player-token { background: var(--player); border: 3px solid #fff; }
+        .node.ai-token { background: var(--ai); border: 3px solid #fff; }
+        .node.valid-move { background: var(--gold); animation: pulse 1s infinite; cursor: pointer; }
+        .node.valid-move:hover { transform: scale(1.1); }
+        .node.visited { background: #555; border: 2px dashed #777; cursor: not-allowed; }
+        @keyframes pulse { 0%,100% { box-shadow: 0 0 10px var(--gold); } 50% { box-shadow: 0 0 25px var(--gold); } }
+        .node-label { position: absolute; bottom: -20px; font-size: 0.7rem; color: #888; }
+        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
+        .btn { padding: 15px 30px; border: none; border-radius: 10px; font-family: 'Cinzel', serif; font-size: 1rem; cursor: pointer; }
+        .btn-reset { background: var(--gold); color: #333; }
+        .btn:hover { transform: scale(1.05); }
+        .result { text-align: center; padding: 30px; font-size: 1.5rem; font-weight: bold; border-radius: 15px; margin-top: 20px; display: none; }
+        .result.win { background: var(--player); display: block; }
+        .result.lose { background: var(--ai); display: block; }
+        .legend { display: flex; gap: 20px; justify-content: center; margin: 15px 0; flex-wrap: wrap; }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+        .legend-dot { width: 20px; height: 20px; border-radius: 50%; }
+        #message { text-align: center; padding: 15px; font-size: 1.1rem; color: var(--gold); min-height: 50px; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>♟️ CHESS KNIGHT DUEL</h1>
+</header>
+<main>
+    <div class="instructions">
+        <h2>📋 HOW TO PLAY</h2>
+        <ul>
+            <li><strong>Goal:</strong> Be the <span class="highlight">last player to move your token</span></li>
+            <li><strong>Your Move:</strong> Move your token ♟️ to any <span class="highlight">connected unvisited node</span></li>
+            <li><strong>Visited Nodes:</strong> Once a node is visited, it's <span class="highlight">blocked forever</span></li>
+            <li><strong>Win:</strong> If the AI has no valid moves, <span class="highlight">YOU WIN!</span></li>
+            <li><strong>Lose:</strong> If you have no valid moves, the AI wins</li>
+        </ul>
+    </div>
+    <div class="game-area">
+        <div class="status-bar">
+            <div class="turn-indicator player" id="turn">🟢 YOUR TURN</div>
+            <div>Moves: <span id="move-count">0</span></div>
+        </div>
+        <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background:var(--player)"></div> Your Token</div>
+            <div class="legend-item"><div class="legend-dot" style="background:var(--gold)"></div> Valid Moves</div>
+            <div class="legend-item"><div class="legend-dot" style="background:#555"></div> Visited</div>
+        </div>
+        <div id="message">Click a golden node to move!</div>
+        <div class="graph-container">
+            <div class="graph" id="graph"></div>
+        </div>
+        <div class="controls">
+            <button class="btn btn-reset" onclick="game.reset()">🔄 NEW GAME</button>
+        </div>
+        <div class="result" id="result"></div>
+    </div>
+</main>
+<script>
+class KnightDuel {
+    constructor() {
+        // Simple DAG: nodes 0-9, edges going "forward" (can only move to higher numbered nodes)
+        this.edges = {
+            0: [1, 2, 3],
+            1: [3, 4],
+            2: [4, 5],
+            3: [5, 6],
+            4: [6, 7],
+            5: [7, 8],
+            6: [8, 9],
+            7: [9],
+            8: [9],
+            9: []
+        };
+        this.nodeCount = 10;
+        this.reset();
+    }
+    reset() {
+        this.playerPos = 0;
+        this.visited = new Set([0]);
+        this.isPlayerTurn = true;
+        this.moveCount = 0;
+        this.gameOver = false;
+        this.calcGrundy();
+        this.render();
+        document.getElementById('result').className = 'result';
+        document.getElementById('message').textContent = 'Click a golden node to move!';
+    }
+    calcGrundy() {
+        // Calculate Grundy for each node (for AI optimal play)
+        this.grundy = new Array(this.nodeCount).fill(0);
+        // Process in reverse topological order (highest to lowest for DAG)
+        for (let i = this.nodeCount - 1; i >= 0; i--) {
+            const reachable = new Set();
+            for (const next of this.edges[i]) {
+                if (!this.visited.has(next)) {
+                    reachable.add(this.grundy[next]);
+                }
+            }
+            let mex = 0;
+            while (reachable.has(mex)) mex++;
+            this.grundy[i] = mex;
+        }
+    }
+    render() {
+        const container = document.getElementById('graph');
+        container.innerHTML = '';
+        const validMoves = this.getValidMoves(this.playerPos);
+        for (let i = 0; i < this.nodeCount; i++) {
+            const node = document.createElement('div');
+            node.className = 'node';
+            if (i === this.playerPos) {
+                node.classList.add('player-token');
+                node.textContent = '♟️';
+            } else if (this.visited.has(i)) {
+                node.classList.add('visited');
+                node.textContent = '✗';
+            } else if (validMoves.includes(i) && this.isPlayerTurn && !this.gameOver) {
+                node.classList.add('valid-move');
+                node.textContent = i;
+                node.onclick = () => this.playerMove(i);
+            } else {
+                node.classList.add('empty');
+                node.textContent = i;
+            }
+            node.innerHTML += `<span class="node-label">${i}</span>`;
+            container.appendChild(node);
+        }
+        document.getElementById('move-count').textContent = this.moveCount;
+        this.updateTurn();
+    }
+    getValidMoves(pos) {
+        return this.edges[pos].filter(n => !this.visited.has(n));
+    }
+    playerMove(to) {
+        if (this.gameOver || !this.isPlayerTurn) return;
+        this.visited.add(to);
+        this.playerPos = to;
+        this.moveCount++;
+        this.render();
+        // Check if AI has moves
+        const aiMoves = this.getValidMoves(this.playerPos);
+        if (aiMoves.length === 0) {
+            this.endGame(true);
+            return;
+        }
+        this.isPlayerTurn = false;
+        this.updateTurn();
+        document.getElementById('message').textContent = '🤖 AI is thinking...';
+        setTimeout(() => this.aiMove(), 1000);
+    }
+    aiMove() {
+        const validMoves = this.getValidMoves(this.playerPos);
+        if (validMoves.length === 0) {
+            this.endGame(true);
+            return;
+        }
+        // Recalculate Grundy with current visited set
+        this.calcGrundy();
+        // Find move that puts opponent in losing position (Grundy 0)
+        let bestMove = validMoves[0];
+        for (const move of validMoves) {
+            // Temporarily move there and check Grundy
+            this.visited.add(move);
+            this.calcGrundy();
+            const opponentGrundy = this.grundy[move];
+            this.visited.delete(move);
+            if (opponentGrundy === 0) {
+                bestMove = move;
+                break;
+            }
+        }
+        this.visited.add(bestMove);
+        this.playerPos = bestMove;
+        this.moveCount++;
+        this.calcGrundy();
+        document.getElementById('message').textContent = `🤖 AI moves to node ${bestMove}`;
+        this.render();
+        // Check if player has moves
+        const playerMoves = this.getValidMoves(this.playerPos);
+        if (playerMoves.length === 0) {
+            this.endGame(false);
+            return;
+        }
+        this.isPlayerTurn = true;
+        this.updateTurn();
+        document.getElementById('message').textContent = 'Your turn! Click a golden node.';
+    }
+    endGame(playerWins) {
+        this.gameOver = true;
+        const result = document.getElementById('result');
+        if (playerWins) {
+            result.className = 'result win';
+            result.textContent = '🎉 YOU WIN! The AI is trapped!';
+        } else {
+            result.className = 'result lose';
+            result.textContent = '😢 AI WINS! You are trapped.';
+        }
+    }
+    updateTurn() {
+        const turn = document.getElementById('turn');
+        if (this.isPlayerTurn) {
+            turn.className = 'turn-indicator player';
+            turn.textContent = '🟢 YOUR TURN';
+        } else {
+            turn.className = 'turn-indicator ai';
+            turn.textContent = '🔴 AI\'S TURN';
+        }
+    }
+}
+const game = new KnightDuel();
+</script>
+</body>
+</html>

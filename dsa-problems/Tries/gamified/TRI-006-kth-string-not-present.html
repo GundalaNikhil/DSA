@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRI-006: Missing String Finder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #ff6b6b 0%, #feca57 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 900px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 25px; }
+        .header h1 { font-size: 36px; text-shadow: 2px 2px 4px rgba(0,0,0,0.2); }
+
+        /* Instructions */
+        .instructions {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        .instructions h2 { color: #ff6b6b; margin-bottom: 15px; }
+        .step-list { display: flex; gap: 15px; }
+        .step {
+            flex: 1;
+            background: linear-gradient(135deg, #fff5f5, #fff);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid #ffcccc;
+        }
+        .step-num { font-size: 32px; font-weight: 700; color: #ff6b6b; }
+        .step-text { font-size: 14px; color: #666; margin-top: 5px; }
+
+        /* Game */
+        .game-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .goal-box {
+            background: linear-gradient(90deg, #ff6b6b, #feca57);
+            padding: 20px;
+            border-radius: 15px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .goal-label { font-size: 12px; opacity: 0.9; }
+        .goal-text { font-size: 20px; font-weight: 700; }
+
+        /* Dictionary Display */
+        .section-title { font-size: 16px; color: #333; margin-bottom: 15px; font-weight: 600; }
+
+        .dictionary-display {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+        .dict-word {
+            padding: 10px 20px;
+            background: #fff;
+            border: 2px solid #ff6b6b;
+            border-radius: 25px;
+            font-weight: 600;
+            color: #ff6b6b;
+        }
+
+        /* K Input */
+        .k-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #fff5f5;
+            border-radius: 15px;
+        }
+        .k-label { font-weight: 600; color: #333; }
+        .k-input {
+            width: 80px;
+            padding: 10px;
+            font-size: 24px;
+            text-align: center;
+            border: 3px solid #ff6b6b;
+            border-radius: 10px;
+            font-family: inherit;
+        }
+        .btn {
+            padding: 12px 30px;
+            background: #ff6b6b;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 25px;
+            cursor: pointer;
+        }
+        .btn:hover { background: #ff5252; }
+
+        /* Result */
+        .result-area {
+            padding: 25px;
+            background: linear-gradient(135deg, #e8f5e9, #fff);
+            border: 3px solid #4caf50;
+            border-radius: 15px;
+            text-align: center;
+        }
+        .result-label { font-size: 14px; color: #666; }
+        .result-string {
+            font-size: 48px;
+            font-weight: 700;
+            color: #4caf50;
+            letter-spacing: 10px;
+            margin: 15px 0;
+            font-family: monospace;
+        }
+        .result-explain { font-size: 14px; color: #888; }
+
+        /* All missing strings */
+        .missing-list {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        .missing-title { font-size: 12px; color: #888; margin-bottom: 10px; }
+        .missing-items { display: flex; flex-wrap: wrap; gap: 8px; }
+        .missing-item {
+            padding: 5px 12px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            font-size: 12px;
+            font-family: monospace;
+        }
+        .missing-item.highlight { border-color: #4caf50; background: #e8f5e9; }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🔍 Missing String Finder</h1>
+        <div>Find the K-th string NOT in the dictionary!</div>
+    </div>
+
+    <div class="instructions">
+        <h2>🎮 How to Play</h2>
+        <div class="step-list">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-text"><strong>See the dictionary</strong> - these strings already exist</div>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-text"><strong>Enter K</strong> - which missing string do you want?</div>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-text"><strong>Click Find</strong> - discover the K-th missing string!</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="goal-box">
+            <div class="goal-label">🎯 GOAL</div>
+            <div class="goal-text">Find strings that are NOT in the dictionary (in lex order)</div>
+        </div>
+
+        <div class="section-title">📚 Dictionary (strings that EXIST):</div>
+        <div class="dictionary-display" id="dictDisplay"></div>
+
+        <div class="k-section">
+            <span class="k-label">Find the</span>
+            <input type="number" class="k-input" id="kInput" value="1" min="1">
+            <span class="k-label">-th missing string</span>
+            <button class="btn" onclick="findKth()">Find It!</button>
+        </div>
+
+        <div class="result-area">
+            <div class="result-label">The K-th string NOT in dictionary is:</div>
+            <div class="result-string" id="result">?</div>
+            <div class="result-explain" id="explain"></div>
+        </div>
+
+        <div class="missing-list">
+            <div class="missing-title">📋 First 15 missing strings (for reference):</div>
+            <div class="missing-items" id="missingList"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const DICT = ["a", "b", "ab", "ba", "aa"];
+    const ALPHABET = "ab";
+
+    function init() {
+        // Show dictionary
+        const display = document.getElementById('dictDisplay');
+        display.innerHTML = DICT.map(w => `<div class="dict-word">"${w}"</div>`).join('');
+
+        // Generate missing strings
+        generateMissing();
+    }
+
+    function generateAllStrings(maxLen) {
+        const all = [];
+        const generate = (s, len) => {
+            if (s.length === len) { all.push(s); return; }
+            for (const c of ALPHABET) generate(s + c, len);
+        };
+        for (let l = 1; l <= maxLen; l++) generate('', l);
+        return all.sort();
+    }
+
+    function generateMissing() {
+        const dictSet = new Set(DICT);
+        const all = generateAllStrings(4);
+        const missing = all.filter(s => !dictSet.has(s)).slice(0, 15);
+
+        const list = document.getElementById('missingList');
+        list.innerHTML = missing.map((s, i) => `<div class="missing-item" data-idx="${i+1}">"${s}"</div>`).join('');
+    }
+
+    function findKth() {
+        const k = parseInt(document.getElementById('kInput').value);
+        if (k < 1) return;
+
+        const dictSet = new Set(DICT);
+        const all = generateAllStrings(4);
+        const missing = all.filter(s => !dictSet.has(s));
+
+        if (k > missing.length) {
+            document.getElementById('result').textContent = '(out of range)';
+            document.getElementById('explain').textContent = '';
+            return;
+        }
+
+        const answer = missing[k - 1];
+        document.getElementById('result').textContent = `"${answer}"`;
+        document.getElementById('explain').textContent = `This is the ${k}${getOrdinal(k)} string in lexicographic order that's NOT in the dictionary.`;
+
+        // Highlight in list
+        document.querySelectorAll('.missing-item').forEach(el => {
+            el.classList.toggle('highlight', parseInt(el.dataset.idx) === k);
+        });
+    }
+
+    function getOrdinal(n) {
+        const s = ["th", "st", "nd", "rd"];
+        const v = n % 100;
+        return s[(v - 20) % 10] || s[v] || s[0];
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

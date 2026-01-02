@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRE-013: Balance Judge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        :root { --court: #2c3e50; --gavel: #8b4513; --valid: #27ae60; --invalid: #e74c3c; --gold: #f1c40f; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', sans-serif; background: linear-gradient(180deg, #34495e 0%, var(--court) 100%); min-height: 100vh; color: #fff; }
+        header { background: var(--gavel); padding: 15px; text-align: center; }
+        h1 { font-family: 'Righteous', cursive; color: var(--gold); font-size: 1.8rem; }
+        main { padding: 20px; max-width: 900px; margin: 0 auto; }
+        .courtroom { background: rgba(0,0,0,0.2); border-radius: 15px; padding: 30px; min-height: 350px; position: relative; }
+        .gavel { position: absolute; top: 10px; right: 20px; font-size: 3rem; cursor: pointer; transition: transform 0.2s; }
+        .gavel:hover { transform: rotate(-20deg); }
+        .gavel.strike { animation: strike 0.3s ease; }
+        @keyframes strike { 0%,100% { transform: rotate(0); } 50% { transform: rotate(-45deg); } }
+        .tree-container { display: flex; flex-direction: column; align-items: center; gap: 25px; }
+        .tree-level { display: flex; gap: 20px; }
+        .node { width: 55px; height: 55px; background: #fff; border: 4px solid #95a5a6; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: bold; color: #333; cursor: pointer; transition: all 0.3s; position: relative; }
+        .node.checking { animation: pulse 0.5s ease; }
+        .node.valid { border-color: var(--valid); box-shadow: 0 0 15px var(--valid); }
+        .node.invalid { border-color: var(--invalid); box-shadow: 0 0 15px var(--invalid); background: #ffebee; }
+        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+        .node .range { position: absolute; bottom: -25px; font-size: 0.6rem; color: #aaa; white-space: nowrap; }
+        .verdict { text-align: center; padding: 30px; margin-top: 20px; border-radius: 15px; font-size: 1.5rem; font-weight: bold; display: none; }
+        .verdict.valid { background: var(--valid); display: block; }
+        .verdict.invalid { background: var(--invalid); display: block; }
+        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
+        .btn { padding: 15px 30px; border: none; border-radius: 10px; font-family: 'Righteous', cursive; font-size: 1rem; cursor: pointer; }
+        .btn-judge { background: var(--gold); color: #333; }
+        .btn-new { background: #95a5a6; color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+        #message { text-align: center; color: var(--gold); padding: 10px; font-size: 1.1rem; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>⚖️ BALANCE JUDGE</h1>
+</header>
+<main>
+    <div id="message">Is this a valid Binary Search Tree? Judge it!</div>
+    <div class="courtroom">
+        <div class="gavel" id="gavel" onclick="game.judge()">🔨</div>
+        <div class="tree-container" id="tree"></div>
+    </div>
+    <div class="verdict" id="verdict"></div>
+    <div class="controls">
+        <button class="btn btn-judge" onclick="game.judge()">⚖️ JUDGE BST</button>
+        <button class="btn btn-new" onclick="game.newTree()">🌲 NEW TREE</button>
+    </div>
+</main>
+<script>
+class BalanceJudge {
+    constructor() {
+        this.trees = [
+            { tree: { val: 5, left: { val: 3, left: { val: 1 }, right: { val: 4 } }, right: { val: 7, left: { val: 6 }, right: { val: 8 } } }, valid: true },
+            { tree: { val: 5, left: { val: 3, left: { val: 1 }, right: { val: 6 } }, right: { val: 7 } }, valid: false }, // 6 > 5
+            { tree: { val: 2, left: { val: 1 }, right: { val: 3 } }, valid: true },
+            { tree: { val: 5, left: { val: 4, left: { val: 3 }, right: { val: 6 } }, right: { val: 7 } }, valid: false } // 6 > 5
+        ];
+        this.currentIdx = 0;
+        this.render();
+    }
+    render() {
+        const container = document.getElementById('tree');
+        container.innerHTML = '';
+        const tree = this.trees[this.currentIdx].tree;
+        const levels = [[tree]];
+        let queue = [tree];
+        while (queue.length) {
+            const next = [];
+            queue.forEach(n => { if (n.left) next.push(n.left); if (n.right) next.push(n.right); });
+            if (next.length) levels.push(next);
+            queue = next;
+        }
+        levels.forEach(level => {
+            const row = document.createElement('div');
+            row.className = 'tree-level';
+            level.forEach(node => {
+                const el = document.createElement('div');
+                el.className = 'node';
+                el.id = `node-${node.val}`;
+                el.textContent = node.val;
+                row.appendChild(el);
+            });
+            container.appendChild(row);
+        });
+        document.getElementById('verdict').className = 'verdict';
+        document.getElementById('verdict').textContent = '';
+    }
+    validate(node, min = -Infinity, max = Infinity) {
+        if (!node) return { valid: true, nodes: [] };
+        const valid = node.val > min && node.val < max;
+        const left = this.validate(node.left, min, node.val);
+        const right = this.validate(node.right, node.val, max);
+        return { 
+            valid: valid && left.valid && right.valid, 
+            nodes: [{ val: node.val, valid }].concat(left.nodes, right.nodes) 
+        };
+    }
+    async judge() {
+        document.getElementById('gavel').classList.add('strike');
+        setTimeout(() => document.getElementById('gavel').classList.remove('strike'), 300);
+        const tree = this.trees[this.currentIdx].tree;
+        const result = this.validate(tree);
+        document.getElementById('message').textContent = 'Checking each node...';
+        for (const node of result.nodes) {
+            const el = document.getElementById(`node-${node.val}`);
+            el.classList.add('checking');
+            await this.delay(300);
+            el.classList.remove('checking');
+            el.classList.add(node.valid ? 'valid' : 'invalid');
+        }
+        const verdict = document.getElementById('verdict');
+        if (result.valid) {
+            verdict.className = 'verdict valid';
+            verdict.textContent = '✅ VALID BST!';
+        } else {
+            verdict.className = 'verdict invalid';
+            verdict.textContent = '❌ INVALID BST!';
+        }
+    }
+    newTree() {
+        this.currentIdx = (this.currentIdx + 1) % this.trees.length;
+        this.render();
+        document.getElementById('message').textContent = 'New tree! Is it valid?';
+    }
+    delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+}
+const game = new BalanceJudge();
+</script>
+</body>
+</html>

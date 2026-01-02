@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDP-006: Shield Network</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: #0a0a1a;
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .game-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #00ffff;
+            text-shadow: 0 0 30px #00ffff;
+            font-size: 28px;
+        }
+
+        .mission { color: #888; font-size: 12px; margin: 10px 0 20px; }
+
+        .stats-bar {
+            display: flex;
+            gap: 30px;
+            background: linear-gradient(180deg, rgba(0,255,255,0.1), transparent);
+            padding: 15px 40px;
+            border: 1px solid #00ffff;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item { text-align: center; }
+        .stat-label { font-size: 10px; color: #666; }
+        .stat-val { font-size: 24px; color: #00ffff; }
+        .stat-val.good { color: #00ff88; }
+        .stat-val.bad { color: #ff4757; }
+
+        .battlefield {
+            width: 800px;
+            height: 400px;
+            background: radial-gradient(circle at center, #0a0a2a, #0a0a1a);
+            border: 2px solid #1a1a3a;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+        line { stroke: #1a1a4a; stroke-width: 3; }
+        line.covered { stroke: #00ff88; filter: drop-shadow(0 0 5px #00ff88); }
+
+        .node {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: #1a1a3a;
+            border: 3px solid #333;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+        .node:hover { transform: scale(1.15); border-color: #00ffff; }
+        .node.shielded {
+            background: radial-gradient(circle at center, #00ffff, #006666);
+            border-color: #00ffff;
+            box-shadow: 0 0 30px #00ffff;
+            animation: shieldPulse 2s infinite;
+        }
+
+        @keyframes shieldPulse {
+            0%, 100% { box-shadow: 0 0 20px #00ffff; }
+            50% { box-shadow: 0 0 40px #00ffff, 0 0 60px #00ffff; }
+        }
+
+        .shield-ring {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 2px solid rgba(0,255,255,0.3);
+            border-radius: 50%;
+            top: -15px;
+            left: -15px;
+            animation: ringExpand 2s infinite;
+        }
+
+        @keyframes ringExpand {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #00ffff, #0088aa);
+            border: none;
+            color: #000;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .btn:hover { filter: brightness(1.2); }
+        .btn.danger { background: linear-gradient(135deg, #ff4757, #aa0011); color: #fff; }
+
+        .victory {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.95);
+            padding: 50px;
+            border: 3px solid #00ff88;
+            border-radius: 20px;
+            text-align: center;
+            display: none;
+            z-index: 100;
+        }
+        .victory h2 { color: #00ff88; font-size: 32px; }
+
+    </style>
+</head>
+<body>
+
+<div class="game-screen">
+    <h1>🛡️ SHIELD NETWORK</h1>
+    <div class="mission">MINIMUM VERTEX COVER: Place shields to cover all edges with minimum units</div>
+
+    <div class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-label">SHIELDS PLACED</div>
+            <div class="stat-val" id="shieldsPlaced">0</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-label">EDGES COVERED</div>
+            <div class="stat-val" id="edgesCovered">0</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-label">TOTAL EDGES</div>
+            <div class="stat-val" id="totalEdges">0</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-label">OPTIMAL</div>
+            <div class="stat-val good" id="optimal">?</div>
+        </div>
+    </div>
+
+    <div class="battlefield" id="field">
+        <svg id="connections"></svg>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="checkSolution()">VERIFY SOLUTION</button>
+        <button class="btn danger" onclick="reset()">RESET</button>
+    </div>
+</div>
+
+<div class="victory" id="victory">
+    <h2>🎉 NETWORK SECURED!</h2>
+    <p style="margin-top:15px">All edges covered with <span id="finalCount">0</span> shields!</p>
+    <button class="btn" style="margin-top:20px" onclick="location.reload()">PLAY AGAIN</button>
+</div>
+
+<script>
+    const TREE = {
+        nodes: [
+            {id:1, x:375, y:30},
+            {id:2, x:175, y:120}, {id:3, x:575, y:120},
+            {id:4, x:75, y:230}, {id:5, x:275, y:230}, {id:6, x:475, y:230}, {id:7, x:675, y:230},
+            {id:8, x:25, y:330}, {id:9, x:125, y:330}
+        ],
+        edges: [[1,2],[1,3],[2,4],[2,5],[3,6],[3,7],[4,8],[4,9]]
+    };
+
+    // Optimal MVC for this tree: nodes 2, 3, 4 (3 shields)
+    const OPTIMAL = 3;
+
+    let shielded = new Set();
+
+    function init() {
+        document.getElementById('totalEdges').textContent = TREE.edges.length;
+        document.getElementById('optimal').textContent = OPTIMAL;
+        renderField();
+    }
+
+    function renderField() {
+        const field = document.getElementById('field');
+        const svg = document.getElementById('connections');
+        svg.innerHTML = '';
+        field.querySelectorAll('.node').forEach(n => n.remove());
+
+        TREE.edges.forEach(([a, b]) => {
+            const n1 = TREE.nodes.find(n => n.id === a);
+            const n2 = TREE.nodes.find(n => n.id === b);
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', n1.x + 25);
+            line.setAttribute('y1', n1.y + 25);
+            line.setAttribute('x2', n2.x + 25);
+            line.setAttribute('y2', n2.y + 25);
+            line.id = `edge-${Math.min(a,b)}-${Math.max(a,b)}`;
+            if (shielded.has(a) || shielded.has(b)) line.classList.add('covered');
+            svg.appendChild(line);
+        });
+
+        TREE.nodes.forEach(n => {
+            const el = document.createElement('div');
+            el.className = 'node';
+            if (shielded.has(n.id)) {
+                el.classList.add('shielded');
+                el.innerHTML = `${n.id}<div class="shield-ring"></div>`;
+            } else {
+                el.textContent = n.id;
+            }
+            el.id = `node-${n.id}`;
+            el.style.left = n.x + 'px';
+            el.style.top = n.y + 'px';
+            el.onclick = () => toggleShield(n.id);
+            field.appendChild(el);
+        });
+
+        updateStats();
+    }
+
+    function toggleShield(id) {
+        if (shielded.has(id)) {
+            shielded.delete(id);
+        } else {
+            shielded.add(id);
+        }
+        renderField();
+    }
+
+    function updateStats() {
+        document.getElementById('shieldsPlaced').textContent = shielded.size;
+        
+        let covered = 0;
+        TREE.edges.forEach(([a, b]) => {
+            if (shielded.has(a) || shielded.has(b)) covered++;
+        });
+        document.getElementById('edgesCovered').textContent = covered;
+    }
+
+    function checkSolution() {
+        let covered = 0;
+        TREE.edges.forEach(([a, b]) => {
+            if (shielded.has(a) || shielded.has(b)) covered++;
+        });
+
+        if (covered === TREE.edges.length) {
+            document.getElementById('finalCount').textContent = shielded.size;
+            document.getElementById('victory').style.display = 'block';
+        } else {
+            alert(`Not all edges covered! ${TREE.edges.length - covered} edges remain unprotected.`);
+        }
+    }
+
+    function reset() {
+        shielded.clear();
+        renderField();
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

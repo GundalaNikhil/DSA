@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRE-003: Leaf Collector</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --autumn: #d35400; --leaf1: #e74c3c; --leaf2: #f39c12; --leaf3: #27ae60; --sky: #ecf0f1; --bark: #5d4037; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Quicksand', sans-serif; background: linear-gradient(180deg, #87ceeb 0%, var(--sky) 100%); min-height: 100vh; overflow: hidden; }
+        header { background: var(--autumn); padding: 15px; text-align: center; color: #fff; }
+        h1 { font-size: 1.8rem; }
+        .stats { display: flex; justify-content: center; gap: 30px; margin-top: 10px; }
+        .stat { background: rgba(0,0,0,0.2); padding: 5px 15px; border-radius: 20px; }
+        main { position: relative; height: calc(100vh - 120px); }
+        .tree-display { position: absolute; top: 50px; left: 50%; transform: translateX(-50%); }
+        .tree-level { display: flex; gap: 20px; justify-content: center; margin: 10px 0; }
+        .node { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold; color: #fff; transition: all 0.3s; }
+        .node.branch { background: var(--bark); }
+        .node.leaf { cursor: pointer; animation: sway 2s ease-in-out infinite; }
+        .node.leaf:nth-child(1) { background: var(--leaf1); animation-delay: 0s; }
+        .node.leaf:nth-child(2) { background: var(--leaf2); animation-delay: 0.5s; }
+        .node.leaf:nth-child(3) { background: var(--leaf3); animation-delay: 1s; }
+        @keyframes sway { 0%,100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
+        .node.collected { animation: fall 1s ease-in forwards; }
+        @keyframes fall { 0% { transform: translateY(0) rotate(0); opacity: 1; } 100% { transform: translateY(300px) rotate(360deg); opacity: 0; } }
+        .basket { position: absolute; bottom: 50px; left: 50%; transform: translateX(-50%); font-size: 4rem; }
+        .controls { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); display: flex; gap: 15px; }
+        .btn { padding: 12px 25px; border: none; border-radius: 20px; font-family: 'Quicksand', sans-serif; font-weight: 700; font-size: 1rem; cursor: pointer; }
+        .btn-collect { background: var(--autumn); color: #fff; }
+        .btn-reset { background: #95a5a6; color: #fff; }
+        .btn:hover { transform: scale(1.05); }
+        #message { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); background: rgba(255,255,255,0.9); padding: 10px 20px; border-radius: 20px; font-weight: 700; }
+        .result { font-size: 3rem; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: var(--autumn); color: #fff; padding: 30px 50px; border-radius: 20px; animation: pop 0.5s ease; z-index: 100; display: none; }
+        @keyframes pop { 0% { transform: translate(-50%,-50%) scale(0); } 100% { transform: translate(-50%,-50%) scale(1); } }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🍂 LEAF COLLECTOR</h1>
+    <div class="stats">
+        <div class="stat">🍃 Collected: <span id="collected">0</span></div>
+        <div class="stat">🎯 Total Leaves: <span id="total">?</span></div>
+    </div>
+</header>
+<main>
+    <div id="message">Click on leaves to collect them! Count all leaf nodes.</div>
+    <div class="tree-display" id="tree"></div>
+    <div class="basket">🧺</div>
+    <div class="result" id="result"></div>
+    <div class="controls">
+        <button class="btn btn-collect" onclick="game.collectAll()">🍂 AUTO COLLECT</button>
+        <button class="btn btn-reset" onclick="game.reset()">🔄 RESET</button>
+    </div>
+</main>
+<script>
+class LeafCollector {
+    constructor() {
+        this.tree = { val: 1, left: { val: 2, left: { val: 4 }, right: { val: 5 } }, right: { val: 3, left: { val: 6 }, right: { val: 7 } } };
+        this.collected = 0;
+        this.leaves = [];
+        this.findLeaves(this.tree);
+        this.render();
+    }
+    findLeaves(node) {
+        if (!node) return;
+        if (!node.left && !node.right) this.leaves.push(node.val);
+        this.findLeaves(node.left);
+        this.findLeaves(node.right);
+    }
+    render() {
+        const container = document.getElementById('tree');
+        container.innerHTML = '';
+        const levels = [[this.tree], [this.tree.left, this.tree.right], [this.tree.left?.left, this.tree.left?.right, this.tree.right?.left, this.tree.right?.right]];
+        levels.forEach(level => {
+            const row = document.createElement('div');
+            row.className = 'tree-level';
+            level.forEach(node => {
+                if (node) {
+                    const el = document.createElement('div');
+                    const isLeaf = !node.left && !node.right;
+                    el.className = 'node ' + (isLeaf ? 'leaf' : 'branch');
+                    el.id = `node-${node.val}`;
+                    el.textContent = node.val;
+                    if (isLeaf) el.onclick = () => this.collect(node.val);
+                    row.appendChild(el);
+                }
+            });
+            container.appendChild(row);
+        });
+        document.getElementById('total').textContent = this.leaves.length;
+    }
+    collect(val) {
+        const el = document.getElementById(`node-${val}`);
+        if (el.classList.contains('collected')) return;
+        el.classList.add('collected');
+        this.collected++;
+        document.getElementById('collected').textContent = this.collected;
+        if (this.collected === this.leaves.length) this.win();
+    }
+    async collectAll() {
+        for (const leaf of this.leaves) {
+            this.collect(leaf);
+            await new Promise(r => setTimeout(r, 500));
+        }
+    }
+    win() {
+        const result = document.getElementById('result');
+        result.textContent = `🎉 ${this.leaves.length} LEAVES!`;
+        result.style.display = 'block';
+    }
+    reset() {
+        this.collected = 0;
+        document.getElementById('collected').textContent = 0;
+        document.getElementById('result').style.display = 'none';
+        this.render();
+    }
+}
+const game = new LeafCollector();
+</script>
+</body>
+</html>

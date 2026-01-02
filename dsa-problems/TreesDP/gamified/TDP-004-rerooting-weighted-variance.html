@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TDP-004: Signal Tower</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@600&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .interface {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #00d9ff;
+            font-size: 28px;
+            text-shadow: 0 0 20px #00d9ff;
+            margin-bottom: 5px;
+        }
+
+        .subtitle { color: #666; font-size: 12px; margin-bottom: 20px; }
+
+        .metrics {
+            display: flex;
+            gap: 40px;
+            background: linear-gradient(180deg, #1a1a2e, #0a0a0f);
+            padding: 15px 50px;
+            border: 1px solid #00d9ff;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .metric { text-align: center; }
+        .metric-label { font-size: 10px; color: #888; letter-spacing: 2px; }
+        .metric-val { font-size: 28px; color: #00d9ff; }
+        .metric-val.best { color: #ffd700; }
+
+        .network {
+            width: 850px;
+            height: 400px;
+            background: radial-gradient(circle at center, #1a1a2e, #0a0a0f);
+            border: 2px solid #222;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Grid overlay */
+        .network::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                linear-gradient(90deg, rgba(0,217,255,0.03) 1px, transparent 1px),
+                linear-gradient(rgba(0,217,255,0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
+        line { stroke: #333; stroke-width: 3; }
+        line.active { stroke: #00d9ff; filter: drop-shadow(0 0 5px #00d9ff); }
+
+        .tower {
+            position: absolute;
+            width: 50px;
+            height: 80px;
+            cursor: pointer;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+        .tower:hover { transform: scale(1.1); }
+
+        .tower-base {
+            width: 50px;
+            height: 60px;
+            background: linear-gradient(180deg, #333 0%, #1a1a1a 100%);
+            clip-path: polygon(10% 100%, 90% 100%, 70% 0%, 30% 0%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .tower-id {
+            position: absolute;
+            top: 20px;
+            font-size: 18px;
+            color: #fff;
+        }
+
+        .tower-weight {
+            position: absolute;
+            bottom: 5px;
+            font-size: 12px;
+            color: #00d9ff;
+        }
+
+        .tower-signal {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 15px;
+            display: flex;
+            gap: 2px;
+        }
+        .signal-bar {
+            width: 4px;
+            background: #333;
+            border-radius: 2px;
+        }
+
+        .tower.rooted .tower-base { background: linear-gradient(180deg, #00d9ff 0%, #006080 100%); }
+        .tower.rooted .signal-bar { background: #00d9ff; animation: signalPulse 1s infinite; }
+        .tower.rooted .signal-bar:nth-child(1) { height: 5px; animation-delay: 0s; }
+        .tower.rooted .signal-bar:nth-child(2) { height: 10px; animation-delay: 0.1s; }
+        .tower.rooted .signal-bar:nth-child(3) { height: 15px; animation-delay: 0.2s; }
+
+        @keyframes signalPulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #00d9ff, #0080ff);
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 5px;
+            letter-spacing: 1px;
+        }
+        .btn:hover { filter: brightness(1.2); }
+        .btn.secondary { background: #333; }
+
+        .variance-display {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.8);
+            padding: 10px 30px;
+            border-radius: 20px;
+            border: 1px solid #00d9ff;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="interface">
+    <h1>📡 SIGNAL TOWER NETWORK</h1>
+    <div class="subtitle">REROOTING: Find the root that minimizes weighted variance</div>
+
+    <div class="metrics">
+        <div class="metric">
+            <div class="metric-label">CURRENT ROOT</div>
+            <div class="metric-val" id="currentRoot">-</div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">VARIANCE</div>
+            <div class="metric-val" id="variance">-</div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">BEST ROOT</div>
+            <div class="metric-val best" id="bestRoot">-</div>
+        </div>
+        <div class="metric">
+            <div class="metric-label">BEST VARIANCE</div>
+            <div class="metric-val best" id="bestVariance">∞</div>
+        </div>
+    </div>
+
+    <div class="network" id="network">
+        <svg id="links"></svg>
+        <div class="variance-display">Weighted Dist Sum: <span id="distSum">0</span></div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="lockBest()">LOCK AS BEST</button>
+        <button class="btn secondary" onclick="reset()">RESET SEARCH</button>
+    </div>
+</div>
+
+<script>
+    const TREE = {
+        nodes: [
+            {id:1, x:375, y:30, w:5},
+            {id:2, x:175, y:130, w:3}, {id:3, x:575, y:130, w:4},
+            {id:4, x:75, y:250, w:2}, {id:5, x:275, y:250, w:6}, {id:6, x:475, y:250, w:1}, {id:7, x:700, y:250, w:3}
+        ],
+        edges: [[1,2],[1,3],[2,4],[2,5],[3,6],[3,7]],
+        adj: {}
+    };
+
+    TREE.nodes.forEach(n => TREE.adj[n.id] = []);
+    TREE.edges.forEach(([a,b]) => { TREE.adj[a].push(b); TREE.adj[b].push(a); });
+
+    let currentRoot = null;
+    let bestRoot = null;
+    let bestVariance = Infinity;
+
+    function init() {
+        renderNetwork();
+    }
+
+    function renderNetwork() {
+        const net = document.getElementById('network');
+        const svg = document.getElementById('links');
+        svg.innerHTML = '';
+        net.querySelectorAll('.tower').forEach(t => t.remove());
+
+        TREE.edges.forEach(([a, b]) => {
+            const n1 = TREE.nodes.find(n => n.id === a);
+            const n2 = TREE.nodes.find(n => n.id === b);
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', n1.x + 25);
+            line.setAttribute('y1', n1.y + 30);
+            line.setAttribute('x2', n2.x + 25);
+            line.setAttribute('y2', n2.y + 30);
+            line.id = `link-${Math.min(a,b)}-${Math.max(a,b)}`;
+            svg.appendChild(line);
+        });
+
+        TREE.nodes.forEach(n => {
+            const el = document.createElement('div');
+            el.className = 'tower';
+            if (currentRoot === n.id) el.classList.add('rooted');
+            el.id = `tower-${n.id}`;
+            el.style.left = n.x + 'px';
+            el.style.top = n.y + 'px';
+            el.innerHTML = `
+                <div class="tower-signal">
+                    <div class="signal-bar"></div>
+                    <div class="signal-bar"></div>
+                    <div class="signal-bar"></div>
+                </div>
+                <div class="tower-base">
+                    <span class="tower-id">${n.id}</span>
+                    <span class="tower-weight">w=${n.w}</span>
+                </div>
+            `;
+            el.onclick = () => setRoot(n.id);
+            net.appendChild(el);
+        });
+    }
+
+    function setRoot(id) {
+        currentRoot = id;
+        
+        // Calculate weighted distance sum (variance proxy)
+        const distSum = computeWeightedDistSum(id);
+        
+        document.getElementById('currentRoot').textContent = id;
+        document.getElementById('variance').textContent = distSum.toFixed(1);
+        document.getElementById('distSum').textContent = distSum.toFixed(1);
+        
+        renderNetwork();
+        highlightFromRoot(id);
+    }
+
+    function computeWeightedDistSum(root) {
+        // BFS to get distances
+        const dist = {};
+        const queue = [[root, 0]];
+        const visited = new Set([root]);
+        
+        while (queue.length) {
+            const [node, d] = queue.shift();
+            dist[node] = d;
+            for (const next of TREE.adj[node]) {
+                if (!visited.has(next)) {
+                    visited.add(next);
+                    queue.push([next, d + 1]);
+                }
+            }
+        }
+
+        // Weighted sum
+        let sum = 0;
+        TREE.nodes.forEach(n => {
+            sum += n.w * dist[n.id];
+        });
+        return sum;
+    }
+
+    function highlightFromRoot(root) {
+        // BFS highlight
+        const visited = new Set([root]);
+        const queue = [root];
+        
+        while (queue.length) {
+            const node = queue.shift();
+            for (const next of TREE.adj[node]) {
+                if (!visited.has(next)) {
+                    visited.add(next);
+                    queue.push(next);
+                    const a = Math.min(node, next);
+                    const b = Math.max(node, next);
+                    const link = document.getElementById(`link-${a}-${b}`);
+                    if (link) link.classList.add('active');
+                }
+            }
+        }
+    }
+
+    function lockBest() {
+        if (currentRoot === null) return;
+        
+        const variance = computeWeightedDistSum(currentRoot);
+        if (variance < bestVariance) {
+            bestVariance = variance;
+            bestRoot = currentRoot;
+            document.getElementById('bestRoot').textContent = bestRoot;
+            document.getElementById('bestVariance').textContent = bestVariance.toFixed(1);
+        }
+    }
+
+    function reset() {
+        currentRoot = null;
+        document.getElementById('currentRoot').textContent = '-';
+        document.getElementById('variance').textContent = '-';
+        document.getElementById('distSum').textContent = '0';
+        document.querySelectorAll('line').forEach(l => l.classList.remove('active'));
+        renderNetwork();
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>

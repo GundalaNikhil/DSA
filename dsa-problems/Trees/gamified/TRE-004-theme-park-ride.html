@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRE-004: Theme Park Ride</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --pink: #ff6b9d; --purple: #c56cf0; --yellow: #ffd32a; --blue: #54a0ff; --green: #26de81; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Nunito', sans-serif; background: linear-gradient(135deg, var(--purple) 0%, var(--pink) 100%); min-height: 100vh; }
+        header { background: rgba(0,0,0,0.2); padding: 15px; text-align: center; color: #fff; }
+        h1 { font-family: 'Bubblegum Sans', cursive; font-size: 2rem; }
+        .stats { display: flex; justify-content: center; gap: 20px; margin-top: 10px; }
+        .stat { background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 20px; }
+        main { padding: 20px; max-width: 900px; margin: 0 auto; }
+        .ride-scene { background: rgba(255,255,255,0.1); border-radius: 20px; padding: 20px; min-height: 350px; position: relative; }
+        .tree-track { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .track-level { display: flex; gap: 15px; padding: 10px 20px; background: rgba(255,255,255,0.1); border-radius: 30px; position: relative; }
+        .track-level::before { content: attr(data-level); position: absolute; left: -40px; top: 50%; transform: translateY(-50%); background: var(--yellow); color: #333; padding: 5px 10px; border-radius: 10px; font-weight: bold; }
+        .cart { width: 50px; height: 50px; background: var(--yellow); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.3rem; font-weight: bold; color: #333; transition: all 0.3s; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .cart:hover { transform: scale(1.1) rotate(5deg); }
+        .cart.collected { animation: spin 0.5s ease; }
+        .cart.current { box-shadow: 0 0 20px #fff; }
+        @keyframes spin { 0% { transform: rotate(0); } 100% { transform: rotate(360deg); } }
+        .coin { position: absolute; font-size: 1.5rem; animation: coinFly 0.8s ease-out forwards; }
+        @keyframes coinFly { 0% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(-50px); } }
+        .rider { position: absolute; font-size: 2.5rem; transition: all 0.6s ease; z-index: 100; }
+        .controls { display: flex; gap: 10px; justify-content: center; margin-top: 20px; }
+        .btn { padding: 15px 30px; border: none; border-radius: 20px; font-family: 'Bubblegum Sans', cursive; font-size: 1.2rem; cursor: pointer; color: #fff; }
+        .btn-ride { background: var(--green); }
+        .btn-reset { background: #666; }
+        .btn:hover { transform: scale(1.05); }
+        .collection { background: rgba(255,255,255,0.9); border-radius: 15px; padding: 15px; margin-top: 20px; }
+        .collection-title { color: var(--purple); font-weight: bold; margin-bottom: 10px; text-align: center; }
+        .level-row { display: flex; align-items: center; gap: 10px; margin: 5px 0; padding: 8px; background: rgba(197,108,240,0.1); border-radius: 10px; }
+        .level-label { background: var(--yellow); color: #333; padding: 3px 10px; border-radius: 10px; font-weight: bold; min-width: 60px; text-align: center; }
+        .level-items { display: flex; gap: 5px; }
+        .level-item { background: var(--purple); color: #fff; padding: 5px 12px; border-radius: 8px; font-weight: bold; }
+        #message { text-align: center; color: #fff; padding: 10px; font-size: 1.1rem; min-height: 40px; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>🎢 THEME PARK RIDE</h1>
+    <div class="stats">
+        <div class="stat">🪙 Coins: <span id="coins">0</span></div>
+        <div class="stat">📍 Level: <span id="level">-</span></div>
+    </div>
+</header>
+<main>
+    <div id="message">Ride through each level and collect coins in order!</div>
+    <div class="ride-scene">
+        <div class="rider" id="rider">🎢</div>
+        <div class="tree-track" id="track"></div>
+    </div>
+    <div class="controls">
+        <button class="btn btn-ride" onclick="game.ride()">🎢 START RIDE</button>
+        <button class="btn btn-reset" onclick="game.reset()">🔄 RESET</button>
+    </div>
+    <div class="collection">
+        <div class="collection-title">🗺️ LEVEL ORDER COLLECTION</div>
+        <div id="collection"></div>
+    </div>
+</main>
+<script>
+class ThemeParkRide {
+    constructor() {
+        this.tree = { val: 1, left: { val: 2, left: { val: 4 }, right: { val: 5 } }, right: { val: 3, left: { val: 6 }, right: { val: 7 } } };
+        this.coins = 0;
+        this.levels = [];
+        this.buildLevels();
+        this.render();
+    }
+    buildLevels() {
+        let queue = [this.tree];
+        while (queue.length) {
+            this.levels.push(queue.map(n => n.val));
+            const next = [];
+            queue.forEach(n => { if (n.left) next.push(n.left); if (n.right) next.push(n.right); });
+            queue = next;
+        }
+    }
+    render() {
+        const track = document.getElementById('track');
+        track.innerHTML = '<div class="rider" id="rider">🎢</div>';
+        this.levels.forEach((level, i) => {
+            const row = document.createElement('div');
+            row.className = 'track-level';
+            row.dataset.level = `L${i}`;
+            level.forEach(val => {
+                const cart = document.createElement('div');
+                cart.className = 'cart';
+                cart.id = `cart-${val}`;
+                cart.textContent = val;
+                row.appendChild(cart);
+            });
+            track.appendChild(row);
+        });
+    }
+    async ride() {
+        this.reset();
+        document.getElementById('message').textContent = '🎢 Riding through levels...';
+        for (let li = 0; li < this.levels.length; li++) {
+            document.getElementById('level').textContent = li;
+            for (const val of this.levels[li]) {
+                await this.collect(val, li);
+                await this.delay(400);
+            }
+        }
+        document.getElementById('message').innerHTML = '<span style="color:var(--yellow)">🎉 Ride complete! All coins collected!</span>';
+    }
+    async collect(val, li) {
+        const cart = document.getElementById(`cart-${val}`);
+        const rider = document.getElementById('rider');
+        const rect = cart.getBoundingClientRect();
+        const trackRect = document.getElementById('track').getBoundingClientRect();
+        rider.style.left = (rect.left - trackRect.left + 10) + 'px';
+        rider.style.top = (rect.top - trackRect.top - 30) + 'px';
+        cart.classList.add('collected', 'current');
+        this.coins += 10;
+        document.getElementById('coins').textContent = this.coins;
+        const coin = document.createElement('span');
+        coin.className = 'coin';
+        coin.textContent = '🪙';
+        coin.style.left = rect.left - trackRect.left + 'px';
+        coin.style.top = rect.top - trackRect.top + 'px';
+        document.getElementById('track').appendChild(coin);
+        this.updateCollection(val, li);
+    }
+    updateCollection(val, li) {
+        const container = document.getElementById('collection');
+        let row = document.getElementById(`level-row-${li}`);
+        if (!row) {
+            row = document.createElement('div');
+            row.className = 'level-row';
+            row.id = `level-row-${li}`;
+            row.innerHTML = `<span class="level-label">Level ${li}</span><div class="level-items" id="items-${li}"></div>`;
+            container.appendChild(row);
+        }
+        const items = document.getElementById(`items-${li}`);
+        const item = document.createElement('span');
+        item.className = 'level-item';
+        item.textContent = val;
+        items.appendChild(item);
+    }
+    reset() {
+        this.coins = 0;
+        document.getElementById('coins').textContent = 0;
+        document.getElementById('level').textContent = '-';
+        document.getElementById('collection').innerHTML = '';
+        this.render();
+        document.getElementById('message').textContent = 'Click START RIDE to begin!';
+    }
+    delay(ms) { return new Promise(r => setTimeout(r, ms)); }
+}
+const game = new ThemeParkRide();
+</script>
+</body>
+</html>
