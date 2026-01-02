@@ -77,16 +77,112 @@ Prefix Suffix, Greedy, Arrays
 
 ### Java
 
+```java
+import java.util.*;
 
+class Solution {
+    public long minPlanksForRoof(int[] height) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] height = new int[n];
+        for (int i = 0; i < n; i++) height[i] = sc.nextInt();
+
+        Solution solution = new Solution();
+        long result = solution.minPlanksForRoof(height);
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
 
+def min_planks_for_roof(height: list[int]) -> int:
+    # Implementation here
+    return 0
+
+def main():
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <numeric>
+#include <cmath>
 
+using namespace std;
+
+class Solution {
+public:
+    long minPlanksForRoof(vector<int>& height) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> height(n);
+    for (int i = 0; i < n; i++) cin >> height[i];
+
+    Solution solution;
+    cout << solution.minPlanksForRoof(height) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
 
+class Solution {
+  minPlanksForRoof(height) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const height = [];
+  for (let i = 0; i < n; i++) height.push(Number(tokens[ptr++]));
+
+  const solution = new Solution();
+  console.log(solution.minPlanksForRoof(height));
+});
+```

@@ -80,16 +80,122 @@ Sliding Window, Greedy, Arrays
 
 ### Java
 
+```java
+import java.util.*;
 
+class Solution {
+    public int maxProfitWithConstraints(int[] prices, int dMin, int dMax, int C) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] prices = new int[n];
+        for (int i = 0; i < n; i++) prices[i] = sc.nextInt();
+
+        int dMin = sc.nextInt();
+        int dMax = sc.nextInt();
+        int C = sc.nextInt();
+
+        Solution solution = new Solution();
+        System.out.println(solution.maxProfitWithConstraints(prices, dMin, dMax, C));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from collections import deque
 
+def max_profit_with_constraints(prices: list[int], dMin: int, dMax: int, C: int) -> int:
+    # Implementation here
+    return 0
+
+def main():
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <deque>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    int maxProfitWithConstraints(vector<int>& prices, int dMin, int dMax, int C) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> prices(n);
+    for (int i = 0; i < n; i++) cin >> prices[i];
+
+    int dMin, dMax, C;
+    cin >> dMin >> dMax >> C;
+
+    Solution solution;
+    cout << solution.maxProfitWithConstraints(prices, dMin, dMax, C) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
 
+class Solution {
+  maxProfitWithConstraints(prices, dMin, dMax, C) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const prices = [];
+  for (let i = 0; i < n; i++) prices.push(Number(tokens[ptr++]));
+
+  const dMin = Number(tokens[ptr++]);
+  const dMax = Number(tokens[ptr++]);
+  const C = Number(tokens[ptr++]);
+
+  const solution = new Solution();
+  console.log(solution.maxProfitWithConstraints(prices, dMin, dMax, C));
+});
+```

@@ -79,16 +79,117 @@ Sliding Window, Greedy, Arrays
 
 ### Java
 
+```java
+import java.util.*;
 
+class Solution {
+    public long maxWindowSumWithDrop(int[] arr, int k) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+        
+        int k = sc.nextInt();
+
+        Solution solution = new Solution();
+        long result = solution.maxWindowSumWithDrop(arr, k);
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
 
+def max_window_sum_with_drop(arr: list[int], k: int) -> int:
+    # Implementation here
+    return 0
+
+def main():
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    long maxWindowSumWithDrop(vector<int>& arr, int k) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    
+    int k;
+    cin >> k;
+
+    Solution solution;
+    cout << solution.maxWindowSumWithDrop(arr, k) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
 
+class Solution {
+  maxWindowSumWithDrop(arr, k) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+    if (data.length === 0) return;
+    const tokens = data.join(" ").split(/\s+/);
+    if (tokens.length === 0 || tokens[0] === "") return;
+    
+    let ptr = 0;
+    const n = Number(tokens[ptr++]);
+    const arr = [];
+    for (let i = 0; i < n; i++) arr.push(Number(tokens[ptr++]));
+    
+    const k = Number(tokens[ptr++]);
+    
+    const solution = new Solution();
+    console.log(solution.maxWindowSumWithDrop(arr, k));
+});
+```
