@@ -618,9 +618,9 @@ s2 = [1]
 | 3 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | 4 | 1 | 1 | 0 | 0 | 0 | 0 | 0 |
 
-Wait, this would give 0. Let me recalculate:
+The result after following the algorithm:
 
-Actually 1000 - 1 = 999, so s2 only has one element.
+Since 1000 - 1 = 999, s2 only has one element.
 
 | Pop # | v1 | v2 | borrow | diff | adjust | new_borrow |
 |:-----:|:--:|:--:|:------:|:----:|:------:|:----------:|
