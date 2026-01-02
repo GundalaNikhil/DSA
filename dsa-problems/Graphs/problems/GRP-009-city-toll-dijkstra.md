@@ -101,12 +101,186 @@ Dijkstra's Algorithm, Shortest Path, Weighted Graph, Priority Queue, Greedy Algo
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long[] dijkstra(int n, List<List<int[]>> adj, int source) {
+        // Implementation here
+        return new long[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+
+        List<List<int[]>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            int w = sc.nextInt();
+            adj.get(u).add(new int[]{v, w});
+        }
+
+        // Handle optional source input
+        int source = 0;
+        if (sc.hasNextInt()) {
+            source = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        long[] result = solution.dijkstra(n, adj, source);
+
+        for (int i = 0; i < result.length; i++) {
+            long val = result[i] == Long.MAX_VALUE ? -1 : result[i];
+            System.out.print(val);
+            if (i < result.length - 1) System.out.print(" ");
+        }
+        System.out.println();
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def dijkstra(n: int, adj: List[List[tuple]], source: int) -> List[int]:
+    # Implementation here
+    return []
+
+def main():
+    try:
+        input_data = sys.stdin.read().split()
+    except Exception:
+        return
+
+    if not input_data:
+        return
+        
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        
+        adj = [[] for _ in range(n)]
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            w = int(next(iterator))
+            adj[u].append((v, w))
+            
+        try:
+            source = int(next(iterator))
+        except StopIteration:
+            source = 0
+            
+        result = dijkstra(n, adj, source)
+        print(' '.join(map(str, result)))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <climits>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> dijkstra(int n, vector<vector<pair<int,int>>>& adj, int source) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    cin >> n >> m;
+
+    vector<vector<pair<int,int>>> adj(n);
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        int w = 1;  // Default weight
+        if (cin.peek() != '\n' && cin.peek() != EOF) {
+            cin >> w;
+        }
+        adj[u].push_back({v, w});
+    }
+
+    int source = 0;
+    if (cin.peek() != EOF) {
+        cin >> source;
+    }
+
+    Solution solution;
+    vector<long long> result = solution.dijkstra(n, adj, source);
+
+    for (int i = 0; i < result.size(); i++) {
+        if (result[i] == LLONG_MAX) {
+            cout << -1;
+        } else {
+            cout << result[i];
+        }
+        if (i < result.size() - 1) cout << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  dijkstra(n, adj, source) {
+    // Implementation here
+    return null;
+  }
+}
+
+const fs = require('fs');
+
+const data = fs.readFileSync(0, 'utf8').trim().split(/\s+/);
+if (data.length > 0) {
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const m = parseInt(data[idx++], 10);
+  const adj = Array.from({ length: n }, () => []);
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(data[idx++], 10);
+    const v = parseInt(data[idx++], 10);
+    const w = parseInt(data[idx++], 10);
+    adj[u].push([v, w]);
+  }
+  const source = idx < data.length ? parseInt(data[idx++], 10) : 0;
+  const sol = new Solution();
+  const result = sol.dijkstra(n, adj, source);
+  console.log(result.join(' '));
+}
+```

@@ -95,12 +95,145 @@ Game Theory, Sprague-Grundy Theorem
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public String turningTurtles(int n, int k, String s) {
+        // Implementation here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int k = sc.nextInt();
+            String s = sc.next();
+
+            Solution solution = new Solution();
+            System.out.println(solution.turningTurtles(n, k, s));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def turning_turtles(n: int, k: int, s: str) -> str:
+    # Implementation here
+    return ""
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        k = int(next(iterator))
+        s = next(iterator)
+            
+        print(turning_turtles(n, k, s))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    string turningTurtles(int n, int k, string s) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, k;
+    if (cin >> n >> k) {
+        string s;
+        cin >> s;
+        
+        Solution solution;
+        cout << solution.turningTurtles(n, k, s) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  turningTurtles(n, k, s) {
+    // Implementation here
+    return null;
+  }
+}
+
+class Solution {
+  turningTurtles(n, k, s) {
+    let xorSum = 0;
+    const mod = k + 1;
+    for (let i = 0; i < s.length; i++) {
+      if (s[i] === 'H') {
+        xorSum ^= ((i % mod) + 1);
+      }
+    }
+    return xorSum > 0 ? "First" : "Second";
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  const flatData = [];
+  data.forEach(line => {
+      line.trim().split(/\s+/).forEach(part => {
+          if (part) flatData.push(part);
+      });
+  });
+  
+  if (flatData.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(flatData[idx++]);
+  const k = parseInt(flatData[idx++]);
+  const s = flatData[idx++];
+
+  const solution = new Solution();
+  console.log(solution.turningTurtles(n, k, s));
+});
+```

@@ -80,12 +80,177 @@ Linked Lists, Palindromes, Two Pointers
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public boolean canBePalindrome(ListNode head) {
+        // Implementation here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        
+        ListNode dummy = new ListNode(0);
+        ListNode cur = dummy;
+        for (int i = 0; i < n; i++) {
+            cur.next = new ListNode(sc.nextInt());
+            cur = cur.next;
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.canBePalindrome(dummy.next) ? "true" : "false");
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def is_palindrome(vals, left, right):
+    # Implementation here
+    return None
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        dummy = ListNode()
+        cur = dummy
+        for _ in range(n):
+            cur.next = ListNode(int(next(iterator)))
+            cur = cur.next
+            
+        print("true" if can_be_palindrome(dummy.next) else "false")
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    bool canBePalindrome(ListNode* head) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    ListNode dummy(0);
+    ListNode* cur = &dummy;
+    for (int i = 0; i < n; i++) {
+        int v;
+        cin >> v;
+        cur->next = new ListNode(v);
+        cur = cur->next;
+    }
+
+    Solution solution;
+    cout << (solution.canBePalindrome(dummy.next) ? "true" : "false") << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  isPalindrome(vals, left, right) {
+    // Implementation here
+    return null;
+  }
+}
+
+class ListNode {
+  constructor(val) {
+    this.val = val;
+    this.next = null;
+  }
+}
+
+function new Solution().isPalindrome(vals, left, right) {
+  while (left < right) {
+    if (vals[left] !== vals[right]) {
+      return false;
+    }
+    left++;
+    right--;
+  }
+  return true;
+}
+
+function canBePalindrome(head) {
+  const vals = [];
+  let curr = head;
+  while (curr) {
+    vals.push(curr.val);
+    curr = curr.next;
+  }
+
+  let left = 0;
+  let right = vals.length - 1;
+
+  while (left < right) {
+    if (vals[left] !== vals[right]) {
+      return new Solution().isPalindrome(vals, left + 1, right) || 
+             new Solution().isPalindrome(vals, left, right - 1);
+    }
+    left++;
+    right--;
+  }
+  return true;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  
+  const dummy = new ListNode(0);
+  let cur = dummy;
+  for (let i = 0; i < n; i++) {
+    cur.next = new ListNode(parseInt(data[idx++], 10));
+    cur = cur.next;
+  }
+
+  console.log(canBePalindrome(dummy.next) ? "true" : "false");
+});
+```

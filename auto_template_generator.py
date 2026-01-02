@@ -309,28 +309,46 @@ def extract_js_template(filepath: Path) -> str | None:
     except:
         return None
     
-    # Extract I/O handling (everything after functions)
-    # Finding where the I/O starts - typically after the last function closing brace or require statements
-    io_start = re.search(r'const (readline|rl) =', content, re.MULTILINE)
+    # Extract I/O handling
+    # We want everything AFTER the Solution class, usually starting with input handling
+    # If we find class Solution, we take everything after it
     
-    if io_start:
-         io_block = content[io_start.start():].strip()
-    else:
-        # Fallback I/O block if not easily found (should ideally find it)
-        io_match = re.search(r'^const rl = readline\.createInterface.*', content, re.MULTILINE | re.DOTALL)
-        io_block = io_match.group(0).strip() if io_match else '// I/O handling'
-
-    # Pattern 1: class Solution exists
     class_match = re.search(r'class Solution \{(.*?)\n\}', content, re.DOTALL)
+    
+    # Pattern 1: class Solution exists
     if class_match:
         # Find first method
         method_match = re.search(r'(\w+\([^)]*\))\s*\{', class_match.group(1))
+        
         if method_match:
             method_sig = method_match.group(1).strip()
             
+            # Determine I/O block location
+            # Check after class first
+            io_block_after = content[class_match.end():].strip()
+            # Check before class if after is empty/insufficient
+            io_block_before = content[:class_match.start()].strip()
+            
+            # Heuristic: verify which block actually has I/O logic
+            io_block = ''
+            if 'createInterface' in io_block_after or 'process.stdin' in io_block_after or 'fs.read' in io_block_after:
+                io_block = io_block_after
+            elif 'createInterface' in io_block_before or 'process.stdin' in io_block_before or 'fs.read' in io_block_before:
+                io_block = io_block_before
+            
+            # Clean up require statement if it was in the block to avoid duplication
+            io_block = io_block.replace('const readline = require("readline");', '').strip()
+            io_block = io_block.replace("const readline = require('readline');", '').strip()
+            io_block = io_block.replace('const fs = require("fs");', '').strip()
+            
+            # Add fs require if needed and not present in fixed imports
+            extra_imports = ""
+            if 'fs.read' in io_block and 'require("fs")' not in io_block and 'require(\'fs\')' not in io_block:
+                extra_imports = 'const fs = require("fs");\n'
+
             return f'''```javascript
 const readline = require("readline");
-
+{extra_imports}
 class Solution {{
   {method_sig} {{
     // Implementation here
@@ -338,8 +356,10 @@ class Solution {{
   }}
 }}
 
-{io_block.replace('const readline = require("readline");', '').strip()}
+{io_block}
 ```'''
+
+    # Pattern 2: Standalone function
 
     # Pattern 2: Standalone function
     # e.g. function minCost(n, k, s) { ... }
@@ -352,9 +372,85 @@ class Solution {{
         # But for template generation, we keep the main logic and just ensure the user instantiates Solution
         # So we wrap the standalone function into Solution class
         
-        # Check if the I/O part calls this function directly and update it to use Solution
-        # e.g. console.log(minCost(...)); -> console.log(new Solution().minCost(...));
+        # Find I/O block for standalone function
+        # Since there is no class, we look for where I/O starts (e.g. readline or fs)
+        io_start_match = re.search(r'(const (readline|rl|fs) =|require\()', content)
         
+        # This is tricky because the require might be at the top. 
+        # We usually want everything EXCEPT the function definition.
+        # Simplest approach: Remove the function definition from content and use the rest as I/O
+        
+        # Remove the function block
+        # We need to match the function body properly. 
+        # Assuming function body ends at last } or we can try to simplistic removal
+        
+        # Better: Search for specific I/O markers
+        # If imports are at top, we keep them.
+        
+        # Let's take the whole content and remove the function definition part?
+        # A bit risky. 
+        
+        # Let's try finding the function end.
+        # This is hard with regex.
+        
+        # Fallback: Just grab everything that looks like I/O code.
+        # Most standalone solutions have imports at top, function, then I/O at bottom.
+        
+        # Let's try to identify the I/O block by looking for the I/O start (readline or fs) that is NOT at the very top (start of file).
+        # Actually usually:
+        # const fs = require('fs');
+        # function solve() { ... }
+        # const input = fs...
+        
+        # So we can look for the part that has 'createInterface' or 'fs.read' or 'process.stdin'
+        
+        # Let's just reuse the "io_block" logic from before but adapted
+        
+        # Search for `createInterface` or `fs.read` or `process.stdin`
+        io_markers = ['createInterface', 'process.stdin', 'fs.read', 'fs.readFileSync']
+        io_start_idx = -1
+        for marker in io_markers:
+            idx = content.find(marker)
+            if idx != -1:
+                # Find the start of that line
+                line_start = content.rfind('\n', 0, idx)
+                if line_start != -1:
+                    # We found a line with I/O.
+                    # This is likely inside the I/O block.
+                    # But we need the whole block.
+                    pass
+        
+        # Alternative: Just assume everything except the function is I/O.
+        # We construct the I/O block by taking the original content and replacing the function definition with empty string.
+        # But we need to fuzzy match the function definition.
+        
+        # If regex matched `func_match`, we know where it starts.
+        # We don't know where it ends.
+        
+        # Let's just use a fallback I/O block if we can't find it clearly?
+        # WAit, the error is `io_block.replace`.
+        # I need `io_block` variable defined.
+        
+        # For now, let's just grep "const readline" or "const fs"
+        
+        io_block = ""
+        # Try to find the standard readline block
+        rl_match = re.search(r'const rl = readline\.createInterface.*', content, re.DOTALL)
+        if rl_match:
+             io_block = rl_match.group(0)
+        else:
+             # Try fs block
+             fs_match = re.search(r'const input = fs\.read.*', content, re.DOTALL)
+             if fs_match:
+                 io_block = "const fs = require('fs');\n" + fs_match.group(0)
+             else:
+                 # Last resort: look for anything after the function if we can guess end
+                 pass
+
+        if not io_block:
+             # Just use a dummy I/O if we can't extract
+             io_block = "// I/O handling"
+
         updated_io = io_block.replace('const readline = require("readline");', '').strip()
         updated_io = re.sub(fr'{func_name}\(', f'new Solution().{func_name}(', updated_io)
         

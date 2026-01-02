@@ -90,12 +90,127 @@ Binary Trie, XOR, Prefix XOR, Bit Manipulation
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int minimizeXOR(int[] a, int X) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int X = sc.nextInt();
+
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        int result = solution.minimizeXOR(a, X);
+
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+class Solution:
+    def minimize_xor(self, a: List[int], X: int) -> int:
+        # Implementation here
+        return 0
+
+def main():
+    import sys
+    input_data = sys.stdin.read().strip().split()
+
+    n = int(input_data[0])
+    X = int(input_data[1])
+    a = [int(input_data[i + 2]) for i in range(n)]
+
+    solution = Solution()
+    result = solution.minimize_xor(a, X)
+
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <climits>
+
+using namespace std;
+
+class Solution {
+public:
+    int minimizeXOR(vector<int>& a, int X) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    int n, X;
+    cin >> n >> X;
+
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+    Solution solution;
+    int result = solution.minimizeXOR(a, X);
+
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  constructor() {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const [n, X] = lines[0].split(" ").map(Number);
+  const a = lines[1].split(" ").map(Number);
+
+  const solution = new Solution();
+  const result = solution.minimizeXOR(a, X);
+
+  console.log(result);
+});
+```

@@ -106,12 +106,136 @@ Greedy Algorithms, Heap, Priority Queue, Scheduling, Optimization
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long maxTickets(int n, int[][] requests) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        int[][] requests = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            requests[i][0] = sc.nextInt();
+            requests[i][1] = sc.nextInt();
+        }
+        
+        Solution solution = new Solution();
+        System.out.println(solution.maxTickets(n, requests));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import heapq
+import sys
+
+def max_tickets(n: int, requests: list) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    n = int(next(iterator))
+    
+    requests = []
+    for _ in range(n):
+        q = int(next(iterator))
+        d = int(next(iterator))
+        requests.append([q, d])
+
+    result = max_tickets(n, requests)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long maxTickets(int n, vector<pair<int,int>>& requests) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<pair<int,int>> requests(n);
+    for (int i = 0; i < n; i++) {
+        cin >> requests[i].first >> requests[i].second;
+    }
+
+    Solution solution;
+    cout << solution.maxTickets(n, requests) << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  maxTickets(n, requests) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const n = parseInt(data[ptr++]);
+  
+  const requests = [];
+  for (let i = 0; i < n; i++) {
+    const [q, d] = data[ptr++].split(" ").map(Number);
+    requests.push([q, d]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.maxTickets(n, requests));
+});
+```

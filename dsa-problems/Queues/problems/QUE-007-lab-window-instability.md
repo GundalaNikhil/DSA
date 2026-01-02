@@ -91,12 +91,220 @@ Sliding Window, Deque, Median Maintenance
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long[] windowInstability(int[] values, int k) {
+        // Implementation here
+        return new long[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            List<Integer> remaining = new ArrayList<>();
+            while (sc.hasNextInt()) {
+                remaining.add(sc.nextInt());
+            }
+
+            int[] values;
+            int k = n / 2;  // Default
+
+            // If we have exactly n values
+            if (remaining.size() == n) {
+                values = new int[n];
+                for (int i = 0; i < n; i++) {
+                    values[i] = remaining.get(i);
+                }
+                k = n / 2;
+            } else if (remaining.size() == n + 1) {
+                // First is k, rest are values
+                k = remaining.get(0);
+                values = new int[n];
+                for (int i = 0; i < n; i++) {
+                    values[i] = remaining.get(i + 1);
+                }
+            } else {
+                // Fallback
+                k = !remaining.isEmpty() ? remaining.get(0) : n / 2;
+                values = new int[Math.min(n, remaining.size() - 1)];
+                for (int i = 0; i < values.length; i++) {
+                    values[i] = remaining.get(i + 1);
+                }
+            }
+
+            Solution solution = new Solution();
+            long[] result = solution.windowInstability(values, k);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < result.length; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(result[i]);
+            }
+            System.out.println(sb.toString());
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+from collections import deque
+import heapq
+import sys
+
+def window_instability(values: List[int], k: int) -> List[int]:
+    # Implementation here
+    return []
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        # Read all remaining values as they might be just the array
+        remaining = list(iterator)
+
+        # If we have exactly n remaining, they're the array and k should be guessed
+        if len(remaining) == n:
+            values = [int(x) for x in remaining]
+            k = n // 2  # Default window size
+        # If we have n+1 remaining, first is k, rest are array
+        elif len(remaining) == n + 1:
+            k = int(remaining[0])
+            values = [int(x) for x in remaining[1:]]
+        else:
+            # Try to parse as many as possible
+            k = int(remaining[0]) if remaining else n // 2
+            values = [int(x) for x in remaining[1:n+1]]
+
+        if len(values) == n:
+            result = window_instability(values, k)
+            if result:
+                print(" ".join(map(str, result)))
+    except (StopIteration, ValueError, IndexError):
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <deque>
+#include <set>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> windowInstability(const vector<int>& values, int k) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (cin >> n) {
+        vector<int> remaining;
+        int val;
+        while (cin >> val) {
+            remaining.push_back(val);
+        }
+
+        vector<int> values;
+        int k = n / 2;  // Default
+
+        // If we have exactly n values, use as values and k = n // 2
+        if ((int)remaining.size() == n) {
+            values.assign(remaining.begin(), remaining.end());
+            k = n / 2;
+        } else if ((int)remaining.size() == n + 1) {
+            // First is k, rest are values
+            k = remaining[0];
+            values.assign(remaining.begin() + 1, remaining.begin() + n + 1);
+        } else {
+            // Try to parse k and values
+            k = !remaining.empty() ? remaining[0] : n / 2;
+            for (int i = 1; i <= n && i < (int)remaining.size(); i++) {
+                values.push_back(remaining[i]);
+            }
+        }
+
+        Solution solution;
+        vector<long long> result = solution.windowInstability(values, k);
+        for (int i = 0; i < (int)result.size(); i++) {
+            if (i) cout << ' ';
+            cout << result[i];
+        }
+        cout << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  windowInstability(values, k) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const remaining = data.slice(idx);
+
+  let k, values;
+  if (remaining.length === n) {
+    // Only values, no k -> k = n // 2
+    values = remaining.map(x => parseInt(x, 10));
+    k = Math.floor(n / 2);
+  } else if (remaining.length === n + 1) {
+    // First is k, rest are values
+    k = parseInt(remaining[0], 10);
+    values = remaining.slice(1, n + 1).map(x => parseInt(x, 10));
+  } else {
+    // Default case: try to parse k and n values
+    k = parseInt(remaining[0], 10) || Math.floor(n / 2);
+    values = remaining.slice(1, n + 1).map(x => parseInt(x, 10));
+  }
+
+  if (values.length === n) {
+    const solution = new Solution();
+    const result = solution.windowInstability(values, k);
+    if (result.length > 0) {
+      console.log(result.join(" "));
+    }
+  }
+});
+```

@@ -106,12 +106,123 @@ Computational Geometry, Polygon Containment, Cross Product
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public String pointInPolygon(long[] xs, long[] ys, long qx, long qy) {
+        // Implementation here
+        return "";
+    }
+}
+
+class Main {
+
+static class Solution {
+    private boolean onSegment(long xi, long yi, long xj, long yj, long qx, long qy) {
+        long cross = (xj - xi) * (qy - yi) - (yj - yi) * (qx - xi);
+        if (cross != 0) return false;
+        return Math.min(xi, xj) <= qx && qx <= Math.max(xi, xj)
+            && Math.min(yi, yj) <= qy && qy <= Math.max(yi, yj);
+    }
+
+    public String pointInPolygon(long[] xs, long[] ys, long qx, long qy) {
+        int n = xs.length;
+        int wn = 0;
+        for (int i = 0; i < n; i++) {
+            int j = (i + 1) % n;
+            long xi = xs[i], yi = ys[i];
+            long xj = xs[j], yj = ys[j];
+            if (onSegment(xi, yi, xj, yj, qx, qy)) return "boundary";
+            long cross = (xj - xi) * (qy - yi) - (yj - yi) * (qx - xi);
+            if (yi <= qy && yj > qy && cross > 0) wn++;
+            if (yi > qy && yj <= qy && cross < 0) wn--;
+        }
+        return wn != 0 ? "inside" : "outside";
+    }
+}
+```
 
 ### Python
 
+```
+// No template available
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+
+class Solution {
+public:
+    string classifyPoint(const vector<long long>& xs, const vector<long long>& ys, long long qx, long long qy) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n; cin >> n;
+    vector<long long> xs(n), ys(n);
+    for(int i=0; i<n; i++) cin >> xs[i] >> ys[i];
+    long long qx, qy; cin >> qx >> qy;
+    cout << classifyPoint(xs, ys, qx, qy) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  classifyPoint(xs, ys, qx, qy) {
+    // Implementation here
+    return null;
+  }
+}
+
+const readline = require('readline');
+
+function new Solution().classifyPoint(xs, ys, qx, qy) {
+  const n = xs.length;
+  let wn = 0;
+  for (let i = 0; i < n; i++) {
+    const j = (i + 1) % n;
+    const xi = xs[i], yi = ys[i], xj = xs[j], yj = ys[j];
+    const cross = (xj - xi) * (qy - yi) - (yj - yi) * (qx - xi);
+    if (cross === 0 && Math.min(xi, xj) <= qx && qx <= Math.max(xi, xj) && Math.min(yi, yj) <= qy && qy <= Math.max(yi, yj)) {
+      return "boundary";
+    }
+    if (yi <= qy && yj > qy && cross > 0) wn++;
+    else if (yi > qy && yj <= qy && cross < 0) wn--;
+  }
+  return wn !== 0 ? "inside" : "outside";
+}
+
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let lines = [];
+rl.on('line', (line) => { lines.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if (lines.length === 0) return;
+    let idx = 0;
+    const next = () => lines[idx++];
+    const nextInt = () => parseInt(next());
+    const nextFloat = () => parseFloat(next());
+    let n = nextInt();
+    let xs = [], ys = [];
+    for(let i=0; i<n; i++) { xs.push(nextInt()); ys.push(nextInt()); }
+    console.log(new Solution().classifyPoint(xs, ys, nextInt(), nextInt()));
+});
+```

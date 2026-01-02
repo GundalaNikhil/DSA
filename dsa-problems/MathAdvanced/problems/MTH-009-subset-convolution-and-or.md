@@ -85,12 +85,154 @@ subset-convolution, zeta-transform, mobius-transform
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long[] subset_convolution_and_or(int n, int op, long[] A, long[] B) {
+        // Implementation here
+        return new long[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        int op = sc.nextInt();
+        int size = 1 << n;
+        
+        long[] A = new long[size];
+        for (int i = 0; i < size; i++) A[i] = sc.nextLong();
+        
+        long[] B = new long[size];
+        for (int i = 0; i < size; i++) B[i] = sc.nextLong();
+        
+        Solution solution = new Solution();
+        long[] res = solution.subset_convolution_and_or(n, op, A, B);
+        
+        for (int i = 0; i < size; i++) {
+            System.out.print(res[i] + (i < size - 1 ? " " : ""));
+        }
+        System.out.println();
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def subset_convolution_and_or(self, n: int, op: int, A: list[int], B: list[int]) -> list[int]:
+        # Implementation here
+        return []
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        op = int(next(iterator))
+        size = 1 << n
+        
+        A = [int(next(iterator)) for _ in range(size)]
+        B = [int(next(iterator)) for _ in range(size)]
+        
+        sol = Solution()
+        res = sol.subset_convolution_and_or(n, op, A, B)
+        print(*(res))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> subset_convolution_and_or(int n, int op, vector<long long>& A, vector<long long>& B) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, op;
+    if (!(cin >> n >> op)) return 0;
+    int size = 1 << n;
+
+    vector<long long> A(size);
+    for (int i = 0; i < size; i++) cin >> A[i];
+
+    vector<long long> B(size);
+    for (int i = 0; i < size; i++) cin >> B[i];
+
+    Solution solution;
+    vector<long long> result = solution.subset_convolution_and_or(n, op, A, B);
+
+    for (int i = 0; i < size; i++) {
+        cout << result[i] << (i < size - 1 ? " " : "");
+    }
+    cout << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  subset_convolution_and_or(n, op, A, B) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let ptr = 0;
+  
+  const n = parseInt(data[ptr++]);
+  const op = parseInt(data[ptr++]);
+  const size = 1 << n;
+  
+  const A = [];
+  for(let i=0; i<size; i++) A.push(parseInt(data[ptr++]));
+  
+  const B = [];
+  for(let i=0; i<size; i++) B.push(parseInt(data[ptr++]));
+  
+  const solution = new Solution();
+  const result = solution.subset_convolution_and_or(n, op, A, B);
+  console.log(result.join(" "));
+});
+```

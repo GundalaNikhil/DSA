@@ -86,12 +86,106 @@ Sliding Window, Queue, Two Pointers
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long solve(int[] arr) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                arr[i] = sc.nextInt();
+            }
+
+            Solution solution = new Solution();
+            long result = solution.solve(arr);
+            System.out.println(result);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```
+// No template available
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long solve(const vector<int>& arr) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (cin >> n) {
+        vector<int> arr(n);
+        for (int i = 0; i < n; i++) {
+            cin >> arr[i];
+        }
+
+        Solution solution;
+        long long result = solution.solve(arr);
+        cout << result << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  solve(arr) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const arr = [];
+  for (let i = 0; i < n; i++) {
+    arr.push(parseInt(data[idx++], 10));
+  }
+
+  const solution = new Solution();
+  const result = solution.solve(arr);
+  console.log(result);
+});
+```

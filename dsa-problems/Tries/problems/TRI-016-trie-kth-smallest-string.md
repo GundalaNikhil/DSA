@@ -91,12 +91,131 @@ Trie, String, Lexicographic Order, Kth Element, DFS
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public String kthSmallest(String[] words, int k) {
+        // Implementation here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        sc.nextLine();
+
+        String[] words = new String[n];
+        for (int i = 0; i < n; i++) {
+            words[i] = sc.nextLine().trim();
+        }
+
+        Solution solution = new Solution();
+        String result = solution.kthSmallest(words, k);
+
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+class Solution:
+    def kth_smallest(self, words: List[str], k: int) -> str:
+        # Implementation here
+        return ""
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+
+    n, k = map(int, lines[0].split())
+    words = [lines[i+1].strip() for i in range(n)]
+
+    solution = Solution()
+    result = solution.kth_smallest(words, k)
+
+    print(result if result else "")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <map>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    string kthSmallest(vector<string>& words, int k) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    int n, k;
+    cin >> n >> k;
+    cin.ignore();
+
+    vector<string> words(n);
+    for (int i = 0; i < n; i++) {
+        getline(cin, words[i]);
+    }
+
+    Solution solution;
+    string result = solution.kthSmallest(words, k);
+
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  constructor() {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const [n, k] = lines[0].split(" ").map(Number);
+  const words = [];
+  for (let i = 1; i <= n; i++) {
+    words.push(lines[i].trim());
+  }
+
+  const solution = new Solution();
+  const result = solution.kthSmallest(words, k);
+
+  console.log(result);
+});
+```

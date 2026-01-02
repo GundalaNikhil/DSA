@@ -89,12 +89,143 @@ Binary Trees, Symmetry, BFS
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public boolean mirrorCheck(int n, int[] values, int[] colors, int[] left, int[] right) {
+        // Implementation here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] values = new int[n];
+        int[] colors = new int[n];
+        int[] left = new int[n];
+        int[] right = new int[n];
+        for (int i = 0; i < n; i++) {
+            values[i] = sc.nextInt();
+            colors[i] = sc.nextInt();
+            left[i] = sc.nextInt();
+            right[i] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.mirrorCheck(n, values, colors, left, right) ? "true" : "false");
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from collections import deque
+
+def mirror_check(n: int, values: list[int], colors: list[int], left: list[int], right: list[int]) -> bool:
+    # Implementation here
+    return False
+
+def main():
+    data = sys.stdin.read().strip().split()
+    if not data:
+        return
+    idx = 0
+    n = int(data[idx]); idx += 1
+    
+    values = [0] * n
+    colors = [0] * n
+    left = [0] * n
+    right = [0] * n
+    for i in range(n):
+        values[i] = int(data[idx]); idx += 1
+        colors[i] = int(data[idx]); idx += 1
+        left[i] = int(data[idx]); idx += 1
+        right[i] = int(data[idx]); idx += 1
+        
+    print("true" if mirror_check(n, values, colors, left, right) else "false")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <numeric>
+
+using namespace std;
+
+class Solution {
+public:
+    bool mirrorCheck(int n, const vector<int>& values, const vector<int>& colors,
+                     const vector<int>& left, const vector<int>& right) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<int> values(n), colors(n), left(n), right(n);
+    for (int i = 0; i < n; i++) {
+        cin >> values[i] >> colors[i] >> left[i] >> right[i];
+    }
+
+    Solution solution;
+    cout << (solution.mirrorCheck(n, values, colors, left, right) ? "true" : "false") << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  mirrorCheck(n, values, colors, left, right) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const values = new Array(n);
+  const colors = new Array(n);
+  const left = new Array(n);
+  const right = new Array(n);
+  for (let i = 0; i < n; i++) {
+    values[i] = parseInt(data[idx++], 10);
+    colors[i] = parseInt(data[idx++], 10);
+    left[i] = parseInt(data[idx++], 10);
+    right[i] = parseInt(data[idx++], 10);
+  }
+
+  const solution = new Solution();
+  console.log(solution.mirrorCheck(n, values, colors, left, right) ? "true" : "false");
+});
+```

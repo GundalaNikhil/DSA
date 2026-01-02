@@ -93,12 +93,170 @@ Graph Traversal, BFS, Queue, Visited Set, Level Order Traversal
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<Integer> bfsTraversal(int n, List<List<Integer>> adj) {
+        // Implementation here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+        
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+
+        // Sort neighbors for deterministic traversal
+        for (int i = 0; i < n; i++) {
+            Collections.sort(adj.get(i));
+        }
+
+        Solution solution = new Solution();
+        List<Integer> result = solution.bfsTraversal(n, adj);
+        
+        for (int i = 0; i < result.size(); i++) {
+            System.out.print(result.get(i));
+            if (i < result.size() - 1) System.out.print(" ");
+        }
+        System.out.println();
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def bfs_traversal(n: int, adj: List[List[int]]) -> List[int]:
+    # Implementation here
+    return []
+
+def main():
+    n = int(input())
+    m = int(input())
+    
+    adj = [[] for _ in range(n)]
+    
+    for _ in range(m):
+        u, v = map(int, input().split())
+        adj[u].append(v)
+        adj[v].append(u)
+    
+    result = bfs_traversal(n, adj)
+    print(' '.join(map(str, result)))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> bfsTraversal(int n, vector<vector<int>>& adj) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m;
+    cin >> n >> m;
+    
+    vector<vector<int>> adj(n);
+    
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    // Sort neighbors for deterministic traversal
+    for (int i = 0; i < n; i++) {
+        sort(adj[i].begin(), adj[i].end());
+    }
+
+    Solution solution;
+    vector<int> result = solution.bfsTraversal(n, adj);
+    
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i];
+        if (i < result.size() - 1) cout << " ";
+    }
+    cout << "\n";
+    
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  bfsTraversal(n, adj) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  let ptr = 0;
+  const n = parseInt(data[ptr++]);
+  const m = parseInt(data[ptr++]);
+  
+  const adj = Array.from({ length: n }, () => []);
+
+  for (let i = 0; i < m; i++) {
+    const [u, v] = data[ptr++].split(" ").map(Number);
+    adj[u].push(v);
+    adj[v].push(u);
+  }
+
+  // Sort neighbors for deterministic traversal
+  for (let i = 0; i < n; i++) {
+    adj[i].sort((a, b) => a - b);
+  }
+
+  const solution = new Solution();
+  const result = solution.bfsTraversal(n, adj);
+  console.log(result.join(" "));
+});
+```

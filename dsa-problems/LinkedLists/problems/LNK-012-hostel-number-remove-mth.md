@@ -83,12 +83,201 @@ Linked Lists, Deletion
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public ListNode removeMth(ListNode head, int M) {
+        // Implementation here
+        return null;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        
+        ListNode dummy = new ListNode(0);
+        ListNode cur = dummy;
+        for (int i = 0; i < n; i++) {
+            cur.next = new ListNode(sc.nextInt());
+            cur = cur.next;
+        }
+        int M = sc.nextInt();
+
+        Solution solution = new Solution();
+        ListNode res = solution.removeMth(dummy.next, M);
+        
+        boolean first = true;
+        while (res != null) {
+            if (!first) System.out.print(" ");
+            System.out.print(res.val);
+            first = false;
+            res = res.next;
+        }
+        System.out.println();
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def remove_mth(head: ListNode, M: int) -> ListNode:
+    # Implementation here
+    return []
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        dummy = ListNode()
+        cur = dummy
+        for _ in range(n):
+            cur.next = ListNode(int(next(iterator)))
+            cur = cur.next
+            
+        M = int(next(iterator))
+        
+        head = remove_mth(dummy.next, M)
+        
+        out = []
+        while head:
+            out.append(str(head.val))
+            head = head.next
+        print(" ".join(out))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    public:
+    ListNode* removeMth(ListNode* head, int M) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    ListNode dummy(0);
+    ListNode* cur = &dummy;
+    for (int i = 0; i < n; i++) {
+        int v;
+        cin >> v;
+        cur->next = new ListNode(v);
+        cur = cur->next;
+    }
+    int M;
+    cin >> M;
+
+    Solution solution;
+    ListNode* res = solution.removeMth(dummy.next, M);
+    
+    bool first = true;
+    while (res) {
+        if (!first) cout << " ";
+        cout << res->val;
+        first = false;
+        res = res->next;
+    }
+    cout << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  removeMth(head, M) {
+    // Implementation here
+    return null;
+  }
+}
+
+class ListNode {
+  constructor(val) {
+    this.val = val;
+    this.next = null;
+  }
+}
+
+function new Solution().removeMth(head, M) {
+  if (M <= 0) return head;
+
+  const dummy = new ListNode(0);
+  dummy.next = head;
+  let curr = dummy;
+
+  for (let i = 0; i < M - 1; i++) {
+    if (!curr) return head;
+    curr = curr.next;
+  }
+
+  if (curr && curr.next) {
+    curr.next = curr.next.next;
+  }
+
+  return dummy.next;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  
+  const dummy = new ListNode(0);
+  let cur = dummy;
+  for (let i = 0; i < n; i++) {
+    cur.next = new ListNode(parseInt(data[idx++], 10));
+    cur = cur.next;
+  }
+  
+  if (idx < data.length) {
+      const M = parseInt(data[idx++], 10);
+      let head = new Solution().removeMth(dummy.next, M);
+      const out = [];
+      while (head) {
+        out.push(head.val);
+        head = head.next;
+      }
+      console.log(out.join(" "));
+  }
+});
+```

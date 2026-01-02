@@ -93,12 +93,153 @@ Trie, String, Combinatorics, DFS, Missing Elements
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void main(String[] args) {
+        // Implementation here
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // Read all tokens
+        int n = sc.nextInt();
+        int L = sc.nextInt();
+        int k = sc.nextInt();
+
+        Set<String> inserted = new HashSet<>();
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNext()) {
+                inserted.add(sc.next());
+            }
+        }
+
+        List<String> allStrings = new ArrayList<>();
+
+        // Order: a, aa, ab, ..., az, b, ba, bb, ..., bz, c, ...
+        for (char c = 'a'; c <= 'z'; c++) {
+            // Add single character if not inserted and L >= 1
+            if (L >= 1 && !inserted.contains(String.valueOf(c))) {
+                allStrings.add(String.valueOf(c));
+            }
+
+            // Add all multi-char strings starting with this char
+            for (int length = 2; length <= L; length++) {
+                generateCombinations(String.valueOf(c), length - 1, inserted, allStrings);
+            }
+        }
+
+        System.out.println(k <= allStrings.size() ? allStrings.get(k - 1) : "");
+        sc.close();
+    }
+
+    static void generateCombinations(String prefix, int remaining, Set<String> inserted, List<String> result) {
+        if (remaining == 0) {
+            if (!inserted.contains(prefix)) {
+                result.add(prefix);
+            }
+            return;
+        }
+
+        for (char c = 'a'; c <= 'z'; c++) {
+            generateCombinations(prefix + c, remaining - 1, inserted, result);
+        }
+    }
+}
+```
 
 ### Python
 
+```python
+from itertools import product
+
+def all_combinations_of_length(length):
+    # Implementation here
+    return None
+
+def main():
+    import sys
+    input_data = sys.stdin.read().strip().split('\n')
+
+    n, L, k = map(int, input_data[0].split())
+    inserted = set()
+    for i in range(1, n + 1):
+        inserted.add(input_data[i])
+
+    result = naive(inserted, L, k)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <unordered_set>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string kthMissingString(const vector<string>& insertedList, int L, int k) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    int n, L, k;
+    if (!(cin >> n >> L >> k)) {
+        return 0;
+    }
+
+    vector<string> inserted(n);
+    for (int i = 0; i < n; i++) {
+        cin >> inserted[i];
+    }
+
+    Solution solution;
+    string result = solution.kthMissingString(inserted, L, k);
+
+    cout << result << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  kthMissingString(n, maxLen, k, inserted) {
+    // Implementation here
+    return "";
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => lines.push(line.trim()));
+rl.on("close", () => {
+  if (lines.length === 0) return;
+  const [n, maxLen, k] = lines[0].split(" ").map(Number);
+  const inserted = new Set();
+  for (let i = 1; i <= n; i++) inserted.add(lines[i]);
+
+  const solution = new Solution();
+  console.log(solution.kthMissingString(n, maxLen, k, inserted));
+});
+```

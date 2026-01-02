@@ -86,12 +86,146 @@ Heaps, Sliding Window, Order Statistics, Median Maintenance
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void add(int x) {
+        // Implementation here
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int w = sc.nextInt();
+            int k = sc.nextInt();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                arr[i] = sc.nextInt();
+            }
+
+            Solution solution = new Solution();
+            List<Integer> result = solution.kthSmallestInWindows(arr, w, k);
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < result.size(); i++) {
+                if (i > 0) sb.append(" ");
+                sb.append(result.get(i));
+            }
+            System.out.println(sb.toString());
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import heapq
+from collections import Counter, defaultdict
+
+class Solution:
+    def _prune(self, heap, is_small):
+        # Implementation here
+        return None
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    try:
+        n = int(next(it))
+        w = int(next(it))
+        k = int(next(it))
+        arr = []
+        for _ in range(n):
+            arr.append(int(next(it)))
+            
+        solution = Solution()
+        result = solution.kth_smallest_in_windows(arr, w, k)
+        print(" ".join(map(str, result)))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <set>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> kthSmallestInWindows(const vector<int>& arr, int w, int k) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, w, k;
+    if (cin >> n >> w >> k) {
+        vector<int> arr(n);
+        for (int i = 0; i < n; i++) cin >> arr[i];
+        
+        Solution solution;
+        vector<int> result = solution.kthSmallestInWindows(arr, w, k);
+        for (size_t i = 0; i < result.size(); i++) {
+            if (i > 0) cout << " ";
+            cout << result[i];
+        }
+        cout << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  kthSmallestInWindows(arr, w, k) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++]);
+  const w = parseInt(data[idx++]);
+  const k = parseInt(data[idx++]);
+  const arr = [];
+  for (let i = 0; i < n; i++) {
+    arr.push(parseInt(data[idx++]));
+  }
+  
+  const solution = new Solution();
+  const result = solution.kthSmallestInWindows(arr, w, k);
+  console.log(result.join(" "));
+});
+```

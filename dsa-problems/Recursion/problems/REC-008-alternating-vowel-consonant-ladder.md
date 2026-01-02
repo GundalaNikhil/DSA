@@ -88,14 +88,122 @@ BFS, Backtracking, Word Ladder
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<String> getAlternatingPermutations(String s) {
+        // Implementation here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if(!sc.hasNext()) return;
+        String s = sc.next();
+        
+        Solution sol = new Solution();
+        List<String> res = sol.getAlternatingPermutations(s);
+        if(res.isEmpty()) {
+            System.out.println("NONE");
+        } else {
+            for(String p : res) System.out.println(p);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def get_alternating_permutations(s: str) -> list[str]:
+    # Implementation here
+    return []
+
+def main():
+    import sys
+    s = sys.stdin.read().strip()
+    results = get_alternating_permutations(s)
+    if results:
+        for perm in results:
+            print(perm)
+    else:
+        print("NONE")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <set>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> getAlternatingPermutations(string s) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s;
+    if (!(cin >> s)) return 0;
+    
+    Solution sol;
+    vector<string> res = sol.getAlternatingPermutations(s);
+    if(res.empty()) {
+        cout << "NONE" << endl;
+    } else {
+        for(const string& p : res) cout << p << endl;
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  getAlternatingPermutations(s) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const s = tokens[ptr++];
+    
+    const sol = new Solution();
+    const res = sol.getAlternatingPermutations(s);
+    
+    if(res.length === 0) {
+        console.log("NONE");
+    } else {
+        res.forEach(p => console.log(p));
+    }
+});
+```

@@ -93,12 +93,193 @@ Graphs, BFS, Queue, Shortest Path
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] shortestPath(int n, int[][] edges, int s) {
+        // Implementation here
+        return new int[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int s = sc.nextInt();
+
+        int[][] edges = new int[m][2];
+        for (int i = 0; i < m; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        int[] result = solution.shortestPath(n, edges, s);
+
+        for (int i = 0; i < n; i++) {
+            System.out.print(result[i]);
+            if (i < n - 1) System.out.print(" ");
+        }
+        System.out.println();
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from collections import deque
+
+def shortest_path(n: int, edges: list, s: int) -> list:
+    # Implementation here
+    return []
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        s = int(next(iterator))
+        
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            edges.append([u, v])
+            
+        result = shortest_path(n, edges, s)
+        print(' '.join(map(str, result)))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> shortestPath(int n, vector<vector<int>>& edges, int s) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m, s;
+    if (!(cin >> n >> m >> s)) return 0;
+
+    vector<vector<int>> edges(m, vector<int>(2));
+    for (int i = 0; i < m; i++) {
+        cin >> edges[i][0] >> edges[i][1];
+    }
+
+    Solution solution;
+    vector<int> result = solution.shortestPath(n, edges, s);
+
+    for (int i = 0; i < n; i++) {
+        cout << result[i];
+        if (i < n - 1) cout << " ";
+    }
+    cout << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  shortestPath(n, edges, s) {
+    // Implementation here
+    return null;
+  }
+}
+
+class Solution {
+  shortestPath(n, edges, s) {
+    // 1. Build Adjacency List
+    const adj = Array.from({ length: n }, () => []);
+    for (const [u, v] of edges) {
+      adj[u].push(v);
+      adj[v].push(u);
+    }
+
+    // 2. Initialize Distance Array
+    const dist = new Array(n).fill(-1);
+
+    // 3. BFS
+    const queue = [s];
+    dist[s] = 0;
+    let head = 0; // Use pointer for O(1) dequeue
+
+    while (head < queue.length) {
+      const u = queue[head++];
+      for (const v of adj[u]) {
+        if (dist[v] === -1) {
+          dist[v] = dist[u] + 1;
+          queue.push(v);
+        }
+      }
+    }
+
+    return dist;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  // Flatten data array to handle multiple numbers on one line
+  const tokens = data.join(" ").trim().split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+  
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const m = Number(tokens[ptr++]);
+  const s = Number(tokens[ptr++]);
+  
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = Number(tokens[ptr++]);
+    const v = Number(tokens[ptr++]);
+    edges.push([u, v]);
+  }
+
+  const solution = new Solution();
+  const result = solution.shortestPath(n, edges, s);
+  console.log(result.join(" "));
+});
+```

@@ -84,12 +84,176 @@ Graph Traversal, DFS, Connected Components
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] components(int n, List<List<Integer>> adj) {
+        // Implementation here
+        return new int[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+
+        Solution solution = new Solution();
+        int[] comp = solution.components(n, adj);
+        int maxComp = 0;
+        for (int id : comp) maxComp = Math.max(maxComp, id);
+
+        System.out.println(maxComp);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def components(n: int, adj: list[list[int]]) -> list[int]:
+    # Implementation here
+    return []
+
+def main():
+    import sys
+    data = sys.stdin.read().strip().split()
+    if not data:
+        return
+    it = iter(data)
+    n = int(next(it))
+    m = int(next(it))
+    adj = [[] for _ in range(n)]
+    for _ in range(m):
+        u = int(next(it))
+        v = int(next(it))
+        adj[u].append(v)
+        adj[v].append(u)
+    comp = components(n, adj)
+    max_comp = max(comp) if comp else 0
+    sys.stdout.write(str(max_comp))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> components(int n, const vector<vector<int>>& adj) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    vector<vector<int>> adj(n);
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    Solution solution;
+    vector<int> comp = solution.components(n, adj);
+    int maxComp = 0;
+    for (int id : comp) maxComp = max(maxComp, id);
+    cout << maxComp << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  components(n, adj) {
+    // Implementation here
+    return null;
+  }
+}
+
+class Solution {
+  components(n, adj) {
+    const comp = new Int32Array(n).fill(0);
+    let count = 0;
+    const stack = [];
+
+    for (let i = 0; i < n; i++) {
+      if (comp[i] !== 0) continue;
+      count++;
+      stack.length = 0;
+      stack.push(i);
+      comp[i] = count;
+      while (stack.length > 0) {
+        const u = stack.pop();
+        for (const v of adj[u]) {
+          if (comp[v] === 0) {
+            comp[v] = count;
+            stack.push(v);
+          }
+        }
+      }
+    }
+    return comp;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const m = parseInt(data[idx++], 10);
+  const adj = Array.from({ length: n }, () => []);
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(data[idx++], 10);
+    const v = parseInt(data[idx++], 10);
+    adj[u].push(v);
+    adj[v].push(u);
+  }
+
+  const solution = new Solution();
+  const comp = solution.components(n, adj);
+  let maxComp = 0;
+  for (let i = 0; i < n; i++) {
+    if (comp[i] > maxComp) maxComp = comp[i];
+  }
+  console.log(maxComp.toString());
+});
+```

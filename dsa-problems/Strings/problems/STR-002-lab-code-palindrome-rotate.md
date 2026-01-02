@@ -84,3 +84,100 @@ false
 - Use frequency analysis: a string can form a palindrome if at most one character has an odd count
 - This applies to any rotation since character frequencies don't change
 - O(n) time complexity using frequency counting
+
+---
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public boolean canRotateToPalindrome(String s) {
+        // Implementation here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.useDelimiter("\\A").hasNext() ? sc.next() : "";
+        s = s.trim();
+        Solution sol = new Solution();
+        System.out.println(sol.canRotateToPalindrome(s));
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+import sys
+
+def can_rotate_to_palindrome(s: str) -> bool:
+    # Implementation here
+    return False
+
+def main():
+    import sys
+    # Read input string
+    input_data = sys.stdin.read().strip()
+    
+    # Call solution
+    result = can_rotate_to_palindrome(input_data)
+    
+    # Output formatting: true/false
+    print("true" if result else "false")
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
+
+```cpp
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    bool canRotateToPalindrome(string s) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s((istreambuf_iterator<char>(cin)), istreambuf_iterator<char>());
+    while(!s.empty() && isspace(s.back())) s.pop_back();
+    while(!s.empty() && isspace(s.front())) s.erase(0, 1);
+    Solution sol;
+    cout << (sol.canRotateToPalindrome(s) ? "true" : "false") << endl;
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  canRotateToPalindrome(s) {
+    // Implementation here
+    return null;
+  }
+}
+
+// I/O handling
+```

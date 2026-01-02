@@ -98,12 +98,165 @@ Heaps, Median Maintenance, Lazy Deletion, Data Streams
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<String> processOperations(int T, List<String[]> operations) {
+        // Implementation here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int q = sc.nextInt();
+            int T = sc.nextInt();
+            List<String[]> operations = new ArrayList<>();
+            for (int i = 0; i < q; i++) {
+                String op = sc.next();
+                if (op.equals("ADD") || op.equals("DEL")) {
+                    String x = sc.next();
+                    operations.add(new String[]{op, x});
+                } else {
+                    operations.add(new String[]{op});
+                }
+            }
+            Solution solution = new Solution();
+            List<String> result = solution.processOperations(T, operations);
+            for (String s : result) System.out.println(s);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import heapq
+from collections import defaultdict
+
+class Solution:
+    def process_operations(self, T: int, operations: list) -> list:
+        # Implementation here
+        return []
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    
+    q_str = next(it, None)
+    if q_str is None: return
+    q = int(q_str)
+    t_str = next(it, None)
+    if t_str is None: return
+    T = int(t_str)
+    
+    operations = []
+    for _ in range(q):
+        op = next(it)
+        if op in ("ADD", "DEL"):
+            x = next(it)
+            operations.append([op, x])
+        else:
+            operations.append([op])
+    
+    result = process_operations(T, operations)
+    print("\n".join(result))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <queue>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> processOperations(int T, const vector<vector<string>>& operations) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int q, T;
+    if (cin >> q >> T) {
+        vector<vector<string>> operations;
+        for (int i = 0; i < q; i++) {
+            string op;
+            cin >> op;
+            if (op == "ADD" || op == "DEL") {
+                string x;
+                cin >> x;
+                operations.push_back({op, x});
+            } else {
+                operations.push_back({op});
+            }
+        }
+        
+        Solution solution;
+        vector<string> result = solution.processOperations(T, operations);
+        for (const string& s : result) cout << s << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  processOperations(T, operations) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const q = parseInt(data[idx++]);
+  const T = parseInt(data[idx++]);
+  const operations = [];
+  for (let i = 0; i < q; i++) {
+    const op = data[idx++];
+    if (op === "ADD" || op === "DEL") {
+      const x = data[idx++];
+      operations.push([op, x]);
+    } else {
+      operations.push([op]);
+    }
+  }
+  
+  const solution = new Solution();
+  const result = solution.processOperations(T, operations);
+  console.log(result.join("\n"));
+});
+```

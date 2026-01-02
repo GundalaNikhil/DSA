@@ -79,14 +79,124 @@ Sorting, Cycles in Permutations, Swaps
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long minSwapsToSort(int[] arr, int k) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        System.out.println(solution.minSwapsToSort(arr, k));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def min_swaps_to_sort(arr: list[int], k: int) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    import sys
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+        
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        k = int(next(iterator))
+        arr = [int(next(iterator)) for _ in range(n)]
+        print(min_swaps_to_sort(arr, k))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <vector>
+#include <algorithm>
+#include <utility>
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    long minSwapsToSort(const vector<int>& arr, int k) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, k;
+    if (!(cin >> n >> k)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    cout << solution.minSwapsToSort(arr, k) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+const fs = require("fs");
+
+class Solution {
+  minSwapsToSort(arr, k = 0) {
+    // Implementation here
+    return null;
+  }
+}
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const k = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+console.log(solution.minSwapsToSort(arr, k).toString());
+```

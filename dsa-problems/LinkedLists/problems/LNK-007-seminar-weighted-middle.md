@@ -83,12 +83,169 @@ Linked Lists, Prefix Sums, Weighted Median
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int weightedMiddleValue(ListNode head) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        
+        ListNode dummy = new ListNode(0);
+        ListNode cur = dummy;
+        for (int i = 0; i < n; i++) {
+            cur.next = new ListNode(sc.nextInt());
+            cur = cur.next;
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.weightedMiddleValue(dummy.next));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def weighted_middle_value(head: ListNode) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        dummy = ListNode()
+        cur = dummy
+        for _ in range(n):
+            cur.next = ListNode(int(next(iterator)))
+            cur = cur.next
+            
+        print(weighted_middle_value(dummy.next))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    int weightedMiddleValue(ListNode* head) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    ListNode dummy(0);
+    ListNode* cur = &dummy;
+    for (int i = 0; i < n; i++) {
+        int v;
+        cin >> v;
+        cur->next = new ListNode(v);
+        cur = cur->next;
+    }
+
+    Solution solution;
+    cout << solution.weightedMiddleValue(dummy.next) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  weightedMiddleValue(head) {
+    // Implementation here
+    return null;
+  }
+}
+
+class ListNode {
+  constructor(val) {
+    this.val = val;
+    this.next = null;
+  }
+}
+
+function new Solution().weightedMiddleValue(head) {
+  if (!head) return 0;
+
+  // Pass 1: Total weight
+  let totalWeight = 0;
+  let curr = head;
+  while (curr) {
+    totalWeight += curr.val;
+    curr = curr.next;
+  }
+
+  const threshold = Math.floor((totalWeight + 1) / 2);
+
+  // Pass 2: Find node
+  let currentSum = 0;
+  curr = head;
+  while (curr) {
+    currentSum += curr.val;
+    if (currentSum >= threshold) {
+      return curr.val;
+    }
+    curr = curr.next;
+  }
+  return 0;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  
+  const dummy = new ListNode(0);
+  let cur = dummy;
+  for (let i = 0; i < n; i++) {
+    cur.next = new ListNode(parseInt(data[idx++], 10));
+    cur = cur.next;
+  }
+
+  console.log(new Solution().weightedMiddleValue(dummy.next));
+});
+```

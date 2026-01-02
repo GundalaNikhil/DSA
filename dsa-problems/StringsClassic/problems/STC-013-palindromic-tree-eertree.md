@@ -77,12 +77,111 @@ Eertree, Palindromes, String Data Structures
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int countDistinctPalindromes(String s) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String s = sc.next();
+            Solution solution = new Solution();
+            System.out.println(solution.countDistinctPalindromes(s));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def count_distinct_palindromes(s: str) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    import sys
+    sys.setrecursionlimit(200000)
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    s = input_data[0]
+    print(count_distinct_palindromes(s))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+#include <map>
+
+using namespace std;
+
+class Solution {
+public:
+    int countDistinctPalindromes(const string& s) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string s;
+    if (cin >> s) {
+        Solution solution;
+        cout << solution.countDistinctPalindromes(s) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  countDistinctPalindromes(s) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part) data.push(part);
+  }
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const s = data[0];
+  const solution = new Solution();
+  console.log(solution.countDistinctPalindromes(s).toString());
+});
+```

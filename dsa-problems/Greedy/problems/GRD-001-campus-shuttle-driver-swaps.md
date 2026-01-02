@@ -108,11 +108,159 @@ Greedy Algorithms, Interval Scheduling, Coverage Problems, Optimization
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int minDriverSwaps(int[][] trips, int[] driverA, int[] driverB) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        
+        int[][] trips = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            trips[i][0] = sc.nextInt();
+            trips[i][1] = sc.nextInt();
+        }
+        
+        int[] driverA = new int[2];
+        driverA[0] = sc.nextInt();
+        driverA[1] = sc.nextInt();
+        
+        int[] driverB = new int[2];
+        driverB[0] = sc.nextInt();
+        driverB[1] = sc.nextInt();
+        
+        Solution solution = new Solution();
+        System.out.println(solution.minDriverSwaps(trips, driverA, driverB));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def min_driver_swaps(trips, driver_a, driver_b) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    n = int(next(iterator))
+    
+    trips = []
+    for _ in range(n):
+        start = int(next(iterator))
+        end = int(next(iterator))
+        trips.append((start, end))
+        
+    a_start = int(next(iterator))
+    a_end = int(next(iterator))
+    driver_a = (a_start, a_end)
+    
+    b_start = int(next(iterator))
+    b_end = int(next(iterator))
+    driver_b = (b_start, b_end)
+    
+    print(min_driver_swaps(trips, driver_a, driver_b))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int minDriverSwaps(vector<pair<int,int>>& trips, pair<int,int> driverA, pair<int,int> driverB) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<pair<int,int>> trips(n);
+    for (int i = 0; i < n; i++) {
+        cin >> trips[i].first >> trips[i].second;
+    }
+    
+    pair<int,int> driverA, driverB;
+    cin >> driverA.first >> driverA.second;
+    cin >> driverB.first >> driverB.second;
+    
+    Solution solution;
+    cout << solution.minDriverSwaps(trips, driverA, driverB) << "\n";
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  minDriverSwaps(trips, driverA, driverB) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const n = parseInt(data[ptr++]);
+  
+  const trips = [];
+  for (let i = 0; i < n; i++) {
+    const [start, end] = data[ptr++].split(" ").map(Number);
+    trips.push([start, end]);
+  }
+  
+  const [aStart, aEnd] = data[ptr++].split(" ").map(Number);
+  const driverA = [aStart, aEnd];
+  
+  const [bStart, bEnd] = data[ptr++].split(" ").map(Number);
+  const driverB = [bStart, bEnd];
+  
+  const solution = new Solution();
+  console.log(solution.minDriverSwaps(trips, driverA, driverB));
+});
+```

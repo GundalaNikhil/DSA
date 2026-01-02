@@ -82,14 +82,156 @@ Segment Tree, Range Merge, Dynamic Updates
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] process(int[] arr, int[][] updates) {
+        // Implementation here
+        return new int[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int q = sc.nextInt();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+            int[][] updates = new int[q][2];
+            for (int i = 0; i < q; i++) {
+                String type = sc.next(); // SET
+                updates[i][0] = sc.nextInt();
+                updates[i][1] = sc.nextInt();
+            }
+            Solution sol = new Solution();
+            int[] results = sol.process(arr, updates);
+            for (int res : results) {
+                System.out.println(res);
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def process(arr: list[int], updates: list[tuple[int, int]]) -> list[int]:
+    # Implementation here
+    return []
+
+def main():
+    import sys
+    def input_gen():
+
+        for line in sys.stdin:
+
+            for token in line.split():
+
+                yield token
+
+    it = input_gen()
+    n = int(next(it))
+    q = int(next(it))
+    arr = [int(next(it)) for _ in range(n)]
+    updates = []
+    for _ in range(q):
+        type = next(it) # SET
+        updates.append((int(next(it)), int(next(it))))
+    
+    results = process(arr, updates)
+    for res in results:
+        print(res)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> process(const vector<int>& inputArr, const vector<pair<int,int>>& updates) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, q;
+    if (!(cin >> n >> q)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    vector<pair<int, int>> updates(q);
+    for (int i = 0; i < q; i++) {
+        string type;
+        cin >> type; // SET
+        cin >> updates[i].first >> updates[i].second;
+    }
+    Solution sol;
+    vector<int> results = sol.process(arr, updates);
+    for (int res : results) {
+        cout << res << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  process(arr, updates) {
+    // Implementation here
+    return null;
+  }
+}
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const q = parseInt(data[idx++], 10);
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(parseInt(data[idx++], 10));
+  const updates = [];
+  for (let i = 0; i < q; i++) {
+    const type = data[idx++]; // SET
+    updates.push([parseInt(data[idx++], 10), parseInt(data[idx++], 10)]);
+  }
+  const solution = new Solution();
+  const out = solution.process(arr, updates);
+  console.log(out.join("\n"));
+});
+```

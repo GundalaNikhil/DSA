@@ -90,12 +90,130 @@ Heaps, Huffman Coding, Greedy Algorithms
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long huffmanCost(int[] freq, int m) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+            int[] freq = new int[n];
+            for (int i = 0; i < n; i++) {
+                freq[i] = sc.nextInt();
+            }
+            
+            Solution solution = new Solution();
+            System.out.println(solution.huffmanCost(freq, m));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import heapq
+
+class Solution:
+    def huffman_cost(self, freq: list, m: int) -> int:
+        # Implementation here
+        return 0
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    try:
+        n = int(next(it))
+        m = int(next(it))
+        freq = []
+        for _ in range(n):
+            freq.append(int(next(it)))
+            
+        print(huffman_cost(freq, m))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <functional>
+
+using namespace std;
+
+class Solution {
+public:
+    long huffmanCost(const vector<int>& freq, int m) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m;
+    if (cin >> n >> m) {
+        vector<int> freq(n);
+        for (int i = 0; i < n; i++) cin >> freq[i];
+        
+        Solution solution;
+        cout << solution.huffmanCost(freq, m) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  huffmanCost(freq, m) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++]);
+  const m = parseInt(data[idx++]);
+  const freq = [];
+  for (let i = 0; i < n; i++) {
+    freq.push(parseInt(data[idx++]));
+  }
+  
+  const solution = new Solution();
+  console.log(solution.huffmanCost(freq, m));
+});
+```

@@ -100,12 +100,180 @@ Heaps, Time Decay, Lazy Updates, Streaming
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<String> processOperations(int d, int k, List<String[]> operations) {
+        // Implementation here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int q = sc.nextInt();
+            int d = sc.nextInt();
+            int k = sc.nextInt();
+            List<String[]> operations = new ArrayList<>();
+            for (int i = 0; i < q; i++) {
+                String op = sc.next();
+                if (op.equals("ADD")) {
+                    String key = sc.next();
+                    String t = sc.next();
+                    operations.add(new String[]{op, key, t});
+                } else {
+                    String t = sc.next();
+                    operations.add(new String[]{op, t});
+                }
+            }
+            Solution solution = new Solution();
+            List<String> result = solution.processOperations(d, k, operations);
+            for (String s : result) System.out.println(s);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import math
+import heapq
+
+class Solution:
+    def process_operations(self, d: int, k: int, operations: list) -> list:
+        # Implementation here
+        return []
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    try:
+        q = int(next(it))
+        d = int(next(it))
+        k = int(next(it))
+        operations = []
+        for _ in range(q):
+            try:
+                op = next(it)
+            except StopIteration:
+                break
+                
+            if op == "ADD":
+                key = next(it)
+                t = next(it)
+                operations.append([op, key, t])
+            else:
+                t = next(it)
+                operations.append([op, t])
+        
+        result = process_operations(d, k, operations)
+        print("\n".join(result))
+    except StopIteration:
+        # Fallback if initial params or arguments fail
+        if 'operations' in locals() and operations:
+             result = process_operations(d, k, operations)
+             print("\n".join(result))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <unordered_map>
+#include <cmath>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> processOperations(int d, int k, const vector<vector<string>>& operations) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int q, d, k;
+    if (cin >> q >> d >> k) {
+        vector<vector<string>> operations;
+        for (int i = 0; i < q; i++) {
+            string op;
+            cin >> op;
+            if (op == "ADD") {
+                string key, t;
+                cin >> key >> t;
+                operations.push_back({op, key, t});
+            } else {
+                string t;
+                cin >> t;
+                operations.push_back({op, t});
+            }
+        }
+        
+        Solution solution;
+        vector<string> result = solution.processOperations(d, k, operations);
+        for (const string& s : result) cout << s << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  processOperations(d, k, operations) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const q = parseInt(data[idx++]);
+  const d = parseInt(data[idx++]);
+  const k = parseInt(data[idx++]);
+  const operations = [];
+  for (let i = 0; i < q; i++) {
+    const op = data[idx++];
+    if (op === "ADD") {
+      const key = data[idx++];
+      const t = data[idx++];
+      operations.push([op, key, t]);
+    } else {
+      const t = data[idx++];
+      operations.push([op, t]);
+    }
+  }
+  
+  const solution = new Solution();
+  const result = solution.processOperations(d, k, operations);
+  console.log(result.join("\n"));
+});
+```

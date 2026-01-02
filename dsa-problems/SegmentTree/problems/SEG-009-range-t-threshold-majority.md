@@ -81,14 +81,165 @@ Segment Tree, Majority, Range Queries
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] process(int[] arr, int[][] queries) {
+        // Implementation here
+        return new int[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int q = sc.nextInt();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+            int[][] queries = new int[q][3];
+            for (int i = 0; i < q; i++) {
+                String type = sc.next(); // MAJ
+                queries[i][0] = sc.nextInt();
+                queries[i][1] = sc.nextInt();
+                queries[i][2] = sc.nextInt();
+            }
+            Solution sol = new Solution();
+            int[] results = sol.process(arr, queries);
+            for (int res : results) {
+                System.out.println(res);
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from bisect import bisect_left, bisect_right
+
+def process(arr: list[int], queries: list[tuple[int, int, int]]) -> list[int]:
+    # Implementation here
+    return []
+
+def main():
+    import sys
+    # Increase recursion depth for deep trees
+    sys.setrecursionlimit(300000)
+    def input_gen():
+
+        for line in sys.stdin:
+
+            for token in line.split():
+
+                yield token
+
+    it = input_gen()
+    n = int(next(it))
+    q = int(next(it))
+    arr = [int(next(it)) for _ in range(n)]
+    queries = []
+    for _ in range(q):
+        type = next(it) # MAJ
+        l = int(next(it))
+        r = int(next(it))
+        t = int(next(it))
+        queries.append((l, r, t))
+    
+    results = process(arr, queries)
+    for res in results:
+        print(res)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> process(const vector<int>& arr, const vector<array<int,3>>& queries) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, q;
+    if (!(cin >> n >> q)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    vector<array<int, 3>> queries(q);
+    for (int i = 0; i < q; i++) {
+        string type;
+        cin >> type; // MAJ
+        cin >> queries[i][0] >> queries[i][1] >> queries[i][2];
+    }
+    Solution sol;
+    vector<int> results = sol.process(arr, queries);
+    for (int res : results) {
+        cout << res << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  process(arr, queries) {
+    // Implementation here
+    return null;
+  }
+}
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const q = parseInt(data[idx++], 10);
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(parseInt(data[idx++], 10));
+  const queries = [];
+  for (let i = 0; i < q; i++) {
+    const type = data[idx++]; // MAJ
+    queries.push([parseInt(data[idx++], 10), parseInt(data[idx++], 10), parseInt(data[idx++], 10)]);
+  }
+  const solution = new Solution();
+  const out = solution.process(arr, queries);
+  console.log(out.join("\n"));
+});
+```

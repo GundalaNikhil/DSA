@@ -88,12 +88,107 @@ String Period, Pattern Matching, Hashing, KMP Failure Function
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int detectPeriod(String s) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLine()) {
+            String s = sc.nextLine();
+            Solution solution = new Solution();
+            System.out.println(solution.detectPeriod(s));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def detect_period(self, s: str) -> int:
+        # Implementation here
+        return 0
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    s = input_data[0]
+    print(detect_period(s))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+
+using namespace std;
+
+class Solution {
+public:
+    int detectPeriod(string s) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    string s;
+    if (getline(cin, s)) {
+        Solution solution;
+        cout << solution.detectPeriod(s) << "\n";
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  detectPeriod(s) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const s = data[0];
+
+  const solution = new Solution();
+  console.log(solution.detectPeriod(s));
+});
+```

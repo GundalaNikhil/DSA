@@ -78,14 +78,142 @@ Stack Simulation, Monotonic Patterns, Arrays
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int countUnsafe(int[] d) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = "";
+        while ((line = br.readLine()) != null && line.trim().isEmpty()) {}
+        if (line == null) return;
+        
+        int n = Integer.parseInt(line.trim());
+        
+        // Read Array (robust)
+        List<Integer> list = new ArrayList<>();
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        
+        while (list.size() < n) {
+            while (!st.hasMoreTokens()) {
+                String l = br.readLine();
+                if (l == null) break;
+                st = new StringTokenizer(l);
+            }
+            if (!st.hasMoreTokens()) break;
+            list.add(Integer.parseInt(st.nextToken()));
+        }
+        
+        int[] d = new int[list.size()];
+        for(int i=0; i<list.size(); i++) d[i] = list.get(i);
+        
+        Solution sol = new Solution();
+        System.out.println(sol.countUnsafe(d));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def count_unsafe(d: list[int]) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    n = int(lines[0])
+    d = list(map(int, lines[1].split()))
+    result = count_unsafe(d)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int countUnsafe(vector<int>& d) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> d(n);
+    for (int i = 0; i < n; i++) {
+        cin >> d[i];
+    }
+    
+    Solution sol;
+    cout << sol.countUnsafe(d) << endl;
+    
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  countUnsafe(d) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const d = [];
+  for (let i = 0; i < n; i++) {
+    d.push(parseInt(data[idx++], 10));
+  }
+  
+  const solution = new Solution();
+  console.log(solution.countUnsafe(d));
+});
+```

@@ -86,12 +86,213 @@ Linked Lists, Stable Partitioning
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public ListNode stablePartition(ListNode head, int x) {
+        // Implementation here
+        return null;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        
+        ListNode dummy = new ListNode(0);
+        ListNode cur = dummy;
+        for (int i = 0; i < n; i++) {
+            cur.next = new ListNode(sc.nextInt());
+            cur = cur.next;
+        }
+        int x = sc.nextInt();
+
+        Solution solution = new Solution();
+        ListNode res = solution.stablePartition(dummy.next, x);
+        
+        boolean first = true;
+        while (res != null) {
+            if (!first) System.out.print(" ");
+            System.out.print(res.val);
+            first = false;
+            res = res.next;
+        }
+        System.out.println();
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def stable_partition(head: ListNode, x: int) -> ListNode:
+    # Implementation here
+    return []
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        dummy = ListNode()
+        cur = dummy
+        for _ in range(n):
+            cur.next = ListNode(int(next(iterator)))
+            cur = cur.next
+            
+        x = int(next(iterator))
+        
+        head = stable_partition(dummy.next, x)
+        
+        out = []
+        while head:
+            out.append(str(head.val))
+            head = head.next
+        print(" ".join(out))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    public:
+    ListNode* stablePartition(ListNode* head, int x) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    ListNode dummy(0);
+    ListNode* cur = &dummy;
+    for (int i = 0; i < n; i++) {
+        int v;
+        cin >> v;
+        cur->next = new ListNode(v);
+        cur = cur->next;
+    }
+    int x;
+    cin >> x;
+
+    Solution solution;
+    ListNode* res = solution.stablePartition(dummy.next, x);
+    
+    bool first = true;
+    while (res) {
+        if (!first) cout << " ";
+        cout << res->val;
+        first = false;
+        res = res->next;
+    }
+    cout << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  stablePartition(head, x) {
+    // Implementation here
+    return null;
+  }
+}
+
+class ListNode {
+  constructor(val) {
+    this.val = val;
+    this.next = null;
+  }
+}
+
+function new Solution().stablePartition(head, x) {
+  const lessHead = new ListNode(0);
+  const equalHead = new ListNode(0);
+  const greaterHead = new ListNode(0);
+  
+  let less = lessHead;
+  let equal = equalHead;
+  let greater = greaterHead;
+  
+  let curr = head;
+  while (curr) {
+    if (curr.val < x) {
+      less.next = curr;
+      less = less.next;
+    } else if (curr.val === x) {
+      equal.next = curr;
+      equal = equal.next;
+    } else {
+      greater.next = curr;
+      greater = greater.next;
+    }
+    curr = curr.next;
+  }
+  
+  greater.next = null;
+  equal.next = greaterHead.next;
+  less.next = equalHead.next ? equalHead.next : greaterHead.next;
+  
+  return lessHead.next;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  
+  const dummy = new ListNode(0);
+  let cur = dummy;
+  for (let i = 0; i < n; i++) {
+    cur.next = new ListNode(parseInt(data[idx++], 10));
+    cur = cur.next;
+  }
+  
+  if (idx < data.length) {
+      const x = parseInt(data[idx++], 10);
+      let head = new Solution().stablePartition(dummy.next, x);
+      const out = [];
+      while (head) {
+        out.push(head.val);
+        head = head.next;
+      }
+      console.log(out.join(" "));
+  }
+});
+```

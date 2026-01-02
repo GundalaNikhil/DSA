@@ -90,12 +90,165 @@ Game Theory, Sprague-Grundy Theorem
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public String nimLimit(int n, int[] A, int[] L) {
+        // Implementation here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int[] A = new int[n];
+            for (int i = 0; i < n; i++) {
+                A[i] = sc.nextInt();
+            }
+            int[] L = new int[n];
+            for (int i = 0; i < n; i++) {
+                L[i] = sc.nextInt();
+            }
+
+            Solution solution = new Solution();
+            System.out.println(solution.nimLimit(n, A, L));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+def nim_limit(n: int, A: List[int], L: List[int]) -> str:
+    # Implementation here
+    return ""
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        A = []
+        for _ in range(n):
+            A.append(int(next(iterator)))
+        L = []
+        for _ in range(n):
+            L.append(int(next(iterator)))
+            
+        print(nim_limit(n, A, L))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string nimLimit(int n, vector<int>& A, vector<int>& L) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (cin >> n) {
+        vector<int> A(n);
+        for (int i = 0; i < n; i++) {
+            cin >> A[i];
+        }
+        vector<int> L(n);
+        for (int i = 0; i < n; i++) {
+            cin >> L[i];
+        }
+        
+        Solution solution;
+        cout << solution.nimLimit(n, A, L) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  nimLimit(n, A, L) {
+    // Implementation here
+    return null;
+  }
+}
+
+class Solution {
+  nimLimit(n, A, L) {
+    let xorSum = 0;
+    for (let i = 0; i < n; i++) {
+      xorSum ^= (A[i] % (L[i] + 1));
+    }
+    return xorSum > 0 ? "First" : "Second";
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  const flatData = [];
+  data.forEach(line => {
+      line.trim().split(/\s+/).forEach(part => {
+          if (part) flatData.push(part);
+      });
+  });
+  
+  if (flatData.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(flatData[idx++]);
+  
+  const A = [];
+  for (let i = 0; i < n; i++) {
+      A.push(parseInt(flatData[idx++]));
+  }
+  const L = [];
+  for (let i = 0; i < n; i++) {
+      L.push(parseInt(flatData[idx++]));
+  }
+
+  const solution = new Solution();
+  console.log(solution.nimLimit(n, A, L));
+});
+```

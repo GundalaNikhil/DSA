@@ -88,3 +88,103 @@ abc
 - Precompute suffix distinct counts in O(n)
 - Scan left-to-right maintaining prefix distinct count
 - O(n) time and O(n) space solution
+
+---
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public int countEqualDistinctSplits(String s) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.useDelimiter("\\A").hasNext() ? sc.next() : "";
+        s = s.trim();
+        Solution sol = new Solution();
+        System.out.println(sol.countEqualDistinctSplits(s));
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+import sys
+
+def count_equal_distinct_splits(s: str) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    import sys
+
+
+    # Read input string
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        print(0)
+        return
+        
+    # Call solution
+    result = count_equal_distinct_splits(input_data)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
+
+```cpp
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int countEqualDistinctSplits(string s) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s((istreambuf_iterator<char>(cin)), istreambuf_iterator<char>());
+    while(!s.empty() && isspace(s.back())) s.pop_back();
+    while(!s.empty() && isspace(s.front())) s.erase(0, 1);
+    Solution sol;
+    cout << sol.countEqualDistinctSplits(s) << endl;
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  countEqualDistinctSplits(s) {
+    // Implementation here
+    return null;
+  }
+}
+
+// I/O handling
+```

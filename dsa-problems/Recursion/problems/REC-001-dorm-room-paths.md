@@ -76,14 +76,101 @@ Recursion, Memoization, Grid DP
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long countPaths(int r, int c) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int r = sc.nextInt();
+        int c = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.countPaths(r, c));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def count_paths(r: int, c: int) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    import sys
+    data = sys.stdin.read().strip().split()
+    if not data or len(data) < 2:
+        return
+
+    r = int(data[0])
+    c = int(data[1])
+    print(count_paths(r, c))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long countPaths(int r, int c) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int r; cin >> r;
+    int c; cin >> c;
+    Solution sol;
+    cout << sol.countPaths(r, c) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  countPaths(r, c) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const r = parseInt(tokens[ptr++]);
+    const c = parseInt(tokens[ptr++]);
+    const sol = new Solution();
+    console.log(sol.countPaths(r, c));
+});
+```

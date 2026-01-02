@@ -111,11 +111,180 @@ Articulation Points, Cut Vertices, Tarjan's Algorithm, DFS, Graph Connectivity
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<Integer> findArticulationPoints(int n, List<List<Integer>> adj) {
+        // Implementation here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+
+        Solution solution = new Solution();
+        List<Integer> aps = solution.findArticulationPoints(n, adj);
+
+        // Sort for deterministic output
+        Collections.sort(aps);
+
+        System.out.println(aps.size());
+        if (!aps.isEmpty()) {
+            for (int i = 0; i < aps.size(); i++) {
+                System.out.print(aps.get(i));
+                if (i < aps.size() - 1) System.out.print(" ");
+            }
+            System.out.println();
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def find_articulation_points(n: int, adj: List[List[int]]) -> List[int]:
+    # Implementation here
+    return []
+
+def main():
+    n = int(input())
+    m = int(input())
+    
+    adj = [[] for _ in range(n)]
+    
+    for _ in range(m):
+        u, v = map(int, input().split())
+        adj[u].append(v)
+        adj[v].append(u)
+    
+    articulation_points = find_articulation_points(n, adj)
+    articulation_points.sort()
+    
+    print(len(articulation_points))
+    if articulation_points:
+        print(' '.join(map(str, articulation_points)))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> findArticulationPoints(int n, vector<vector<int>>& adj) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    cin >> n >> m;
+
+    vector<vector<int>> adj(n);
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    Solution solution;
+    vector<int> aps = solution.findArticulationPoints(n, adj);
+    sort(aps.begin(), aps.end());
+
+    cout << aps.size() << endl;
+    if (!aps.empty()) {
+        for (int i = 0; i < aps.size(); i++) {
+            cout << aps[i];
+            if (i < aps.size() - 1) cout << " ";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  findArticulationPoints(n, adj) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  const tokens = data.join(" ").split(/\s+/);
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const m = Number(tokens[ptr++]);
+
+  const adj = Array.from({ length: n }, () => []);
+
+  for (let i = 0; i < m; i++) {
+    const u = Number(tokens[ptr++]);
+    const v = Number(tokens[ptr++]);
+    adj[u].push(v);
+    adj[v].push(u);
+  }
+
+  // Sort neighbors for deterministic traversal
+  for (let i = 0; i < n; i++) {
+    adj[i].sort((a, b) => a - b);
+  }
+
+  const solution = new Solution();
+  const articulationPoints = solution.findArticulationPoints(n, adj);
+  articulationPoints.sort((a, b) => a - b);
+
+  console.log(articulationPoints.length);
+  if (articulationPoints.length > 0) {
+    console.log(articulationPoints.join(" "));
+  }
+});
+```

@@ -107,12 +107,199 @@ Game Theory, Minimax, Dynamic Programming
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int matrixGame(int n, int m, int[][] matrix) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+            int[][] matrix = new int[n][m];
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < m; j++) {
+                    matrix[i][j] = sc.nextInt();
+                }
+            }
+
+            Solution solution = new Solution();
+            System.out.println(solution.matrixGame(n, m, matrix));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+import sys
+
+def matrix_game(n: int, m: int, matrix: List[List[int]]) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        matrix = []
+        for _ in range(n):
+            row = []
+            for _ in range(m):
+                row.append(int(next(iterator)))
+            matrix.append(row)
+            
+        print(matrix_game(n, m, matrix))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <climits>
+
+using namespace std;
+
+class Solution {
+public:
+    int matrixGame(int n, int m, vector<vector<int>>& matrix) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m;
+    if (cin >> n >> m) {
+        vector<vector<int>> matrix(n, vector<int>(m));
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                cin >> matrix[i][j];
+            }
+        }
+        
+        Solution solution;
+        cout << solution.matrixGame(n, m, matrix) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  matrixGame(n, m, matrix) {
+    // Implementation here
+    return null;
+  }
+}
+
+class Solution {
+  matrixGame(n, m, matrix) {
+    const memo = new Map();
+
+    const solve = (r1, r2, c1, c2) => {
+      const key = `${r1},${r2},${c1},${c2}`;
+      if (memo.has(key)) return memo.get(key);
+
+      if (r1 === r2 && c1 === c2) return matrix[r1][c1];
+
+      const movesMade = (n - (r2 - r1 + 1)) + (m - (c2 - c1 + 1));
+      const isMax = (movesMade % 2 === 0);
+
+      let res;
+      if (isMax) {
+        res = -Infinity;
+        if (r1 < r2) {
+          res = Math.max(res, solve(r1 + 1, r2, c1, c2));
+          res = Math.max(res, solve(r1, r2 - 1, c1, c2));
+        }
+        if (c1 < c2) {
+          res = Math.max(res, solve(r1, r2, c1 + 1, c2));
+          res = Math.max(res, solve(r1, r2, c1, c2 - 1));
+        }
+      } else {
+        res = Infinity;
+        if (r1 < r2) {
+          res = Math.min(res, solve(r1 + 1, r2, c1, c2));
+          res = Math.min(res, solve(r1, r2 - 1, c1, c2));
+        }
+        if (c1 < c2) {
+          res = Math.min(res, solve(r1, r2, c1 + 1, c2));
+          res = Math.min(res, solve(r1, r2, c1, c2 - 1));
+        }
+      }
+
+      memo.set(key, res);
+      return res;
+    };
+
+    return solve(0, n - 1, 0, m - 1);
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  const flatData = [];
+  data.forEach(line => {
+      line.trim().split(/\s+/).forEach(part => {
+          if (part) flatData.push(part);
+      });
+  });
+  
+  if (flatData.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(flatData[idx++]);
+  const m = parseInt(flatData[idx++]);
+  
+  const matrix = [];
+  for (let i = 0; i < n; i++) {
+      const row = [];
+      for (let j = 0; j < m; j++) {
+          row.push(parseInt(flatData[idx++]));
+      }
+      matrix.push(row);
+  }
+
+  const solution = new Solution();
+  console.log(solution.matrixGame(n, m, matrix));
+});
+```

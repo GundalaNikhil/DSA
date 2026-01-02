@@ -130,12 +130,134 @@ Trie, String, Data Structures, Memory Optimization
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int countTrieNodes(String[] words) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+
+        String[] words = new String[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNext()) {
+                words[i] = sc.next();
+            } else {
+                words[i] = "";
+            }
+        }
+
+        Solution solution = new Solution();
+        int result = solution.countTrieNodes(words);
+
+        System.out.println(result);
+
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+class Solution:
+    def count_trie_nodes(self, words: List[str]) -> int:
+        # Implementation here
+        return 0
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+
+    n = int(lines[0])
+    words = [lines[i+1].strip() for i in range(n)]
+
+    solution = Solution()
+    result = solution.count_trie_nodes(words)
+
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int countTrieNodes(vector<string>& words) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+    cin.ignore();
+
+    vector<string> words(n);
+    for (int i = 0; i < n; i++) {
+        getline(cin, words[i]);
+    }
+
+    Solution solution;
+    int result = solution.countTrieNodes(words);
+
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  constructor() {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const n = parseInt(lines[0]);
+  const words = [];
+  for (let i = 1; i <= n; i++) {
+    words.push(lines[i].trim());
+  }
+
+  const solution = new Solution();
+  const result = solution.countTrieNodes(words);
+
+  console.log(result);
+});
+```

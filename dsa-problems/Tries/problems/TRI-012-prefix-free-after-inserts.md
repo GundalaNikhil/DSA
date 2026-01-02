@@ -87,12 +87,139 @@ Trie, String, Prefix Matching, Telecommunications
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public boolean insert(String number) {
+        // Implementation here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        sc.nextLine();
+        
+        Solution solution = new Solution();
+        List<Boolean> results = new ArrayList<>();
+        
+        for (int i = 0; i < n; i++) {
+            String number = sc.nextLine().trim();
+            results.add(solution.insert(number));
+        }
+        
+        System.out.print("[");
+        for (int i = 0; i < results.size(); i++) {
+            System.out.print(results.get(i));
+            if (i < results.size() - 1) System.out.print(",");
+        }
+        System.out.println("]");
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def insert(self, number: str) -> bool:
+        # Implementation here
+        return False
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    n = int(lines[0])
+    
+    solution = Solution()
+    results = []
+    for i in range(1, n + 1):
+        results.append(solution.insert(lines[i].strip()))
+    
+    print("[" + ",".join(str(r).lower() for r in results) + "]")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <unordered_map>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    bool insert(const string& number) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+    cin.ignore();
+    
+    Solution solution;
+    vector<bool> results;
+    
+    for (int i = 0; i < n; i++) {
+        string number;
+        getline(cin, number);
+        results.push_back(solution.insert(number));
+    }
+    
+    cout << "[";
+    for (int i = 0; i < results.size(); i++) {
+        cout << (results[i] ? "true" : "false");
+        if (i < results.size() - 1) cout << ",";
+    }
+    cout << "]" << endl;
+    
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  constructor() {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+const lines = [];
+rl.on('line', (line) => {
+  lines.push(line);
+}).on('close', () => {
+  const n = parseInt(lines[0]);
+  const solution = new Solution();
+  const results = [];
+  
+  for (let i = 1; i <= n; i++) {
+    results.push(solution.insert(lines[i].trim()));
+  }
+  
+  console.log('[' + results.join(',') + ']');
+});
+```

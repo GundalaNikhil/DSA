@@ -115,12 +115,141 @@ Trie, String, Prefix Matching, Hash Table
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] findMinimumPrefixLengths(String[] words) {
+        // Implementation here
+        return new int[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        sc.nextLine();
+
+        String[] words = new String[n];
+        for (int i = 0; i < n; i++) {
+            words[i] = sc.nextLine().trim();
+        }
+
+        Solution solution = new Solution();
+        int[] result = solution.findMinimumPrefixLengths(words);
+
+        System.out.print("[");
+        for (int i = 0; i < result.length; i++) {
+            System.out.print(result[i]);
+            if (i < result.length - 1) System.out.print(",");
+        }
+        System.out.println("]");
+
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+class Solution:
+    def find_minimum_prefix_lengths(self, words: List[str]) -> List[int]:
+        # Implementation here
+        return []
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+
+    n = int(lines[0])
+    words = [lines[i+1].strip() for i in range(n)]
+
+    solution = Solution()
+    result = solution.find_minimum_prefix_lengths(words)
+
+    print("[" + ",".join(map(str, result)) + "]")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> findMinimumPrefixLengths(vector<string>& words) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+    cin.ignore();
+
+    vector<string> words(n);
+    for (int i = 0; i < n; i++) {
+        getline(cin, words[i]);
+    }
+
+    Solution solution;
+    vector<int> result = solution.findMinimumPrefixLengths(words);
+
+    cout << "[";
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i];
+        if (i < result.size() - 1) cout << ",";
+    }
+    cout << "]" << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  constructor() {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const n = parseInt(lines[0]);
+  const words = [];
+  for (let i = 1; i <= n; i++) {
+    words.push(lines[i].trim());
+  }
+
+  const solution = new Solution();
+  const result = solution.findMinimumPrefixLengths(words);
+
+  console.log("[" + result.join(",") + "]");
+});
+```

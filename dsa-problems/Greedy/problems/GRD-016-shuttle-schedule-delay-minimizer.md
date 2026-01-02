@@ -107,11 +107,137 @@ Greedy Algorithms, Scheduling Theory, Weighted Completion Time, Sorting, Optimiz
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long minTotalDelay(int n, int[][] trips) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        int[][] trips = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            trips[i][0] = sc.nextInt();
+            trips[i][1] = sc.nextInt();
+        }
+        
+        Solution solution = new Solution();
+        System.out.println(solution.minTotalDelay(n, trips));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def min_total_delay(n: int, trips: list) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+    except StopIteration:
+        return
+
+    trips = []
+    for _ in range(n):
+        s = int(next(iterator))
+        d = int(next(iterator))
+        trips.append([s, d])
+
+    result = min_total_delay(n, trips)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long minTotalDelay(int n, vector<pair<int,int>>& trips) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<pair<int,int>> trips(n);
+    for (int i = 0; i < n; i++) {
+        cin >> trips[i].first >> trips[i].second;
+    }
+    
+    Solution solution;
+    cout << solution.minTotalDelay(n, trips) << "\n";
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  minTotalDelay(n, trips) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const n = parseInt(data[ptr++]);
+  
+  const trips = [];
+  for (let i = 0; i < n; i++) {
+    const [s, d] = data[ptr++].split(" ").map(Number);
+    trips.push([s, d]);
+  }
+  
+  const solution = new Solution();
+  console.log(solution.minTotalDelay(n, trips));
+});
+```

@@ -77,14 +77,117 @@ Greedy, Adjacent Swaps, Sorting
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public boolean sortWithSwaps(int[] arr, long S) {
+        // Implementation here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        long s = sc.nextLong();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        boolean ok = solution.sortWithSwaps(arr, s);
+        System.out.println(ok ? "YES" : "NO");
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def sort_with_swaps(arr: list[int], S: int) -> bool:
+    # Implementation here
+    return False
+
+def main():
+    n, s = map(int, input().split())
+    arr = list(map(int, input().split()))
+    result = sort_with_swaps(arr, s)
+    print("YES" if result else "NO")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <vector>
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    bool sortWithSwaps(const vector<int>& arr, long long S) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    long long s;
+    if (!(cin >> n >> s)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    bool ok = solution.sortWithSwaps(arr, s);
+    cout << (ok ? "YES" : "NO") << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+const fs = require("fs");
+
+class Solution {
+  sortWithSwaps(arr, S) {
+    // Implementation here
+    return null;
+  }
+}
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const s = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+const ok = solution.sortWithSwaps(arr, s);
+console.log(ok ? "YES" : "NO");
+```

@@ -110,12 +110,144 @@ Greedy Algorithms, Heap, Priority Queue, Task Scheduling, Cooldown Management
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int compareTo(Task other) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+
+        List<Solution.Task> tasks = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            char name = sc.next().charAt(0);
+            int count = sc.nextInt();
+            int priority = sc.nextInt();
+            tasks.add(new Solution.Task(name, count, priority));
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.minSlots(tasks, k));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import heapq
+import sys
+
+def min_slots(tasks_data: list, k: int) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    n = int(next(iterator))
+    k = int(next(iterator))
+    
+    tasks = []
+    for _ in range(n):
+        name = next(iterator)
+        count = int(next(iterator))
+        priority = int(next(iterator))
+        tasks.append((name, count, priority))
+
+    result = min_slots(tasks, k)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int minSlots(vector<Task>& inputTasks, int k) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, k;
+    if (!(cin >> n >> k)) return 0;
+
+    vector<Task> tasks(n);
+    for (int i = 0; i < n; i++) {
+        cin >> tasks[i].name >> tasks[i].count >> tasks[i].priority;
+    }
+
+    Solution solution;
+    cout << solution.minSlots(tasks, k) << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  minSlots(tasksData, k) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const [n, k] = data[ptr++].split(" ").map(Number);
+  
+  const tasks = [];
+  for (let i = 0; i < n; i++) {
+    const parts = data[ptr++].split(" ");
+    const name = parts[0];
+    const count = parseInt(parts[1]);
+    const priority = parseInt(parts[2]);
+    tasks.push({ name, count, priority });
+  }
+
+  const solution = new Solution();
+  console.log(solution.minSlots(tasks, k));
+});
+```

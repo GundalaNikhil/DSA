@@ -83,12 +83,165 @@ Linked Lists, Linear Search
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int findFirstIndex(ListNode head, int target) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        ListNode dummy = new ListNode(0);
+        ListNode cur = dummy;
+        for (int i = 0; i < n; i++) {
+            cur.next = new ListNode(sc.nextInt());
+            cur = cur.next;
+        }
+        
+        int target = sc.nextInt();
+        Solution solution = new Solution();
+        System.out.println(solution.findFirstIndex(dummy.next, target));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def find_first_index(head: ListNode, target: int) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        dummy = ListNode()
+        cur = dummy
+        for _ in range(n):
+            val = int(next(iterator))
+            cur.next = ListNode(val)
+            cur = cur.next
+        
+        target = int(next(iterator))
+        print(find_first_index(dummy.next, target))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    int findFirstIndex(ListNode* head, int target) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    ListNode dummy(0);
+    ListNode* cur = &dummy;
+    for (int i = 0; i < n; i++) {
+        int v;
+        cin >> v;
+        cur->next = new ListNode(v);
+        cur = cur->next;
+    }
+    
+    int target;
+    cin >> target;
+
+    Solution solution;
+    cout << solution.findFirstIndex(dummy.next, target) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  findFirstIndex(head, target) {
+    // Implementation here
+    return null;
+  }
+}
+
+class ListNode {
+  constructor(val) {
+    this.val = val;
+    this.next = null;
+  }
+}
+
+function new Solution().findFirstIndex(head, target) {
+  let current = head;
+  let index = 0;
+  while (current !== null) {
+    if (current.val === target) {
+      return index;
+    }
+    current = current.next;
+    index++;
+  }
+  return -1;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  
+  const dummy = new ListNode(0);
+  let cur = dummy;
+  for (let i = 0; i < n; i++) {
+    cur.next = new ListNode(parseInt(data[idx++], 10));
+    cur = cur.next;
+  }
+  
+  if (idx < data.length) {
+      const target = parseInt(data[idx++], 10);
+      console.log(new Solution().findFirstIndex(dummy.next, target));
+  }
+});
+```

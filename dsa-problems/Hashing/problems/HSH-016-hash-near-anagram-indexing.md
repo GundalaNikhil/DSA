@@ -100,12 +100,133 @@ Anagrams, Hashing, Union-Find, String Manipulation, Grouping
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int find(int x) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            sc.nextLine();
+            String[] words = new String[n];
+            for (int i = 0; i < n; i++) {
+                words[i] = sc.nextLine();
+            }
+            
+            Solution solution = new Solution();
+            System.out.println(solution.countNearAnagramGroups(words));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def find(self, x):
+        # Implementation here
+        return None
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        words = []
+        for _ in range(n):
+            words.append(next(iterator))
+            
+        print(count_near_anagram_groups(words))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution {
+public:
+    int countNearAnagramGroups(vector<string>& words) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (cin >> n) {
+        vector<string> words(n);
+        for (int i = 0; i < n; i++) {
+            cin >> words[i];
+        }
+        
+        Solution solution;
+        cout << solution.countNearAnagramGroups(words) << "\n";
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  countNearAnagramGroups(words) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let ptr = 0;
+  const n = parseInt(data[ptr++]);
+  
+  const words = [];
+  for (let i = 0; i < n; i++) {
+    words.push(data[ptr++]);
+  }
+  
+  const solution = new Solution();
+  console.log(solution.countNearAnagramGroups(words));
+});
+```

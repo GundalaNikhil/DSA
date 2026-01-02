@@ -98,12 +98,150 @@ Heaps, Greedy, Resource Allocation, Scheduling
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long maximizeCapital(int k, long C, long R, long[] cost, long[] profit, long[] risk) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int k = sc.nextInt();
+            long C = sc.nextLong();
+            long R = sc.nextLong();
+            long[] cost = new long[n];
+            long[] profit = new long[n];
+            long[] risk = new long[n];
+            for (int i = 0; i < n; i++) {
+                cost[i] = sc.nextLong();
+                profit[i] = sc.nextLong();
+                risk[i] = sc.nextLong();
+            }
+            
+            Solution solution = new Solution();
+            System.out.println(solution.maximizeCapital(k, C, R, cost, profit, risk));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import heapq
+
+class Solution:
+    def maximize_capital(self, k: int, C: int, R: int, cost: list, profit: list, risk: list) -> int:
+        # Implementation here
+        return 0
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    try:
+        n = int(next(it))
+        k = int(next(it))
+        C = int(next(it))
+        R = int(next(it))
+        cost = []
+        profit = []
+        risk = []
+        for _ in range(n):
+            cost.append(int(next(it)))
+            profit.append(int(next(it)))
+            risk.append(int(next(it)))
+            
+        print(maximize_capital(k, C, R, cost, profit, risk))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    long maximizeCapital(int k, long long C, long long R, const vector<long long>& cost,
+                              const vector<long long>& profit, const vector<long long>& risk) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, k;
+    long long C, R;
+    if (cin >> n >> k >> C >> R) {
+        vector<long long> cost(n), profit(n), risk(n);
+        for (int i = 0; i < n; i++) cin >> cost[i] >> profit[i] >> risk[i];
+        
+        Solution solution;
+        cout << solution.maximizeCapital(k, C, R, cost, profit, risk) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  maximizeCapital(k, C, R, cost, profit, risk) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++]);
+  const k = parseInt(data[idx++]);
+  const C = parseInt(data[idx++]);
+  const R = parseInt(data[idx++]);
+  const cost = [];
+  const profit = [];
+  const risk = [];
+  for (let i = 0; i < n; i++) {
+    cost.push(parseInt(data[idx++]));
+    profit.push(parseInt(data[idx++]));
+    risk.push(parseInt(data[idx++]));
+  }
+  
+  const solution = new Solution();
+  console.log(solution.maximizeCapital(k, C, R, cost, profit, risk));
+});
+```

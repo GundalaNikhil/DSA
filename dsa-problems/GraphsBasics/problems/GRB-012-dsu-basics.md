@@ -88,12 +88,198 @@ Disjoint Set Union, Connectivity Queries
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<Boolean> processQueries(int n, String[] type, int[] u, int[] v) {
+        // Implementation here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int q = sc.nextInt();
+        String[] type = new String[q];
+        int[] u = new int[q];
+        int[] v = new int[q];
+        for (int i = 0; i < q; i++) {
+            type[i] = sc.next();
+            u[i] = sc.nextInt();
+            v[i] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        List<Boolean> ans = solution.processQueries(n, type, u, v);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < ans.size(); i++) {
+            sb.append(ans.get(i) ? "true" : "false");
+            if (i + 1 < ans.size()) sb.append('\n');
+        }
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def process_queries(n: int, queries: list[tuple[str, int, int]]) -> list[bool]:
+    # Implementation here
+    return []
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        q = int(next(iterator))
+        queries = []
+        for _ in range(q):
+            t = next(iterator)
+            u = int(next(iterator))
+            v = int(next(iterator))
+            queries.append((t, u, v))
+            
+        ans = process_queries(n, queries)
+        print("\n".join("true" if x else "false" for x in ans))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <numeric>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<bool> processQueries(int n, const vector<string>& type,
+                                const vector<int>& u, const vector<int>& v) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, q;
+    if (!(cin >> n >> q)) return 0;
+    vector<string> type(q);
+    vector<int> u(q), v(q);
+    for (int i = 0; i < q; i++) {
+        cin >> type[i] >> u[i] >> v[i];
+    }
+
+    Solution solution;
+    vector<bool> ans = solution.processQueries(n, type, u, v);
+    for (int i = 0; i < (int)ans.size(); i++) {
+        cout << (ans[i] ? "true" : "false");
+        if (i + 1 < (int)ans.size()) cout << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  processQueries(n, queries) {
+    // Implementation here
+    return null;
+  }
+}
+
+class DSU {
+  constructor(n) {
+    this.parent = new Int32Array(n);
+    this.rank = new Int32Array(n);
+    for (let i = 0; i < n; i++) this.parent[i] = i;
+  }
+  find(i) {
+    if (this.parent[i] !== i) {
+      this.parent[i] = this.find(this.parent[i]);
+    }
+    return this.parent[i];
+  }
+  union(i, j) {
+    const rootI = this.find(i);
+    const rootJ = this.find(j);
+    if (rootI !== rootJ) {
+      if (this.rank[rootI] < this.rank[rootJ]) {
+        this.parent[rootI] = rootJ;
+      } else if (this.rank[rootI] > this.rank[rootJ]) {
+        this.parent[rootJ] = rootI;
+      } else {
+        this.parent[rootI] = rootJ;
+        this.rank[rootJ]++;
+      }
+    }
+  }
+}
+
+class Solution {
+  processQueries(n, queries) {
+    const dsu = new DSU(n);
+    const results = [];
+    for (const [t, u, v] of queries) {
+      if (t === "union") {
+        dsu.union(u, v);
+      } else {
+        results.push(dsu.find(u) === dsu.find(v));
+      }
+    }
+    return results;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const q = parseInt(data[idx++], 10);
+  const queries = [];
+  for (let i = 0; i < q; i++) {
+    const t = data[idx++];
+    const u = parseInt(data[idx++], 10);
+    const v = parseInt(data[idx++], 10);
+    queries.push([t, u, v]);
+  }
+
+  const solution = new Solution();
+  const ans = solution.processQueries(n, queries);
+  console.log(ans.map((x) => (x ? "true" : "false")).join("\n"));
+});
+```

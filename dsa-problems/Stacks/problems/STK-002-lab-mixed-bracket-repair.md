@@ -76,14 +76,135 @@ Stack, Bracket Matching, Greedy
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int countChanges(String s) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line);
+        }
+        String s = sb.toString().trim();
+        
+        if (s.isEmpty()) {
+            System.out.println(0);
+            return;
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.countChanges(s));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def count_changes(s: str) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    import sys
+    s = sys.stdin.read().strip()
+    result = count_changes(s)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <stack>
+#include <vector>
+#include <map>
+
+using namespace std;
+
+class Solution {
+public:
+    int countChanges(string s) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    // Read all input until EOF
+    string s;
+    char c;
+    while (cin.get(c)) {
+        s += c;
+    }
+    
+    // Trim string (remove trailing newline/whitespace if any)
+    while (!s.empty() && isspace(s.back())) s.pop_back();
+    while (!s.empty() && isspace(s.front())) s.erase(0, 1);
+
+    if (s.empty()) {
+        cout << 0 << endl;
+        return 0;
+    }
+
+    Solution sol;
+    cout << sol.countChanges(s) << endl;
+    
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  countChanges(s) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = "";
+rl.on("line", (line) => {
+  data += line;
+});
+
+rl.on("close", () => {
+  const s = data.trim();
+  if (s.length === 0) {
+      console.log(0);
+      return;
+  }
+  const solution = new Solution();
+  console.log(solution.countChanges(s));
+});
+```

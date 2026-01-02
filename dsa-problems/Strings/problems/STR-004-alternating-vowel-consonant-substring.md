@@ -86,3 +86,108 @@ a
 - Use sliding window with reset on pattern break
 - O(n) time complexity with single pass
 - Track current alternation status with boolean flag
+
+---
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public Object[] longestAlternatingVC(String s) {
+        // Implementation here
+        return new Object[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.useDelimiter("\\A").hasNext() ? sc.next() : "";
+        s = s.trim();
+        Solution sol = new Solution();
+        Object[] res = sol.longestAlternatingVC(s);
+        System.out.println(res[0]);
+        System.out.println(res[1]);
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+import sys
+
+def longest_alternating_vc(s: str) -> tuple:
+    # Implementation here
+    return ()
+
+def main():
+    import sys
+    # Read input string
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        # Handle empty input if necessary
+        print("0")
+        print("")
+        return
+        
+    # Call solution
+    length, substring = longest_alternating_vc(input_data)
+    
+    # Print result
+    print(length)
+    print(substring)
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
+
+```cpp
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    pair<int, string> longestAlternatingVC(string s) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s((istreambuf_iterator<char>(cin)), istreambuf_iterator<char>());
+    while(!s.empty() && isspace(s.back())) s.pop_back();
+    while(!s.empty() && isspace(s.front())) s.erase(0, 1);
+    Solution sol;
+    pair<int, string> res = sol.longestAlternatingVC(s); cout << res.first << endl; cout << res.second << endl;
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  longestAlternatingVC(s) {
+    // Implementation here
+    return null;
+  }
+}
+
+// I/O handling
+```

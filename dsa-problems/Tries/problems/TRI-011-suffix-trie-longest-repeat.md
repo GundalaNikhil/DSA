@@ -77,12 +77,106 @@ Trie, Suffix Structures, String Algorithms
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int longestRepeatedSubstring(String s) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine().trim();
+
+        Solution solution = new Solution();
+        int result = solution.longestRepeatedSubstring(s);
+        System.out.println(result);
+
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def longest_repeated_substring(self, s: str) -> int:
+        # Implementation here
+        return 0
+
+def main():
+    import sys
+    s = sys.stdin.read().strip()
+
+    solution = Solution()
+    result = solution.longest_repeated_substring(s)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <unordered_map>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int longestRepeatedSubstring(const string& s) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    string s;
+    getline(cin, s);
+
+    Solution solution;
+    int result = solution.longestRepeatedSubstring(s);
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  constructor() {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let input = "";
+rl.on("line", (line) => {
+  input = line.trim();
+  rl.close();
+}).on("close", () => {
+  const solution = new Solution();
+  const result = solution.longestRepeatedSubstring(input);
+  console.log(result);
+});
+```

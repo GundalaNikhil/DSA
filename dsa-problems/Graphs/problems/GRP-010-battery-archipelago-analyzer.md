@@ -106,12 +106,168 @@ Dijkstra's Algorithm, Constrained Shortest Path, Graph Filtering, Weighted Graph
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int shortestPathWithBattery(int n, List<int[]> edges, int source, int dest, int battery) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        List<int[]> edges = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            int w = sc.nextInt();
+            edges.add(new int[]{u, v, w});
+        }
+        
+        int source = sc.nextInt();
+        int dest = sc.nextInt();
+        int battery = sc.nextInt();
+        
+        Solution solution = new Solution();
+        System.out.println(solution.shortestPathWithBattery(n, edges, source, dest, battery));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import heapq
+import sys
+
+def shortest_path_with_battery(n: int, edges: list[tuple[int, int, int]], 
+                                source: int, dest: int, battery: int) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            w = int(next(iterator))
+            edges.append((u, v, w))
+            
+        source = int(next(iterator))
+        dest = int(next(iterator))
+        battery = int(next(iterator))
+        
+        print(shortest_path_with_battery(n, edges, source, dest, battery))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <limits>
+
+using namespace std;
+
+class Solution {
+public:
+    int shortestPathWithBattery(int n, vector<vector<int>>& edges, int source, int dest, int battery) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    
+    vector<vector<int>> edges;
+    for (int i = 0; i < m; i++) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        edges.push_back({u, v, w});
+    }
+    
+    int source, dest, battery;
+    cin >> source >> dest >> battery;
+    
+    Solution solution;
+    cout << solution.shortestPathWithBattery(n, edges, source, dest, battery) << "\n";
+    
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  shortestPathWithBattery(n, edges, source, dest, battery) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  let ptr = 0;
+  const n = parseInt(data[ptr++], 10);
+  const m = parseInt(data[ptr++], 10);
+
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    if (ptr + 2 >= data.length) return; // Not enough data
+    const u = parseInt(data[ptr++], 10);
+    const v = parseInt(data[ptr++], 10);
+    const w = parseInt(data[ptr++], 10);
+    edges.push([u, v, w]);
+  }
+
+  // Check if we have source, dest, battery parameters
+  if (ptr + 2 >= data.length) return; // Incomplete input
+
+  const source = parseInt(data[ptr++], 10);
+  const dest = parseInt(data[ptr++], 10);
+  const battery = parseInt(data[ptr++], 10);
+
+  const solution = new Solution();
+  console.log(solution.shortestPathWithBattery(n, edges, source, dest, battery));
+});
+```

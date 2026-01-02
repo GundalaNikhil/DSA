@@ -107,11 +107,173 @@ Union-Find, DSU, Connected Components, Graph Constraints, Component Tracking
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int maxComponentSize(int n, List<int[]> edges, Set<Integer> vips) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        List<int[]> edges = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            edges.add(new int[]{u, v});
+        }
+        
+        Set<Integer> vips = new HashSet<>();
+        if (sc.hasNextLine()) sc.nextLine(); // Consume newline
+        if (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            Scanner lineSc = new Scanner(line);
+            while (lineSc.hasNextInt()) {
+                vips.add(lineSc.nextInt());
+            }
+            lineSc.close();
+        }
+        
+        Solution solution = new Solution();
+        System.out.println(solution.maxComponentSize(n, edges, vips));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def max_component_size(n: int, edges: list[tuple[int, int]], vips: set[int]) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            edges.append((u, v))
+            
+        vips = set()
+        # Remaining tokens are VIPs
+        for token in iterator:
+            vips.add(int(token))
+            
+        print(max_component_size(n, edges, vips))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <numeric>
+#include <unordered_set>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxComponentSize(int n, vector<pair<int, int>>& edges, unordered_set<int>& vips) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    
+    vector<pair<int, int>> edges(m);
+    for (int i = 0; i < m; i++) {
+        cin >> edges[i].first >> edges[i].second;
+    }
+    
+    unordered_set<int> vips;
+    string line;
+    getline(cin >> ws, line); // consume rest of line and read next
+    stringstream ss(line);
+    int vip;
+    while (ss >> vip) {
+        vips.insert(vip);
+    }
+    
+    Solution solution;
+    cout << solution.maxComponentSize(n, edges, vips) << "\n";
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  maxComponentSize(n, edges, vips) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const n = parseInt(data[ptr++], 10);
+  const m = parseInt(data[ptr++], 10);
+  
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(data[ptr++], 10);
+    const v = parseInt(data[ptr++], 10);
+    edges.push([u, v]);
+  }
+  
+  const vips = [];
+  while (ptr < data.length) {
+    vips.push(parseInt(data[ptr++], 10));
+  }
+  
+  const solution = new Solution();
+  console.log(solution.maxComponentSize(n, edges, vips));
+});
+```

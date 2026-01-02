@@ -85,12 +85,145 @@ determinant, gaussian-elimination, linear-algebra
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long determinant_gaussian(int n, long mod, long[][] matrix) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        long MOD = sc.nextLong();
+        
+        long[][] matrix = new long[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = sc.nextLong();
+            }
+        }
+        
+        Solution solution = new Solution();
+        System.out.println(solution.determinant_gaussian(n, MOD, matrix));
+        
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def determinant_gaussian(self, n: int, MOD: int, matrix: list[list[int]]) -> int:
+        # Implementation here
+        return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        MOD = int(next(iterator))
+        
+        matrix = []
+        for _ in range(n):
+            row = [int(next(iterator)) for _ in range(n)]
+            matrix.append(row)
+            
+        sol = Solution()
+        print(sol.determinant_gaussian(n, MOD, matrix))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long determinant_gaussian(int n, long long mod, vector<vector<long long>>& matrix) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    long long MOD;
+    if (!(cin >> n >> MOD)) return 0;
+
+    vector<vector<long long>> matrix(n, vector<long long>(n));
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cin >> matrix[i][j];
+        }
+    }
+
+    Solution solution;
+    cout << solution.determinant_gaussian(n, MOD, matrix) << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  determinant_gaussian(n, MOD, matrix) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let ptr = 0;
+  
+  const n = parseInt(data[ptr++]);
+  const MOD = parseInt(data[ptr++]);
+  
+  const matrix = [];
+  for(let i=0; i<n; i++) {
+      const row = [];
+      for(let j=0; j<n; j++) row.push(parseInt(data[ptr++]));
+      matrix.push(row);
+  }
+  
+  const solution = new Solution();
+  console.log(solution.determinant_gaussian(n, MOD, matrix));
+});
+```

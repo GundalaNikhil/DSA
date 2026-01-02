@@ -83,12 +83,115 @@ Hashing, String Concatenation, Polynomial Hash
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public boolean checkConcatenationEqual(String a, String b, String c, String d) {
+        // Implementation here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLine()) {
+            String a = sc.nextLine();
+            String b = sc.nextLine();
+            String c = sc.nextLine();
+            String d = sc.nextLine();
+
+            Solution solution = new Solution();
+            System.out.println(solution.checkConcatenationEqual(a, b, c, d));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def check_concatenation_equal(self, a: str, b: str, c: str, d: str) -> bool:
+        # Implementation here
+        return False
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if len(lines) < 4:
+        # Pad with empty strings if needed
+        while len(lines) < 4:
+            lines.append('')
+    a = lines[0] if len(lines) > 0 else ''
+    b = lines[1] if len(lines) > 1 else ''
+    c = lines[2] if len(lines) > 2 else ''
+    d = lines[3] if len(lines) > 3 else ''
+    result = check_concatenation_equal(a, b, c, d)
+    print("true" if result else "false")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    bool checkConcatenationEqual(string a, string b, string c, string d) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string a, b, c, d;
+    if (getline(cin, a) && getline(cin, b) && getline(cin, c) && getline(cin, d)) {
+        Solution solution;
+        cout << (solution.checkConcatenationEqual(a, b, c, d) ? "true" : "false") << "\n";
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  checkConcatenationEqual(a, b, c, d) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length < 4) return;
+  const [a, b, c, d] = data;
+
+  const solution = new Solution();
+  console.log(solution.checkConcatenationEqual(a, b, c, d) ? "true" : "false");
+});
+```

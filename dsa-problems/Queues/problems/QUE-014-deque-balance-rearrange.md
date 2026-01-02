@@ -87,12 +87,133 @@ Deque, Two Pointers, Simulation
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] buildDeque(int[] values) {
+        // Implementation here
+        return new int[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int[] values = new int[n];
+            for (int i = 0; i < n; i++) {
+                values[i] = sc.nextInt();
+            }
+            
+            Solution sol = new Solution();
+            int[] result = sol.buildDeque(values);
+            for (int i = 0; i < result.length; i++) {
+                if (i > 0) System.out.print(" ");
+                System.out.print(result[i]);
+            }
+            System.out.println();
+        }
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+import sys
+
+def build_deque(values: List[int]) -> List[int]:
+    # Implementation here
+    return []
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        values = [int(next(iterator)) for _ in range(n)]
+        
+        result = build_deque(values)
+        print(" ".join(map(str, result)))
+    except (StopIteration, ValueError):
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> buildDeque(const vector<int>& values) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (cin >> n) {
+        vector<int> values(n);
+        for (int i = 0; i < n; i++) cin >> values[i];
+        
+        Solution sol;
+        vector<int> result = sol.buildDeque(values);
+        for (int i = 0; i < (int)result.size(); i++) {
+            cout << (i ? " " : "") << result[i];
+        }
+        cout << endl;
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  buildDeque(values) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const values = [];
+  for (let i = 0; i < n; i++) {
+    values.push(parseInt(data[idx++], 10));
+  }
+
+  const solution = new Solution();
+  const result = solution.buildDeque(values);
+  console.log(result.join(" "));
+});
+```

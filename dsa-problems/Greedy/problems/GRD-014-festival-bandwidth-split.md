@@ -114,12 +114,130 @@ Greedy Algorithms, Knapsack Problem, Resource Allocation, Optimization
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int maxStages(int n, long B, long[] bandwidths) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        long B = sc.nextLong();
+        
+        long[] bandwidths = new long[n];
+        for (int i = 0; i < n; i++) {
+            bandwidths[i] = sc.nextLong();
+        }
+        
+        Solution solution = new Solution();
+        System.out.println(solution.maxStages(n, B, bandwidths));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def max_stages(n: int, B: int, bandwidths: list) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    n = int(next(iterator))
+    B = int(next(iterator))
+    
+    bandwidths = []
+    for _ in range(n):
+        bandwidths.append(int(next(iterator)))
+
+    result = max_stages(n, B, bandwidths)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxStages(int n, long long B, vector<long long>& bandwidths) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    long long B;
+    if (!(cin >> n >> B)) return 0;
+
+    vector<long long> bandwidths(n);
+    for (int i = 0; i < n; i++) {
+        cin >> bandwidths[i];
+    }
+
+    Solution solution;
+    cout << solution.maxStages(n, B, bandwidths) << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  maxStages(n, B, bandwidths) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const [n, B] = data[ptr++].split(" ").map(Number);
+  const bandwidths = data[ptr++].split(" ").map(Number);
+
+  const solution = new Solution();
+  console.log(solution.maxStages(n, B, bandwidths));
+});
+```

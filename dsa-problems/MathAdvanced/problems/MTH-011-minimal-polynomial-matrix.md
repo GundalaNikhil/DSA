@@ -89,12 +89,164 @@ minimal-polynomial, krylov-sequence, matrix-theory
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long[] minimal_polynomial_matrix(int n, long mod, long[][] matrix) {
+        // Implementation here
+        return new long[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        long MOD = sc.nextLong();
+        
+        long[][] matrix = new long[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                matrix[i][j] = sc.nextLong();
+            }
+        }
+        
+        Solution solution = new Solution();
+        long[] result = solution.minimal_polynomial_matrix(n, MOD, matrix);
+        
+        System.out.println(result[0]);
+        for (int i = 1; i < result.length; i++) {
+            System.out.print(result[i] + (i < result.length - 1 ? " " : ""));
+        }
+        System.out.println();
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import random
+
+class Solution:
+    def minimal_polynomial_matrix(self, n: int, MOD: int, matrix: list[list[int]]) -> list[int]:
+        # Implementation here
+        return []
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        MOD = int(next(iterator))
+        
+        matrix = []
+        for _ in range(n):
+            row = [int(next(iterator)) for _ in range(n)]
+            matrix.append(row)
+            
+        sol = Solution()
+        res = sol.minimal_polynomial_matrix(n, MOD, matrix)
+        
+        print(res[0])
+        print(*(res[1:]))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <random>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> minimal_polynomial_matrix(int n, long long mod, vector<vector<long long>>& matrix) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    long long MOD;
+    if (!(cin >> n >> MOD)) return 0;
+
+    vector<vector<long long>> matrix(n, vector<long long>(n));
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cin >> matrix[i][j];
+        }
+    }
+
+    Solution solution;
+    vector<long long> result = solution.minimal_polynomial_matrix(n, MOD, matrix);
+
+    cout << result[0] << "\n";
+    for (int i = 1; i < result.size(); i++) {
+        cout << result[i] << (i < result.size() - 1 ? " " : "");
+    }
+    cout << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  minimal_polynomial_matrix(n, MOD, matrix) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let ptr = 0;
+  
+  const n = parseInt(data[ptr++]);
+  const MOD = parseInt(data[ptr++]);
+  
+  const matrix = [];
+  for(let i=0; i<n; i++) {
+      const row = [];
+      for(let j=0; j<n; j++) row.push(parseInt(data[ptr++]));
+      matrix.push(row);
+  }
+  
+  const solution = new Solution();
+  const result = solution.minimal_polynomial_matrix(n, MOD, matrix);
+  
+  console.log(result[0]);
+  console.log(result.slice(1).join(" "));
+});
+```

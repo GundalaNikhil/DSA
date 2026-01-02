@@ -74,14 +74,114 @@ Suffix Array, LCP, String Algorithms
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public String longestRepeated(String s) {
+        // Implementation here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String s = sc.next();
+            Solution solution = new Solution();
+            System.out.println(solution.longestRepeated(s));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def longest_repeated(s: str) -> str:
+    # Implementation here
+    return ""
+
+def main():
+    import sys
+    sys.setrecursionlimit(200000)
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    s = input_data[0]
+    print(longest_repeated(s))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    string longestRepeated(const string& s) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string s;
+    if (cin >> s) {
+        Solution solution;
+        cout << solution.longestRepeated(s) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  longestRepeated(s) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part) data.push(part);
+  }
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const s = data[0];
+  const solution = new Solution();
+  console.log(solution.longestRepeated(s));
+});
+```

@@ -80,12 +80,102 @@ Distance Computation, Vector Projection
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public double distancePointSegment(long x1, long y1, long x2, long y2, long px, long py) {
+        // Implementation here
+        return 0.0;
+    }
+}
+
+class Main {
+static class Solution {
+    public double distancePointSegment(long x1, long y1, long x2, long y2, long px, long py) {
+        long ux = x2 - x1, uy = y2 - y1;
+        long vx = px - x1, vy = py - y1;
+        long denom = ux*ux + uy*uy;
+        if (denom == 0) return Math.hypot(vx, vy);
+        double t = (ux * (double)vx + uy * (double)vy) / denom;
+        t = Math.max(0.0, Math.min(1.0, t));
+        double cx = x1 + t * ux;
+        double cy = y1 + t * uy;
+        return Math.hypot(px - cx, py - cy);
+    }
+}
+```
 
 ### Python
 
+```
+// No template available
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+
+class Solution {
+public:
+    double distancePointSegment(long long x1, long long y1, long long x2, long long y2, long long px, long long py) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    long long x1, y1, x2, y2, px, py; cin >> x1 >> y1 >> x2 >> y2 >> px >> py;
+    cout << fixed << setprecision(6) << distancePointSegment(x1, y1, x2, y2, px, py) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  distancePointSegment(x1, y1, x2, y2, px, py) {
+    // Implementation here
+    return null;
+  }
+}
+
+const readline = require('readline');
+
+function new Solution().distancePointSegment(x1, y1, x2, y2, px, py) {
+  const ux = x2 - x1, uy = y2 - y1;
+  const vx = px - x1, vy = py - y1;
+  const denom = ux*ux + uy*uy;
+  if (denom === 0) return Math.hypot(vx, vy);
+  let t = (ux*vx + uy*vy) / denom;
+  t = Math.max(0, Math.min(1, t));
+  const cx = x1 + t * ux;
+  const cy = y1 + t * uy;
+  return Math.hypot(px - cx, py - cy);
+}
+
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let lines = [];
+rl.on('line', (line) => { lines.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if (lines.length === 0) return;
+    let idx = 0;
+    const next = () => lines[idx++];
+    const nextInt = () => parseInt(next());
+    const nextFloat = () => parseFloat(next());
+    console.log(new Solution().distancePointSegment(nextInt(), nextInt(), nextInt(), nextInt(), nextInt(), nextInt()).toFixed(6));
+});
+```

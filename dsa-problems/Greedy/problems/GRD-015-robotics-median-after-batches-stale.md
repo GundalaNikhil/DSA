@@ -118,12 +118,179 @@ Two Heaps, Median Finding, Lazy Deletion, Frequency Map, Data Structures
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<String> medianAfterBatches(int k, int t, List<List<Integer>> batches) {
+        // Implementation here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int k = sc.nextInt();
+        int t = sc.nextInt();
+
+        List<List<Integer>> batches = new ArrayList<>();
+        for (int i = 0; i < k; i++) {
+            int m = sc.nextInt();
+            List<Integer> batch = new ArrayList<>();
+            for (int j = 0; j < m; j++) {
+                batch.add(sc.nextInt());
+            }
+            batches.add(batch);
+        }
+
+        Solution solution = new Solution();
+        List<String> result = solution.medianAfterBatches(k, t, batches);
+
+        for (int i = 0; i < result.size(); i++) {
+            System.out.print(result.get(i));
+            if (i < result.size() - 1) System.out.print(" ");
+        }
+        System.out.println();
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import heapq
+import sys
+import math
+from collections import defaultdict
+
+def median_after_batches(k: int, t: int, batches: list) -> list:
+    # Implementation here
+    return []
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    try:
+        k = int(next(iterator))
+        t = int(next(iterator))
+    except StopIteration:
+        return
+
+    batches = []
+    for _ in range(k):
+        m = int(next(iterator))
+        batch = []
+        for _ in range(m):
+            batch.append(int(next(iterator)))
+        batches.append(batch)
+
+    result = median_after_batches(k, t, batches)
+    print(' '.join(result))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <unordered_map>
+#include <cmath>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> medianAfterBatches(int k, int t, vector<vector<int>>& batches) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int k, t;
+    if (!(cin >> k >> t)) return 0;
+
+    vector<vector<int>> batches(k);
+    for (int i = 0; i < k; i++) {
+        int m;
+        cin >> m;
+        batches[i].resize(m);
+        for (int j = 0; j < m; j++) {
+            cin >> batches[i][j];
+        }
+    }
+
+    Solution solution;
+    vector<string> result = solution.medianAfterBatches(k, t, batches);
+
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i];
+        if (i < result.size() - 1) cout << " ";
+    }
+    cout << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  medianAfterBatches(k, t, batches) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  // Flatten all input like Python does
+  const allNumbers = [];
+  for (const line of data) {
+    allNumbers.push(...line.split(" ").map(Number));
+  }
+
+  let ptr = 0;
+  const k = allNumbers[ptr++];
+  const t = allNumbers[ptr++];
+
+  const batches = [];
+  for (let i = 0; i < k; i++) {
+    const m = allNumbers[ptr++];
+    const batch = [];
+    for (let j = 0; j < m; j++) {
+      batch.push(allNumbers[ptr++]);
+    }
+    batches.push(batch);
+  }
+
+  const solution = new Solution();
+  const result = solution.medianAfterBatches(k, t, batches);
+  console.log(result.join(" "));
+});
+```

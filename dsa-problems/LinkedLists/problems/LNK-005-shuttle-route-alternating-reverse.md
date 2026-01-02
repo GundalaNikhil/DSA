@@ -96,12 +96,228 @@ Linked Lists, Block Reversal, Simulation
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public ListNode alternatingReverse(ListNode head, int l, int k) {
+        // Implementation here
+        return null;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        
+        ListNode dummy = new ListNode(0);
+        ListNode cur = dummy;
+        for (int i = 0; i < n; i++) {
+            cur.next = new ListNode(sc.nextInt());
+            cur = cur.next;
+        }
+        
+        int l = sc.nextInt();
+        int k = sc.nextInt();
+
+        Solution solution = new Solution();
+        ListNode res = solution.alternatingReverse(dummy.next, l, k);
+        
+        boolean first = true;
+        while (res != null) {
+            if (!first) System.out.print(" ");
+            System.out.print(res.val);
+            first = false;
+            res = res.next;
+        }
+        System.out.println();
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def alternating_reverse(head: ListNode, l: int, k: int) -> ListNode:
+    # Implementation here
+    return []
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        dummy = ListNode()
+        cur = dummy
+        for _ in range(n):
+            cur.next = ListNode(int(next(iterator)))
+            cur = cur.next
+            
+        l = int(next(iterator))
+        k = int(next(iterator))
+        
+        head = alternating_reverse(dummy.next, l, k)
+        
+        out = []
+        while head:
+            out.append(str(head.val))
+            head = head.next
+        print(" ".join(out))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    public:
+    ListNode* alternatingReverse(ListNode* head, int l, int k) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    ListNode dummy(0);
+    ListNode* cur = &dummy;
+    for (int i = 0; i < n; i++) {
+        int v;
+        cin >> v;
+        cur->next = new ListNode(v);
+        cur = cur->next;
+    }
+    
+    int l, k;
+    cin >> l >> k;
+
+    Solution solution;
+    ListNode* res = solution.alternatingReverse(dummy.next, l, k);
+    
+    bool first = true;
+    while (res) {
+        if (!first) cout << " ";
+        cout << res->val;
+        first = false;
+        res = res->next;
+    }
+    cout << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  alternatingReverse(head, l, k) {
+    // Implementation here
+    return null;
+  }
+}
+
+class ListNode {
+  constructor(val) {
+    this.val = val;
+    this.next = null;
+  }
+}
+
+function new Solution().alternatingReverse(head, l, k) {
+  if (!head || k <= 1) return head;
+
+  const dummy = new ListNode(0);
+  dummy.next = head;
+  let prev = dummy;
+
+  // Move to l-1
+  for (let i = 0; i < l - 1; i++) {
+    if (!prev.next) return head;
+    prev = prev.next;
+  }
+
+  let reverse = true;
+  while (prev.next) {
+    if (reverse) {
+      let tail = prev.next;
+      let curr = tail.next;
+      let count = 1;
+      while (curr && count < k) {
+        let temp = curr.next;
+        curr.next = prev.next;
+        prev.next = curr;
+        tail.next = temp;
+        curr = temp;
+        count++;
+      }
+      prev = tail;
+    } else {
+      let count = 0;
+      while (prev.next && count < k) {
+        prev = prev.next;
+        count++;
+      }
+    }
+    reverse = !reverse;
+  }
+  return dummy.next;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  
+  const dummy = new ListNode(0);
+  let cur = dummy;
+  for (let i = 0; i < n; i++) {
+    cur.next = new ListNode(parseInt(data[idx++], 10));
+    cur = cur.next;
+  }
+  
+  if (idx < data.length) {
+      const l = parseInt(data[idx++], 10);
+      const k = parseInt(data[idx++], 10);
+
+      let head = new Solution().alternatingReverse(dummy.next, l, k);
+      const out = [];
+      while (head) {
+        out.push(head.val);
+        head = head.next;
+      }
+      console.log(out.join(" "));
+  }
+});
+```

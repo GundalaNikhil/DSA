@@ -116,12 +116,178 @@ Trie, Priority Queue, Hash Table, Sorting, Autocomplete Systems
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void insertWord(String word, int frequency, int timestamp) {
+        // Implementation here
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt(); // Number of words
+        Solution solution = new Solution();
+
+        for (int i = 0; i < n; i++) {
+            String word = sc.next();
+            int freq = sc.nextInt();
+            int time = sc.nextInt();
+            solution.insertWord(word, freq, time);
+        }
+
+        String prefix = sc.next();
+        int currentTime = sc.nextInt();
+        int D = sc.nextInt();
+        int k = sc.nextInt();
+
+        List<String> result = solution.autocomplete(prefix, currentTime, D, k);
+        // Output in Python list format with single quotes
+        System.out.print("[");
+        for (int i = 0; i < result.size(); i++) {
+            System.out.print("'" + result.get(i) + "'");
+            if (i < result.size() - 1) System.out.print(", ");
+        }
+        System.out.println("]");
+
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import math
+from typing import List, Tuple
+from collections import defaultdict
+import heapq
+
+class Solution:
+    def insert_word(self, word: str, frequency: int, timestamp: int):
+        # Implementation here
+        return None
+
+def main():
+    import sys
+    input_data = sys.stdin.read().strip().split()
+    idx = 0
+
+    n = int(input_data[idx])
+    idx += 1
+
+    solution = Solution()
+    for _ in range(n):
+        word = input_data[idx]
+        freq = int(input_data[idx + 1])
+        time = int(input_data[idx + 2])
+        idx += 3
+        solution.insert_word(word, freq, time)
+
+    prefix = input_data[idx]
+    current_time = int(input_data[idx + 1])
+    D = int(input_data[idx + 2])
+    k = int(input_data[idx + 3])
+
+    result = solution.autocomplete(prefix, current_time, D, k)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <queue>
+#include <cmath>
+
+using namespace std;
+
+class Solution {
+public:
+    void insertWord(string word, int frequency, int timestamp) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+
+    Solution solution;
+    for (int i = 0; i < n; i++) {
+        string word;
+        int freq, time;
+        cin >> word >> freq >> time;
+        solution.insertWord(word, freq, time);
+    }
+
+    string prefix;
+    int currentTime, D, k;
+    cin >> prefix >> currentTime >> D >> k;
+
+    vector<string> result = solution.autocomplete(prefix, currentTime, D, k);
+
+    cout << "[";
+    for (int i = 0; i < result.size(); i++) {
+        cout << "'" << result[i] << "'";
+        if (i < result.size() - 1) cout << ", ";
+    }
+    cout << "]" << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  constructor() {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const tokens = lines.join(" ").split(/\s+/);
+  let idx = 0;
+
+  const n = parseInt(tokens[idx++]);
+  const solution = new Solution();
+
+  for (let i = 0; i < n; i++) {
+    const word = tokens[idx++];
+    const freq = parseInt(tokens[idx++]);
+    const time = parseInt(tokens[idx++]);
+    solution.insertWord(word, freq, time);
+  }
+
+  const prefix = tokens[idx++];
+  const currentTime = parseInt(tokens[idx++]);
+  const D = parseInt(tokens[idx++]);
+  const k = parseInt(tokens[idx++]);
+
+  const result = solution.autocomplete(prefix, currentTime, D, k);
+  // Output in Python list format with single quotes
+  console.log('[' + result.map(s => "'" + s + "'").join(', ') + ']');
+});
+```

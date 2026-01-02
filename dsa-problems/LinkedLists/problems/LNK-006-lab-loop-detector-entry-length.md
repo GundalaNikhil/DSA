@@ -94,12 +94,222 @@ Linked Lists, Cycle Detection, Floyd's Algorithm
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] cycleInfo(ListNode head) {
+        // Implementation here
+        return new int[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        
+        ListNode dummy = new ListNode(0);
+        ListNode cur = dummy;
+        ListNode[] nodes = new ListNode[n];
+        for (int i = 0; i < n; i++) {
+            cur.next = new ListNode(sc.nextInt());
+            cur = cur.next;
+            nodes[i] = cur;
+        }
+        
+        int pos = sc.nextInt();
+        if (pos >= 0 && n > 0) {
+            cur.next = nodes[pos];
+        }
+
+        Solution solution = new Solution();
+        int[] res = solution.cycleInfo(dummy.next);
+        System.out.println(res[0] + " " + res[1] + " " + res[2]);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def cycle_info(head: ListNode):
+    # Implementation here
+    return None
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        dummy = ListNode()
+        cur = dummy
+        nodes = []
+        for _ in range(n):
+            node = ListNode(int(next(iterator)))
+            cur.next = node
+            cur = cur.next
+            nodes.append(node)
+            
+        pos = int(next(iterator))
+        if pos >= 0 and n > 0:
+            cur.next = nodes[pos]
+            
+        entry, length, max_val = cycle_info(dummy.next)
+        print(f"{entry} {length} {max_val}")
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <climits>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> cycleInfo(ListNode* head) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    ListNode dummy(0);
+    ListNode* cur = &dummy;
+    vector<ListNode*> nodes;
+    nodes.reserve(n);
+    
+    for (int i = 0; i < n; i++) {
+        int v;
+        cin >> v;
+        cur->next = new ListNode(v);
+        cur = cur->next;
+        nodes.push_back(cur);
+    }
+    
+    int pos;
+    cin >> pos;
+    if (pos >= 0 && n > 0) {
+        cur->next = nodes[pos];
+    }
+
+    Solution solution;
+    vector<int> res = solution.cycleInfo(dummy.next);
+    cout << res[0] << " " << res[1] << " " << res[2] << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  cycleInfo(head) {
+    // Implementation here
+    return null;
+  }
+}
+
+class ListNode {
+  constructor(val) {
+    this.val = val;
+    this.next = null;
+  }
+}
+
+function new Solution().cycleInfo(head) {
+  if (!head) return [-1, 0, 0];
+
+  let slow = head;
+  let fast = head;
+  let hasCycle = false;
+
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+    if (slow === fast) {
+      hasCycle = true;
+      break;
+    }
+  }
+
+  if (!hasCycle) return [-1, 0, 0];
+
+  let entry = head;
+  let entryIndex = 0;
+  while (entry !== slow) {
+    entry = entry.next;
+    slow = slow.next;
+    entryIndex++;
+  }
+
+  let length = 0;
+  let maxVal = -Infinity;
+  let curr = entry;
+  do {
+    length++;
+    maxVal = Math.max(maxVal, curr.val);
+    curr = curr.next;
+  } while (curr !== entry);
+
+  return [entryIndex, length, maxVal];
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  
+  const dummy = new ListNode(0);
+  let cur = dummy;
+  const nodes = [];
+  for (let i = 0; i < n; i++) {
+    const node = new ListNode(parseInt(data[idx++], 10));
+    cur.next = node;
+    cur = cur.next;
+    nodes.push(node);
+  }
+  
+  if (idx < data.length) {
+      const pos = parseInt(data[idx++], 10);
+      if (pos >= 0 && n > 0) {
+        cur.next = nodes[pos];
+      }
+      
+      const res = new Solution().cycleInfo(dummy.next);
+      console.log(res.join(" "));
+  }
+});
+```

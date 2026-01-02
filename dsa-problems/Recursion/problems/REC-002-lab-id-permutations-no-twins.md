@@ -75,14 +75,106 @@ Backtracking, Permutations, Pruning
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<String> generatePermutations(String s) {
+        // Implementation here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        Solution sol = new Solution();
+        List<String> res = sol.generatePermutations(s);
+        for(String out_s : res) System.out.println(out_s);
+        if(res.isEmpty()) System.out.println("NONE");
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def generate_permutations(s: str) -> list[str]:
+    # Implementation here
+    return []
+
+def main():
+    import sys
+    s = sys.stdin.read().strip()
+    if not s:
+        return
+
+    perms = generate_permutations(s)
+    if perms:
+        for perm in perms:
+            print(perm)
+    else:
+        print("NONE")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> generatePermutations(string s) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s; cin >> s;
+    Solution sol;
+    vector<string> res = sol.generatePermutations(s); for(const string& s : res) cout << s << endl; if(res.empty()) cout << "NONE" << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  generatePermutations(s) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const s = tokens[ptr++];
+    const sol = new Solution();
+    const res = sol.generatePermutations(s);
+    if(res.length===0) console.log('NONE'); else res.forEach(s => console.log(s));
+});
+```

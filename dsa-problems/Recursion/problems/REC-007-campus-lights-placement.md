@@ -82,14 +82,134 @@ Backtracking, Combinatorics, Recursion
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void main(String[] args) {
+        // Implementation here
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int d = sc.nextInt();
+        
+        Solution sol = new Solution();
+        List<List<Integer>> res = sol.placeLights(n, k, d);
+        if(res.isEmpty()) {
+            System.out.println("NONE");
+        } else {
+            for(List<Integer> row : res) {
+                for(int i=0; i<row.size(); i++) {
+                    System.out.print(row.get(i) + (i==row.size()-1?"":" "));
+                }
+                System.out.println();
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def place_lights(n: int, k: int, d: int) -> list[list[int]]:
+    # Implementation here
+    return []
+
+def main():
+    import sys
+    data = sys.stdin.read().strip().split()
+    if not data:
+        return
+    n, k, d = map(int, data[:3])
+    result = place_lights(n, k, d)
+    if not result:
+        print("NONE")
+    else:
+        for combo in result:
+            print(" ".join(str(x) for x in combo))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void backtrack(int start_pos, int lights_placed, int n, int k, int d, vector<int>& current, vector<vector<int>>& result) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n, k, d;
+    if (!(cin >> n >> k >> d)) return 0;
+    
+    Solution sol;
+    vector<vector<int>> res = sol.placeLights(n, k, d);
+    
+    if (res.empty()) {
+        cout << "NONE" << endl;
+    } else {
+        for(const auto& row : res) { 
+            for(size_t i=0; i<row.size(); i++) cout << row[i] << (i==row.size()-1?"":" "); 
+            cout << endl; 
+        }
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  placeLights(n, k, d) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const n = parseInt(tokens[ptr++]);
+    const k = parseInt(tokens[ptr++]);
+    const d = parseInt(tokens[ptr++]);
+    
+    const sol = new Solution();
+    const res = sol.placeLights(n, k, d);
+    
+    if (res.length === 0) {
+        console.log("NONE");
+    } else {
+        res.forEach(row => console.log(row.join(' ')));
+    }
+});
+```

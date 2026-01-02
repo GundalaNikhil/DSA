@@ -104,12 +104,173 @@ Merge K Sorted Lists, Heap, Priority Queue, Greedy Algorithms, Constraint Handli
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int compareTo(Node other) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int k = sc.nextInt();
+
+        List<List<Integer>> queues = new ArrayList<>();
+        for (int i = 0; i < k; i++) {
+            int len = sc.nextInt();
+            List<Integer> queue = new ArrayList<>();
+            for (int j = 0; j < len; j++) {
+                queue.add(sc.nextInt());
+            }
+            queues.add(queue);
+        }
+
+        Solution solution = new Solution();
+        List<Integer> result = solution.mergeQueues(queues);
+
+        for (int i = 0; i < result.size(); i++) {
+            System.out.print(result.get(i));
+            if (i < result.size() - 1) System.out.print(" ");
+        }
+        System.out.println();
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import heapq
+import sys
+from typing import List
+
+def merge_queues(queues: List[List[int]]) -> List[int]:
+    # Implementation here
+    return []
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    try:
+        k = int(next(iterator))
+    except StopIteration:
+        return
+
+    queues = []
+    for _ in range(k):
+        length = int(next(iterator))
+        queue = []
+        for _ in range(length):
+            queue.append(int(next(iterator)))
+        queues.append(queue)
+
+    result = merge_queues(queues)
+    print(' '.join(map(str, result)))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> mergeQueues(vector<vector<int>>& queues) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int k;
+    if (!(cin >> k)) return 0;
+
+    vector<vector<int>> queues(k);
+    for (int i = 0; i < k; i++) {
+        int len;
+        cin >> len;
+        queues[i].resize(len);
+        for (int j = 0; j < len; j++) {
+            cin >> queues[i][j];
+        }
+    }
+
+    Solution solution;
+    vector<int> result = solution.mergeQueues(queues);
+
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i];
+        if (i < result.size() - 1) cout << " ";
+    }
+    cout << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  mergeQueues(queues) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  // Flatten all input like Python does
+  const allNumbers = [];
+  for (const line of data) {
+    allNumbers.push(...line.split(" ").map(Number));
+  }
+
+  let ptr = 0;
+  const k = allNumbers[ptr++];
+
+  const queues = [];
+  for (let i = 0; i < k; i++) {
+    const len = allNumbers[ptr++];
+    const queue = [];
+    for (let j = 0; j < len; j++) {
+      queue.push(allNumbers[ptr++]);
+    }
+    queues.push(queue);
+  }
+
+  const solution = new Solution();
+  const result = solution.mergeQueues(queues);
+  console.log(result.join(" "));
+});
+```

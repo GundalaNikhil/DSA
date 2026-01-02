@@ -90,12 +90,127 @@ Trie, String, Dynamic Programming, Prefix Matching
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public String longestCommonPrefixAfterOneDeletion(String[] words) {
+        // Implementation here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        String[] words = new String[n];
+        for (int i = 0; i < n; i++) {
+            words[i] = sc.next();
+        }
+
+        Solution solution = new Solution();
+        String result = solution.longestCommonPrefixAfterOneDeletion(words);
+
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+class Solution:
+    def longest_common_prefix_after_one_deletion(self, words: List[str]) -> str:
+        # Implementation here
+        return ""
+
+def main():
+    import sys
+    input_data = sys.stdin.read().strip().split()
+
+    n = int(input_data[0])
+    words = input_data[1:n+1]
+
+    solution = Solution()
+    result = solution.longest_common_prefix_after_one_deletion(words)
+
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string longestCommonPrefixAfterOneDeletion(vector<string>& words) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+
+    vector<string> words(n);
+    for (int i = 0; i < n; i++) {
+        cin >> words[i];
+    }
+
+    Solution solution;
+    string result = solution.longestCommonPrefixAfterOneDeletion(words);
+
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  constructor() {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const tokens = lines.join(" ").split(/\s+/);
+
+  const n = parseInt(tokens[0]);
+  const words = tokens.slice(1, n + 1);
+
+  const solution = new Solution();
+  const result = solution.longestCommonPrefixAfterOneDeletion(words);
+
+  console.log(result);
+});
+```

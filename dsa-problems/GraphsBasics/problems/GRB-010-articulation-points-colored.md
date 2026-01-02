@@ -87,12 +87,247 @@ Articulation Points, DFS, Graph Coloring
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] criticalNodes(int n, int[][] edges) {
+        // Implementation here
+        return new int[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        int[][] edges = new int[m][3];
+        for (int i = 0; i < m; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+            String color = sc.next();
+            edges[i][2] = color.equals("R") ? 0 : 1;
+        }
+        
+        Solution solution = new Solution();
+        int[] result = solution.criticalNodes(n, edges);
+        
+        // Output count and node IDs (as per problem statement)
+        System.out.println(result.length);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < result.length; i++) {
+            if (i > 0) sb.append(" ");
+            sb.append(result[i]);
+        }
+        System.out.println(sb.toString());
+        
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def critical_nodes(n: int, edges: list[tuple[int, int, int]]) -> list[int]:
+    # Implementation here
+    return []
+
+def main():
+    data = sys.stdin.read().strip().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            c_str = next(iterator)
+            edges.append((u, v, 0 if c_str == "R" else 1))
+            
+        ans = critical_nodes(n, edges)
+        # Output count and node IDs (as per problem statement)
+        print(len(ans))
+        print(" ".join(map(str, ans)))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <set>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> criticalNodes(int n, const vector<array<int, 3>>& edges) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    vector<array<int, 3>> edges;
+    edges.reserve(m);
+    for (int i = 0; i < m; i++) {
+        int u, v; char c;
+        cin >> u >> v >> c;
+        edges.push_back({u, v, c == 'R' ? 0 : 1});
+    }
+
+    Solution solution;
+    vector<int> ans = solution.criticalNodes(n, edges);
+    // Output count and node IDs (as per problem statement)
+    cout << ans.size() << "\n";
+    for (int i = 0; i < (int)ans.size(); i++) {
+        if (i) cout << ' ';
+        cout << ans[i];
+    }
+    cout << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  criticalNodes(n, edges) {
+    // Implementation here
+    return null;
+  }
+}
+
+class Solution {
+  criticalNodes(n, edges) {
+    // Build adjacency list with colors
+    const adj = Array.from({ length: n }, () => []);
+    for (const [u, v, c] of edges) {
+      adj[u].push([v, c]);
+      adj[v].push([u, c]);
+    }
+    
+    const critNodes = [];
+    
+    // Brute force: try removing each node
+    for (let removed = 0; removed < n; removed++) {
+      const visited = new Array(n).fill(false);
+      visited[removed] = true;
+      
+      const components = []; // [[hasRed, hasBlue], ...]
+      
+      for (let start = 0; start < n; start++) {
+        if (!visited[start]) {
+          let hasRed = false;
+          let hasBlue = false;
+          
+          const compNodes = [];
+          const stack = [start];
+          visited[start] = true;
+          
+          while (stack.length > 0) {
+            const u = stack.pop();
+            compNodes.push(u);
+            for (const [v, c] of adj[u]) {
+              if (v === removed) continue;
+              if (!visited[v]) {
+                visited[v] = true;
+                stack.push(v);
+              }
+            }
+          }
+          
+          // Check edges within this component
+          const compSet = new Set(compNodes);
+          for (const u of compNodes) {
+            for (const [v, color] of adj[u]) {
+              if (v === removed) continue;
+              if (compSet.has(v)) {
+                if (color === 0) hasRed = true;
+                else hasBlue = true;
+              }
+            }
+          }
+          
+          components.push([hasRed, hasBlue]);
+        }
+      }
+      
+      // Check criticality condition
+      const redComps = [];
+      const blueComps = [];
+      for (let i = 0; i < components.length; i++) {
+        if (components[i][0]) redComps.push(i);
+        if (components[i][1]) blueComps.push(i);
+      }
+      
+      let isCritical = false;
+      if (redComps.length > 0 && blueComps.length > 0) {
+        if (redComps.length > 1 || blueComps.length > 1) {
+          isCritical = true;
+        } else if (redComps[0] !== blueComps[0]) {
+          isCritical = true;
+        }
+      }
+      
+      if (isCritical) {
+        critNodes.push(removed);
+      }
+    }
+    
+    return critNodes;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const m = parseInt(data[idx++], 10);
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(data[idx++], 10);
+    const v = parseInt(data[idx++], 10);
+    const c = data[idx++];
+    edges.push([u, v, c === "R" ? 0 : 1]);
+  }
+
+  const solution = new Solution();
+  const ans = solution.criticalNodes(n, edges);
+  // Output count and node IDs (as per problem statement)
+  console.log(ans.length);
+  console.log(ans.join(" "));
+});
+```

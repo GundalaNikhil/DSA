@@ -94,12 +94,111 @@ Binary Search, Hashing, Rolling Hash, Longest Common Substring
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int longestCommonSubstring(String a, String b) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLine()) {
+            String a = sc.nextLine();
+            String b = sc.nextLine();
+            Solution solution = new Solution();
+            System.out.println(solution.longestCommonSubstring(a, b));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def longest_common_substring(self, a: str, b: str) -> int:
+        # Implementation here
+        return 0
+
+def main():
+    lines = sys.stdin.read().strip().split('\n')
+    if len(lines) < 2:
+        return
+
+    a = lines[0] if len(lines) > 0 else ""
+    b = lines[1] if len(lines) > 1 else ""
+    print(longest_common_substring(a, b))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <unordered_set>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int longestCommonSubstring(string a, string b) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string a, b;
+    if (getline(cin, a) && getline(cin, b)) {
+        Solution solution;
+        cout << solution.longestCommonSubstring(a, b) << "\n";
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  longestCommonSubstring(a, b) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length < 2) return;
+  const a = data[0];
+  const b = data[1];
+
+  const solution = new Solution();
+  console.log(solution.longestCommonSubstring(a, b));
+});
+```

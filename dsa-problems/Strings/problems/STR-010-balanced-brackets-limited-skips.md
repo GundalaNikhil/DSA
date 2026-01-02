@@ -87,3 +87,117 @@ false
 - Greedy balance tracking with O(n) time
 - Skip ')' immediately when balance goes negative
 - Final balance indicates unmatched '(' needing skips
+
+---
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public boolean canBalanceWithSkips(String s, int k) {
+        // Implementation here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        int k = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.canBalanceWithSkips(s, k));
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+import sys
+
+def can_balance_with_skips(s: str, k: int) -> bool:
+    # Implementation here
+    return False
+
+def main():
+    import sys
+
+
+    # Read input
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        print("false")
+        return
+        
+    parts = input_data.split()
+    if len(parts) >= 2:
+        s = parts[0]
+        try:
+            k = int(parts[1])
+            result = can_balance_with_skips(s, k)
+            print("true" if result else "false")
+        except ValueError:
+            pass
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
+
+```cpp
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    bool canBalanceWithSkips(string s, int k) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s; cin >> s;
+    int k; cin >> k;
+    Solution sol;
+    cout << (sol.canBalanceWithSkips(s, k) ? "true" : "false") << endl;
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  canBalanceWithSkips(s, k) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const s = tokens[ptr++];
+    const k = parseInt(tokens[ptr++]);
+    console.log(new Solution().canBalanceWithSkips(s, k));
+});
+```

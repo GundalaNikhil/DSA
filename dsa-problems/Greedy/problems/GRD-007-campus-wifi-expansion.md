@@ -101,11 +101,151 @@ Minimum Spanning Tree, Kruskal's Algorithm, Greedy Algorithms, Union-Find, Graph
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int compareTo(Edge other) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        int[] heights = new int[n];
+        for (int i = 0; i < n; i++) heights[i] = sc.nextInt();
+        
+        int m = sc.nextInt();
+        int[][] existingCables = new int[m][2];
+        for (int i = 0; i < m; i++) {
+            existingCables[i][0] = sc.nextInt();
+            existingCables[i][1] = sc.nextInt();
+        }
+        
+        Solution solution = new Solution();
+        System.out.println(solution.minCost(n, heights, existingCables));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def min_cost(n: int, heights: list, existing_cables: list) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    n = int(next(iterator))
+    
+    heights = []
+    for _ in range(n):
+        heights.append(int(next(iterator)))
+        
+    m = int(next(iterator))
+    existing_cables = []
+    for _ in range(m):
+        u = int(next(iterator))
+        v = int(next(iterator))
+        existing_cables.append([u, v])
+        
+    print(min_cost(n, heights, existing_cables))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <numeric>
+
+using namespace std;
+
+class Solution {
+public:
+    long minCost(int n, vector<int>& heights, vector<pair<int,int>>& existingCables) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> heights(n);
+    for (int i = 0; i < n; i++) cin >> heights[i];
+
+    int m;
+    if (!(cin >> m)) return 0; // Should not happen based on constraints but safe check
+
+    vector<pair<int,int>> existingCables(m);
+    for (int i = 0; i < m; i++) {
+        cin >> existingCables[i].first >> existingCables[i].second;
+    }
+
+    Solution solution;
+    cout << solution.minCost(n, heights, existingCables) << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  minCost(n, heights, existingCables) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const n = parseInt(data[ptr++]);
+  const heights = data[ptr++].split(" ").map(Number);
+  const m = parseInt(data[ptr++]);
+  
+  const existingCables = [];
+  for (let i = 0; i < m; i++) {
+    const [u, v] = data[ptr++].split(" ").map(Number);
+    existingCables.push([u, v]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.minCost(n, heights, existingCables));
+});
+```

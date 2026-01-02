@@ -84,12 +84,192 @@ Euler Tour, Tree Flattening, DFS
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[][] eulerTour(int n, List<List<Integer>> adj, int root) {
+        // Implementation here
+        return new int[0][0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
+        for (int i = 0; i < n - 1; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+        int root = sc.nextInt();
+
+        Solution solution = new Solution();
+        int[][] res = solution.eulerTour(n, adj, root);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(res[0][i]);
+        }
+        sb.append('\n');
+        for (int i = 0; i < n; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(res[1][i]);
+        }
+        System.out.print(sb.toString());
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def euler_tour(n: int, adj: list[list[int]], root: int):
+    # Implementation here
+    return None
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        adj = [[] for _ in range(n)]
+        for _ in range(n - 1):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            adj[u].append(v)
+            adj[v].append(u)
+        root = int(next(iterator))
+        
+        tin, tout = euler_tour(n, adj, root)
+        print(" ".join(map(str, tin)))
+        print(" ".join(map(str, tout)))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void dfs(int u, int p, const vector<vector<int>>& adj) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<vector<int>> adj(n);
+    for (int i = 0; i < n - 1; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    int root;
+    cin >> root;
+
+    Solution solution;
+    auto res = solution.eulerTour(n, adj, root);
+    for (int i = 0; i < n; i++) {
+        if (i) cout << ' ';
+        cout << res.first[i];
+    }
+    cout << "\n";
+    for (int i = 0; i < n; i++) {
+        if (i) cout << ' ';
+        cout << res.second[i];
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  eulerTour(n, adj, root) {
+    // Implementation here
+    return null;
+  }
+}
+
+class Solution {
+  eulerTour(n, adj, root) {
+    const tin = new Int32Array(n);
+    const tout = new Int32Array(n);
+    let timer = 0;
+
+    const dfs = (u, p) => {
+      tin[u] = timer++;
+      
+      for (const v of adj[u]) {
+        if (v !== p) {
+          dfs(v, u);
+          timer++;
+        }
+      }
+      
+      tout[u] = timer;
+    };
+
+    dfs(root, -1);
+    return [tin, tout];
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const adj = Array.from({ length: n }, () => []);
+  for (let i = 0; i < n - 1; i++) {
+    const u = parseInt(data[idx++], 10);
+    const v = parseInt(data[idx++], 10);
+    adj[u].push(v);
+    adj[v].push(u);
+  }
+  const root = parseInt(data[idx++], 10);
+
+  const solution = new Solution();
+  const res = solution.eulerTour(n, adj, root);
+  console.log(res[0].join(" "));
+  console.log(res[1].join(" "));
+});
+```

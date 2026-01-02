@@ -77,7 +77,119 @@ Each row and column is a permutation of 1..4, and every single-cell cage matches
 Backtracking, Constraint Satisfaction, Recursion
 ---
 ## Solution Template
+
 ### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public int[][] solveLatinSquare(int n) {
+        // Implementation here
+        return new int[0][0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if(!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        
+        Solution sol = new Solution();
+        int[][] res = sol.solveLatinSquare(n);
+        for(int[] row : res) {
+            for(int i=0; i<row.length; i++) {
+                System.out.print(row[i] + (i==row.length-1?"":" "));
+            }
+            System.out.println();
+        }
+        sc.close();
+    }
+}
+```
+
 ### Python
+
+```python
+import sys
+
+def solve_latin_square(n: int) -> list[list[int]]:
+    # Implementation here
+    return []
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if not lines:
+        return
+    n = int(lines[0])
+    result = solve_latin_square(n)
+    if result:
+        for row in result:
+            print(' '.join(map(str, row)))
+    else:
+        print("NONE")
+
+if __name__ == "__main__":
+    main()
+```
+
 ### C++
+
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    public:
+    vector<vector<int>> solveLatinSquare(int n) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    Solution sol;
+    vector<vector<int>> res = sol.solveLatinSquare(n);
+    for(const auto& row : res) { 
+        for(size_t i=0; i<row.size(); i++) cout << row[i] << (i==row.size()-1?"":" "); 
+        cout << endl; 
+    }
+    return 0;
+}
+```
+
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  solveLatinSquare(n) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const n = parseInt(tokens[ptr++]);
+    
+    const sol = new Solution();
+    const res = sol.solveLatinSquare(n);
+    
+    res.forEach(row => console.log(row.join(' ')));
+});
+```

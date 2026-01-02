@@ -122,12 +122,136 @@ Trie, String, Recursion, Backtracking, Pattern Matching
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void insertWord(String word) {
+        // Implementation here
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        sc.nextLine();
+
+        Solution solution = new Solution();
+        for (int i = 0; i < n; i++) {
+            solution.insertWord(sc.nextLine().trim());
+        }
+
+        String pattern = sc.nextLine().trim();
+        boolean result = solution.search(pattern);
+
+        System.out.println(result);
+
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+class Solution:
+    def insert_word(self, word: str):
+        # Implementation here
+        return None
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+
+    n = int(lines[0])
+
+    solution = Solution()
+    for i in range(1, n + 1):
+        solution.insert_word(lines[i].strip())
+
+    pattern = lines[n + 1].strip()
+    result = solution.search(pattern)
+
+    print('true' if result else 'false')
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <unordered_map>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    void insertWord(const string& word) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+    cin.ignore();
+
+    Solution solution;
+    for (int i = 0; i < n; i++) {
+        string word;
+        getline(cin, word);
+        solution.insertWord(word);
+    }
+
+    string pattern;
+    getline(cin, pattern);
+
+    bool result = solution.search(pattern);
+    cout << (result ? "true" : "false") << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  constructor() {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const n = parseInt(lines[0]);
+
+  const solution = new Solution();
+  for (let i = 1; i <= n; i++) {
+    solution.insertWord(lines[i].trim());
+  }
+
+  const pattern = lines[n + 1].trim();
+  const result = solution.search(pattern);
+
+  console.log(result ? "true" : "false");
+});
+```

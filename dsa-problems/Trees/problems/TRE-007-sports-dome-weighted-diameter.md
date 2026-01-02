@@ -86,12 +86,162 @@ Tree Diameter, DFS, Weighted Trees
 
 ### Java
 
+```java
+import java.io.*;
+import java.util.*;
+
+class Solution {
+    public long weightedDiameter(int n, int[] left, int[] right, long[] lw, long[] rw) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        List<String> lines = new ArrayList<>();
+        String line;
+        while ((line = br.readLine()) != null) {
+            line = line.trim();
+            if (!line.isEmpty()) lines.add(line);
+        }
+        if (lines.isEmpty()) return;
+
+        int n = Integer.parseInt(lines.get(0));
+        int[] left = new int[n];
+        int[] right = new int[n];
+        long[] lw = new long[n];
+        long[] rw = new long[n];
+
+        for (int i = 0; i < n && i + 1 < lines.size(); i++) {
+            String[] parts = lines.get(i + 1).split("\\s+");
+            if (parts.length < 3) continue;
+            left[i] = Integer.parseInt(parts[1]);
+            right[i] = Integer.parseInt(parts[2]);
+            if (parts.length >= 5) {
+                lw[i] = Long.parseLong(parts[3]);
+                rw[i] = Long.parseLong(parts[4]);
+            } else {
+                lw[i] = 1;
+                rw[i] = 1;
+            }
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.weightedDiameter(n, left, right, lw, rw));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def weighted_diameter(n: int, left: list[int], right: list[int], lw: list[int], rw: list[int]) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    lines = sys.stdin.read().splitlines()
+    if not lines: return
+    valid_lines = [l.strip() for l in lines if l.strip()]
+    if not valid_lines: return
+    iterator = iter(valid_lines)
+    
+    try:
+        n = int(next(iterator))
+        left = [0] * n
+        right = [0] * n
+        lw = [0] * n
+        rw = [0] * n
+        
+        for i in range(n):
+            line = next(iterator)
+            parts = list(map(int, line.split()))
+            left[i] = parts[1]
+            right[i] = parts[2]
+            if len(parts) >= 5:
+                lw[i] = parts[3]
+                rw[i] = parts[4]
+            else:
+                lw[i] = 1
+                rw[i] = 1
+                
+        print(weighted_diameter(n, left, right, lw, rw))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <sstream>
+
+using namespace std;
+
+class Solution {
+public:
+    long weightedDiameter(int n, const vector<int>& left, const vector<int>& right,
+                               const vector<long long>& lw, const vector<long long>& rw) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    vector<string> lines;
+    string line;
+    while (getline(cin, line)) {
+        if (!line.empty()) {
+            bool allSpace = true;
+            for (char ch : line) {
+                if (ch > ' ') {
+                    allSpace = false;
+                    break;
+                }
+            }
+            if (!allSpace) lines.push_back(line);
+        }
+    }
+    if (lines.empty()) return 0;
+
+    int n = stoi(lines[0]);
+    vector<int> left(n, -1), right(n, -1);
+    vector<long long> lw(n, 1), rw(n, 1);
+
+    for (int i = 0; i < n && i + 1 < (int)lines.size(); i++) {
+        stringstream ss(lines[i + 1]);
+        vector<long long> parts;
+        long long x;
+        while (ss >> x) parts.push_back(x);
+        if (parts.size() < 3) continue;
+        left[i] = (int)parts[1];
+        right[i] = (int)parts[2];
+        if (parts.size() >= 5) {
+            lw[i] = parts[3];
+            rw[i] = parts[4];
+        }
+    }
+
+    Solution solution;
+    cout << solution.weightedDiameter(n, left, right, lw, rw) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```
+// No template available
+```

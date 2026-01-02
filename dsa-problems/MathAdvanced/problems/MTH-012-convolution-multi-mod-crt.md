@@ -88,12 +88,158 @@ crt, chinese-remainder-theorem, multi-modular
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long[] convolution_multi_mod_crt(int n, int m, long[] A, long[] B, long targetMod) {
+        // Implementation here
+        return new long[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        long[] A = new long[n];
+        for (int i = 0; i < n; i++) A[i] = sc.nextLong();
+        
+        long[] B = new long[m];
+        for (int i = 0; i < m; i++) B[i] = sc.nextLong();
+        
+        long MOD = sc.nextLong();
+        
+        Solution solution = new Solution();
+        long[] res = solution.convolution_multi_mod_crt(n, m, A, B, MOD);
+        
+        for (int i = 0; i < res.length; i++) {
+            System.out.print(res[i] + (i < res.length - 1 ? " " : ""));
+        }
+        System.out.println();
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def convolution_multi_mod_crt(self, n: int, m: int, A: list[int], B: list[int], targetMod: int) -> list[int]:
+        # Implementation here
+        return []
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        A = [int(next(iterator)) for _ in range(n)]
+        B = [int(next(iterator)) for _ in range(m)]
+        MOD = int(next(iterator))
+        
+        sol = Solution()
+        res = sol.convolution_multi_mod_crt(n, m, A, B, MOD)
+        print(*(res))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> convolution_multi_mod_crt(int n, int m, vector<long long>& A, vector<long long>& B, long long targetMod) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+
+    vector<long long> A(n);
+    for (int i = 0; i < n; i++) cin >> A[i];
+
+    vector<long long> B(m);
+    for (int i = 0; i < m; i++) cin >> B[i];
+
+    long long MOD;
+    cin >> MOD;
+
+    Solution solution;
+    vector<long long> result = solution.convolution_multi_mod_crt(n, m, A, B, MOD);
+
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i] << (i < result.size() - 1 ? " " : "");
+    }
+    cout << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  convolution_multi_mod_crt(n, m, A, B, targetMod) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let ptr = 0;
+  
+  const n = parseInt(data[ptr++]);
+  const m = parseInt(data[ptr++]);
+  
+  const A = [];
+  for(let i=0; i<n; i++) A.push(parseInt(data[ptr++]));
+  
+  const B = [];
+  for(let i=0; i<m; i++) B.push(parseInt(data[ptr++]));
+  
+  const MOD = parseInt(data[ptr++]);
+  
+  const solution = new Solution();
+  const result = solution.convolution_multi_mod_crt(n, m, A, B, MOD);
+  console.log(result.join(" "));
+});
+```

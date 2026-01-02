@@ -101,12 +101,152 @@ Number Theoretic Transform, FFT, Modular Arithmetic, Primitive Roots, Convolutio
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long[] convolution(long[] A, long[] B, long MOD_UNUSED) {
+        // Implementation here
+        return new long[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        // MOD is fixed to 998244353 for this problem
+        long MOD = 998244353L;
+
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        long[] A = new long[n];
+        for (int i = 0; i < n; i++) A[i] = sc.nextLong();
+
+        int m = sc.nextInt();
+        long[] B = new long[m];
+        for (int i = 0; i < m; i++) B[i] = sc.nextLong();
+
+        Solution solution = new Solution();
+        long[] result = solution.convolution(A, B, MOD);
+
+        for (int i = 0; i < result.length; i++) {
+            System.out.print(result[i] + (i < result.length - 1 ? " " : ""));
+        }
+        System.out.println();
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def convolution(self, A: list[int], B: list[int], MOD: int) -> list[int]:
+        # Implementation here
+        return []
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        A = [int(next(iterator)) for _ in range(n)]
+        m = int(next(iterator))
+        B = [int(next(iterator)) for _ in range(m)]
+        
+        sol = Solution()
+        res = sol.convolution(A, B, 998244353)
+        print(*(res))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> convolution(vector<long long>& A, vector<long long>& B) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<long long> A(n);
+    for (int i = 0; i < n; i++) cin >> A[i];
+
+    int m;
+    cin >> m;
+    vector<long long> B(m);
+    for (int i = 0; i < m; i++) cin >> B[i];
+
+    Solution solution;
+    vector<long long> result = solution.convolution(A, B);
+
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i] << (i < result.size() - 1 ? " " : "");
+    }
+    cout << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  convolution(A, B, MOD) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const MOD = 998244353;
+  let ptr = 0;
+
+  const n = parseInt(data[ptr++]);
+  const A = [];
+  for(let i=0; i<n; i++) A.push(parseInt(data[ptr++]));
+  
+  const m = parseInt(data[ptr++]);
+  const B = [];
+  for(let i=0; i<m; i++) B.push(parseInt(data[ptr++]));
+
+  const solution = new Solution();
+  const result = solution.convolution(A, B, MOD);
+  console.log(result.join(" "));
+});
+```

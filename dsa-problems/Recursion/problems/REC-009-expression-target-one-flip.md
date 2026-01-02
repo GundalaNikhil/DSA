@@ -85,14 +85,122 @@ Backtracking, Expression Evaluation, Recursion
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int findFlipIndex(List<Integer> nums, String ops, int target) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        List<Integer> nums = new ArrayList<>();
+        for(int i=0; i<n; i++) nums.add(sc.nextInt());
+        
+        String ops = sc.next();
+        int target = sc.nextInt();
+        
+        Solution sol = new Solution();
+        System.out.println(sol.findFlipIndex(nums, ops, target));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def find_flip_index(nums: list[int], ops: str, target: int) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if len(lines) < 4:
+        return
+    n = int(lines[0].strip())
+    nums = list(map(int, lines[1].split()))
+    ops = lines[2].strip()
+    target = int(lines[3].strip())
+    result = find_flip_index(nums, ops, target)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int findFlipIndex(const vector<int>& nums, string ops, int target) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> nums(n);
+    for(int i=0; i<n; i++) cin >> nums[i];
+    
+    string ops; cin >> ops;
+    int target; cin >> target;
+    
+    Solution sol;
+    cout << sol.findFlipIndex(nums, ops, target) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  findFlipIndex(nums, ops, target) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const n = parseInt(tokens[ptr++]);
+    const nums = [];
+    for(let i=0; i<n; i++) nums.push(parseInt(tokens[ptr++]));
+    
+    const ops = tokens[ptr++];
+    const target = parseInt(tokens[ptr++]);
+    
+    const sol = new Solution();
+    console.log(sol.findFlipIndex(nums, ops, target));
+});
+```

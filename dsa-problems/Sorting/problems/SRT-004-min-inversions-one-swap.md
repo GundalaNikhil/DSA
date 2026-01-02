@@ -78,14 +78,111 @@ Inversion Count, Fenwick Tree, Optimization
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long minInversionsAfterSwap(int[] arr) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        System.out.println(solution.minInversionsAfterSwap(arr));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def min_inversions_after_swap(arr: list[int]) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+    result = min_inversions_after_swap(arr)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <vector>
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    long minInversionsAfterSwap(const vector<int>& arr) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    cout << solution.minInversionsAfterSwap(arr) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+const fs = require("fs");
+
+class Solution {
+  minInversionsAfterSwap(arr) {
+    // Implementation here
+    return null;
+  }
+}
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+console.log(solution.minInversionsAfterSwap(arr).toString());
+```

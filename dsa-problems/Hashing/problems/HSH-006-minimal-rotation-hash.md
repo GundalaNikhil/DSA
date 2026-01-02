@@ -89,12 +89,105 @@ String Rotation, Hashing, Binary Search, Lexicographic Order
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public String minimalRotation(String s) {
+        // Implementation here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLine()) {
+            String s = sc.nextLine();
+            Solution solution = new Solution();
+            System.out.println(solution.minimalRotation(s));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def minimal_rotation(self, s: str) -> str:
+        # Implementation here
+        return ""
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    s = input_data[0]
+    print(minimal_rotation(s))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    string minimalRotation(string s) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    string s;
+    if (getline(cin, s)) {
+        Solution solution;
+        cout << solution.minimalRotation(s) << "\n";
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  minimalRotation(s) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const s = data[0];
+
+  const solution = new Solution();
+  console.log(solution.minimalRotation(s));
+});
+```

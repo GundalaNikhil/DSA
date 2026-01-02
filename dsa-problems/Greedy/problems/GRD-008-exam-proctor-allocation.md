@@ -98,11 +98,139 @@ Greedy Algorithms, Sweep Line, Interval Scheduling, Resource Allocation
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int minProctors(int n, int r, int[][] exams) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        int r = sc.nextInt();
+        
+        int[][] exams = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            exams[i][0] = sc.nextInt();
+            exams[i][1] = sc.nextInt();
+        }
+        
+        Solution solution = new Solution();
+        System.out.println(solution.minProctors(n, r, exams));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import math
+
+def min_proctors(n: int, r: int, exams: list) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    n = int(next(iterator))
+    r = int(next(iterator))
+    
+    exams = []
+    for _ in range(n):
+        start = int(next(iterator))
+        end = int(next(iterator))
+        exams.append([start, end])
+    
+    result = min_proctors(n, r, exams)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+
+using namespace std;
+
+class Solution {
+public:
+    int minProctors(int n, int r, vector<pair<int,int>>& exams) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, r;
+    if (!(cin >> n >> r)) return 0;
+    
+    vector<pair<int,int>> exams(n);
+    for (int i = 0; i < n; i++) {
+        cin >> exams[i].first >> exams[i].second;
+    }
+    
+    Solution solution;
+    cout << solution.minProctors(n, r, exams) << "\n";
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  minProctors(n, r, exams) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const [n, r] = data[ptr++].split(" ").map(Number);
+  
+  const exams = [];
+  for (let i = 0; i < n; i++) {
+    const [start, end] = data[ptr++].split(" ").map(Number);
+    exams.push([start, end]);
+  }
+  
+  const solution = new Solution();
+  console.log(solution.minProctors(n, r, exams));
+});
+```

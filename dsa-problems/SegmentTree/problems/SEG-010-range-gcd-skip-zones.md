@@ -90,12 +90,200 @@ Initially index 1 is forbidden, so gcd(6,3) = 3. After toggling, all indices are
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<Integer> process(int[] arr, boolean[] forbidden, List<String[]> ops) {
+        // Implementation here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int q = sc.nextInt();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+            int f = sc.nextInt();
+            boolean[] forbidden = new boolean[n];
+            for (int i = 0; i < f; i++) {
+                forbidden[sc.nextInt()] = true;
+            }
+            List<String[]> ops = new ArrayList<>();
+            for (int i = 0; i < q; i++) {
+                String type = sc.next();
+                if (type.equals("TOGGLE")) {
+                    ops.add(new String[]{type, sc.next()});
+                } else if (type.equals("SET")) {
+                    ops.add(new String[]{type, sc.next(), sc.next()});
+                } else {
+                    ops.add(new String[]{type, sc.next(), sc.next()});
+                }
+            }
+            Solution sol = new Solution();
+            List<Integer> results = sol.process(arr, forbidden, ops);
+            for (int res : results) {
+                System.out.println(res);
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def gcd(a, b):
+    # Implementation here
+    return None
+
+def main():
+    import sys
+    # Increase recursion depth for deep trees
+    sys.setrecursionlimit(300000)
+    def input_gen():
+
+        for line in sys.stdin:
+
+            for token in line.split():
+
+                yield token
+
+    it = input_gen()
+    n = int(next(it))
+    q = int(next(it))
+    arr = [int(next(it)) for _ in range(n)]
+    f_count = int(next(it))
+    forbidden = [False] * n
+    for _ in range(f_count):
+        forbidden[int(next(it))] = True
+        
+    ops = []
+    for _ in range(q):
+        type = next(it)
+        if type == "TOGGLE":
+            ops.append([type, next(it)])
+        elif type == "SET":
+            ops.append([type, next(it), next(it)])
+        else:
+            ops.append([type, next(it), next(it)])
+            
+    results = process(arr, forbidden, ops)
+    for res in results:
+        print(res)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <numeric>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> process(const vector<int>& arr, const vector<bool>& forbidden, const vector<vector<string>>& ops) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, q;
+    if (!(cin >> n >> q)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    int f;
+    cin >> f;
+    vector<bool> forbidden(n, false);
+    for (int i = 0; i < f; i++) {
+        int idx;
+        cin >> idx;
+        forbidden[idx] = true;
+    }
+    vector<vector<string>> ops(q);
+    for (int i = 0; i < q; i++) {
+        string type;
+        cin >> type;
+        if (type == "TOGGLE") {
+            string idx;
+            cin >> idx;
+            ops[i] = {type, idx};
+        } else {
+            string a, b;
+            cin >> a >> b;
+            ops[i] = {type, a, b};
+        }
+    }
+    Solution sol;
+    vector<int> results = sol.process(arr, forbidden, ops);
+    for (int res : results) {
+        cout << res << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  process(arr, forbidden, ops) {
+    // Implementation here
+    return null;
+  }
+}
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const q = parseInt(data[idx++], 10);
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(parseInt(data[idx++], 10));
+  const f = parseInt(data[idx++], 10);
+  const forbidden = Array(n).fill(false);
+  for (let i = 0; i < f; i++) forbidden[parseInt(data[idx++], 10)] = true;
+  const ops = [];
+  for (let i = 0; i < q; i++) {
+    const type = data[idx++];
+    if (type === "TOGGLE") {
+      ops.push([type, data[idx++]]);
+    } else {
+      ops.push([type, data[idx++], data[idx++]]);
+    }
+  }
+  const solution = new Solution();
+  const out = solution.process(arr, forbidden, ops);
+  console.log(out.join("\n"));
+});
+```

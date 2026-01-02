@@ -87,12 +87,142 @@ lagrange-interpolation, modular-arithmetic, polynomial
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long lagrange_interpolation_mod(int k, long X, long MOD, long[][] points) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int k = sc.nextInt();
+        long X = sc.nextLong();
+        long MOD = sc.nextLong();
+        
+        long[][] points = new long[k][2];
+        for (int i = 0; i < k; i++) {
+            points[i][0] = sc.nextLong();
+            points[i][1] = sc.nextLong();
+        }
+        
+        Solution solution = new Solution();
+        System.out.println(solution.lagrange_interpolation_mod(k, X, MOD, points));
+        
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def lagrange_interpolation_mod(self, k: int, X: int, MOD: int, points: list[list[int]]) -> int:
+        # Implementation here
+        return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    iterator = iter(data)
+    try:
+        k = int(next(iterator))
+        X = int(next(iterator))
+        MOD = int(next(iterator))
+        
+        points = []
+        for _ in range(k):
+            points.append([int(next(iterator)), int(next(iterator))])
+            
+        sol = Solution()
+        print(sol.lagrange_interpolation_mod(k, X, MOD, points))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long lagrange_interpolation_mod(int k, long long X, long long mod, vector<pair<long long, long long>>& points) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int k;
+    long long X, MOD;
+    if (!(cin >> k >> X >> MOD)) return 0;
+
+    vector<pair<long long, long long>> points(k);
+    for (int i = 0; i < k; i++) {
+        cin >> points[i].first >> points[i].second;
+    }
+
+    Solution solution;
+    cout << solution.lagrange_interpolation_mod(k, X, MOD, points) << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  lagrange_interpolation_mod(k, X, MOD, points) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let ptr = 0;
+  
+  const k = parseInt(data[ptr++]);
+  const X = parseInt(data[ptr++]);
+  const MOD = parseInt(data[ptr++]);
+  
+  const points = [];
+  for(let i=0; i<k; i++) {
+      points.push([parseInt(data[ptr++]), parseInt(data[ptr++])]);
+  }
+  
+  const solution = new Solution();
+  console.log(solution.lagrange_interpolation_mod(k, X, MOD, points));
+});
+```

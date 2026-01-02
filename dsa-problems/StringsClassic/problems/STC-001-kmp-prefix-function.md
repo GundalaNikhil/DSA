@@ -74,14 +74,131 @@ KMP, Prefix Function, String Matching
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] prefixFunction(String s) {
+        // Implementation here
+        return new int[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String s = sc.next();
+            Solution solution = new Solution();
+            int[] pi = solution.prefixFunction(s);
+            
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < pi.length; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(pi[i]);
+            }
+            System.out.println(sb.toString());
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def prefix_function(s: str) -> list[int]:
+    # Implementation here
+    return []
+
+def main():
+    import sys
+    sys.setrecursionlimit(200000)
+    # Read all input from stdin
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+        
+    s = input_data[0]
+    pi = prefix_function(s)
+    print(*(pi))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> prefixFunction(const string& s) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    // Fast I/O
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string s;
+    if (cin >> s) {
+        Solution solution;
+        vector<int> pi = solution.prefixFunction(s);
+        
+        for (int i = 0; i < (int)pi.size(); i++) {
+            if (i > 0) cout << " ";
+            cout << pi[i];
+        }
+        cout << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  prefixFunction(s) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part) data.push(part);
+  }
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const s = data[0];
+  const solution = new Solution();
+  const pi = solution.prefixFunction(s);
+  console.log(pi.join(" "));
+});
+```

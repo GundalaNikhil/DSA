@@ -93,12 +93,137 @@ Heaps, Greedy Scheduling, Resource Management
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int maxTasks(int E, int[] duration, int[] gain) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int E = sc.nextInt();
+            int[] duration = new int[n];
+            int[] gain = new int[n];
+            for (int i = 0; i < n; i++) {
+                duration[i] = sc.nextInt();
+                gain[i] = sc.nextInt();
+            }
+            
+            Solution solution = new Solution();
+            System.out.println(solution.maxTasks(E, duration, gain));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import heapq
+
+class Solution:
+    def max_tasks(self, E: int, duration: list, gain: list) -> int:
+        # Implementation here
+        return 0
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    try:
+        n = int(next(it))
+        E = int(next(it))
+        duration = []
+        gain = []
+        for _ in range(n):
+            duration.append(int(next(it)))
+            gain.append(int(next(it)))
+            
+        print(max_tasks(E, duration, gain))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxTasks(long long E, const vector<int>& duration, const vector<int>& gain) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    long long E;
+    if (cin >> n >> E) {
+        vector<int> duration(n), gain(n);
+        for (int i = 0; i < n; i++) cin >> duration[i] >> gain[i];
+        
+        Solution solution;
+        cout << solution.maxTasks(E, duration, gain) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  maxTasks(E, duration, gain) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++]);
+  const E = parseInt(data[idx++]);
+  const duration = [];
+  const gain = [];
+  for (let i = 0; i < n; i++) {
+    duration.push(parseInt(data[idx++]));
+    gain.push(parseInt(data[idx++]));
+  }
+  
+  const solution = new Solution();
+  console.log(solution.maxTasks(E, duration, gain));
+});
+```

@@ -87,12 +87,128 @@ BST, Inorder Traversal, Range Queries
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long kthInRange(long[] values, long L, long R, int k) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        long[] values = new long[n];
+        for (int i = 0; i < n; i++) values[i] = sc.nextLong();
+        long L = 0, R = 0;
+        if (sc.hasNextLong()) L = sc.nextLong();
+        if (sc.hasNextLong()) R = sc.nextLong();
+        int k = 0;
+        if (sc.hasNextInt()) k = sc.nextInt();
+
+        Solution solution = new Solution();
+        System.out.println(solution.kthInRange(values, L, R, k));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def insert(node, val):
+    # Implementation here
+    return None
+
+def main():
+    data = sys.stdin.read().strip().split()
+    if not data:
+        return
+    idx = 0
+    n = int(data[idx]); idx += 1
+    values = [int(data[idx + i]) for i in range(n)]
+    idx += n
+    L = int(data[idx]); idx += 1
+    R = int(data[idx]); idx += 1
+    k = int(data[idx]) if idx < len(data) else 1
+    
+    print(kth_in_range(values, L, R, k))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long kthInRange(const vector<long long>& values, long long L, long long R, int k) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<long long> values(n);
+    for (int i = 0; i < n; i++) cin >> values[i];
+    long long L, R;
+    cin >> L >> R;
+    int k;
+    cin >> k;
+
+    Solution solution;
+    cout << solution.kthInRange(values, L, R, k) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  insert(node, val) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const values = new Array(n);
+  for (let i = 0; i < n; i++) values[i] = parseInt(data[idx++], 10);
+  const L = parseInt(data[idx++], 10);
+  const R = parseInt(data[idx++], 10);
+  const k = parseInt(data[idx++], 10);
+
+  const solution = new Solution();
+  console.log(solution.kthInRange(values, L, R, k).toString());
+});
+```

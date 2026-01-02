@@ -89,12 +89,165 @@ Game Theory, Dynamic Programming
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public String subtractSquareGame(int n, int[] banned) {
+        // Implementation here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int k = sc.nextInt();
+            int[] banned = new int[k];
+            for (int i = 0; i < k; i++) {
+                banned[i] = sc.nextInt();
+            }
+
+            Solution solution = new Solution();
+            System.out.println(solution.subtractSquareGame(n, banned));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+def subtract_square_game(n: int, banned: List[int]) -> str:
+    # Implementation here
+    return ""
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        k = int(next(iterator))
+        banned = []
+        for _ in range(k):
+            banned.append(int(next(iterator)))
+            
+        print(subtract_square_game(n, banned))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <unordered_set>
+
+using namespace std;
+
+class Solution {
+public:
+    string subtractSquareGame(int n, vector<int>& banned) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, k;
+    if (cin >> n >> k) {
+        vector<int> banned(k);
+        for (int i = 0; i < k; i++) {
+            cin >> banned[i];
+        }
+        
+        Solution solution;
+        cout << solution.subtractSquareGame(n, banned) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  subtractSquareGame(n, banned) {
+    // Implementation here
+    return null;
+  }
+}
+
+class Solution {
+  subtractSquareGame(n, banned) {
+    const bannedSet = new Set(banned);
+    const dp = new Uint8Array(n + 1); // 0: False, 1: True
+    
+    for (let i = 1; i <= n; i++) {
+      for (let j = 1; j * j <= i; j++) {
+        const s = j * j;
+        if (!bannedSet.has(s)) {
+          if (dp[i - s] === 0) {
+            dp[i] = 1;
+            break;
+          }
+        }
+      }
+    }
+    
+    return dp[n] === 1 ? "First" : "Second";
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  const flatData = [];
+  data.forEach(line => {
+      line.trim().split(/\s+/).forEach(part => {
+          if (part) flatData.push(part);
+      });
+  });
+  
+  if (flatData.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(flatData[idx++]);
+  const k = parseInt(flatData[idx++]);
+  
+  const banned = [];
+  for (let i = 0; i < k; i++) {
+      banned.push(parseInt(flatData[idx++]));
+  }
+
+  const solution = new Solution();
+  console.log(solution.subtractSquareGame(n, banned));
+});
+```

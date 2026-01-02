@@ -118,12 +118,134 @@ Greedy Algorithms, Heap, Priority Queue, Resource Distribution, Load Balancing
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] distributeKits(int k, int m, int[] quantities) {
+        // Implementation here
+        return new int[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int k = sc.nextInt();
+        int m = sc.nextInt();
+        
+        int[] quantities = new int[k];
+        for (int i = 0; i < k; i++) {
+            quantities[i] = sc.nextInt();
+        }
+        
+        Solution solution = new Solution();
+        int[] result = solution.distributeKits(k, m, quantities);
+        System.out.println(result[0] + " " + result[1]);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import heapq
+import sys
+
+def distribute_kits(k: int, m: int, quantities: list) -> tuple:
+    # Implementation here
+    return ()
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    k = int(next(iterator))
+    m = int(next(iterator))
+    
+    quantities = []
+    for _ in range(k):
+        quantities.append(int(next(iterator)))
+        
+    fulfilled, zeroed = distribute_kits(k, m, quantities)
+    print(f"{fulfilled} {zeroed}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <numeric>
+
+using namespace std;
+
+class Solution {
+public:
+    pair<int,int> distributeKits(int k, int m, vector<int>& quantities) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int k, m;
+    if (!(cin >> k >> m)) return 0;
+
+    vector<int> quantities(k);
+    for (int i = 0; i < k; i++) {
+        cin >> quantities[i];
+    }
+
+    Solution solution;
+    pair<int,int> result = solution.distributeKits(k, m, quantities);
+    cout << result.first << " " << result.second << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  distributeKits(k, m, quantities) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const [k, m] = data[ptr++].split(" ").map(Number);
+  const quantities = data[ptr++].split(" ").map(Number);
+
+  const solution = new Solution();
+  const [fulfilled, zeroed] = solution.distributeKits(k, m, quantities);
+  console.log(`${fulfilled} ${zeroed}`);
+});
+```

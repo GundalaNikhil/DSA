@@ -99,12 +99,135 @@ Game Theory, Sieve of Eratosthenes, Memoization
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public String divisorGame(int n) {
+        // Implementation here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            Solution solution = new Solution();
+            System.out.println(solution.divisorGame(n));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def divisor_game(n: int) -> str:
+    # Implementation here
+    return ""
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    n = int(data[0])
+    print(divisor_game(n))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string divisorGame(int n) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n;
+    if (cin >> n) {
+        Solution solution;
+        cout << solution.divisorGame(n) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  divisorGame(n) {
+    // Implementation here
+    return null;
+  }
+}
+
+class Solution {
+  divisorGame(n) {
+    const memo = new Int8Array(n + 1); // 0: unknown, 1: Win, 2: Loss
+
+    const canWin = (curr) => {
+      if (memo[curr] !== 0) return memo[curr] === 1;
+
+      let canReachLosing = false;
+      for (let i = 2; i * i <= curr; i++) {
+        if (curr % i === 0) {
+          const d1 = i;
+          if (!canWin(d1)) {
+            canReachLosing = true;
+            break;
+          }
+          const d2 = curr / i;
+          if (d2 < curr) {
+            if (!canWin(d2)) {
+              canReachLosing = true;
+              break;
+            }
+          }
+        }
+      }
+
+      memo[curr] = canReachLosing ? 1 : 2;
+      return canReachLosing;
+    };
+
+    return canWin(n) ? "First" : "Second";
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const n = parseInt(data[0]);
+  const solution = new Solution();
+  console.log(solution.divisorGame(n));
+});
+```

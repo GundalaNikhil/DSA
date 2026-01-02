@@ -98,12 +98,135 @@ Tree DP, DFS, Graph Theory, Longest Path
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int treeDiameter(int n, int[][] edges) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+
+        int[][] edges = new int[n - 1][2];
+        for (int i = 0; i < n - 1; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        int result = solution.treeDiameter(n, edges);
+
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+import sys
+
+class Solution:
+    def tree_diameter(self, n: int, edges: List[List[int]]) -> int:
+        # Implementation here
+        return 0
+
+def main():
+    lines = sys.stdin.read().strip().split('\n')
+    n = int(lines[0])
+
+    edges = []
+    for i in range(1, n):
+        u, v = map(int, lines[i].split())
+        edges.append([u, v])
+
+    solution = Solution()
+    result = solution.tree_diameter(n, edges)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int treeDiameter(int n, vector<pair<int, int>>& edges) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+
+    vector<pair<int, int>> edges;
+    for (int i = 0; i < n - 1; i++) {
+        int u, v;
+        cin >> u >> v;
+        edges.push_back({u, v});
+    }
+
+    Solution solution;
+    int result = solution.treeDiameter(n, edges);
+
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  constructor() {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+});
+
+rl.on("close", () => {
+  const n = parseInt(lines[0]);
+
+  const edges = [];
+  for (let i = 1; i < n; i++) {
+    const [u, v] = lines[i].split(" ").map(Number);
+    edges.push([u, v]);
+  }
+
+  const solution = new Solution();
+  const result = solution.treeDiameter(n, edges);
+
+  console.log(result);
+});
+```

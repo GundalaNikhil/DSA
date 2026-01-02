@@ -102,11 +102,146 @@ Forest, Trees, Cycle Detection, Union-Find, DFS, Acyclic Graph
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public boolean isForest(int n, int[][] edges) {
+        // Implementation here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+
+        int[][] edges = new int[m][2];
+        for (int i = 0; i < m; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        boolean result = solution.isForest(n, edges);
+
+        System.out.println(result ? "true" : "false");
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def is_forest(n: int, edges: List[tuple]) -> bool:
+    # Implementation here
+    return False
+
+def main():
+    try:
+        input_data = sys.stdin.read().split()
+    except Exception:
+        return
+        
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            edges.append((u, v))
+            
+        result = is_forest(n, edges)
+        print("true" if result else "false")
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    bool isForest(int n, vector<pair<int,int>>& edges) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    cin >> n >> m;
+
+    vector<pair<int,int>> edges;
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        edges.push_back({u, v});
+    }
+
+    Solution solution;
+    cout << (solution.isForest(n, edges) ? "true" : "false") << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  isForest(n, edges) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  const tokens = data.join(" ").split(/\s+/);
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const m = Number(tokens[ptr++]);
+
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = Number(tokens[ptr++]);
+    const v = Number(tokens[ptr++]);
+    edges.push([u, v]);
+  }
+
+  const solution = new Solution();
+  const result = solution.isForest(n, edges);
+  console.log(result ? "true" : "false");
+});
+```

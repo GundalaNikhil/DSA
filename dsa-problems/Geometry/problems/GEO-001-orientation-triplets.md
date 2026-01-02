@@ -93,12 +93,108 @@ Computational Geometry, Cross Product, Orientation Testing
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public String orientation(long x1, long y1, long x2, long y2, long x3, long y3) {
+        // Implementation here
+        return "";
+    }
+}
+
+class Main {
+static class Solution {
+    public String orientation(long x1, long y1, long x2, long y2, long x3, long y3) {
+        long cross = (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1);
+        if (cross == 0) return "collinear";
+        return cross > 0 ? "counterclockwise" : "clockwise";
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def orientation(x1: int, y1: int, x2: int, y2: int, x3: int, y3: int) -> str:
+    # Implementation here
+    return ""
+
+def main():
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        return
+
+    data = input_data.split()
+    x1, y1, x2, y2, x3, y3 = map(int, data)
+
+    result = orientation(x1, y1, x2, y2, x3, y3)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+
+class Solution {
+public:
+    long long cross(long long x1, long long y1, long long x2, long long y2, long long x3, long long y3) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    long long x1,y1,x2,y2,x3,y3;
+    if(cin >> x1 >> y1 >> x2 >> y2 >> x3 >> y3) cout << orientation(x1,y1,x2,y2,x3,y3) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  orientation(x1, y1, x2, y2, x3, y3) {
+    // Implementation here
+    return null;
+  }
+}
+
+const readline = require('readline');
+
+function new Solution().orientation(x1, y1, x2, y2, x3, y3) {
+  const cross = (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1);
+  if (cross === 0) return "collinear";
+  return cross > 0 ? "counterclockwise" : "clockwise";
+}
+
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let lines = [];
+rl.on('line', (line) => { lines.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if (lines.length === 0) return;
+    let idx = 0;
+    const next = () => lines[idx++];
+    const nextInt = () => parseInt(next());
+    const nextFloat = () => parseFloat(next());
+    console.log(new Solution().orientation(nextInt(), nextInt(), nextInt(), nextInt(), nextInt(), nextInt()));
+});
+```

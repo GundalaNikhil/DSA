@@ -80,14 +80,122 @@ Two Pointers, Sorted Array, Searching
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] closestPair(int[] arr, int target) {
+        // Implementation here
+        return new int[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int target = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        int[] result = solution.closestPair(arr, target);
+        System.out.println(result[0] + " " + result[1]);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def closest_pair(arr: list[int], target: int) -> list[int]:
+    # Implementation here
+    return []
+
+def main():
+    n, target = map(int, input().split())
+    arr = list(map(int, input().split()))
+    arr.sort()
+    result = closest_pair(arr, target)
+    print(result[0], result[1])
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <vector>
+#include <cmath>
+#include <climits>
+#include <cstdlib>
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> closestPair(const vector<int>& arr, int target) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, target;
+    if (!(cin >> n >> target)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    vector<int> result = solution.closestPair(arr, target);
+    if (result.size() >= 2) {
+        cout << result[0] << " " << result[1] << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+const fs = require("fs");
+
+class Solution {
+  closestPair(arr, target) {
+    // Implementation here
+    return null;
+  }
+}
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const target = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+const result = solution.closestPair(arr, target);
+console.log(result[0] + " " + result[1]);
+```

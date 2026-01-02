@@ -94,12 +94,167 @@ Heaps, K-Way Merge, Streaming, Rate Limiting
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int compareTo(Element other) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int k = sc.nextInt();
+            int r = sc.nextInt();
+            List<List<Integer>> streams = new ArrayList<>();
+            for (int i = 0; i < k; i++) {
+                int m = sc.nextInt();
+                List<Integer> stream = new ArrayList<>();
+                for (int j = 0; j < m; j++) {
+                    stream.add(sc.nextInt());
+                }
+                streams.add(stream);
+            }
+            
+            Solution solution = new Solution();
+            List<Integer> result = solution.mergeStreams(streams, r);
+            for (int i = 0; i < result.size(); i++) {
+                System.out.print(result.get(i));
+                if (i < result.size() - 1) System.out.print(" ");
+            }
+            System.out.println();
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import heapq
+
+class Solution:
+    def merge_streams(self, streams: list, r: int) -> list:
+        # Implementation here
+        return []
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    try:
+        k = int(next(it))
+        r = int(next(it))
+        streams = []
+        for _ in range(k):
+            m = int(next(it))
+            stream = []
+            for _ in range(m):
+                stream.append(int(next(it)))
+            streams.append(stream)
+            
+        result = merge_streams(streams, r)
+        print(" ".join(map(str, result)))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> mergeStreams(const vector<vector<int>>& streams, int r) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int k, r;
+    if (cin >> k >> r) {
+        vector<vector<int>> streams(k);
+        for (int i = 0; i < k; i++) {
+            int m;
+            cin >> m;
+            streams[i].resize(m);
+            for (int j = 0; j < m; j++) {
+                cin >> streams[i][j];
+            }
+        }
+        
+        Solution solution;
+        vector<int> result = solution.mergeStreams(streams, r);
+        for (size_t i = 0; i < result.size(); i++) {
+            if (i > 0) cout << " ";
+            cout << result[i];
+        }
+        cout << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  mergeStreams(streams, r) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part !== "") data.push(part);
+  }
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const k = parseInt(data[idx++]);
+  const r = parseInt(data[idx++]);
+  const streams = [];
+  for (let i = 0; i < k; i++) {
+    const m = parseInt(data[idx++]);
+    const stream = [];
+    for (let j = 0; j < m; j++) {
+      stream.push(BigInt(data[idx++]));
+    }
+    streams.push(stream);
+  }
+  
+  const solution = new Solution();
+  const result = solution.mergeStreams(streams, r);
+  console.log(result.join(" "));
+});
+```
