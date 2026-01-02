@@ -3,194 +3,279 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GMT-003: Number Ninja</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <title>GMT-003: Subtract Square</title>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --ninja: #e74c3c; --dark: #1a1a2e; --gold: #f1c40f; --player: #27ae60; --ai: #9b59b6; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Orbitron', sans-serif; background: linear-gradient(135deg, var(--dark) 0%, #0f0f1a 100%); min-height: 100vh; color: #fff; }
-        header { background: var(--ninja); padding: 15px; text-align: center; }
-        h1 { font-size: 1.6rem; color: #fff; }
-        main { padding: 20px; max-width: 900px; margin: 0 auto; }
-        .instructions { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-bottom: 20px; border-left: 5px solid var(--ninja); }
-        .instructions h2 { color: var(--gold); margin-bottom: 10px; }
-        .instructions ul { margin-left: 20px; line-height: 1.8; font-size: 0.9rem; }
-        .highlight { background: var(--gold); color: #333; padding: 2px 8px; border-radius: 5px; font-weight: 600; }
-        .game-area { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 25px; }
-        .status-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; }
-        .turn-indicator { padding: 10px 20px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; }
-        .turn-indicator.player { background: var(--player); }
-        .turn-indicator.ai { background: var(--ai); }
-        .number-display { text-align: center; margin: 30px 0; }
-        .current-number { font-size: 5rem; color: var(--gold); text-shadow: 0 0 30px var(--gold); animation: glow 2s infinite alternate; }
-        @keyframes glow { from { text-shadow: 0 0 20px var(--gold); } to { text-shadow: 0 0 40px var(--ninja); } }
-        .squares-available { margin-top: 20px; color: #888; }
-        .moves-container { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 20px 0; }
-        .move-btn { width: 70px; height: 70px; border: none; border-radius: 10px; background: var(--ninja); color: #fff; font-family: 'Orbitron', sans-serif; font-size: 1.2rem; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .move-btn:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--ninja); }
-        .move-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-        .move-btn .subtract { font-size: 0.7rem; color: #faa; }
-        .banned { text-decoration: line-through; background: #333; }
-        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
-        .btn { padding: 15px 30px; border: none; border-radius: 10px; font-family: 'Orbitron', sans-serif; font-size: 0.9rem; cursor: pointer; }
-        .btn-reset { background: var(--gold); color: #333; }
-        .result { text-align: center; padding: 30px; font-size: 1.3rem; font-weight: bold; border-radius: 15px; margin-top: 20px; display: none; }
-        .result.win { background: var(--player); display: block; }
-        .result.lose { background: var(--ai); display: block; }
-        #message { text-align: center; padding: 15px; font-size: 1rem; color: var(--gold); min-height: 50px; }
-        .history { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px; margin-top: 20px; max-height: 150px; overflow-y: auto; }
-        .history-title { color: var(--gold); font-size: 0.8rem; margin-bottom: 10px; }
-        .history-entry { font-size: 0.8rem; color: #888; margin: 5px 0; }
-        .history-entry.player { color: var(--player); }
-        .history-entry.ai { color: var(--ai); }
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 36px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .tutorial h2 { color: #f5576c; margin-bottom: 15px; }
+
+        .rules { display: flex; gap: 15px; }
+        .rule {
+            flex: 1;
+            background: #fef5f5;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .rule-icon { font-size: 28px; }
+        .rule-text { font-size: 13px; color: #555; margin-top: 5px; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .turn-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+            border-radius: 12px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .turn-bar.ai { background: linear-gradient(90deg, #e74c3c, #c0392b); }
+
+        /* Current Number */
+        .number-display {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        .number-label { font-size: 14px; color: #888; }
+        .number-value { font-size: 72px; font-weight: 700; color: #f5576c; }
+
+        /* Square Buttons */
+        .squares-label { font-size: 14px; color: #888; text-align: center; margin-bottom: 15px; }
+        .squares-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .square-btn {
+            width: 80px;
+            height: 60px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .square-btn:hover { transform: scale(1.05); }
+        .square-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .square-btn .label { font-size: 10px; font-weight: 500; }
+
+        .message { text-align: center; padding: 15px; color: #666; font-size: 16px; }
+
+        .result {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            display: none;
+        }
+        .result.win { display: block; background: #d5f5e3; color: #27ae60; }
+        .result.lose { display: block; background: #fadbd8; color: #e74c3c; }
+
+        .btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 15px;
+            background: #f5576c;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
-<header>
-    <h1>🎯 NUMBER NINJA</h1>
-</header>
-<main>
-    <div class="instructions">
-        <h2>📋 HOW TO PLAY</h2>
-        <ul>
-            <li><strong>Goal:</strong> Be the player who <span class="highlight">reduces the number to 0</span></li>
-            <li><strong>Your Move:</strong> Subtract any <span class="highlight">perfect square</span> (1, 4, 9, 16, 25...)</li>
-            <li><strong>Condition:</strong> The square must be ≤ current number</li>
-            <li><strong>Win:</strong> If YOU make it reach 0, <span class="highlight">YOU WIN!</span></li>
-            <li><strong>Strategy:</strong> Think ahead - some moves leave opponent in a winning position!</li>
-        </ul>
+
+<div class="container">
+    <div class="header">
+        <h1>🔢 Subtract Square</h1>
+        <div style="opacity:0.9">Subtract a perfect square - reach 0 to win!</div>
     </div>
-    <div class="game-area">
-        <div class="status-bar">
-            <div class="turn-indicator player" id="turn">🟢 YOUR TURN</div>
-            <div>Starting: <span id="start-num">20</span></div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="rules">
+            <div class="rule">
+                <div class="rule-icon">🎯</div>
+                <div class="rule-text"><strong>Goal:</strong> Reduce the number to exactly 0</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">🔲</div>
+                <div class="rule-text"><strong>Move:</strong> Subtract any perfect square (1, 4, 9, 16...)</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">🏆</div>
+                <div class="rule-text"><strong>Win:</strong> The player who reaches 0 wins!</div>
+            </div>
         </div>
-        <div id="message">Choose a square to subtract!</div>
+    </div>
+
+    <div class="game-card">
+        <div class="turn-bar" id="turnBar">
+            <span id="turnText">🟢 Your Turn</span>
+            <span id="moveCount">Moves: 0</span>
+        </div>
+
         <div class="number-display">
-            <div class="current-number" id="current">20</div>
-            <div class="squares-available">Available squares: <span id="squares">1, 4, 9, 16</span></div>
+            <div class="number-label">Current Number</div>
+            <div class="number-value" id="currentNum">15</div>
         </div>
-        <div class="moves-container" id="moves"></div>
-        <div class="controls">
-            <button class="btn btn-reset" onclick="game.reset()">🔄 NEW GAME</button>
-        </div>
+
+        <div class="squares-label">Click a square to subtract:</div>
+        <div class="squares-grid" id="squaresGrid"></div>
+
+        <div class="message" id="message">Choose a perfect square to subtract!</div>
+
         <div class="result" id="result"></div>
-        <div class="history">
-            <div class="history-title">📜 MOVE HISTORY</div>
-            <div id="history"></div>
-        </div>
+
+        <button class="btn" onclick="newGame()">🔄 New Game</button>
     </div>
-</main>
+</div>
+
 <script>
-class NumberNinja {
-    constructor() {
-        this.startNum = 20;
-        this.reset();
-    }
-    reset() {
-        this.current = this.startNum;
-        this.isPlayerTurn = true;
-        this.gameOver = false;
-        this.history = [];
-        this.calcGrundy();
-        this.render();
+    let currentNum = 15;
+    let isPlayerTurn = true;
+    let moveCount = 0;
+    let gameOver = false;
+
+    function init() {
+        currentNum = 15;
+        isPlayerTurn = true;
+        moveCount = 0;
+        gameOver = false;
         document.getElementById('result').className = 'result';
-        document.getElementById('history').innerHTML = '';
-        document.getElementById('message').textContent = 'Choose a square to subtract!';
+        render();
     }
-    calcGrundy() {
-        this.grundy = new Array(this.current + 1).fill(0);
-        for (let n = 1; n <= this.current; n++) {
-            const reachable = new Set();
-            for (let s = 1; s * s <= n; s++) {
-                reachable.add(this.grundy[n - s * s]);
-            }
-            let mex = 0;
-            while (reachable.has(mex)) mex++;
-            this.grundy[n] = mex;
-        }
-    }
-    getSquares(n) {
+
+    function render() {
+        // Turn bar
+        const turnBar = document.getElementById('turnBar');
+        turnBar.className = isPlayerTurn ? 'turn-bar' : 'turn-bar ai';
+        document.getElementById('turnText').textContent = isPlayerTurn ? '🟢 Your Turn' : '🔴 AI Turn';
+        document.getElementById('moveCount').textContent = 'Moves: ' + moveCount;
+
+        // Current number
+        document.getElementById('currentNum').textContent = currentNum;
+
+        // Square buttons
+        const grid = document.getElementById('squaresGrid');
+        grid.innerHTML = '';
+
         const squares = [];
-        for (let s = 1; s * s <= n; s++) {
-            squares.push(s * s);
+        for (let i = 1; i * i <= currentNum; i++) {
+            squares.push(i * i);
         }
-        return squares;
-    }
-    render() {
-        document.getElementById('current').textContent = this.current;
-        const squares = this.getSquares(this.current);
-        document.getElementById('squares').textContent = squares.join(', ') || 'None';
-        const container = document.getElementById('moves');
-        container.innerHTML = '';
-        if (this.current === 0 || this.gameOver) {
-            return;
-        }
+
         squares.forEach(sq => {
             const btn = document.createElement('button');
-            btn.className = 'move-btn';
-            btn.innerHTML = `${sq}<span class="subtract">-${sq}</span>`;
-            if (this.isPlayerTurn && !this.gameOver) {
-                btn.onclick = () => this.playerMove(sq);
-            } else {
-                btn.disabled = true;
-            }
-            container.appendChild(btn);
+            btn.className = 'square-btn';
+            btn.innerHTML = `−${sq}<div class="label">${Math.sqrt(sq)}²</div>`;
+            btn.disabled = !isPlayerTurn || gameOver;
+            btn.onclick = () => subtract(sq);
+            grid.appendChild(btn);
         });
-        this.updateTurn();
+
+        if (squares.length === 0 && !gameOver) {
+            grid.innerHTML = '<div style="color:#888">No valid moves!</div>';
+        }
     }
-    playerMove(sq) {
-        if (this.gameOver || !this.isPlayerTurn) return;
-        this.current -= sq;
-        this.addHistory(`You subtract ${sq} → ${this.current}`, 'player');
-        this.render();
-        if (this.current === 0) {
-            this.endGame(true);
+
+    function subtract(sq) {
+        if (!isPlayerTurn || gameOver) return;
+        if (sq > currentNum) return;
+
+        currentNum -= sq;
+        moveCount++;
+
+        if (currentNum === 0) {
+            endGame(true);
             return;
         }
-        this.isPlayerTurn = false;
-        this.updateTurn();
+
+        isPlayerTurn = false;
+        render();
         document.getElementById('message').textContent = '🤖 AI is thinking...';
-        setTimeout(() => this.aiMove(), 1000);
+
+        setTimeout(aiMove, 800);
     }
-    aiMove() {
-        const squares = this.getSquares(this.current);
+
+    function aiMove() {
+        if (gameOver) return;
+
+        // Find valid squares
+        const squares = [];
+        for (let i = 1; i * i <= currentNum; i++) {
+            squares.push(i * i);
+        }
+
         if (squares.length === 0) {
-            this.endGame(true);
+            endGame(true);
             return;
         }
-        // Find winning move (leaves opponent with Grundy 0)
-        let bestMove = squares[0];
-        for (const sq of squares) {
-            const next = this.current - sq;
-            if (next === 0 || this.grundy[next] === 0) {
-                bestMove = sq;
-                break;
-            }
-        }
-        this.current -= bestMove;
-        this.addHistory(`AI subtracts ${bestMove} → ${this.current}`, 'ai');
-        document.getElementById('message').textContent = `🤖 AI subtracts ${bestMove}`;
-        this.render();
-        if (this.current === 0) {
-            this.endGame(false);
+
+        // Simple AI: pick the largest valid square (greedy)
+        const chosen = squares[squares.length - 1];
+        currentNum -= chosen;
+        moveCount++;
+
+        document.getElementById('message').textContent = `🤖 AI subtracts ${chosen}`;
+
+        if (currentNum === 0) {
+            endGame(false);
             return;
         }
-        this.isPlayerTurn = true;
-        this.updateTurn();
-        document.getElementById('message').textContent = 'Your turn! Choose a square.';
+
+        isPlayerTurn = true;
+        render();
+        setTimeout(() => {
+            document.getElementById('message').textContent = 'Your turn! Choose a square to subtract.';
+        }, 500);
     }
-    addHistory(text, type) {
-        this.history.push({ text, type });
-        const container = document.getElementById('history');
-        const entry = document.createElement('div');
-        entry.className = `history-entry ${type}`;
-        entry.textContent = text;
-        container.appendChild(entry);
-        container.scrollTop = container.scrollHeight;
-    }
-    endGame(playerWins) {
-        this.gameOver = true;
+
+    function endGame(playerWins) {
+        gameOver = true;
+        render();
         const result = document.getElementById('result');
         if (playerWins) {
             result.className = 'result win';
@@ -199,19 +284,15 @@ class NumberNinja {
             result.className = 'result lose';
             result.textContent = '😢 AI WINS! AI reached 0.';
         }
+        document.getElementById('message').textContent = '';
     }
-    updateTurn() {
-        const turn = document.getElementById('turn');
-        if (this.isPlayerTurn) {
-            turn.className = 'turn-indicator player';
-            turn.textContent = '🟢 YOUR TURN';
-        } else {
-            turn.className = 'turn-indicator ai';
-            turn.textContent = '🔴 AI\'S TURN';
-        }
+
+    function newGame() {
+        init();
+        document.getElementById('message').textContent = 'Choose a perfect square to subtract!';
     }
-}
-const game = new NumberNinja();
+
+    window.onload = init;
 </script>
 </body>
 </html>

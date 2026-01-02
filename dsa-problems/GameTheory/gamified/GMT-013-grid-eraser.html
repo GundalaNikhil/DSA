@@ -4,209 +4,283 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GMT-013: Grid Eraser</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root { --grid: #3498db; --erased: #1a1a2e; --player: #27ae60; --ai: #e74c3c; --gold: #f1c40f; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Orbitron', sans-serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); min-height: 100vh; color: #fff; }
-        header { background: rgba(0,0,0,0.3); padding: 15px; text-align: center; border-bottom: 3px solid var(--grid); }
-        h1 { font-size: 1.6rem; color: var(--grid); }
-        main { padding: 20px; max-width: 900px; margin: 0 auto; }
-        .instructions { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-bottom: 20px; border-left: 5px solid var(--grid); }
-        .instructions h2 { color: var(--gold); margin-bottom: 10px; }
-        .instructions ul { margin-left: 20px; line-height: 1.8; font-size: 0.9rem; }
-        .highlight { background: var(--gold); color: #333; padding: 2px 8px; border-radius: 5px; }
-        .game-area { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 25px; }
-        .status-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; }
-        .turn-indicator { padding: 10px 20px; border-radius: 20px; font-weight: 600; font-size: 0.8rem; }
-        .turn-indicator.player { background: var(--player); }
-        .turn-indicator.ai { background: var(--ai); }
-        .grid-container { display: flex; justify-content: center; margin: 30px 0; }
-        .matrix { display: grid; gap: 3px; background: #333; padding: 5px; border-radius: 10px; }
-        .cell { width: 45px; height: 45px; background: var(--grid); border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; transition: all 0.2s; }
-        .cell.active { background: var(--grid); }
-        .cell.erased { background: var(--erased); color: #555; }
-        .row-col-selector { display: flex; gap: 20px; justify-content: center; margin: 20px 0; flex-wrap: wrap; }
-        .selector-group { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; }
-        .selector-group label { display: block; margin-bottom: 10px; color: var(--gold); font-size: 0.8rem; }
-        .selector-btn { padding: 10px 15px; margin: 3px; border: 2px solid var(--grid); background: transparent; color: #fff; border-radius: 5px; cursor: pointer; font-family: 'Orbitron', sans-serif; font-size: 0.8rem; }
-        .selector-btn:hover { background: var(--grid); }
-        .selector-btn.selected { background: var(--grid); }
-        .selector-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
-        .btn { padding: 15px 25px; border: none; border-radius: 10px; font-family: 'Orbitron', sans-serif; font-size: 0.8rem; cursor: pointer; }
-        .btn-erase { background: var(--player); color: #fff; }
-        .btn-reset { background: var(--grid); color: #fff; }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .result { text-align: center; padding: 30px; font-size: 1.3rem; font-weight: bold; border-radius: 15px; margin-top: 20px; display: none; }
-        .result.win { background: var(--player); display: block; }
-        .result.lose { background: var(--ai); display: block; }
-        #message { text-align: center; padding: 15px; font-size: 1rem; color: var(--gold); min-height: 50px; }
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 36px; text-shadow: 0 0 20px #00d4ff; }
+
+        .tutorial {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .tutorial h2 { color: #0088cc; margin-bottom: 15px; }
+
+        .rules { display: flex; gap: 15px; }
+        .rule {
+            flex: 1;
+            background: #e0f7ff;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .rule-icon { font-size: 28px; }
+        .rule-text { font-size: 13px; color: #555; margin-top: 5px; }
+
+        .game-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .turn-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #0088cc, #00d4ff);
+            border-radius: 12px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .turn-bar.ai { background: linear-gradient(90deg, #dc2626, #ef4444); }
+
+        .grid-area {
+            display: flex;
+            justify-content: center;
+            padding: 25px;
+            background: #f0f4f8;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .grid { display: grid; gap: 5px; }
+
+        .cell {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #0088cc, #00d4ff);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: 600;
+            color: #fff;
+        }
+        .cell:hover { transform: scale(1.1); }
+        .cell.erased { background: #e0e0e0; opacity: 0.3; cursor: not-allowed; }
+        .cell.preview { opacity: 0.5; box-shadow: 0 0 0 3px #ff6600; }
+
+        .message { text-align: center; padding: 15px; color: #666; }
+
+        .result {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            display: none;
+        }
+        .result.win { display: block; background: #d1fae5; color: #059669; }
+        .result.lose { display: block; background: #fee2e2; color: #dc2626; }
+
+        .new-game {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 15px;
+            background: #0088cc;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
-<header>
-    <h1>📊 GRID ERASER</h1>
-</header>
-<main>
-    <div class="instructions">
-        <h2>📋 HOW TO PLAY</h2>
-        <ul>
-            <li><strong>Goal:</strong> Be the <span class="highlight">last player to erase</span></li>
-            <li><strong>Your Move:</strong> Select a <span class="highlight">ROW or COLUMN</span> to erase</li>
-            <li><strong>Rule:</strong> Erased rows/columns are removed from the grid</li>
-            <li><strong>Win:</strong> If the AI has no rows/columns left, <span class="highlight">YOU WIN!</span></li>
-        </ul>
+
+<div class="container">
+    <div class="header">
+        <h1>🧹 Grid Eraser</h1>
+        <div style="opacity:0.9">Erase a row or column - last move wins!</div>
     </div>
-    <div class="game-area">
-        <div class="status-bar">
-            <div class="turn-indicator player" id="turn">YOUR TURN</div>
-            <div>Grid: <span id="size">4×5</span></div>
-        </div>
-        <div id="message">Select a row or column to erase!</div>
-        <div class="grid-container">
-            <div class="matrix" id="matrix"></div>
-        </div>
-        <div class="row-col-selector">
-            <div class="selector-group">
-                <label>ROWS</label>
-                <div id="row-btns"></div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="rules">
+            <div class="rule">
+                <div class="rule-icon">👆</div>
+                <div class="rule-text"><strong>Click any cell</strong> in a row or column</div>
             </div>
-            <div class="selector-group">
-                <label>COLUMNS</label>
-                <div id="col-btns"></div>
+            <div class="rule">
+                <div class="rule-icon">🧹</div>
+                <div class="rule-text"><strong>Erase the entire</strong> row or column</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">🏆</div>
+                <div class="rule-text"><strong>Last to erase</strong> wins!</div>
             </div>
         </div>
-        <div class="controls">
-            <button class="btn btn-erase" id="btn-erase" onclick="game.confirmErase()" disabled>✂️ ERASE</button>
-            <button class="btn btn-reset" onclick="game.reset()">🔄 RESET</button>
+    </div>
+
+    <div class="game-card">
+        <div class="turn-bar" id="turnBar">
+            <span id="turnText">🟢 Your Turn</span>
+            <span>Cells: <span id="cellCount">0</span></span>
         </div>
+
+        <div class="message" id="message">Click a cell to erase its row or column!</div>
+
+        <div class="grid-area">
+            <div class="grid" id="grid"></div>
+        </div>
+
+        <div class="action-buttons" id="actionButtons" style="text-align:center; margin-bottom:15px; display:none;">
+            <button onclick="eraseRow()" style="padding:12px 25px; margin:5px; background:#0088cc; color:#fff; border:none; border-radius:10px; font-family:inherit; font-weight:600; cursor:pointer;">Erase Row</button>
+            <button onclick="eraseCol()" style="padding:12px 25px; margin:5px; background:#00d4ff; color:#fff; border:none; border-radius:10px; font-family:inherit; font-weight:600; cursor:pointer;">Erase Column</button>
+            <button onclick="cancelSelect()" style="padding:12px 25px; margin:5px; background:#95a5a6; color:#fff; border:none; border-radius:10px; font-family:inherit; font-weight:600; cursor:pointer;">Cancel</button>
+        </div>
+
         <div class="result" id="result"></div>
+
+        <button class="new-game" onclick="newGame()">🔄 New Game</button>
     </div>
-</main>
+</div>
+
 <script>
-class GridEraser {
-    constructor() {
-        this.initRows = 4;
-        this.initCols = 5;
-        this.reset();
-    }
-    reset() {
-        this.rows = new Array(this.initRows).fill(true);
-        this.cols = new Array(this.initCols).fill(true);
-        this.selectedType = null;
-        this.selectedIndex = -1;
-        this.isPlayerTurn = true;
-        this.gameOver = false;
-        this.render();
+    const ROWS = 4;
+    const COLS = 5;
+    let grid = []; // true = present
+    let selectedCell = null;
+    let isPlayerTurn = true;
+    let gameOver = false;
+
+    function init() {
+        grid = Array(ROWS).fill().map(() => Array(COLS).fill(true));
+        selectedCell = null;
+        isPlayerTurn = true;
+        gameOver = false;
         document.getElementById('result').className = 'result';
-        document.getElementById('btn-erase').disabled = true;
-        document.getElementById('message').textContent = 'Select a row or column!';
+        document.getElementById('actionButtons').style.display = 'none';
+        render();
     }
-    render() {
-        // Render grid
-        const matrix = document.getElementById('matrix');
-        const activeRows = this.rows.filter(r => r).length;
-        const activeCols = this.cols.filter(c => c).length;
-        matrix.style.gridTemplateColumns = `repeat(${activeCols}, 45px)`;
-        matrix.innerHTML = '';
-        let rowIdx = 0;
-        for (let r = 0; r < this.initRows; r++) {
-            if (!this.rows[r]) continue;
-            let colIdx = 0;
-            for (let c = 0; c < this.initCols; c++) {
-                if (!this.cols[c]) continue;
+
+    function render() {
+        const turnBar = document.getElementById('turnBar');
+        turnBar.className = isPlayerTurn ? 'turn-bar' : 'turn-bar ai';
+        document.getElementById('turnText').textContent = isPlayerTurn ? '🟢 Your Turn' : '🔴 AI Turn';
+
+        let count = 0;
+        grid.forEach(row => row.forEach(c => { if (c) count++; }));
+        document.getElementById('cellCount').textContent = count;
+
+        const container = document.getElementById('grid');
+        container.style.gridTemplateColumns = `repeat(${COLS}, 50px)`;
+        container.innerHTML = '';
+
+        for (let r = 0; r < ROWS; r++) {
+            for (let c = 0; c < COLS; c++) {
                 const cell = document.createElement('div');
-                cell.className = 'cell active';
-                cell.textContent = `${r},${c}`;
-                matrix.appendChild(cell);
-                colIdx++;
+                cell.className = 'cell';
+                if (!grid[r][c]) cell.classList.add('erased');
+                cell.textContent = grid[r][c] ? '■' : '';
+
+                if (grid[r][c] && isPlayerTurn && !gameOver) {
+                    cell.onclick = () => selectCell(r, c);
+                }
+
+                container.appendChild(cell);
             }
-            rowIdx++;
         }
-        document.getElementById('size').textContent = `${activeRows}×${activeCols}`;
-        // Render row buttons
-        const rowBtns = document.getElementById('row-btns');
-        rowBtns.innerHTML = '';
-        this.rows.forEach((active, i) => {
-            const btn = document.createElement('button');
-            btn.className = 'selector-btn';
-            btn.textContent = `R${i}`;
-            btn.disabled = !active || !this.isPlayerTurn || this.gameOver;
-            if (this.selectedType === 'row' && this.selectedIndex === i) btn.classList.add('selected');
-            btn.onclick = () => this.select('row', i);
-            rowBtns.appendChild(btn);
-        });
-        // Render col buttons
-        const colBtns = document.getElementById('col-btns');
-        colBtns.innerHTML = '';
-        this.cols.forEach((active, i) => {
-            const btn = document.createElement('button');
-            btn.className = 'selector-btn';
-            btn.textContent = `C${i}`;
-            btn.disabled = !active || !this.isPlayerTurn || this.gameOver;
-            if (this.selectedType === 'col' && this.selectedIndex === i) btn.classList.add('selected');
-            btn.onclick = () => this.select('col', i);
-            colBtns.appendChild(btn);
-        });
-        this.updateTurn();
     }
-    select(type, index) {
-        this.selectedType = type;
-        this.selectedIndex = index;
-        document.getElementById('btn-erase').disabled = false;
-        this.render();
+
+    function selectCell(r, c) {
+        selectedCell = { r, c };
+        document.getElementById('actionButtons').style.display = 'block';
+        document.getElementById('message').textContent = `Selected (${r+1}, ${c+1}). Erase row ${r+1} or column ${c+1}?`;
     }
-    confirmErase() {
-        if (!this.selectedType) return;
-        if (this.selectedType === 'row') {
-            this.rows[this.selectedIndex] = false;
-        } else {
-            this.cols[this.selectedIndex] = false;
-        }
-        this.selectedType = null;
-        this.selectedIndex = -1;
-        document.getElementById('btn-erase').disabled = true;
-        this.render();
-        if (!this.hasValidMove()) {
-            this.endGame(true);
+
+    function cancelSelect() {
+        selectedCell = null;
+        document.getElementById('actionButtons').style.display = 'none';
+        document.getElementById('message').textContent = 'Click a cell to erase its row or column!';
+    }
+
+    function eraseRow() {
+        if (!selectedCell) return;
+        const r = selectedCell.r;
+        for (let c = 0; c < COLS; c++) grid[r][c] = false;
+        finishTurn();
+    }
+
+    function eraseCol() {
+        if (!selectedCell) return;
+        const c = selectedCell.c;
+        for (let r = 0; r < ROWS; r++) grid[r][c] = false;
+        finishTurn();
+    }
+
+    function finishTurn() {
+        selectedCell = null;
+        document.getElementById('actionButtons').style.display = 'none';
+
+        if (grid.every(row => row.every(c => !c))) {
+            endGame(true);
             return;
         }
-        this.isPlayerTurn = false;
-        this.updateTurn();
-        document.getElementById('message').textContent = '🤖 AI is erasing...';
-        setTimeout(() => this.aiMove(), 1000);
+
+        isPlayerTurn = false;
+        render();
+        document.getElementById('message').textContent = '🤖 AI is thinking...';
+
+        setTimeout(aiMove, 800);
     }
-    hasValidMove() {
-        return this.rows.some(r => r) || this.cols.some(c => c);
-    }
-    aiMove() {
-        const availRows = this.rows.map((r, i) => ({ type: 'row', i, active: r })).filter(x => x.active);
-        const availCols = this.cols.map((c, i) => ({ type: 'col', i, active: c })).filter(x => x.active);
-        const allMoves = [...availRows, ...availCols];
-        if (allMoves.length === 0) {
-            this.endGame(true);
+
+    function aiMove() {
+        if (gameOver) return;
+
+        // Find first non-empty row and erase it
+        for (let r = 0; r < ROWS; r++) {
+            if (grid[r].some(c => c)) {
+                for (let c = 0; c < COLS; c++) grid[r][c] = false;
+                document.getElementById('message').textContent = `🤖 AI erases row ${r+1}`;
+                break;
+            }
+        }
+
+        if (grid.every(row => row.every(c => !c))) {
+            endGame(false);
             return;
         }
-        const move = allMoves[Math.floor(Math.random() * allMoves.length)];
-        if (move.type === 'row') {
-            this.rows[move.i] = false;
-            document.getElementById('message').textContent = `🤖 AI erases Row ${move.i}`;
-        } else {
-            this.cols[move.i] = false;
-            document.getElementById('message').textContent = `🤖 AI erases Col ${move.i}`;
-        }
-        this.render();
-        if (!this.hasValidMove()) {
-            this.endGame(false);
-            return;
-        }
-        this.isPlayerTurn = true;
-        this.updateTurn();
-        setTimeout(() => document.getElementById('message').textContent = 'Your turn!', 500);
+
+        isPlayerTurn = true;
+        render();
+        setTimeout(() => {
+            document.getElementById('message').textContent = 'Your turn! Click a cell to erase.';
+        }, 500);
     }
-    endGame(playerWins) {
-        this.gameOver = true;
+
+    function endGame(playerWins) {
+        gameOver = true;
+        render();
         const result = document.getElementById('result');
         if (playerWins) {
             result.className = 'result win';
@@ -215,19 +289,15 @@ class GridEraser {
             result.className = 'result lose';
             result.textContent = '😢 AI WINS!';
         }
+        document.getElementById('message').textContent = '';
     }
-    updateTurn() {
-        const turn = document.getElementById('turn');
-        if (this.isPlayerTurn) {
-            turn.className = 'turn-indicator player';
-            turn.textContent = 'YOUR TURN';
-        } else {
-            turn.className = 'turn-indicator ai';
-            turn.textContent = 'AI TURN';
-        }
+
+    function newGame() {
+        init();
+        document.getElementById('message').textContent = 'Click a cell to erase its row or column!';
     }
-}
-const game = new GridEraser();
+
+    window.onload = init;
 </script>
 </body>
 </html>

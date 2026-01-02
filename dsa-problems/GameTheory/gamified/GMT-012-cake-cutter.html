@@ -4,214 +4,350 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GMT-012: Cake Cutter</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --cake: #f8b4c4; --frosting: #fff; --cherry: #e74c3c; --plate: #ddd; --player: #27ae60; --ai: #9b59b6; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Lato', sans-serif; background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); min-height: 100vh; }
-        header { background: var(--cherry); padding: 15px; text-align: center; color: #fff; }
-        h1 { font-family: 'Pacifico', cursive; font-size: 2rem; }
-        main { padding: 20px; max-width: 900px; margin: 0 auto; }
-        .instructions { background: #fff; border-radius: 15px; padding: 20px; margin-bottom: 20px; border-left: 5px solid var(--cherry); }
-        .instructions h2 { color: var(--cherry); margin-bottom: 10px; }
-        .instructions ul { margin-left: 20px; line-height: 1.8; }
-        .highlight { background: var(--cherry); color: #fff; padding: 2px 8px; border-radius: 5px; }
-        .warning { background: #333; color: #fff; padding: 2px 8px; border-radius: 5px; }
-        .game-area { background: rgba(255,255,255,0.95); border-radius: 15px; padding: 25px; }
-        .status-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 15px; background: var(--cherry); border-radius: 10px; color: #fff; }
-        .turn-indicator { padding: 10px 20px; border-radius: 20px; font-weight: 600; }
-        .turn-indicator.player { background: var(--player); }
-        .turn-indicator.ai { background: var(--ai); }
-        .plate-container { display: flex; justify-content: center; margin: 30px 0; }
-        .plate { padding: 30px; background: var(--plate); border-radius: 50%; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .cake-grid { display: grid; gap: 3px; background: #fff; padding: 5px; border-radius: 10px; }
-        .cell { width: 50px; height: 50px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; cursor: pointer; transition: all 0.2s; border-radius: 5px; }
-        .cell.cake { background: var(--cake); }
-        .cell.cake:hover { transform: scale(1.05); box-shadow: 0 0 10px var(--player); }
-        .cell.eaten { background: #eee; color: #aaa; cursor: not-allowed; }
-        .cell.cherry { background: var(--cherry); color: #fff; cursor: not-allowed; }
-        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
-        .btn { padding: 15px 30px; border: none; border-radius: 10px; font-family: 'Pacifico', cursive; font-size: 1rem; cursor: pointer; }
-        .btn-reset { background: var(--cherry); color: #fff; }
-        .result { text-align: center; padding: 30px; font-size: 1.5rem; font-weight: bold; border-radius: 15px; margin-top: 20px; display: none; }
-        .result.win { background: var(--player); color: #fff; display: block; }
-        .result.lose { background: var(--ai); color: #fff; display: block; }
-        #message { text-align: center; padding: 15px; font-size: 1.1rem; color: var(--cherry); min-height: 50px; }
+        body {
+            font-family: 'Quicksand', sans-serif;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { text-align: center; color: #8b4513; margin-bottom: 20px; }
+        .header h1 { font-size: 36px; text-shadow: 2px 2px 4px rgba(0,0,0,0.1); }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .tutorial h2 { color: #d35400; margin-bottom: 15px; }
+
+        .rules { display: flex; gap: 15px; }
+        .rule {
+            flex: 1;
+            background: #fef5e7;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .rule-icon { font-size: 28px; }
+        .rule-text { font-size: 13px; color: #555; margin-top: 5px; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .turn-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #d35400, #e67e22);
+            border-radius: 12px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .turn-bar.ai { background: linear-gradient(90deg, #7f8c8d, #95a5a6); }
+
+        /* Cake Display */
+        .cake-area {
+            display: flex;
+            justify-content: center;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .cake {
+            background: linear-gradient(to bottom, #f5deb3, #deb887);
+            border: 8px solid #8b4513;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .cake-decoration {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+        }
+
+        .cut-line {
+            position: absolute;
+            background: rgba(255, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .cut-line:hover { background: rgba(255, 0, 0, 0.6); }
+        .cut-line.horizontal {
+            width: 100%;
+            height: 10px;
+        }
+        .cut-line.vertical {
+            width: 10px;
+            height: 100%;
+        }
+
+        .size-display {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 700;
+            color: #8b4513;
+            margin-bottom: 15px;
+        }
+
+        .controls { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
+        .cut-btn {
+            padding: 12px 25px;
+            background: linear-gradient(135deg, #d35400, #e67e22);
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .cut-btn:hover { filter: brightness(1.1); }
+        .cut-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .message { text-align: center; padding: 15px; color: #666; }
+
+        .result {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            display: none;
+        }
+        .result.win { display: block; background: #d1fae5; color: #059669; }
+        .result.lose { display: block; background: #fee2e2; color: #dc2626; }
+
+        .new-game {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 15px;
+            background: #d35400;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
-<header>
-    <h1>🍰 CAKE CUTTER</h1>
-</header>
-<main>
-    <div class="instructions">
-        <h2>📋 HOW TO PLAY</h2>
-        <ul>
-            <li><strong>Goal:</strong> <span class="warning">DON'T eat the cherry corner!</span> Force opponent to eat it.</li>
-            <li><strong>Your Move:</strong> Click any cake cell to make a <span class="highlight">vertical OR horizontal cut</span></li>
-            <li><strong>Effect:</strong> The cut removes everything <span class="highlight">right AND below</span> your cut point</li>
-            <li><strong>Cherry:</strong> The <span class="highlight">top-left corner 🍒</span> is poison!</li>
-            <li><strong>Win:</strong> If the AI must eat the cherry, <span class="highlight">YOU WIN!</span></li>
-        </ul>
+
+<div class="container">
+    <div class="header">
+        <h1>🎂 Cake Cutter</h1>
+        <div style="opacity:0.8">Cut the cake - make the last cut to win!</div>
     </div>
-    <div class="game-area">
-        <div class="status-bar">
-            <div class="turn-indicator player" id="turn">🟢 YOUR TURN</div>
-            <div>Size: <span id="size">4×5</span></div>
-        </div>
-        <div id="message">Click a cake cell to cut!</div>
-        <div class="plate-container">
-            <div class="plate">
-                <div class="cake-grid" id="cake"></div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="rules">
+            <div class="rule">
+                <div class="rule-icon">🔪</div>
+                <div class="rule-text"><strong>Cut horizontally</strong> or <strong>vertically</strong></div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">📏</div>
+                <div class="rule-text"><strong>Remove one piece</strong>, keep the other</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">🏆</div>
+                <div class="rule-text">Make the <strong>last cut</strong> (1x1 square) to win!</div>
             </div>
         </div>
-        <div class="controls">
-            <button class="btn btn-reset" onclick="game.reset()">🔄 NEW GAME</button>
-        </div>
-        <div class="result" id="result"></div>
     </div>
-</main>
+
+    <div class="game-card">
+        <div class="turn-bar" id="turnBar">
+            <span id="turnText">🟢 Your Turn</span>
+            <span>Size: <span id="sizeDisplay">5×4</span></span>
+        </div>
+
+        <div class="message" id="message">Choose how to cut the cake!</div>
+
+        <div class="cake-area">
+            <div class="cake" id="cake">
+                <div class="cake-decoration">🍓</div>
+            </div>
+        </div>
+
+        <div class="controls" id="controls"></div>
+
+        <div class="result" id="result"></div>
+
+        <button class="new-game" onclick="newGame()">🔄 New Game</button>
+    </div>
+</div>
+
 <script>
-class CakeCutter {
-    constructor() {
-        this.rows = 4;
-        this.cols = 5;
-        this.reset();
-    }
-    reset() {
-        this.grid = [];
-        for (let r = 0; r < this.rows; r++) {
-            this.grid.push(new Array(this.cols).fill(true));
-        }
-        this.isPlayerTurn = true;
-        this.gameOver = false;
-        this.render();
+    let width = 5;
+    let height = 4;
+    let isPlayerTurn = true;
+    let gameOver = false;
+
+    function init() {
+        width = 5;
+        height = 4;
+        isPlayerTurn = true;
+        gameOver = false;
         document.getElementById('result').className = 'result';
-        document.getElementById('message').textContent = 'Click a cake cell to cut!';
+        render();
     }
-    render() {
-        const container = document.getElementById('cake');
-        container.style.gridTemplateColumns = `repeat(${this.cols}, 50px)`;
-        container.innerHTML = '';
-        for (let r = 0; r < this.rows; r++) {
-            for (let c = 0; c < this.cols; c++) {
-                const cell = document.createElement('div');
-                cell.className = 'cell';
-                if (r === 0 && c === 0) {
-                    cell.classList.add(this.grid[r][c] ? 'cherry' : 'eaten');
-                    cell.textContent = this.grid[r][c] ? '🍒' : '·';
-                } else if (this.grid[r][c]) {
-                    cell.classList.add('cake');
-                    cell.textContent = '🍰';
-                    if (this.isPlayerTurn && !this.gameOver) {
-                        cell.onclick = () => this.cut(r, c);
-                    }
-                } else {
-                    cell.classList.add('eaten');
-                    cell.textContent = '·';
-                }
-                container.appendChild(cell);
+
+    function render() {
+        const turnBar = document.getElementById('turnBar');
+        turnBar.className = isPlayerTurn ? 'turn-bar' : 'turn-bar ai';
+        document.getElementById('turnText').textContent = isPlayerTurn ? '🟢 Your Turn' : '🔴 AI Turn';
+        document.getElementById('sizeDisplay').textContent = `${width}×${height}`;
+
+        // Draw cake
+        const cake = document.getElementById('cake');
+        cake.style.width = (width * 40) + 'px';
+        cake.style.height = (height * 40) + 'px';
+
+        // Generate cut buttons
+        const controls = document.getElementById('controls');
+        controls.innerHTML = '';
+
+        if (!gameOver && isPlayerTurn) {
+            // Horizontal cuts
+            for (let y = 1; y < height; y++) {
+                const btn = document.createElement('button');
+                btn.className = 'cut-btn';
+                btn.textContent = `Cut at row ${y} (keep ${y} or ${height-y} rows)`;
+                btn.onclick = () => showCutOptions('h', y);
+                controls.appendChild(btn);
+            }
+
+            // Vertical cuts
+            for (let x = 1; x < width; x++) {
+                const btn = document.createElement('button');
+                btn.className = 'cut-btn';
+                btn.textContent = `Cut at col ${x} (keep ${x} or ${width-x} cols)`;
+                btn.onclick = () => showCutOptions('v', x);
+                controls.appendChild(btn);
             }
         }
-        this.updateTurn();
     }
-    cut(r, c) {
-        if (this.gameOver) return;
-        for (let i = r; i < this.rows; i++) {
-            for (let j = c; j < this.cols; j++) {
-                this.grid[i][j] = false;
-            }
+
+    function showCutOptions(type, pos) {
+        const controls = document.getElementById('controls');
+        controls.innerHTML = '';
+
+        if (type === 'h') {
+            const btn1 = document.createElement('button');
+            btn1.className = 'cut-btn';
+            btn1.textContent = `Keep top ${pos} rows (${width}×${pos})`;
+            btn1.onclick = () => makeCut(width, pos);
+            controls.appendChild(btn1);
+
+            const btn2 = document.createElement('button');
+            btn2.className = 'cut-btn';
+            btn2.textContent = `Keep bottom ${height-pos} rows (${width}×${height-pos})`;
+            btn2.onclick = () => makeCut(width, height - pos);
+            controls.appendChild(btn2);
+        } else {
+            const btn1 = document.createElement('button');
+            btn1.className = 'cut-btn';
+            btn1.textContent = `Keep left ${pos} cols (${pos}×${height})`;
+            btn1.onclick = () => makeCut(pos, height);
+            controls.appendChild(btn1);
+
+            const btn2 = document.createElement('button');
+            btn2.className = 'cut-btn';
+            btn2.textContent = `Keep right ${width-pos} cols (${width-pos}×${height})`;
+            btn2.onclick = () => makeCut(width - pos, height);
+            controls.appendChild(btn2);
         }
-        this.render();
-        if (!this.grid[0][0]) {
-            this.endGame(!this.isPlayerTurn);
+
+        const cancelBtn = document.createElement('button');
+        cancelBtn.className = 'cut-btn';
+        cancelBtn.style.background = '#95a5a6';
+        cancelBtn.textContent = 'Cancel';
+        cancelBtn.onclick = render;
+        controls.appendChild(cancelBtn);
+    }
+
+    function makeCut(newW, newH) {
+        width = newW;
+        height = newH;
+
+        if (width === 1 && height === 1) {
+            endGame(true);
             return;
         }
-        if (this.onlyCherryLeft()) {
-            this.isPlayerTurn = !this.isPlayerTurn;
-            this.render();
-            setTimeout(() => {
-                this.grid[0][0] = false;
-                this.render();
-                this.endGame(this.isPlayerTurn);
-            }, 500);
+
+        isPlayerTurn = false;
+        render();
+        document.getElementById('message').textContent = '🤖 AI is thinking...';
+
+        setTimeout(aiMove, 800);
+    }
+
+    function aiMove() {
+        if (gameOver) return;
+
+        // Simple AI: make smallest possible cut
+        if (width > 1) {
+            width = width - 1;
+        } else if (height > 1) {
+            height = height - 1;
+        }
+
+        document.getElementById('message').textContent = `🤖 AI cuts cake to ${width}×${height}`;
+
+        if (width === 1 && height === 1) {
+            endGame(false);
             return;
         }
-        this.isPlayerTurn = false;
-        this.updateTurn();
-        document.getElementById('message').textContent = '🤖 AI is cutting...';
-        setTimeout(() => this.aiMove(), 1000);
+
+        isPlayerTurn = true;
+        render();
+        setTimeout(() => {
+            document.getElementById('message').textContent = 'Your turn! Cut the cake.';
+        }, 500);
     }
-    onlyCherryLeft() {
-        for (let r = 0; r < this.rows; r++) {
-            for (let c = 0; c < this.cols; c++) {
-                if (r === 0 && c === 0) continue;
-                if (this.grid[r][c]) return false;
-            }
-        }
-        return this.grid[0][0];
-    }
-    aiMove() {
-        const moves = [];
-        for (let r = 0; r < this.rows; r++) {
-            for (let c = 0; c < this.cols; c++) {
-                if (this.grid[r][c] && !(r === 0 && c === 0)) {
-                    moves.push({ r, c });
-                }
-            }
-        }
-        if (moves.length === 0) {
-            this.grid[0][0] = false;
-            this.render();
-            this.endGame(true);
-            return;
-        }
-        const move = moves[Math.floor(Math.random() * moves.length)];
-        for (let i = move.r; i < this.rows; i++) {
-            for (let j = move.c; j < this.cols; j++) {
-                this.grid[i][j] = false;
-            }
-        }
-        document.getElementById('message').textContent = `🤖 AI cuts at (${move.r}, ${move.c})`;
-        this.render();
-        if (this.onlyCherryLeft()) {
-            setTimeout(() => {
-                document.getElementById('message').textContent = 'You must eat the cherry...';
-                setTimeout(() => {
-                    this.grid[0][0] = false;
-                    this.render();
-                    this.endGame(false);
-                }, 1000);
-            }, 500);
-            return;
-        }
-        this.isPlayerTurn = true;
-        this.updateTurn();
-        document.getElementById('message').textContent = 'Your turn!';
-    }
-    endGame(playerWins) {
-        this.gameOver = true;
+
+    function endGame(playerWins) {
+        gameOver = true;
+        render();
         const result = document.getElementById('result');
         if (playerWins) {
             result.className = 'result win';
-            result.textContent = '🎉 YOU WIN! AI ate the cherry!';
+            result.textContent = '🎉 YOU WIN! You made the final cut!';
         } else {
             result.className = 'result lose';
-            result.textContent = '😢 You ate the cherry! AI WINS!';
+            result.textContent = '😢 AI WINS! AI made the final cut.';
         }
+        document.getElementById('message').textContent = '';
     }
-    updateTurn() {
-        const turn = document.getElementById('turn');
-        if (this.isPlayerTurn) {
-            turn.className = 'turn-indicator player';
-            turn.textContent = '🟢 YOUR TURN';
-        } else {
-            turn.className = 'turn-indicator ai';
-            turn.textContent = '🔴 AI\'S TURN';
-        }
+
+    function newGame() {
+        init();
+        document.getElementById('message').textContent = 'Choose how to cut the cake!';
     }
-}
-const game = new CakeCutter();
+
+    window.onload = init;
 </script>
 </body>
 </html>

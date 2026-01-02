@@ -3,219 +3,291 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GMT-006: Factor Duel</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+    <title>GMT-006: Divisor Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --arena: #2c3e50; --gold: #f1c40f; --player: #27ae60; --ai: #8e44ad; --sword: #e74c3c; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Cinzel', serif; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); min-height: 100vh; color: #fff; }
-        header { background: var(--arena); padding: 15px; text-align: center; border-bottom: 3px solid var(--gold); }
-        h1 { font-size: 1.8rem; color: var(--gold); }
-        main { padding: 20px; max-width: 900px; margin: 0 auto; }
-        .instructions { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-bottom: 20px; border-left: 5px solid var(--sword); }
-        .instructions h2 { color: var(--gold); margin-bottom: 10px; }
-        .instructions ul { margin-left: 20px; line-height: 1.8; }
-        .highlight { background: var(--gold); color: #333; padding: 2px 8px; border-radius: 5px; font-weight: 600; }
-        .game-area { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 25px; }
-        .status-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; }
-        .turn-indicator { padding: 10px 20px; border-radius: 20px; font-weight: 600; }
-        .turn-indicator.player { background: var(--player); }
-        .turn-indicator.ai { background: var(--ai); }
-        .number-display { text-align: center; margin: 30px 0; }
-        .current-number { font-size: 5rem; color: var(--gold); text-shadow: 0 0 30px var(--sword); animation: pulse 2s infinite; }
-        @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        .factors-label { margin-top: 15px; color: #888; font-size: 0.9rem; }
-        .factors-container { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin: 20px 0; }
-        .factor-btn { min-width: 60px; padding: 15px 20px; border: none; border-radius: 10px; background: var(--sword); color: #fff; font-family: 'Cinzel', serif; font-size: 1.1rem; cursor: pointer; transition: all 0.2s; }
-        .factor-btn:hover { transform: scale(1.1); box-shadow: 0 0 20px var(--sword); }
-        .factor-btn:disabled { opacity: 0.3; cursor: not-allowed; }
-        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
-        .btn { padding: 15px 30px; border: none; border-radius: 10px; font-family: 'Cinzel', serif; font-size: 1rem; cursor: pointer; }
-        .btn-reset { background: var(--gold); color: #333; }
-        .result { text-align: center; padding: 30px; font-size: 1.5rem; font-weight: bold; border-radius: 15px; margin-top: 20px; display: none; }
-        .result.win { background: var(--player); display: block; }
-        .result.lose { background: var(--ai); display: block; }
-        #message { text-align: center; padding: 15px; font-size: 1.1rem; color: var(--gold); min-height: 50px; }
-        .history { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px; margin-top: 20px; max-height: 120px; overflow-y: auto; }
-        .history-entry { font-size: 0.9rem; color: #888; margin: 5px 0; }
-        .history-entry.player { color: var(--player); }
-        .history-entry.ai { color: var(--ai); }
+        body {
+            font-family: 'Rubik', sans-serif;
+            background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 36px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .tutorial h2 { color: #9b59b6; margin-bottom: 15px; }
+
+        .rules { display: flex; gap: 15px; }
+        .rule {
+            flex: 1;
+            background: #f5eeff;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .rule-icon { font-size: 28px; }
+        .rule-text { font-size: 13px; color: #555; margin-top: 5px; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .turn-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #a18cd1, #bc8cf2);
+            border-radius: 12px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .turn-bar.ai { background: linear-gradient(90deg, #e74c3c, #c0392b); }
+
+        .number-display {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+        .number-label { font-size: 14px; color: #888; }
+        .number-value { font-size: 72px; font-weight: 700; color: #9b59b6; }
+
+        .divisors-label { font-size: 14px; color: #888; text-align: center; margin-bottom: 15px; }
+        .divisors-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .divisor-btn {
+            min-width: 70px;
+            padding: 15px;
+            background: linear-gradient(135deg, #a18cd1, #bc8cf2);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 20px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .divisor-btn:hover { transform: scale(1.1); }
+        .divisor-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+        .message { text-align: center; padding: 15px; color: #666; font-size: 16px; }
+
+        .result {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            display: none;
+        }
+        .result.win { display: block; background: #d5f5e3; color: #27ae60; }
+        .result.lose { display: block; background: #fadbd8; color: #e74c3c; }
+
+        .btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 15px;
+            background: #9b59b6;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
-<header>
-    <h1>⚔️ FACTOR DUEL</h1>
-</header>
-<main>
-    <div class="instructions">
-        <h2>📋 HOW TO PLAY</h2>
-        <ul>
-            <li><strong>Goal:</strong> Be the player who <span class="highlight">reduces the number to 1</span></li>
-            <li><strong>Your Move:</strong> Divide the number by one of its <span class="highlight">proper divisors</span></li>
-            <li><strong>Proper Divisor:</strong> A factor that is NOT 1 and NOT the number itself</li>
-            <li><strong>Win:</strong> If YOU make it reach 1, <span class="highlight">YOU WIN!</span></li>
-            <li><strong>Example:</strong> 12 can be divided by 2, 3, 4, or 6</li>
-        </ul>
+
+<div class="container">
+    <div class="header">
+        <h1>➗ Divisor Game</h1>
+        <div style="opacity:0.9">Subtract a proper divisor - reach 1 to lose!</div>
     </div>
-    <div class="game-area">
-        <div class="status-bar">
-            <div class="turn-indicator player" id="turn">🟢 YOUR TURN</div>
-            <div>Starting: <span id="start-num">36</span></div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="rules">
+            <div class="rule">
+                <div class="rule-icon">🔢</div>
+                <div class="rule-text"><strong>Pick a divisor</strong> of the current number (not the number itself)</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">➖</div>
+                <div class="rule-text"><strong>Subtract it</strong> from the current number</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">⚠️</div>
+                <div class="rule-text">The player who <strong>reduces to 1</strong> (no moves left) loses!</div>
+            </div>
         </div>
-        <div id="message">Choose a divisor to divide the number!</div>
+    </div>
+
+    <div class="game-card">
+        <div class="turn-bar" id="turnBar">
+            <span id="turnText">🟢 Your Turn</span>
+            <span id="moveCount">Moves: 0</span>
+        </div>
+
         <div class="number-display">
-            <div class="current-number" id="current">36</div>
-            <div class="factors-label">Available divisors:</div>
+            <div class="number-label">Current Number</div>
+            <div class="number-value" id="currentNum">24</div>
         </div>
-        <div class="factors-container" id="factors"></div>
-        <div class="controls">
-            <button class="btn btn-reset" onclick="game.reset()">🔄 NEW GAME</button>
-        </div>
+
+        <div class="divisors-label">Choose a proper divisor to subtract:</div>
+        <div class="divisors-grid" id="divisorsGrid"></div>
+
+        <div class="message" id="message">Pick a divisor less than the number!</div>
+
         <div class="result" id="result"></div>
-        <div class="history">
-            <div id="history"></div>
-        </div>
+
+        <button class="btn" onclick="newGame()">🔄 New Game</button>
     </div>
-</main>
+</div>
+
 <script>
-class FactorDuel {
-    constructor() {
-        this.startNum = 36;
-        this.reset();
-    }
-    reset() {
-        this.current = this.startNum;
-        this.isPlayerTurn = true;
-        this.gameOver = false;
-        this.history = [];
-        this.render();
+    let currentNum = 24;
+    let isPlayerTurn = true;
+    let moveCount = 0;
+    let gameOver = false;
+
+    function init() {
+        currentNum = 24;
+        isPlayerTurn = true;
+        moveCount = 0;
+        gameOver = false;
         document.getElementById('result').className = 'result';
-        document.getElementById('history').innerHTML = '';
-        document.getElementById('message').textContent = 'Choose a divisor!';
+        render();
     }
-    getProperDivisors(n) {
-        const divisors = [];
-        for (let i = 2; i < n; i++) {
-            if (n % i === 0) divisors.push(i);
+
+    function getDivisors(n) {
+        const divs = [];
+        for (let i = 1; i < n; i++) {
+            if (n % i === 0) divs.push(i);
         }
-        return divisors;
+        return divs;
     }
-    render() {
-        document.getElementById('current').textContent = this.current;
-        const divisors = this.getProperDivisors(this.current);
-        const container = document.getElementById('factors');
-        container.innerHTML = '';
-        if (this.current === 1 || this.gameOver) {
-            return;
-        }
+
+    function render() {
+        const turnBar = document.getElementById('turnBar');
+        turnBar.className = isPlayerTurn ? 'turn-bar' : 'turn-bar ai';
+        document.getElementById('turnText').textContent = isPlayerTurn ? '🟢 Your Turn' : '🔴 AI Turn';
+        document.getElementById('moveCount').textContent = 'Moves: ' + moveCount;
+        document.getElementById('currentNum').textContent = currentNum;
+
+        const grid = document.getElementById('divisorsGrid');
+        grid.innerHTML = '';
+
+        const divisors = getDivisors(currentNum);
+
         if (divisors.length === 0) {
-            container.innerHTML = '<div style="color:#e74c3c">No valid divisors! (Prime number)</div>';
+            grid.innerHTML = '<div style="color:#888">No valid moves!</div>';
             return;
         }
+
         divisors.forEach(d => {
             const btn = document.createElement('button');
-            btn.className = 'factor-btn';
-            btn.textContent = `÷${d}`;
-            if (this.isPlayerTurn && !this.gameOver) {
-                btn.onclick = () => this.playerMove(d);
-            } else {
-                btn.disabled = true;
-            }
-            container.appendChild(btn);
+            btn.className = 'divisor-btn';
+            btn.textContent = '−' + d;
+            btn.disabled = !isPlayerTurn || gameOver;
+            btn.onclick = () => subtractDivisor(d);
+            grid.appendChild(btn);
         });
-        this.updateTurn();
     }
-    playerMove(divisor) {
-        if (this.gameOver || !this.isPlayerTurn) return;
-        const prev = this.current;
-        this.current = this.current / divisor;
-        this.addHistory(`You: ${prev} ÷ ${divisor} = ${this.current}`, 'player');
-        this.render();
-        if (this.current === 1) {
-            this.endGame(true);
+
+    function subtractDivisor(d) {
+        if (!isPlayerTurn || gameOver) return;
+
+        currentNum -= d;
+        moveCount++;
+
+        if (currentNum === 1) {
+            // Player made the last move but left 1, so they win
+            endGame(true);
             return;
         }
-        const divisors = this.getProperDivisors(this.current);
-        if (divisors.length === 0) {
-            // AI can't move - player wins
-            this.endGame(true);
-            return;
-        }
-        this.isPlayerTurn = false;
-        this.updateTurn();
+
+        isPlayerTurn = false;
+        render();
         document.getElementById('message').textContent = '🤖 AI is thinking...';
-        setTimeout(() => this.aiMove(), 1000);
+
+        setTimeout(aiMove, 800);
     }
-    aiMove() {
-        const divisors = this.getProperDivisors(this.current);
-        if (divisors.length === 0) {
-            this.endGame(true);
+
+    function aiMove() {
+        if (gameOver) return;
+
+        const divisors = getDivisors(currentNum);
+
+        if (divisors.length === 0 || currentNum === 1) {
+            endGame(true);
             return;
         }
-        // AI strategy: try to leave player with prime or 1
-        let bestMove = divisors[0];
-        for (const d of divisors) {
-            const next = this.current / d;
-            if (next === 1) {
-                bestMove = d;
-                break;
-            }
-            // Check if next is prime (no proper divisors)
-            const nextDivisors = this.getProperDivisors(next);
-            if (nextDivisors.length === 0) {
-                bestMove = d;
-                break;
-            }
-        }
-        const prev = this.current;
-        this.current = this.current / bestMove;
-        this.addHistory(`AI: ${prev} ÷ ${bestMove} = ${this.current}`, 'ai');
-        document.getElementById('message').textContent = `🤖 AI divides by ${bestMove}`;
-        this.render();
-        if (this.current === 1) {
-            this.endGame(false);
+
+        // Simple AI: pick largest divisor
+        const chosen = divisors[divisors.length - 1];
+        currentNum -= chosen;
+        moveCount++;
+
+        document.getElementById('message').textContent = `🤖 AI subtracts ${chosen}`;
+
+        if (currentNum === 1) {
+            endGame(false);
             return;
         }
-        const nextDivisors = this.getProperDivisors(this.current);
-        if (nextDivisors.length === 0) {
-            this.endGame(false);
-            return;
-        }
-        this.isPlayerTurn = true;
-        this.updateTurn();
-        document.getElementById('message').textContent = 'Your turn! Choose a divisor.';
+
+        isPlayerTurn = true;
+        render();
+        setTimeout(() => {
+            document.getElementById('message').textContent = 'Your turn! Pick a divisor.';
+        }, 500);
     }
-    addHistory(text, type) {
-        const container = document.getElementById('history');
-        const entry = document.createElement('div');
-        entry.className = `history-entry ${type}`;
-        entry.textContent = text;
-        container.appendChild(entry);
-        container.scrollTop = container.scrollHeight;
-    }
-    endGame(playerWins) {
-        this.gameOver = true;
+
+    function endGame(playerWins) {
+        gameOver = true;
+        render();
         const result = document.getElementById('result');
         if (playerWins) {
             result.className = 'result win';
-            result.textContent = '🎉 YOU WIN!';
+            result.textContent = '🎉 YOU WIN! Opponent is stuck at 1!';
         } else {
             result.className = 'result lose';
-            result.textContent = '😢 AI WINS!';
+            result.textContent = '😢 AI WINS! You are stuck at 1.';
         }
+        document.getElementById('message').textContent = '';
     }
-    updateTurn() {
-        const turn = document.getElementById('turn');
-        if (this.isPlayerTurn) {
-            turn.className = 'turn-indicator player';
-            turn.textContent = '🟢 YOUR TURN';
-        } else {
-            turn.className = 'turn-indicator ai';
-            turn.textContent = '🔴 AI\'S TURN';
-        }
+
+    function newGame() {
+        init();
+        document.getElementById('message').textContent = 'Pick a divisor less than the number!';
     }
-}
-const game = new FactorDuel();
+
+    window.onload = init;
 </script>
 </body>
 </html>

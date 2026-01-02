@@ -1,652 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AGR-004: All-Pairs Shortest Path With Negative Edges - Gamified</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Space+Grotesk:wght@400;600;700&display=swap');
-
-    :root {
-      --bg: #f6f1e6;
-      --ink: #1f2a33;
-      --muted: #4f5b66;
-      --accent: #e76f51;
-      --accent-2: #2a9d8f;
-      --accent-3: #264653;
-      --card: #ffffff;
-      --stroke: #e1d8c8;
-      --shadow: 0 18px 40px rgba(31, 42, 51, 0.12);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Space Grotesk', sans-serif;
-      color: var(--ink);
-      background:
-        radial-gradient(60% 80% at 10% 10%, rgba(231, 111, 81, 0.12), transparent 60%),
-        radial-gradient(50% 70% at 90% 20%, rgba(42, 157, 143, 0.14), transparent 60%),
-        linear-gradient(135deg, #f6f1e6 0%, #f1e9da 100%);
-      min-height: 100vh;
-      padding: 28px;
-    }
-
-    .shell {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-    }
-
-    header.hero {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 24px;
-      background: var(--card);
-      border-radius: 20px;
-      box-shadow: var(--shadow);
-      padding: 28px;
-      border: 1px solid var(--stroke);
-      animation: fadeUp 0.6s ease both;
-    }
-
-    .eyebrow {
-      text-transform: uppercase;
-      font-size: 0.8rem;
-      letter-spacing: 0.22em;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    h1 {
-      font-family: 'Fraunces', serif;
-      font-size: 2.4rem;
-      margin-bottom: 12px;
-      line-height: 1.1;
-    }
-
-    .lead {
-      font-size: 1.05rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .hero-card {
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      background: #fff9f0;
-      border-radius: 18px;
-      padding: 20px;
-      border: 1px solid var(--stroke);
-    }
-
-    .badge-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .badge {
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: var(--accent-3);
-      color: white;
-      font-size: 0.85rem;
-      font-weight: 600;
-    }
-
-    .tag {
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: #f2e7d7;
-      color: var(--accent-3);
-      font-size: 0.85rem;
-      font-weight: 600;
-      border: 1px solid var(--stroke);
-    }
-
-    .scenario {
-      padding: 12px 14px;
-      background: white;
-      border-radius: 14px;
-      border: 1px solid var(--stroke);
-      color: var(--accent-3);
-      font-weight: 600;
-    }
-
-    section {
-      background: var(--card);
-      border-radius: 20px;
-      padding: 24px;
-      border: 1px solid var(--stroke);
-      box-shadow: var(--shadow);
-      animation: fadeUp 0.6s ease both;
-    }
-
-    section:nth-of-type(2) { animation-delay: 0.06s; }
-    section:nth-of-type(3) { animation-delay: 0.12s; }
-    section:nth-of-type(4) { animation-delay: 0.18s; }
-    section:nth-of-type(5) { animation-delay: 0.24s; }
-
-    h2 {
-      font-family: 'Fraunces', serif;
-      font-size: 1.6rem;
-      margin-bottom: 16px;
-    }
-
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 18px;
-    }
-
-    .rule-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .rule-list li {
-      padding: 10px 12px;
-      background: #f9f4eb;
-      border-radius: 12px;
-      border: 1px solid var(--stroke);
-      line-height: 1.5;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 14px;
-      margin-top: 16px;
-    }
-
-    .stat {
-      background: #fdf8ef;
-      border-radius: 14px;
-      padding: 12px 16px;
-      border: 1px solid var(--stroke);
-      text-align: center;
-    }
-
-    .stat .value {
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: var(--accent-3);
-    }
-
-    .stat .label {
-      font-size: 0.85rem;
-      color: var(--muted);
-    }
-
-    .game-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      align-items: start;
-    }
-
-    .panel {
-      background: #ffffff;
-      border-radius: 16px;
-      border: 1px solid var(--stroke);
-      padding: 16px;
-    }
-
-    .panel h3 {
-      font-size: 1.1rem;
-      margin-bottom: 12px;
-      color: var(--accent-3);
-    }
-
-    .step-bank,
-    .step-track {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 8px;
-    }
-
-    .step-btn {
-      border: 1px solid var(--stroke);
-      background: #f7efe4;
-      padding: 10px 12px;
-      border-radius: 12px;
-      cursor: pointer;
-      text-align: left;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      font-family: inherit;
-      font-size: 0.95rem;
-    }
-
-    .step-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 18px rgba(31, 42, 51, 0.12);
-    }
-
-    .step-btn.correct {
-      background: #e9f7f2;
-      border-color: #b9e6d5;
-      color: var(--accent-2);
-      cursor: default;
-    }
-
-    .step-slot {
-      padding: 10px 12px;
-      background: #f0f7f9;
-      border-radius: 12px;
-      border: 1px dashed #a9c6cf;
-      color: var(--accent-3);
-    }
-
-    .controls {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .btn {
-      padding: 10px 16px;
-      border-radius: 999px;
-      border: none;
-      font-weight: 600;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .btn.primary {
-      background: var(--accent-3);
-      color: white;
-    }
-
-    .btn.secondary {
-      background: #f2e7d7;
-      color: var(--accent-3);
-      border: 1px solid var(--stroke);
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 18px rgba(31, 42, 51, 0.12);
-    }
-
-    .message {
-      margin-top: 12px;
-      padding: 10px 12px;
-      border-radius: 12px;
-      background: #fff5e6;
-      border: 1px solid #f0d9b5;
-      color: #8a5b1f;
-      font-size: 0.92rem;
-      min-height: 20px;
-    }
-
-    .progress-bar {
-      height: 12px;
-      background: #f1e7da;
-      border-radius: 999px;
-      overflow: hidden;
-      border: 1px solid var(--stroke);
-      margin-top: 10px;
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      transition: width 0.3s ease;
-    }
-
-    .quiz-card {
-      border: 1px solid var(--stroke);
-      border-radius: 14px;
-      padding: 14px;
-      background: #fffdf7;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .quiz-options {
-      display: grid;
-      gap: 8px;
-    }
-
-    .quiz-btn {
-      border: 1px solid var(--stroke);
-      background: white;
-      border-radius: 10px;
-      padding: 8px 10px;
-      text-align: left;
-      cursor: pointer;
-      font-family: inherit;
-      transition: background 0.2s ease, border 0.2s ease;
-    }
-
-    .quiz-btn.correct {
-      background: #eaf6ed;
-      border-color: #b9e6c1;
-      color: #2f6f3c;
-    }
-
-    .quiz-btn.wrong {
-      background: #fdeceb;
-      border-color: #f3b5af;
-      color: #a53f35;
-    }
-
-    .quiz-explain {
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
-
-    .facts {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 12px;
-    }
-
-    .fact {
-      background: #f7efe4;
-      border-radius: 14px;
-      padding: 12px 14px;
-      border: 1px solid var(--stroke);
-    }
-
-    .fact-label {
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      color: var(--muted);
-      margin-bottom: 6px;
-    }
-
-    .fact-value {
-      font-weight: 700;
-      color: var(--accent-3);
-      font-size: 1rem;
-      line-height: 1.4;
-    }
-
-    footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.95rem;
-      padding-bottom: 10px;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 900px) {
-      header.hero {
-        grid-template-columns: 1fr;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGR-004: City Navigator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --city: #3498db; --road: #f39c12; --neg: #e74c3c; --bg: #1a1a2e; --gold: #f1c40f; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Orbitron', sans-serif; background: linear-gradient(135deg, var(--bg) 0%, #16213e 100%); min-height: 100vh; color: #fff; }
+        header { background: rgba(0,0,0,0.3); padding: 15px; text-align: center; border-bottom: 3px solid var(--city); }
+        h1 { font-size: 1.6rem; color: var(--city); }
+        main { padding: 20px; max-width: 1100px; margin: 0 auto; }
+        .instructions { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-bottom: 20px; border-left: 5px solid var(--gold); }
+        .instructions h2 { color: var(--gold); margin-bottom: 10px; font-size: 1rem; }
+        .instructions ul { margin-left: 20px; line-height: 1.8; font-size: 0.9rem; }
+        .highlight { background: var(--gold); color: #333; padding: 2px 8px; border-radius: 5px; }
+        .neg-highlight { background: var(--neg); color: #fff; padding: 2px 8px; border-radius: 5px; }
+        .game-area { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 25px; }
+        .layout { display: grid; grid-template-columns: 1fr 300px; gap: 20px; }
+        .graph-container { position: relative; width: 100%; height: 350px; background: rgba(0,0,50,0.2); border-radius: 10px; }
+        svg { width: 100%; height: 100%; }
+        .node { fill: var(--city); stroke: #fff; stroke-width: 2; cursor: pointer; }
+        .node:hover { fill: var(--gold); }
+        .node-label { fill: #fff; font-size: 14px; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+        .edge { stroke: var(--road); stroke-width: 3; }
+        .edge.negative { stroke: var(--neg); }
+        .weight-label { fill: var(--gold); font-size: 11px; text-anchor: middle; }
+        .weight-label.negative { fill: var(--neg); }
+        .matrix-panel { background: rgba(0,0,0,0.3); border-radius: 10px; padding: 15px; max-height: 400px; overflow-y: auto; }
+        .matrix-panel h3 { color: var(--gold); margin-bottom: 10px; font-size: 0.9rem; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.8rem; }
+        th, td { padding: 8px 5px; text-align: center; border: 1px solid #444; }
+        th { background: rgba(52,152,219,0.3); }
+        td.inf { color: #888; }
+        td.updated { background: rgba(39,174,96,0.3); animation: flash 0.5s; }
+        @keyframes flash { 0%,100% { background: rgba(39,174,96,0.3); } 50% { background: rgba(39,174,96,0.6); } }
+        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
+        .btn { padding: 12px 25px; border: none; border-radius: 10px; font-family: 'Orbitron', sans-serif; font-size: 0.8rem; cursor: pointer; }
+        .btn-run { background: var(--city); color: #fff; }
+        .btn-step { background: var(--road); color: #fff; }
+        .btn-reset { background: var(--gold); color: #333; }
+        #message { text-align: center; padding: 15px; font-size: 0.9rem; color: var(--gold); }
+        .step-info { text-align: center; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 10px; margin: 10px 0; }
+    </style>
 </head>
 <body>
-  <div class="shell">
-    <header class="hero">
-      <div>
-        <div class="eyebrow">Advanced Graphs Gamified</div>
-        <h1>AGR-004: All-Pairs Shortest Path With Negative Edges</h1>
-        <p class="lead">Compute all-pairs shortest paths with negative edges but no negative cycles.</p>
-      </div>
-      <div class="hero-card">
-        <div class="badge-row">
-          <span class="badge">Difficulty: Medium</span>
+<header>
+    <h1>📍 CITY NAVIGATOR</h1>
+</header>
+<main>
+    <div class="instructions">
+        <h2>📋 HOW TO PLAY (FLOYD-WARSHALL)</h2>
+        <ul>
+            <li><strong>Goal:</strong> Find <span class="highlight">all-pairs shortest paths</span> including negative edges</li>
+            <li><strong>Watch:</strong> See Floyd-Warshall update the distance matrix step by step</li>
+            <li><strong>Negative Edges:</strong> <span class="neg-highlight">Red edges</span> have negative weights</li>
+            <li><strong>Matrix:</strong> Shows shortest distance from row → column</li>
+        </ul>
+    </div>
+    <div class="game-area">
+        <div class="step-info">
+            <span id="step-label">K = 0</span> | 
+            <span id="message">Click RUN to execute Floyd-Warshall algorithm</span>
         </div>
-        <div class="badge-row"><span class="tag">Graphs</span><span class="tag">APSP</span><span class="tag">Johnson</span></div>
-        <div class="scenario">Scenario: The Crypto Currency Exchange Study</div>
-      </div>
-    </header>
-
-    <section>
-      <h2>Mission Brief</h2>
-      <div class="grid-2">
-        <div>
-          <p class="lead"><strong>Objective:</strong> Use reweighting to run Dijkstra from every node safely.</p>
-          <div class="stats">
-            <div class="stat">
-              <div class="value" id="score">0</div>
-              <div class="label">Score</div>
+        <div class="layout">
+            <div class="graph-container">
+                <svg id="graph"></svg>
             </div>
-            <div class="stat">
-              <div class="value" id="streak">0</div>
-              <div class="label">Streak</div>
+            <div class="matrix-panel">
+                <h3>Distance Matrix</h3>
+                <table id="matrix"></table>
             </div>
-            <div class="stat">
-              <div class="value" id="stepsDone">0 / 0</div>
-              <div class="label">Steps Locked</div>
-            </div>
-            <div class="stat">
-              <div class="value" id="quizScore">0 / 0</div>
-              <div class="label">Quiz Correct</div>
-            </div>
-          </div>
-          <div class="progress-bar">
-            <div class="progress-fill" id="progressFill"></div>
-          </div>
         </div>
-        <div>
-          <h3>Rules of the Arena</h3>
-          <ul class="rule-list"><li>Negative edges are allowed, negative cycles are not.</li><li>Reweight edges to be non-negative.</li><li>Output INF for unreachable pairs.</li></ul>
+        <div class="controls">
+            <button class="btn btn-run" id="btn-run" onclick="game.runFull()">▶ RUN</button>
+            <button class="btn btn-step" id="btn-step" onclick="game.step()">⏭ STEP</button>
+            <button class="btn btn-reset" onclick="game.reset()">🔄 RESET</button>
         </div>
-      </div>
-    </section>
-
-    <section>
-      <h2>Step Sprint</h2>
-      <div class="game-grid">
-        <div class="panel">
-          <h3>Step Bank</h3>
-          <div class="step-bank" id="stepBank"></div>
-          <div class="controls">
-            <button class="btn primary" id="shuffleSteps">Shuffle Steps</button>
-            <button class="btn secondary" id="resetScore">Reset Score</button>
-          </div>
-          <div class="message" id="stepMessage">Pick the first step in the algorithm.</div>
-        </div>
-        <div class="panel">
-          <h3>Locked Sequence</h3>
-          <div class="step-track" id="stepTrack"></div>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <h2>Quick Quiz</h2>
-      <div class="grid-2" id="quizContainer"></div>
-    </section>
-
-    <section>
-      <h2>Algorithm Snapshot</h2>
-      <div class="facts"><div class="fact"><div class="fact-label">Technique</div><div class="fact-value">Johnson reweighting + Dijkstra</div></div><div class="fact"><div class="fact-label">Time</div><div class="fact-value">O(V E log V)</div></div><div class="fact"><div class="fact-label">Space</div><div class="fact-value">O(V + E)</div></div></div>
-    </section>
-
-    <footer>Tip: After Dijkstra, adjust distances back using h values.</footer>
-  </div>
-
-  <script>
-    const gameData = {"id": "AGR-004", "steps": ["Add a super source with zero edges to all nodes.", "Run Bellman-Ford to compute potentials h.", "Reweight edges to eliminate negative weights.", "Run Dijkstra from each node and undo the reweighting."], "quiz": [{"q": "Which algorithm computes the potentials for Johnson?", "options": ["Bellman-Ford", "Kruskal", "Prim", "DFS"], "answer": 0, "explain": "Bellman-Ford handles negative weights to get potentials."}, {"q": "Why reweight edges?", "options": ["To make all weights non-negative", "To reduce nodes", "To detect bridges", "To find SCCs"], "answer": 0, "explain": "Non-negative weights are required for Dijkstra."}, {"q": "If a negative cycle exists, APSP is?", "options": ["Undefined", "Still solvable by Dijkstra", "Always zero", "Only BFS works"], "answer": 0, "explain": "Distances are not well-defined with negative cycles."}]};
-
-    const state = {
-      score: 0,
-      streak: 0,
-      stepsDone: 0,
-      quizCorrect: 0,
-      answered: new Set()
-    };
-
-    const scoreEl = document.getElementById('score');
-    const streakEl = document.getElementById('streak');
-    const stepsDoneEl = document.getElementById('stepsDone');
-    const quizScoreEl = document.getElementById('quizScore');
-    const progressFill = document.getElementById('progressFill');
-    const stepBank = document.getElementById('stepBank');
-    const stepTrack = document.getElementById('stepTrack');
-    const stepMessage = document.getElementById('stepMessage');
-    const quizContainer = document.getElementById('quizContainer');
-
-    function shuffle(list) {
-      for (let i = list.length - 1; i > 0; i -= 1) {
-        const j = Math.floor(Math.random() * (i + 1));
-        const tmp = list[i];
-        list[i] = list[j];
-        list[j] = tmp;
-      }
-      return list;
+    </div>
+</main>
+<script>
+class CityNavigator {
+    constructor() {
+        this.nodes = [
+            { id: 0, x: 100, y: 80, label: '0' },
+            { id: 1, x: 250, y: 80, label: '1' },
+            { id: 2, x: 400, y: 80, label: '2' },
+            { id: 3, x: 175, y: 220, label: '3' },
+            { id: 4, x: 325, y: 220, label: '4' }
+        ];
+        this.edges = [
+            { u: 0, v: 1, w: 3 },
+            { u: 0, v: 3, w: 8 },
+            { u: 1, v: 2, w: 2 },
+            { u: 1, v: 3, w: -4 },
+            { u: 2, v: 4, w: 1 },
+            { u: 3, v: 4, w: 5 },
+            { u: 4, v: 0, w: -2 }
+        ];
+        this.n = this.nodes.length;
+        this.k = 0;
+        this.dist = [];
+        this.initDist();
+        this.render();
+        this.renderMatrix();
     }
-
-    function updateStats() {
-      scoreEl.textContent = state.score;
-      streakEl.textContent = state.streak;
-      stepsDoneEl.textContent = state.stepsDone + ' / ' + gameData.steps.length;
-      quizScoreEl.textContent = state.quizCorrect + ' / ' + gameData.quiz.length;
-      const progress = gameData.steps.length === 0 ? 0 : (state.stepsDone / gameData.steps.length) * 100;
-      progressFill.style.width = progress + '%';
-    }
-
-    function resetScore() {
-      state.score = 0;
-      state.streak = 0;
-      updateStats();
-    }
-
-    function renderSteps() {
-      state.stepsDone = 0;
-      stepBank.innerHTML = '';
-      stepTrack.innerHTML = '';
-      stepMessage.textContent = 'Pick the first step in the algorithm.';
-
-      const bankItems = gameData.steps.map((text, index) => ({ text, index }));
-      shuffle(bankItems);
-
-      bankItems.forEach((item) => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'step-btn';
-        btn.textContent = item.text;
-        btn.addEventListener('click', () => handleStepClick(item, btn));
-        stepBank.appendChild(btn);
-      });
-
-      updateStats();
-    }
-
-    function handleStepClick(item, btn) {
-      if (btn.classList.contains('correct')) {
-        return;
-      }
-
-      if (item.index === state.stepsDone) {
-        state.stepsDone += 1;
-        state.score += 10;
-        state.streak += 1;
-        btn.classList.add('correct');
-        btn.disabled = true;
-
-        const slot = document.createElement('div');
-        slot.className = 'step-slot';
-        slot.textContent = item.text;
-        stepTrack.appendChild(slot);
-
-        if (state.stepsDone === gameData.steps.length) {
-          stepMessage.textContent = 'Sequence complete. Nice work.';
-          state.score += 20;
-        } else {
-          stepMessage.textContent = 'Good. Lock the next step.';
+    initDist() {
+        const INF = 9999;
+        this.dist = Array.from({ length: this.n }, () => new Array(this.n).fill(INF));
+        for (let i = 0; i < this.n; i++) this.dist[i][i] = 0;
+        for (const e of this.edges) {
+            this.dist[e.u][e.v] = e.w;
         }
-      } else {
-        state.streak = 0;
-        state.score = Math.max(0, state.score - 5);
-        stepMessage.textContent = 'Not yet. Look for the earliest missing step.';
-      }
-
-      updateStats();
     }
-
-    function renderQuiz() {
-      quizContainer.innerHTML = '';
-      state.answered.clear();
-      state.quizCorrect = 0;
-
-      gameData.quiz.forEach((item, idx) => {
-        const card = document.createElement('div');
-        card.className = 'quiz-card';
-
-        const question = document.createElement('div');
-        question.className = 'quiz-q';
-        question.textContent = 'Q' + (idx + 1) + '. ' + item.q;
-
-        const options = document.createElement('div');
-        options.className = 'quiz-options';
-
-        const explain = document.createElement('div');
-        explain.className = 'quiz-explain';
-
-        item.options.forEach((optionText, optionIdx) => {
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = 'quiz-btn';
-          btn.textContent = optionText;
-          btn.addEventListener('click', () => handleQuizClick(idx, optionIdx, btn, options, explain));
-          options.appendChild(btn);
+    reset() {
+        this.k = 0;
+        this.initDist();
+        document.getElementById('step-label').textContent = 'K = 0';
+        document.getElementById('message').textContent = 'Click RUN or STEP!';
+        document.getElementById('btn-run').disabled = false;
+        document.getElementById('btn-step').disabled = false;
+        this.render();
+        this.renderMatrix();
+    }
+    render() {
+        const svg = document.getElementById('graph');
+        svg.innerHTML = '';
+        // Arrow marker
+        const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+        const marker = document.createElementNS('http://www.w3.org/2000/svg', 'marker');
+        marker.setAttribute('id', 'arrow');
+        marker.setAttribute('markerWidth', '10');
+        marker.setAttribute('markerHeight', '10');
+        marker.setAttribute('refX', '8');
+        marker.setAttribute('refY', '3');
+        marker.setAttribute('orient', 'auto');
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', 'M0,0 L0,6 L9,3 z');
+        path.setAttribute('fill', '#f39c12');
+        marker.appendChild(path);
+        defs.appendChild(marker);
+        svg.appendChild(defs);
+        // Draw edges
+        this.edges.forEach(e => {
+            const n1 = this.nodes[e.u];
+            const n2 = this.nodes[e.v];
+            const dx = n2.x - n1.x;
+            const dy = n2.y - n1.y;
+            const len = Math.sqrt(dx*dx + dy*dy);
+            const ox = (dx / len) * 25;
+            const oy = (dy / len) * 25;
+            const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', n1.x + ox);
+            line.setAttribute('y1', n1.y + oy);
+            line.setAttribute('x2', n2.x - ox);
+            line.setAttribute('y2', n2.y - oy);
+            line.setAttribute('class', 'edge' + (e.w < 0 ? ' negative' : ''));
+            line.setAttribute('marker-end', 'url(#arrow)');
+            svg.appendChild(line);
+            const mx = (n1.x + n2.x) / 2;
+            const my = (n1.y + n2.y) / 2 - 8;
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            text.setAttribute('x', mx);
+            text.setAttribute('y', my);
+            text.setAttribute('class', 'weight-label' + (e.w < 0 ? ' negative' : ''));
+            text.textContent = e.w;
+            svg.appendChild(text);
         });
-
-        card.appendChild(question);
-        card.appendChild(options);
-        card.appendChild(explain);
-        quizContainer.appendChild(card);
-      });
-
-      updateStats();
+        // Draw nodes
+        this.nodes.forEach(n => {
+            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle.setAttribute('cx', n.x);
+            circle.setAttribute('cy', n.y);
+            circle.setAttribute('r', 22);
+            circle.setAttribute('class', 'node');
+            svg.appendChild(circle);
+            const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            text.setAttribute('x', n.x);
+            text.setAttribute('y', n.y);
+            text.setAttribute('class', 'node-label');
+            text.textContent = n.label;
+            svg.appendChild(text);
+        });
     }
-
-    function handleQuizClick(qIndex, optionIdx, btn, options, explain) {
-      if (state.answered.has(qIndex)) {
-        return;
-      }
-      state.answered.add(qIndex);
-
-      const item = gameData.quiz[qIndex];
-      const buttons = options.querySelectorAll('button');
-      buttons.forEach((button) => {
-        button.disabled = true;
-      });
-
-      if (optionIdx === item.answer) {
-        btn.classList.add('correct');
-        state.score += 15;
-        state.quizCorrect += 1;
-        explain.textContent = item.explain;
-      } else {
-        btn.classList.add('wrong');
-        state.score = Math.max(0, state.score - 5);
-        explain.textContent = 'Correct: ' + item.options[item.answer] + '. ' + item.explain;
-      }
-
-      updateStats();
+    renderMatrix(updated = []) {
+        const table = document.getElementById('matrix');
+        let html = '<tr><th></th>';
+        for (let i = 0; i < this.n; i++) html += `<th>${i}</th>`;
+        html += '</tr>';
+        for (let i = 0; i < this.n; i++) {
+            html += `<tr><th>${i}</th>`;
+            for (let j = 0; j < this.n; j++) {
+                const val = this.dist[i][j];
+                const isUpdated = updated.some(u => u[0] === i && u[1] === j);
+                const cls = val >= 9999 ? 'inf' : (isUpdated ? 'updated' : '');
+                html += `<td class="${cls}">${val >= 9999 ? '∞' : val}</td>`;
+            }
+            html += '</tr>';
+        }
+        table.innerHTML = html;
     }
-
-    document.getElementById('shuffleSteps').addEventListener('click', renderSteps);
-    document.getElementById('resetScore').addEventListener('click', resetScore);
-
-    renderSteps();
-    renderQuiz();
-  </script>
+    step() {
+        if (this.k >= this.n) {
+            document.getElementById('message').textContent = 'Algorithm complete!';
+            document.getElementById('btn-step').disabled = true;
+            document.getElementById('btn-run').disabled = true;
+            return false;
+        }
+        const updated = [];
+        const k = this.k;
+        for (let i = 0; i < this.n; i++) {
+            for (let j = 0; j < this.n; j++) {
+                if (this.dist[i][k] + this.dist[k][j] < this.dist[i][j]) {
+                    this.dist[i][j] = this.dist[i][k] + this.dist[k][j];
+                    updated.push([i, j]);
+                }
+            }
+        }
+        this.k++;
+        document.getElementById('step-label').textContent = `K = ${this.k}`;
+        document.getElementById('message').textContent = `Updated ${updated.length} cells using intermediate node ${k}`;
+        this.renderMatrix(updated);
+        return this.k < this.n;
+    }
+    async runFull() {
+        document.getElementById('btn-run').disabled = true;
+        while (this.step()) {
+            await new Promise(r => setTimeout(r, 800));
+        }
+    }
+}
+const game = new CityNavigator();
+</script>
 </body>
 </html>

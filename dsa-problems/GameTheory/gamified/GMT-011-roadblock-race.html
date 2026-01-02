@@ -3,195 +3,325 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GMT-011: Roadblock Race</title>
-    <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Roboto&display=swap" rel="stylesheet">
+    <title>GMT-011: Token Blocker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root { --road: #34495e; --car: #e74c3c; --ai-car: #3498db; --gold: #f1c40f; --block: #7f8c8d; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Roboto', sans-serif; background: linear-gradient(135deg, #2c3e50 0%, #1a1a2e 100%); min-height: 100vh; color: #fff; }
-        header { background: var(--road); padding: 15px; text-align: center; }
-        h1 { font-family: 'Russo One', sans-serif; font-size: 1.8rem; color: var(--gold); }
-        main { padding: 20px; max-width: 900px; margin: 0 auto; }
-        .instructions { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-bottom: 20px; border-left: 5px solid var(--car); }
-        .instructions h2 { color: var(--gold); margin-bottom: 10px; }
-        .instructions ul { margin-left: 20px; line-height: 1.8; }
-        .highlight { background: var(--gold); color: #333; padding: 2px 8px; border-radius: 5px; }
-        .game-area { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 25px; }
-        .status-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; }
-        .turn-indicator { padding: 10px 20px; border-radius: 20px; font-weight: 600; }
-        .turn-indicator.player { background: var(--car); }
-        .turn-indicator.ai { background: var(--ai-car); }
-        .road-container { display: flex; justify-content: center; margin: 30px 0; }
-        .road { display: flex; gap: 10px; padding: 20px; background: var(--road); border-radius: 10px; }
-        .lane { width: 60px; height: 60px; background: #555; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 2rem; cursor: pointer; transition: all 0.3s; position: relative; }
-        .lane.open { background: #27ae60; }
-        .lane.blocked { background: var(--block); cursor: not-allowed; }
-        .lane.player { background: var(--car); }
-        .lane.valid { box-shadow: 0 0 15px var(--gold); animation: pulse 1s infinite; }
-        @keyframes pulse { 0%,100% { box-shadow: 0 0 10px var(--gold); } 50% { box-shadow: 0 0 25px var(--gold); } }
-        .lane-num { position: absolute; bottom: 3px; font-size: 0.7rem; color: #aaa; }
-        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
-        .btn { padding: 15px 30px; border: none; border-radius: 10px; font-family: 'Russo One', sans-serif; font-size: 1rem; cursor: pointer; }
-        .btn-reset { background: var(--gold); color: #333; }
-        .result { text-align: center; padding: 30px; font-size: 1.5rem; font-weight: bold; border-radius: 15px; margin-top: 20px; display: none; }
-        .result.win { background: var(--car); display: block; }
-        .result.lose { background: var(--ai-car); display: block; }
-        #message { text-align: center; padding: 15px; font-size: 1.1rem; color: var(--gold); min-height: 50px; }
-        .legend { display: flex; gap: 20px; justify-content: center; margin: 15px 0; flex-wrap: wrap; }
-        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
-        .legend-dot { width: 25px; height: 25px; border-radius: 5px; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #134e5e 0%, #71b280 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 36px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .tutorial h2 { color: #134e5e; margin-bottom: 15px; }
+
+        .rules { display: flex; gap: 15px; }
+        .rule {
+            flex: 1;
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .rule-icon { font-size: 28px; }
+        .rule-text { font-size: 13px; color: #555; margin-top: 5px; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .turn-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #134e5e, #71b280);
+            border-radius: 12px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .turn-bar.ai { background: linear-gradient(90deg, #c0392b, #e74c3c); }
+
+        /* Grid */
+        .grid-area {
+            display: flex;
+            justify-content: center;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .grid {
+            display: grid;
+            gap: 8px;
+        }
+
+        .cell {
+            width: 60px;
+            height: 60px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 28px;
+        }
+        .cell:hover { transform: scale(1.05); }
+        .cell.blocked { background: #333; cursor: not-allowed; }
+        .cell.player-token { background: linear-gradient(135deg, #3498db, #2980b9); color: #fff; }
+        .cell.ai-token { background: linear-gradient(135deg, #e74c3c, #c0392b); color: #fff; }
+        .cell.valid { box-shadow: 0 0 0 3px #71b280; }
+
+        .message { text-align: center; padding: 15px; color: #666; }
+
+        .result {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            display: none;
+        }
+        .result.win { display: block; background: #d1fae5; color: #059669; }
+        .result.lose { display: block; background: #fee2e2; color: #dc2626; }
+
+        .new-game {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 15px;
+            background: #134e5e;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
-<header>
-    <h1>🚧 ROADBLOCK RACE</h1>
-</header>
-<main>
-    <div class="instructions">
-        <h2>📋 HOW TO PLAY</h2>
-        <ul>
-            <li><strong>Goal:</strong> Be the <span class="highlight">last player to move your car</span></li>
-            <li><strong>Your Move:</strong> Move your car 🚗 to any <span class="highlight">open lane ahead</span></li>
-            <li><strong>Effect:</strong> When you move, your old lane becomes <span class="highlight">BLOCKED</span></li>
-            <li><strong>Win:</strong> If the AI cannot move forward, <span class="highlight">YOU WIN!</span></li>
-        </ul>
+
+<div class="container">
+    <div class="header">
+        <h1>🚧 Token Blocker</h1>
+        <div style="opacity:0.9">Move your token or place a block!</div>
     </div>
-    <div class="game-area">
-        <div class="status-bar">
-            <div class="turn-indicator player" id="turn">🟢 YOUR TURN</div>
-            <div>Position: <span id="position">0</span></div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="rules">
+            <div class="rule">
+                <div class="rule-icon">🎯</div>
+                <div class="rule-text"><strong>Move your token</strong> to an adjacent empty cell</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">🧱</div>
+                <div class="rule-text"><strong>After moving</strong>, place a block on any empty cell</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">🏆</div>
+                <div class="rule-text"><strong>Trap opponent</strong> so they can't move!</div>
+            </div>
         </div>
-        <div class="legend">
-            <div class="legend-item"><div class="legend-dot" style="background:var(--car)"></div> Your Car</div>
-            <div class="legend-item"><div class="legend-dot" style="background:#27ae60"></div> Open</div>
-            <div class="legend-item"><div class="legend-dot" style="background:var(--block)"></div> Blocked</div>
+    </div>
+
+    <div class="game-card">
+        <div class="turn-bar" id="turnBar">
+            <span id="turnText">🟢 Your Turn - Move</span>
+            <span id="phase">Phase: Move</span>
         </div>
-        <div id="message">Click an open lane ahead to move!</div>
-        <div class="road-container">
-            <div class="road" id="road"></div>
+
+        <div class="message" id="message">Click an adjacent cell to move your token (blue)!</div>
+
+        <div class="grid-area">
+            <div class="grid" id="grid"></div>
         </div>
-        <div class="controls">
-            <button class="btn btn-reset" onclick="game.reset()">🔄 NEW GAME</button>
-        </div>
+
         <div class="result" id="result"></div>
+
+        <button class="new-game" onclick="newGame()">🔄 New Game</button>
     </div>
-</main>
+</div>
+
 <script>
-class RoadblockRace {
-    constructor() {
-        this.totalLanes = 10;
-        this.reset();
-    }
-    reset() {
-        this.lanes = new Array(this.totalLanes).fill('open');
-        this.playerPos = 0;
-        this.lanes[0] = 'player';
-        this.isPlayerTurn = true;
-        this.gameOver = false;
-        this.render();
+    const SIZE = 5;
+    let grid = []; // 0=empty, 1=blocked, 2=player, 3=ai
+    let playerPos = { r: 0, c: 0 };
+    let aiPos = { r: 4, c: 4 };
+    let isPlayerTurn = true;
+    let phase = 'move'; // 'move' or 'block'
+    let gameOver = false;
+
+    function init() {
+        grid = Array(SIZE).fill().map(() => Array(SIZE).fill(0));
+        playerPos = { r: 0, c: 0 };
+        aiPos = { r: SIZE-1, c: SIZE-1 };
+        grid[playerPos.r][playerPos.c] = 2;
+        grid[aiPos.r][aiPos.c] = 3;
+        isPlayerTurn = true;
+        phase = 'move';
+        gameOver = false;
         document.getElementById('result').className = 'result';
-        document.getElementById('message').textContent = 'Click an open lane ahead!';
+        render();
     }
-    render() {
-        const container = document.getElementById('road');
+
+    function render() {
+        const turnBar = document.getElementById('turnBar');
+        turnBar.className = isPlayerTurn ? 'turn-bar' : 'turn-bar ai';
+        document.getElementById('turnText').textContent = isPlayerTurn ? '🟢 Your Turn' : '🔴 AI Turn';
+        document.getElementById('phase').textContent = 'Phase: ' + (phase === 'move' ? 'Move' : 'Block');
+
+        const container = document.getElementById('grid');
+        container.style.gridTemplateColumns = `repeat(${SIZE}, 60px)`;
         container.innerHTML = '';
-        this.lanes.forEach((state, i) => {
-            const lane = document.createElement('div');
-            lane.className = 'lane ' + state;
-            if (state === 'player') lane.textContent = '🚗';
-            else if (state === 'blocked') lane.textContent = '🚧';
-            else lane.textContent = '→';
-            const validMove = state === 'open' && i > this.playerPos;
-            if (validMove && this.isPlayerTurn && !this.gameOver) {
-                lane.classList.add('valid');
-                lane.onclick = () => this.move(i);
-            }
-            lane.innerHTML += `<span class="lane-num">${i}</span>`;
-            container.appendChild(lane);
-        });
-        document.getElementById('position').textContent = this.playerPos;
-        this.updateTurn();
-    }
-    move(to) {
-        if (this.gameOver) return;
-        this.lanes[this.playerPos] = 'blocked';
-        this.playerPos = to;
-        this.lanes[to] = 'player';
-        this.render();
-        if (!this.hasValidMove()) {
-            this.endGame(true);
-            return;
-        }
-        this.isPlayerTurn = false;
-        this.updateTurn();
-        document.getElementById('message').textContent = '🤖 AI is moving...';
-        setTimeout(() => this.aiMove(), 1000);
-    }
-    hasValidMove() {
-        for (let i = this.playerPos + 1; i < this.totalLanes; i++) {
-            if (this.lanes[i] === 'open') return true;
-        }
-        return false;
-    }
-    aiMove() {
-        // Find valid moves
-        const validMoves = [];
-        for (let i = this.playerPos + 1; i < this.totalLanes; i++) {
-            if (this.lanes[i] === 'open') validMoves.push(i);
-        }
-        if (validMoves.length === 0) {
-            this.endGame(true);
-            return;
-        }
-        // AI picks optimal move (leave player with no moves if possible)
-        let bestMove = validMoves[0];
-        for (const move of validMoves) {
-            // Simulate: after this move, how many options does player have?
-            let playerOptions = 0;
-            for (let i = move + 1; i < this.totalLanes; i++) {
-                if (this.lanes[i] === 'open') playerOptions++;
-            }
-            if (playerOptions === 0) {
-                bestMove = move;
-                break;
+
+        const validMoves = phase === 'move' ? getValidMoves(playerPos) : [];
+
+        for (let r = 0; r < SIZE; r++) {
+            for (let c = 0; c < SIZE; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+
+                if (grid[r][c] === 1) cell.classList.add('blocked');
+                if (grid[r][c] === 2) { cell.classList.add('player-token'); cell.textContent = '🔵'; }
+                if (grid[r][c] === 3) { cell.classList.add('ai-token'); cell.textContent = '🔴'; }
+                if (validMoves.some(m => m.r === r && m.c === c)) cell.classList.add('valid');
+
+                if (isPlayerTurn && !gameOver) {
+                    if (phase === 'move' && validMoves.some(m => m.r === r && m.c === c)) {
+                        cell.onclick = () => movePlayer(r, c);
+                    } else if (phase === 'block' && grid[r][c] === 0) {
+                        cell.onclick = () => placeBlock(r, c);
+                    }
+                }
+
+                container.appendChild(cell);
             }
         }
-        this.lanes[this.playerPos] = 'blocked';
-        this.playerPos = bestMove;
-        this.lanes[bestMove] = 'player';
-        document.getElementById('message').textContent = `🤖 AI moves to lane ${bestMove}`;
-        this.render();
-        if (!this.hasValidMove()) {
-            this.endGame(false);
+    }
+
+    function getValidMoves(pos) {
+        const moves = [];
+        const dirs = [[-1,0],[1,0],[0,-1],[0,1]];
+        for (const [dr, dc] of dirs) {
+            const nr = pos.r + dr;
+            const nc = pos.c + dc;
+            if (nr >= 0 && nr < SIZE && nc >= 0 && nc < SIZE && grid[nr][nc] === 0) {
+                moves.push({ r: nr, c: nc });
+            }
+        }
+        return moves;
+    }
+
+    function movePlayer(r, c) {
+        grid[playerPos.r][playerPos.c] = 0;
+        playerPos = { r, c };
+        grid[r][c] = 2;
+        phase = 'block';
+        render();
+        document.getElementById('message').textContent = 'Now click any empty cell to place a block!';
+    }
+
+    function placeBlock(r, c) {
+        grid[r][c] = 1;
+        phase = 'move';
+
+        // Check if AI can move
+        if (getValidMoves(aiPos).length === 0) {
+            endGame(true);
             return;
         }
-        this.isPlayerTurn = true;
-        this.updateTurn();
-        document.getElementById('message').textContent = 'Your turn!';
+
+        isPlayerTurn = false;
+        render();
+        document.getElementById('message').textContent = '🤖 AI is thinking...';
+
+        setTimeout(aiMove, 800);
     }
-    endGame(playerWins) {
-        this.gameOver = true;
+
+    function aiMove() {
+        if (gameOver) return;
+
+        const moves = getValidMoves(aiPos);
+        if (moves.length === 0) {
+            endGame(true);
+            return;
+        }
+
+        // Move AI
+        const move = moves[0];
+        grid[aiPos.r][aiPos.c] = 0;
+        aiPos = move;
+        grid[move.r][move.c] = 3;
+
+        // AI places block (find any empty cell)
+        for (let r = 0; r < SIZE; r++) {
+            for (let c = 0; c < SIZE; c++) {
+                if (grid[r][c] === 0) {
+                    grid[r][c] = 1;
+                    break;
+                }
+            }
+            if (grid.flat().filter(x => x === 1).length > 0) break;
+        }
+
+        document.getElementById('message').textContent = `🤖 AI moves and places block`;
+
+        // Check if player can move
+        if (getValidMoves(playerPos).length === 0) {
+            endGame(false);
+            return;
+        }
+
+        isPlayerTurn = true;
+        phase = 'move';
+        render();
+        setTimeout(() => {
+            document.getElementById('message').textContent = 'Your turn! Move your token.';
+        }, 500);
+    }
+
+    function endGame(playerWins) {
+        gameOver = true;
+        render();
         const result = document.getElementById('result');
         if (playerWins) {
             result.className = 'result win';
-            result.textContent = '🎉 YOU WIN! AI is stuck!';
+            result.textContent = '🎉 YOU WIN! AI is trapped!';
         } else {
             result.className = 'result lose';
-            result.textContent = '😢 AI WINS! You are stuck.';
+            result.textContent = '😢 AI WINS! You are trapped!';
         }
+        document.getElementById('message').textContent = '';
     }
-    updateTurn() {
-        const turn = document.getElementById('turn');
-        if (this.isPlayerTurn) {
-            turn.className = 'turn-indicator player';
-            turn.textContent = '🟢 YOUR TURN';
-        } else {
-            turn.className = 'turn-indicator ai';
-            turn.textContent = '🔴 AI\'S TURN';
-        }
+
+    function newGame() {
+        init();
+        document.getElementById('message').textContent = 'Click an adjacent cell to move your token (blue)!';
     }
-}
-const game = new RoadblockRace();
+
+    window.onload = init;
 </script>
 </body>
 </html>

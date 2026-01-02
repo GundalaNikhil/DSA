@@ -3,213 +3,329 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GMT-008: Bowling Blitz</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Roboto&display=swap" rel="stylesheet">
+    <title>GMT-008: Bowling Kayles</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root { --lane: #8b4513; --pin: #fff; --ball: #2c3e50; --strike: #e74c3c; --player: #27ae60; --ai: #9b59b6; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Roboto', sans-serif; background: linear-gradient(135deg, var(--lane) 0%, #5d3a1a 100%); min-height: 100vh; color: #fff; }
-        header { background: rgba(0,0,0,0.5); padding: 15px; text-align: center; }
-        h1 { font-family: 'Bangers', cursive; font-size: 2rem; color: var(--strike); letter-spacing: 3px; }
-        main { padding: 20px; max-width: 900px; margin: 0 auto; }
-        .instructions { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-bottom: 20px; border-left: 5px solid var(--strike); }
-        .instructions h2 { color: var(--strike); margin-bottom: 10px; }
-        .instructions ul { margin-left: 20px; line-height: 1.8; }
-        .highlight { background: var(--strike); padding: 2px 8px; border-radius: 5px; font-weight: 600; }
-        .game-area { background: rgba(0,0,0,0.3); border-radius: 15px; padding: 25px; }
-        .status-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; }
-        .turn-indicator { padding: 10px 20px; border-radius: 20px; font-weight: 600; }
-        .turn-indicator.player { background: var(--player); }
-        .turn-indicator.ai { background: var(--ai); }
-        .lane { background: linear-gradient(180deg, #654321 0%, #8b4513 100%); padding: 30px; border-radius: 10px; margin: 20px 0; }
-        .pins-container { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; }
-        .pin { width: 50px; height: 70px; background: var(--pin); border-radius: 50% 50% 10px 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: bold; color: #333; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3); position: relative; }
-        .pin:hover:not(.knocked) { transform: scale(1.1) rotate(-5deg); box-shadow: 0 0 20px var(--player); }
-        .pin.knocked { background: #555; color: #888; cursor: not-allowed; transform: rotate(90deg); opacity: 0.5; }
-        .pin.adjacent { box-shadow: 0 0 15px var(--strike); }
-        .pin-num { position: absolute; bottom: 5px; font-size: 0.7rem; }
-        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
-        .btn { padding: 15px 30px; border: none; border-radius: 10px; font-family: 'Bangers', cursive; font-size: 1.1rem; letter-spacing: 2px; cursor: pointer; }
-        .btn-knock { background: var(--strike); color: #fff; }
-        .btn-reset { background: var(--ball); color: #fff; }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .result { text-align: center; padding: 30px; font-size: 1.5rem; font-weight: bold; border-radius: 15px; margin-top: 20px; display: none; }
-        .result.win { background: var(--player); display: block; }
-        .result.lose { background: var(--ai); display: block; }
-        #message { text-align: center; padding: 15px; font-size: 1.1rem; color: #ffd700; min-height: 50px; }
-        .selection-info { text-align: center; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 10px; margin: 10px 0; }
+        body {
+            font-family: 'Lexend', sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 36px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .tutorial h2 { color: #3498db; margin-bottom: 15px; }
+
+        .rules { display: flex; gap: 15px; }
+        .rule {
+            flex: 1;
+            background: #e8f4fc;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .rule-icon { font-size: 28px; }
+        .rule-text { font-size: 13px; color: #555; margin-top: 5px; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .turn-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            border-radius: 12px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .turn-bar.ai { background: linear-gradient(90deg, #e74c3c, #c0392b); }
+
+        .pins-area {
+            padding: 30px;
+            background: #8b4513;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .pins-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .pin {
+            width: 40px;
+            height: 60px;
+            background: linear-gradient(to bottom, #fff 70%, #f0f0f0);
+            border-radius: 8px 8px 50% 50%;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 5px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            box-shadow: 2px 2px 8px rgba(0,0,0,0.3);
+        }
+        .pin::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            width: 15px;
+            height: 15px;
+            background: #e74c3c;
+            border-radius: 50%;
+        }
+        .pin:hover { transform: scale(1.1); }
+        .pin.knocked { opacity: 0.2; cursor: not-allowed; background: #aaa; }
+        .pin.selected { box-shadow: 0 0 0 4px #f1c40f; }
+        .pin .num { font-size: 12px; color: #333; font-weight: 600; }
+
+        .controls { display: flex; gap: 10px; justify-content: center; margin: 15px 0; }
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-knock { background: #27ae60; color: #fff; }
+        .btn-clear { background: #95a5a6; color: #fff; }
+        .btn:disabled { opacity: 0.5; }
+
+        .message { text-align: center; padding: 15px; color: #666; font-size: 16px; }
+
+        .result {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 700;
+            display: none;
+        }
+        .result.win { display: block; background: #d5f5e3; color: #27ae60; }
+        .result.lose { display: block; background: #fadbd8; color: #e74c3c; }
+
+        .new-game {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 15px;
+            background: #3498db;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
-<header>
-    <h1>🎳 BOWLING BLITZ</h1>
-</header>
-<main>
-    <div class="instructions">
-        <h2>📋 HOW TO PLAY (KAYLES)</h2>
-        <ul>
-            <li><strong>Goal:</strong> Be the <span class="highlight">last player to knock down pins</span></li>
-            <li><strong>Your Move:</strong> Click a pin to knock it down, OR click <span class="highlight">two adjacent pins</span> to knock both</li>
-            <li><strong>Rule:</strong> You can knock 1 pin OR 2 adjacent standing pins per turn</li>
-            <li><strong>Win:</strong> If the AI cannot knock any pins, <span class="highlight">YOU WIN!</span></li>
-        </ul>
+
+<div class="container">
+    <div class="header">
+        <h1>🎳 Bowling Kayles</h1>
+        <div style="opacity:0.9">Knock down 1 or 2 adjacent pins - last move wins!</div>
     </div>
-    <div class="game-area">
-        <div class="status-bar">
-            <div class="turn-indicator player" id="turn">🟢 YOUR TURN</div>
-            <div>Pins left: <span id="pins-left">10</span></div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="rules">
+            <div class="rule">
+                <div class="rule-icon">🎯</div>
+                <div class="rule-text"><strong>Click 1-2 adjacent</strong> standing pins</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">🎳</div>
+                <div class="rule-text"><strong>Knock them down</strong> to remove them</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">🏆</div>
+                <div class="rule-text"><strong>Last to knock</strong> down pins wins!</div>
+            </div>
         </div>
-        <div id="message">Click a pin to select, or two adjacent pins!</div>
-        <div class="lane">
-            <div class="pins-container" id="pins"></div>
+    </div>
+
+    <div class="game-card">
+        <div class="turn-bar" id="turnBar">
+            <span id="turnText">🟢 Your Turn</span>
+            <span>Pins left: <span id="pinsLeft">10</span></span>
         </div>
-        <div class="selection-info" id="selection-info" style="display:none;">
-            Selected: <strong><span id="selected-pins">-</span></strong>
+
+        <div class="message" id="message">Click 1 or 2 adjacent pins to knock down!</div>
+
+        <div class="pins-area">
+            <div class="pins-row" id="pinsRow"></div>
         </div>
+
         <div class="controls">
-            <button class="btn btn-knock" id="btn-knock" onclick="game.confirmKnock()" disabled>🎳 KNOCK!</button>
-            <button class="btn btn-reset" onclick="game.reset()">🔄 NEW GAME</button>
+            <button class="btn btn-knock" id="knockBtn" onclick="confirmKnock()" disabled>🎳 Knock Down</button>
+            <button class="btn btn-clear" onclick="clearSelection()">✕ Clear</button>
         </div>
+
         <div class="result" id="result"></div>
+
+        <button class="new-game" onclick="newGame()">🔄 New Game</button>
     </div>
-</main>
+</div>
+
 <script>
-class BowlingBlitz {
-    constructor() {
-        this.totalPins = 10;
-        this.reset();
-    }
-    reset() {
-        this.pins = new Array(this.totalPins).fill(true);
-        this.selected = [];
-        this.isPlayerTurn = true;
-        this.gameOver = false;
-        this.render();
+    const NUM_PINS = 10;
+    let pins = []; // true = standing
+    let selected = [];
+    let isPlayerTurn = true;
+    let gameOver = false;
+
+    function init() {
+        pins = new Array(NUM_PINS).fill(true);
+        selected = [];
+        isPlayerTurn = true;
+        gameOver = false;
         document.getElementById('result').className = 'result';
-        document.getElementById('selection-info').style.display = 'none';
-        document.getElementById('btn-knock').disabled = true;
-        document.getElementById('message').textContent = 'Click a pin to knock it down!';
+        render();
     }
-    render() {
-        const container = document.getElementById('pins');
-        container.innerHTML = '';
-        let pinsLeft = 0;
-        this.pins.forEach((standing, i) => {
+
+    function render() {
+        const turnBar = document.getElementById('turnBar');
+        turnBar.className = isPlayerTurn ? 'turn-bar' : 'turn-bar ai';
+        document.getElementById('turnText').textContent = isPlayerTurn ? '🟢 Your Turn' : '🔴 AI Turn';
+        document.getElementById('pinsLeft').textContent = pins.filter(p => p).length;
+
+        const row = document.getElementById('pinsRow');
+        row.innerHTML = '';
+
+        pins.forEach((standing, i) => {
             const pin = document.createElement('div');
-            pin.className = 'pin' + (standing ? '' : ' knocked');
-            if (this.selected.includes(i)) {
-                pin.style.boxShadow = '0 0 20px ' + (this.isValidSelection() ? 'var(--player)' : 'var(--strike)');
+            pin.className = 'pin';
+            if (!standing) pin.classList.add('knocked');
+            if (selected.includes(i)) pin.classList.add('selected');
+            pin.innerHTML = `<span class="num">${i + 1}</span>`;
+
+            if (standing && isPlayerTurn && !gameOver) {
+                pin.onclick = () => togglePin(i);
             }
-            pin.innerHTML = standing ? '🎳' : '✗';
-            pin.innerHTML += `<span class="pin-num">${i + 1}</span>`;
-            if (standing && this.isPlayerTurn && !this.gameOver) {
-                pin.onclick = () => this.toggleSelect(i);
-            }
-            container.appendChild(pin);
-            if (standing) pinsLeft++;
+
+            row.appendChild(pin);
         });
-        document.getElementById('pins-left').textContent = pinsLeft;
-        this.updateTurn();
+
+        document.getElementById('knockBtn').disabled = !isValidSelection();
     }
-    toggleSelect(i) {
-        const idx = this.selected.indexOf(i);
-        if (idx >= 0) {
-            this.selected.splice(idx, 1);
+
+    function togglePin(i) {
+        if (!pins[i] || !isPlayerTurn || gameOver) return;
+
+        if (selected.includes(i)) {
+            selected = selected.filter(x => x !== i);
         } else {
-            if (this.selected.length >= 2) {
-                this.selected = [i];
-            } else {
-                this.selected.push(i);
+            if (selected.length >= 2) return;
+            if (selected.length === 1) {
+                // Must be adjacent
+                if (Math.abs(selected[0] - i) !== 1) return;
             }
+            selected.push(i);
         }
-        this.selected.sort((a, b) => a - b);
-        const valid = this.isValidSelection();
-        document.getElementById('btn-knock').disabled = !valid;
-        document.getElementById('selection-info').style.display = this.selected.length > 0 ? 'block' : 'none';
-        document.getElementById('selected-pins').textContent = this.selected.map(s => s + 1).join(' & ');
-        this.render();
+
+        render();
     }
-    isValidSelection() {
-        if (this.selected.length === 0) return false;
-        if (this.selected.length === 1) return this.pins[this.selected[0]];
-        if (this.selected.length === 2) {
-            const [a, b] = this.selected;
-            // Must be adjacent and both standing
-            return Math.abs(a - b) === 1 && this.pins[a] && this.pins[b];
+
+    function isValidSelection() {
+        if (selected.length === 0) return false;
+        if (selected.length === 2) {
+            return Math.abs(selected[0] - selected[1]) === 1;
         }
-        return false;
+        return true;
     }
-    confirmKnock() {
-        if (!this.isValidSelection()) return;
-        this.selected.forEach(i => this.pins[i] = false);
-        this.selected = [];
-        document.getElementById('selection-info').style.display = 'none';
-        document.getElementById('btn-knock').disabled = true;
-        this.render();
-        if (!this.hasValidMove()) {
-            this.endGame(true);
+
+    function clearSelection() {
+        selected = [];
+        render();
+    }
+
+    function confirmKnock() {
+        if (!isValidSelection() || !isPlayerTurn || gameOver) return;
+
+        selected.forEach(i => pins[i] = false);
+        selected = [];
+
+        if (pins.every(p => !p)) {
+            endGame(true);
             return;
         }
-        this.isPlayerTurn = false;
-        this.updateTurn();
+
+        isPlayerTurn = false;
+        render();
         document.getElementById('message').textContent = '🤖 AI is thinking...';
-        setTimeout(() => this.aiMove(), 1000);
+
+        setTimeout(aiMove, 800);
     }
-    hasValidMove() {
-        return this.pins.some(p => p);
-    }
-    aiMove() {
-        // Find valid moves
-        const moves = [];
-        // Single pins
-        for (let i = 0; i < this.totalPins; i++) {
-            if (this.pins[i]) moves.push([i]);
-        }
-        // Adjacent pairs
-        for (let i = 0; i < this.totalPins - 1; i++) {
-            if (this.pins[i] && this.pins[i + 1]) moves.push([i, i + 1]);
-        }
-        if (moves.length === 0) {
-            this.endGame(true);
+
+    function aiMove() {
+        if (gameOver) return;
+
+        // Find first standing pin and knock it
+        const first = pins.findIndex(p => p);
+        if (first < 0) {
+            endGame(true);
             return;
         }
-        // Simple AI: pick random move
-        const move = moves[Math.floor(Math.random() * moves.length)];
-        move.forEach(i => this.pins[i] = false);
-        const moveStr = move.length === 1 ? `pin ${move[0] + 1}` : `pins ${move[0] + 1} & ${move[1] + 1}`;
-        document.getElementById('message').textContent = `🤖 AI knocks down ${moveStr}`;
-        this.render();
-        if (!this.hasValidMove()) {
-            this.endGame(false);
+
+        pins[first] = false;
+        document.getElementById('message').textContent = `🤖 AI knocks pin ${first + 1}`;
+
+        if (pins.every(p => !p)) {
+            endGame(false);
             return;
         }
-        this.isPlayerTurn = true;
-        this.updateTurn();
-        document.getElementById('message').textContent = 'Your turn! Click a pin.';
+
+        isPlayerTurn = true;
+        render();
+        setTimeout(() => {
+            document.getElementById('message').textContent = 'Your turn! Select pins to knock down.';
+        }, 500);
     }
-    endGame(playerWins) {
-        this.gameOver = true;
+
+    function endGame(playerWins) {
+        gameOver = true;
+        render();
         const result = document.getElementById('result');
         if (playerWins) {
             result.className = 'result win';
-            result.textContent = '🎉 STRIKE! YOU WIN!';
+            result.textContent = '🎉 YOU WIN! You knocked the last pin!';
         } else {
             result.className = 'result lose';
-            result.textContent = '😢 AI WINS! No pins left.';
+            result.textContent = '😢 AI WINS! AI knocked the last pin.';
         }
+        document.getElementById('message').textContent = '';
     }
-    updateTurn() {
-        const turn = document.getElementById('turn');
-        if (this.isPlayerTurn) {
-            turn.className = 'turn-indicator player';
-            turn.textContent = '🟢 YOUR TURN';
-        } else {
-            turn.className = 'turn-indicator ai';
-            turn.textContent = '🔴 AI\'S TURN';
-        }
+
+    function newGame() {
+        init();
+        document.getElementById('message').textContent = 'Click 1 or 2 adjacent pins to knock down!';
     }
-}
-const game = new BowlingBlitz();
+
+    window.onload = init;
 </script>
 </body>
 </html>

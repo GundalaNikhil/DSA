@@ -4,187 +4,323 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GMT-014: Coin Flipper</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root { --gold: #f1c40f; --silver: #bdc3c7; --dark: #2c3e50; --player: #27ae60; --ai: #9b59b6; }
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Cinzel', serif; background: linear-gradient(135deg, var(--dark) 0%, #1a1a2e 100%); min-height: 100vh; color: #fff; }
-        header { background: rgba(0,0,0,0.3); padding: 15px; text-align: center; border-bottom: 3px solid var(--gold); }
-        h1 { font-size: 1.8rem; color: var(--gold); }
-        main { padding: 20px; max-width: 900px; margin: 0 auto; }
-        .instructions { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; margin-bottom: 20px; border-left: 5px solid var(--gold); }
-        .instructions h2 { color: var(--gold); margin-bottom: 10px; }
-        .instructions ul { margin-left: 20px; line-height: 1.8; }
-        .highlight { background: var(--gold); color: #333; padding: 2px 8px; border-radius: 5px; }
-        .game-area { background: rgba(255,255,255,0.05); border-radius: 15px; padding: 25px; }
-        .status-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; }
-        .turn-indicator { padding: 10px 20px; border-radius: 20px; font-weight: 600; }
-        .turn-indicator.player { background: var(--player); }
-        .turn-indicator.ai { background: var(--ai); }
-        .coins-container { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin: 30px 0; }
-        .coin { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
-        .coin.gold { background: linear-gradient(135deg, var(--gold) 0%, #daa520 100%); color: #333; }
-        .coin.silver { background: linear-gradient(135deg, var(--silver) 0%, #95a5a6 100%); color: #333; }
-        .coin:hover { transform: scale(1.1) rotate(10deg); }
-        .coin.selected { box-shadow: 0 0 20px var(--player); border: 3px solid var(--player); }
-        .piles-display { display: flex; gap: 30px; justify-content: center; margin: 20px 0; }
-        .pile-info { background: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px; text-align: center; min-width: 120px; }
-        .pile-info .label { color: var(--gold); font-size: 0.9rem; margin-bottom: 10px; }
-        .pile-info .value { font-size: 2rem; font-weight: bold; color: #fff; }
-        .controls { display: flex; gap: 15px; justify-content: center; margin-top: 20px; }
-        .btn { padding: 15px 30px; border: none; border-radius: 10px; font-family: 'Cinzel', serif; font-size: 1rem; cursor: pointer; }
-        .btn-take { background: var(--player); color: #fff; }
-        .btn-reset { background: var(--gold); color: #333; }
-        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-        .result { text-align: center; padding: 30px; font-size: 1.5rem; font-weight: bold; border-radius: 15px; margin-top: 20px; display: none; }
-        .result.win { background: var(--player); display: block; }
-        .result.lose { background: var(--ai); display: block; }
-        #message { text-align: center; padding: 15px; font-size: 1.1rem; color: var(--gold); min-height: 50px; }
-        .scoreboard { display: flex; gap: 30px; justify-content: center; margin: 20px 0; }
-        .score { background: rgba(0,0,0,0.3); padding: 15px 25px; border-radius: 10px; text-align: center; }
-        .score .label { font-size: 0.8rem; color: #888; }
-        .score .value { font-size: 1.5rem; font-weight: bold; }
-        .score.player .value { color: var(--player); }
-        .score.ai .value { color: var(--ai); }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #ffd700 0%, #ff6600 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container { max-width: 800px; margin: 0 auto; }
+
+        .header { text-align: center; color: #fff; margin-bottom: 20px; }
+        .header h1 { font-size: 36px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+
+        .tutorial {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .tutorial h2 { color: #ff6600; margin-bottom: 15px; }
+
+        .rules { display: flex; gap: 15px; }
+        .rule {
+            flex: 1;
+            background: #fff8e1;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+        }
+        .rule-icon { font-size: 28px; }
+        .rule-text { font-size: 13px; color: #555; margin-top: 5px; }
+
+        .game-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .turn-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 20px;
+            background: linear-gradient(90deg, #ff6600, #ff9900);
+            border-radius: 12px;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+        .turn-bar.ai { background: linear-gradient(90deg, #555, #777); }
+
+        .coins-area {
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .coins-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .coin {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        .coin.heads { background: linear-gradient(135deg, #ffd700, #ffcc00); }
+        .coin.tails { background: linear-gradient(135deg, #c0c0c0, #a0a0a0); }
+        .coin:hover { transform: scale(1.1); }
+        .coin.flipping { animation: flip 0.3s ease-in-out; }
+
+        @keyframes flip {
+            0% { transform: rotateY(0deg); }
+            50% { transform: rotateY(90deg); }
+            100% { transform: rotateY(0deg); }
+        }
+
+        .score-display {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 15px;
+        }
+        .score {
+            text-align: center;
+            padding: 15px 25px;
+            background: #fff8e1;
+            border-radius: 12px;
+        }
+        .score-label { font-size: 12px; color: #888; }
+        .score-value { font-size: 28px; font-weight: 600; color: #ff6600; }
+
+        .message { text-align: center; padding: 15px; color: #666; }
+
+        .result {
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 600;
+            display: none;
+        }
+        .result.win { display: block; background: #d1fae5; color: #059669; }
+        .result.lose { display: block; background: #fee2e2; color: #dc2626; }
+
+        .new-game {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 15px;
+            background: #ff6600;
+            border: none;
+            color: #fff;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
-<header>
-    <h1>🪙 COIN FLIPPER</h1>
-</header>
-<main>
-    <div class="instructions">
-        <h2>📋 HOW TO PLAY</h2>
-        <ul>
-            <li><strong>Goal:</strong> <span class="highlight">Collect more coins</span> than the AI</li>
-            <li><strong>Your Move:</strong> Take a coin from <span class="highlight">either end</span> of the row</li>
-            <li><strong>Strategy:</strong> Plan ahead - sometimes taking less now gets more later!</li>
-            <li><strong>Win:</strong> When all coins are taken, <span class="highlight">higher total wins!</span></li>
-        </ul>
+
+<div class="container">
+    <div class="header">
+        <h1>🪙 Coin Flipper</h1>
+        <div style="opacity:0.9">Flip coins to collect gold - most gold wins!</div>
     </div>
-    <div class="game-area">
-        <div class="status-bar">
-            <div class="turn-indicator player" id="turn">🟢 YOUR TURN</div>
-            <div>Coins left: <span id="coins-left">8</span></div>
+
+    <div class="tutorial">
+        <h2>📖 How to Play</h2>
+        <div class="rules">
+            <div class="rule">
+                <div class="rule-icon">👆</div>
+                <div class="rule-text"><strong>Click a gold coin</strong> (🪙) to flip it</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">🔄</div>
+                <div class="rule-text"><strong>Gold → Silver:</strong> You collect that coin's value!</div>
+            </div>
+            <div class="rule">
+                <div class="rule-icon">🏆</div>
+                <div class="rule-text"><strong>Most points</strong> when all flipped wins!</div>
+            </div>
         </div>
-        <div class="scoreboard">
-            <div class="score player"><div class="label">YOUR SCORE</div><div class="value" id="player-score">0</div></div>
-            <div class="score ai"><div class="label">AI SCORE</div><div class="value" id="ai-score">0</div></div>
+    </div>
+
+    <div class="game-card">
+        <div class="turn-bar" id="turnBar">
+            <span id="turnText">🟢 Your Turn</span>
+            <span>Coins left: <span id="coinsLeft">0</span></span>
         </div>
-        <div id="message">Take a coin from either end!</div>
-        <div class="coins-container" id="coins"></div>
-        <div class="controls">
-            <button class="btn btn-take" id="btn-left" onclick="game.takeCoin('left')">⬅️ TAKE LEFT</button>
-            <button class="btn btn-take" id="btn-right" onclick="game.takeCoin('right')">TAKE RIGHT ➡️</button>
-            <button class="btn btn-reset" onclick="game.reset()">🔄 RESET</button>
+
+        <div class="score-display">
+            <div class="score">
+                <div class="score-label">Your Score</div>
+                <div class="score-value" id="playerScore">0</div>
+            </div>
+            <div class="score">
+                <div class="score-label">AI Score</div>
+                <div class="score-value" id="aiScore">0</div>
+            </div>
         </div>
+
+        <div class="message" id="message">Click a gold coin to flip it and collect points!</div>
+
+        <div class="coins-area">
+            <div class="coins-row" id="coinsRow"></div>
+        </div>
+
         <div class="result" id="result"></div>
+
+        <button class="new-game" onclick="newGame()">🔄 New Game</button>
     </div>
-</main>
+</div>
+
 <script>
-class CoinFlipper {
-    constructor() {
-        this.initialCoins = [3, 9, 1, 2, 8, 6, 4, 7];
-        this.reset();
-    }
-    reset() {
-        this.coins = [...this.initialCoins];
-        this.playerScore = 0;
-        this.aiScore = 0;
-        this.isPlayerTurn = true;
-        this.gameOver = false;
-        this.render();
+    const COIN_VALUES = [3, 7, 2, 5, 8, 4, 6, 1];
+    let coins = []; // true = heads (gold)
+    let playerScore = 0;
+    let aiScore = 0;
+    let isPlayerTurn = true;
+    let gameOver = false;
+
+    function init() {
+        coins = new Array(COIN_VALUES.length).fill(true);
+        playerScore = 0;
+        aiScore = 0;
+        isPlayerTurn = true;
+        gameOver = false;
         document.getElementById('result').className = 'result';
-        document.getElementById('message').textContent = 'Take from left or right!';
+        render();
     }
-    render() {
-        const container = document.getElementById('coins');
-        container.innerHTML = '';
-        this.coins.forEach((val, i) => {
+
+    function render() {
+        const turnBar = document.getElementById('turnBar');
+        turnBar.className = isPlayerTurn ? 'turn-bar' : 'turn-bar ai';
+        document.getElementById('turnText').textContent = isPlayerTurn ? '🟢 Your Turn' : '🔴 AI Turn';
+        document.getElementById('coinsLeft').textContent = coins.filter(c => c).length;
+        document.getElementById('playerScore').textContent = playerScore;
+        document.getElementById('aiScore').textContent = aiScore;
+
+        const row = document.getElementById('coinsRow');
+        row.innerHTML = '';
+
+        coins.forEach((isHeads, i) => {
             const coin = document.createElement('div');
-            coin.className = 'coin ' + (val >= 5 ? 'gold' : 'silver');
-            coin.textContent = val;
-            if (this.isPlayerTurn && !this.gameOver && (i === 0 || i === this.coins.length - 1)) {
-                coin.classList.add('selected');
+            coin.className = 'coin ' + (isHeads ? 'heads' : 'tails');
+            coin.textContent = isHeads ? COIN_VALUES[i] : '○';
+
+            if (isHeads && isPlayerTurn && !gameOver) {
+                coin.onclick = () => flipCoin(i);
             }
-            container.appendChild(coin);
+
+            row.appendChild(coin);
         });
-        document.getElementById('coins-left').textContent = this.coins.length;
-        document.getElementById('player-score').textContent = this.playerScore;
-        document.getElementById('ai-score').textContent = this.aiScore;
-        document.getElementById('btn-left').disabled = !this.isPlayerTurn || this.coins.length === 0;
-        document.getElementById('btn-right').disabled = !this.isPlayerTurn || this.coins.length === 0;
-        this.updateTurn();
     }
-    takeCoin(side) {
-        if (this.gameOver || !this.isPlayerTurn || this.coins.length === 0) return;
-        const val = side === 'left' ? this.coins.shift() : this.coins.pop();
-        this.playerScore += val;
-        document.getElementById('message').textContent = `You took ${val}!`;
-        this.render();
-        if (this.coins.length === 0) {
-            this.endGame();
+
+    function flipCoin(i) {
+        if (!coins[i] || !isPlayerTurn || gameOver) return;
+
+        // Add animation
+        const coinElements = document.querySelectorAll('.coin');
+        coinElements[i].classList.add('flipping');
+
+        setTimeout(() => {
+            coins[i] = false;
+            playerScore += COIN_VALUES[i];
+
+            if (coins.every(c => !c)) {
+                endGame();
+                return;
+            }
+
+            isPlayerTurn = false;
+            render();
+            document.getElementById('message').textContent = '🤖 AI is thinking...';
+
+            setTimeout(aiMove, 800);
+        }, 300);
+    }
+
+    function aiMove() {
+        if (gameOver) return;
+
+        // Find highest value remaining coin
+        let maxIdx = -1;
+        let maxVal = -1;
+        coins.forEach((isHeads, i) => {
+            if (isHeads && COIN_VALUES[i] > maxVal) {
+                maxVal = COIN_VALUES[i];
+                maxIdx = i;
+            }
+        });
+
+        if (maxIdx < 0) {
+            endGame();
             return;
         }
-        this.isPlayerTurn = false;
-        this.updateTurn();
-        document.getElementById('message').textContent = '🤖 AI is thinking...';
-        setTimeout(() => this.aiMove(), 1000);
-    }
-    aiMove() {
-        if (this.coins.length === 0) {
-            this.endGame();
+
+        coins[maxIdx] = false;
+        aiScore += COIN_VALUES[maxIdx];
+
+        document.getElementById('message').textContent = `🤖 AI flips coin worth ${COIN_VALUES[maxIdx]}!`;
+
+        if (coins.every(c => !c)) {
+            endGame();
             return;
         }
-        // Greedy AI: take the larger end
-        const left = this.coins[0];
-        const right = this.coins[this.coins.length - 1];
-        let val;
-        if (left >= right) {
-            val = this.coins.shift();
-            document.getElementById('message').textContent = `🤖 AI takes ${val} from left`;
-        } else {
-            val = this.coins.pop();
-            document.getElementById('message').textContent = `🤖 AI takes ${val} from right`;
-        }
-        this.aiScore += val;
-        this.render();
-        if (this.coins.length === 0) {
-            this.endGame();
-            return;
-        }
-        this.isPlayerTurn = true;
-        this.updateTurn();
-        setTimeout(() => document.getElementById('message').textContent = 'Your turn!', 500);
+
+        isPlayerTurn = true;
+        render();
+        setTimeout(() => {
+            document.getElementById('message').textContent = 'Your turn! Click a gold coin.';
+        }, 500);
     }
-    endGame() {
-        this.gameOver = true;
+
+    function endGame() {
+        gameOver = true;
+        render();
         const result = document.getElementById('result');
-        if (this.playerScore > this.aiScore) {
+        if (playerScore > aiScore) {
             result.className = 'result win';
-            result.textContent = `🎉 YOU WIN! ${this.playerScore} vs ${this.aiScore}`;
-        } else if (this.playerScore < this.aiScore) {
+            result.textContent = `🎉 YOU WIN! ${playerScore} vs ${aiScore}`;
+        } else if (playerScore < aiScore) {
             result.className = 'result lose';
-            result.textContent = `😢 AI WINS! ${this.aiScore} vs ${this.playerScore}`;
+            result.textContent = `😢 AI WINS! ${aiScore} vs ${playerScore}`;
         } else {
             result.className = 'result';
             result.style.display = 'block';
-            result.style.background = '#f39c12';
-            result.textContent = `🤝 TIE! Both scored ${this.playerScore}`;
+            result.style.background = '#fef3c7';
+            result.style.color = '#92400e';
+            result.textContent = `🤝 TIE! Both scored ${playerScore}`;
         }
+        document.getElementById('message').textContent = '';
     }
-    updateTurn() {
-        const turn = document.getElementById('turn');
-        if (this.isPlayerTurn) {
-            turn.className = 'turn-indicator player';
-            turn.textContent = '🟢 YOUR TURN';
-        } else {
-            turn.className = 'turn-indicator ai';
-            turn.textContent = '🔴 AI\'S TURN';
-        }
+
+    function newGame() {
+        init();
+        document.getElementById('message').textContent = 'Click a gold coin to flip it and collect points!';
     }
-}
-const game = new CoinFlipper();
+
+    window.onload = init;
 </script>
 </body>
 </html>
