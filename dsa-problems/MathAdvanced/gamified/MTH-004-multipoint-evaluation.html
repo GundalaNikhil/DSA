@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTH-004: Probe Network</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1a1a2e;
+            --surface: #232342;
+            --curve: #fca311;
+            --probe: #e5e5e5;
+            --accent: #14213d;
+            --text: #ffffff;
+            --muted: #9d9daf;
+            --correct: #00bf63;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--surface);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 { font-size: 1.3rem; color: var(--curve); }
+        .subtitle { color: var(--muted); font-size: 0.8rem; }
+
+        .btn {
+            background: var(--curve);
+            color: #000;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(252,163,17,0.3); }
+        .btn-ghost { background: transparent; color: var(--curve); border: 2px solid var(--curve); }
+
+        main {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .info-bar {
+            background: var(--surface);
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .poly-tag {
+            background: rgba(252,163,17,0.2);
+            color: var(--curve);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.95rem;
+        }
+
+        .graph-area {
+            background: var(--surface);
+            border-radius: 15px;
+            padding: 1rem;
+            width: 100%;
+            max-width: 700px;
+            position: relative;
+        }
+
+        canvas {
+            width: 100%;
+            height: 300px;
+            border-radius: 10px;
+            cursor: crosshair;
+        }
+
+        .probes-list {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .probe-chip {
+            background: var(--accent);
+            border: 2px solid var(--probe);
+            border-radius: 8px;
+            padding: 8px 15px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 0.85rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .probe-chip:hover { border-color: var(--curve); }
+        .probe-chip.placed { border-color: var(--correct); background: rgba(0,191,99,0.2); }
+
+        .probe-chip .x-val { color: var(--curve); font-weight: 600; }
+        .probe-chip .result { color: var(--correct); font-size: 0.8rem; }
+
+        .tree-visual {
+            background: var(--surface);
+            border-radius: 15px;
+            padding: 1.5rem;
+            width: 100%;
+            max-width: 700px;
+        }
+
+        .tree-visual h3 {
+            color: var(--muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .tree-nodes {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .tree-level {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .tree-node {
+            background: var(--accent);
+            border: 2px solid var(--muted);
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-family: 'IBM Plex Mono';
+            font-size: 0.75rem;
+            color: var(--muted);
+            transition: all 0.4s;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .tree-node.active { border-color: var(--curve); color: var(--curve); }
+        .tree-node.done { border-color: var(--correct); color: var(--correct); }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(26,26,46,0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal.hidden { display: none; }
+
+        .dialog {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 500px;
+            border: 2px solid var(--curve);
+        }
+
+        .dialog h2 { color: var(--curve); margin-bottom: 1rem; }
+        .dialog p { margin: 0.8rem 0; line-height: 1.7; color: var(--muted); }
+        .dialog strong { color: var(--text); }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>📡 Probe Network</h1>
+        <div class="subtitle">MTH-004: Multipoint Polynomial Evaluation</div>
+    </div>
+    <button class="btn btn-ghost" onclick="showProtocol()">Protocol</button>
+</header>
+
+<main>
+    <div class="info-bar">
+        <span style="color:var(--muted)">Polynomial:</span>
+        <div class="poly-tag" id="polyDisplay"></div>
+    </div>
+
+    <div class="graph-area">
+        <canvas id="graphCanvas"></canvas>
+        <div class="probes-list" id="probesList"></div>
+    </div>
+
+    <div class="tree-visual">
+        <h3>Divide & Conquer Tree</h3>
+        <div class="tree-nodes" id="treeNodes">
+            <div class="tree-level">
+                <div class="tree-node" id="t1">All points</div>
+            </div>
+            <div class="tree-level">
+                <div class="tree-node" id="t2">Left half</div>
+                <div class="tree-node" id="t3">Right half</div>
+            </div>
+            <div class="tree-level">
+                <div class="tree-node" id="t4">x₀</div>
+                <div class="tree-node" id="t5">x₁</div>
+                <div class="tree-node" id="t6">x₂</div>
+                <div class="tree-node" id="t7">x₃</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" id="evalBtn" onclick="evaluateAll()">Deploy Probes</button>
+        <button class="btn btn-ghost" onclick="newProblem()">New Curve</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>📡 How Probe Network Works</h2>
+        <p><strong>The Problem:</strong></p>
+        <p>Given a polynomial P(x) and several points x₀, x₁, x₂..., compute P(xᵢ) for all points quickly!</p>
+        
+        <p><strong>Naive Approach:</strong> O(n) per point → O(n × k) total</p>
+        
+        <p><strong>Smart Approach:</strong></p>
+        <p>Use divide-and-conquer with a "remainder tree":</p>
+        <p>1. Split points into halves</p>
+        <p>2. Compute remainders going down the tree</p>
+        <p>3. Collect results at leaves</p>
+        
+        <p><strong>Result:</strong> O(n log² n) — much faster for many points!</p>
+        
+        <button class="btn" onclick="hideProtocol()" style="margin-top:1rem;">Start Probing</button>
+    </div>
+</div>
+
+<script>
+    let poly = [], points = [], results = [];
+
+    function showProtocol() { document.getElementById('modal').classList.remove('hidden'); }
+    function hideProtocol() { document.getElementById('modal').classList.add('hidden'); }
+
+    function evalPoly(coeffs, x) {
+        let result = 0;
+        for (let i = coeffs.length - 1; i >= 0; i--) {
+            result = result * x + coeffs[i];
+        }
+        return Math.round(result);
+    }
+
+    function formatPoly(coeffs) {
+        return coeffs.map((c, i) => {
+            if (c === 0) return null;
+            const x = i === 0 ? '' : i === 1 ? 'x' : `x^${i}`;
+            return c + x;
+        }).filter(x => x).join(' + ') || '0';
+    }
+
+    function drawGraph() {
+        const canvas = document.getElementById('graphCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = canvas.offsetWidth * 2;
+        canvas.height = canvas.offsetHeight * 2;
+        ctx.scale(2, 2);
+
+        const w = canvas.offsetWidth, h = canvas.offsetHeight;
+        ctx.fillStyle = '#1a1a2e';
+        ctx.fillRect(0, 0, w, h);
+
+        // Grid
+        ctx.strokeStyle = '#2a2a4a';
+        ctx.lineWidth = 1;
+        for (let x = 0; x < w; x += 50) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, h);
+            ctx.stroke();
+        }
+        for (let y = 0; y < h; y += 50) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(w, y);
+            ctx.stroke();
+        }
+
+        // Curve
+        ctx.beginPath();
+        ctx.strokeStyle = '#fca311';
+        ctx.lineWidth = 3;
+        const scaleX = w / 8;
+        const midY = h / 2;
+        const scaleY = h / 100;
+
+        for (let px = 0; px < w; px++) {
+            const x = (px / scaleX) - 1;
+            const y = evalPoly(poly, x);
+            const py = midY - y * scaleY;
+            if (px === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+
+        // Draw placed probes
+        points.forEach((x, i) => {
+            if (results[i] !== undefined) {
+                const px = (x + 1) * scaleX;
+                const y = evalPoly(poly, x);
+                const py = midY - y * scaleY;
+
+                ctx.beginPath();
+                ctx.arc(px, py, 8, 0, Math.PI * 2);
+                ctx.fillStyle = '#00bf63';
+                ctx.fill();
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+        });
+    }
+
+    function renderProbes() {
+        const container = document.getElementById('probesList');
+        container.innerHTML = '';
+        points.forEach((x, i) => {
+            const chip = document.createElement('div');
+            chip.className = 'probe-chip' + (results[i] !== undefined ? ' placed' : '');
+            chip.innerHTML = `
+                <span class="x-val">x = ${x}</span>
+                <span class="result">${results[i] !== undefined ? 'P(' + x + ') = ' + results[i] : '?'}</span>
+            `;
+            container.appendChild(chip);
+        });
+    }
+
+    function newProblem() {
+        // Random quadratic polynomial
+        poly = [
+            Math.floor(Math.random() * 5) + 1,
+            Math.floor(Math.random() * 4) - 2,
+            Math.floor(Math.random() * 3) + 1
+        ];
+        points = [0, 1, 2, 3];
+        results = [];
+
+        document.getElementById('polyDisplay').textContent = formatPoly(poly);
+        
+        // Reset tree
+        ['t1','t2','t3','t4','t5','t6','t7'].forEach(id => {
+            document.getElementById(id).classList.remove('active', 'done');
+        });
+
+        drawGraph();
+        renderProbes();
+        document.getElementById('evalBtn').disabled = false;
+    }
+
+    async function evaluateAll() {
+        document.getElementById('evalBtn').disabled = true;
+
+        // Animate tree traversal
+        const treeOrder = [
+            ['t1'],
+            ['t2', 't3'],
+            ['t4', 't5', 't6', 't7']
+        ];
+
+        for (const level of treeOrder) {
+            for (const id of level) {
+                document.getElementById(id).classList.add('active');
+            }
+            await sleep(500);
+            for (const id of level) {
+                document.getElementById(id).classList.remove('active');
+                document.getElementById(id).classList.add('done');
+            }
+        }
+
+        // Compute and reveal results one by one
+        for (let i = 0; i < points.length; i++) {
+            await sleep(300);
+            results[i] = evalPoly(poly, points[i]);
+            renderProbes();
+            drawGraph();
+        }
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    window.onload = newProblem;
+    window.onresize = drawGraph;
+</script>
+</body>
+</html>

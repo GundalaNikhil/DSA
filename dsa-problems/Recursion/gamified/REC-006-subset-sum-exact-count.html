@@ -3,213 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REC-006: Balance Finder</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <title>REC-006: Luggage Balance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #f8f9fa;
-            --surface: #fff;
-            --primary: #6366f1;
-            --secondary: #a5b4fc;
-            --accent: #10b981;
-            --text: #1f2937;
-            --muted: #9ca3af;
+            --bg: #f5f6fa;
+            --primary: #2f3640;
+            --accent: #eccc68;
+            --danger: #ff6b6b;
+            --success: #2ed573;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg);
+            color: var(--primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            user-select: none;
+        }
 
-        header { background: var(--surface); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        h1 { font-size: 1.3rem; color: var(--primary); }
-        .subtitle { color: var(--muted); font-size: 0.85rem; }
+        h1 { margin-top: 1rem; color: var(--primary); }
 
-        .btn { background: var(--primary); color: #fff; border: none; padding: 10px 24px; border-radius: 25px; cursor: pointer; font-family: inherit; font-weight: 600; transition: all 0.3s; }
-        .btn:hover { transform: translateY(-2px); }
-        .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+        .game-zone {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
 
-        main { padding: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; max-width: 700px; margin: 0 auto; }
+        .conveyor-belt {
+            width: 800px;
+            height: 120px;
+            background: #7f8fa6;
+            border-top: 5px solid #576574;
+            border-bottom: 5px solid #576574;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 20px;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .conveyor-belt::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(90deg, transparent, transparent 50px, rgba(0,0,0,0.1) 50px, rgba(0,0,0,0.1) 55px);
+            pointer-events: none;
+        }
 
-        .info-card { background: var(--surface); padding: 1.5rem; border-radius: 15px; width: 100%; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .info-card p { color: var(--muted); line-height: 1.6; }
+        .luggage {
+            width: 80px;
+            height: 60px;
+            background: #353b48;
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            cursor: grab;
+            position: relative;
+            box-shadow: 0 5px 10px rgba(0,0,0,0.3);
+            border: 2px solid #718093;
+            flex-shrink: 0;
+            z-index: 10;
+        }
+        .luggage::before { content: ''; width: 30px; height: 5px; background: #2f3640; position: absolute; top: -5px; border-radius: 5px 5px 0 0; }
+        .luggage:active { cursor: grabbing; transform: scale(1.05); }
 
-        .config-row { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; align-items: center; }
-        .config-row label { color: var(--muted); }
-        .config-row input { padding: 8px 12px; border: 2px solid var(--muted); border-radius: 8px; width: 80px; text-align: center; font-family: inherit; }
+        .scale-system {
+            background: #dcdde1;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 300px;
+        }
 
-        .numbers-panel { background: var(--surface); padding: 1.5rem; border-radius: 15px; width: 100%; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .numbers-panel h3 { color: var(--muted); font-size: 0.85rem; text-transform: uppercase; margin-bottom: 1rem; text-align: center; }
+        .drop-zone {
+            width: 200px;
+            height: 200px;
+            border: 3px dashed #7f8fa6;
+            border-radius: 20px;
+            margin: 0 auto 20px;
+            background: rgba(255,255,255,0.5);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 10px;
+            position: relative;
+        }
 
-        .number-tiles { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
-        .number-tile { width: 55px; height: 55px; background: var(--secondary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 1.2rem; transition: all 0.3s; }
-        .number-tile.selected { background: var(--primary); color: #fff; transform: scale(1.1); }
-        .number-tile.considering { border: 3px solid var(--accent); }
+        .drop-zone.hover { border-color: var(--accent); background: #fffbe7; }
 
-        .scale-display { background: var(--surface); padding: 1.5rem; border-radius: 15px; width: 100%; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .scale-visual { display: flex; align-items: flex-end; justify-content: center; gap: 40px; margin: 1rem 0; }
-        .scale-side { display: flex; flex-direction: column; align-items: center; }
-        .scale-side .label { color: var(--muted); font-size: 0.85rem; margin-bottom: 5px; }
-        .scale-side .value { font-size: 2rem; font-weight: 700; }
-        .scale-side.left .value { color: var(--primary); }
-        .scale-side.right .value { color: var(--accent); }
-        .scale-bar { width: 100px; height: 4px; background: var(--muted); border-radius: 2px; transform-origin: center; transition: transform 0.3s; }
+        .display-panel {
+            background: #2f3640;
+            color: var(--success);
+            font-family: monospace;
+            font-size: 2rem;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        
+        .display-panel.error { color: var(--danger); }
 
-        .result-panel { background: var(--surface); padding: 1.5rem; border-radius: 15px; width: 100%; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 2px solid var(--accent); opacity: 0; transition: all 0.3s; }
-        .result-panel.visible { opacity: 1; }
-        .result-panel h3 { color: var(--accent); margin-bottom: 0.5rem; text-align: center; }
-        .result-panel .subset { font-family: 'Fira Code'; text-align: center; font-size: 1.1rem; }
+        .target-info { font-size: 0.9rem; color: #718093; margin-bottom: 5px; }
 
-        .controls { display: flex; gap: 1rem; }
+        .msg { min-height: 1.5em; font-weight: bold; }
 
-        .modal { position: fixed; inset: 0; background: rgba(31, 41, 55, 0.9); display: flex; align-items: center; justify-content: center; z-index: 100; }
-        .modal.hidden { display: none; }
-        .dialog { background: var(--surface); padding: 2rem; border-radius: 20px; max-width: 480px; }
-        .dialog h2 { color: var(--primary); margin-bottom: 1rem; }
-        .dialog p { margin: 0.8rem 0; line-height: 1.7; color: var(--text); }
+        .btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
     </style>
 </head>
 <body>
 
-<header>
-    <div>
-        <h1>⚖️ Balance Finder</h1>
-        <div class="subtitle">REC-006: Subset Sum Exact Count</div>
-    </div>
-    <button class="btn btn-outline" onclick="showProtocol()">How It Works</button>
-</header>
+<h1>LUGGAGE BALANCE</h1>
 
-<main>
-    <div class="info-card">
-        <p>Find exactly <strong>k numbers</strong> that sum to the <strong>target</strong>. Watch the scale balance!</p>
-    </div>
-
-    <div class="config-row">
-        <label>k =</label><input type="number" id="kInput" value="2" min="1" max="5">
-        <label>Target =</label><input type="number" id="targetInput" value="7">
-    </div>
-
-    <div class="numbers-panel">
-        <h3>Available Numbers</h3>
-        <div class="number-tiles" id="numberTiles"></div>
-    </div>
-
-    <div class="scale-display">
-        <h3 style="color:var(--muted);font-size:0.85rem;text-transform:uppercase;margin-bottom:0.5rem;">Balance Scale</h3>
-        <div class="scale-visual">
-            <div class="scale-side left">
-                <span class="label">Selected</span>
-                <span class="value" id="selectedSum">0</span>
-            </div>
-            <div class="scale-bar" id="scaleBar"></div>
-            <div class="scale-side right">
-                <span class="label">Target</span>
-                <span class="value" id="targetDisplay">7</span>
-            </div>
+<div class="game-zone">
+    <div class="target-info">Goal: Scale reading matches Target exactly with K suitcases.</div>
+    
+    <div class="scale-system">
+        <div class="display-panel" id="screen">00.0 kg</div>
+        <div class="target-info">Target: <span id="targetVal" style="font-weight:bold; color:#000">20</span> kg (Count: <span id="kVal">3</span>)</div>
+        
+        <div class="drop-zone" id="scale">
+            <!-- Dropped Items -->
         </div>
+
+        <div class="msg" id="msg"></div>
     </div>
 
-    <div class="result-panel" id="resultPanel">
-        <h3>✓ Balanced!</h3>
-        <div class="subset" id="subsetDisplay"></div>
-    </div>
-
-    <div class="controls">
-        <button class="btn" onclick="findSubset()">Find Subset</button>
-        <button class="btn btn-outline" onclick="newProblem()">New Numbers</button>
-    </div>
-</main>
-
-<div id="modal" class="modal hidden">
-    <div class="dialog">
-        <h2>⚖️ Balance Finder Guide</h2>
-        <p><strong>The Problem:</strong></p>
-        <p>Find exactly k elements from an array that sum to target.</p>
-        <p><strong>Recursive Approach:</strong></p>
-        <p>For each element: either include it (k-1, target-val) or skip it. Prune when k=0 or impossible.</p>
-        <button class="btn" onclick="hideProtocol()" style="margin-top:1rem;">Start!</button>
+    <div class="conveyor-belt" id="belt">
+        <!-- Bags -->
     </div>
 </div>
 
+<button class="btn" onclick="init()">Next Check-in</button>
+
 <script>
-    let numbers = [4, 1, 6, 2];
+    const items = [5, 5, 10, 2, 8, 3, 7, 1];
+    let k = 3;
+    let target = 20;
 
-    function showProtocol() { document.getElementById('modal').classList.remove('hidden'); }
-    function hideProtocol() { document.getElementById('modal').classList.add('hidden'); }
+    function init() {
+        const belt = document.getElementById('belt');
+        belt.innerHTML = '';
+        document.getElementById('scale').innerHTML = '';
+        
+        // Randomize
+        target = 15 + Math.floor(Math.random() * 10);
+        k = 2 + Math.floor(Math.random() * 2);
+        
+        document.getElementById('targetVal').textContent = target;
+        document.getElementById('kVal').textContent = k;
+        updateScale();
 
-    function newProblem() {
-        numbers = Array.from({length: 5}, () => Math.floor(Math.random() * 9) + 1);
-        renderNumbers();
-        document.getElementById('resultPanel').classList.remove('visible');
-        updateScale(0);
-    }
-
-    function renderNumbers() {
-        const container = document.getElementById('numberTiles');
-        container.innerHTML = '';
-        numbers.forEach((n, i) => {
-            const tile = document.createElement('div');
-            tile.className = 'number-tile';
-            tile.id = `tile-${i}`;
-            tile.textContent = n;
-            container.appendChild(tile);
+        items.forEach((wt, i) => {
+            const bag = document.createElement('div');
+            bag.className = 'luggage';
+            bag.textContent = wt + "kg";
+            bag.draggable = true;
+            bag.id = `bag-${i}`;
+            bag.dataset.wt = wt;
+            
+            bag.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('id', bag.id);
+                e.dataTransfer.setData('wt', wt);
+            });
+            
+            belt.appendChild(bag);
         });
     }
 
-    function updateScale(sum) {
-        const target = parseInt(document.getElementById('targetInput').value);
-        document.getElementById('selectedSum').textContent = sum;
-        document.getElementById('targetDisplay').textContent = target;
+    const scale = document.getElementById('scale');
+    
+    scale.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        scale.classList.add('hover');
+    });
+    
+    scale.addEventListener('dragleave', () => scale.classList.remove('hover'));
+    
+    scale.addEventListener('drop', (e) => {
+        e.preventDefault();
+        scale.classList.remove('hover');
+        const id = e.dataTransfer.getData('id');
+        const bag = document.getElementById(id);
         
-        const bar = document.getElementById('scaleBar');
-        const diff = sum - target;
-        const angle = Math.max(-20, Math.min(20, diff * 3));
-        bar.style.transform = `rotate(${angle}deg)`;
-    }
+        if (bag && bag.parentNode !== scale) {
+            scale.appendChild(bag);
+            updateScale();
+        }
+    });
 
-    async function findSubset() {
-        const k = parseInt(document.getElementById('kInput').value);
-        const target = parseInt(document.getElementById('targetInput').value);
-        document.getElementById('resultPanel').classList.remove('visible');
-        renderNumbers();
+    // Allow removing from scale back to belt
+    const belt = document.getElementById('belt');
+    belt.addEventListener('dragover', (e) => e.preventDefault());
+    belt.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const id = e.dataTransfer.getData('id');
+        const bag = document.getElementById(id);
+        if (bag && bag.parentNode === scale) {
+            belt.appendChild(bag);
+            updateScale();
+        }
+    });
 
-        const result = await backtrack(0, k, target, [], 0);
+
+    function updateScale() {
+        const bags = Array.from(scale.children);
+        const sum = bags.reduce((acc, el) => acc + parseInt(el.dataset.wt), 0);
+        const count = bags.length;
+
+        const screen = document.getElementById('screen');
+        screen.textContent = sum.toFixed(1) + " kg";
         
-        if (result) {
-            document.getElementById('subsetDisplay').textContent = `{${result.join(', ')}} = ${target}`;
-            document.getElementById('resultPanel').classList.add('visible');
+        const msg = document.getElementById('msg');
+
+        if (sum === target && count === k) {
+            screen.classList.remove('error');
+            screen.style.color = '#2ed573';
+            msg.textContent = "PERFECT MATCH! Flight Approved.";
+            msg.style.color = "#2ed573";
+        } else if (sum > target || (sum===target && count > k)) {
+            screen.classList.add('error');
+            msg.textContent = "Overweight / Too Many Bags!";
+            msg.style.color = "#ff6b6b";
         } else {
-            document.getElementById('subsetDisplay').textContent = 'NONE';
-            document.getElementById('resultPanel').classList.add('visible');
+            screen.classList.remove('error');
+            screen.style.color = '#eccc68'; // Warning/Pending
+            msg.textContent = count > k ? "Too many bags..." : "Add more weight...";
+            msg.style.color = "#2f3640";
         }
     }
 
-    async function backtrack(idx, remaining, target, chosen, sum) {
-        updateScale(sum);
-        await sleep(100);
-
-        if (remaining === 0 && target === 0) {
-            return [...chosen];
-        }
-        if (remaining === 0 || idx >= numbers.length) return null;
-
-        const tile = document.getElementById(`tile-${idx}`);
-        tile.classList.add('considering');
-        await sleep(80);
-
-        // Include current number
-        tile.classList.add('selected');
-        const withResult = await backtrack(idx + 1, remaining - 1, target - numbers[idx], [...chosen, numbers[idx]], sum + numbers[idx]);
-        if (withResult) return withResult;
-        tile.classList.remove('selected');
-
-        // Skip current number
-        const withoutResult = await backtrack(idx + 1, remaining, target, chosen, sum);
-        tile.classList.remove('considering');
-        return withoutResult;
-    }
-
-    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-    window.onload = () => { renderNumbers(); updateScale(0); };
+    window.onload = init;
 </script>
 </body>
 </html>

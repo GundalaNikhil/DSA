@@ -3,176 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REC-007: Light Grid</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <title>REC-007: Lightning Engineer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0f172a;
-            --surface: #1e293b;
-            --primary: #fbbf24;
-            --secondary: #f59e0b;
-            --accent: #3b82f6;
-            --text: #f8fafc;
-            --muted: #94a3b8;
-            --off: #334155;
+            --bg: #090910;
+            --path: #222;
+            --light-off: #555;
+            --light-on: #f1c40f;
+            --radius: rgba(241, 196, 15, 0.1);
+            --error: #e74c3c;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Space Grotesk', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--bg);
+            color: #ccc;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            user-select: none;
+        }
 
-        header { background: var(--surface); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
-        h1 { font-size: 1.3rem; color: var(--primary); }
-        .subtitle { color: var(--muted); font-size: 0.85rem; }
+        h1 { color: #fff; margin-top: 1rem; }
 
-        .btn { background: var(--primary); color: var(--bg); border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-family: inherit; font-weight: 600; transition: all 0.3s; }
-        .btn:hover { background: var(--secondary); }
-        .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+        .walkway {
+            width: 800px;
+            height: 100px;
+            background: var(--path);
+            margin-top: 3rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Positions are 0 to N */
+            border-bottom: 2px solid #444;
+        }
 
-        main { padding: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; max-width: 700px; margin: 0 auto; }
+        /* Ticks for positions */
+        .position-marker {
+            position: absolute;
+            bottom: -10px;
+            width: 2px;
+            height: 10px;
+            background: #555;
+            font-size: 0.8rem;
+        }
+        .position-marker span {
+            position: absolute;
+            top: 15px;
+            left: -50%;
+        }
 
-        .info-card { background: var(--surface); padding: 1.5rem; border-radius: 12px; width: 100%; text-align: center; }
-        .info-card p { color: var(--muted); line-height: 1.6; }
+        .lamp-socket {
+            position: absolute;
+            bottom: 20px;
+            width: 10px;
+            height: 10px;
+            background: #333;
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10;
+            transform: translateX(-5px); /* Center on tick */
+            transition: all 0.2s;
+        }
 
-        .config-row { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; align-items: center; background: var(--surface); padding: 1rem; border-radius: 12px; }
-        .config-row label { color: var(--muted); }
-        .config-row input { padding: 8px 12px; border: 2px solid var(--muted); background: var(--bg); color: var(--text); border-radius: 8px; width: 60px; text-align: center; font-family: inherit; }
+        .lamp-socket:hover { background: #777; transform: translateX(-5px) scale(1.5); }
+        
+        .lamp-socket.installed {
+            background: var(--light-on);
+            box-shadow: 0 0 10px var(--light-on), 0 0 20px var(--light-on);
+        }
 
-        .walkway-panel { background: var(--surface); padding: 1.5rem; border-radius: 12px; width: 100%; }
-        .walkway-panel h3 { color: var(--muted); font-size: 0.85rem; text-transform: uppercase; margin-bottom: 1rem; text-align: center; }
+        .radius-indicator {
+            position: absolute;
+            height: 200px;
+            top: -50px;
+            border: 1px dashed rgba(241, 196, 15, 0.3);
+            background: var(--radius);
+            pointer-events: none;
+            z-index: 5;
+            transform: translateX(-50%);
+        }
 
-        .walkway { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
-        .position { width: 45px; height: 45px; background: var(--off); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--muted); transition: all 0.3s; font-size: 0.9rem; }
-        .position.lit { background: var(--primary); color: var(--bg); box-shadow: 0 0 20px var(--primary); }
-        .position.considering { border: 3px solid var(--accent); }
+        .lamp-post {
+            position: absolute;
+            bottom: 20px;
+            width: 2px;
+            height: 60px;
+            background: #444;
+            pointer-events: none;
+        }
 
-        .result-panel { background: var(--surface); padding: 1.5rem; border-radius: 12px; width: 100%; }
-        .result-panel h3 { color: var(--primary); margin-bottom: 1rem; text-align: center; }
-        .placements-list { display: flex; flex-direction: column; gap: 8px; max-height: 180px; overflow-y: auto; }
-        .placement-item { background: var(--bg); padding: 10px 15px; border-radius: 8px; font-family: 'Fira Code'; text-align: center; }
-        .placement-item .lights { color: var(--primary); }
+        .controls {
+            margin-top: 8rem;
+            text-align: center;
+        }
 
-        .controls { display: flex; gap: 1rem; }
+        .msg { font-size: 1.2rem; min-height: 1.5em; margin-bottom: 1rem; }
 
-        .modal { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.95); display: flex; align-items: center; justify-content: center; z-index: 100; }
-        .modal.hidden { display: none; }
-        .dialog { background: var(--surface); padding: 2rem; border-radius: 15px; max-width: 480px; }
-        .dialog h2 { color: var(--primary); margin-bottom: 1rem; }
-        .dialog p { margin: 0.8rem 0; line-height: 1.7; color: var(--muted); }
+        .btn {
+            background: transparent;
+            color: var(--light-on);
+            border: 1px solid var(--light-on);
+            padding: 10px 25px;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 <body>
 
-<header>
-    <div>
-        <h1>💡 Light Grid</h1>
-        <div class="subtitle">REC-007: Campus Lights Placement</div>
-    </div>
-    <button class="btn btn-outline" onclick="showProtocol()">Protocol</button>
-</header>
+<h1>LIGHTING ENGINEER</h1>
+<div style="color:#777">Install K lights. Maintain minimum distance D.</div>
 
-<main>
-    <div class="info-card">
-        <p>Place <strong>k lights</strong> on <strong>n positions</strong> with at least <strong>d positions apart</strong>. Find all valid placements!</p>
-    </div>
+<div class="walkway" id="walkway"></div>
 
-    <div class="config-row">
-        <label>n =</label><input type="number" id="nInput" value="8" min="3" max="12">
-        <label>k =</label><input type="number" id="kInput" value="3" min="1" max="5">
-        <label>d =</label><input type="number" id="dInput" value="2" min="1" max="5">
-    </div>
-
-    <div class="walkway-panel">
-        <h3>Campus Walkway</h3>
-        <div class="walkway" id="walkway"></div>
-    </div>
-
-    <div class="result-panel">
-        <h3>Valid Light Placements</h3>
-        <div class="placements-list" id="placementsList"></div>
-    </div>
-
-    <div class="controls">
-        <button class="btn" onclick="findPlacements()">Find All Placements</button>
-        <button class="btn btn-outline" onclick="resetWalkway()">Reset</button>
-    </div>
-</main>
-
-<div id="modal" class="modal hidden">
-    <div class="dialog">
-        <h2>💡 Light Grid Guide</h2>
-        <p><strong>The Problem:</strong></p>
-        <p>Place k lights on n positions such that any two lights are at least d positions apart.</p>
-        <p><strong>Strategy:</strong></p>
-        <p>Build placements in increasing order to avoid duplicates. If last light at position i, next must be at i+d or later.</p>
-        <button class="btn" onclick="hideProtocol()" style="margin-top:1rem;">Illuminate!</button>
-    </div>
+<div class="controls">
+    <div class="msg" id="msg">Select a position to install...</div>
+    <div>Installed: <span id="count">0</span> / 3</div>
+    <div style="margin-top:10px; font-size:0.9rem; color:#666">Min Dist: 3 units</div>
+    <button class="btn" style="margin-top:20px" onclick="reset()">Reset Plan</button>
 </div>
 
 <script>
-    function showProtocol() { document.getElementById('modal').classList.remove('hidden'); }
-    function hideProtocol() { document.getElementById('modal').classList.add('hidden'); }
+    const LEN = 15;
+    const K = 3;
+    const D = 3;
+    const SCALE = 50; // px per unit
+    let installedAt = [];
 
-    function resetWalkway() {
-        const n = parseInt(document.getElementById('nInput').value);
-        const walkway = document.getElementById('walkway');
-        walkway.innerHTML = '';
-        
-        for (let i = 0; i < n; i++) {
-            const pos = document.createElement('div');
-            pos.className = 'position';
-            pos.id = `pos-${i}`;
-            pos.textContent = i;
-            walkway.appendChild(pos);
-        }
-        
-        document.getElementById('placementsList').innerHTML = '';
+    function reset() {
+        installedAt = [];
+        render();
+        document.getElementById('msg').textContent = "Select a position...";
+        document.getElementById('msg').style.color = "#ccc";
     }
 
-    async function findPlacements() {
-        const n = parseInt(document.getElementById('nInput').value);
-        const k = parseInt(document.getElementById('kInput').value);
-        const d = parseInt(document.getElementById('dInput').value);
+    function render() {
+        const track = document.getElementById('walkway');
+        track.innerHTML = '';
+        track.style.width = (LEN * SCALE) + "px";
 
-        resetWalkway();
-        const results = [];
-        await backtrack(n, k, d, -1, 0, [], results);
+        // Draw ticks 0 to LEN
+        for(let i=0; i<=LEN; i++) {
+            const tick = document.createElement('div');
+            tick.className = 'position-marker';
+            tick.style.left = (i * SCALE) + 'px';
+            tick.innerHTML = `<span>${i}</span>`;
+            track.appendChild(tick);
 
-        if (results.length === 0) {
-            document.getElementById('placementsList').innerHTML = '<div class="placement-item" style="color:var(--muted)">NONE</div>';
+            // Socket
+            const socket = document.createElement('div');
+            socket.className = 'lamp-socket';
+            socket.style.left = (i * SCALE) + 'px';
+            
+            if (installedAt.includes(i)) {
+                socket.classList.add('installed');
+                
+                // Add Radius Visual
+                const rad = document.createElement('div');
+                rad.className = 'radius-indicator';
+                rad.style.width = (D * 2 * SCALE) + 'px';
+                rad.style.left = (i * SCALE) + 'px';
+                track.appendChild(rad);
+
+                // Add Post
+                const post = document.createElement('div');
+                post.className = 'lamp-post';
+                post.style.left = (i * SCALE) + 'px';
+                track.appendChild(post);
+            }
+
+            socket.onclick = () => toggleLight(i);
+            track.appendChild(socket);
+        }
+        document.getElementById('count').textContent = installedAt.length;
+    }
+
+    function toggleLight(pos) {
+        if (installedAt.includes(pos)) {
+            // Remove
+            installedAt = installedAt.filter(p => p !== pos);
+            render();
+            msg("Removed light at " + pos, "#ccc");
+        } else {
+            // Try Add
+            if (isValid(pos)) {
+                if(installedAt.length < K) {
+                    installedAt.push(pos);
+                    render();
+                    if(installedAt.length === K) msg("PLAN COMPLETE!", "#2ecc71");
+                    else msg("Installed at " + pos, "#ccc");
+                } else {
+                    msg("Max lights reached!", "#e74c3c");
+                }
+            } else {
+                msg("Too close to another light!", "#e74c3c");
+            }
         }
     }
 
-    async function backtrack(n, k, d, lastPos, placed, current, results) {
-        if (placed === k) {
-            results.push([...current]);
-            const item = document.createElement('div');
-            item.className = 'placement-item';
-            item.innerHTML = `<span class="lights">${current.join(' ')}</span>`;
-            document.getElementById('placementsList').appendChild(item);
-            return;
+    function isValid(pos) {
+        for (let p of installedAt) {
+            if (Math.abs(p - pos) < D) return false;
         }
-
-        const minNext = lastPos === -1 ? 0 : lastPos + d;
-        
-        for (let pos = minNext; pos < n; pos++) {
-            const remaining = k - placed;
-            const seatsLeft = n - pos;
-            const needed = remaining + (remaining - 1) * (d - 1);
-            if (seatsLeft < remaining) break;
-
-            document.getElementById(`pos-${pos}`).classList.add('considering');
-            await sleep(60);
-            document.getElementById(`pos-${pos}`).classList.add('lit');
-
-            await backtrack(n, k, d, pos, placed + 1, [...current, pos], results);
-
-            document.getElementById(`pos-${pos}`).classList.remove('lit', 'considering');
-        }
+        return true;
     }
 
-    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+    function msg(text, color) {
+        const el = document.getElementById('msg');
+        el.textContent = text;
+        el.style.color = color;
+    }
 
-    window.onload = resetWalkway;
+    window.onload = reset;
 </script>
 </body>
 </html>

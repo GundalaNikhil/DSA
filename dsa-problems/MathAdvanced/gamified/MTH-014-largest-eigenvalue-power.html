@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTH-014: Eigenvalue Seeker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d0d0d;
+            --surface: #1a1a1a;
+            --primary: #f39c12;
+            --secondary: #e74c3c;
+            --accent: #9b59b6;
+            --success: #27ae60;
+            --text: #f5f5f5;
+            --muted: #7f8c8d;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Manrope', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--surface);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        h1 { font-size: 1.3rem; color: var(--primary); }
+        .subtitle { color: var(--muted); font-size: 0.85rem; }
+
+        .btn {
+            background: var(--primary);
+            color: #000;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn:hover { background: #e67e22; }
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+
+        main {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .concept-box {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .concept-box p { color: var(--muted); line-height: 1.6; }
+
+        .matrix-section {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 100%;
+        }
+
+        .matrix-section h3 {
+            color: var(--muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .matrix-grid {
+            display: grid;
+            gap: 5px;
+            justify-content: center;
+        }
+
+        .m-cell {
+            width: 50px;
+            height: 50px;
+            background: rgba(243, 156, 18, 0.15);
+            border: 1px solid var(--primary);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono';
+            font-size: 0.95rem;
+        }
+
+        .iteration-display {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 100%;
+        }
+
+        .iteration-display h3 {
+            color: var(--muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .vector-animation {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .iteration-row {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .iter-label {
+            width: 50px;
+            font-family: 'JetBrains Mono';
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .vector-bar {
+            display: flex;
+            gap: 5px;
+        }
+
+        .v-component {
+            height: 30px;
+            background: var(--secondary);
+            border-radius: 4px;
+            transition: width 0.5s;
+            min-width: 3px;
+        }
+
+        .eigenvalue-est {
+            font-family: 'JetBrains Mono';
+            font-size: 0.85rem;
+            color: var(--success);
+            min-width: 100px;
+        }
+
+        .convergence-meter {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .convergence-meter h3 {
+            color: var(--success);
+            margin-bottom: 1rem;
+        }
+
+        .meter-bar {
+            width: 100%;
+            height: 20px;
+            background: var(--bg);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .meter-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--secondary), var(--primary), var(--success));
+            border-radius: 10px;
+            transition: width 0.3s;
+            width: 0%;
+        }
+
+        .result-panel {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 100%;
+            text-align: center;
+            border: 2px solid var(--success);
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .result-panel.visible { opacity: 1; }
+        .result-panel h3 { color: var(--success); margin-bottom: 1rem; }
+
+        .eigen-result {
+            font-family: 'JetBrains Mono';
+            font-size: 1.5rem;
+            color: var(--success);
+        }
+
+        .eigenvector {
+            font-family: 'JetBrains Mono';
+            color: var(--muted);
+            margin-top: 0.5rem;
+        }
+
+        .controls { display: flex; gap: 1rem; }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(13, 13, 13, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal.hidden { display: none; }
+
+        .dialog {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 500px;
+        }
+
+        .dialog h2 { color: var(--primary); margin-bottom: 1rem; }
+        .dialog p { margin: 0.8rem 0; line-height: 1.7; color: var(--muted); }
+        .dialog strong { color: var(--text); }
+
+        .formula-box {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono';
+            text-align: center;
+            margin: 1rem 0;
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>🎯 Eigenvalue Seeker</h1>
+        <div class="subtitle">MTH-014: Largest Eigenvalue via Power Method</div>
+    </div>
+    <button class="btn btn-outline" onclick="showProtocol()">Protocol</button>
+</header>
+
+<main>
+    <div class="concept-box">
+        <p>The <strong>Power Method</strong> iteratively applies a matrix to a vector.<br>
+        The vector converges toward the <strong>dominant eigenvector</strong>, revealing the largest eigenvalue!</p>
+    </div>
+
+    <div class="matrix-section">
+        <h3>Matrix A</h3>
+        <div class="matrix-grid" id="matrixGrid" style="grid-template-columns: repeat(2, 1fr);"></div>
+    </div>
+
+    <div class="iteration-display">
+        <h3>Power Iteration</h3>
+        <div class="vector-animation" id="vectorAnimation"></div>
+    </div>
+
+    <div class="convergence-meter">
+        <h3>Convergence Progress</h3>
+        <div class="meter-bar">
+            <div class="meter-fill" id="meterFill"></div>
+        </div>
+    </div>
+
+    <div class="result-panel" id="resultPanel">
+        <h3>Dominant Eigenvalue Found!</h3>
+        <div class="eigen-result" id="eigenResult">λ = ?</div>
+        <div class="eigenvector" id="eigenvector">Eigenvector: [?, ?]</div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" id="seekBtn" onclick="runPowerMethod()">Seek Eigenvalue!</button>
+        <button class="btn btn-outline" onclick="newMatrix()">New Matrix</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🎯 Eigenvalue Seeker Guide</h2>
+        <p><strong>What is an Eigenvalue?</strong></p>
+        <p>For matrix A and vector v, if Av = λv, then λ is an eigenvalue and v is an eigenvector.</p>
+        
+        <p><strong>Power Method:</strong></p>
+        <div class="formula-box">
+            v_{k+1} = A × v_k / ||A × v_k||
+        </div>
+        <p>Repeat until the vector stops changing significantly!</p>
+        
+        <p><strong>What it finds:</strong></p>
+        <p>The eigenvalue with the <em>largest absolute value</em> (dominant eigenvalue).</p>
+        
+        <p><strong>Convergence:</strong></p>
+        <p>Rate depends on the gap between the largest and second-largest eigenvalues.</p>
+        
+        <button class="btn" onclick="hideProtocol()" style="margin-top:1rem;">Start Seeking!</button>
+    </div>
+</div>
+
+<script>
+    let matrix = [];
+    let dominantEigen = 0;
+
+    function showProtocol() { document.getElementById('modal').classList.remove('hidden'); }
+    function hideProtocol() { document.getElementById('modal').classList.add('hidden'); }
+
+    function newMatrix() {
+        // Generate 2x2 matrix with positive dominant eigenvalue
+        matrix = [
+            [4, 1],
+            [2, 3]
+        ];
+        dominantEigen = 5; // Known for this matrix
+
+        renderMatrix();
+        document.getElementById('vectorAnimation').innerHTML = '';
+        document.getElementById('meterFill').style.width = '0%';
+        document.getElementById('resultPanel').classList.remove('visible');
+        document.getElementById('seekBtn').disabled = false;
+    }
+
+    function renderMatrix() {
+        const grid = document.getElementById('matrixGrid');
+        grid.innerHTML = '';
+        matrix.forEach(row => {
+            row.forEach(val => {
+                const cell = document.createElement('div');
+                cell.className = 'm-cell';
+                cell.textContent = val;
+                grid.appendChild(cell);
+            });
+        });
+    }
+
+    function matVec(A, v) {
+        return [
+            A[0][0] * v[0] + A[0][1] * v[1],
+            A[1][0] * v[0] + A[1][1] * v[1]
+        ];
+    }
+
+    function normalize(v) {
+        const norm = Math.sqrt(v[0] * v[0] + v[1] * v[1]);
+        return [v[0] / norm, v[1] / norm];
+    }
+
+    async function runPowerMethod() {
+        document.getElementById('seekBtn').disabled = true;
+        const container = document.getElementById('vectorAnimation');
+        container.innerHTML = '';
+
+        let v = [1, 0];
+        const maxIter = 8;
+        let eigenEst = 0;
+
+        for (let i = 0; i <= maxIter; i++) {
+            // Compute Av
+            const Av = matVec(matrix, v);
+            
+            // Rayleigh quotient for eigenvalue estimate
+            const dot = v[0] * Av[0] + v[1] * Av[1];
+            eigenEst = Math.round(dot * 100) / 100;
+
+            // Display this iteration
+            const row = document.createElement('div');
+            row.className = 'iteration-row';
+            
+            const label = document.createElement('span');
+            label.className = 'iter-label';
+            label.textContent = `Iter ${i}`;
+            row.appendChild(label);
+
+            const barContainer = document.createElement('div');
+            barContainer.className = 'vector-bar';
+            
+            const bar1 = document.createElement('div');
+            bar1.className = 'v-component';
+            bar1.style.width = Math.abs(v[0]) * 150 + 'px';
+            bar1.style.background = v[0] >= 0 ? 'var(--secondary)' : 'var(--accent)';
+            barContainer.appendChild(bar1);
+
+            const bar2 = document.createElement('div');
+            bar2.className = 'v-component';
+            bar2.style.width = Math.abs(v[1]) * 150 + 'px';
+            bar2.style.background = v[1] >= 0 ? 'var(--primary)' : 'var(--accent)';
+            barContainer.appendChild(bar2);
+
+            row.appendChild(barContainer);
+
+            const est = document.createElement('span');
+            est.className = 'eigenvalue-est';
+            est.textContent = `λ ≈ ${eigenEst}`;
+            row.appendChild(est);
+
+            container.appendChild(row);
+
+            // Update meter
+            document.getElementById('meterFill').style.width = ((i + 1) / maxIter * 100) + '%';
+
+            await sleep(400);
+
+            // Normalize for next iteration
+            v = normalize(Av);
+        }
+
+        // Show result
+        document.getElementById('eigenResult').textContent = `λ = ${eigenEst}`;
+        document.getElementById('eigenvector').textContent = 
+            `Eigenvector: [${v[0].toFixed(3)}, ${v[1].toFixed(3)}]`;
+        document.getElementById('resultPanel').classList.add('visible');
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    window.onload = newMatrix;
+</script>
+</body>
+</html>

@@ -3,383 +3,313 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REC-002: ID Shuffler</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <title>REC-002: ID Forger</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #1a1a2e;
-            --surface: #16213e;
-            --primary: #e94560;
-            --secondary: #0f3460;
-            --accent: #f1c40f;
-            --success: #2ecc71;
-            --text: #ecf0f1;
-            --muted: #7f8c8d;
+            --bg: #121212;
+            --surface: #1e1e1e;
+            --slot: #333;
+            --card: #bb86fc;
+            --error: #cf6679;
+            --success: #03dac6;
+            --text: #e0e0e0;
         }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Share Tech Mono', monospace;
             background: var(--bg);
             color: var(--text);
-            min-height: 100vh;
-        }
-
-        header {
-            background: var(--surface);
-            padding: 1rem 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        h1 { font-size: 1.3rem; color: var(--primary); }
-        .subtitle { color: var(--muted); font-size: 0.85rem; }
-
-        .btn {
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            padding: 10px 24px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-family: inherit;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-
-        .btn:hover { opacity: 0.9; }
-        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
-
-        main {
-            padding: 1.5rem;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1.5rem;
-            max-width: 700px;
-            margin: 0 auto;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+            user-select: none;
         }
 
-        .info-panel {
+        h1 {
+            font-family: 'VT323', monospace;
+            font-size: 3.5rem;
+            color: var(--success);
+            text-shadow: 0 0 10px var(--success);
+            margin: 0;
+            letter-spacing: 5px;
+        }
+
+        .subtitle { color: #888; margin-bottom: 2rem; }
+
+        .game-desk {
             background: var(--surface);
-            padding: 1.5rem;
-            border-radius: 12px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .info-panel h2 { color: var(--primary); font-size: 1rem; margin-bottom: 0.5rem; }
-        .info-panel p { color: var(--muted); line-height: 1.6; }
-
-        .input-section {
-            background: var(--surface);
-            padding: 1.5rem;
-            border-radius: 12px;
-            width: 100%;
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .input-section label { color: var(--muted); }
-        .input-section input {
-            padding: 10px 15px;
-            border: 2px solid var(--secondary);
-            background: var(--bg);
-            color: var(--text);
-            border-radius: 8px;
-            font-family: 'JetBrains Mono';
-            font-size: 1.2rem;
-            width: 150px;
-            text-align: center;
-        }
-
-        .letter-display {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-
-        .letter-tile {
-            width: 50px;
-            height: 50px;
-            background: var(--secondary);
+            padding: 40px;
             border-radius: 10px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3rem;
+            width: 100%;
+            max-width: 800px;
+            border: 2px solid #444;
+        }
+
+        .slots-area {
+            display: flex;
+            gap: 15px;
+            padding: 20px;
+            background: #121212;
+            border-radius: 8px;
+            border: 1px dashed #555;
+            min-height: 120px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slot {
+            width: 80px;
+            height: 100px;
+            background: var(--slot);
+            border: 2px solid #555;
+            border-radius: 6px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-family: 'JetBrains Mono';
+            transition: all 0.2s;
+        }
+
+        .slot.hover { border-color: var(--card); background: #444; }
+        .slot.error { border-color: var(--error); background: rgba(207, 102, 121, 0.2); }
+
+        .pool-area {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            min-height: 100px;
+        }
+
+        .card {
+            width: 70px;
+            height: 90px;
+            background: var(--card);
+            color: #000;
+            font-family: 'VT323';
+            font-size: 3rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            cursor: grab;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: transform 0.1s;
+        }
+        .card:active { cursor: grabbing; transform: scale(1.1); }
+        .card.placed { opacity: 0.5; cursor: default; }
+
+        .status-display {
             font-size: 1.5rem;
-            font-weight: 600;
+            color: #ccc;
+            min-height: 2rem;
+            text-align: center;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--success);
+            border: 2px solid var(--success);
+            padding: 10px 30px;
+            font-family: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             transition: all 0.3s;
         }
+        .btn:hover { background: var(--success); color: #000; box-shadow: 0 0 20px var(--success); }
+        .btn.reset { color: var(--error); border-color: var(--error); }
+        .btn.reset:hover { background: var(--error); color: #000; box-shadow: 0 0 20px var(--error); }
 
-        .letter-tile.twin { border: 3px solid var(--accent); }
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .hidden { display: none; }
+        .dialog { background: #222; border: 2px solid var(--success); padding: 2rem; border-radius: 8px; max-width: 500px; text-align: center; }
 
-        .permutation-builder {
-            background: var(--surface);
-            padding: 1.5rem;
-            border-radius: 12px;
-            width: 100%;
-        }
-
-        .permutation-builder h3 {
-            color: var(--muted);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .perm-slots {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
-            min-height: 60px;
-        }
-
-        .perm-slot {
-            width: 50px;
-            height: 50px;
-            border: 2px dashed var(--muted);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'JetBrains Mono';
-            font-size: 1.5rem;
-        }
-
-        .perm-slot.filled {
-            background: var(--primary);
-            border: none;
-        }
-
-        .perm-slot.invalid {
-            background: #c0392b;
-            border: none;
-        }
-
-        .results-panel {
-            background: var(--surface);
-            padding: 1.5rem;
-            border-radius: 12px;
-            width: 100%;
-        }
-
-        .results-panel h3 {
-            color: var(--success);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .valid-perms {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
-            max-height: 150px;
-            overflow-y: auto;
-        }
-
-        .perm-badge {
-            background: var(--success);
-            color: #000;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-family: 'JetBrains Mono';
-            font-size: 0.9rem;
-        }
-
-        .controls { display: flex; gap: 1rem; }
-
-        .modal {
-            position: fixed;
-            inset: 0;
-            background: rgba(26, 26, 46, 0.95);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 100;
-        }
-
-        .modal.hidden { display: none; }
-
-        .dialog {
-            background: var(--surface);
-            padding: 2rem;
-            border-radius: 15px;
-            max-width: 500px;
-        }
-
-        .dialog h2 { color: var(--primary); margin-bottom: 1rem; }
-        .dialog p { margin: 0.8rem 0; line-height: 1.7; color: var(--muted); }
-        .dialog strong { color: var(--text); }
     </style>
 </head>
 <body>
 
-<header>
-    <div>
-        <h1>🔀 ID Shuffler</h1>
-        <div class="subtitle">REC-002: Lab ID Permutations (No Twins)</div>
-    </div>
-    <button class="btn btn-outline" onclick="showProtocol()">Protocol</button>
-</header>
+<h1>ID FORGER</h1>
+<div class="subtitle">SECURITY LEVEL: ALPHA // NO TWINS ALLOWED</div>
 
-<main>
-    <div class="info-panel">
-        <h2>No Adjacent Twins!</h2>
-        <p>Generate all permutations where <strong>no two identical letters</strong> are next to each other.</p>
+<div class="game-desk">
+    <div class="pool-area" id="pool">
+        <!-- Draggable Cards -->
     </div>
 
-    <div class="input-section">
-        <label>Enter Letters:</label>
-        <input type="text" id="inputStr" value="aab" maxlength="6" oninput="updateDisplay()">
+    <div class="slots-area" id="slots">
+        <!-- Target Slots -->
     </div>
 
-    <div class="permutation-builder">
-        <h3>Available Letters</h3>
-        <div class="letter-display" id="letterDisplay"></div>
-    </div>
+    <div class="status-display" id="status">Assemble the ID...</div>
 
-    <div class="permutation-builder">
-        <h3>Current Permutation Being Built</h3>
-        <div class="perm-slots" id="permSlots"></div>
+    <div style="display:flex; gap:20px">
+        <button class="btn" onclick="checkValid()">Verify ID</button>
+        <button class="btn reset" onclick="initLevel()">Reset</button>
     </div>
-
-    <div class="results-panel">
-        <h3>Valid Permutations (No Adjacent Twins)</h3>
-        <div class="valid-perms" id="validPerms"></div>
-    </div>
-
-    <div class="controls">
-        <button class="btn" id="shuffleBtn" onclick="findPermutations()">Shuffle!</button>
-        <button class="btn btn-outline" onclick="reset()">Reset</button>
-    </div>
-</main>
+</div>
 
 <div id="modal" class="modal hidden">
     <div class="dialog">
-        <h2>🔀 ID Shuffler Guide</h2>
-        <p><strong>The Problem:</strong></p>
-        <p>Generate all unique permutations where no two identical characters are adjacent.</p>
-        
-        <p><strong>Backtracking Strategy:</strong></p>
-        <p>1. Sort the string first<br>
-        2. At each position, try each unused character<br>
-        3. Skip if same as previous character (to avoid duplicates)<br>
-        4. <strong>Prune:</strong> Don't place if it creates adjacent twins!</p>
-        
-        <p><strong>Example:</strong> "aab" → Only "aba" is valid!</p>
-        
-        <button class="btn" onclick="hideProtocol()" style="margin-top:1rem;">Start Shuffling!</button>
+        <h2 style="color:var(--success)">PROTOCOL</h2>
+        <p>You have a set of characters (e.g., A, A, B).</p>
+        <p><strong>Goal:</strong> Drag ALL characters into the slots to forge a valid ID.</p>
+        <p><strong>Rule:</strong> You CANNOT place identical characters next to each other.</p>
+        <button class="btn" onclick="document.getElementById('modal').classList.add('hidden')">ACKNOWLEDGED</button>
     </div>
 </div>
 
 <script>
-    let inputStr = 'aab';
-    let validResults = [];
+    const levelChars = ['A', 'A', 'B', 'C', 'C']; // Harder: A A B C C => A C A C B or similar?
+    // Constraints: No adjacent identicals.
+    // Try: A B A C C <- Invalid C C.
+    // A C A C B. Valid.
+    
+    let draggedItem = null;
+    let slotState = new Array(5).fill(null);
 
-    function showProtocol() { document.getElementById('modal').classList.remove('hidden'); }
-    function hideProtocol() { document.getElementById('modal').classList.add('hidden'); }
-
-    function updateDisplay() {
-        inputStr = document.getElementById('inputStr').value.toLowerCase();
-        renderLetters();
-        document.getElementById('permSlots').innerHTML = '';
-        document.getElementById('validPerms').innerHTML = '';
-    }
-
-    function renderLetters() {
-        const display = document.getElementById('letterDisplay');
-        display.innerHTML = '';
-        const sorted = inputStr.split('').sort();
+    function initLevel() {
+        const pool = document.getElementById('pool');
+        const slots = document.getElementById('slots');
         
-        sorted.forEach((char, i) => {
-            const tile = document.createElement('div');
-            tile.className = 'letter-tile';
-            tile.textContent = char;
+        pool.innerHTML = '';
+        slots.innerHTML = '';
+        slotState = new Array(levelChars.length).fill(null);
+
+        levelChars.forEach((char, i) => {
+            // Create Card
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.textContent = char;
+            card.draggable = true;
+            card.id = `card-${i}`;
             
-            // Mark twins
-            if ((i > 0 && sorted[i - 1] === char) || (i < sorted.length - 1 && sorted[i + 1] === char)) {
-                tile.classList.add('twin');
-            }
-            display.appendChild(tile);
-        });
-    }
+            card.addEventListener('dragstart', (e) => {
+                draggedItem = { char: char, id: `card-${i}` };
+                setTimeout(() => card.style.display = 'none', 0);
+            });
+            
+            card.addEventListener('dragend', (e) => {
+                setTimeout(() => card.style.display = 'flex', 0);
+                draggedItem = null;
+            });
 
-    function reset() {
-        document.getElementById('permSlots').innerHTML = '';
-        document.getElementById('validPerms').innerHTML = '';
-        validResults = [];
-        document.getElementById('shuffleBtn').disabled = false;
-    }
-
-    async function findPermutations() {
-        document.getElementById('shuffleBtn').disabled = true;
-        validResults = [];
-        document.getElementById('validPerms').innerHTML = '';
-
-        const chars = inputStr.split('').sort();
-        const used = new Array(chars.length).fill(false);
-        await backtrack(chars, used, '', []);
-
-        if (validResults.length === 0) {
-            document.getElementById('validPerms').innerHTML = '<span style="color:var(--muted)">NONE</span>';
-        }
-    }
-
-    async function backtrack(chars, used, current, slots) {
-        // Update visual
-        const slotsDiv = document.getElementById('permSlots');
-        slotsDiv.innerHTML = '';
-        
-        for (let i = 0; i < chars.length; i++) {
+            pool.appendChild(card);
+            
+            // Create Slot
             const slot = document.createElement('div');
-            slot.className = 'perm-slot';
-            if (i < current.length) {
-                slot.classList.add('filled');
-                slot.textContent = current[i];
-            }
-            slotsDiv.appendChild(slot);
-        }
-        
-        await sleep(100);
+            slot.className = 'slot';
+            slot.id = `slot-${i}`;
+            slot.dataset.index = i;
 
-        if (current.length === chars.length) {
-            validResults.push(current);
-            const badge = document.createElement('div');
-            badge.className = 'perm-badge';
-            badge.textContent = current;
-            document.getElementById('validPerms').appendChild(badge);
+            slot.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                slot.classList.add('hover');
+            });
+            
+            slot.addEventListener('dragleave', () => slot.classList.remove('hover'));
+            
+            slot.addEventListener('drop', (e) => {
+                e.preventDefault();
+                slot.classList.remove('hover');
+                if (slot.children.length === 0 && draggedItem) {
+                    placeCard(slot, draggedItem);
+                }
+            });
+
+            // Allow removing from slot back to pool logic? 
+            // Simplified: click slot to return to pool.
+            slot.addEventListener('click', () => {
+                if(slot.children.length > 0) {
+                    const c = slot.children[0];
+                    const originalId = c.dataset.originId;
+                    document.getElementById(originalId).style.visibility = 'visible';
+                    document.getElementById(originalId).style.opacity = '1';
+                    slot.innerHTML = '';
+                    slotState[slot.dataset.index] = null;
+                    checkRealtimeConstraints();
+                }
+            });
+
+            slots.appendChild(slot);
+        });
+
+        document.getElementById('status').textContent = "Assemble ID...";
+        document.getElementById('status').style.color = "#ccc";
+        document.getElementById('modal').classList.remove('hidden');
+    }
+
+    function placeCard(slot, item) {
+        // Hide original in pool visuals (don't remove, just hide)
+        const original = document.getElementById(item.id);
+        original.style.visibility = 'hidden';
+
+        const clone = document.createElement('div');
+        clone.className = 'card';
+        clone.textContent = item.char;
+        clone.style.cursor = 'pointer';
+        clone.dataset.originId = item.id;
+        
+        slot.appendChild(clone);
+        slotState[slot.dataset.index] = item.char;
+        
+        checkRealtimeConstraints();
+    }
+
+    function checkRealtimeConstraints() {
+        const slots = document.querySelectorAll('.slot');
+        let errorFound = false;
+        
+        slots.forEach((s, i) => {
+            s.classList.remove('error');
+            if (i > 0 && slotState[i] && slotState[i-1] && slotState[i] === slotState[i-1]) {
+                s.classList.add('error');
+                slots[i-1].classList.add('error');
+                errorFound = true;
+            }
+        });
+
+        if(errorFound) {
+            document.getElementById('status').textContent = "ERROR: ADJACENT CLONES DETECTED";
+            document.getElementById('status').style.color = "var(--error)";
+        } else {
+            document.getElementById('status').textContent = "Stable...";
+            document.getElementById('status').style.color = "#ccc";
+        }
+    }
+
+    function checkValid() {
+        if (slotState.includes(null)) {
+            document.getElementById('status').textContent = "INCOMPLETE ID";
             return;
         }
 
-        for (let i = 0; i < chars.length; i++) {
-            if (used[i]) continue;
-            
-            // Skip duplicates
-            if (i > 0 && chars[i] === chars[i - 1] && !used[i - 1]) continue;
-            
-            // No adjacent twins
-            if (current.length > 0 && current[current.length - 1] === chars[i]) continue;
+        let valid = true;
+        for(let i=1; i<slotState.length; i++) {
+            if (slotState[i] === slotState[i-1]) valid = false;
+        }
 
-            used[i] = true;
-            await backtrack(chars, used, current + chars[i], [...slots, chars[i]]);
-            used[i] = false;
+        if (valid) {
+            document.getElementById('status').textContent = "ACCESS GRANTED. ID VALID.";
+            document.getElementById('status').style.color = "var(--success)";
+            // Confetti or success effect
+        } else {
+            document.getElementById('status').textContent = "ACCESS DENIED. INVALID STRUCTURE.";
+            document.getElementById('status').style.color = "var(--error)";
         }
     }
 
-    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-    window.onload = updateDisplay;
+    window.onload = initLevel;
 </script>
 </body>
 </html>

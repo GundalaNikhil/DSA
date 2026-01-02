@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTH-005: Curve Sculptor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fef9f3;
+            --surface: #fff;
+            --primary: #7c6a56;
+            --accent: #c8553d;
+            --curve: #588b8b;
+            --point: #f28f3b;
+            --text: #3e3e3e;
+            --muted: #999;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--surface);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        h1 { font-size: 1.4rem; color: var(--accent); }
+        .subtitle { color: var(--muted); font-size: 0.85rem; }
+
+        .btn {
+            background: var(--accent);
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(200,85,61,0.2); }
+        .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+
+        main {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .concept-card {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 15px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        .concept-card h2 { color: var(--accent); font-size: 1rem; margin-bottom: 0.5rem; }
+        .concept-card p { color: var(--muted); line-height: 1.6; }
+
+        .canvas-container {
+            background: var(--surface);
+            border-radius: 15px;
+            padding: 1rem;
+            width: 100%;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+
+        canvas {
+            width: 100%;
+            height: 350px;
+            cursor: pointer;
+            border-radius: 10px;
+        }
+
+        .points-display {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .point-chip {
+            background: var(--point);
+            color: #fff;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+        }
+
+        .result-display {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 15px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border: 2px solid var(--curve);
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .result-display.visible { opacity: 1; }
+        .result-display h3 { color: var(--curve); margin-bottom: 0.5rem; }
+
+        .poly-result {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            color: var(--text);
+            padding: 1rem;
+            background: rgba(88,139,139,0.1);
+            border-radius: 10px;
+        }
+
+        .eval-row {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .eval-input {
+            padding: 10px 15px;
+            border: 2px solid var(--muted);
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            width: 100px;
+            text-align: center;
+        }
+
+        .eval-input:focus { outline: none; border-color: var(--accent); }
+
+        .eval-result {
+            font-family: 'JetBrains Mono';
+            color: var(--curve);
+            font-size: 1.1rem;
+        }
+
+        .controls { display: flex; gap: 1rem; }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(62, 62, 62, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal.hidden { display: none; }
+
+        .dialog {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 500px;
+        }
+
+        .dialog h2 { color: var(--accent); margin-bottom: 1rem; }
+        .dialog p { margin: 0.8rem 0; line-height: 1.7; color: var(--text); }
+        .dialog strong { color: var(--accent); }
+
+        .formula-box {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: 10px;
+            font-family: 'JetBrains Mono';
+            text-align: center;
+            margin: 1rem 0;
+            font-size: 0.85rem;
+            color: var(--primary);
+        }
+
+        .legend {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 0.5rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.85rem;
+            color: var(--muted);
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>🎨 Curve Sculptor</h1>
+        <div class="subtitle">MTH-005: Lagrange Interpolation</div>
+    </div>
+    <button class="btn btn-outline" onclick="showProtocol()">How It Works</button>
+</header>
+
+<main>
+    <div class="concept-card">
+        <h2>Draw Through the Points</h2>
+        <p>Click on the canvas to place points. Lagrange interpolation finds the unique polynomial that passes through ALL of them!</p>
+    </div>
+
+    <div class="canvas-container">
+        <canvas id="canvas"></canvas>
+        <div class="legend">
+            <div class="legend-item"><div class="legend-dot" style="background: var(--point)"></div> Control Points</div>
+            <div class="legend-item"><div class="legend-dot" style="background: var(--curve)"></div> Interpolating Curve</div>
+        </div>
+    </div>
+
+    <div class="points-display" id="pointsDisplay"></div>
+
+    <div class="result-display" id="resultDisplay">
+        <h3>Interpolating Polynomial</h3>
+        <div class="poly-result" id="polyResult"></div>
+        <div class="eval-row">
+            <span>Evaluate at X = </span>
+            <input type="number" class="eval-input" id="evalX" value="0" onchange="evaluateAt()">
+            <span class="eval-result" id="evalResult">P(0) = ?</span>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="interpolate()" id="interpBtn" disabled>Interpolate</button>
+        <button class="btn btn-outline" onclick="clearPoints()">Clear All</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🎨 Curve Sculptor Guide</h2>
+        <p><strong>What is Lagrange Interpolation?</strong></p>
+        <p>Given n points, there's exactly ONE polynomial of degree n-1 that passes through all of them.</p>
+        
+        <p><strong>The Formula:</strong></p>
+        <div class="formula-box">
+            P(X) = Σ yᵢ × Lᵢ(X)<br><br>
+            where Lᵢ(X) = Π(X - xⱼ) / Π(xᵢ - xⱼ) for j ≠ i
+        </div>
+        
+        <p><strong>How to Play:</strong></p>
+        <p>1. Click on canvas to place 2-5 points</p>
+        <p>2. Press "Interpolate" to see the curve</p>
+        <p>3. Try evaluating P(X) at any point!</p>
+        
+        <button class="btn" onclick="hideProtocol()" style="margin-top:1rem; width:100%;">Start Sculpting!</button>
+    </div>
+</div>
+
+<script>
+    let points = [];
+    let poly = null;
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    function showProtocol() { document.getElementById('modal').classList.remove('hidden'); }
+    function hideProtocol() { document.getElementById('modal').classList.add('hidden'); }
+
+    function initCanvas() {
+        canvas.width = canvas.offsetWidth * 2;
+        canvas.height = canvas.offsetHeight * 2;
+        ctx.scale(2, 2);
+        drawCanvas();
+    }
+
+    canvas.addEventListener('click', (e) => {
+        if (points.length >= 5) return;
+        const rect = canvas.getBoundingClientRect();
+        const x = Math.round((e.clientX - rect.left) / rect.width * 10 - 5);
+        const y = Math.round(5 - (e.clientY - rect.top) / rect.height * 10);
+        
+        // Avoid duplicate x values
+        if (points.find(p => p.x === x)) return;
+        
+        points.push({ x, y });
+        poly = null;
+        document.getElementById('resultDisplay').classList.remove('visible');
+        document.getElementById('interpBtn').disabled = points.length < 2;
+        renderPoints();
+        drawCanvas();
+    });
+
+    function renderPoints() {
+        const container = document.getElementById('pointsDisplay');
+        container.innerHTML = '';
+        points.forEach(p => {
+            const chip = document.createElement('div');
+            chip.className = 'point-chip';
+            chip.textContent = `(${p.x}, ${p.y})`;
+            container.appendChild(chip);
+        });
+    }
+
+    function drawCanvas() {
+        const w = canvas.offsetWidth, h = canvas.offsetHeight;
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = '#fef9f3';
+        ctx.fillRect(0, 0, w, h);
+
+        // Grid
+        ctx.strokeStyle = '#eee';
+        ctx.lineWidth = 1;
+        for (let i = 0; i <= 10; i++) {
+            ctx.beginPath();
+            ctx.moveTo(i * w / 10, 0);
+            ctx.lineTo(i * w / 10, h);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(0, i * h / 10);
+            ctx.lineTo(w, i * h / 10);
+            ctx.stroke();
+        }
+
+        // Axes
+        ctx.strokeStyle = '#ccc';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(w / 2, 0);
+        ctx.lineTo(w / 2, h);
+        ctx.moveTo(0, h / 2);
+        ctx.lineTo(w, h / 2);
+        ctx.stroke();
+
+        // Draw interpolating curve if exists
+        if (poly) {
+            ctx.beginPath();
+            ctx.strokeStyle = '#588b8b';
+            ctx.lineWidth = 3;
+            for (let px = 0; px < w; px++) {
+                const x = (px / w) * 10 - 5;
+                const y = evalPoly(x);
+                const py = h / 2 - y * (h / 10);
+                if (px === 0) ctx.moveTo(px, py);
+                else ctx.lineTo(px, py);
+            }
+            ctx.stroke();
+        }
+
+        // Draw points
+        points.forEach(p => {
+            const px = (p.x + 5) * w / 10;
+            const py = h / 2 - p.y * h / 10;
+            
+            ctx.beginPath();
+            ctx.arc(px, py, 10, 0, Math.PI * 2);
+            ctx.fillStyle = '#f28f3b';
+            ctx.fill();
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        });
+    }
+
+    function lagrangeInterpolation() {
+        // Returns coefficients
+        const n = points.length;
+        const coeffs = new Array(n).fill(0);
+
+        for (let i = 0; i < n; i++) {
+            let basis = [1];
+            let denom = 1;
+
+            for (let j = 0; j < n; j++) {
+                if (i === j) continue;
+                // Multiply (x - xj)
+                const newBasis = new Array(basis.length + 1).fill(0);
+                for (let k = 0; k < basis.length; k++) {
+                    newBasis[k + 1] += basis[k];
+                    newBasis[k] -= basis[k] * points[j].x;
+                }
+                basis = newBasis;
+                denom *= (points[i].x - points[j].x);
+            }
+
+            for (let k = 0; k < basis.length; k++) {
+                coeffs[k] = (coeffs[k] || 0) + points[i].y * basis[k] / denom;
+            }
+        }
+
+        return coeffs.map(c => Math.round(c * 100) / 100);
+    }
+
+    function evalPoly(x) {
+        if (!poly) return 0;
+        let result = 0;
+        for (let i = poly.length - 1; i >= 0; i--) {
+            result = result * x + poly[i];
+        }
+        return result;
+    }
+
+    function formatPoly(coeffs) {
+        const terms = [];
+        for (let i = coeffs.length - 1; i >= 0; i--) {
+            const c = coeffs[i];
+            if (Math.abs(c) < 0.01) continue;
+            
+            let term = '';
+            const absC = Math.abs(c);
+            const sign = c < 0 ? '−' : (terms.length ? '+' : '');
+            
+            if (i === 0) {
+                term = sign + ' ' + absC;
+            } else if (i === 1) {
+                term = sign + ' ' + (absC === 1 ? '' : absC) + 'x';
+            } else {
+                term = sign + ' ' + (absC === 1 ? '' : absC) + 'x' + i.toString().split('').map(d => '⁰¹²³⁴⁵⁶⁷⁸⁹'[d]).join('');
+            }
+            terms.push(term);
+        }
+        return terms.join(' ').trim() || '0';
+    }
+
+    function interpolate() {
+        if (points.length < 2) return;
+        poly = lagrangeInterpolation();
+        document.getElementById('polyResult').textContent = formatPoly(poly);
+        document.getElementById('resultDisplay').classList.add('visible');
+        evaluateAt();
+        drawCanvas();
+    }
+
+    function evaluateAt() {
+        const x = parseFloat(document.getElementById('evalX').value) || 0;
+        const y = Math.round(evalPoly(x) * 100) / 100;
+        document.getElementById('evalResult').textContent = `P(${x}) = ${y}`;
+    }
+
+    function clearPoints() {
+        points = [];
+        poly = null;
+        document.getElementById('pointsDisplay').innerHTML = '';
+        document.getElementById('resultDisplay').classList.remove('visible');
+        document.getElementById('interpBtn').disabled = true;
+        drawCanvas();
+    }
+
+    window.onload = initCanvas;
+    window.onresize = initCanvas;
+</script>
+</body>
+</html>

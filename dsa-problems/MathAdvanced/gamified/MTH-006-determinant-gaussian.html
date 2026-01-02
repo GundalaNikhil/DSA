@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTH-006: Matrix Collapse</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1c1c1e;
+            --surface: #2c2c2e;
+            --primary: #bf5af2;
+            --accent: #5e5ce6;
+            --success: #30d158;
+            --text: #fff;
+            --muted: #8e8e93;
+            --cell: #3a3a3c;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--surface);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 { font-size: 1.3rem; color: var(--primary); }
+        .subtitle { color: var(--muted); font-size: 0.85rem; }
+
+        .btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn:hover { opacity: 0.9; }
+        .btn-ghost { background: transparent; border: 2px solid var(--primary); }
+
+        main {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .info-panel {
+            background: var(--surface);
+            padding: 1.2rem;
+            border-radius: 12px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .info-panel p { color: var(--muted); line-height: 1.6; }
+        .info-panel strong { color: var(--primary); }
+
+        .matrix-container {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .matrix-grid {
+            display: grid;
+            gap: 6px;
+        }
+
+        .cell {
+            width: 55px;
+            height: 55px;
+            background: var(--cell);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .cell.diagonal { 
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            font-weight: 600;
+        }
+
+        .cell.zero {
+            color: var(--muted);
+        }
+
+        .cell.eliminating {
+            background: #ff375f;
+            animation: pulse 0.5s;
+        }
+
+        .cell.pivot {
+            background: var(--success);
+            color: #000;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .swap-indicator {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+
+        .swap-indicator span { color: var(--primary); font-weight: 600; }
+
+        .result-panel {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 15px;
+            width: 100%;
+            text-align: center;
+            border: 2px solid var(--success);
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.4s;
+        }
+
+        .result-panel.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .result-panel h3 { color: var(--success); margin-bottom: 1rem; }
+
+        .det-formula {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            font-family: 'Fira Code';
+            font-size: 1.1rem;
+        }
+
+        .det-part {
+            padding: 8px 12px;
+            background: var(--cell);
+            border-radius: 8px;
+        }
+
+        .det-result {
+            padding: 8px 16px;
+            background: var(--success);
+            color: #000;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .controls { display: flex; gap: 1rem; }
+
+        .step-info {
+            color: var(--muted);
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(28,28,30,0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal.hidden { display: none; }
+
+        .dialog {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 500px;
+        }
+
+        .dialog h2 { color: var(--primary); margin-bottom: 1rem; }
+        .dialog p { margin: 0.8rem 0; line-height: 1.7; color: var(--muted); }
+        .dialog strong { color: var(--text); }
+
+        .formula-box {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: 10px;
+            font-family: 'Fira Code';
+            text-align: center;
+            margin: 1rem 0;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>📊 Matrix Collapse</h1>
+        <div class="subtitle">MTH-006: Determinant via Gaussian Elimination</div>
+    </div>
+    <button class="btn btn-ghost" onclick="showProtocol()">Protocol</button>
+</header>
+
+<main>
+    <div class="info-panel">
+        <p>Watch the matrix <strong>collapse</strong> to upper triangular form.<br>
+        The determinant = product of diagonal × (-1)^swaps</p>
+    </div>
+
+    <div class="matrix-container">
+        <div class="matrix-grid" id="matrixGrid" style="grid-template-columns: repeat(3, 1fr);"></div>
+        <div class="swap-indicator" id="swapInfo">Row swaps: <span id="swapCount">0</span></div>
+    </div>
+
+    <div class="step-info" id="stepInfo">Click "Start Elimination" to begin</div>
+
+    <div class="result-panel" id="resultPanel">
+        <h3>Determinant Calculated</h3>
+        <div class="det-formula" id="detFormula"></div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" id="elimBtn" onclick="startElimination()">Start Elimination</button>
+        <button class="btn btn-ghost" onclick="newMatrix()">New Matrix</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>📊 Matrix Collapse Guide</h2>
+        <p><strong>What is a Determinant?</strong></p>
+        <p>A single number that tells if a matrix is invertible (det ≠ 0) and by how much it scales area/volume.</p>
+        
+        <p><strong>Gaussian Elimination Method:</strong></p>
+        <p>1. Reduce matrix to upper triangular (zeros below diagonal)</p>
+        <p>2. Multiply diagonal elements</p>
+        <p>3. Adjust sign based on row swaps</p>
+
+        <div class="formula-box">
+            det(A) = (-1)^swaps × a₁₁ × a₂₂ × ... × aₙₙ
+        </div>
+        
+        <p><strong>Time Complexity:</strong> O(n³) — much better than expansion by minors!</p>
+        
+        <button class="btn" onclick="hideProtocol()" style="margin-top:1rem; width:100%;">Start Collapsing!</button>
+    </div>
+</div>
+
+<script>
+    let matrix = [];
+    let n = 3;
+    let swaps = 0;
+    let isRunning = false;
+
+    function showProtocol() { document.getElementById('modal').classList.remove('hidden'); }
+    function hideProtocol() { document.getElementById('modal').classList.add('hidden'); }
+
+    function newMatrix() {
+        n = 3;
+        swaps = 0;
+        matrix = [];
+        
+        // Generate a matrix with nice integer determinant
+        for (let i = 0; i < n; i++) {
+            matrix[i] = [];
+            for (let j = 0; j < n; j++) {
+                matrix[i][j] = Math.floor(Math.random() * 9) - 4; // -4 to 4
+            }
+        }
+        // Ensure non-zero first element
+        if (matrix[0][0] === 0) matrix[0][0] = 1;
+
+        document.getElementById('swapCount').textContent = '0';
+        document.getElementById('resultPanel').classList.remove('visible');
+        document.getElementById('stepInfo').textContent = 'Click "Start Elimination" to begin';
+        document.getElementById('elimBtn').disabled = false;
+        renderMatrix();
+    }
+
+    function renderMatrix() {
+        const grid = document.getElementById('matrixGrid');
+        grid.innerHTML = '';
+        grid.style.gridTemplateColumns = `repeat(${n}, 1fr)`;
+        
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n; j++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.id = `cell-${i}-${j}`;
+                
+                const val = Math.round(matrix[i][j] * 100) / 100;
+                cell.textContent = val;
+                
+                if (i === j) cell.classList.add('diagonal');
+                if (Math.abs(val) < 0.01) cell.classList.add('zero');
+                
+                grid.appendChild(cell);
+            }
+        }
+    }
+
+    async function startElimination() {
+        if (isRunning) return;
+        isRunning = true;
+        document.getElementById('elimBtn').disabled = true;
+        swaps = 0;
+
+        // Gaussian elimination
+        for (let col = 0; col < n - 1; col++) {
+            // Find pivot
+            let pivotRow = col;
+            for (let row = col + 1; row < n; row++) {
+                if (Math.abs(matrix[row][col]) > Math.abs(matrix[pivotRow][col])) {
+                    pivotRow = row;
+                }
+            }
+
+            // Swap if needed
+            if (pivotRow !== col) {
+                swaps++;
+                document.getElementById('swapCount').textContent = swaps;
+                document.getElementById('stepInfo').textContent = `Swapping row ${col + 1} ↔ row ${pivotRow + 1}`;
+                
+                // Highlight rows
+                for (let j = 0; j < n; j++) {
+                    document.getElementById(`cell-${col}-${j}`).classList.add('pivot');
+                    document.getElementById(`cell-${pivotRow}-${j}`).classList.add('pivot');
+                }
+                await sleep(400);
+                
+                [matrix[col], matrix[pivotRow]] = [matrix[pivotRow], matrix[col]];
+                renderMatrix();
+                await sleep(300);
+            }
+
+            // Eliminate below
+            for (let row = col + 1; row < n; row++) {
+                if (Math.abs(matrix[col][col]) < 0.0001) continue;
+                
+                const factor = matrix[row][col] / matrix[col][col];
+                
+                document.getElementById('stepInfo').textContent = `Eliminating row ${row + 1}, col ${col + 1}`;
+                document.getElementById(`cell-${row}-${col}`).classList.add('eliminating');
+                await sleep(300);
+                
+                for (let k = col; k < n; k++) {
+                    matrix[row][k] -= factor * matrix[col][k];
+                }
+                renderMatrix();
+                await sleep(300);
+            }
+        }
+
+        // Calculate determinant
+        let det = (swaps % 2 === 0) ? 1 : -1;
+        const diags = [];
+        for (let i = 0; i < n; i++) {
+            det *= matrix[i][i];
+            diags.push(Math.round(matrix[i][i] * 100) / 100);
+        }
+        det = Math.round(det);
+
+        document.getElementById('stepInfo').textContent = 'Matrix is now upper triangular!';
+
+        // Show result
+        const formula = document.getElementById('detFormula');
+        formula.innerHTML = '';
+        
+        const sign = document.createElement('div');
+        sign.className = 'det-part';
+        sign.textContent = swaps % 2 === 0 ? '+1' : '−1';
+        formula.appendChild(sign);
+        
+        diags.forEach(d => {
+            const times = document.createElement('span');
+            times.textContent = ' × ';
+            times.style.color = 'var(--muted)';
+            formula.appendChild(times);
+            
+            const part = document.createElement('div');
+            part.className = 'det-part';
+            part.textContent = d;
+            formula.appendChild(part);
+        });
+
+        const equals = document.createElement('span');
+        equals.textContent = ' = ';
+        equals.style.color = 'var(--muted)';
+        formula.appendChild(equals);
+
+        const result = document.createElement('div');
+        result.className = 'det-result';
+        result.textContent = det;
+        formula.appendChild(result);
+
+        document.getElementById('resultPanel').classList.add('visible');
+        isRunning = false;
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    window.onload = newMatrix;
+</script>
+</body>
+</html>

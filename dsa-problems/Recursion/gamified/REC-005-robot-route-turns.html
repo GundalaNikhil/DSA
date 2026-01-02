@@ -3,423 +3,335 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REC-005: Laser Maze</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;900&family=Rajdhani:wght@500&display=swap" rel="stylesheet">
+    <title>REC-005: Laser Director</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #050510;
-            --grid-bg: #1a1a2e;
-            --wall: #16213e;
-            --laser: #f72585; 
-            --laser-glow: #7209b7;
-            --mirror: #4cc9f0;
-            --text: #e2e2e2;
+            --bg: #000;
+            --grid: #111;
+            --cell-border: #222;
+            --laser: #f0f;
+            --mirror: #0ff;
+            --text: #fff;
         }
 
         body {
             background: var(--bg);
             color: var(--text);
-            font-family: 'Rajdhani', sans-serif;
+            font-family: 'Orbitron', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            overflow: hidden;
-        }
-
-        /* Scanline effect */
-        body::before {
-            content: " ";
-            display: block;
-            position: absolute;
-            top: 0; left: 0; bottom: 0; right: 0;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            background-size: 100% 2px, 3px 100%;
-            z-index: 10;
-            pointer-events: none;
-        }
-
-        header {
-            margin-top: 2rem;
-            text-align: center;
-            z-index: 2;
+            user-select: none;
         }
 
         h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 900;
-            font-size: 3rem;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            color: #fff;
-            text-shadow: 0 0 10px var(--mirror), 0 0 20px var(--mirror);
-            margin: 0;
-        }
-
-        .subtitle {
             color: var(--laser);
-            font-family: 'Orbitron';
-            letter-spacing: 2px;
-            margin-top: 5px;
-            font-size: 0.9rem;
+            text-shadow: 0 0 10px var(--laser);
+            margin-top: 1rem;
+            letter-spacing: 3px;
         }
 
-        .interface {
+        .game-board {
             display: flex;
             gap: 2rem;
             margin-top: 2rem;
             align-items: flex-start;
-            z-index: 2;
         }
 
-        .stats-panel {
-            background: rgba(22, 33, 62, 0.8);
-            border: 1px solid var(--mirror);
-            padding: 1.5rem;
-            border-radius: 0;
-            width: 200px;
-            clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
-        }
-
-        .stat-row {
-            margin-bottom: 1rem;
-        }
-        .stat-label { color: #888; font-size: 0.9rem; text-transform: uppercase; }
-        .stat-value { font-size: 1.8rem; font-family: 'Orbitron'; color: var(--mirror); }
-        .stat-value.danger { color: var(--laser); text-shadow: 0 0 10px var(--laser); }
-
-        .game-area {
+        .grid-container {
             position: relative;
+            background: var(--grid);
             padding: 10px;
-            background: var(--grid-bg);
             border: 2px solid #333;
-            box-shadow: 0 0 30px rgba(76, 201, 240, 0.1);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
         }
 
         .grid {
             display: grid;
-            grid-template-columns: repeat(6, 60px);
+            grid-template-columns: repeat(5, 60px);
+            grid-template-rows: repeat(5, 60px);
             gap: 2px;
         }
 
         .cell {
             width: 60px;
             height: 60px;
-            background: #0f0f1a;
-            border: 1px solid #222;
+            background: #0a0a0a;
+            border: 1px solid var(--cell-border);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             position: relative;
+            font-size: 2rem;
+            color: var(--mirror);
         }
 
-        .cell:hover { background: #1a1a2e; }
-        
-        /* Obstacle Block */
-        .cell.block {
-            background: 
-                repeating-linear-gradient(
-                    45deg,
-                    #111,
-                    #111 5px,
-                    #222 5px,
-                    #222 10px
-                );
-            border: 1px solid #444;
-            box-shadow: inset 0 0 10px #000;
-        }
+        .cell:hover { background: #151515; }
 
-        /* Start/End */
-        .cell.start { box-shadow: inset 0 0 20px var(--laser); }
-        .cell.start::after { content: 'S'; font-family: 'Orbitron'; color: var(--laser); font-weight: bold; }
-        
-        .cell.end { box-shadow: inset 0 0 20px var(--mirror); }
-        .cell.end::after { content: 'E'; font-family: 'Orbitron'; color: var(--mirror); font-weight: bold; }
+        .cell.start { box-shadow: inset 0 0 15px var(--laser); }
+        .cell.end { box-shadow: inset 0 0 15px #0f0; }
 
-        /* Laser Beam Visualization */
-        .beam-segment {
+        .cell.mirror-1::after { content: '/'; }
+        .cell.mirror-2::after { content: '\\'; }
+        .cell.block { background: #333; cursor: default; }
+        .cell.block::after { content: ''; }
+
+        .beam {
             position: absolute;
             background: var(--laser);
-            box-shadow: 0 0 15px var(--laser), 0 0 30px var(--laser);
-            z-index: 5;
-            transform-origin: center;
+            box-shadow: 0 0 10px var(--laser);
+            pointer-events: none;
+            z-index: 10;
             opacity: 0.8;
-            border-radius: 2px;
-        }
-        /* Vertical Beam */
-        .beam-v { width: 4px; height: 62px; top: -1px; left: 28px; }
-        /* Horizontal Beam */
-        .beam-h { height: 4px; width: 62px; top: 28px; left: -1px; }
-
-        .photon {
-            width: 10px; height: 10px;
-            background: #fff;
-            border-radius: 50%;
-            position: absolute;
-            z-index: 6;
-            box-shadow: 0 0 10px #fff, 0 0 20px var(--laser);
-            transition: all 0.2s linear;
+            transform-origin: 0 50%;
         }
 
         .controls {
-            margin-top: 1rem;
+            width: 200px;
+            background: #111;
+            padding: 20px;
+            border: 1px solid #333;
             display: flex;
-            gap: 1rem;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .btn {
             background: transparent;
             color: var(--mirror);
-            border: 2px solid var(--mirror);
-            padding: 10px 30px;
-            font-family: 'Orbitron';
-            font-size: 1rem;
-            letter-spacing: 2px;
+            border: 1px solid var(--mirror);
+            padding: 10px;
+            font-family: inherit;
             cursor: pointer;
-            transition: 0.3s;
             text-transform: uppercase;
+            font-weight: bold;
+            transition: all 0.2s;
         }
-        .btn:hover { background: var(--mirror); color: #000; box-shadow: 0 0 20px var(--mirror); }
-        .btn.run { border-color: var(--laser); color: var(--laser); }
-        .btn.run:hover { background: var(--laser); color: #fff; box-shadow: 0 0 20px var(--laser); }
-
-        #console {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            font-family: monospace;
-            color: #555;
-            font-size: 0.8rem;
-            z-index: 2;
-        }
+        .btn:hover { background: var(--mirror); color: #000; box-shadow: 0 0 15px var(--mirror); }
+        .btn.fire { border-color: var(--laser); color: var(--laser); }
+        .btn.fire:hover { background: var(--laser); color: #fff; box-shadow: 0 0 15px var(--laser); }
 
     </style>
 </head>
 <body>
 
-<header>
-    <h1>LASER MAZE</h1>
-    <div class="subtitle">REC-005: OPTICAL ROUTING PROTOCOL</div>
-</header>
+<h1>LASER DIRECTOR</h1>
 
-<div class="interface">
-    <div class="stats-panel">
-        <div class="stat-row">
-            <div class="stat-label">Max Refractions</div>
-            <div class="stat-value">2</div>
-        </div>
-        <div class="stat-row">
-            <div class="stat-label">Current Turns</div>
-            <div class="stat-value" id="currentTurns">0</div>
-        </div>
-        <div class="stat-row">
-            <div class="stat-label">System Status</div>
-            <div class="stat-value" style="font-size:1rem" id="status">STANDBY</div>
-        </div>
-    </div>
-
-    <div class="game-area">
+<div class="game-board">
+    <div class="grid-container">
         <div class="grid" id="grid"></div>
-        <!-- Photon head for animation -->
-        <div id="photon" class="photon" style="display:none"></div>
+        <div id="beamLayer"></div>
+    </div>
+
+    <div class="controls">
+        <div class="status-row">
+            <span>Mirrors:</span>
+            <span id="mirrorCount" style="color:var(--mirror)">0</span>
+        </div>
+        <div class="status-row">
+            <span>Turns:</span>
+            <span id="turnCount">0</span> / 3
+        </div>
+        <hr style="border-color:#333; width:100%">
+        <div id="msg" style="min-height:3em; font-size:0.8rem; color:#888">Click empty cells to place mirrors based on slash direction.</div>
+        <button class="btn fire" onclick="fireLaser()">FIRE LASER</button>
+        <button class="btn" onclick="clearMirrors()">CLEAR</button>
     </div>
 </div>
-
-<div class="controls">
-    <button class="btn run" onclick="startSimulation()">INITIATE BEAM</button>
-    <button class="btn" onclick="resetGrid()">RESET GRID</button>
-</div>
-
-<div id="console">System Ready...</div>
 
 <script>
-    const ROWS = 6;
-    const COLS = 6;
-    let gridData = [];
-    const maxTurns = 2; // Problem constraint T
-    
-    function resetGrid() {
-        gridData = Array(ROWS).fill().map(() => Array(COLS).fill(0));
-        // Default blocks
-        gridData[1][1] = 1;
-        gridData[2][3] = 1;
-        gridData[3][1] = 1;
-        gridData[4][4] = 1;
+    const N = 5;
+    let gridData = []; // 0=empty, 1=/, 2=\, 9=block
+    let startParams = {r:0, c:0, dir:0}; // 0:R, 1:D, 2:L, 3:U
+    const END = {r:4, c:4};
+
+    function init() {
+        gridData = Array(N).fill().map(() => Array(N).fill(0));
+        // Add some blocks
+        gridData[1][1] = 9;
+        gridData[2][3] = 9;
+        gridData[3][0] = 9;
 
         renderGrid();
-        document.getElementById('currentTurns').textContent = '0';
-        document.getElementById('status').textContent = 'STANDBY';
-        document.getElementById('photon').style.display = 'none';
-        
-        // Clear beams
-        document.querySelectorAll('.beam-segment').forEach(e => e.remove());
     }
 
     function renderGrid() {
-        const container = document.getElementById('grid');
-        container.innerHTML = '';
-        container.style.gridTemplateColumns = `repeat(${COLS}, 60px)`;
+        const grid = document.getElementById('grid');
+        grid.innerHTML = '';
+        
+        let mirrors = 0;
 
-        for(let r=0; r<ROWS; r++) {
-            for(let c=0; c<COLS; c++) {
+        for(let r=0; r<N; r++) {
+            for(let c=0; c<N; c++) {
                 const cell = document.createElement('div');
                 cell.className = 'cell';
-                cell.id = `c-${r}-${c}`;
                 
                 if (r===0 && c===0) cell.classList.add('start');
-                else if (r===ROWS-1 && c===COLS-1) cell.classList.add('end');
-                else if (gridData[r][c] === 1) cell.classList.add('block');
-                
-                // Clicking toggles blocks
-                cell.onclick = () => {
-                    if ((r===0 && c===0) || (r===ROWS-1 && c===COLS-1)) return;
-                    gridData[r][c] = 1 - gridData[r][c];
-                    renderGrid();
+                else if (r===END.r && c===END.c) cell.classList.add('end');
+                else if (gridData[r][c] === 9) cell.classList.add('block');
+                else if (gridData[r][c] === 1) { cell.classList.add('mirror-1'); mirrors++; }
+                else if (gridData[r][c] === 2) { cell.classList.add('mirror-2'); mirrors++; }
+
+                if (gridData[r][c] !== 9 && !(r===0 && c===0) && !(r===END.r && c===END.c)) {
+                    cell.onclick = () => toggleCell(r, c);
                 }
                 
-                container.appendChild(cell);
+                grid.appendChild(cell);
             }
         }
+        document.getElementById('mirrorCount').textContent = mirrors;
     }
 
-    async function startSimulation() {
-        document.getElementById('status').textContent = 'CALCULATING...';
-        // Remove old beams
-        document.querySelectorAll('.beam-segment').forEach(e => e.remove());
-
-        const visited = new Set();
-        const path = await dfs(0, 0, -1, 0, visited, []); // r, c, lastDir (0=R,1=D,2=L,3=U), turns
-        
-        if (path) {
-            document.getElementById('status').textContent = 'TARGET ACQUIRED';
-            document.getElementById('status').style.color = '#4cc9f0';
-            animatePath(path);
-        } else {
-            document.getElementById('status').textContent = 'PATH FAILURE';
-            document.getElementById('status').style.color = '#f72585';
-        }
+    function toggleCell(r, c) {
+        // Cycle: 0 -> 1 (/) -> 2 (\) -> 0
+        gridData[r][c] = (gridData[r][c] + 1) % 3;
+        renderGrid();
+        clearBeams();
     }
 
-    // Directions: 0:Right, 1:Down, 2:Left, 3:Up
-    const dr = [0, 1, 0, -1];
-    const dc = [1, 0, -1, 0];
+    function clearBeams() {
+        document.getElementById('beamLayer').innerHTML = '';
+        document.getElementById('msg').textContent = "Ready to fire.";
+        document.getElementById('msg').style.color = "#888";
+    }
 
-    async function dfs(r, c, lastDir, turns, visited, path) {
-        // Deep copy not strictly needed if we backtrack correctly, but safer for simple logic
-        // We need to find ONE valid path for visualization
-        
-        if (r === ROWS-1 && c === COLS-1) {
-            return [...path, {r,c}];
-        }
-
-        // Try 4 directions
-        // Prioritize moving towards target (Down/Right)
-        const order = [0, 1, 2, 3]; 
-        
-        for (let d of order) {
-            const nr = r + dr[d];
-            const nc = c + dc[d];
-            
-            if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && gridData[nr][nc] === 0) {
-                const key = `${nr},${nc}`;
-                if (visited.has(key)) continue;
-
-                const newTurns = (lastDir !== -1 && lastDir !== d) ? turns + 1 : turns;
-                if (newTurns > maxTurns) continue;
-
-                visited.add(key);
-                const result = await dfs(nr, nc, d, newTurns, visited, [...path, {r,c}]);
-                if (result) return result;
-                visited.delete(key);
+    function clearMirrors() {
+        for(let r=0; r<N; r++) {
+            for(let c=0; c<N; c++) {
+                if(gridData[r][c] !== 9) gridData[r][c] = 0;
             }
         }
-        return null;
+        renderGrid();
+        clearBeams();
     }
 
-    async function animatePath(path) {
-        const photon = document.getElementById('photon');
-        photon.style.display = 'block';
+    async function fireLaser() {
+        clearBeams();
+        let r = 0, c = 0;
+        let d = 0; // Start heading Right
+        let beamPath = [{r, c}];
+        let turns = 0;
+        let lastDir = 0;
         
-        let prev = path[0];
-        let currentTurns = 0;
-        let lastDir = -1;
-
-        // Place photon at start
-        movePhoton(photon, prev.r, prev.c);
-        await sleep(300);
-
-        for (let i = 1; i < path.length; i++) {
-            const curr = path[i];
+        // Safety Break
+        let steps = 0;
+        
+        while (steps < 100) {
+            steps++;
             
-            // Draw beam segment
-            drawBeam(prev, curr);
-            
-            // Move photon
-            movePhoton(photon, curr.r, curr.c);
-            
-            // Calculate turns
-            let dir = -1;
-            if (curr.r > prev.r) dir = 1; // Down
-            else if (curr.r < prev.r) dir = 3; // Up
-            else if (curr.c > prev.c) dir = 0; // Right
-            else if (curr.c < prev.c) dir = 2; // Left
+            // Move
+            let dr = 0, dc = 0;
+            if (d===0) dc=1;
+            else if (d===1) dr=1;
+            else if (d===2) dc=-1;
+            else if (d===3) dr=-1;
 
-            if (lastDir !== -1 && lastDir !== dir) {
-                currentTurns++;
-                document.getElementById('currentTurns').textContent = currentTurns;
-                playTurnEffect(prev.r, prev.c);
-                await sleep(400); // Pause on turn
+            let nr = r + dr;
+            let nc = c + dc;
+
+            // Check bounds
+            if (nr<0 || nr>=N || nc<0 || nc>=N) {
+                // Hit wall - stop visualize
+                drawLine(r, c, nr, nc, true); // Partial draw?
+                fail("Hit Wall!");
+                return;
             }
 
-            lastDir = dir;
-            prev = curr;
-            await sleep(100);
+            // Check content
+            const type = gridData[nr][nc];
+            
+            // Draw segment
+            await drawLine(r, c, nr, nc);
+            r = nr; c = nc;
+
+            if (r === END.r && c === END.c) {
+                success();
+                return;
+            }
+
+            if (type === 9) {
+                fail("Hit Obstacle!");
+                return;
+            } else if (type === 1) { // Mirror /
+                // reflect
+                // d: 0(R) -> / -> 3(U)
+                // d: 1(D) -> / -> 2(L)
+                // d: 2(L) -> / -> 1(D)
+                // d: 3(U) -> / -> 0(R)
+                // Rule: sum is 3? 0+3=3, 1+2=3. YES.
+                const newD = 3 - d;
+                if (newD !== d) turns++;
+                d = newD;
+            } else if (type === 2) { // Mirror \
+                // d: 0(R) -> \ -> 1(D)
+                // d: 1(D) -> \ -> 0(R)
+                // d: 2(L) -> \ -> 3(U)
+                // d: 3(U) -> \ -> 2(L)
+                // Rule: XOR 1? 0^1=1, 1^1=0, 2^1=3, 3^1=2.
+                const newD = d ^ 1;
+                if (newD !== d) turns++;
+                d = newD;
+            }
+
+            document.getElementById('turnCount').textContent = turns;
         }
+        fail("Laser dissipated.");
     }
 
-    function movePhoton(el, r, c) {
-        // Grid is 60px + 2px gap relative
-        // offset: 10px padding + r*(62) + 30 (center)
-        const top = 10 + r * 62 + 30 - 5; 
-        const left = 10 + c * 62 + 30 - 5;
-        el.style.top = top + 'px';
-        el.style.left = left + 'px';
+    function drawLine(r1, c1, r2, c2) {
+        return new Promise(resolve => {
+            const layer = document.getElementById('beamLayer');
+            const beam = document.createElement('div');
+            beam.className = 'beam';
+            
+            // Coords: padding 10 + r*62 + 30
+            const x1 = 10 + c1*62 + 30;
+            const y1 = 10 + r1*62 + 30;
+            const x2 = 10 + c2*62 + 30;
+            const y2 = 10 + r2*62 + 30;
+            
+            const len = Math.sqrt((x2-x1)**2 + (y2-y1)**2);
+            const angle = Math.atan2(y2-y1, x2-x1);
+
+            beam.style.width = '0px';
+            beam.style.height = '4px';
+            beam.style.left = x1 + 'px';
+            beam.style.top = y1 + 'px';
+            beam.style.transform = `rotate(${angle}rad)`;
+            
+            layer.appendChild(beam);
+
+            // Animate grow
+            setTimeout(() => {
+                beam.style.transition = 'width 0.1s linear';
+                beam.style.width = len + 'px';
+            }, 10);
+
+            setTimeout(resolve, 100);
+        });
     }
 
-    function drawBeam(from, to) {
-        // Create div
-        const beam = document.createElement('div');
-        beam.className = 'beam-segment';
-        
-        const cellFrom = document.getElementById(`c-${from.r}-${from.c}`);
-        
-        if (from.r === to.r) {
-            // Horizontal
-            beam.classList.add('beam-h');
-            beam.style.left = Math.min(from.c, to.c) === from.c ? '30px' : '-32px'; 
-            // Relative to cell center? No, append to cell and use absolute positioning
-        } else {
-            // Vertical
-            beam.classList.add('beam-v');
-            beam.style.top = Math.min(from.r, to.r) === from.r ? '30px' : '-32px';
-        }
-        
-        // Append to the FROM cell
-        cellFrom.appendChild(beam);
+    function fail(msg) {
+        document.getElementById('msg').textContent = "FAILURE: " + msg;
+        document.getElementById('msg').style.color = "#f0f";
     }
 
-    function playTurnEffect(r, c) {
-        const cell = document.getElementById(`c-${r}-${c}`);
-        cell.style.boxShadow = 'inset 0 0 30px #fff';
-        setTimeout(() => cell.style.boxShadow = '', 200);
+    function success() {
+        document.getElementById('msg').textContent = "TARGET DESTROYED. SUCCESS.";
+        document.getElementById('msg').style.color = "#0f0";
     }
 
-    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-    window.onload = resetGrid;
-
+    window.onload = init;
 </script>
 </body>
 </html>

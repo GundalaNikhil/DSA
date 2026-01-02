@@ -3,366 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REC-012: Void Walker</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <title>REC-012: Void Hopper</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #090a0f;
-            --tile: rgba(255, 255, 255, 0.05);
-            --tile-hover: rgba(255, 255, 255, 0.1);
-            --void: #000;
-            --star: #fff;
-            --path: #a29bfe;
-            --walker: #6c5ce7;
+            --bg: #000;
+            --tile: #222;
+            --visited: #6c5ce7;
+            --current: #fff;
+            --void: rgba(0,0,0,0);
         }
 
         body {
-            background-color: var(--bg);
-            background-image: 
-                radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
-                radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
-                radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
-            background-size: 550px 550px, 350px 350px, 250px 250px;
-            background-position: 0 0, 40px 60px, 130px 270px;
+            background: var(--bg);
             color: #fff;
-            font-family: 'Quicksand', sans-serif;
+            font-family: 'Orbitron', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            overflow: hidden;
-            animation: bgScroll 100s linear infinite;
+            user-select: none;
         }
 
-        @keyframes bgScroll {
-            from { background-position: 0 0, 40px 60px, 130px 270px; }
-            to { background-position: 550px 550px, 390px 410px, 680px 820px; }
-        }
-
-        h1 {
-            font-family: 'Cinzel Decorative', cursive;
-            font-size: 3rem;
-            margin-top: 2rem;
-            text-shadow: 0 0 10px var(--walker), 0 0 20px var(--walker);
-            text-align: center;
-            letter-spacing: 5px;
-        }
-
-        .subtitle {
-            font-size: 1rem;
-            color: #ccc;
-            margin-bottom: 2rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .universe {
-            position: relative;
-            padding: 40px;
-            background: rgba(0,0,0,0.5);
-            border-radius: 50%;
-            box-shadow: 0 0 50px rgba(108, 92, 231, 0.2);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-
-        .grid {
+        .board {
             display: grid;
             grid-template-columns: repeat(5, 70px);
-            gap: 15px;
-            transform: rotateX(20deg); /* 3D effect */
-            transform-style: preserve-3d;
-            perspective: 800px;
+            gap: 10px;
+            margin-top: 3rem;
         }
 
-        .platform {
+        .tile {
             width: 70px;
             height: 70px;
             background: var(--tile);
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.2);
-            position: relative;
-            transition: all 0.3s;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-        }
-
-        .platform:hover {
-            transform: translateY(-5px);
-            background: var(--tile-hover);
-            box-shadow: 0 0 15px var(--walker);
-        }
-
-        .platform.void {
-            background: transparent;
-            border: 2px dashed #333;
-            box-shadow: none;
-            opacity: 0.5;
-            animation: pulseVoid 2s infinite;
+            border: 2px solid #444;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: default;
+            transition: all 0.2s;
         }
         
-        .platform.void::after {
-            content: 'VOID';
-            font-size: 0.6rem;
-            color: #555;
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
-        @keyframes pulseVoid {
-            0%, 100% { border-color: #333; }
-            50% { border-color: #555; }
-        }
-
-        .platform.visited {
-            background: rgba(108, 92, 231, 0.3);
-            border-color: var(--walker);
-        }
-
-        .walker {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            background: var(--walker);
-            border-radius: 50%;
-            top: 15px; left: 15px;
-            box-shadow: 0 0 20px var(--walker), 0 0 40px var(--walker);
+        .tile.void {
+            opacity: 0;
             pointer-events: none;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .tile.visited {
+            background: var(--visited);
+            box-shadow: 0 0 15px var(--visited);
+            border-color: #a29bfe;
+        }
+
+        .tile.current {
+            background: var(--current);
+            box-shadow: 0 0 25px #fff;
+            color: #000;
             z-index: 10;
+            transform: scale(1.1);
         }
 
-        .walker::after {
-            content: '';
-            position: absolute;
-            inset: -5px;
-            border: 2px solid #fff;
-            border-radius: 50%;
-            animation: ringSpin 2s linear infinite;
+        .tile.valid-move {
+            border-color: #0f0;
+            cursor: pointer;
+            background: #111;
+        }
+        .tile.valid-move:hover {
+            background: #222;
+            box-shadow: inset 0 0 10px #0f0;
         }
 
-        @keyframes ringSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        h1 { margin-top: 2rem; text-transform: uppercase; letter-spacing: 5px; text-shadow: 0 0 10px #6c5ce7; }
 
-        .controls {
-            margin-top: 3rem;
-            display: flex;
-            gap: 20px;
-        }
+        .status { margin-top: 1rem; color: #aaa; min-height: 1.5em; }
 
         .btn {
+            margin-top: 2rem;
+            padding: 10px 30px;
             background: transparent;
-            color: #fff;
-            border: 1px solid var(--walker);
-            padding: 12px 30px;
-            border-radius: 30px;
-            font-family: 'Cinzel Decorative';
-            font-size: 1.1rem;
+            border: 2px solid #6c5ce7;
+            color: #6c5ce7;
+            font-family: inherit;
+            font-size: 1.2rem;
             cursor: pointer;
-            transition: all 0.3s;
             text-transform: uppercase;
         }
+        .btn:hover { background: #6c5ce7; color: #fff; }
 
-        .btn:hover {
-            background: var(--walker);
-            box-shadow: 0 0 30px var(--walker);
+        /* Stars BG */
+        body::before {
+            content: '';
+            position: fixed; inset: 0; z-index: -1;
+            background-image: radial-gradient(white 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.2;
         }
 
-        /* SVG Lines overlay for path */
-        #connections {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 5;
-        }
-        
-        line {
-            stroke: var(--path);
-            stroke-width: 2;
-            stroke-dasharray: 10;
-            animation: dash 1s linear infinite;
-            opacity: 0.6;
-        }
-
-        @keyframes dash { to { stroke-dashoffset: -20; } }
-
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 100; backdrop-filter: blur(8px); }
-        .hidden { display: none; }
-        .dialog { 
-            background: rgba(16, 16, 20, 0.9); 
-            border: 1px solid var(--walker); 
-            padding: 3rem; 
-            border-radius: 50% 20% / 10% 40%;
-            max-width: 500px; 
-            text-align: center;
-            box-shadow: 0 0 50px rgba(108, 92, 231, 0.3);
-        }
     </style>
 </head>
 <body>
 
-<h1>The Void Walker</h1>
-<div class="subtitle">Complete the Constellation</div>
+<h1>VOID HOPPER</h1>
 
-<div class="universe">
-    <div class="grid" id="grid"></div>
-    <svg id="connections"></svg>
-    <div id="walker" class="walker" style="display:none"></div>
+<div class="board" id="board">
+    <!-- Tiles -->
 </div>
 
-<div class="controls">
-    <button class="btn" onclick="startJourney()">Begin Journey</button>
-    <button class="btn" onclick="reset()">Reshuffle Void</button>
-</div>
-
-<div id="modal" class="modal hidden">
-    <div class="dialog">
-        <h2 style="font-family:'Cinzel Decorative'; color:#a29bfe">Star Chart</h2>
-        <p>The Void has shattered the path.</p>
-        <p><strong>Mission:</strong> Guide the Walker to visit every stable platform exactly once.</p>
-        <p><strong>Movement:</strong> L-Shaped Knight Leaps.</p>
-        <button class="btn" style="margin-top:20px" onclick="document.getElementById('modal').classList.add('hidden')">Enter Void</button>
-    </div>
-</div>
+<div class="status" id="status">Jump to valid platforms...</div>
+<button class="btn" onclick="init()">Reshuffle Void</button>
 
 <script>
     const N = 5;
-    const gridEl = document.getElementById('grid');
-    const svgEl = document.getElementById('connections');
-    const walker = document.getElementById('walker');
-    let blocks = [];
+    let curr = {r:0, c:0};
+    let visited = new Set();
+    let blocks = new Set();
+    const TOTAL_TILES = 22; // N*N - 3 blocks
 
-    function reset() {
-        gridEl.innerHTML = '';
-        svgEl.innerHTML = '';
-        walker.style.display = 'none';
-        blocks = new Set(['1,1', '2,3', '3,0']); // Static demo blocks
+    function init() {
+        curr = {r:0, c:0};
+        visited.clear();
+        visited.add("0,0");
         
-        for (let r=0; r<N; r++) {
-            for (let c=0; c<N; c++) {
-                const p = document.createElement('div');
-                p.className = 'platform';
-                p.id = `p-${r}-${c}`;
-                
-                if (blocks.has(`${r},${c}`)) {
-                    p.classList.add('void');
-                } else if (r===0 && c===0) {
-                    p.classList.add('visited'); // Start
+        // Set blocks
+        blocks.clear();
+        blocks.add("1,1");
+        blocks.add("2,3");
+        blocks.add("3,0");
+        
+        render();
+        document.getElementById('status').textContent = "Begin Sequence";
+    }
+
+    function render() {
+        const board = document.getElementById('board');
+        board.innerHTML = '';
+        
+        const possibleMoves = getKnightMoves(curr.r, curr.c);
+        let movesAvailable = false;
+
+        for(let r=0; r<N; r++) {
+            for(let c=0; c<N; c++) {
+                const tile = document.createElement('div');
+                tile.className = 'tile';
+                const key = `${r},${c}`;
+
+                if (blocks.has(key)) {
+                    tile.classList.add('void');
+                } else if (r === curr.r && c === curr.c) {
+                    tile.classList.add('current');
+                    tile.textContent = "♞";
+                } else if (visited.has(key)) {
+                    tile.classList.add('visited');
+                } else {
+                    // Check if valid move target
+                    const isMove = possibleMoves.some(m => m.r===r && m.c===c);
+                    if (isMove && !visited.has(key)) {
+                        tile.classList.add('valid-move');
+                        tile.onclick = () => move(r, c);
+                        movesAvailable = true;
+                    }
                 }
                 
-                gridEl.appendChild(p);
+                board.appendChild(tile);
             }
         }
+        
+        // Win Check
+        if (visited.size === TOTAL_TILES) {
+             document.getElementById('status').textContent = "VOID CONQUERED!";
+             document.getElementById('status').style.color = "#0f0";
+        } else if (!movesAvailable) {
+             document.getElementById('status').textContent = "STUCK! No valid jumps.";
+             document.getElementById('status').style.color = "#e74c3c";
+        }
     }
 
-    async function startJourney() {
-        walker.style.display = 'block';
-        reset(); // Clear old trails
-        walker.style.display = 'block';
-        
-        // Demo path for Knight Tour on 5x5 with blocks is complex.
-        // We will simulate a "Probe" recursively finding a path.
-        // Starting at 0,0.
-        
-        // This is a simulation of the VISUALS, assume backend solver found this path:
-        const path = [
-            [0,0], [1,2], [3,3], [4,1], [2,2], [0,3], [1,5] // Oops out of bounds, just random valid moves
+    function move(r, c) {
+        curr = {r, c};
+        visited.add(`${r},${c}`);
+        render();
+    }
+
+    function getKnightMoves(r, c) {
+        const deltas = [
+            [2,1],[2,-1],[-2,1],[-2,-1],
+            [1,2],[1,-2],[-1,2],[-1,-2]
         ];
-        // Correct path fragment
-        const validPath = [
-            [0,0], [2,1], [4,2], [2,3] // Hit void? No 2,3 is void.
-            // Let's try:
-            // 0,0 -> 2,1 -> 4,2 -> 3,4 -> 1,3 -> 0,1 -> 2,2 -> ...
-        ];
-
-        // Let's implement real DFS for N=5 to show off.
-        const visited = new Set();
-        visited.add('0,0');
-        blocks.forEach(b => visited.add(b)); // Treat blocks as visited
-        
-        const tour = await findTour(0, 0, visited, [[0,0]]);
-        
-        if (tour) {
-            animateTour(tour);
-        } else {
-            alert("No path found in this void configuration.");
-        }
+        return deltas.map(([dr,dc]) => ({r:r+dr, c:c+dc}))
+            .filter(p => p.r>=0 && p.r<N && p.c>=0 && p.c<N && !blocks.has(`${p.r},${p.c}`));
     }
 
-    // Knight moves
-    const moves = [
-        [2,1],[2,-1],[-2,1],[-2,-1],
-        [1,2],[1,-2],[-1,2],[-1,-2]
-    ];
-
-    async function findTour(r, c, visited, path) {
-        // Just find a path of length 10 for demo, full tour takes too long in browser JS recursion without optimizations
-        if (path.length > 12) return path; 
-
-        for (let [dr, dc] of moves) {
-            const nr = r+dr, nc = c+dc;
-            const key = `${nr},${nc}`;
-            if (nr>=0 && nr<N && nc>=0 && nc<N && !visited.has(key)) {
-                visited.add(key);
-                const res = await findTour(nr, nc, visited, [...path, [nr,nc]]);
-                if (res) return res;
-                visited.delete(key);
-            }
-        }
-        return null; // Dead end
-    }
-
-    async function animateTour(path) {
-        // Place walker at start
-        moveWalker(path[0][0], path[0][1]);
-        await sleep(500);
-
-        for (let i=1; i<path.length; i++) {
-            const [pr, pc] = path[i-1];
-            const [cr, cc] = path[i];
-
-            // Draw line
-            drawLine(pr, pc, cr, cc);
-            
-            // Move walker
-            moveWalker(cr, cc);
-            document.getElementById(`p-${cr}-${cc}`).classList.add('visited');
-            
-            await sleep(400);
-        }
-    }
-
-    function moveWalker(r, c) {
-        // Grid gap 15, size 70. 
-        // 40 padding.
-        // left = 40 + c*(85) + 15
-        const left = 40 + c*85 + 15;
-        const top = 40 + r*85 + 15;
-        walker.style.left = left + 'px';
-        walker.style.top = top + 'px';
-    }
-
-    function drawLine(r1, c1, r2, c2) {
-        const x1 = 40 + c1*85 + 35;
-        const y1 = 40 + r1*85 + 35;
-        const x2 = 40 + c2*85 + 35;
-        const y2 = 40 + r2*85 + 35;
-
-        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-        line.setAttribute('x1', x1);
-        line.setAttribute('y1', y1);
-        line.setAttribute('x2', x2);
-        line.setAttribute('y2', y2);
-        svgEl.appendChild(line);
-    }
-
-    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-    window.onload = () => {
-        reset();
-        document.getElementById('modal').classList.remove('hidden');
-    }
+    window.onload = init;
 </script>
 </body>
 </html>

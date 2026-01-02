@@ -3,20 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REC-003: Alchemy Lab</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Lato&display=swap" rel="stylesheet">
+    <title>REC-003: Alchemist's Mix</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #1a0b2e;
             --cauldron: #2d1b4e;
             --liquid: #76ff03;
-            --shelf: #5d4037;
             --text: #e1bee7;
-            --gold: #ffd700;
         }
 
         body {
-            font-family: 'Lato', sans-serif;
+            font-family: 'Cinzel', serif;
             background: var(--bg);
             color: var(--text);
             margin: 0;
@@ -24,354 +22,244 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 20% 20%, rgba(118, 255, 3, 0.05) 0%, transparent 40%),
-                radial-gradient(circle at 80% 80%, rgba(213, 0, 249, 0.05) 0%, transparent 40%);
+            overflow: hidden;
+            user-select: none;
         }
 
-        h1 {
-            font-family: 'Cinzel', serif;
-            color: var(--gold);
-            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-            margin-top: 2rem;
-            font-size: 2.5rem;
-        }
+        h1 { color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.5); margin-top: 1rem; }
 
-        .lab-container {
+        .game-area {
             display: flex;
-            gap: 4rem;
+            gap: 2rem;
             margin-top: 2rem;
             align-items: center;
-            flex-wrap: wrap;
-            justify-content: center;
         }
 
-        /* SHELF AREA */
-        .shelf-area {
-            background: #3e2723;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+        .ingredients-shelf {
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            border: 4px solid #5d4037;
-            min-width: 250px;
-        }
-
-        .ingredient-card {
-            background: #4e342e;
-            padding: 10px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
             gap: 15px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 1px solid #795548;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .ingredient-card:hover { transform: translateX(5px); border-color: var(--gold); }
-        .ingredient-card.active { background: #5d4037; box-shadow: 0 0 10px var(--gold); }
-        .ingredient-card.disabled { opacity: 0.5; filter: grayscale(1); }
-
-        .icon { font-size: 2rem; }
-        .details { display: flex; flex-direction: column; }
-        .name { font-weight: bold; color: var(--gold); font-family: 'Cinzel'; }
-        .stats { font-size: 0.8rem; color: #bcaaa4; }
-
-        /* CAULDRON AREA */
-        .cauldron-area {
-            position: relative;
-            width: 300px;
-            height: 300px;
-            display: flex;
-            justify-content: center;
-        }
-
-        .cauldron {
-            width: 200px;
-            height: 150px;
-            background: var(--cauldron);
-            border-radius: 0 0 100px 100px;
-            position: relative;
-            top: 100px;
-            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.5), 0 10px 20px rgba(0,0,0,0.5);
-            border: 4px solid #4a148c;
-            border-top: none;
-        }
-        
-        .cauldron::before {
-            content: '';
-            position: absolute;
-            top: -20px;
-            left: -4px;
-            width: 200px;
-            height: 40px;
-            background: #4a148c;
-            border-radius: 50%;
-            border: 4px solid #311b92;
-            z-index: 2;
-        }
-
-        .liquid {
-            position: absolute;
-            top: 10px; /* Relative to cauldron top */
-            left: 10px;
-            width: 180px;
-            height: 20px;
-            background: var(--liquid);
-            border-radius: 50%;
-            z-index: 3;
-            box-shadow: 0 0 20px var(--liquid);
-            transition: background 0.5s;
-        }
-
-        .bubble {
-            position: absolute;
-            background: rgba(118, 255, 3, 0.4);
-            border-radius: 50%;
-            animation: rise 2s infinite ease-in;
-            bottom: 20px;
-            z-index: 4;
-        }
-
-        @keyframes rise {
-            0% { transform: translateY(0) scale(1); opacity: 0; }
-            50% { opacity: 1; }
-            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
-        }
-
-        .target-display {
-            position: absolute;
-            top: 0;
-            text-align: center;
-            width: 100%;
-        }
-
-        .potency-meter {
-            font-size: 3rem;
-            font-weight: bold;
-            font-family: 'Cinzel';
-            color: #fff;
-            text-shadow: 0 0 5px var(--liquid);
-        }
-        .max-potency { font-size: 1rem; color: #aaa; }
-
-        /* RECIPES LIST */
-        .recipes-panel {
-            background: rgba(0,0,0,0.3);
-            border: 1px solid #7e57c2;
-            padding: 1rem;
+            padding: 20px;
+            background: #3e2723;
             border-radius: 10px;
             min-width: 200px;
-            max-width: 300px;
-            max-height: 400px;
-            overflow-y: auto;
+            border: 4px solid #5d4037;
         }
-        
-        .recipes-panel h3 { color: var(--gold); margin-top: 0; font-family: 'Cinzel'; text-align: center; border-bottom: 1px solid #7e57c2; padding-bottom: 5px; }
 
-        .recipe-item {
-            background: rgba(255,255,255,0.05);
-            margin: 5px 0;
-            padding: 8px;
-            border-radius: 4px;
-            font-size: 0.9rem;
+        .ingredient {
+            background: #5d4037;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: grab;
             display: flex;
             align-items: center;
             gap: 10px;
+            border: 1px solid #795548;
+            transition: all 0.2s;
         }
-        .recipe-item.success { border-left: 3px solid var(--gold); }
+        .ingredient:hover { border-color: #ffd700; transform: translateX(5px); }
+        .ingredient:active { cursor: grabbing; }
+
+        .ingredient.used { opacity: 0.5; pointer-events: none; filter: grayscale(1); }
+
+        .cauldron-zone {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        .cauldron-img {
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path d="M10,40 Q10,100 50,100 T90,40 L90,30 L10,30 Z" fill="%232d1b4e" stroke="%234a148c" stroke-width="2"/></svg>') no-repeat center bottom;
+            background-size: contain;
+            position: absolute;
+            z-index: 1;
+        }
+
+        .drop-target {
+            position: absolute;
+            top: 50px; left: 50px; right: 50px; bottom: 50px;
+            z-index: 2;
+        }
+
+        .liquid-level {
+            position: absolute;
+            bottom: 20px;
+            left: 55px;
+            width: 190px;
+            background: var(--liquid);
+            transition: height 0.5s cubic-bezier(0.4, 0.0, 0.2, 1);
+            opacity: 0.8;
+            border-radius: 0 0 80px 80px;
+            z-index: 0;
+            box-shadow: 0 0 20px var(--liquid);
+        }
+
+        .target-indicator {
+            position: absolute;
+            left: 260px;
+            bottom: 20px;
+            height: 200px; /* match max liquid height */
+            width: 10px;
+            background: #333;
+            border-radius: 5px;
+        }
+
+        .target-mark {
+            position: absolute;
+            left: -15px;
+            width: 40px;
+            height: 2px;
+            background: #ffd700;
+            box-shadow: 0 0 5px #ffd700;
+        }
+        .target-mark::after { content: 'TARGET'; position: absolute; right: 45px; color: #ffd700; font-size: 0.7rem; top: -5px; }
+
+        .current-val {
+            font-size: 3rem;
+            color: #fff;
+            position: absolute;
+            top: -50px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .msg-display { height: 2rem; color: #ffd700; margin-top: 2rem; font-size: 1.2rem; }
 
         .btn {
-            background: linear-gradient(45deg, #7b1fa2, #4a148c);
-            color: white;
+            background: #4a148c;
+            color: #fff;
             border: none;
-            padding: 12px 30px;
-            border-radius: 25px;
-            font-family: 'Cinzel';
-            font-size: 1.1rem;
+            padding: 10px 30px;
+            border-radius: 20px;
+            font-family: inherit;
             cursor: pointer;
-            box-shadow: 0 0 15px rgba(123, 31, 162, 0.5);
-            transition: all 0.3s;
-            margin-top: 3rem;
-            border: 1px solid #ce93d8;
+            margin-top: 1rem;
         }
-        .btn:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(123, 31, 162, 0.8); }
+        .btn:hover { background: #6a1b9a; }
 
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 100; backdrop-filter: blur(5px); }
-        .hidden { display: none; }
-        .dialog { background: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="%232b1040"/></svg>'); border: double 6px var(--gold); padding: 2rem; border-radius: 20px; max-width: 500px; text-align: center; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
-        .dialog h2 { font-family: 'Cinzel'; color: var(--gold); }
-        .dialog p { line-height: 1.6; color: #e1bee7; }
     </style>
 </head>
 <body>
 
-<h1>The Alchemist's Recursion</h1>
+<h1>ALCHEMIST'S MIX</h1>
 
-<div class="lab-container">
-    <!-- Visual Representation of Recursion Tree / Shelf -->
-    <div class="shelf-area" id="shelf">
-        <!-- Ingredients injected here -->
+<div class="game-area">
+    <div class="ingredients-shelf" id="shelf">
+        <!-- Draggable items -->
     </div>
 
-    <!-- The Brewing Cauldron -->
-    <div class="cauldron-area">
-        <div class="target-display">
-            <div style="font-family:'Cinzel'; color:#aaa; margin-bottom:5px">TARGET POTENCY</div>
-            <div class="potency-meter">
-                <span id="currentPotency">0</span>
-                <span style="font-size:1.5rem; color:#666">/</span>
-                <span class="max-potency" id="targetPotency">20</span>
-            </div>
+    <div class="cauldron-zone" id="dropZone">
+        <div class="current-val" id="potencyDisplay">0</div>
+        
+        <div class="cauldron-img"></div>
+        <div class="liquid-level" id="liquid" style="height: 0px"></div>
+        
+        <div class="target-indicator">
+            <div class="target-mark" id="targetLine" style="bottom: 50%"></div>
         </div>
-
-        <div class="cauldron">
-            <!-- Liquid Surface -->
-            <div class="liquid" id="liquidSurface"></div>
-            <!-- Bubbles container -->
-            <div id="bubbles"></div>
-        </div>
-    </div>
-
-    <!-- Results Log -->
-    <div class="recipes-panel">
-        <h3>Successful Brews</h3>
-        <div id="recipeList">
-            <div style="color:#666; font-style:italic; text-align:center; padding:10px">No successful recipes yet...</div>
-        </div>
+        
+        <div class="drop-target"></div>
     </div>
 </div>
 
-<div class="controls">
-    <button class="btn" onclick="startBrewing()">Start Brewing Process</button>
-</div>
-
-<div id="modal" class="modal hidden">
-    <div class="dialog">
-        <h2>The Master Formula</h2>
-        <p><strong>Goal:</strong> Combine ingredients to reach exactly the Target Potency.</p>
-        <p><strong>Constraint:</strong> For each ingredient, you must use either <strong>NONE</strong> or the <strong>FULL PACK</strong>.</p>
-        <p>The recursive algorithm will explore every possible combination of ingredients to discover all valid recipes.</p>
-        <button class="btn" style="margin-top:1rem" onclick="document.getElementById('modal').classList.add('hidden')">Begin Experiment</button>
-    </div>
-</div>
+<div class="msg-display" id="msg"></div>
+<button class="btn" onclick="reset()">Empty Cauldron</button>
 
 <script>
     const ingredients = [
-        { name: "Dragon Scale", val: 5, pack: 1, icon: "🐲", color: "#e74c3c" },
-        { name: "Fairy Dust", val: 2, pack: 3, icon: "✨", color: "#f39c12" }, // Total 6
-        { name: "Phoenix Ash", val: 3, pack: 2, icon: "🔥", color: "#d35400" }, // Total 6
-        { name: "Moon Water", val: 4, pack: 2, icon: "💧", color: "#3498db" }, // Total 8
+        { id: 1, name: "Toad Eye", val: 5 },
+        { id: 2, name: "Bat Wing", val: 3 },
+        { id: 3, name: "Stardust", val: 8 },
+        { id: 4, name: "Root", val: 2 },
+        { id: 5, name: "Slime", val: 4 }
     ];
-    let target = 14;
+    let target = 10;
+    let currentSum = 0;
+    const MAX_HEIGHT = 180; // px
+    const MAX_VAL = 20; // scale
 
-    function init() {
-        // Setup random target and ingredients for variety?
-        // sticking to fixed for demo
-        document.getElementById('targetPotency').textContent = target;
-        renderShelf([]);
-        document.getElementById('modal').classList.remove('hidden');
-        spawnBubbles();
+    function reset() {
+        currentSum = 0;
+        target = 10 + Math.floor(Math.random() * 5); // Random target 10-14
+        renderShelf();
+        updateDisplay();
+        document.getElementById('msg').textContent = `Target Potency: ${target}`;
+        
+        // Set target line height
+        const pct = (target / MAX_VAL) * 100;
+        document.getElementById('targetLine').style.bottom = `${pct}%`;
     }
 
-    function spawnBubbles() {
-        const container = document.getElementById('bubbles');
-        setInterval(() => {
-            const b = document.createElement('div');
-            b.className = 'bubble';
-            const size = Math.random() * 20 + 10;
-            b.style.width = size + 'px';
-            b.style.height = size + 'px';
-            b.style.left = (Math.random() * 100 + 50) + 'px';
-            b.style.setProperty('--liquid', document.getElementById('liquidSurface').style.background);
-            container.appendChild(b);
-            setTimeout(() => b.remove(), 2000);
-        }, 300);
-    }
-
-    function renderShelf(activeIndices) {
+    function renderShelf() {
         const shelf = document.getElementById('shelf');
         shelf.innerHTML = '';
-        ingredients.forEach((ing, i) => {
+        ingredients.forEach(item => {
             const el = document.createElement('div');
-            const isActive = activeIndices.includes(i);
+            el.className = 'ingredient';
+            el.draggable = true;
+            el.innerHTML = `<span>${item.name}</span> <strong style="margin-left:auto">${item.val}</strong>`;
             
-            el.className = `ingredient-card ${isActive ? 'active' : ''}`;
-            el.innerHTML = `
-                <div class="icon">${ing.icon}</div>
-                <div class="details">
-                    <div class="name">${ing.name}</div>
-                    <div class="stats">Val: ${ing.val} × Pack: ${ing.pack} (= ${ing.val * ing.pack})</div>
-                </div>
-            `;
+            el.addEventListener('dragstart', (e) => {
+                e.dataTransfer.setData('val', item.val);
+                e.dataTransfer.setData('id', item.id);
+            });
+            
+            el.addEventListener('dragend', (e) => {
+                // If drop successful, mark used
+                if (e.dataTransfer.dropEffect !== 'none') {
+                   // actually handled by dropLogic usually
+                }
+            });
+
+            // Hack for simple unique items: ID checking in render
+            el.id = `ing-${item.id}`;
             shelf.appendChild(el);
         });
     }
 
-    function updateCauldron(sum) {
-        document.getElementById('currentPotency').textContent = sum;
-        const surface = document.getElementById('liquidSurface');
+    function updateDisplay() {
+        document.getElementById('potencyDisplay').textContent = currentSum;
+        const h = Math.min((currentSum / MAX_VAL) * MAX_HEIGHT, MAX_HEIGHT);
+        document.getElementById('liquid').style.height = `${h}px`;
         
-        let color = '#76ff03'; // base green
-        if (sum > target) color = '#d50000'; // danger red
-        else if (sum === target) color = '#ffd700'; // gold success
-        else if (sum > 0) color = '#00bcd4'; // active blue
-        
-        surface.style.background = color;
-        surface.style.boxShadow = `0 0 20px ${color}`;
-    }
-
-    async function startBrewing() {
-        document.getElementById('recipeList').innerHTML = '';
-        await backtrack(0, 0, []);
-    }
-
-    async function backtrack(idx, currentSum, chosenIndices) {
-        renderShelf(chosenIndices);
-        updateCauldron(currentSum);
-        await sleep(300);
-
-        if (currentSum === target) {
-            logSuccess(chosenIndices);
-            await sleep(1000); // Celebrate
-            return;
+        if (currentSum > target) {
+            document.getElementById('liquid').style.backgroundColor = '#d50000'; // Red overflow
+            document.getElementById('msg').textContent = "OVERFLOW! Unstable Mixture!";
+        } else if (currentSum === target) {
+            document.getElementById('liquid').style.backgroundColor = '#ffd700'; // Gold success
+            document.getElementById('msg').textContent = "PERFECT BREW ACHIEVED!";
+        } else {
+            document.getElementById('liquid').style.backgroundColor = '#76ff03';
         }
+    }
 
-        if (idx >= ingredients.length || currentSum > target) {
-            return;
+    // Drop Logic
+    const zone = document.getElementById('dropZone');
+    
+    zone.addEventListener('dragover', (e) => e.preventDefault());
+    
+    zone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        const val = parseInt(e.dataTransfer.getData('val'));
+        const id = e.dataTransfer.getData('id');
+        
+        // Mark ingredient used
+        const el = document.getElementById(`ing-${id}`);
+        if (!el.classList.contains('used')) {
+            el.classList.add('used');
+            currentSum += val;
+            updateDisplay();
+            
+            // Visual splash effect?
         }
+    });
 
-        // Option 1: Include ingredient
-        const ing = ingredients[idx];
-        const totalVal = ing.val * ing.pack;
-        
-        // Visualize: "Trying to add..."
-        await backtrack(idx + 1, currentSum + totalVal, [...chosenIndices, idx]);
-
-        // Option 2: Skip ingredient
-        await backtrack(idx + 1, currentSum, chosenIndices);
-    }
-
-    function logSuccess(indices) {
-        const list = document.getElementById('recipeList');
-        if (list.children[0]?.textContent.includes('No successful')) list.innerHTML = '';
-        
-        const names = indices.map(i => ingredients[i].name).join(' + ');
-        const item = document.createElement('div');
-        item.className = 'recipe-item success';
-        item.innerHTML = `<span>🧪</span> ${names}`;
-        list.appendChild(item);
-    }
-
-    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-    window.onload = init;
+    window.onload = reset;
 </script>
 </body>
 </html>

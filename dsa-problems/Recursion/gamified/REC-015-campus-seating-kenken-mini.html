@@ -3,183 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REC-015: Puzzle Solver</title>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <title>REC-015: KenKen Grid</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #6c5ce7;
-            --cell: #dfe6e9;
-            --cage: #2d3436;
-            --highlight: #00cec9;
-            --text: #2d3436;
+            --bg: #a29bfe;
+            --grid: #2d3436;
+            --cell: #fff;
+            --sel: #ffeaa7;
         }
 
         body {
             font-family: 'Fredoka', sans-serif;
             background: var(--bg);
-            color: var(--text);
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 2rem;
+            user-select: none;
         }
 
-        h1 { color: #fff; margin-bottom: 0.5rem; }
-        
-        .puzzle-header {
-            background: white;
-            padding: 10px 20px;
-            border-radius: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
+        h1 { color: #fff; text-shadow: 2px 2px 0 #6c5ce7; }
 
-        .grid-4x4 {
+        .game-board {
             display: grid;
             grid-template-columns: repeat(4, 70px);
-            grid-template-rows: repeat(4, 70px);
-            gap: 4px;
+            gap: 2px;
             background: #2d3436;
             border: 4px solid #2d3436;
-            border-radius: 8px;
-            background-color: #636e72;
+            border-radius: 5px;
+            margin-top: 2rem;
         }
 
         .cell {
+            width: 70px;
+            height: 70px;
             background: var(--cell);
+            position: relative;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
-            position: relative;
-            cursor: pointer;
+            font-size: 2rem;
+            color: #2d3436;
         }
-        
-        .cell.solved { color: #6c5ce7; font-weight: 700; }
-        
+
+        .cell.selected { background: var(--sel); }
+
         .cage-label {
             position: absolute;
-            top: 2px;
-            left: 4px;
+            top: 2px; left: 2px;
             font-size: 0.7rem;
-            font-weight: 700;
-            color: #d63031;
+            font-weight: bold;
         }
 
-        /* Cage Borders - Simulated via classes */
-        .bt { border-top: 2px solid var(--cage); }
-        .bb { border-bottom: 2px solid var(--cage); }
-        .bl { border-left: 2px solid var(--cage); }
-        .br { border-right: 2px solid var(--cage); }
+        /* Border classes */
+        .bt { border-top: 2px solid #2d3436; }
+        .bb { border-bottom: 2px solid #2d3436; }
+        .bl { border-left: 2px solid #2d3436; }
+        .br { border-right: 2px solid #2d3436; }
 
-        .controls { margin-top: 2rem; display: flex; gap: 15px; }
+        .controls {
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
 
-        .btn {
+        .num-btn {
+            width: 50px; height: 50px;
             background: #fff;
-            color: var(--bg);
             border: none;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-size: 1.1rem;
+            border-radius: 10px;
+            font-size: 1.5rem;
             font-family: inherit;
             cursor: pointer;
-            font-weight: 600;
             box-shadow: 0 4px 0 #b2bec3;
-            transition: transform 0.1s;
         }
-        .btn:active { transform: translateY(4px); box-shadow: none; }
+        .num-btn:active { transform: translateY(4px); box-shadow: none; }
 
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 100; }
-        .hidden { display: none; }
-        .dialog { background: white; padding: 2rem; border-radius: 12px; max-width: 400px; text-align: center; }
+        #msg { margin-top: 1rem; color: #fff; min-height: 1.5em; font-weight: bold; }
+
     </style>
 </head>
 <body>
 
-<h1>PUZZLE SOLVER</h1>
-<div class="puzzle-header">REC-015: 4x4 Math Grid (KenKen-like)</div>
+<h1>KENKEN PUZZLE</h1>
 
-<div class="grid-4x4" id="grid">
+<div class="game-board" id="grid">
     <!-- Row 0 -->
-    <div class="cell bt bl" id="c00"><span class="cage-label">1=</span></div>
-    <div class="cell bt" id="c01"><span class="cage-label">2=</span></div>
-    <div class="cell bt" id="c02"><span class="cage-label">3=</span></div>
-    <div class="cell bt br" id="c03"><span class="cage-label">4=</span></div>
+    <!-- Cage 1: "3+" -> (0,0), (0,1). -->
+    <div class="cell bt bl bb" onclick="sel(0)" id="c0"><span class="cage-label">3+</span></div> <!-- 1 -->
+    <div class="cell bt bb br" onclick="sel(1)" id="c1"></div> <!-- 2 -->
     
+    <!-- Cage 2: "7+" -> (0,2), (0,3). -->
+    <div class="cell bt bl bb" onclick="sel(2)" id="c2"><span class="cage-label">7+</span></div> <!-- 3 -->
+    <div class="cell bt bb br" onclick="sel(3)" id="c3"></div> <!-- 4 -->
+
     <!-- Row 1 -->
-    <div class="cell bl" id="c10"><span class="cage-label">3=</span></div>
-    <div class="cell" id="c11"><span class="cage-label">4=</span></div>
-    <div class="cell" id="c12"><span class="cage-label">1=</span></div>
-    <div class="cell br" id="c13"><span class="cage-label">2=</span></div>
+    <div class="cell bl" onclick="sel(4)" id="c4"><span class="cage-label">3+</span></div>
+    <div class="cell" onclick="sel(5)" id="c5"></div>
+    <div class="cell" onclick="sel(6)" id="c6"></div>
+    <div class="cell br" onclick="sel(7)" id="c7"></div>
     
     <!-- Row 2 -->
-    <div class="cell bl" id="c20"><span class="cage-label">2=</span></div>
-    <div class="cell" id="c21"><span class="cage-label">1=</span></div>
-    <div class="cell" id="c22"><span class="cage-label">4=</span></div>
-    <div class="cell br" id="c23"><span class="cage-label">3=</span></div>
+    <div class="cell bl" onclick="sel(8)" id="c8"></div>
+    <div class="cell" onclick="sel(9)" id="c9"></div>
+    <div class="cell" onclick="sel(10)" id="c10"></div>
+    <div class="cell br" onclick="sel(11)" id="c11"></div>
     
     <!-- Row 3 -->
-    <div class="cell bl bb" id="c30"><span class="cage-label">4=</span></div>
-    <div class="cell bb" id="c31"><span class="cage-label">3=</span></div>
-    <div class="cell bb" id="c32"><span class="cage-label">2=</span></div>
-    <div class="cell bb br" id="c33"><span class="cage-label">1=</span></div>
+    <div class="cell bl bb" onclick="sel(12)" id="c12"></div>
+    <div class="cell bb" onclick="sel(13)" id="c13"></div>
+    <div class="cell bb" onclick="sel(14)" id="c14"></div>
+    <div class="cell bb br" onclick="sel(15)" id="c15"></div>
 </div>
+<!-- NOTE: Above is just plain grid div struct, manual border classes for demo cages -->
 
 <div class="controls">
-    <button class="btn" onclick="solve()">Auto-Fill</button>
-    <button class="btn" style="color:#d63031" onclick="clearGrid()">Clear</button>
+    <button class="num-btn" onclick="fill(1)">1</button>
+    <button class="num-btn" onclick="fill(2)">2</button>
+    <button class="num-btn" onclick="fill(3)">3</button>
+    <button class="num-btn" onclick="fill(4)">4</button>
 </div>
 
-<div id="modal" class="modal hidden">
-    <div class="dialog">
-        <h2>Rules</h2>
-        <p>1. Fill 1-4 in each row/column exactly once.</p>
-        <p>2. Numbers in cages must produce the target value using the operator (here, all are `=` for simplicity).</p>
-        <button class="btn" onclick="document.getElementById('modal').classList.add('hidden')">Got it</button>
-    </div>
-</div>
+<div id="msg">Select cell, fill number.</div>
+<button class="num-btn" style="width:auto; padding:0 20px; margin-top:20px" onclick="check()">CHECK</button>
 
 <script>
-    // Simple 4x4 Latin Square solution for the example
-    const solution = [
-        [1,2,3,4],
-        [3,4,1,2],
-        [2,1,4,3],
-        [4,3,2,1]
-    ];
-    
-    function clearGrid() {
-        for(let r=0; r<4; r++) {
-            for(let c=0; c<4; c++) {
-                const el = document.getElementById(`c${r}${c}`);
-                // Only keep cage label
-                const label = el.querySelector('.cage-label');
-                el.innerHTML = '';
-                if(label) el.appendChild(label);
-                el.classList.remove('solved');
-            }
-        }
+    let selectedId = -1;
+    function sel(id) {
+         if (selectedId !== -1) document.getElementById(`c${selectedId}`).classList.remove('selected');
+         selectedId = id;
+         document.getElementById(`c${selectedId}`).classList.add('selected');
     }
 
-    async function solve() {
-        clearGrid();
-        
-        for(let r=0; r<4; r++) {
-            for(let c=0; c<4; c++) {
-                await sleep(100);
-                const el = document.getElementById(`c${r}${c}`);
-                const val = document.createTextNode(solution[r][c]);
-                el.appendChild(val);
-                el.classList.add('solved');
-            }
+    function fill(n) {
+        if(selectedId === -1) return;
+        // Don't modify DOM directly with text node, use a span or just replace content safely
+        // But here we need to keep cage labels!
+        const el = document.getElementById(`c${selectedId}`);
+        // Find if user-val exists
+        let v = el.querySelector('.user-val');
+        if(!v) {
+            v = document.createElement('span');
+            v.className = 'user-val';
+            el.appendChild(v);
         }
+        v.textContent = n;
     }
 
-    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-    
-    window.onload = () => document.getElementById('modal').classList.remove('hidden');
+    function check() {
+        const grid = [];
+        for(let i=0; i<16; i++) {
+             const el = document.getElementById(`c${i}`);
+             const v = el.querySelector('.user-val');
+             grid.push(v ? parseInt(v.textContent) : 0);
+        }
+        if (grid.includes(0)) {
+            document.getElementById('msg').textContent = "Grid incomplete!";
+            return;
+        }
+        document.getElementById('msg').textContent = "Checking...";
+        // For Active Gamification, we are just mocking the validation feedback
+        // to show MECHANIC.
+        setTimeout(() => {
+             document.getElementById('msg').textContent = "Logic Verified (Mock)!";
+        }, 500);
+    }
 </script>
 </body>
 </html>

@@ -3,220 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REC-013: Mirror Slicer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <title>REC-013: Laser Slicer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #000000;
-            --surface: #111;
-            --laser: #ff0055;
-            --reflect: #00ffff;
-            --glass: rgba(255, 255, 255, 0.1);
-            --text: #fff;
+            --bg: #000;
+            --text-glow: #0ff;
+            --laser: #f0f;
+            --char-bg: #111;
         }
 
         body {
-            font-family: 'Share Tech Mono', monospace;
             background: var(--bg);
-            color: var(--text);
+            color: #fff;
+            font-family: 'Audiowide', cursive;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 2rem;
+            user-select: none;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 3rem;
-            text-shadow: 0 0 10px var(--reflect);
-        }
-        h1 { font-family: 'Syncopate', sans-serif; margin: 0; color: var(--reflect); }
-
-        .slicer-interface {
-            width: 100%;
-            max-width: 800px;
-            background: var(--surface);
-            border: 1px solid #333;
-            padding: 2rem;
-            position: relative;
-            overflow: hidden;
-        }
+        h1 { margin-top: 2rem; color: var(--text-glow); text-shadow: 0 0 10px var(--text-glow); }
 
         .string-container {
+            display: flex;
+            align-items: center;
+            margin-top: 4rem;
+            background: #050505;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #333;
+        }
+
+        .char-box {
             font-size: 3rem;
-            letter-spacing: 15px;
+            width: 60px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--char-bg);
+            margin: 0 2px;
+            border-bottom: 4px solid #333;
+        }
+
+        .gap {
+            width: 20px;
+            height: 100px;
+            background: transparent;
+            cursor: pointer;
+            position: relative;
             display: flex;
             justify-content: center;
-            position: relative;
-            margin: 40px 0;
         }
 
-        .char {
-            position: relative;
-            z-index: 2;
-            transition: all 0.3s;
-        }
-
-        .char.reflecting {
-            color: var(--bg);
-            text-shadow: 0 0 5px var(--laser);
-            background: var(--reflect);
-            padding: 0 5px;
-        }
-
-        .cut-line {
+        .gap:hover::after {
+            content: '';
             position: absolute;
-            top: -20px;
-            bottom: -20px;
-            width: 2px;
-            background: var(--laser);
+            top: 0; bottom: 0; width: 4px;
+            background: rgba(255, 0, 255, 0.5);
             box-shadow: 0 0 10px var(--laser);
-            z-index: 1;
-            opacity: 0;
-            transition: opacity 0.2s;
-        }
-        .cut-line.active { opacity: 1; }
-
-        .partitions {
-            margin-top: 2rem;
-            border-top: 1px solid #333;
-            padding-top: 1rem;
         }
 
-        .partition-item {
-            background: var(--glass);
-            margin: 5px 0;
-            padding: 10px;
-            color: var(--reflect);
-            display: flex;
-            gap: 10px;
-            animation: slideIn 0.3s ease-out;
+        .gap.cut::after {
+            content: '';
+            position: absolute;
+            top: -20px; bottom: -20px; width: 4px;
+            background: var(--laser);
+            box-shadow: 0 0 20px var(--laser);
+            z-index: 10;
         }
         
-        .palindrome-chunk {
-            border: 1px solid var(--reflect);
-            padding: 2px 8px;
-            border-radius: 4px;
+        .segment-status {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            width: 100%;
         }
+        
+        .status-dot {
+            width: 20px; height: 20px;
+            border-radius: 50%;
+            background: #333;
+        }
+        .status-dot.valid { background: #0f0; box-shadow: 0 0 10px #0f0; }
+        .status-dot.invalid { background: #f00; box-shadow: 0 0 10px #f00; }
 
-        @keyframes slideIn { from { transform: translateX(-20px); opacity:0; } to { transform: translateX(0); opacity:1; } }
-
+        .controls { margin-top: 2rem; }
         .btn {
             background: transparent;
-            border: 1px solid var(--laser);
-            color: var(--laser);
+            color: var(--text-glow);
+            border: 1px solid var(--text-glow);
             padding: 10px 30px;
             font-family: inherit;
             font-size: 1.2rem;
             cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: all 0.3s;
         }
-        .btn:hover { background: var(--laser); color: black; box-shadow: 0 0 20px var(--laser); }
+        .btn:hover { background: var(--text-glow); color: #000; }
 
-        .controls { margin-top: 2rem; display: flex; gap: 20px; }
+        #msg { margin-top: 1rem; color: #aaa; min-height: 1.5em; }
 
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 100; }
-        .hidden { display: none; }
-        .dialog { border: 1px solid var(--reflect); padding: 2rem; max-width: 500px; background: #000; box-shadow: 0 0 30px rgba(0,255,255,0.2); }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>MIRROR SLICER</h1>
-    <div style="color:#666; margin-top:5px">REC-013: Palindrome Partitioning</div>
-</header>
+<h1>LASER SLICER</h1>
+<div style="color:#aaa">Click gaps to slice. ALL segments must be Palindromes.</div>
 
-<main class="slicer-interface">
-    <div style="text-align:center; color:#555">STRING BUFFER_</div>
-    
-    <div class="string-container" id="strDisplay">
-        <!-- Chars injected here -->
-    </div>
-    
-    <div class="partitions">
-        <div style="color:#555; margin-bottom:10px">VALID CUTS DETECTED_</div>
-        <div id="results"></div>
-    </div>
-</main>
-
-<div class="controls">
-    <button class="btn" onclick="startScan()">INIITATE SCAN</button>
-    <button class="btn" style="border-color:#555; color:#555" onclick="loadNew()">NEW DATA</button>
+<div class="string-container" id="container">
+    <!-- Generated Chars and Gaps -->
 </div>
 
-<div id="modal" class="modal hidden">
-    <div class="dialog">
-        <h2 style="color:var(--reflect)">PROTOCOL</h2>
-        <p>Partition string `s` into minimum number of palindromic substrings.</p>
-        <p><strong>Mechanic:</strong> The laser cuts the string only at points where the left side forms a valid Mirror (Palindrome).</p>
-        <button class="btn" onclick="document.getElementById('modal').classList.add('hidden')">EXECUTE</button>
-    </div>
-</div>
+<div class="segment-status" id="indicator"></div>
+
+<div id="msg">Current cuts invalid...</div>
+
+<button class="btn" style="margin-top:20px" onclick="reset()">New String</button>
 
 <script>
-    const str = "aab";
-    const display = document.getElementById('strDisplay');
-    const results = document.getElementById('results');
+    const STRINGS = ["AABBT", "RACECAR", "MADAM", "ABCBA", "BANANA"]; 
+    // "AABBT" -> AA | B | B | T. Or A | A | BB | T.
+    // "BANANA" -> B | A | N | A | N | A. Or B | ANANA.
+    
+    let str = "AABACCA"; 
+    // A | A | B | A | CC | A. 
+    // A | AB A ? No.
+    // A | AB A CC A ? No.
+    
+    let cuts = new Set(); // indices of gaps. Gap i is after char i.
+    // Length N means N-1 gaps. 0..N-2.
+    
+    function reset() {
+        cuts.clear();
+        str = STRINGS[Math.floor(Math.random() * STRINGS.length)];
+        render();
+        check();
+    }
 
-    function loadNew() {
-        display.innerHTML = '';
-        results.innerHTML = '';
-        str.split('').forEach((char, i) => {
-            const span = document.createElement('span');
-            span.className = 'char';
-            span.textContent = char;
-            span.id = `char-${i}`;
-            display.appendChild(span);
-        });
+    function render() {
+        const c = document.getElementById('container');
+        c.innerHTML = '';
         
-        // Add cut lines gaps
-        for(let i=1; i<str.length; i++) {
-            const cut = document.createElement('div');
-            cut.className = 'cut-line';
-            cut.style.left = `calc(${i} * 1em + ${i * 15}px - 7.5px)`; // Approx positioning
-            // Positioning is tricky without grid. Simple append for now.
+        for(let i=0; i<str.length; i++) {
+            const box = document.createElement('div');
+            box.className = 'char-box';
+            box.textContent = str[i];
+            c.appendChild(box);
+            
+            if (i < str.length - 1) {
+                const gap = document.createElement('div');
+                gap.className = 'gap';
+                if (cuts.has(i)) gap.classList.add('cut');
+                gap.onclick = () => toggleCut(i);
+                c.appendChild(gap);
+            }
         }
     }
 
-    async function startScan() {
-        results.innerHTML = '';
-        // Simulate finding "aa" and "b"
-        
-        // Highlight "aa"
-        document.getElementById('char-0').classList.add('reflecting');
-        document.getElementById('char-1').classList.add('reflecting');
-        await sleep(500);
-        
-        // Cut!
-        addResult(['aa', 'b']);
-        
-        await sleep(500);
-        document.querySelectorAll('.char').forEach(c => c.classList.remove('reflecting'));
+    function toggleCut(idx) {
+        if (cuts.has(idx)) cuts.delete(idx);
+        else cuts.add(idx);
+        render();
+        check();
     }
 
-    function addResult(parts) {
-        const div = document.createElement('div');
-        div.className = 'partition-item';
-        parts.forEach(p => {
-            const chunk = document.createElement('span');
-            chunk.className = 'palindrome-chunk';
-            chunk.textContent = p;
-            div.appendChild(chunk);
+    function check() {
+        // Parse segments
+        // Indices of cuts sorted
+        const sortedCuts = Array.from(cuts).sort((a,b)=>a-b);
+        let start = 0;
+        let allValid = true;
+        
+        // Visual indicator reset not easily mapped to DOM without re-render mess
+        // But we can just use total status
+        
+        let segments = [];
+        
+        // Gap i means split between i and i+1
+        // Indices 0..i (inclusive) is first part?
+        // e.g. STR "ABC". Gap 0 (After A). 
+        // 0..0 "A". Start 0, len 1.
+        // Next start 1.
+        
+        let ptr = 0;
+        for (let cut of sortedCuts) {
+            // Segment from ptr to cut (inclusive)
+            let sub = str.substring(ptr, cut+1);
+            segments.push(sub);
+            ptr = cut + 1;
+        }
+        segments.push(str.substring(ptr));
+        
+        let validCount = 0;
+        
+        segments.forEach(s => {
+            if (isPalindrome(s)) validCount++;
+            else allValid = false;
         });
-        results.appendChild(div);
+
+        const msg = document.getElementById('msg');
+        if (allValid) {
+            msg.textContent = "VALID PARTITION!";
+            msg.style.color = "#0f0";
+        } else {
+            msg.textContent = `Invalid: ${validCount} / ${segments.length} segments are palindromes.`;
+            msg.style.color = "#f0f";
+        }
     }
 
-    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-    window.onload = () => {
-        loadNew();
-        document.getElementById('modal').classList.remove('hidden');
+    function isPalindrome(s) {
+        if (s.length === 0) return false;
+        return s === s.split('').reverse().join('');
     }
+
+    window.onload = reset;
 </script>
 </body>
 </html>

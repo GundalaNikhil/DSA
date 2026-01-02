@@ -3,289 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REC-014: Sign Flipper</title>
-    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Nunito:wght@600&display=swap" rel="stylesheet">
+    <title>REC-014: Polarity Switch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg: #2d3436;
-            --surface: #34495e;
+            --cell: #dfe6e9;
             --pos: #00b894;
             --neg: #d63031;
-            --text: #dfe6e9;
-            --muted: #b2bec3;
         }
 
         body {
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Righteous', cursive;
             background: var(--bg);
-            color: var(--text);
+            color: #fff;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
             margin: 0;
-            padding: 2rem;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        h1 { font-family: 'Righteous', cursive; color: #74b9ff; font-size: 2.5rem; letter-spacing: 2px; text-transform: uppercase; margin: 0; }
-        .subtitle { color: var(--muted); }
+        h1 { margin-top: 2rem; color: #74b9ff; }
 
-        .game-board {
-            width: 100%;
-            max-width: 800px;
-            background: var(--surface);
-            border-radius: 20px;
-            padding: 2rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .target-panel {
-            background: rgba(0,0,0,0.2);
-            padding: 10px 30px;
+        .battery-pack {
+            background: #222;
+            padding: 20px;
             border-radius: 10px;
-            font-family: 'Righteous';
-            font-size: 2rem;
-            margin-bottom: 2rem;
-            display: flex;
-            gap: 20px;
-        }
-
-        .number-row {
+            margin-top: 2rem;
             display: flex;
             gap: 15px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-bottom: 2rem;
+            box-shadow: inset 0 0 20px #000;
         }
 
-        .sign-switch {
+        .cell-unit {
+            width: 80px;
+            height: 150px;
+            background: #444;
+            border-radius: 5px;
+            position: relative;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 5px;
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-
-        .sign-switch:hover { transform: scale(1.05); }
-
-        .switch-knob {
-            width: 60px;
-            height: 30px;
-            background: #555;
-            border-radius: 15px;
-            position: relative;
-            transition: background 0.3s;
-        }
-
-        .switch-knob::after {
-            content: '';
-            position: absolute;
-            width: 26px;
-            height: 26px;
-            border-radius: 50%;
-            background: white;
-            top: 2px;
-            left: 2px;
-            transition: transform 0.3s;
-        }
-
-        .sign-switch.positive .switch-knob { background: var(--pos); }
-        .sign-switch.negative .switch-knob { background: var(--neg); }
-        
-        .sign-switch.positive .switch-knob::after { transform: translateX(2px); }
-        .sign-switch.negative .switch-knob::after { transform: translateX(30px); }
-
-        .num-val {
-            font-family: 'Righteous';
-            font-size: 1.5rem;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-        .sign-text { font-weight: 800; font-size: 1.2rem; }
-        
-        .positive .num-val { color: var(--pos); }
-        .negative .num-val { color: var(--neg); }
-
-        /* Current sum live feedback */
-        .sum-feedback {
-            font-size: 5rem;
-            font-family: 'Righteous';
-            color: #fff;
-            margin: 1rem 0;
-            transition: color 0.3s;
-        }
-        .sum-feedback.match { color: #f1c40f; text-shadow: 0 0 20px gold; }
-        
-        .limit-info { color: var(--muted); font-weight: 700; }
-        .limit-info.error { color: var(--neg); }
-
-        .btn {
-            background: #0984e3;
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-family: inherit;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
+            justify-content: flex-end;
+            padding-bottom: 20px;
             transition: all 0.3s;
-            box-shadow: 0 5px 0 #0056b3;
         }
-        .btn:active { transform: translateY(5px); box-shadow: none; }
-        .btn-outline { background: transparent; border: 2px solid #0984e3; color: #0984e3; box-shadow: none; }
 
-        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 100; }
-        .hidden { display: none; }
-        .dialog { background: var(--surface); padding: 2rem; border-radius: 15px; max-width: 500px; text-align: center; }
+        /* Toggle Switch */
+        .switch {
+            width: 40px;
+            height: 80px;
+            background: #111;
+            border-radius: 20px;
+            position: absolute;
+            top: 20px;
+            cursor: pointer;
+            border: 2px solid #555;
+        }
+
+        .thumb {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #888;
+            position: absolute;
+            left: 0;
+            transition: all 0.2s;
+        }
+        
+        /* State Positive */
+        .cell-unit.pos .switch { border-color: var(--pos); }
+        .cell-unit.pos .thumb { bottom: 2px; left: 2px; background: var(--pos); }
+        .cell-unit.pos .val { color: var(--pos); }
+
+        /* State Negative */
+        .cell-unit.neg .switch { border-color: var(--neg); }
+        .cell-unit.neg .thumb { top: 2px; left: 2px; background: var(--neg); }
+        .cell-unit.neg .val { color: var(--neg); }
+
+        .val { font-size: 1.5rem; margin-top: auto; }
+
+        .meters {
+            display: flex;
+            gap: 40px;
+            margin-top: 2rem;
+            text-align: center;
+        }
+        
+        .meter-val { font-size: 3rem; }
+
+        .msg { margin-top: 1rem; color: #aaa; }
+
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Sign Flipper</h1>
-    <div class="subtitle">REC-014: Target Sum with Limited Negations</div>
-</header>
+<h1>POLARITY SWITCH</h1>
 
-<main class="game-board">
-    <div class="target-panel">
-        <span style="color:var(--muted)">Target:</span>
-        <span style="color:#f1c40f">2</span>
+<div class="meters">
+    <div>
+        <div>OUTPUT</div>
+        <div class="meter-val" id="output">0</div>
     </div>
-
-    <div class="limit-info" id="limitInfo">Negations Left: 1</div>
-    <div class="sum-feedback" id="currentSum">0</div>
-
-    <div class="number-row" id="numberRow">
-        <!-- Generated -->
-    </div>
-
-    <div style="display:flex; gap:10px; margin-top:20px;">
-        <button class="btn" onclick="startSolving()">Find All Solutions</button>
-        <button class="btn btn-outline" onclick="reset()">Reset</button>
-    </div>
-    
-    <div id="status" style="margin-top:20px; color:var(--muted); min-height:1.5em"></div>
-</main>
-
-<div id="modal" class="modal hidden">
-    <div class="dialog">
-        <h2 style="color:#74b9ff">Instructions</h2>
-        <p>You have numbers: 1, 2, 3.</p>
-        <p>Goal: Reach sum = 2.</p>
-        <p>Constraint: Can flip at most K positive numbers to negative.</p>
-        <button class="btn" onclick="document.getElementById('modal').classList.add('hidden')">Let's Flip</button>
+    <div>
+        <div>TARGET</div>
+        <div class="meter-val" style="color:#f1c40f" id="target">0</div>
     </div>
 </div>
 
-<script>
-    // Problem setup: 3 numbers, Target 2, Max K=1
-    // nums = [1, 2, 3]
-    // 1+2-3 = 0 (Requires 1 neg)
-    // -1+2+3 = 4 ? No, problem example: "1 2 3", Target 2, K=1
-    // Wait, example in MD says: "1 2 3", Target 2, K=1 => Output 2?
-    // +1+2-3 = 0 != 2. 
-    // -1+2+3 = 4 != 2.
-    // +1-2+3 = 2. YES! (1 neg used)
-    // -1-2+3 = 0.
-    // +1+2+3 = 6. 
-    // Are there any others? 
-    // Ah, wait. Problem says "Assign each number + or -".
-    // "Negate at most K numbers". This implies starting state is all positive?
-    // Usually Target Sum is choosing signs for ALL numbers.
-    // Constraint: "You may negate at most K". This implies we CHOOSE at most K to be negative.
-    // Solution: 1, -2, 3 -> Sum 2. (1 neg)
-    
-    const nums = [1, 2, 3];
-    const target = 2;
-    const maxK = 1;
-    let signs = [1, 1, 1]; // 1=pos, -1=neg
+<div class="battery-pack" id="pack">
+    <!-- Cells -->
+</div>
 
-    function reset() {
-        signs = [1, 1, 1];
-        render();
-        document.getElementById('status').textContent = '';
+<div class="msg" id="msg">Flip switches to match Target. Max Negatives: <span id="maxK">1</span></div>
+
+<script>
+    const NUMS = [1, 2, 3, 5, 2];
+    let signs = [1, 1, 1, 1, 1];
+    const TARGET = 3; 
+    // 1+2+3+5+2 = 13.
+    // Need sum 3.
+    // 1-2-3-5+2 ? -7.
+    // 1+2-3+5-2 ? 3. (2 negs).
+    
+    // Let's generate a solvable case for demo
+    // Nums: 5, 3, 2. Target 0. 5-3-2. (2 negs)
+    
+    let currentK = 1;
+
+    function init() {
+        const pack = document.getElementById('pack');
+        pack.innerHTML = '';
+        document.getElementById('target').textContent = TARGET;
+        const maxK = 2; 
+        document.getElementById('maxK').textContent = maxK; // hardcoded demo limit
+
+        NUMS.forEach((n, i) => {
+             const unit = document.createElement('div');
+             unit.className = 'cell-unit pos'; // default pos
+             unit.innerHTML = `
+                <div class="switch" onclick="toggle(${i})">
+                    <div class="thumb"></div>
+                </div>
+                <div class="val">+${n}</div>
+             `;
+             unit.id = `unit-${i}`;
+             pack.appendChild(unit);
+        });
+        update();
     }
 
-    function render() {
-        const container = document.getElementById('numberRow');
-        container.innerHTML = '';
-        
+    function toggle(i) {
+        signs[i] *= -1;
+        const unit = document.getElementById(`unit-${i}`);
+        if(signs[i] === 1) {
+            unit.className = 'cell-unit pos';
+            unit.querySelector('.val').textContent = `+${NUMS[i]}`;
+        } else {
+            unit.className = 'cell-unit neg';
+            unit.querySelector('.val').textContent = `-${NUMS[i]}`;
+        }
+        update();
+    }
+
+    function update() {
         let sum = 0;
-        let negCount = 0;
-
-        nums.forEach((n, i) => {
-            const isPos = signs[i] === 1;
-            const val = n * signs[i];
-            sum += val;
-            if (!isPos) negCount++;
-
-            const div = document.createElement('div');
-            div.className = `sign-switch ${isPos ? 'positive' : 'negative'}`;
-            div.onclick = () => toggleSign(i);
-            
-            div.innerHTML = `
-                <div class="sign-text">${isPos ? '+' : '-'}</div>
-                <div class="switch-knob"></div>
-                <div class="num-val">${n}</div>
-            `;
-            container.appendChild(div);
+        let negs = 0;
+        NUMS.forEach((n, i) => {
+            sum += n * signs[i];
+            if (signs[i] === -1) negs++;
         });
 
-        const sumEl = document.getElementById('currentSum');
-        sumEl.textContent = sum;
-        if (sum === target) sumEl.classList.add('match');
-        else sumEl.classList.remove('match');
-
-        const limitEl = document.getElementById('limitInfo');
-        limitEl.textContent = `Negations: ${negCount} / ${maxK}`;
-        limitEl.className = negCount > maxK ? 'limit-info error' : 'limit-info';
-    }
-
-    function toggleSign(i) {
-        signs[i] *= -1;
-        render();
-    }
-
-    async function startSolving() {
-        document.getElementById('status').textContent = "Brute forcing combinations...";
+        const out = document.getElementById('output');
+        out.textContent = sum;
         
-        // Simple visualization: trying random flips
-        // 000 -> 001 -> 010... binary counter style
-        for(let i=0; i<8; i++) {
-            // Convert i to binary array
-            for(let j=0; j<3; j++) {
-                // If bit is set, it's negative
-                signs[j] = (i & (1 << j)) ? -1 : 1;
-            }
-            render();
-            
-            const currentSum = parseInt(document.getElementById('currentSum').textContent);
-            const negCount = signs.filter(s => s === -1).length;
-
-            if (currentSum === target && negCount <= maxK) {
-                document.getElementById('status').textContent = `FOUND A SOLUTION!`;
-                await sleep(1500); // Pause on match
+        const m = document.getElementById('msg');
+        if (sum === TARGET) {
+            if (negs <= 2) {
+                out.style.color = "#00b894";
+                m.textContent = "VOLTAGE STABILIZED!";
+                m.style.color = "#00b894";
             } else {
-                await sleep(300);
+                out.style.color = "#e17055";
+                m.textContent = "Sum match, but too many negatives!";
+                m.style.color = "#e17055";
             }
+        } else {
+            out.style.color = "#fff";
+            m.textContent = `Negatives used: ${negs} / 2`;
+            m.style.color = "#aaa";
         }
-        document.getElementById('status').textContent = "Scan complete.";
     }
 
-    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-    window.onload = () => {
-        document.getElementById('modal').classList.remove('hidden');
-        render();
-    };
+    window.onload = init;
 </script>
 </body>
 </html>

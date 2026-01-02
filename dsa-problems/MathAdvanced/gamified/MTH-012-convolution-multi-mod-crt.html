@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTH-012: Multi-Realm Bridge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1e1e2f;
+            --surface: #2a2a40;
+            --realm1: #ff6f61;
+            --realm2: #6b5b95;
+            --realm3: #88b04b;
+            --bridge: #f7cac9;
+            --text: #f4f4f4;
+            --muted: #a0a0b0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Lexend', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--surface);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 { font-size: 1.3rem; color: var(--bridge); }
+        .subtitle { color: var(--muted); font-size: 0.85rem; }
+
+        .btn {
+            background: var(--bridge);
+            color: var(--bg);
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn:hover { opacity: 0.9; }
+        .btn-outline { background: transparent; border: 2px solid var(--bridge); color: var(--bridge); }
+
+        main {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .concept-card {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .concept-card p { color: var(--muted); line-height: 1.6; }
+
+        .realms-container {
+            display: flex;
+            gap: 15px;
+            width: 100%;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .realm {
+            background: var(--surface);
+            border-radius: 12px;
+            padding: 1.5rem;
+            flex: 1;
+            min-width: 200px;
+            text-align: center;
+        }
+
+        .realm h3 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .realm.r1 { border: 2px solid var(--realm1); }
+        .realm.r1 h3 { color: var(--realm1); }
+
+        .realm.r2 { border: 2px solid var(--realm2); }
+        .realm.r2 h3 { color: var(--realm2); }
+
+        .realm.r3 { border: 2px solid var(--realm3); }
+        .realm.r3 h3 { color: var(--realm3); }
+
+        .realm .mod-label {
+            font-family: 'Fira Code';
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-bottom: 1rem;
+        }
+
+        .realm-values {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .r-val {
+            background: rgba(255,255,255,0.1);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Fira Code';
+            font-size: 0.85rem;
+        }
+
+        .bridge-zone {
+            background: var(--surface);
+            border-radius: 15px;
+            padding: 1.5rem;
+            width: 100%;
+            text-align: center;
+            border: 2px dashed var(--bridge);
+        }
+
+        .bridge-zone h3 {
+            color: var(--bridge);
+            margin-bottom: 1rem;
+        }
+
+        .crt-visual {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .crt-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .crt-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 3px solid var(--muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            transition: all 0.4s;
+        }
+
+        .crt-circle.active {
+            border-color: var(--bridge);
+            color: var(--bridge);
+        }
+
+        .crt-circle.done {
+            border-color: var(--realm3);
+            color: var(--realm3);
+        }
+
+        .result-panel {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 100%;
+            text-align: center;
+            border: 2px solid var(--realm3);
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .result-panel.visible { opacity: 1; }
+        .result-panel h3 { color: var(--realm3); margin-bottom: 1rem; }
+
+        .final-values {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .f-val {
+            background: var(--realm3);
+            color: #000;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-family: 'Fira Code';
+            font-weight: 600;
+        }
+
+        .controls { display: flex; gap: 1rem; }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(30, 30, 47, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal.hidden { display: none; }
+
+        .dialog {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 500px;
+        }
+
+        .dialog h2 { color: var(--bridge); margin-bottom: 1rem; }
+        .dialog p { margin: 0.8rem 0; line-height: 1.7; color: var(--muted); }
+        .dialog strong { color: var(--text); }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>🌉 Multi-Realm Bridge</h1>
+        <div class="subtitle">MTH-012: Convolution with CRT</div>
+    </div>
+    <button class="btn btn-outline" onclick="showProtocol()">Protocol</button>
+</header>
+
+<main>
+    <div class="concept-card">
+        <p>When the target modulus isn't NTT-friendly, compute in <strong>parallel realms</strong> (each with NTT prime) and then <strong>bridge</strong> results with CRT!</p>
+    </div>
+
+    <div class="realms-container">
+        <div class="realm r1">
+            <h3>Realm 1</h3>
+            <div class="mod-label">mod 998244353</div>
+            <div class="realm-values" id="realm1"></div>
+        </div>
+        <div class="realm r2">
+            <h3>Realm 2</h3>
+            <div class="mod-label">mod 1004535809</div>
+            <div class="realm-values" id="realm2"></div>
+        </div>
+        <div class="realm r3">
+            <h3>Realm 3</h3>
+            <div class="mod-label">mod 469762049</div>
+            <div class="realm-values" id="realm3"></div>
+        </div>
+    </div>
+
+    <div class="bridge-zone">
+        <h3>Chinese Remainder Theorem Bridge</h3>
+        <div class="crt-visual">
+            <div class="crt-step">
+                <div class="crt-circle" id="c1">R1</div>
+                <span style="font-size:0.75rem;color:var(--muted)">NTT</span>
+            </div>
+            <span style="color:var(--muted)">+</span>
+            <div class="crt-step">
+                <div class="crt-circle" id="c2">R2</div>
+                <span style="font-size:0.75rem;color:var(--muted)">NTT</span>
+            </div>
+            <span style="color:var(--muted)">+</span>
+            <div class="crt-step">
+                <div class="crt-circle" id="c3">R3</div>
+                <span style="font-size:0.75rem;color:var(--muted)">NTT</span>
+            </div>
+            <span style="color:var(--muted)">→</span>
+            <div class="crt-step">
+                <div class="crt-circle" id="c4">CRT</div>
+                <span style="font-size:0.75rem;color:var(--muted)">Combine</span>
+            </div>
+        </div>
+        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 1rem;">Target: mod 10<sup>9</sup>+7</p>
+    </div>
+
+    <div class="result-panel" id="resultPanel">
+        <h3>Unified Result (mod 10⁹+7)</h3>
+        <div class="final-values" id="finalValues"></div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" id="bridgeBtn" onclick="performBridge()">Bridge Realms!</button>
+        <button class="btn btn-outline" onclick="newArrays()">New Arrays</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>🌉 Multi-Realm Bridge Guide</h2>
+        <p><strong>The Problem:</strong></p>
+        <p>NTT only works with specific "NTT-friendly" primes. What if we need result mod 10⁹+7?</p>
+        
+        <p><strong>The Solution:</strong></p>
+        <p>1. Compute convolution mod <em>multiple</em> NTT primes (parallel realms)</p>
+        <p>2. Use Chinese Remainder Theorem to combine results</p>
+        <p>3. Take final result mod your target</p>
+        
+        <p><strong>Why it works:</strong></p>
+        <p>If we know x mod p₁, x mod p₂, x mod p₃, and p₁×p₂×p₃ is large enough, CRT uniquely determines x!</p>
+        
+        <button class="btn" onclick="hideProtocol()" style="margin-top:1rem;">Build the Bridge!</button>
+    </div>
+</div>
+
+<script>
+    let A = [], B = [];
+    const MOD = 1000000007;
+
+    function showProtocol() { document.getElementById('modal').classList.remove('hidden'); }
+    function hideProtocol() { document.getElementById('modal').classList.add('hidden'); }
+
+    function newArrays() {
+        A = Array.from({length: 3}, () => Math.floor(Math.random() * 100));
+        B = Array.from({length: 3}, () => Math.floor(Math.random() * 100));
+        
+        // Compute in each "realm"
+        const c1 = convolve(A, B, 998244353);
+        const c2 = convolve(A, B, 1004535809);
+        const c3 = convolve(A, B, 469762049);
+
+        renderRealm('realm1', c1);
+        renderRealm('realm2', c2);
+        renderRealm('realm3', c3);
+
+        document.getElementById('finalValues').innerHTML = '';
+        document.getElementById('resultPanel').classList.remove('visible');
+        
+        ['c1','c2','c3','c4'].forEach(id => {
+            document.getElementById(id).classList.remove('active', 'done');
+        });
+
+        document.getElementById('bridgeBtn').disabled = false;
+    }
+
+    function renderRealm(id, arr) {
+        const container = document.getElementById(id);
+        container.innerHTML = '';
+        arr.forEach(v => {
+            const el = document.createElement('div');
+            el.className = 'r-val';
+            el.textContent = v;
+            container.appendChild(el);
+        });
+    }
+
+    function convolve(a, b, mod) {
+        const result = new Array(a.length + b.length - 1).fill(0);
+        for (let i = 0; i < a.length; i++) {
+            for (let j = 0; j < b.length; j++) {
+                result[i + j] = (result[i + j] + a[i] * b[j]) % mod;
+            }
+        }
+        return result;
+    }
+
+    async function performBridge() {
+        document.getElementById('bridgeBtn').disabled = true;
+
+        // Animate CRT steps
+        const steps = ['c1', 'c2', 'c3', 'c4'];
+        for (const id of steps) {
+            document.getElementById(id).classList.add('active');
+            await sleep(400);
+            document.getElementById(id).classList.remove('active');
+            document.getElementById(id).classList.add('done');
+        }
+
+        // Compute final result
+        const result = convolve(A, B, MOD);
+        
+        const container = document.getElementById('finalValues');
+        container.innerHTML = '';
+        result.forEach(v => {
+            const el = document.createElement('div');
+            el.className = 'f-val';
+            el.textContent = v;
+            container.appendChild(el);
+        });
+
+        document.getElementById('resultPanel').classList.add('visible');
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    window.onload = newArrays;
+</script>
+</body>
+</html>

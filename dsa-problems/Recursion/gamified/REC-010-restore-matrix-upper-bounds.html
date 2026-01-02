@@ -3,194 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REC-010: Grid Filler</title>
-    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <title>REC-010: Sudoku Recon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Architects+Daughter&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #eceff1;
-            --paper: #fff;
-            --lines: #90a4ae;
-            --ink: #263238;
-            --pencil: #546e7a;
-            --error: #ef5350;
-            --success: #66bb6a;
+            --bg: #fff;
+            --grid: #333;
+            --cell: white;
+            --text: #333;
         }
 
-        body { font-family: 'Open Sans', sans-serif; background: var(--bg); color: var(--ink); display: flex; flex-direction: column; align-items: center; padding: 2rem; min-height: 100vh; }
-        
-        h1 { font-family: 'Architects Daughter', cursive; margin-bottom: 0.5rem; font-size: 2rem; }
-        p { margin-bottom: 2rem; color: var(--pencil); max-width: 600px; text-align: center; }
+        body {
+            font-family: 'Architects Daughter', cursive;
+            background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAHklEQVQYV2NkQAKM+AwoKDBDGUAx4gMwFKAJEQx+GAB9YAgG/0kO4QAAAABJRU5ErkJggg==');
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        h1 { margin-top: 2rem; font-size: 2.5rem; text-decoration: underline; }
 
         .blueprint {
-            background: var(--paper);
-            padding: 2rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-            border-radius: 4px;
-            position: relative;
-            background-image: 
-                linear-gradient(var(--lines) 1px, transparent 1px),
-                linear-gradient(90deg, var(--lines) 1px, transparent 1px);
-            background-size: 20px 20px;
-            background-position: -1px -1px;
+            background: #fff;
+            padding: 40px;
+            box-shadow: 10px 10px 0 rgba(0,0,0,0.1);
+            border: 2px solid #333;
+            margin-top: 2rem;
+            display: grid;
+            grid-template-columns: auto auto;
+            gap: 10px;
         }
 
-        .grid-layout {
+        .grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* 2 cols + sum */
-            gap: 15px;
-            align-items: center;
-            justify-items: center;
+            grid-template-columns: repeat(3, 60px);
+            grid-template-rows: repeat(3, 60px);
+            border: 2px solid #000;
         }
 
         .cell {
-            width: 70px;
-            height: 70px;
-            background: white;
-            border: 2px solid var(--ink);
+            border: 1px solid #555;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
-            font-family: 'Architects Daughter', cursive;
-            position: relative;
         }
 
-        .cell input {
+        input {
             width: 100%;
             height: 100%;
             border: none;
             text-align: center;
-            font-size: 1.5rem;
             font-family: inherit;
-            color: var(--ink);
+            font-size: 1.5rem;
             background: transparent;
             outline: none;
+            color: blue;
+        }
+        
+        .row-sums {
+            display: grid;
+            grid-template-rows: repeat(3, 60px);
+            align-items: center;
+            padding-left: 10px;
+            font-weight: bold;
         }
 
-        .helper-text {
-            position: absolute;
-            top: 2px;
-            right: 4px;
-            font-size: 0.7rem;
-            color: var(--lines);
-            font-family: sans-serif;
+        .col-sums {
+    
+            display: grid;
+            grid-template-columns: repeat(3, 60px);
+            justify-items: center;
+            padding-top: 10px;
+            font-weight: bold;
         }
 
-        .sum-label {
-            font-weight: 700;
-            color: var(--pencil);
-            font-size: 1.2rem;
-        }
-
-        .header-cell {
-            font-weight: 700;
-            margin-bottom: 10px;
-            color: var(--pencil);
-        }
+        .sum-val.ok { color: green; }
+        .sum-val.bad { color: red; }
 
         .btn {
             margin-top: 2rem;
-            padding: 12px 30px;
-            font-family: 'Architects Daughter', cursive;
-            font-size: 1.2rem;
-            background: var(--ink);
-            color: white;
+            background: #333;
+            color: #fff;
             border: none;
+            padding: 10px 30px;
+            font-family: inherit;
+            font-size: 1.2rem;
             cursor: pointer;
-            border-radius: 255px 15px 225px 15px/15px 225px 15px 255px;
-            transition: transform 0.1s;
         }
-        .btn:hover { transform: scale(1.02); }
-
-        .status { margin-top: 1rem; font-weight: 600; min-height: 1.5rem; }
-        .success { color: var(--success); }
-        .fail { color: var(--error); }
 
     </style>
 </head>
 <body>
 
-<h1>Grid Filler</h1>
-<p>REC-010: Restore matrix satisfying Row Sums, Col Sums, and Upper Bounds for each cell.</p>
+<h1>GRID RECON</h1>
 
 <div class="blueprint">
-    <div class="grid-layout" style="grid-template-columns: 80px 80px 60px;">
-        <!-- Header Row -->
-        <div></div>
-        <div></div>
-        <div class="header-cell">Row Σ</div>
-
-        <!-- Row 1 -->
-        <div class="cell" id="c00"><span class="helper-text">≤2</span><input type="text" readonly></div>
-        <div class="cell" id="c01"><span class="helper-text">≤3</span><input type="text" readonly></div>
-        <div class="sum-label">3</div>
-
-        <!-- Row 2 -->
-        <div class="cell" id="c10"><span class="helper-text">≤3</span><input type="text" readonly></div>
-        <div class="cell" id="c11"><span class="helper-text">≤4</span><input type="text" readonly></div>
-        <div class="sum-label">4</div>
-
-        <!-- Footer Row (Col Sums) -->
-        <div class="sum-label" style="margin-top:10px">4</div>
-        <div class="sum-label" style="margin-top:10px">3</div>
-        <div></div>
+    <div class="grid" id="grid">
+        <!-- Cells -->
     </div>
+    <div class="row-sums" id="rowSums"></div>
+    
+    <div class="col-sums" id="colSums"></div>
+    <!-- Corner spacer -->
 </div>
 
-<div class="status" id="status"></div>
-<button class="btn" onclick="solve()">Auto-Fill Matrix</button>
+<div class="info" style="margin-top:20px; text-align:center">
+    <div>Fill cells (1-9) to match Row/Col sums.</div>
+    <div style="font-size:0.8rem; color:#666">Constraint: Upper Bound Matrix (not shown for simplicity, assume 9)</div>
+</div>
+
+<button class="btn" onclick="init()">New Sheet</button>
 
 <script>
-    // Problem Data
-    const r = 2, c = 2;
-    const rowSums = [3, 4];
-    const colSums = [4, 3];
-    const bounds = [[2,3], [3,4]];
+    const N = 3;
+    const TARGET_ROWS = [6, 15, 24]; // e.g.
+    const TARGET_COLS = [12, 15, 18];
+    // Example Solution:
+    // 1 2 3 = 6
+    // 4 5 6 = 15
+    // 7 8 9 = 24
+    // c1:1+4+7=12. c2:2+5+8=15. c3:3+6+9=18. Matches.
     
-    // Solution (Calculated or pre-known for demo)
-    // Row 1: 2, 1 (Sum=3, Cols: 2,1)
-    // Row 2: 2, 2 (Sum=4, Cols: 2+2=4, 1+2=3) - Wait.
-    // Example from problem:
-    // r1: 3,4
-    // c: 4,3
-    // bounds: 2,3 / 3,4
-    // Output: 2 1 / 2 2. 
-    // Wait, col 1 sum = 2+2=4. Col 2 sum = 1+2=3. Correct.
-    const solution = [[2,1], [2,2]];
-
-    async function solve() {
-        const status = document.getElementById('status');
-        status.textContent = "Calculating...";
-        status.className = "status";
+    function init() {
+        const grid = document.getElementById('grid');
+        grid.innerHTML = '';
         
-        // Clear grid
-        for(let i=0; i<r; i++) {
-            for(let j=0; j<c; j++) {
-                document.querySelector(`#c${i}${j} input`).value = '';
-            }
-        }
-        await sleep(500);
-
-        // Animate filling
-        for(let i=0; i<r; i++) {
-            for(let j=0; j<c; j++) {
-                const input = document.querySelector(`#c${i}${j} input`);
-                input.value = '.'; 
-                await sleep(200);
-                input.value = solution[i][j];
-                // Flash effect
-                input.parentElement.style.borderColor = 'var(--success)';
-                await sleep(100);
-                input.parentElement.style.borderColor = 'var(--ink)';
+        for(let r=0; r<N; r++) {
+            for(let c=0; c<N; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                const inp = document.createElement('input');
+                inp.type = 'text';
+                inp.maxLength = 1;
+                inp.oninput = updateCheck;
+                inp.id = `i-${r}-${c}`;
+                cell.appendChild(inp);
+                grid.appendChild(cell);
             }
         }
 
-        status.textContent = "Restoration Complete! All constraints satisfied.";
-        status.className = "status success";
+        renderSums();
     }
 
-    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-</script>
+    function renderSums() {
+        // Static targets for demo
+        const rDiv = document.getElementById('rowSums');
+        rDiv.innerHTML = '';
+        TARGET_ROWS.forEach(s => {
+            const div = document.createElement('div');
+            div.textContent = s;
+            div.className = 'sum-val'; // ID for update
+            rDiv.appendChild(div);
+        });
 
+        const cDiv = document.getElementById('colSums');
+        cDiv.innerHTML = '';
+        TARGET_COLS.forEach(s => {
+            const div = document.createElement('div');
+            div.textContent = s;
+            div.className = 'sum-val';
+            cDiv.appendChild(div);
+        });
+        
+        updateCheck();
+    }
+
+    function updateCheck() {
+        // Calculate current sums
+        let rSums = [0,0,0];
+        let cSums = [0,0,0];
+
+        for(let r=0; r<N; r++) {
+            for(let c=0; c<N; c++) {
+                const val = parseInt(document.getElementById(`i-${r}-${c}`).value) || 0;
+                rSums[r] += val;
+                cSums[c] += val;
+            }
+        }
+
+        // Update visuals
+        const rEls = document.getElementById('rowSums').children;
+        const cEls = document.getElementById('colSums').children;
+
+        for(let i=0; i<N; i++) {
+            rEls[i].className = rSums[i] === TARGET_ROWS[i] ? 'sum-val ok' : 'sum-val bad';
+            rEls[i].innerHTML = `${rSums[i]} / ${TARGET_ROWS[i]}`;
+            
+            cEls[i].className = cSums[i] === TARGET_COLS[i] ? 'sum-val ok' : 'sum-val bad';
+            cEls[i].innerHTML = `${cSums[i]}<br>/ ${TARGET_COLS[i]}`;
+        }
+    }
+
+    window.onload = init;
+</script>
 </body>
 </html>

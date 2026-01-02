@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MTH-008: Binary Fusion</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@400;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1a1a2e;
+            --surface: #25274d;
+            --primary: #ff6b6b;
+            --secondary: #4ecdc4;
+            --text: #fff;
+            --muted: #9ba4b4;
+            --xor: #f9ca24;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--surface);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h1 { font-size: 1.3rem; color: var(--primary); }
+        .subtitle { color: var(--muted); font-size: 0.85rem; }
+
+        .btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn:hover { transform: scale(1.05); }
+        .btn-outline { background: transparent; border: 2px solid var(--primary); }
+
+        main {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .concept-box {
+            background: var(--surface);
+            padding: 1.2rem;
+            border-radius: 12px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .concept-box p { color: var(--muted); line-height: 1.6; }
+        .concept-box strong { color: var(--xor); }
+
+        .arrays-container {
+            display: flex;
+            gap: 1.5rem;
+            width: 100%;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .array-panel {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .array-panel h3 {
+            font-size: 0.85rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .array-cells {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .array-cell {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .cell-index {
+            font-size: 0.7rem;
+            color: var(--muted);
+            font-family: 'Fira Code';
+        }
+
+        .cell-value {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fira Code';
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .array-a .cell-value { background: var(--primary); }
+        .array-b .cell-value { background: var(--secondary); color: #000; }
+        .array-result .cell-value { background: var(--xor); color: #000; }
+
+        .transform-visual {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .transform-visual h3 {
+            color: var(--muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .fwht-stages {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .fwht-stage {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stage-circle {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 3px solid var(--muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--muted);
+            transition: all 0.4s;
+        }
+
+        .stage-circle.active {
+            border-color: var(--xor);
+            color: var(--xor);
+            transform: scale(1.1);
+        }
+
+        .stage-circle.done {
+            border-color: var(--secondary);
+            color: var(--secondary);
+            background: rgba(78, 205, 196, 0.2);
+        }
+
+        .stage-label { font-size: 0.75rem; color: var(--muted); }
+
+        .arrow-connector {
+            font-size: 1.5rem;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+        }
+
+        .xor-demo {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+            font-family: 'Fira Code';
+            font-size: 0.9rem;
+        }
+
+        .xor-demo .op { color: var(--xor); }
+
+        .result-panel {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 12px;
+            width: 100%;
+            border: 2px solid var(--secondary);
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .result-panel.visible { opacity: 1; }
+        .result-panel h3 { color: var(--secondary); margin-bottom: 1rem; text-align: center; }
+
+        .controls { display: flex; gap: 1rem; }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(26,26,46,0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal.hidden { display: none; }
+
+        .dialog {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 500px;
+        }
+
+        .dialog h2 { color: var(--primary); margin-bottom: 1rem; }
+        .dialog p { margin: 0.8rem 0; line-height: 1.7; color: var(--muted); }
+        .dialog strong { color: var(--text); }
+
+        .formula-box {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Fira Code';
+            text-align: center;
+            margin: 1rem 0;
+            color: var(--xor);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>⚡ Binary Fusion</h1>
+        <div class="subtitle">MTH-008: Fast Walsh-Hadamard Transform (XOR Convolution)</div>
+    </div>
+    <button class="btn btn-outline" onclick="showProtocol()">Protocol</button>
+</header>
+
+<main>
+    <div class="concept-box">
+        <p>XOR Convolution: <strong>C[i⊕j] += A[i] × B[j]</strong><br>
+        Watch two arrays fuse through the Walsh-Hadamard Transform!</p>
+    </div>
+
+    <div class="arrays-container">
+        <div class="array-panel array-a">
+            <h3>Array A</h3>
+            <div class="array-cells" id="arrayA"></div>
+        </div>
+        <div class="array-panel array-b">
+            <h3>Array B</h3>
+            <div class="array-cells" id="arrayB"></div>
+        </div>
+    </div>
+
+    <div class="transform-visual">
+        <h3>FWHT Pipeline</h3>
+        <div class="fwht-stages">
+            <div class="fwht-stage">
+                <div class="stage-circle" id="s1">FWHT(A)</div>
+                <span class="stage-label">Transform A</span>
+            </div>
+            <div class="arrow-connector">→</div>
+            <div class="fwht-stage">
+                <div class="stage-circle" id="s2">FWHT(B)</div>
+                <span class="stage-label">Transform B</span>
+            </div>
+            <div class="arrow-connector">→</div>
+            <div class="fwht-stage">
+                <div class="stage-circle" id="s3">×</div>
+                <span class="stage-label">Multiply</span>
+            </div>
+            <div class="arrow-connector">→</div>
+            <div class="fwht-stage">
+                <div class="stage-circle" id="s4">IFWHT</div>
+                <span class="stage-label">Inverse</span>
+            </div>
+        </div>
+        <div class="xor-demo">
+            Example: index <span class="op">2 ⊕ 1 = 3</span>, so A[2]×B[1] goes to C[3]
+        </div>
+    </div>
+
+    <div class="result-panel" id="resultPanel">
+        <h3>XOR Convolution Result</h3>
+        <div class="array-cells array-result" id="arrayResult" style="justify-content: center;"></div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" id="fuseBtn" onclick="performFWHT()">Fuse Arrays!</button>
+        <button class="btn btn-outline" onclick="newArrays()">New Arrays</button>
+    </div>
+</main>
+
+<div id="modal" class="modal">
+    <div class="dialog">
+        <h2>⚡ Binary Fusion Guide</h2>
+        <p><strong>What is XOR Convolution?</strong></p>
+        <p>Instead of adding indices (normal convolution), we XOR them!</p>
+        <div class="formula-box">
+            C[k] = Σ A[i] × B[j] where i ⊕ j = k
+        </div>
+        
+        <p><strong>Walsh-Hadamard Transform:</strong></p>
+        <p>Like FFT but for XOR operations. Works on arrays of size 2^k.</p>
+        
+        <p><strong>Steps:</strong></p>
+        <p>1. Transform both A and B to WHT domain</p>
+        <p>2. Multiply pointwise</p>
+        <p>3. Inverse transform</p>
+        
+        <p><strong>Time:</strong> O(n log n) — much faster than O(n²)!</p>
+        
+        <button class="btn" onclick="hideProtocol()" style="margin-top:1rem;">Start Fusing!</button>
+    </div>
+</div>
+
+<script>
+    let A = [], B = [], C = [];
+    const k = 2; // 2^2 = 4 elements
+
+    function showProtocol() { document.getElementById('modal').classList.remove('hidden'); }
+    function hideProtocol() { document.getElementById('modal').classList.add('hidden'); }
+
+    function renderArray(containerId, arr, isResult = false) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        arr.forEach((v, i) => {
+            const cell = document.createElement('div');
+            cell.className = 'array-cell';
+            const binary = i.toString(2).padStart(k, '0');
+            cell.innerHTML = `
+                <span class="cell-index">${binary}</span>
+                <div class="cell-value">${v}</div>
+            `;
+            container.appendChild(cell);
+        });
+    }
+
+    function newArrays() {
+        const n = 1 << k;
+        A = Array.from({length: n}, () => Math.floor(Math.random() * 5));
+        B = Array.from({length: n}, () => Math.floor(Math.random() * 5));
+        C = [];
+
+        renderArray('arrayA', A);
+        renderArray('arrayB', B);
+        document.getElementById('arrayResult').innerHTML = '';
+        document.getElementById('resultPanel').classList.remove('visible');
+
+        ['s1','s2','s3','s4'].forEach(id => {
+            document.getElementById(id).classList.remove('active', 'done');
+        });
+
+        document.getElementById('fuseBtn').disabled = false;
+    }
+
+    async function performFWHT() {
+        document.getElementById('fuseBtn').disabled = true;
+
+        // Animate stages
+        const stages = ['s1', 's2', 's3', 's4'];
+        for (const id of stages) {
+            document.getElementById(id).classList.add('active');
+            await sleep(500);
+            document.getElementById(id).classList.remove('active');
+            document.getElementById(id).classList.add('done');
+        }
+
+        // Compute XOR convolution
+        C = xorConvolution(A, B);
+
+        renderArray('arrayResult', C, true);
+        document.getElementById('resultPanel').classList.add('visible');
+    }
+
+    function xorConvolution(a, b) {
+        const n = a.length;
+        const result = new Array(n).fill(0);
+        for (let i = 0; i < n; i++) {
+            for (let j = 0; j < n; j++) {
+                result[i ^ j] += a[i] * b[j];
+            }
+        }
+        return result;
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    window.onload = newArrays;
+</script>
+</body>
+</html>

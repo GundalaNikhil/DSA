@@ -3,196 +3,189 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REC-004: Seat Arranger</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <title>REC-004: Proctor's Puzzle</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&family=Open+Sans&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #f5f5f5;
-            --surface: #fff;
-            --primary: #5e35b1;
-            --secondary: #7e57c2;
-            --accent: #ffab00;
-            --success: #43a047;
-            --text: #212121;
-            --muted: #757575;
-            --seat: #e1bee7;
-            --occupied: #5e35b1;
+            --bg: #fff;
+            --seat: #dfe6e9;
+            --student: #6c5ce7;
+            --conflict: #d63031;
+            --text: #2d3436;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
 
-        header { background: var(--surface); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        h1 { font-size: 1.3rem; color: var(--primary); }
-        .subtitle { color: var(--muted); font-size: 0.85rem; }
+        h1 {
+            font-family: 'Cabin Sketch', cursive;
+            font-size: 3rem;
+            margin-top: 1rem;
+        }
 
-        .btn { background: var(--primary); color: #fff; border: none; padding: 10px 24px; border-radius: 8px; cursor: pointer; font-family: inherit; font-weight: 600; transition: all 0.3s; }
-        .btn:hover { background: var(--secondary); }
-        .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+        .classroom {
+            background: url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" fill="white"/><path d="M0 40 L40 0" stroke="%23eee" stroke-width="1"/></svg>');
+            padding: 40px;
+            border: 2px solid #333;
+            border-radius: 10px;
+            margin-top: 2rem;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            max-width: 600px;
+            justify-content: center;
+        }
 
-        main { padding: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; max-width: 700px; margin: 0 auto; }
+        .seat {
+            width: 60px;
+            height: 60px;
+            background: var(--seat);
+            border: 2px dashed #b2bec3;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+            transition: transform 0.1s;
+        }
 
-        .info-card { background: var(--surface); padding: 1.5rem; border-radius: 12px; width: 100%; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .info-card p { color: var(--muted); line-height: 1.6; }
+        .seat:hover { transform: scale(1.05); border-color: #636e72; }
 
-        .config-panel { background: var(--surface); padding: 1rem; border-radius: 12px; width: 100%; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
-        .config-item { display: flex; flex-direction: column; align-items: center; gap: 5px; }
-        .config-item label { color: var(--muted); font-size: 0.85rem; }
-        .config-item input { padding: 8px 12px; border: 2px solid var(--muted); border-radius: 8px; width: 60px; text-align: center; font-family: inherit; }
+        .seat.occupied {
+            background: var(--student);
+            border: 2px solid #333;
+            color: white;
+            font-weight: bold;
+        }
 
-        .seats-container { background: var(--surface); padding: 1.5rem; border-radius: 12px; width: 100%; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .seats-container h3 { color: var(--muted); font-size: 0.85rem; text-transform: uppercase; margin-bottom: 1rem; text-align: center; }
+        .seat.invalid {
+            animation: shake 0.3s;
+            background: var(--conflict);
+        }
 
-        .seats-row { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
 
-        .seat { width: 45px; height: 45px; background: var(--seat); border-radius: 10px 10px 5px 5px; display: flex; align-items: center; justify-content: center; font-weight: 600; color: var(--muted); transition: all 0.3s; position: relative; }
-        .seat.occupied { background: var(--occupied); color: #fff; }
-        .seat.considering { border: 3px solid var(--accent); }
-        .seat .idx { position: absolute; bottom: -18px; font-size: 0.7rem; color: var(--muted); }
+        .rule-display {
+            background: #ffeaa7;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-top: 2rem;
+            font-weight: bold;
+            box-shadow: 3px 3px 0 #fdcb6e;
+        }
 
-        .gap-indicator { display: flex; align-items: center; color: var(--accent); font-size: 0.8rem; padding: 0 5px; }
+        .status { font-size: 1.2rem; margin-top: 1rem; min-height: 2rem; }
 
-        .result-panel { background: var(--surface); padding: 1.5rem; border-radius: 12px; width: 100%; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .result-panel h3 { color: var(--success); margin-bottom: 1rem; text-align: center; }
-        .arrangement-list { display: flex; flex-direction: column; gap: 8px; max-height: 150px; overflow-y: auto; }
-        .arrangement-item { background: var(--bg); padding: 10px; border-radius: 8px; font-family: 'Fira Code'; text-align: center; }
+        .btn {
+            margin-top: 1rem;
+            padding: 10px 25px;
+            border: 2px solid #333;
+            background: white;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: inherit;
+        }
+        .btn:hover { background: #eee; }
 
-        .count-display { font-size: 2rem; font-weight: 700; color: var(--primary); text-align: center; margin-top: 0.5rem; }
-
-        .controls { display: flex; gap: 1rem; }
-
-        .modal { position: fixed; inset: 0; background: rgba(33, 33, 33, 0.9); display: flex; align-items: center; justify-content: center; z-index: 100; }
-        .modal.hidden { display: none; }
-        .dialog { background: var(--surface); padding: 2rem; border-radius: 15px; max-width: 480px; }
-        .dialog h2 { color: var(--primary); margin-bottom: 1rem; }
-        .dialog p { margin: 0.8rem 0; line-height: 1.7; color: var(--text); }
     </style>
 </head>
 <body>
 
-<header>
-    <div>
-        <h1>💺 Seat Arranger</h1>
-        <div class="subtitle">REC-004: Exam Seating Backtrack</div>
-    </div>
-    <button class="btn btn-outline" onclick="showProtocol()">Protocol</button>
-</header>
+<h1>PROCTOR'S PUZZLE</h1>
 
-<main>
-    <div class="info-card">
-        <p>Place <strong>k students</strong> in <strong>n seats</strong> with at least <strong>d empty seats</strong> between any two. Count all valid arrangements!</p>
-    </div>
-
-    <div class="config-panel">
-        <div class="config-item"><label>Seats (n)</label><input type="number" id="nInput" value="5" min="1" max="12"></div>
-        <div class="config-item"><label>Students (k)</label><input type="number" id="kInput" value="2" min="0" max="6"></div>
-        <div class="config-item"><label>Gap (d)</label><input type="number" id="dInput" value="2" min="0" max="5"></div>
-    </div>
-
-    <div class="seats-container">
-        <h3>Exam Hall Seats</h3>
-        <div class="seats-row" id="seatsRow"></div>
-    </div>
-
-    <div class="result-panel">
-        <h3>Valid Arrangements</h3>
-        <div class="arrangement-list" id="arrangementList"></div>
-        <div class="count-display" id="countDisplay">0</div>
-    </div>
-
-    <div class="controls">
-        <button class="btn" onclick="findArrangements()">Find Arrangements</button>
-        <button class="btn btn-outline" onclick="reset()">Reset</button>
-    </div>
-</main>
-
-<div id="modal" class="modal hidden">
-    <div class="dialog">
-        <h2>💺 Seat Arranger Guide</h2>
-        <p><strong>The Problem:</strong></p>
-        <p>Place k students in n seats such that any two have at least d empty seats between them.</p>
-        <p><strong>Key Insight:</strong></p>
-        <p>If student at seat i, next must be at seat ≥ i + d + 1</p>
-        <p><strong>Backtracking:</strong></p>
-        <p>Try placing each student at each valid seat, pruning when remaining seats are insufficient.</p>
-        <button class="btn" onclick="hideProtocol()" style="margin-top:1rem;">Start Arranging!</button>
-    </div>
+<div class="rule-display">
+    Gap Rule: Must have <span id="gapVal" style="color:red; font-size:1.2rem">2</span> empty seats between students.
 </div>
 
+<div class="status" id="status">Students to place: <span id="studentsLeft">3</span></div>
+
+<div class="classroom" id="room">
+    <!-- Seats generated -->
+</div>
+
+<button class="btn" onclick="initLevel()">Reset Class</button>
+
 <script>
-    function showProtocol() { document.getElementById('modal').classList.remove('hidden'); }
-    function hideProtocol() { document.getElementById('modal').classList.add('hidden'); }
+    const N = 8;
+    const GAP = 2; // d=2
+    const STUDENTS = 3; // k=3
+    let placedIndices = [];
 
-    function reset() {
-        renderSeats();
-        document.getElementById('arrangementList').innerHTML = '';
-        document.getElementById('countDisplay').textContent = '0';
-    }
+    function initLevel() {
+        const room = document.getElementById('room');
+        room.innerHTML = '';
+        placedIndices = [];
+        updateStatus();
 
-    function renderSeats() {
-        const n = parseInt(document.getElementById('nInput').value);
-        const row = document.getElementById('seatsRow');
-        row.innerHTML = '';
-        
-        for (let i = 0; i < n; i++) {
+        for(let i=0; i<N; i++) {
             const seat = document.createElement('div');
             seat.className = 'seat';
-            seat.id = `seat-${i}`;
-            seat.innerHTML = `<span class="idx">${i}</span>`;
-            row.appendChild(seat);
+            seat.textContent = i;
+            seat.onclick = () => toggleSeat(i, seat);
+            room.appendChild(seat);
         }
     }
 
-    async function findArrangements() {
-        const n = parseInt(document.getElementById('nInput').value);
-        const k = parseInt(document.getElementById('kInput').value);
-        const d = parseInt(document.getElementById('dInput').value);
-
-        document.getElementById('arrangementList').innerHTML = '';
-        const results = [];
-        
-        await backtrack(n, k, d, -1, 0, [], results);
-        
-        document.getElementById('countDisplay').textContent = results.length;
-        if (results.length === 0) {
-            document.getElementById('arrangementList').innerHTML = '<div class="arrangement-item" style="color:var(--muted)">No valid arrangement</div>';
+    function toggleSeat(idx, el) {
+        if (placedIndices.includes(idx)) {
+            // Remove
+            placedIndices = placedIndices.filter(x => x !== idx);
+            el.classList.remove('occupied');
+            updateStatus();
+        } else {
+            // Try to place
+            if (isValid(idx)) {
+                if (placedIndices.length < STUDENTS) {
+                    placedIndices.push(idx);
+                    el.classList.add('occupied');
+                    updateStatus();
+                } else {
+                    alert("No more students!");
+                }
+            } else {
+                // Invalid placement feedback
+                el.classList.add('invalid');
+                setTimeout(() => el.classList.remove('invalid'), 300);
+            }
         }
     }
 
-    async function backtrack(n, k, d, lastSeat, placed, current, results) {
-        if (placed === k) {
-            results.push([...current]);
-            const item = document.createElement('div');
-            item.className = 'arrangement-item';
-            item.textContent = `(${current.join(', ')})`;
-            document.getElementById('arrangementList').appendChild(item);
-            return;
+    function isValid(idx) {
+        // Check distance to all other placed
+        for (let p of placedIndices) {
+            if (Math.abs(p - idx) <= GAP) return false;
         }
+        return true;
+    }
 
-        const minNext = lastSeat + d + 1;
-        const remaining = k - placed;
-        
-        for (let seat = Math.max(0, minNext); seat < n; seat++) {
-            // Prune: not enough seats left
-            const seatsLeft = n - seat;
-            const needed = remaining + (remaining - 1) * d;
-            if (seatsLeft < needed) break;
-
-            document.getElementById(`seat-${seat}`).classList.add('considering');
-            await sleep(80);
-            document.getElementById(`seat-${seat}`).classList.add('occupied');
-            document.getElementById(`seat-${seat}`).textContent = placed + 1;
-
-            await backtrack(n, k, d, seat, placed + 1, [...current, seat], results);
-
-            document.getElementById(`seat-${seat}`).classList.remove('occupied', 'considering');
-            document.getElementById(`seat-${seat}`).textContent = '';
+    function updateStatus() {
+        const left = STUDENTS - placedIndices.length;
+        const msg = document.getElementById('status');
+        if (left === 0) {
+            msg.textContent = "CLASSROOM SET! (All students placed)";
+            msg.style.color = "green";
+        } else {
+            msg.innerHTML = `Students to place: <span id="studentsLeft">${left}</span>`;
+            msg.style.color = "black";
         }
     }
 
-    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
-
-    window.onload = renderSeats;
+    window.onload = initLevel;
 </script>
 </body>
 </html>
