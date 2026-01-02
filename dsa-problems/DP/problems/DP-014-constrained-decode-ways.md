@@ -83,12 +83,97 @@ Dynamic Programming, Strings, Combinatorics
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long decodeWays(String s) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        String s = sc.next();
+        Solution sol = new Solution();
+        System.out.println(sol.decodeWays(s));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def decode_ways(s: str) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    s = input().strip()
+    print(decode_ways(s))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    long long decodeWays(const string& s) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    string s;
+    if (!(cin >> s)) return 0;
+    cout << decodeWays(s) << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  decodeWays(s) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  const s = data[0];
+  console.log(new Solution().decodeWays(s));
+});
+```

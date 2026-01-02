@@ -157,8 +157,8 @@ def extract_python_template(filepath: Path) -> str | None:
             method_def = method_match.group(0).strip()
             default_return = get_python_default_return(method_def)
             
-            # Extract main function
-            main_match = re.search(r'^(def main\(\):.*?)(?=\n\nif __name__|$)', content, re.MULTILINE | re.DOTALL)
+            # Extract main function - capture everything until if __name__
+            main_match = re.search(r'^(def main\(\):.+?)(?=^if __name__)', content, re.MULTILINE | re.DOTALL)
             main_body = main_match.group(1).rstrip() if main_match else 'def main():\n    pass'
             
             return f'''```python
@@ -181,8 +181,8 @@ if __name__ == "__main__":
         func_def = func_match.group(1)
         default_return = get_python_default_return(func_def)
         
-        # Extract main function
-        main_match = re.search(r'^(def main\(\):.*?)(?=\n\nif __name__|$)', content, re.MULTILINE | re.DOTALL)
+        # Extract main function - capture everything until if __name__
+        main_match = re.search(r'^(def main\(\):.+?)(?=^if __name__)', content, re.MULTILINE | re.DOTALL)
         if main_match:
             main_body = main_match.group(1).rstrip()
             return f'''```python
@@ -211,28 +211,22 @@ def extract_cpp_template(filepath: Path) -> str | None:
     includes = re.findall(r'^#include <[^>]+>', content, re.MULTILINE)
     includes_str = '\n'.join(includes[:5]) if includes else '#include <iostream>\n#include <vector>'
     
-    # Find class Solution with public method
+    # Pattern 1: class Solution exists
     class_match = re.search(r'class Solution \{.*?^public:(.*?)^\};', content, re.MULTILINE | re.DOTALL)
     if not class_match:
-        # Try without explicit public
         class_match = re.search(r'class Solution \{(.*?)^\};', content, re.MULTILINE | re.DOTALL)
     
-    if not class_match:
-        return None
-    
-    # Find first public method
-    pub_method = re.search(r'(\w+(?:<[^>]+>)?(?:\s*&)?\s+\w+\([^)]*\))\s*\{', class_match.group(1))
-    if not pub_method:
-        return None
-    
-    method_sig = pub_method.group(1).strip()
-    
-    # Extract main function
-    main_match = re.search(r'^(int main\(\).*?)^}', content, re.MULTILINE | re.DOTALL)
-    if not main_match:
-        return None
-    
-    template = f'''```cpp
+    if class_match:
+        # Find first public method
+        pub_method = re.search(r'(\w+(?:<[^>]+>)?(?:\s*&)?\s+\w+\([^)]*\))\s*\{', class_match.group(1))
+        if pub_method:
+            method_sig = pub_method.group(1).strip()
+            
+            # Extract main function
+            main_match = re.search(r'^(int main\(\).*?)^}', content, re.MULTILINE | re.DOTALL)
+            main_body = main_match.group(1) + '}' if main_match else 'int main() {\n    return 0;\n}'
+            
+            return f'''```cpp
 {includes_str}
 
 using namespace std;
@@ -245,9 +239,68 @@ public:
     }}
 }};
 
-{main_match.group(1)}}}
+{main_body}
 ```'''
-    return template
+
+    # Pattern 2: Standalone function
+    # Find the function called in main or the first non-main function
+    main_match = re.search(r'^(int main\(\).*?)^}', content, re.MULTILINE | re.DOTALL)
+    if main_match:
+        main_body = main_match.group(1) + '}'
+        
+        # Look for the function call in main to identify the solution function
+        # e.g. cout << minCost(n, k, s) << ...
+        # limiting search to simple function calls
+        pass # To be implemented if we want strict call matching, but simpler is to find the function definition
+    else:
+        main_body = 'int main() {\n    return 0;\n}'
+
+    # Find the standalone function definition
+    # Matching pattern: Type Name(Args) {
+    # We use a regex that matches start of line (possibly indented), checks for return type, then name
+    # We explicitly exclude control structures (if, for, while, etc) in loop
+    
+    # Regex breakdown:
+    # ^[\t ]* : Start of line, optional indentation
+    # ([a-zA-Z0-9_<>:*&]+(?:[\s*&]+[a-zA-Z0-9_<>:*&]+)*) : Return type (words, symbols like < > : * &, separated by space/symbols)
+    # \s+ : separator
+    # (\w+) : Function name
+    # \s*\( : Opening paren
+    # ([^)]*) : Args
+    # \)\s*\{ : Closing paren and opening brace
+    regex = r'^[\t ]*([a-zA-Z0-9_<>:*&]+(?:[\s*&]+[a-zA-Z0-9_<>:*&]+)*)\s+(\w+)\s*\(([^)]*)\)\s*\{'
+    
+    keywords = {'if', 'while', 'for', 'switch', 'catch', 'else'}
+    
+    matches = re.finditer(regex, content, re.MULTILINE)
+    for m in matches:
+        ret_type = m.group(1).strip()
+        func_name = m.group(2)
+        args_str = m.group(3)
+        
+        if func_name in keywords or func_name == 'main':
+            continue
+            
+        # Found a potential solution function
+        method_sig = f"{ret_type} {func_name}({args_str})"
+        
+        return f'''```cpp
+{includes_str}
+
+using namespace std;
+
+class Solution {{
+public:
+    {method_sig} {{
+        // Implementation here
+        return {{}};
+    }}
+}};
+
+{main_body}
+```'''
+    
+    return None
 
 def extract_js_template(filepath: Path) -> str | None:
     """Extract JavaScript template from solution file."""
@@ -256,24 +309,26 @@ def extract_js_template(filepath: Path) -> str | None:
     except:
         return None
     
-    # Find class Solution with method
+    # Extract I/O handling (everything after functions)
+    # Finding where the I/O starts - typically after the last function closing brace or require statements
+    io_start = re.search(r'const (readline|rl) =', content, re.MULTILINE)
+    
+    if io_start:
+         io_block = content[io_start.start():].strip()
+    else:
+        # Fallback I/O block if not easily found (should ideally find it)
+        io_match = re.search(r'^const rl = readline\.createInterface.*', content, re.MULTILINE | re.DOTALL)
+        io_block = io_match.group(0).strip() if io_match else '// I/O handling'
+
+    # Pattern 1: class Solution exists
     class_match = re.search(r'class Solution \{(.*?)\n\}', content, re.DOTALL)
-    if not class_match:
-        return None
-    
-    # Find first method
-    method_match = re.search(r'(\w+\([^)]*\))\s*\{', class_match.group(1))
-    if not method_match:
-        return None
-    
-    method_sig = method_match.group(1).strip()
-    
-    # Extract I/O handling (everything after class definition)
-    io_match = re.search(r'^const rl = readline\.createInterface.*', content, re.MULTILINE | re.DOTALL)
-    if not io_match:
-        return None
-    
-    template = f'''```javascript
+    if class_match:
+        # Find first method
+        method_match = re.search(r'(\w+\([^)]*\))\s*\{', class_match.group(1))
+        if method_match:
+            method_sig = method_match.group(1).strip()
+            
+            return f'''```javascript
 const readline = require("readline");
 
 class Solution {{
@@ -283,9 +338,40 @@ class Solution {{
   }}
 }}
 
-{io_match.group(0).strip()}
+{io_block.replace('const readline = require("readline");', '').strip()}
 ```'''
-    return template
+
+    # Pattern 2: Standalone function
+    # e.g. function minCost(n, k, s) { ... }
+    func_match = re.search(r'^function (\w+)\(([^)]*)\)\s*\{', content, re.MULTILINE)
+    if func_match:
+        func_name = func_match.group(1)
+        args = func_match.group(2)
+        
+        # We need to adapt the main I/O code if it calls the function directly
+        # But for template generation, we keep the main logic and just ensure the user instantiates Solution
+        # So we wrap the standalone function into Solution class
+        
+        # Check if the I/O part calls this function directly and update it to use Solution
+        # e.g. console.log(minCost(...)); -> console.log(new Solution().minCost(...));
+        
+        updated_io = io_block.replace('const readline = require("readline");', '').strip()
+        updated_io = re.sub(fr'{func_name}\(', f'new Solution().{func_name}(', updated_io)
+        
+        return f'''```javascript
+const readline = require("readline");
+
+class Solution {{
+  {func_name}({args}) {{
+    // Implementation here
+    return null;
+  }}
+}}
+
+{updated_io}
+```'''
+
+    return None
 
 def update_markdown_file(md_path: Path, templates: dict) -> bool:
     """Update the markdown file with new templates."""

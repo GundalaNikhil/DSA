@@ -91,12 +91,106 @@ Dynamic Programming, Optimization, Greedy
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long minCost(int n, int k, int[] s) {
+        // Implementation here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt(), k = sc.nextInt();
+        int[] s = new int[n];
+        for (int i = 0; i < n; i++) s[i] = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.minCost(n, k, s));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+def min_cost(n: int, k: int, s: List[int]) -> int:
+    # Implementation here
+    return 0
+
+def main():
+    n, k = map(int, input().split())
+    s = list(map(int, input().split()))
+    print(min_cost(n, k, s))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minCost(int n, int k, const vector<int>& s) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, k;
+    if (!(cin >> n >> k)) return 0;
+    vector<int> s(n);
+    for (int i = 0; i < n; ++i) cin >> s[i];
+    cout << minCost(n, k, s) << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  minCost(n, k, s) {
+    // Implementation here
+    return null;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  let ptr = 0;
+  const parts = data[ptr++].split(/\s+/).map(Number);
+  const n = parts[0];
+  const k = parts[1];
+  const s = data[ptr++].split(/\s+/).map(x => parseInt(x));
+
+  console.log(new Solution().minCost(n, k, s));
+});
+```

@@ -88,13 +88,119 @@ Dynamic Programming, Subset Sum, Bitset Optimization
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public boolean exactCountSubsetSum(int[] arr, int target, int k) {
+        // Implementation here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int target = sc.nextInt();
+        int k = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+        System.out.println(new Solution().exactCountSubsetSum(arr, target, k) ? "true" : "false");
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def exact_count_subset_sum(arr: list[int], target: int, k: int) -> bool:
+    # Implementation here
+    return False
+
+def main():
+    n, target, k = map(int, input().split())
+    arr = list(map(int, input().split()))
+    print("true" if exact_count_subset_sum(arr, target, k) else "false")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    bool exactCountSubsetSum(const vector<int>& arr, int target, int k) {
+        // Implementation here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, target, k;
+    cin >> n >> target >> k;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+
+    Solution sol;
+    cout << (sol.exactCountSubsetSum(arr, target, k) ? "true" : "false") << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
 
+class Solution {
+  exactCountSubsetSum(arr, target, k) {
+    // Implementation here
+    return null;
+  }
+}
+
+class Solution {
+  exactCountSubsetSum(arr, target, k) {
+    if (k === 0) return target === 0;
+    let bits = new Array(k + 1).fill(0n);
+    bits[0] = 1n;
+    const mask = (1n << BigInt(target + 1)) - 1n;
+
+    for (const x of arr) {
+      const shift = BigInt(x);
+      for (let cnt = k; cnt >= 1; cnt--) {
+        bits[cnt] = (bits[cnt] | (bits[cnt - 1] << shift)) & mask;
+      }
+    }
+
+    return ((bits[k] >> BigInt(target)) & 1n) === 1n;
+  }
+}
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+const lines = [];
+rl.on("line", (line) => lines.push(line.trim()));
+rl.on("close", () => {
+  const [n, target, k] = lines[0].split(" ").map(Number);
+  const arr = lines[1].split(" ").map(Number);
+  const sol = new Solution();
+  console.log(sol.exactCountSubsetSum(arr, target, k) ? "true" : "false");
+});
+```
