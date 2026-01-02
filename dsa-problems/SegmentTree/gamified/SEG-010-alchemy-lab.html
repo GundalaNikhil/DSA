@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEG-010: Alchemy Lab</title>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=Lato&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #2d1b2e; --shelf: #5b3a4a; --potion: #ff00ff; --text: #e0d0e0; --accent: #b05fa7; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Lato', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        header { width: 100%; padding: 15px; text-align: center; border-bottom: 2px solid var(--accent); background: rgba(0,0,0,0.3); }
+        h1 { margin: 0; font-family: 'MedievalSharp', cursive; font-size: 2.5rem; color: var(--accent); }
+
+        main { flex: 1; display: flex; flex-direction: column; width: 100%; max-width: 900px; padding: 20px; gap: 30px; align-items: center; }
+
+        .lab-shelf {
+            display: flex; gap: 15px; padding: 30px; background: var(--shelf); border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5); border: 2px solid #3e2632;
+            flex-wrap: wrap; justify-content: center;
+        }
+
+        .flask {
+            width: 70px; height: 100px; position: relative; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+            transition: transform 0.2s;
+        }
+        .flask:hover { transform: translateY(-5px); }
+        .flask-body {
+            width: 50px; height: 50px; border-radius: 50%; background: rgba(255,255,255,0.1); border: 2px solid rgba(255,255,255,0.3);
+            position: relative; overflow: hidden;
+        }
+        .liquid {
+            position: absolute; bottom: 0; left: 0; right: 0; height: 60%;
+            background: linear-gradient(to top, var(--potion), #a0f); transition: height 0.3s;
+        }
+        .flask-neck {
+            width: 20px; height: 30px; background: rgba(255,255,255,0.1); border-left: 2px solid rgba(255,255,255,0.3); border-right: 2px solid rgba(255,255,255,0.3);
+            margin-bottom: -5px; z-index: 2;
+        }
+        .val-badge {
+            background: #000; color: #fff; padding: 2px 6px; border-radius: 10px; font-size: 0.8rem; margin-top: 5px; font-family: 'MedievalSharp';
+        }
+        .idx { position: absolute; top: -15px; font-size: 0.7rem; color: #999; }
+        .flask.selected .flask-body { box-shadow: 0 0 15px var(--potion); border-color: var(--potion); }
+
+        .cauldron-area {
+            display: flex; align-items: center; gap: 20px; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 10px;
+        }
+        .controls { display: flex; flex-direction: column; gap: 10px; }
+        .btn { padding: 10px 20px; font-family: 'MedievalSharp'; font-size: 1.2rem; cursor: pointer; border: none; background: var(--accent); color: #fff; border-radius: 5px; }
+        .btn:hover { background: #d48ac9; }
+        input { background: #000; border: 1px solid var(--accent); color: #fff; padding: 5px; width: 60px; text-align: center; }
+        
+        .result-bubble {
+            width: 120px; height: 120px; background: radial-gradient(circle, #a0f, #2d1b2e);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; font-family: 'MedievalSharp'; border: 3px solid var(--potion);
+            box-shadow: 0 0 20px var(--potion); text-align: center;
+        }
+        
+    </style>
+</head>
+<body>
+<header>
+    <h1>SEG-010 ALCHEMY LAB</h1>
+    <div style="font-size:0.9rem;">RANGE GCD MIXER</div>
+</header>
+<main>
+    <div class="cauldron-area">
+        <div class="controls">
+            <div style="display:flex; gap:10px; align-items:center;">
+                <span>Range:</span>
+                <input type="number" id="L" placeholder="L" min="0" max="7">
+                <input type="number" id="R" placeholder="R" min="0" max="7">
+            </div>
+            <button class="btn" onclick="game.mix()">MIX (GCD)</button>
+        </div>
+        <div class="result-bubble" id="res">?</div>
+    </div>
+
+    <div class="lab-shelf" id="shelf"></div>
+    
+    <div style="text-align:center; font-style:italic; opacity:0.6;">Click flask to increment potency</div>
+</main>
+<script>
+class Game {
+    constructor() {
+        this.n = 8;
+        this.vals = [12, 18, 24, 6, 30, 42, 60, 36];
+        this.ui = { shelf: document.getElementById('shelf'), res: document.getElementById('res') };
+        this.render();
+    }
+
+    render() {
+        this.ui.shelf.innerHTML = '';
+        this.vals.forEach((v, i) => {
+            let col = document.createElement('div');
+            col.className = 'flask';
+            col.id = 'f-'+i;
+            col.onclick = () => {
+                this.vals[i]++;
+                this.render();
+            };
+            
+            let neck = document.createElement('div');
+            neck.className = 'flask-neck';
+            let body = document.createElement('div');
+            body.className = 'flask-body';
+            let liquid = document.createElement('div');
+            liquid.className = 'liquid';
+            liquid.style.height = Math.min((v/60)*100, 100) + '%';
+            
+            body.appendChild(liquid);
+            col.appendChild(neck);
+            col.appendChild(body);
+            
+            let badge = document.createElement('div');
+            badge.className = 'val-badge';
+            badge.innerText = v;
+            col.appendChild(badge);
+
+            let idx = document.createElement('div');
+            idx.className = 'idx';
+            idx.innerText = i;
+            col.appendChild(idx);
+
+            this.ui.shelf.appendChild(col);
+        });
+    }
+
+    gcd(a, b) {
+        return b === 0 ? a : this.gcd(b, a % b);
+    }
+
+    mix() {
+        let l = parseInt(document.getElementById('L').value);
+        let r = parseInt(document.getElementById('R').value);
+        
+        if(isNaN(l) || isNaN(r) || l>r || l<0 || r>=this.n) {
+            this.ui.res.innerText = "ERR"; 
+            return;
+        }
+
+        // Visualize Range
+        document.querySelectorAll('.flask').forEach(e => e.classList.remove('selected'));
+        for(let i=l; i<=r; i++) document.getElementById('f-'+i).classList.add('selected');
+
+        // Calc Range GCD
+        let res = this.vals[l];
+        for(let i=l+1; i<=r; i++) {
+            res = this.gcd(res, this.vals[i]);
+        }
+        
+        this.ui.res.innerText = res;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

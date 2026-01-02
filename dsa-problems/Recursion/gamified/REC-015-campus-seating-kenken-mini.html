@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REC-015: Puzzle Solver</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #6c5ce7;
+            --cell: #dfe6e9;
+            --cage: #2d3436;
+            --highlight: #00cec9;
+            --text: #2d3436;
+        }
+
+        body {
+            font-family: 'Fredoka', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+        }
+
+        h1 { color: #fff; margin-bottom: 0.5rem; }
+        
+        .puzzle-header {
+            background: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        .grid-4x4 {
+            display: grid;
+            grid-template-columns: repeat(4, 70px);
+            grid-template-rows: repeat(4, 70px);
+            gap: 4px;
+            background: #2d3436;
+            border: 4px solid #2d3436;
+            border-radius: 8px;
+            background-color: #636e72;
+        }
+
+        .cell {
+            background: var(--cell);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .cell.solved { color: #6c5ce7; font-weight: 700; }
+        
+        .cage-label {
+            position: absolute;
+            top: 2px;
+            left: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: #d63031;
+        }
+
+        /* Cage Borders - Simulated via classes */
+        .bt { border-top: 2px solid var(--cage); }
+        .bb { border-bottom: 2px solid var(--cage); }
+        .bl { border-left: 2px solid var(--cage); }
+        .br { border-right: 2px solid var(--cage); }
+
+        .controls { margin-top: 2rem; display: flex; gap: 15px; }
+
+        .btn {
+            background: #fff;
+            color: var(--bg);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-family: inherit;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 4px 0 #b2bec3;
+            transition: transform 0.1s;
+        }
+        .btn:active { transform: translateY(4px); box-shadow: none; }
+
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .hidden { display: none; }
+        .dialog { background: white; padding: 2rem; border-radius: 12px; max-width: 400px; text-align: center; }
+    </style>
+</head>
+<body>
+
+<h1>PUZZLE SOLVER</h1>
+<div class="puzzle-header">REC-015: 4x4 Math Grid (KenKen-like)</div>
+
+<div class="grid-4x4" id="grid">
+    <!-- Row 0 -->
+    <div class="cell bt bl" id="c00"><span class="cage-label">1=</span></div>
+    <div class="cell bt" id="c01"><span class="cage-label">2=</span></div>
+    <div class="cell bt" id="c02"><span class="cage-label">3=</span></div>
+    <div class="cell bt br" id="c03"><span class="cage-label">4=</span></div>
+    
+    <!-- Row 1 -->
+    <div class="cell bl" id="c10"><span class="cage-label">3=</span></div>
+    <div class="cell" id="c11"><span class="cage-label">4=</span></div>
+    <div class="cell" id="c12"><span class="cage-label">1=</span></div>
+    <div class="cell br" id="c13"><span class="cage-label">2=</span></div>
+    
+    <!-- Row 2 -->
+    <div class="cell bl" id="c20"><span class="cage-label">2=</span></div>
+    <div class="cell" id="c21"><span class="cage-label">1=</span></div>
+    <div class="cell" id="c22"><span class="cage-label">4=</span></div>
+    <div class="cell br" id="c23"><span class="cage-label">3=</span></div>
+    
+    <!-- Row 3 -->
+    <div class="cell bl bb" id="c30"><span class="cage-label">4=</span></div>
+    <div class="cell bb" id="c31"><span class="cage-label">3=</span></div>
+    <div class="cell bb" id="c32"><span class="cage-label">2=</span></div>
+    <div class="cell bb br" id="c33"><span class="cage-label">1=</span></div>
+</div>
+
+<div class="controls">
+    <button class="btn" onclick="solve()">Auto-Fill</button>
+    <button class="btn" style="color:#d63031" onclick="clearGrid()">Clear</button>
+</div>
+
+<div id="modal" class="modal hidden">
+    <div class="dialog">
+        <h2>Rules</h2>
+        <p>1. Fill 1-4 in each row/column exactly once.</p>
+        <p>2. Numbers in cages must produce the target value using the operator (here, all are `=` for simplicity).</p>
+        <button class="btn" onclick="document.getElementById('modal').classList.add('hidden')">Got it</button>
+    </div>
+</div>
+
+<script>
+    // Simple 4x4 Latin Square solution for the example
+    const solution = [
+        [1,2,3,4],
+        [3,4,1,2],
+        [2,1,4,3],
+        [4,3,2,1]
+    ];
+    
+    function clearGrid() {
+        for(let r=0; r<4; r++) {
+            for(let c=0; c<4; c++) {
+                const el = document.getElementById(`c${r}${c}`);
+                // Only keep cage label
+                const label = el.querySelector('.cage-label');
+                el.innerHTML = '';
+                if(label) el.appendChild(label);
+                el.classList.remove('solved');
+            }
+        }
+    }
+
+    async function solve() {
+        clearGrid();
+        
+        for(let r=0; r<4; r++) {
+            for(let c=0; c<4; c++) {
+                await sleep(100);
+                const el = document.getElementById(`c${r}${c}`);
+                const val = document.createTextNode(solution[r][c]);
+                el.appendChild(val);
+                el.classList.add('solved');
+            }
+        }
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+    
+    window.onload = () => document.getElementById('modal').classList.remove('hidden');
+</script>
+</body>
+</html>

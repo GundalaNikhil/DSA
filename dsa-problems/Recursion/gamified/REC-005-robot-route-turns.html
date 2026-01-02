@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REC-005: Laser Maze</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;900&family=Rajdhani:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #050510;
+            --grid-bg: #1a1a2e;
+            --wall: #16213e;
+            --laser: #f72585; 
+            --laser-glow: #7209b7;
+            --mirror: #4cc9f0;
+            --text: #e2e2e2;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Rajdhani', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Scanline effect */
+        body::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        header {
+            margin-top: 2rem;
+            text-align: center;
+            z-index: 2;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 900;
+            font-size: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: #fff;
+            text-shadow: 0 0 10px var(--mirror), 0 0 20px var(--mirror);
+            margin: 0;
+        }
+
+        .subtitle {
+            color: var(--laser);
+            font-family: 'Orbitron';
+            letter-spacing: 2px;
+            margin-top: 5px;
+            font-size: 0.9rem;
+        }
+
+        .interface {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            align-items: flex-start;
+            z-index: 2;
+        }
+
+        .stats-panel {
+            background: rgba(22, 33, 62, 0.8);
+            border: 1px solid var(--mirror);
+            padding: 1.5rem;
+            border-radius: 0;
+            width: 200px;
+            clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%);
+        }
+
+        .stat-row {
+            margin-bottom: 1rem;
+        }
+        .stat-label { color: #888; font-size: 0.9rem; text-transform: uppercase; }
+        .stat-value { font-size: 1.8rem; font-family: 'Orbitron'; color: var(--mirror); }
+        .stat-value.danger { color: var(--laser); text-shadow: 0 0 10px var(--laser); }
+
+        .game-area {
+            position: relative;
+            padding: 10px;
+            background: var(--grid-bg);
+            border: 2px solid #333;
+            box-shadow: 0 0 30px rgba(76, 201, 240, 0.1);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(6, 60px);
+            gap: 2px;
+        }
+
+        .cell {
+            width: 60px;
+            height: 60px;
+            background: #0f0f1a;
+            border: 1px solid #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .cell:hover { background: #1a1a2e; }
+        
+        /* Obstacle Block */
+        .cell.block {
+            background: 
+                repeating-linear-gradient(
+                    45deg,
+                    #111,
+                    #111 5px,
+                    #222 5px,
+                    #222 10px
+                );
+            border: 1px solid #444;
+            box-shadow: inset 0 0 10px #000;
+        }
+
+        /* Start/End */
+        .cell.start { box-shadow: inset 0 0 20px var(--laser); }
+        .cell.start::after { content: 'S'; font-family: 'Orbitron'; color: var(--laser); font-weight: bold; }
+        
+        .cell.end { box-shadow: inset 0 0 20px var(--mirror); }
+        .cell.end::after { content: 'E'; font-family: 'Orbitron'; color: var(--mirror); font-weight: bold; }
+
+        /* Laser Beam Visualization */
+        .beam-segment {
+            position: absolute;
+            background: var(--laser);
+            box-shadow: 0 0 15px var(--laser), 0 0 30px var(--laser);
+            z-index: 5;
+            transform-origin: center;
+            opacity: 0.8;
+            border-radius: 2px;
+        }
+        /* Vertical Beam */
+        .beam-v { width: 4px; height: 62px; top: -1px; left: 28px; }
+        /* Horizontal Beam */
+        .beam-h { height: 4px; width: 62px; top: 28px; left: -1px; }
+
+        .photon {
+            width: 10px; height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            position: absolute;
+            z-index: 6;
+            box-shadow: 0 0 10px #fff, 0 0 20px var(--laser);
+            transition: all 0.2s linear;
+        }
+
+        .controls {
+            margin-top: 1rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            background: transparent;
+            color: var(--mirror);
+            border: 2px solid var(--mirror);
+            padding: 10px 30px;
+            font-family: 'Orbitron';
+            font-size: 1rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+        }
+        .btn:hover { background: var(--mirror); color: #000; box-shadow: 0 0 20px var(--mirror); }
+        .btn.run { border-color: var(--laser); color: var(--laser); }
+        .btn.run:hover { background: var(--laser); color: #fff; box-shadow: 0 0 20px var(--laser); }
+
+        #console {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            font-family: monospace;
+            color: #555;
+            font-size: 0.8rem;
+            z-index: 2;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>LASER MAZE</h1>
+    <div class="subtitle">REC-005: OPTICAL ROUTING PROTOCOL</div>
+</header>
+
+<div class="interface">
+    <div class="stats-panel">
+        <div class="stat-row">
+            <div class="stat-label">Max Refractions</div>
+            <div class="stat-value">2</div>
+        </div>
+        <div class="stat-row">
+            <div class="stat-label">Current Turns</div>
+            <div class="stat-value" id="currentTurns">0</div>
+        </div>
+        <div class="stat-row">
+            <div class="stat-label">System Status</div>
+            <div class="stat-value" style="font-size:1rem" id="status">STANDBY</div>
+        </div>
+    </div>
+
+    <div class="game-area">
+        <div class="grid" id="grid"></div>
+        <!-- Photon head for animation -->
+        <div id="photon" class="photon" style="display:none"></div>
+    </div>
+</div>
+
+<div class="controls">
+    <button class="btn run" onclick="startSimulation()">INITIATE BEAM</button>
+    <button class="btn" onclick="resetGrid()">RESET GRID</button>
+</div>
+
+<div id="console">System Ready...</div>
+
+<script>
+    const ROWS = 6;
+    const COLS = 6;
+    let gridData = [];
+    const maxTurns = 2; // Problem constraint T
+    
+    function resetGrid() {
+        gridData = Array(ROWS).fill().map(() => Array(COLS).fill(0));
+        // Default blocks
+        gridData[1][1] = 1;
+        gridData[2][3] = 1;
+        gridData[3][1] = 1;
+        gridData[4][4] = 1;
+
+        renderGrid();
+        document.getElementById('currentTurns').textContent = '0';
+        document.getElementById('status').textContent = 'STANDBY';
+        document.getElementById('photon').style.display = 'none';
+        
+        // Clear beams
+        document.querySelectorAll('.beam-segment').forEach(e => e.remove());
+    }
+
+    function renderGrid() {
+        const container = document.getElementById('grid');
+        container.innerHTML = '';
+        container.style.gridTemplateColumns = `repeat(${COLS}, 60px)`;
+
+        for(let r=0; r<ROWS; r++) {
+            for(let c=0; c<COLS; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.id = `c-${r}-${c}`;
+                
+                if (r===0 && c===0) cell.classList.add('start');
+                else if (r===ROWS-1 && c===COLS-1) cell.classList.add('end');
+                else if (gridData[r][c] === 1) cell.classList.add('block');
+                
+                // Clicking toggles blocks
+                cell.onclick = () => {
+                    if ((r===0 && c===0) || (r===ROWS-1 && c===COLS-1)) return;
+                    gridData[r][c] = 1 - gridData[r][c];
+                    renderGrid();
+                }
+                
+                container.appendChild(cell);
+            }
+        }
+    }
+
+    async function startSimulation() {
+        document.getElementById('status').textContent = 'CALCULATING...';
+        // Remove old beams
+        document.querySelectorAll('.beam-segment').forEach(e => e.remove());
+
+        const visited = new Set();
+        const path = await dfs(0, 0, -1, 0, visited, []); // r, c, lastDir (0=R,1=D,2=L,3=U), turns
+        
+        if (path) {
+            document.getElementById('status').textContent = 'TARGET ACQUIRED';
+            document.getElementById('status').style.color = '#4cc9f0';
+            animatePath(path);
+        } else {
+            document.getElementById('status').textContent = 'PATH FAILURE';
+            document.getElementById('status').style.color = '#f72585';
+        }
+    }
+
+    // Directions: 0:Right, 1:Down, 2:Left, 3:Up
+    const dr = [0, 1, 0, -1];
+    const dc = [1, 0, -1, 0];
+
+    async function dfs(r, c, lastDir, turns, visited, path) {
+        // Deep copy not strictly needed if we backtrack correctly, but safer for simple logic
+        // We need to find ONE valid path for visualization
+        
+        if (r === ROWS-1 && c === COLS-1) {
+            return [...path, {r,c}];
+        }
+
+        // Try 4 directions
+        // Prioritize moving towards target (Down/Right)
+        const order = [0, 1, 2, 3]; 
+        
+        for (let d of order) {
+            const nr = r + dr[d];
+            const nc = c + dc[d];
+            
+            if (nr >= 0 && nr < ROWS && nc >= 0 && nc < COLS && gridData[nr][nc] === 0) {
+                const key = `${nr},${nc}`;
+                if (visited.has(key)) continue;
+
+                const newTurns = (lastDir !== -1 && lastDir !== d) ? turns + 1 : turns;
+                if (newTurns > maxTurns) continue;
+
+                visited.add(key);
+                const result = await dfs(nr, nc, d, newTurns, visited, [...path, {r,c}]);
+                if (result) return result;
+                visited.delete(key);
+            }
+        }
+        return null;
+    }
+
+    async function animatePath(path) {
+        const photon = document.getElementById('photon');
+        photon.style.display = 'block';
+        
+        let prev = path[0];
+        let currentTurns = 0;
+        let lastDir = -1;
+
+        // Place photon at start
+        movePhoton(photon, prev.r, prev.c);
+        await sleep(300);
+
+        for (let i = 1; i < path.length; i++) {
+            const curr = path[i];
+            
+            // Draw beam segment
+            drawBeam(prev, curr);
+            
+            // Move photon
+            movePhoton(photon, curr.r, curr.c);
+            
+            // Calculate turns
+            let dir = -1;
+            if (curr.r > prev.r) dir = 1; // Down
+            else if (curr.r < prev.r) dir = 3; // Up
+            else if (curr.c > prev.c) dir = 0; // Right
+            else if (curr.c < prev.c) dir = 2; // Left
+
+            if (lastDir !== -1 && lastDir !== dir) {
+                currentTurns++;
+                document.getElementById('currentTurns').textContent = currentTurns;
+                playTurnEffect(prev.r, prev.c);
+                await sleep(400); // Pause on turn
+            }
+
+            lastDir = dir;
+            prev = curr;
+            await sleep(100);
+        }
+    }
+
+    function movePhoton(el, r, c) {
+        // Grid is 60px + 2px gap relative
+        // offset: 10px padding + r*(62) + 30 (center)
+        const top = 10 + r * 62 + 30 - 5; 
+        const left = 10 + c * 62 + 30 - 5;
+        el.style.top = top + 'px';
+        el.style.left = left + 'px';
+    }
+
+    function drawBeam(from, to) {
+        // Create div
+        const beam = document.createElement('div');
+        beam.className = 'beam-segment';
+        
+        const cellFrom = document.getElementById(`c-${from.r}-${from.c}`);
+        
+        if (from.r === to.r) {
+            // Horizontal
+            beam.classList.add('beam-h');
+            beam.style.left = Math.min(from.c, to.c) === from.c ? '30px' : '-32px'; 
+            // Relative to cell center? No, append to cell and use absolute positioning
+        } else {
+            // Vertical
+            beam.classList.add('beam-v');
+            beam.style.top = Math.min(from.r, to.r) === from.r ? '30px' : '-32px';
+        }
+        
+        // Append to the FROM cell
+        cellFrom.appendChild(beam);
+    }
+
+    function playTurnEffect(r, c) {
+        const cell = document.getElementById(`c-${r}-${c}`);
+        cell.style.boxShadow = 'inset 0 0 30px #fff';
+        setTimeout(() => cell.style.boxShadow = '', 200);
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    window.onload = resetGrid;
+
+</script>
+</body>
+</html>

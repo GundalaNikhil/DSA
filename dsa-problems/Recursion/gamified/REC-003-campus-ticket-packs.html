@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REC-003: Alchemy Lab</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Lato&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #1a0b2e;
+            --cauldron: #2d1b4e;
+            --liquid: #76ff03;
+            --shelf: #5d4037;
+            --text: #e1bee7;
+            --gold: #ffd700;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 20%, rgba(118, 255, 3, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(213, 0, 249, 0.05) 0%, transparent 40%);
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            margin-top: 2rem;
+            font-size: 2.5rem;
+        }
+
+        .lab-container {
+            display: flex;
+            gap: 4rem;
+            margin-top: 2rem;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* SHELF AREA */
+        .shelf-area {
+            background: #3e2723;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            border: 4px solid #5d4037;
+            min-width: 250px;
+        }
+
+        .ingredient-card {
+            background: #4e342e;
+            padding: 10px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid #795548;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ingredient-card:hover { transform: translateX(5px); border-color: var(--gold); }
+        .ingredient-card.active { background: #5d4037; box-shadow: 0 0 10px var(--gold); }
+        .ingredient-card.disabled { opacity: 0.5; filter: grayscale(1); }
+
+        .icon { font-size: 2rem; }
+        .details { display: flex; flex-direction: column; }
+        .name { font-weight: bold; color: var(--gold); font-family: 'Cinzel'; }
+        .stats { font-size: 0.8rem; color: #bcaaa4; }
+
+        /* CAULDRON AREA */
+        .cauldron-area {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .cauldron {
+            width: 200px;
+            height: 150px;
+            background: var(--cauldron);
+            border-radius: 0 0 100px 100px;
+            position: relative;
+            top: 100px;
+            box-shadow: inset -10px -10px 20px rgba(0,0,0,0.5), 0 10px 20px rgba(0,0,0,0.5);
+            border: 4px solid #4a148c;
+            border-top: none;
+        }
+        
+        .cauldron::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -4px;
+            width: 200px;
+            height: 40px;
+            background: #4a148c;
+            border-radius: 50%;
+            border: 4px solid #311b92;
+            z-index: 2;
+        }
+
+        .liquid {
+            position: absolute;
+            top: 10px; /* Relative to cauldron top */
+            left: 10px;
+            width: 180px;
+            height: 20px;
+            background: var(--liquid);
+            border-radius: 50%;
+            z-index: 3;
+            box-shadow: 0 0 20px var(--liquid);
+            transition: background 0.5s;
+        }
+
+        .bubble {
+            position: absolute;
+            background: rgba(118, 255, 3, 0.4);
+            border-radius: 50%;
+            animation: rise 2s infinite ease-in;
+            bottom: 20px;
+            z-index: 4;
+        }
+
+        @keyframes rise {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
+        }
+
+        .target-display {
+            position: absolute;
+            top: 0;
+            text-align: center;
+            width: 100%;
+        }
+
+        .potency-meter {
+            font-size: 3rem;
+            font-weight: bold;
+            font-family: 'Cinzel';
+            color: #fff;
+            text-shadow: 0 0 5px var(--liquid);
+        }
+        .max-potency { font-size: 1rem; color: #aaa; }
+
+        /* RECIPES LIST */
+        .recipes-panel {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid #7e57c2;
+            padding: 1rem;
+            border-radius: 10px;
+            min-width: 200px;
+            max-width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .recipes-panel h3 { color: var(--gold); margin-top: 0; font-family: 'Cinzel'; text-align: center; border-bottom: 1px solid #7e57c2; padding-bottom: 5px; }
+
+        .recipe-item {
+            background: rgba(255,255,255,0.05);
+            margin: 5px 0;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .recipe-item.success { border-left: 3px solid var(--gold); }
+
+        .btn {
+            background: linear-gradient(45deg, #7b1fa2, #4a148c);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-family: 'Cinzel';
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 0 15px rgba(123, 31, 162, 0.5);
+            transition: all 0.3s;
+            margin-top: 3rem;
+            border: 1px solid #ce93d8;
+        }
+        .btn:hover { transform: scale(1.05); box-shadow: 0 0 25px rgba(123, 31, 162, 0.8); }
+
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 100; backdrop-filter: blur(5px); }
+        .hidden { display: none; }
+        .dialog { background: url('data:image/svg+xml;utf8,<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><rect width="100" height="100" fill="%232b1040"/></svg>'); border: double 6px var(--gold); padding: 2rem; border-radius: 20px; max-width: 500px; text-align: center; box-shadow: 0 0 50px rgba(0,0,0,0.8); }
+        .dialog h2 { font-family: 'Cinzel'; color: var(--gold); }
+        .dialog p { line-height: 1.6; color: #e1bee7; }
+    </style>
+</head>
+<body>
+
+<h1>The Alchemist's Recursion</h1>
+
+<div class="lab-container">
+    <!-- Visual Representation of Recursion Tree / Shelf -->
+    <div class="shelf-area" id="shelf">
+        <!-- Ingredients injected here -->
+    </div>
+
+    <!-- The Brewing Cauldron -->
+    <div class="cauldron-area">
+        <div class="target-display">
+            <div style="font-family:'Cinzel'; color:#aaa; margin-bottom:5px">TARGET POTENCY</div>
+            <div class="potency-meter">
+                <span id="currentPotency">0</span>
+                <span style="font-size:1.5rem; color:#666">/</span>
+                <span class="max-potency" id="targetPotency">20</span>
+            </div>
+        </div>
+
+        <div class="cauldron">
+            <!-- Liquid Surface -->
+            <div class="liquid" id="liquidSurface"></div>
+            <!-- Bubbles container -->
+            <div id="bubbles"></div>
+        </div>
+    </div>
+
+    <!-- Results Log -->
+    <div class="recipes-panel">
+        <h3>Successful Brews</h3>
+        <div id="recipeList">
+            <div style="color:#666; font-style:italic; text-align:center; padding:10px">No successful recipes yet...</div>
+        </div>
+    </div>
+</div>
+
+<div class="controls">
+    <button class="btn" onclick="startBrewing()">Start Brewing Process</button>
+</div>
+
+<div id="modal" class="modal hidden">
+    <div class="dialog">
+        <h2>The Master Formula</h2>
+        <p><strong>Goal:</strong> Combine ingredients to reach exactly the Target Potency.</p>
+        <p><strong>Constraint:</strong> For each ingredient, you must use either <strong>NONE</strong> or the <strong>FULL PACK</strong>.</p>
+        <p>The recursive algorithm will explore every possible combination of ingredients to discover all valid recipes.</p>
+        <button class="btn" style="margin-top:1rem" onclick="document.getElementById('modal').classList.add('hidden')">Begin Experiment</button>
+    </div>
+</div>
+
+<script>
+    const ingredients = [
+        { name: "Dragon Scale", val: 5, pack: 1, icon: "🐲", color: "#e74c3c" },
+        { name: "Fairy Dust", val: 2, pack: 3, icon: "✨", color: "#f39c12" }, // Total 6
+        { name: "Phoenix Ash", val: 3, pack: 2, icon: "🔥", color: "#d35400" }, // Total 6
+        { name: "Moon Water", val: 4, pack: 2, icon: "💧", color: "#3498db" }, // Total 8
+    ];
+    let target = 14;
+
+    function init() {
+        // Setup random target and ingredients for variety?
+        // sticking to fixed for demo
+        document.getElementById('targetPotency').textContent = target;
+        renderShelf([]);
+        document.getElementById('modal').classList.remove('hidden');
+        spawnBubbles();
+    }
+
+    function spawnBubbles() {
+        const container = document.getElementById('bubbles');
+        setInterval(() => {
+            const b = document.createElement('div');
+            b.className = 'bubble';
+            const size = Math.random() * 20 + 10;
+            b.style.width = size + 'px';
+            b.style.height = size + 'px';
+            b.style.left = (Math.random() * 100 + 50) + 'px';
+            b.style.setProperty('--liquid', document.getElementById('liquidSurface').style.background);
+            container.appendChild(b);
+            setTimeout(() => b.remove(), 2000);
+        }, 300);
+    }
+
+    function renderShelf(activeIndices) {
+        const shelf = document.getElementById('shelf');
+        shelf.innerHTML = '';
+        ingredients.forEach((ing, i) => {
+            const el = document.createElement('div');
+            const isActive = activeIndices.includes(i);
+            
+            el.className = `ingredient-card ${isActive ? 'active' : ''}`;
+            el.innerHTML = `
+                <div class="icon">${ing.icon}</div>
+                <div class="details">
+                    <div class="name">${ing.name}</div>
+                    <div class="stats">Val: ${ing.val} × Pack: ${ing.pack} (= ${ing.val * ing.pack})</div>
+                </div>
+            `;
+            shelf.appendChild(el);
+        });
+    }
+
+    function updateCauldron(sum) {
+        document.getElementById('currentPotency').textContent = sum;
+        const surface = document.getElementById('liquidSurface');
+        
+        let color = '#76ff03'; // base green
+        if (sum > target) color = '#d50000'; // danger red
+        else if (sum === target) color = '#ffd700'; // gold success
+        else if (sum > 0) color = '#00bcd4'; // active blue
+        
+        surface.style.background = color;
+        surface.style.boxShadow = `0 0 20px ${color}`;
+    }
+
+    async function startBrewing() {
+        document.getElementById('recipeList').innerHTML = '';
+        await backtrack(0, 0, []);
+    }
+
+    async function backtrack(idx, currentSum, chosenIndices) {
+        renderShelf(chosenIndices);
+        updateCauldron(currentSum);
+        await sleep(300);
+
+        if (currentSum === target) {
+            logSuccess(chosenIndices);
+            await sleep(1000); // Celebrate
+            return;
+        }
+
+        if (idx >= ingredients.length || currentSum > target) {
+            return;
+        }
+
+        // Option 1: Include ingredient
+        const ing = ingredients[idx];
+        const totalVal = ing.val * ing.pack;
+        
+        // Visualize: "Trying to add..."
+        await backtrack(idx + 1, currentSum + totalVal, [...chosenIndices, idx]);
+
+        // Option 2: Skip ingredient
+        await backtrack(idx + 1, currentSum, chosenIndices);
+    }
+
+    function logSuccess(indices) {
+        const list = document.getElementById('recipeList');
+        if (list.children[0]?.textContent.includes('No successful')) list.innerHTML = '';
+        
+        const names = indices.map(i => ingredients[i].name).join(' + ');
+        const item = document.createElement('div');
+        item.className = 'recipe-item success';
+        item.innerHTML = `<span>🧪</span> ${names}`;
+        list.appendChild(item);
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    window.onload = init;
+</script>
+</body>
+</html>

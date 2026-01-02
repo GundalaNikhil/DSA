@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REC-013: Mirror Slicer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #000000;
+            --surface: #111;
+            --laser: #ff0055;
+            --reflect: #00ffff;
+            --glass: rgba(255, 255, 255, 0.1);
+            --text: #fff;
+        }
+
+        body {
+            font-family: 'Share Tech Mono', monospace;
+            background: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 2rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            text-shadow: 0 0 10px var(--reflect);
+        }
+        h1 { font-family: 'Syncopate', sans-serif; margin: 0; color: var(--reflect); }
+
+        .slicer-interface {
+            width: 100%;
+            max-width: 800px;
+            background: var(--surface);
+            border: 1px solid #333;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .string-container {
+            font-size: 3rem;
+            letter-spacing: 15px;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            margin: 40px 0;
+        }
+
+        .char {
+            position: relative;
+            z-index: 2;
+            transition: all 0.3s;
+        }
+
+        .char.reflecting {
+            color: var(--bg);
+            text-shadow: 0 0 5px var(--laser);
+            background: var(--reflect);
+            padding: 0 5px;
+        }
+
+        .cut-line {
+            position: absolute;
+            top: -20px;
+            bottom: -20px;
+            width: 2px;
+            background: var(--laser);
+            box-shadow: 0 0 10px var(--laser);
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .cut-line.active { opacity: 1; }
+
+        .partitions {
+            margin-top: 2rem;
+            border-top: 1px solid #333;
+            padding-top: 1rem;
+        }
+
+        .partition-item {
+            background: var(--glass);
+            margin: 5px 0;
+            padding: 10px;
+            color: var(--reflect);
+            display: flex;
+            gap: 10px;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        .palindrome-chunk {
+            border: 1px solid var(--reflect);
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        @keyframes slideIn { from { transform: translateX(-20px); opacity:0; } to { transform: translateX(0); opacity:1; } }
+
+        .btn {
+            background: transparent;
+            border: 1px solid var(--laser);
+            color: var(--laser);
+            padding: 10px 30px;
+            font-family: inherit;
+            font-size: 1.2rem;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+        }
+        .btn:hover { background: var(--laser); color: black; box-shadow: 0 0 20px var(--laser); }
+
+        .controls { margin-top: 2rem; display: flex; gap: 20px; }
+
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .hidden { display: none; }
+        .dialog { border: 1px solid var(--reflect); padding: 2rem; max-width: 500px; background: #000; box-shadow: 0 0 30px rgba(0,255,255,0.2); }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>MIRROR SLICER</h1>
+    <div style="color:#666; margin-top:5px">REC-013: Palindrome Partitioning</div>
+</header>
+
+<main class="slicer-interface">
+    <div style="text-align:center; color:#555">STRING BUFFER_</div>
+    
+    <div class="string-container" id="strDisplay">
+        <!-- Chars injected here -->
+    </div>
+    
+    <div class="partitions">
+        <div style="color:#555; margin-bottom:10px">VALID CUTS DETECTED_</div>
+        <div id="results"></div>
+    </div>
+</main>
+
+<div class="controls">
+    <button class="btn" onclick="startScan()">INIITATE SCAN</button>
+    <button class="btn" style="border-color:#555; color:#555" onclick="loadNew()">NEW DATA</button>
+</div>
+
+<div id="modal" class="modal hidden">
+    <div class="dialog">
+        <h2 style="color:var(--reflect)">PROTOCOL</h2>
+        <p>Partition string `s` into minimum number of palindromic substrings.</p>
+        <p><strong>Mechanic:</strong> The laser cuts the string only at points where the left side forms a valid Mirror (Palindrome).</p>
+        <button class="btn" onclick="document.getElementById('modal').classList.add('hidden')">EXECUTE</button>
+    </div>
+</div>
+
+<script>
+    const str = "aab";
+    const display = document.getElementById('strDisplay');
+    const results = document.getElementById('results');
+
+    function loadNew() {
+        display.innerHTML = '';
+        results.innerHTML = '';
+        str.split('').forEach((char, i) => {
+            const span = document.createElement('span');
+            span.className = 'char';
+            span.textContent = char;
+            span.id = `char-${i}`;
+            display.appendChild(span);
+        });
+        
+        // Add cut lines gaps
+        for(let i=1; i<str.length; i++) {
+            const cut = document.createElement('div');
+            cut.className = 'cut-line';
+            cut.style.left = `calc(${i} * 1em + ${i * 15}px - 7.5px)`; // Approx positioning
+            // Positioning is tricky without grid. Simple append for now.
+        }
+    }
+
+    async function startScan() {
+        results.innerHTML = '';
+        // Simulate finding "aa" and "b"
+        
+        // Highlight "aa"
+        document.getElementById('char-0').classList.add('reflecting');
+        document.getElementById('char-1').classList.add('reflecting');
+        await sleep(500);
+        
+        // Cut!
+        addResult(['aa', 'b']);
+        
+        await sleep(500);
+        document.querySelectorAll('.char').forEach(c => c.classList.remove('reflecting'));
+    }
+
+    function addResult(parts) {
+        const div = document.createElement('div');
+        div.className = 'partition-item';
+        parts.forEach(p => {
+            const chunk = document.createElement('span');
+            chunk.className = 'palindrome-chunk';
+            chunk.textContent = p;
+            div.appendChild(chunk);
+        });
+        results.appendChild(div);
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    window.onload = () => {
+        loadNew();
+        document.getElementById('modal').classList.remove('hidden');
+    }
+</script>
+</body>
+</html>

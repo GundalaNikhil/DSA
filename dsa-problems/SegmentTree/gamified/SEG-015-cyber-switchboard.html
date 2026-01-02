@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEG-015: Cyber Switchboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #000; --on: #00ff00; --off: #333; --panel: #111; --text: #00ff00; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Share Tech Mono', monospace; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        header { width: 100%; padding: 20px; text-align: center; border-bottom: 2px solid var(--text); }
+        h1 { margin: 0; text-transform: uppercase; letter-spacing: 2px; }
+
+        main { flex: 1; display: flex; flex-direction: column; width: 100%; max-width: 900px; padding: 30px; gap: 40px; align-items: center; justify-content: center; }
+
+        .switch-row {
+            display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; width: 100%;
+        }
+
+        .switch-unit {
+            display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer;
+        }
+
+        .led {
+            width: 40px; height: 40px; border-radius: 50%; background: var(--off);
+            border: 2px solid #555; box-shadow: inset 0 0 10px #000;
+            transition: all 0.3s;
+        }
+        .led.active { background: var(--on); box-shadow: 0 0 20px var(--on); border-color: #fff; }
+
+        .toggle-switch {
+            width: 30px; height: 60px; background: #333; border-radius: 5px; position: relative;
+        }
+        .thumb {
+            width: 100%; height: 50%; background: #666; border-radius: 4px; border: 2px solid #888;
+            position: absolute; top: 50%; transition: top 0.2s;
+        }
+        .active .thumb { top: 0; background: #ccc; }
+        
+        .lbl { color: #555; font-size: 0.8rem; }
+
+        .controls {
+            border: 1px solid var(--text); padding: 20px; border-radius: 5px;
+            display: flex; gap: 20px; align-items: center;
+        }
+        .btn { padding: 10px 20px; background: var(--text); color: #000; border: none; font-family: 'Share Tech Mono'; cursor: pointer; font-size: 1.1rem; }
+        .btn:hover { background: #fff; }
+        input { background: #000; border: 1px solid var(--text); color: var(--text); padding: 5px; width: 60px; text-align: center; font-family: 'Share Tech Mono'; }
+
+        #res { font-size: 1.5rem; min-height: 40px; text-align: center; border: 1px dashed var(--text); padding: 5px 20px; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>SEG-015 CYBER SWITCHBOARD</h1>
+    <div style="font-size:0.9rem;">RANGE FLIP & MIN INDEX QUERY</div>
+</header>
+<main>
+    <div id="res">SYSTEM STATUS: OK</div>
+
+    <div class="switch-row" id="board"></div>
+
+    <div class="controls">
+        <div style="display:flex; flex-direction:column; gap:5px;">
+            <label>Toggle Range [L, R]:</label>
+            <div style="display:flex; gap:10px;">
+                <input type="number" id="L" placeholder="L" min="0" max="9">
+                <input type="number" id="R" placeholder="R" min="0" max="9">
+                <button class="btn" onclick="game.toggle()">FLIP</button>
+            </div>
+        </div>
+        <div style="width:1px; background:var(--text); height:40px;"></div>
+        <button class="btn" onclick="game.findFirstOff()">FIND FIRST 'OFF'</button>
+    </div>
+</main>
+<script>
+class Game {
+    constructor() {
+        this.n = 10;
+        this.state = new Array(this.n).fill(1); // 1 = ON, 0 = OFF
+        this.ui = { board: document.getElementById('board'), res: document.getElementById('res') };
+        this.render();
+    }
+
+    render() {
+        this.ui.board.innerHTML = '';
+        this.state.forEach((s, i) => {
+            let u = document.createElement('div');
+            u.className = 'switch-unit';
+            u.onclick = () => {
+                this.state[i] ^= 1;
+                this.render();
+            };
+            
+            let led = document.createElement('div');
+            led.className = 'led ' + (s ? 'active' : '');
+            
+            let sw = document.createElement('div');
+            sw.className = 'toggle-switch ' + (s ? 'active' : '');
+            let th = document.createElement('div');
+            th.className = 'thumb';
+            sw.appendChild(th);
+            
+            let l = document.createElement('div');
+            l.className = 'lbl';
+            l.innerText = i;
+
+            u.appendChild(led);
+            u.appendChild(sw);
+            u.appendChild(l);
+            this.ui.board.appendChild(u);
+        });
+    }
+
+    toggle() {
+        let l = parseInt(document.getElementById('L').value);
+        let r = parseInt(document.getElementById('R').value);
+        if(isNaN(l) || isNaN(r) || l>r || l<0 || r>=this.n) return;
+
+        // Visual Flip
+        for(let i=l; i<=r; i++) this.state[i] ^= 1;
+        this.render();
+        this.ui.res.innerText = `FLIPPED RANGE [${l}, ${r}]`;
+    }
+
+    findFirstOff() {
+        let idx = this.state.indexOf(0);
+        if (idx !== -1) {
+            this.ui.res.innerText = "FIRST SYSTEM 'OFF' AT INDEX " + idx;
+            // Highlight
+            this.ui.board.children[idx].querySelector('.led').style.borderColor = 'red';
+            this.ui.board.children[idx].querySelector('.led').style.boxShadow = '0 0 20px red';
+        } else {
+            this.ui.res.innerText = "ALL SYSTEMS ONLINE";
+        }
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

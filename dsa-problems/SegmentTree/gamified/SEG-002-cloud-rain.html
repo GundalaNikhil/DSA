@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEG-002: Cloud Rain Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #e0f7fa; --bar: #4fc3f7; --rain: #0288d1; --text: #01579b; --panel: #fff; --lazy: #ff7043; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; overflow-x: hidden; }
+        header { background: #0277bd; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); color: white; }
+        h1 { margin: 0; font-family: 'Fredoka One', cursive; font-size: 1.8rem; }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 20px; gap: 20px; }
+        .instructions { background: var(--panel); padding: 15px 30px; border-radius: 20px; text-align: center; box-shadow: 0 4px 0 rgba(0,0,0,0.1); max-width: 700px; }
+        
+        .field-view { 
+            width: 100%; max-width: 800px; height: 300px; 
+            background: linear-gradient(to bottom, #b3e5fc 0%, #e1f5fe 100%); 
+            border-bottom: 10px solid #81c784; 
+            border-radius: 10px; position: relative; 
+            display: flex; align-items: flex-end; justify-content: space-around; padding: 0 20px; 
+            overflow: hidden;
+        }
+
+        .plant-col { width: 50px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; position: relative; }
+        .water-bar { width: 100%; background: var(--rain); border-radius: 5px 5px 0 0; transition: height 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; }
+        .plant-icon { font-size: 2rem; position: absolute; bottom: -5px; z-index: 2; transition: transform 0.3s; }
+        .val-label { font-weight: bold; margin-bottom: 5px; color: #01579b; }
+
+        .cloud { 
+            position: absolute; top: 20px; height: 60px; background: white; border-radius: 30px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); display: flex; align-items: center; justify-content: center;
+            opacity: 0; transition: all 0.5s; pointer-events: none; z-index: 10;
+        }
+        .cloud::before, .cloud::after { content: ''; position: absolute; background: white; border-radius: 50%; }
+        .cloud::before { width: 50px; height: 50px; top: -25px; left: 10px; }
+        .cloud::after { width: 40px; height: 40px; top: -15px; right: 10px; }
+        .rain-drops { position: absolute; top: 100%; left: 0; right: 0; height: 0; background:  repeating-linear-gradient(180deg, transparent, transparent 10px, #0288d1 10px, #0288d1 20px); opacity: 0; transition: opacity 0.3s; }
+        
+        .tree-viz { 
+            width: 100%; max-width: 900px; height: 120px; 
+            display: flex; gap: 5px; justify-content: center; align-items: center;
+            margin-top: 20px; background: #fff; padding: 10px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .node-box {
+            width: 30px; height: 30px; border: 1px solid #ccc; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 0.6rem; border-radius: 4px;
+            transition: all 0.3s;
+        }
+        .node-box.lazy { background: var(--lazy); color: white; border-color: var(--lazy); transform: scale(1.1); }
+        .node-box.visited { border-color: var(--rain); background: #e1f5fe; }
+
+        .controls { display: flex; gap: 15px; padding: 15px; background: var(--panel); border-radius: 20px; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .group { display: flex; gap: 5px; align-items: center; }
+        .inp { width: 60px; padding: 8px; border: 2px solid #b3e5fc; border-radius: 8px; text-align: center; font-family: 'Nunito'; font-weight: bold; }
+        .btn { padding: 10px 20px; border: none; border-radius: 10px; font-weight: bold; cursor: pointer; color: white; transition: transform 0.1s; font-family: 'Fredoka One'; }
+        .btn:active { transform: scale(0.95); }
+        .btn.rain { background: var(--rain); }
+        .btn.measure { background: #66bb6a; }
+
+        #msg { height: 30px; font-weight: bold; margin-top: 10px; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>SEG-002 RAINFALL TRACKER</h1>
+    <div>RANGE ADD + RANGE SUM</div>
+</header>
+<main>
+    <div class="instructions">
+        <b>HOW TO PLAY:</b> You are growing crops. 
+        <span style="color:var(--rain)">MAKE IT RAIN</span> on a range [L, R] to add water (Lazy Propagation).
+        <span style="color:#66bb6a">MEASURE</span> total water in a range.
+        Watch out for "Lazy" tags lingering in the system!
+    </div>
+
+    <div class="field-view" id="field">
+        <div class="cloud" id="cloud">
+            <div class="rain-drops" id="rainDrops"></div>
+            🌧️
+        </div>
+        <!-- Plants generated here -->
+    </div>
+
+    <div class="controls">
+        <div class="group">
+            <span>Range:</span>
+            <input type="number" id="L" class="inp" placeholder="L" min="0" max="7">
+            <input type="number" id="R" class="inp" placeholder="R" min="0" max="7">
+        </div>
+        <div class="group">
+            <span>Amount:</span>
+            <input type="number" id="amt" class="inp" value="10" min="1" max="50">
+        </div>
+        <button class="btn rain" onclick="game.rain()">MAKE RAIN 🌧️</button>
+        <button class="btn measure" onclick="game.measure()">MEASURE 📏</button>
+    </div>
+    
+    <div id="msg">Ready to water the fields.</div>
+
+    <div style="font-size:0.8rem; color:#888;">Segment Tree Nodes (Green=Visited, Orange=Lazy Pending):</div>
+    <div class="tree-viz" id="treeViz"></div>
+</main>
+<script>
+class Game {
+    constructor() {
+        this.n = 8;
+        this.arr = new Array(this.n).fill(20); // Initial water
+        this.tree = new Array(4 * this.n).fill(0);
+        this.lazy = new Array(4 * this.n).fill(0);
+        
+        this.ui = {
+            field: document.getElementById('field'),
+            cloud: document.getElementById('cloud'),
+            rainDrops: document.getElementById('rainDrops'),
+            treeViz: document.getElementById('treeViz'),
+            msg: document.getElementById('msg')
+        };
+        
+        this.build(1, 0, this.n - 1);
+        this.renderField();
+        this.renderTree();
+    }
+
+    // --- Segment Tree + Lazy ---
+    
+    build(node, start, end) {
+        if (start === end) {
+            this.tree[node] = this.arr[start];
+        } else {
+            let mid = Math.floor((start + end) / 2);
+            this.build(2 * node, start, mid);
+            this.build(2 * node + 1, mid + 1, end);
+            this.tree[node] = this.tree[2 * node] + this.tree[2 * node + 1];
+        }
+    }
+
+    push(node, start, end) {
+        if (this.lazy[node] !== 0) {
+            // Visualize push
+            this.highlightNode(node, 'lazy');
+            
+            this.tree[node] += (end - start + 1) * this.lazy[node];
+            if (start !== end) {
+                this.lazy[2 * node] += this.lazy[node];
+                this.lazy[2 * node + 1] += this.lazy[node];
+            }
+            this.lazy[node] = 0;
+            
+            setTimeout(() => this.renderTree(), 300); // refresh visuals
+        }
+    }
+
+    rangeUpdate(node, start, end, l, r, val) {
+        this.push(node, start, end);
+        this.highlightNode(node, 'visited');
+        
+        if (start > end || start > r || end < l) return;
+        
+        if (start >= l && end <= r) {
+            this.lazy[node] += val;
+            this.push(node, start, end);
+            return;
+        }
+        
+        let mid = Math.floor((start + end) / 2);
+        this.rangeUpdate(2 * node, start, mid, l, r, val);
+        this.rangeUpdate(2 * node + 1, mid + 1, end, l, r, val);
+        this.tree[node] = this.tree[2 * node] + this.tree[2 * node + 1];
+    }
+
+    query(node, start, end, l, r) {
+        this.push(node, start, end);
+        this.highlightNode(node, 'visited');
+        
+        if (r < start || end < l) return 0;
+        
+        if (l <= start && end <= r) return this.tree[node];
+        
+        let mid = Math.floor((start + end) / 2);
+        return this.query(2 * node, start, mid, l, r) + this.query(2 * node + 1, mid + 1, end, l, r);
+    }
+
+    // --- Actions ---
+
+    rain() {
+        let l = parseInt(document.getElementById('L').value);
+        let r = parseInt(document.getElementById('R').value);
+        let val = parseInt(document.getElementById('amt').value);
+
+        if (isNaN(l) || isNaN(r) || l > r || l < 0 || r >= this.n) return this.msg("Invalid Range!", "red");
+        
+        // Cloud Animation
+        let plants = document.querySelectorAll('.plant-col');
+        let leftPos = plants[l].offsetLeft;
+        let rightPos = plants[r].offsetLeft + plants[r].offsetWidth;
+        let width = rightPos - leftPos;
+        
+        this.ui.cloud.style.left = leftPos + 'px';
+        this.ui.cloud.style.width = width + 'px';
+        this.ui.cloud.style.opacity = 1;
+        
+        setTimeout(() => {
+            this.ui.rainDrops.style.height = '200px';
+            this.ui.rainDrops.style.opacity = 1;
+        }, 100);
+
+        this.msg(`Raining ${val} units on [${l}, ${r}]...`);
+        this.clearHighlights();
+        
+        // Tree Logic
+        this.rangeUpdate(1, 0, this.n - 1, l, r, val);
+        
+        // Update Local Array for simple visual sync (real app would query every index)
+        for(let i=l; i<=r; i++) this.arr[i] += val;
+
+        setTimeout(() => {
+            this.ui.cloud.style.opacity = 0;
+            this.ui.rainDrops.style.height = 0;
+            this.renderField();
+            this.renderTree();
+            this.msg("Crops watered!");
+        }, 1500);
+    }
+
+    measure() {
+        let l = parseInt(document.getElementById('L').value);
+        let r = parseInt(document.getElementById('R').value);
+        
+        if (isNaN(l) || isNaN(r) || l > r || l < 0 || r >= this.n) return this.msg("Invalid Range!", "red");
+
+        this.clearHighlights();
+        let sum = this.query(1, 0, this.n - 1, l, r);
+        this.msg(`Total Water in [${l}, ${r}]: ${sum} units`, "#0277bd");
+    }
+
+    // --- Visuals ---
+
+    renderField() {
+        let cloud = this.ui.cloud;
+        this.ui.field.innerHTML = '';
+        this.ui.field.appendChild(cloud);
+
+        this.arr.forEach((h, i) => {
+            let col = document.createElement('div');
+            col.className = 'plant-col';
+            
+            let val = document.createElement('div');
+            val.className = 'val-label';
+            val.innerText = h;
+            
+            let bar = document.createElement('div');
+            bar.className = 'water-bar';
+            bar.style.height = Math.min(h * 2, 200) + 'px';
+            
+            let icon = document.createElement('div');
+            icon.className = 'plant-icon';
+            icon.innerText = h > 100 ? '🌳' : (h > 50 ? '🌱' : '🌰');
+            
+            col.appendChild(val);
+            col.appendChild(bar);
+            col.appendChild(icon);
+            this.ui.field.appendChild(col);
+        });
+    }
+
+    renderTree() {
+        this.ui.treeViz.innerHTML = '';
+        // Flattened view of nodes 1..15 for N=8
+        for(let i=1; i<16; i++) {
+            let n = document.createElement('div');
+            n.className = 'node-box';
+            n.id = 'node-'+i;
+            n.innerText = i;
+            if(this.lazy[i] !== 0) n.classList.add('lazy');
+            this.ui.treeViz.appendChild(n);
+        }
+    }
+
+    highlightNode(id, type) {
+        let el = document.getElementById('node-'+id);
+        if(el) {
+            el.classList.remove('lazy', 'visited');
+            void el.offsetWidth; // trigger reflow
+            el.classList.add(type);
+        }
+    }
+
+    clearHighlights() {
+        document.querySelectorAll('.node-box').forEach(el => el.classList.remove('visited'));
+    }
+
+    msg(txt, col='#01579b') {
+        this.ui.msg.innerText = txt;
+        this.ui.msg.style.color = col;
+    }
+}
+
+const game = new Game();
+</script>
+</body>
+</html>

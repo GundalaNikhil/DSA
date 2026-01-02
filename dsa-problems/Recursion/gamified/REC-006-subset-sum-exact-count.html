@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REC-006: Balance Finder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f8f9fa;
+            --surface: #fff;
+            --primary: #6366f1;
+            --secondary: #a5b4fc;
+            --accent: #10b981;
+            --text: #1f2937;
+            --muted: #9ca3af;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+        header { background: var(--surface); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+        h1 { font-size: 1.3rem; color: var(--primary); }
+        .subtitle { color: var(--muted); font-size: 0.85rem; }
+
+        .btn { background: var(--primary); color: #fff; border: none; padding: 10px 24px; border-radius: 25px; cursor: pointer; font-family: inherit; font-weight: 600; transition: all 0.3s; }
+        .btn:hover { transform: translateY(-2px); }
+        .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+
+        main { padding: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; max-width: 700px; margin: 0 auto; }
+
+        .info-card { background: var(--surface); padding: 1.5rem; border-radius: 15px; width: 100%; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .info-card p { color: var(--muted); line-height: 1.6; }
+
+        .config-row { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; align-items: center; }
+        .config-row label { color: var(--muted); }
+        .config-row input { padding: 8px 12px; border: 2px solid var(--muted); border-radius: 8px; width: 80px; text-align: center; font-family: inherit; }
+
+        .numbers-panel { background: var(--surface); padding: 1.5rem; border-radius: 15px; width: 100%; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .numbers-panel h3 { color: var(--muted); font-size: 0.85rem; text-transform: uppercase; margin-bottom: 1rem; text-align: center; }
+
+        .number-tiles { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+        .number-tile { width: 55px; height: 55px; background: var(--secondary); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 1.2rem; transition: all 0.3s; }
+        .number-tile.selected { background: var(--primary); color: #fff; transform: scale(1.1); }
+        .number-tile.considering { border: 3px solid var(--accent); }
+
+        .scale-display { background: var(--surface); padding: 1.5rem; border-radius: 15px; width: 100%; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .scale-visual { display: flex; align-items: flex-end; justify-content: center; gap: 40px; margin: 1rem 0; }
+        .scale-side { display: flex; flex-direction: column; align-items: center; }
+        .scale-side .label { color: var(--muted); font-size: 0.85rem; margin-bottom: 5px; }
+        .scale-side .value { font-size: 2rem; font-weight: 700; }
+        .scale-side.left .value { color: var(--primary); }
+        .scale-side.right .value { color: var(--accent); }
+        .scale-bar { width: 100px; height: 4px; background: var(--muted); border-radius: 2px; transform-origin: center; transition: transform 0.3s; }
+
+        .result-panel { background: var(--surface); padding: 1.5rem; border-radius: 15px; width: 100%; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 2px solid var(--accent); opacity: 0; transition: all 0.3s; }
+        .result-panel.visible { opacity: 1; }
+        .result-panel h3 { color: var(--accent); margin-bottom: 0.5rem; text-align: center; }
+        .result-panel .subset { font-family: 'Fira Code'; text-align: center; font-size: 1.1rem; }
+
+        .controls { display: flex; gap: 1rem; }
+
+        .modal { position: fixed; inset: 0; background: rgba(31, 41, 55, 0.9); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--surface); padding: 2rem; border-radius: 20px; max-width: 480px; }
+        .dialog h2 { color: var(--primary); margin-bottom: 1rem; }
+        .dialog p { margin: 0.8rem 0; line-height: 1.7; color: var(--text); }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>⚖️ Balance Finder</h1>
+        <div class="subtitle">REC-006: Subset Sum Exact Count</div>
+    </div>
+    <button class="btn btn-outline" onclick="showProtocol()">How It Works</button>
+</header>
+
+<main>
+    <div class="info-card">
+        <p>Find exactly <strong>k numbers</strong> that sum to the <strong>target</strong>. Watch the scale balance!</p>
+    </div>
+
+    <div class="config-row">
+        <label>k =</label><input type="number" id="kInput" value="2" min="1" max="5">
+        <label>Target =</label><input type="number" id="targetInput" value="7">
+    </div>
+
+    <div class="numbers-panel">
+        <h3>Available Numbers</h3>
+        <div class="number-tiles" id="numberTiles"></div>
+    </div>
+
+    <div class="scale-display">
+        <h3 style="color:var(--muted);font-size:0.85rem;text-transform:uppercase;margin-bottom:0.5rem;">Balance Scale</h3>
+        <div class="scale-visual">
+            <div class="scale-side left">
+                <span class="label">Selected</span>
+                <span class="value" id="selectedSum">0</span>
+            </div>
+            <div class="scale-bar" id="scaleBar"></div>
+            <div class="scale-side right">
+                <span class="label">Target</span>
+                <span class="value" id="targetDisplay">7</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="result-panel" id="resultPanel">
+        <h3>✓ Balanced!</h3>
+        <div class="subset" id="subsetDisplay"></div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="findSubset()">Find Subset</button>
+        <button class="btn btn-outline" onclick="newProblem()">New Numbers</button>
+    </div>
+</main>
+
+<div id="modal" class="modal hidden">
+    <div class="dialog">
+        <h2>⚖️ Balance Finder Guide</h2>
+        <p><strong>The Problem:</strong></p>
+        <p>Find exactly k elements from an array that sum to target.</p>
+        <p><strong>Recursive Approach:</strong></p>
+        <p>For each element: either include it (k-1, target-val) or skip it. Prune when k=0 or impossible.</p>
+        <button class="btn" onclick="hideProtocol()" style="margin-top:1rem;">Start!</button>
+    </div>
+</div>
+
+<script>
+    let numbers = [4, 1, 6, 2];
+
+    function showProtocol() { document.getElementById('modal').classList.remove('hidden'); }
+    function hideProtocol() { document.getElementById('modal').classList.add('hidden'); }
+
+    function newProblem() {
+        numbers = Array.from({length: 5}, () => Math.floor(Math.random() * 9) + 1);
+        renderNumbers();
+        document.getElementById('resultPanel').classList.remove('visible');
+        updateScale(0);
+    }
+
+    function renderNumbers() {
+        const container = document.getElementById('numberTiles');
+        container.innerHTML = '';
+        numbers.forEach((n, i) => {
+            const tile = document.createElement('div');
+            tile.className = 'number-tile';
+            tile.id = `tile-${i}`;
+            tile.textContent = n;
+            container.appendChild(tile);
+        });
+    }
+
+    function updateScale(sum) {
+        const target = parseInt(document.getElementById('targetInput').value);
+        document.getElementById('selectedSum').textContent = sum;
+        document.getElementById('targetDisplay').textContent = target;
+        
+        const bar = document.getElementById('scaleBar');
+        const diff = sum - target;
+        const angle = Math.max(-20, Math.min(20, diff * 3));
+        bar.style.transform = `rotate(${angle}deg)`;
+    }
+
+    async function findSubset() {
+        const k = parseInt(document.getElementById('kInput').value);
+        const target = parseInt(document.getElementById('targetInput').value);
+        document.getElementById('resultPanel').classList.remove('visible');
+        renderNumbers();
+
+        const result = await backtrack(0, k, target, [], 0);
+        
+        if (result) {
+            document.getElementById('subsetDisplay').textContent = `{${result.join(', ')}} = ${target}`;
+            document.getElementById('resultPanel').classList.add('visible');
+        } else {
+            document.getElementById('subsetDisplay').textContent = 'NONE';
+            document.getElementById('resultPanel').classList.add('visible');
+        }
+    }
+
+    async function backtrack(idx, remaining, target, chosen, sum) {
+        updateScale(sum);
+        await sleep(100);
+
+        if (remaining === 0 && target === 0) {
+            return [...chosen];
+        }
+        if (remaining === 0 || idx >= numbers.length) return null;
+
+        const tile = document.getElementById(`tile-${idx}`);
+        tile.classList.add('considering');
+        await sleep(80);
+
+        // Include current number
+        tile.classList.add('selected');
+        const withResult = await backtrack(idx + 1, remaining - 1, target - numbers[idx], [...chosen, numbers[idx]], sum + numbers[idx]);
+        if (withResult) return withResult;
+        tile.classList.remove('selected');
+
+        // Skip current number
+        const withoutResult = await backtrack(idx + 1, remaining, target, chosen, sum);
+        tile.classList.remove('considering');
+        return withoutResult;
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    window.onload = () => { renderNumbers(); updateScale(0); };
+</script>
+</body>
+</html>

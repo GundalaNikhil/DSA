@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEG-013: High Voltage Grid</title>
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #121212; --energy: #00e5ff; --panel: #1f1b24; --text: #fff; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+        header { width: 100%; padding: 20px; text-align: center; border-bottom: 2px solid var(--energy); box-shadow: 0 0 15px var(--energy); }
+        h1 { margin: 0; font-family: 'Audiowide', cursive; color: var(--energy); text-transform: uppercase; letter-spacing: 2px; }
+
+        main { flex: 1; display: flex; flex-direction: column; width: 100%; max-width: 900px; padding: 30px; gap: 30px; align-items: center; }
+
+        .grid-container {
+            display: flex; gap: 15px; flex-wrap: wrap; justify-content: center; width: 100%;
+        }
+
+        .generator {
+            width: 80px; height: 120px; background: #263238; border: 2px solid #37474f; border-radius: 5px;
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+            position: relative; overflow: hidden; padding-bottom: 15px; cursor: pointer;
+        }
+        .generator:hover { border-color: var(--energy); }
+        .core {
+            width: 40px; background: rgba(0, 229, 255, 0.2); border: 1px solid var(--energy);
+            transition: height 0.3s; position: relative;
+        }
+        .core::after {
+            content: ''; position: absolute; top:0; left:0; right:0; bottom:0;
+            background: linear-gradient(transparent 50%, rgba(255,255,255,0.2) 50%);
+            background-size: 100% 4px;
+        }
+        .gen-label { position: absolute; top: 5px; font-size: 0.7rem; color: #aaa; }
+        .gen-val { position: absolute; bottom: 2px; font-size: 0.8rem; font-family: 'Audiowide'; color: var(--energy); }
+
+        .dashboard {
+            background: var(--panel); padding: 20px; border-radius: 10px; border: 1px solid #333;
+            width: 100%; display: flex; align-items: center; justify-content: space-between;
+        }
+        .stat-box { text-align: center; }
+        .stat-val { font-size: 1.5rem; color: var(--energy); font-family: 'Audiowide'; }
+        
+        .controls { display: flex; gap: 10px; align-items: center; }
+        input { background: #000; border: 1px solid var(--energy); color: var(--energy); padding: 5px; width: 60px; text-align: center; font-family: 'Audiowide'; }
+        button { background: var(--energy); color: #000; border: none; padding: 8px 20px; font-family: 'Audiowide'; cursor: pointer; }
+        button:hover { box-shadow: 0 0 10px var(--energy); }
+        
+        .lightning { position: fixed; top:0; left:0; right:0; bottom:0; background: #fff; opacity: 0; pointer-events: none; transition: opacity 0.1s; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>SEG-013 High Voltage Grid</h1>
+    <div style="font-size:0.8rem; opacity:0.8;">RANGE SUM (POWER & SQUARES)</div>
+</header>
+<main>
+    <div class="grid-container" id="grid"></div>
+    
+    <div class="dashboard">
+        <div class="controls">
+            <span>Query [L, R]:</span>
+            <input type="number" id="L" placeholder="L" min="0" max="7">
+            <input type="number" id="R" placeholder="R" min="0" max="7">
+            <button onclick="game.scan()">SCAN OUTPUT</button>
+        </div>
+        <div class="stat-box">
+            <div>TOTAL ENERGY</div>
+            <div class="stat-val" id="sumRes">0</div>
+        </div>
+         <div class="stat-box">
+            <div>POWER SQUARED</div>
+            <div class="stat-val" id="sqRes">0</div>
+        </div>
+    </div>
+    
+    <div style="font-size:0.8rem; color:#666;">Click generator to boost output</div>
+</main>
+<div class="lightning" id="flash"></div>
+<script>
+class Game {
+    constructor() {
+        this.n = 8;
+        this.vals = [10, 5, 8, 12, 6, 9, 15, 7];
+        this.ui = { 
+            grid: document.getElementById('grid'),
+            sumRes: document.getElementById('sumRes'),
+            sqRes: document.getElementById('sqRes'),
+            flash: document.getElementById('flash')
+        };
+        this.render();
+    }
+
+    render() {
+        this.ui.grid.innerHTML = '';
+        this.vals.forEach((v, i) => {
+            let el = document.createElement('div');
+            el.className = 'generator';
+            el.onclick = () => {
+                this.vals[i]++;
+                this.render();
+            };
+
+            let core = document.createElement('div');
+            core.className = 'core';
+            core.style.height = (v * 3) + 'px';
+            core.style.boxShadow = `0 0 ${v}px var(--energy)`;
+
+            let l = document.createElement('div');
+            l.className = 'gen-label';
+            l.innerText = 'G'+i;
+
+            let val = document.createElement('div');
+            val.className = 'gen-val';
+            val.innerText = v + 'MW';
+
+            el.appendChild(l);
+            el.appendChild(core);
+            el.appendChild(val);
+            this.ui.grid.appendChild(el);
+        });
+    }
+
+    scan() {
+        let l = parseInt(document.getElementById('L').value);
+        let r = parseInt(document.getElementById('R').value);
+        if(isNaN(l) || isNaN(r) || l>r || l<0 || r>=this.n) return;
+
+        // Flash effect
+        this.ui.flash.style.opacity = 0.2;
+        setTimeout(() => this.ui.flash.style.opacity = 0, 50);
+
+        // Highlight
+        document.querySelectorAll('.generator').forEach(e => e.style.borderColor = '#37474f');
+        for(let i=l; i<=r; i++) {
+             // In real game would target nth-child but array order matches
+             this.ui.grid.children[i].style.borderColor = 'var(--energy)';
+        }
+
+        let sum = 0;
+        let sqSum = 0;
+        for(let i=l; i<=r; i++) {
+            sum += this.vals[i];
+            sqSum += this.vals[i] * this.vals[i];
+        }
+
+        this.ui.sumRes.innerText = sum + " MW";
+        this.ui.sqRes.innerText = sqSum;
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

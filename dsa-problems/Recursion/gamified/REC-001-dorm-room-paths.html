@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REC-001: Hallway Navigator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Fira+Code&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f0f4f8;
+            --surface: #fff;
+            --primary: #5c6bc0;
+            --secondary: #7986cb;
+            --accent: #ff7043;
+            --success: #66bb6a;
+            --text: #37474f;
+            --muted: #90a4ae;
+            --cell: #e3f2fd;
+            --path: #c5cae9;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        header {
+            background: var(--surface);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        h1 { font-size: 1.4rem; color: var(--primary); }
+        .subtitle { color: var(--muted); font-size: 0.85rem; }
+
+        .btn {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            padding: 10px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .btn:hover { background: var(--secondary); transform: translateY(-2px); }
+        .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+
+        main {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .info-card {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 15px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .info-card h2 { color: var(--primary); font-size: 1rem; margin-bottom: 0.5rem; }
+        .info-card p { color: var(--muted); line-height: 1.6; }
+
+        .grid-container {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .grid {
+            display: grid;
+            gap: 4px;
+        }
+
+        .cell {
+            width: 50px;
+            height: 50px;
+            background: var(--cell);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: var(--muted);
+            transition: all 0.3s;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .cell.start { background: var(--success); color: #fff; }
+        .cell.end { background: var(--accent); color: #fff; }
+        .cell.path { background: var(--path); color: var(--primary); }
+        .cell.current { 
+            background: var(--primary); 
+            color: #fff;
+            transform: scale(1.1);
+            box-shadow: 0 0 10px var(--primary);
+        }
+
+        .recursion-tree {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 15px;
+            width: 100%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .recursion-tree h3 {
+            color: var(--muted);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .call-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+
+        .call-frame {
+            background: var(--cell);
+            padding: 8px 12px;
+            border-radius: 5px;
+            border-left: 3px solid var(--muted);
+        }
+
+        .call-frame.active {
+            border-color: var(--primary);
+            background: #e8eaf6;
+        }
+
+        .result-display {
+            background: var(--surface);
+            padding: 1.5rem;
+            border-radius: 15px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 2px solid var(--success);
+        }
+
+        .result-display h3 { color: var(--success); margin-bottom: 0.5rem; }
+
+        .path-count {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .controls { display: flex; gap: 1rem; }
+
+        .size-selector {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .size-selector label { color: var(--muted); }
+        .size-selector select {
+            padding: 8px 15px;
+            border: 2px solid var(--muted);
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(55, 71, 79, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .modal.hidden { display: none; }
+
+        .dialog {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 480px;
+        }
+
+        .dialog h2 { color: var(--primary); margin-bottom: 1rem; }
+        .dialog p { margin: 0.8rem 0; line-height: 1.7; color: var(--text); }
+        .dialog strong { color: var(--primary); }
+
+        .formula-box {
+            background: var(--bg);
+            padding: 1rem;
+            border-radius: 10px;
+            font-family: 'Fira Code';
+            text-align: center;
+            margin: 1rem 0;
+            color: var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>🚶 Hallway Navigator</h1>
+        <div class="subtitle">REC-001: Dorm Room Paths</div>
+    </div>
+    <button class="btn btn-outline" onclick="showProtocol()">How It Works</button>
+</header>
+
+<main>
+    <div class="info-card">
+        <h2>Count All Paths</h2>
+        <p>Move only <strong>right</strong> or <strong>down</strong> from the green START to the orange END. Watch recursion explore every path!</p>
+    </div>
+
+    <div class="size-selector">
+        <label>Grid Size:</label>
+        <select id="sizeSelect" onchange="newGrid()">
+            <option value="2">2 × 2</option>
+            <option value="3" selected>3 × 3</option>
+            <option value="4">4 × 4</option>
+            <option value="5">5 × 5</option>
+        </select>
+    </div>
+
+    <div class="grid-container">
+        <div class="grid" id="grid"></div>
+    </div>
+
+    <div class="recursion-tree">
+        <h3>Recursion Call Stack</h3>
+        <div class="call-stack" id="callStack"></div>
+    </div>
+
+    <div class="result-display">
+        <h3>Total Distinct Paths</h3>
+        <div class="path-count" id="pathCount">?</div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" id="exploreBtn" onclick="explorePaths()">Explore Paths</button>
+        <button class="btn btn-outline" onclick="newGrid()">Reset</button>
+    </div>
+</main>
+
+<div id="modal" class="modal hidden">
+    <div class="dialog">
+        <h2>🚶 How Hallway Navigator Works</h2>
+        <p><strong>The Problem:</strong></p>
+        <p>Count all unique paths from top-left to bottom-right, moving only right or down.</p>
+        
+        <p><strong>Recursive Insight:</strong></p>
+        <div class="formula-box">
+            paths(r,c) = paths(r-1,c) + paths(r,c-1)
+        </div>
+        <p>Each cell's count = sum of paths from the cell above AND left!</p>
+        
+        <p><strong>Base Case:</strong></p>
+        <p>First row and first column have only 1 path each (can only go one direction).</p>
+        
+        <p><strong>Memoization:</strong></p>
+        <p>Store computed values to avoid recalculating. Reduces O(2ⁿ) to O(r×c)!</p>
+        
+        <button class="btn" onclick="hideProtocol()" style="margin-top:1rem;">Start Navigating!</button>
+    </div>
+</div>
+
+<script>
+    let rows = 3, cols = 3;
+    let memo = {};
+    let pathCount = 0;
+
+    function showProtocol() { document.getElementById('modal').classList.remove('hidden'); }
+    function hideProtocol() { document.getElementById('modal').classList.add('hidden'); }
+
+    function newGrid() {
+        const size = parseInt(document.getElementById('sizeSelect').value);
+        rows = cols = size;
+        memo = {};
+        pathCount = 0;
+
+        const grid = document.getElementById('grid');
+        grid.style.gridTemplateColumns = `repeat(${cols}, 50px)`;
+        grid.innerHTML = '';
+
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.id = `cell-${r}-${c}`;
+                
+                if (r === 0 && c === 0) {
+                    cell.classList.add('start');
+                    cell.textContent = 'S';
+                } else if (r === rows - 1 && c === cols - 1) {
+                    cell.classList.add('end');
+                    cell.textContent = 'E';
+                }
+                
+                grid.appendChild(cell);
+            }
+        }
+
+        document.getElementById('callStack').innerHTML = '';
+        document.getElementById('pathCount').textContent = '?';
+        document.getElementById('exploreBtn').disabled = false;
+    }
+
+    async function explorePaths() {
+        document.getElementById('exploreBtn').disabled = true;
+        document.getElementById('callStack').innerHTML = '';
+        memo = {};
+
+        pathCount = await countPaths(rows - 1, cols - 1);
+        document.getElementById('pathCount').textContent = pathCount;
+    }
+
+    async function countPaths(r, c) {
+        const cellId = `cell-${r}-${c}`;
+        const cell = document.getElementById(cellId);
+        const stack = document.getElementById('callStack');
+
+        // Add to call stack
+        const frame = document.createElement('div');
+        frame.className = 'call-frame active';
+        frame.textContent = `countPaths(${r}, ${c})`;
+        stack.prepend(frame);
+        stack.scrollTop = 0;
+
+        if (cell) cell.classList.add('current');
+        await sleep(150);
+
+        let result;
+        const key = `${r},${c}`;
+
+        if (memo[key] !== undefined) {
+            result = memo[key];
+            frame.textContent += ` → ${result} (memo)`;
+        } else if (r === 0 || c === 0) {
+            result = 1;
+            frame.textContent += ` → 1 (base)`;
+        } else {
+            const fromTop = await countPaths(r - 1, c);
+            const fromLeft = await countPaths(r, c - 1);
+            result = fromTop + fromLeft;
+            frame.textContent += ` → ${result}`;
+        }
+
+        memo[key] = result;
+
+        if (cell) {
+            cell.classList.remove('current');
+            cell.classList.add('path');
+            cell.textContent = result;
+        }
+
+        frame.classList.remove('active');
+        return result;
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    window.onload = newGrid;
+</script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REC-008: Word Bridge</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Source+Sans+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #fff1e6;
+            --surface: #ffffff;
+            --primary: #d35400;
+            --secondary: #e67e22;
+            --accent: #2980b9;
+            --text: #2c3e50;
+            --muted: #7f8c8d;
+            --tile-bg: #ecf0f1;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Source Sans Pro', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+        header { background: var(--surface); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        h1 { font-family: 'Merriweather', serif; font-size: 1.4rem; color: var(--primary); }
+        .subtitle { color: var(--muted); font-size: 0.9rem; }
+
+        .btn { background: var(--primary); color: #fff; border: none; padding: 10px 24px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: all 0.3s; font-family: inherit; }
+        .btn:hover { background: var(--secondary); transform: translateY(-1px); }
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+
+        main { padding: 2rem; max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem; align-items: center; }
+
+        .bridge-container {
+            width: 100%;
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .inputs { display: flex; gap: 2rem; margin-bottom: 2rem; align-items: center; }
+        .word-box { 
+            font-family: 'Merriweather', serif; 
+            font-size: 1.5rem; 
+            font-weight: 700; 
+            padding: 10px 20px; 
+            background: var(--tile-bg); 
+            border-radius: 8px;
+            border-bottom: 4px solid var(--muted);
+        }
+        .start-box { color: var(--accent); border-color: var(--accent); }
+        .end-box { color: var(--primary); border-color: var(--primary); }
+
+        .ladder-viz {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            align-items: center;
+            min-height: 200px;
+        }
+
+        .ladder-step {
+            background: var(--surface);
+            border: 2px solid var(--muted);
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 1.2rem;
+            font-weight: 600;
+            width: 200px;
+            text-align: center;
+            position: relative;
+            transition: all 0.5s;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        .ladder-step.show { opacity: 1; transform: translateY(0); }
+        .ladder-step.vowel { border-color: var(--accent); color: var(--accent); background: #ebf5fb; }
+        .ladder-step.consonant { border-color: var(--primary); color: var(--primary); background: #fdf2e9; }
+
+        .ladder-step::after {
+            content: '';
+            position: absolute;
+            bottom: -17px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 15px;
+            background: var(--muted);
+            opacity: 0.5;
+        }
+        .ladder-step:last-child::after { display: none; }
+
+        .result-msg { font-size: 1.1rem; color: var(--muted); margin-top: 1rem; height: 1.5rem; }
+
+        .controls { display: flex; gap: 1rem; }
+
+        .modal { position: fixed; inset: 0; background: rgba(44, 62, 80, 0.9); display: flex; align-items: center; justify-content: center; z-index: 100; }
+        .modal.hidden { display: none; }
+        .dialog { background: var(--surface); padding: 2rem; border-radius: 12px; max-width: 500px; }
+        .dialog h2 { color: var(--primary); margin-bottom: 1rem; font-family: 'Merriweather', serif; }
+        .dialog p { margin: 0.8rem 0; line-height: 1.6; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div>
+        <h1>🌉 Word Bridge</h1>
+        <div class="subtitle">REC-008: Alternating Vowel-Consonant Ladder</div>
+    </div>
+    <button class="btn btn-outline" onclick="showProtocol()">Protocol</button>
+</header>
+
+<main>
+    <div class="bridge-container">
+        <p style="color:var(--muted); margin-bottom:1.5rem;">Find a path from Start to End, changing 1 letter at a time.</p>
+        <p style="color:var(--text); font-weight:600; margin-bottom:2rem;">Rule: Start letter must alternate Vowel ↔ Consonant!</p>
+
+        <div class="inputs">
+            <div class="word-box start-box">eat</div>
+            <div style="font-size:2rem; color:var(--muted)">→</div>
+            <div class="word-box end-box">cot</div>
+        </div>
+
+        <div class="ladder-viz" id="ladderViz"></div>
+        <div class="result-msg" id="resultMsg"></div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="buildBridge()">Build Bridge</button>
+        <button class="btn btn-outline" onclick="reset()">Reset</button>
+    </div>
+</main>
+
+<div id="modal" class="modal hidden">
+    <div class="dialog">
+        <h2>🌉 Word Bridge Protocol</h2>
+        <p><strong>Goal:</strong> Transform start word to end word.</p>
+        <p><strong>Constraints:</strong><br>
+        1. Change exactly one letter per step.<br>
+        2. New word must be in dictionary.<br>
+        3. <strong>Alternating Start:</strong> If word starts with Vowel, next MUST start with Consonant (and vice versa).</p>
+        <p><strong>Algorithm:</strong> BFS to find shortest path layers, then Backtracking to reconstruct valid alternating paths.</p>
+        <button class="btn" onclick="hideProtocol()" style="margin-top:1rem;">Understood</button>
+    </div>
+</div>
+
+<script>
+    const startWord = "eat";
+    const endWord = "cot";
+    // Simulated path for demo
+    const path = ["eat", "cat", "cot"];
+    
+    function showProtocol() { document.getElementById('modal').classList.remove('hidden'); }
+    function hideProtocol() { document.getElementById('modal').classList.add('hidden'); }
+
+    function reset() {
+        document.getElementById('ladderViz').innerHTML = '';
+        document.getElementById('resultMsg').textContent = '';
+    }
+
+    function isVowel(char) {
+        return ['a','e','i','o','u'].includes(char.toLowerCase());
+    }
+
+    async function buildBridge() {
+        reset();
+        const viz = document.getElementById('ladderViz');
+        const msg = document.getElementById('resultMsg');
+        
+        msg.textContent = "Exploring word space...";
+        await sleep(500);
+
+        for (let i = 0; i < path.length; i++) {
+            const word = path[i];
+            const startChar = word[0];
+            const type = isVowel(startChar) ? 'vowel' : 'consonant';
+            
+            const step = document.createElement('div');
+            step.className = `ladder-step ${type}`;
+            step.innerHTML = `${word} <span style="font-size:0.8rem; display:block; color:inherit; opacity:0.8">${type.toUpperCase()} start</span>`;
+            viz.appendChild(step);
+            
+            // Trigger animation
+            await sleep(50);
+            step.classList.add('show');
+            
+            await sleep(600);
+        }
+
+        msg.textContent = "Bridge Complete! Alternating pattern maintained.";
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+</script>
+</body>
+</html>

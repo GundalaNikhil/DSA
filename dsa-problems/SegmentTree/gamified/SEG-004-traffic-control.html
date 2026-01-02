@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEG-004: Traffic Control</title>
+    <link href="https://fonts.googleapis.com/css2?family=Righteous&family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #212121; --road: #424242; --car: #ffca28; --invert: #f44336; --text: #eee; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Roboto', sans-serif; background: var(--bg); color: var(--text); margin: 0; min-height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+        header { background: #000; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 3px solid var(--car); }
+        h1 { margin: 0; font-family: 'Righteous', cursive; color: var(--car); }
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 20px; gap: 30px; position: relative; }
+        
+        .highway {
+            width: 100%; max-width: 900px; height: 120px;
+            background: var(--road);
+            border-top: 4px dashed #fff; border-bottom: 4px dashed #fff;
+            position: relative; display: flex; align-items: center; padding: 0 40px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+        }
+        
+        .lane-marker { position: absolute; top: 50%; width: 100%; height: 2px; background: repeating-linear-gradient(90deg, #fff, #fff 20px, transparent 20px, transparent 40px); opacity: 0.5; }
+
+        .car {
+            position: absolute; width: 60px; height: 40px;
+            background: var(--car); border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: bold; color: #000; font-family: 'Righteous';
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+            transition: left 0.5s ease-in-out;
+            cursor: pointer;
+        }
+        .car:hover { transform: scale(1.1); }
+        .car.overtake { background: var(--invert); color: #fff; z-index: 10; }
+
+        .dashboard {
+            display: flex; gap: 40px; text-align: center;
+            background: #333; padding: 20px; border-radius: 15px; border: 2px solid var(--car);
+        }
+        .stat-val { font-size: 2.5rem; font-family: 'Righteous'; color: var(--car); }
+        .stat-label { color: #888; font-size: 0.8rem; text-transform: uppercase; }
+
+        .controls { display: flex; gap: 15px; }
+        .btn { padding: 15px 30px; font-family: 'Righteous'; font-size: 1.2rem; background: var(--car); border: none; cursor: pointer; border-radius: 5px; color: #000; }
+        .btn:hover { background: #fff; }
+
+        #msg { font-size: 1.2rem; min-height: 30px; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>SEG-004 TRAFFIC CONTROL</h1>
+    <div>INVERSION COUNT</div>
+</header>
+<main>
+    <div id="msg">Cars should be in order (1, 2, 3...). Count Overtakes!</div>
+
+    <div class="highway" id="road">
+        <div class="lane-marker"></div>
+        <!-- Cars -->
+    </div>
+
+    <div class="dashboard">
+        <div>
+            <div class="stat-val" id="invCount">0</div>
+            <div class="stat-label">Inversions (Overtakes)</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="game.swapRandom()">SWAP TWO CARS</button>
+        <button class="btn" onclick="game.reset()">RESET TRAFFIC</button>
+    </div>
+</main>
+<script>
+class Game {
+    constructor() {
+        this.n = 8;
+        this.cars = [1, 2, 3, 4, 5, 6, 7, 8];
+        this.ui = {
+            road: document.getElementById('road'),
+            count: document.getElementById('invCount'),
+            msg: document.getElementById('msg')
+        };
+        this.render();
+    }
+
+    render() {
+        this.ui.road.innerHTML = '<div class="lane-marker"></div>';
+        let spacing = 100;
+        
+        this.cars.forEach((val, i) => {
+            let c = document.createElement('div');
+            c.className = 'car';
+            c.style.left = (50 + i * spacing) + 'px';
+            c.innerText = val;
+            c.onclick = () => this.selectCar(i);
+            this.ui.road.appendChild(c);
+        });
+        
+        this.calcInversions();
+    }
+
+    swapRandom() {
+        let i = Math.floor(Math.random() * this.n);
+        let j = Math.floor(Math.random() * this.n);
+        while (i === j) j = Math.floor(Math.random() * this.n);
+        
+        // Swap values
+        let temp = this.cars[i];
+        this.cars[i] = this.cars[j];
+        this.cars[j] = temp;
+        
+        this.render();
+        this.ui.msg.innerText = `Swapped positions ${i} and ${j}`;
+    }
+
+    calcInversions() {
+        // O(N^2) effectively for small N, but visualizing properties of inversion count using updates.
+        // Conceptually SEG tree solves this in O(N log N).
+        let inv = 0;
+        for(let i=0; i<this.n; i++) {
+            for(let j=i+1; j<this.n; j++) {
+                if(this.cars[i] > this.cars[j]) inv++;
+            }
+        }
+        
+        // Count animation
+        let prev = parseInt(this.ui.count.innerText);
+        this.animateValue(prev, inv, 500);
+    }
+    
+    animateValue(start, end, duration) {
+        if (start === end) return;
+        let range = end - start;
+        let current = start;
+        let increment = end > start ? 1 : -1;
+        let stepTime = Math.abs(Math.floor(duration / range));
+        let timer = setInterval(() => {
+            current += increment;
+            this.ui.count.innerText = current;
+            if (current == end) clearInterval(timer);
+        }, stepTime);
+    }
+
+    reset() {
+        this.cars = [1, 2, 3, 4, 5, 6, 7, 8];
+        this.render();
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>

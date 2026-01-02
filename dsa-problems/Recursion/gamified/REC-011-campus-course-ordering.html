@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REC-011: Course Scheduler</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Roboto+Condensed&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #2c3e50;
+            --surface: #34495e;
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --accent: #e67e22;
+            --text: #ecf0f1;
+            --muted: #95a5a6;
+            --node: #fff;
+        }
+
+        body { font-family: 'Montserrat', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; margin: 0; padding: 0; display: flex; flex-direction: column; align-items: center; }
+
+        header { width: 100%; background: var(--surface); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        h1 { font-family: 'Roboto Condensed', sans-serif; margin: 0; color: var(--secondary); font-size: 1.5rem; }
+        
+        main { width: 100%; max-width: 900px; padding: 2rem; display: flex; flex-direction: column; gap: 2rem; }
+
+        .graph-area {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 12px;
+            position: relative;
+            min-height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .node {
+            width: 60px;
+            height: 60px;
+            background: var(--node);
+            color: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            position: absolute;
+            transition: all 0.5s;
+            border: 3px solid var(--muted);
+            z-index: 2;
+        }
+
+        .node.available { border-color: var(--secondary); box-shadow: 0 0 15px rgba(46, 204, 113, 0.5); cursor: pointer; }
+        .node.taken { background: var(--secondary); color: white; border-color: var(--secondary); transform: scale(0.8); opacity: 0.5; }
+        .node.blocked { border-color: var(--accent); opacity: 0.7; }
+
+        .edge {
+            position: absolute;
+            background: var(--muted);
+            height: 2px;
+            transform-origin: left center;
+            z-index: 1;
+            transition: all 0.5s;
+        }
+        .edge.active { background: var(--node); height: 3px; }
+
+        .schedule-line {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            min-height: 70px;
+            background: rgba(0,0,0,0.2);
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+
+        .schedule-item {
+            background: var(--secondary);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-weight: 600;
+            min-width: 60px;
+            text-align: center;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popIn { from { transform: scale(0); } to { transform: scale(1); } }
+
+        .controls { display: flex; gap: 1rem; justify-content: center; margin-top: 1rem; }
+        .btn { padding: 12px 24px; border: none; border-radius: 6px; font-weight: 600; cursor: pointer; background: var(--primary); color: white; }
+        .btn:hover { background: #2980b9; }
+
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: flex; align-items: center; justify-content: center; z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+        .modal.visible { opacity: 1; pointer-events: auto; }
+        .dialog { background: var(--surface); padding: 2rem; border-radius: 12px; max-width: 500px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>COURSE SCHEDULER</h1>
+    <button class="btn" style="background:transparent; border:1px solid var(--secondary); padding:5px 15px;" onclick="toggleModal()">?</button>
+</header>
+
+<main>
+    <div style="text-align:center; color:var(--muted)">
+        Find a valid order to take all courses respecting prerequisites.
+        <br><span style="color:var(--secondary); font-size:0.9rem">Green outline = Available to take</span>
+    </div>
+
+    <div class="graph-area" id="graph"></div>
+
+    <div class="schedule-line" id="schedule">
+        <span style="color:var(--muted); font-style:italic">Your Schedule:</span>
+    </div>
+
+    <div class="controls">
+        <button class="btn" onclick="reset()">Reset</button>
+        <button class="btn" style="background:var(--accent)" onclick="autoSolve()">Auto-Schedule</button>
+    </div>
+</main>
+
+<div id="modal" class="modal visible">
+    <div class="dialog">
+        <h2 style="color:var(--primary)">Protocol</h2>
+        <p><strong>Goal:</strong> Order courses (Nodes) such that prerequisites (Edges) are satisfied.</p>
+        <p><strong>Rule:</strong> You can only take a course if all its prerequisites have been completed (Indegree = 0).</p>
+        <p><strong>Mechanic:</strong> Topological Sort using Kahn's Algorithm (Iteratively pick zero-indegree nodes).</p>
+        <button class="btn" onclick="toggleModal()">Start Planning</button>
+    </div>
+</div>
+
+<script>
+    const nodes = [
+        {id:0, x:100, y:150},
+        {id:1, x:300, y:50},
+        {id:2, x:300, y:250},
+        {id:3, x:500, y:150}
+    ];
+    const edges = [
+        {u:0, v:1},
+        {u:0, v:2},
+        {u:1, v:3},
+        {u:2, v:3}
+    ];
+    
+    let taken = new Set();
+    
+    function toggleModal() {
+        document.getElementById('modal').classList.toggle('visible');
+    }
+
+    function initGraph() {
+        const container = document.getElementById('graph');
+        container.innerHTML = '';
+        
+        edges.forEach(e => {
+            const u = nodes[e.u];
+            const v = nodes[e.v];
+            const len = Math.hypot(v.x - u.x, v.y - u.y);
+            const angle = Math.atan2(v.y - u.y, v.x - u.x) * 180 / Math.PI;
+            
+            const edge = document.createElement('div');
+            edge.className = 'edge';
+            edge.style.width = `${len}px`;
+            edge.style.left = `${u.x + 30}px`;
+            edge.style.top = `${u.y + 30}px`;
+            edge.style.transform = `rotate(${angle}deg)`;
+            edge.id = `edge-${e.u}-${e.v}`;
+            container.appendChild(edge);
+        });
+
+        nodes.forEach(n => {
+            const el = document.createElement('div');
+            el.className = 'node';
+            el.textContent = n.id;
+            el.style.left = `${n.x}px`;
+            el.style.top = `${n.y}px`;
+            el.id = `node-${n.id}`;
+            container.appendChild(el);
+        });
+
+        updateState();
+    }
+
+    function updateState() {
+        // Calculate indegrees
+        const indegree = {};
+        nodes.forEach(n => indegree[n.id] = 0);
+        edges.forEach(e => {
+            if (!taken.has(e.u)) indegree[e.v]++;
+        });
+
+        nodes.forEach(n => {
+            const el = document.getElementById(`node-${n.id}`);
+            el.className = 'node';
+            
+            if (taken.has(n.id)) {
+                el.classList.add('taken');
+            } else if (indegree[n.id] === 0) {
+                el.classList.add('available');
+                el.onclick = () => takeCourse(n.id);
+            } else {
+                el.classList.add('blocked');
+                el.onclick = null;
+            }
+        });
+    }
+
+    async function takeCourse(id) {
+        if (taken.has(id)) return;
+        taken.add(id);
+        
+        // Add to schedule
+        const item = document.createElement('div');
+        item.className = 'schedule-item';
+        item.textContent = `Course ${id}`;
+        document.getElementById('schedule').appendChild(item);
+
+        updateState();
+        
+        // Visualize edges fading if source taken
+        edges.forEach(e => {
+            if (e.u === id) {
+                document.getElementById(`edge-${e.u}-${e.v}`).style.opacity = 0.2;
+            }
+        });
+    }
+
+    function reset() {
+        taken.clear();
+        document.getElementById('schedule').innerHTML = '<span style="color:var(--muted); font-style:italic">Your Schedule:</span>';
+        initGraph();
+    }
+
+    async function autoSolve() {
+        reset();
+        await sleep(500);
+        // Manual sequence for demo 0 -> 1 -> 2 -> 3
+        const seq = [0, 1, 2, 3];
+        for (let id of seq) {
+            takeCourse(id);
+            await sleep(600);
+        }
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+    window.onload = initGraph;
+</script>
+</body>
+</html>

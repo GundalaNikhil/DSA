@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REC-009: Math Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&family=Work+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #2d3436;
+            --surface: #353b48;
+            --primary: #0984e3;
+            --secondary: #74b9ff;
+            --accent: #fdcb6e;
+            --danger: #d63031;
+            --text: #dfe6e9;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Work Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+        header { background: var(--surface); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #444; }
+        h1 { font-size: 1.3rem; color: var(--secondary); font-family: 'Roboto Mono', monospace; }
+        
+        main { padding: 2rem; max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem; align-items: center; }
+
+        .builder-area {
+            background: var(--surface);
+            padding: 2rem;
+            border-radius: 12px;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .target-display {
+            font-size: 2rem;
+            font-family: 'Roboto Mono';
+            color: var(--accent);
+            text-shadow: 0 0 10px rgba(253, 203, 110, 0.3);
+        }
+
+        .expression-slots {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            min-height: 60px;
+        }
+
+        .digit-card {
+            background: #fff;
+            color: #2d3436;
+            font-family: 'Roboto Mono';
+            font-weight: 700;
+            font-size: 1.5rem;
+            padding: 10px 15px;
+            border-radius: 6px;
+            box-shadow: 0 4px 0 #b2bec3;
+        }
+
+        .op-card {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .flip-indicator {
+            background: var(--danger);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+
+        .chunk-container { position: relative; }
+
+        .history-panel {
+            width: 100%;
+            background: rgba(0,0,0,0.2);
+            border-radius: 12px;
+            padding: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .history-item {
+            font-family: 'Roboto Mono';
+            padding: 8px;
+            border-bottom: 1px solid #444;
+            color: var(--muted);
+        }
+        .history-item.found { color: var(--accent); font-weight: 700; border-color: var(--accent); }
+
+        .btn { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        .btn:hover { background: var(--secondary); }
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+
+        .modal { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: flex; align-items: center; justify-content: center; }
+        .hidden { display: none; }
+        .dialog { background: var(--surface); padding: 2rem; border-radius: 12px; max-width: 500px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>MATH_BUILDER( )</h1>
+    <button class="btn btn-outline" onclick="toggleModal()">?</button>
+</header>
+
+<main>
+    <div class="builder-area">
+        <div style="text-align:center">
+            <div style="color:#b2bec3; font-size:0.9rem">TARGET</div>
+            <div class="target-display">-202</div>
+        </div>
+        
+        <div style="color:#b2bec3; font-size:0.9rem">SOURCE STRING: "1203"</div>
+
+        <div class="expression-slots" id="exprSlots">
+            <!-- Animated content goes here -->
+        </div>
+
+        <div id="statusMsg" style="color:var(--secondary); height:1.5rem"></div>
+    </div>
+
+    <div class="history-panel" id="history">
+        <div style="color:#636e72; font-size:0.8rem; margin-bottom:0.5rem">EXPLORATION LOG</div>
+    </div>
+
+    <div style="display:flex; gap:10px">
+        <button class="btn" onclick="runSolver()">BUILD EXPRESSIONS</button>
+        <button class="btn btn-outline" onclick="reset()">RESET</button>
+    </div>
+</main>
+
+<div id="modal" class="modal hidden">
+    <div class="dialog">
+        <h2 style="color:var(--secondary)">Protocol</h2>
+        <p><strong>Goal:</strong> Reach Target using digits from Source String.</p>
+        <p><strong>Operations:</strong><br>
+        1. Insert `+` or `-`<br>
+        2. Concatenate digits (e.g., "1", "2" → "12")<br>
+        3. <strong>One Flip:</strong> Apply ONE unary negation to a chunk (e.g., "12" → "-12").</p>
+        <button class="btn" onclick="toggleModal()" style="margin-top:1rem">CLOSE</button>
+    </div>
+</div>
+
+<script>
+    const target = -202;
+    const source = "1203";
+    const logEl = document.getElementById('history');
+    const slotsEl = document.getElementById('exprSlots');
+    const statusEl = document.getElementById('statusMsg');
+
+    function toggleModal() {
+        document.getElementById('modal').classList.toggle('hidden');
+    }
+
+    function reset() {
+        logEl.innerHTML = '<div style="color:#636e72; font-size:0.8rem; margin-bottom:0.5rem">EXPLORATION LOG</div>';
+        slotsEl.innerHTML = '';
+        statusEl.textContent = '';
+    }
+
+    function renderExpr(chunks, ops, flipIndex) {
+        slotsEl.innerHTML = '';
+        chunks.forEach((chunk, i) => {
+            if (i > 0) {
+                const opDiv = document.createElement('div');
+                opDiv.className = 'op-card';
+                opDiv.textContent = ops[i-1];
+                slotsEl.appendChild(opDiv);
+            }
+            
+            const chunkContainer = document.createElement('div');
+            chunkContainer.className = 'chunk-container';
+            
+            if (flipIndex === i) {
+                const indicator = document.createElement('div');
+                indicator.className = 'flip-indicator';
+                indicator.textContent = 'FLIP (-x)';
+                chunkContainer.appendChild(indicator);
+                
+                const card = document.createElement('div');
+                card.className = 'digit-card';
+                card.textContent = '-' + chunk; // Show negated
+                card.style.borderColor = 'var(--danger)';
+                chunkContainer.appendChild(card);
+            } else {
+                const card = document.createElement('div');
+                card.className = 'digit-card';
+                card.textContent = chunk;
+                chunkContainer.appendChild(card);
+            }
+            
+            slotsEl.appendChild(chunkContainer);
+        });
+    }
+
+    async function runSolver() {
+        reset();
+        statusEl.textContent = "Scanning permutations...";
+        
+        // Simulation of finding specific solution
+        // 1 + (-203) = -202
+        
+        // Attempt 1: 1 + 2 + 0 + 3
+        renderExpr(['1','2','0','3'], ['+','+','+'], -1);
+        logEl.insertAdjacentHTML('afterbegin', '<div class="history-item">1 + 2 + 0 + 3 = 6</div>');
+        await sleep(600);
+        
+        // Attempt 2: 12 + 03 (Invalid leading zero)
+        renderExpr(['12','03'], ['+'], -1);
+        statusEl.textContent = "Skipping leading zero chunk...";
+        await sleep(600);
+
+        // Attempt 3: 1 + 203 with flip
+        statusEl.textContent = "Testing unary flip...";
+        renderExpr(['1','203'], ['+'], 1);
+        const res = 1 + (-203);
+        logEl.insertAdjacentHTML('afterbegin', `<div class="history-item found">1 + (-203) = -202 [MATCH!]</div>`);
+        statusEl.textContent = "SOLUTION FOUND";
+        
+        await sleep(200);
+    }
+
+    function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+</script>
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEG-016: Network Builder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Exo&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #000000; --node: #2196f3; --edge: #fff; }
+        * { box-sizing: border-box; }
+        body { font-family: 'Exo', sans-serif; background: var(--bg); color: #fff; margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; overflow: hidden; }
+        header { width: 100%; padding: 10px; text-align: center; border-bottom: 1px solid #333; }
+        
+        main { flex: 1; width: 100%; position: relative; display: flex; justify-content: center; }
+        
+        #canvas-area { width: 100%; height: 100%; position: absolute; top:0; left:0; }
+        
+        .controls {
+            position: absolute; bottom: 20px;
+            background: rgba(30, 30, 30, 0.9); border: 1px solid #444; border-radius: 10px;
+            padding: 15px; display: flex; gap: 15px; align-items: center; z-index: 100;
+        }
+        
+        .mode-btn {
+            padding: 8px 16px; border: 1px solid #444; background: #000; color: #aaa;
+            cursor: pointer; border-radius: 4px; font-family: 'Exo';
+        }
+        .mode-btn:hover { color: #fff; border-color: #fff; }
+        .mode-btn.active { background: var(--node); color: #fff; border-color: var(--node); }
+        
+        #status { position: absolute; top: 60px; font-size: 1.2rem; text-shadow: 0 0 5px #000; pointer-events: none; }
+    </style>
+</head>
+<body>
+<header>
+    <h1>SEG-016 NETWORK BUILDER</h1>
+    <div style="font-size:0.8rem; color:#888;">DYNAMIC CONNECTIVITY (OFFLINE)</div>
+</header>
+<main>
+    <div id="status">Mode: Add/Remove Edge (Click two nodes)</div>
+    <svg id="canvas-area"></svg>
+    
+    <div class="controls">
+        <button class="mode-btn active" id="btnEdit" onclick="game.setMode('edit')">🛠️ EDIT LINKS</button>
+        <button class="mode-btn" id="btnQuery" onclick="game.setMode('query')">🔍 CHECK LINK</button>
+        <button class="mode-btn" onclick="game.reset()">🔄 RESET</button>
+    </div>
+</main>
+<script>
+class Game {
+    constructor() {
+        this.nodes = [];
+        this.edges = [];
+        this.selection = null;
+        this.mode = 'edit'; // edit, query
+        
+        this.canvas = document.getElementById('canvas-area');
+        this.status = document.getElementById('status');
+        
+        // Init nodes circular
+        let cx = window.innerWidth/2, cy = window.innerHeight/2 - 50;
+        let r = 150;
+        let n = 8;
+        for(let i=0; i<n; i++) {
+            let angle = (i / n) * 2 * Math.PI;
+            this.nodes.push({
+                id: i,
+                x: cx + r * Math.cos(angle),
+                y: cy + r * Math.sin(angle)
+            });
+        }
+        
+        this.render();
+    }
+
+    setMode(m) {
+        this.mode = m;
+        this.selection = null;
+        document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+        if(m==='edit') document.getElementById('btnEdit').classList.add('active');
+        if(m==='query') document.getElementById('btnQuery').classList.add('active');
+        
+        this.status.innerText = m === 'edit' ? "Mode: Add/Remove Edge (Click 2 nodes)" : "Mode: Query Connectivity (Click 2 nodes)";
+        this.render();
+    }
+
+    nodeClick(id) {
+        if (this.selection === null) {
+            this.selection = id;
+            this.render(); // highlight selection
+        } else {
+            if (this.selection !== id) {
+                if(this.mode === 'edit') this.toggleEdge(this.selection, id);
+                if(this.mode === 'query') this.queryPath(this.selection, id);
+            }
+            this.selection = null;
+            this.render();
+        }
+    }
+
+    toggleEdge(u, v) {
+        // Ensure u < v for storage
+        if(u > v) [u, v] = [v, u];
+        let idx = this.edges.findIndex(e => e.u === u && e.v === v);
+        
+        if (idx >= 0) {
+            this.edges.splice(idx, 1);
+            this.status.innerText = `Link ${u}-${v} Removed`;
+        } else {
+            this.edges.push({u, v});
+            this.status.innerText = `Link ${u}-${v} Added`;
+        }
+    }
+
+    queryPath(u, v) {
+        // Simple BFS for connectivity
+        let q = [u];
+        let visited = new Set([u]);
+        let found = false;
+        
+        // Build adj
+        let adj = {}; 
+        this.nodes.forEach(n => adj[n.id] = []);
+        this.edges.forEach(e => {
+            adj[e.u].push(e.v);
+            adj[e.v].push(e.u);
+        });
+
+        while(q.length > 0) {
+            let curr = q.shift();
+            if (curr === v) {
+                found = true;
+                break;
+            }
+            for(let neighbor of adj[curr]) {
+                if(!visited.has(neighbor)) {
+                    visited.add(neighbor);
+                    q.push(neighbor);
+                }
+            }
+        }
+        
+        if(found) this.status.innerHTML = `<span style="color:#0f0">CONNECTED!</span> Path exists between ${u} and ${v}`;
+        else this.status.innerHTML = `<span style="color:#f00">DISCONNECTED</span> No path between ${u} and ${v}`;
+    }
+
+    reset() {
+        this.edges = [];
+        this.selection = null;
+        this.render();
+    }
+
+    render() {
+        // Redraw SVG
+        this.canvas.innerHTML = '';
+        
+        // Edges
+        this.edges.forEach(e => {
+            let n1 = this.nodes[e.u];
+            let n2 = this.nodes[e.v];
+            let line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+            line.setAttribute('x1', n1.x); line.setAttribute('y1', n1.y);
+            line.setAttribute('x2', n2.x); line.setAttribute('y2', n2.y);
+            line.setAttribute('stroke', '#fff');
+            line.setAttribute('stroke-width', '2');
+            this.canvas.appendChild(line);
+        });
+
+        // Nodes
+        this.nodes.forEach(n => {
+            let g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            g.onclick = () => this.nodeClick(n.id);
+            g.style.cursor = 'pointer';
+
+            let c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            c.setAttribute('cx', n.x);
+            c.setAttribute('cy', n.y);
+            c.setAttribute('r', 20);
+            c.setAttribute('fill', this.selection === n.id ? '#ffeb3b' : '#2196f3');
+            c.setAttribute('stroke', '#fff');
+            c.setAttribute('stroke-width', '2');
+            
+            let txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+            txt.setAttribute('x', n.x);
+            txt.setAttribute('y', n.y + 5);
+            txt.setAttribute('text-anchor', 'middle');
+            txt.setAttribute('fill', '#fff');
+            txt.setAttribute('font-family', 'Exo');
+            txt.textContent = n.id;
+
+            g.appendChild(c);
+            g.appendChild(txt);
+            this.canvas.appendChild(g);
+        });
+    }
+}
+const game = new Game();
+</script>
+</body>
+</html>
