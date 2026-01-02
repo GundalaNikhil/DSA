@@ -143,6 +143,7 @@ class Main {
 
 ```python
 import sys
+from typing import List
 
 def bfs_traversal(n: int, adj: List[List[int]]) -> List[int]:
     # Implementation here

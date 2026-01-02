@@ -134,6 +134,7 @@ class Main {
 
 ```python
 import sys
+from typing import List
 
 def has_cycle(n: int, adj: List[List[int]]) -> bool:
     # Implementation here
@@ -169,7 +170,7 @@ class Solution {
 public:
     bool hasCycle(int n, vector<vector<int>>& adj) {
         // Implementation here
-        return {};
+        return false;
     }
 };
 

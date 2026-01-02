@@ -156,6 +156,7 @@ class Main {
 
 ```python
 import sys
+from typing import List
 
 def count_reachable(n: int, edges: List[tuple], threshold: int) -> int:
     # Implementation here
@@ -207,7 +208,7 @@ class Solution {
 public:
     int countReachable(int n, vector<tuple<int,int,int>>& edges, int threshold) {
         // Implementation here
-        return {};
+        return 0;
     }
 };
 

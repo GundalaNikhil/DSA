@@ -162,6 +162,7 @@ class Main {
 
 ```python
 import sys
+from typing import List
 
 def can_color_bipartite(n: int, adj: List[List[int]], locked: List[int]) -> bool:
     # Implementation here
@@ -204,7 +205,7 @@ class Solution {
 public:
     bool canColorBipartite(int n, vector<vector<int>>& adj, vector<int>& locked) {
         // Implementation here
-        return {};
+        return false;
     }
 };
 

@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # GRB-007: MST Kruskal
 
 ## Problem Statement
@@ -126,7 +127,7 @@ def main():
     data = input().split()
     if not data:
         return
-    
+
     iterator = iter(data)
     try:
         n = int(next(iterator))
@@ -137,7 +138,7 @@ def main():
             v = int(next(iterator))
             w = int(next(iterator))
             edges.append((u, v, w))
-            
+
         print(mst_kruskal(n, edges))
     except StopIteration:
         pass
@@ -200,38 +201,12 @@ class DSU {
     for (let i = 0; i < n; i++) this.parent[i] = i;
   }
   find(i) {
-    if (this.parent[i] === i) return i;
-    return (this.parent[i] = this.find(this.parent[i]));
+    // Implementation here
+    return i;
   }
   union(i, j) {
-    const rootI = this.find(i);
-    const rootJ = this.find(j);
-    if (rootI !== rootJ) {
-      this.parent[rootI] = rootJ;
-      return true;
-    }
+    // Implementation here
     return false;
-  }
-}
-
-class Solution {
-  mstKruskal(n, edges) {
-    // Sort edges by weight
-    edges.sort((a, b) => a[2] - b[2]);
-
-    const dsu = new DSU(n);
-    let mstWeight = 0n; // Use BigInt for safety
-    let edgesCount = 0;
-
-    for (const [u, v, w] of edges) {
-      if (dsu.union(u, v)) {
-        mstWeight += BigInt(w);
-        edgesCount++;
-        if (edgesCount === n - 1) break;
-      }
-    }
-
-    return mstWeight.toString();
   }
 }
 
@@ -244,11 +219,11 @@ let data = [];
 rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let idx = 0;
   const n = parseInt(data[idx++], 10);
   const m = parseInt(data[idx++], 10);
-  
+
   const edges = [];
   for (let i = 0; i < m; i++) {
     const u = parseInt(data[idx++], 10);

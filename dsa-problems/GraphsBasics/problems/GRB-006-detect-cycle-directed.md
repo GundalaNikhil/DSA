@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # GRB-006: Detect Cycle in Directed Graph
 
 ## Problem Statement
@@ -126,7 +127,7 @@ def main():
     data = input().split()
     if not data:
         return
-    
+
     iterator = iter(data)
     try:
         n = int(next(iterator))
@@ -136,7 +137,7 @@ def main():
             u = int(next(iterator))
             v = int(next(iterator))
             adj[u].append(v)
-            
+
         print("1" if has_cycle(n, adj) else "0")
     except StopIteration:
         pass
@@ -192,31 +193,6 @@ class Solution {
   }
 }
 
-class Solution {
-  hasCycle(n, adj) {
-    const state = new Int8Array(n).fill(0); // 0: unvisited, 1: visiting, 2: visited
-
-    for (let i = 0; i < n; i++) {
-      if (state[i] === 0) {
-        if (this.dfs(i, adj, state)) return true;
-      }
-    }
-    return false;
-  }
-
-  dfs(u, adj, state) {
-    state[u] = 1;
-    for (const v of adj[u]) {
-      if (state[v] === 1) return true;
-      if (state[v] === 0) {
-        if (this.dfs(v, adj, state)) return true;
-      }
-    }
-    state[u] = 2;
-    return false;
-  }
-}
-
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -226,11 +202,11 @@ let data = [];
 rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let idx = 0;
   const n = parseInt(data[idx++], 10);
   const m = parseInt(data[idx++], 10);
-  
+
   const adj = Array.from({ length: n }, () => []);
   for (let i = 0; i < m; i++) {
     const u = parseInt(data[idx++], 10);

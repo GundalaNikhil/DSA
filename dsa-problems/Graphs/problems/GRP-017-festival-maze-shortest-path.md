@@ -155,6 +155,7 @@ class Main {
 
 ```python
 import sys
+from typing import List
 
 def shortest_path(grid: List[List[str]]) -> int:
     # Implementation here
@@ -220,7 +221,7 @@ class Solution {
 public:
     int shortestPathWithFood(vector<vector<char>>& grid) {
         // Implementation here
-        return {};
+        return 0;
     }
 };
 

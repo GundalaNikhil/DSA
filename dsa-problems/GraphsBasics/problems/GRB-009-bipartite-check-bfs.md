@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # GRB-009: Bipartite Check BFS
 
 ## Problem Statement
@@ -130,7 +131,7 @@ def main():
     data = input().split()
     if not data:
         return
-    
+
     iterator = iter(data)
     try:
         n = int(next(iterator))
@@ -141,7 +142,7 @@ def main():
             v = int(next(iterator))
             adj[u].append(v)
             adj[v].append(u)
-            
+
         colors = bipartite_colors(n, adj)
         if colors is None:
             print("0")
@@ -187,7 +188,7 @@ int main() {
 
     Solution solution;
     vector<int> colors = solution.bipartiteColors(n, adj);
-    
+
     cout << (colors.empty() ? "0" : "1");
     return 0;
 }
@@ -205,34 +206,6 @@ class Solution {
   }
 }
 
-class Solution {
-  bipartiteColors(n, adj) {
-    const colors = new Int32Array(n).fill(-1);
-
-    for (let i = 0; i < n; i++) {
-      if (colors[i] === -1) {
-        const queue = [i];
-        colors[i] = 0;
-        let head = 0;
-        
-        while (head < queue.length) {
-          const u = queue[head++];
-          
-          for (const v of adj[u]) {
-            if (colors[v] === -1) {
-              colors[v] = 1 - colors[u];
-              queue.push(v);
-            } else if (colors[v] === colors[u]) {
-              return null;
-            }
-          }
-        }
-      }
-    }
-    return colors;
-  }
-}
-
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -242,11 +215,11 @@ let data = [];
 rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let idx = 0;
   const n = parseInt(data[idx++], 10);
   const m = parseInt(data[idx++], 10);
-  
+
   const adj = Array.from({ length: n }, () => []);
   for (let i = 0; i < m; i++) {
     const u = parseInt(data[idx++], 10);
@@ -257,7 +230,7 @@ rl.on("close", () => {
 
   const solution = new Solution();
   const colors = solution.bipartiteColors(n, adj);
-  
+
   console.log(colors === null ? "0" : "1");
 });
 ```

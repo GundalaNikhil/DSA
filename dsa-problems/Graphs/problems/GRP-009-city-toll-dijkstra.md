@@ -153,6 +153,7 @@ class Main {
 
 ```python
 import sys
+from typing import List
 
 def dijkstra(n: int, adj: List[List[tuple]], source: int) -> List[int]:
     # Implementation here

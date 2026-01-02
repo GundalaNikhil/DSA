@@ -170,6 +170,7 @@ class Main {
 
 ```python
 import sys
+from typing import List
 
 def fire_spread_time(grid: List[List[int]], stamina: List[List[int]]) -> int:
     # Implementation here
@@ -231,7 +232,7 @@ class Solution {
 public:
     int fireSpreadTime(vector<vector<int>>& grid, vector<vector<int>>& stamina) {
         // Implementation here
-        return {};
+        return 0;
     }
 };
 

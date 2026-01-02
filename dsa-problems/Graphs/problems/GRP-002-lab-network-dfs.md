@@ -149,6 +149,7 @@ class Main {
 
 ```python
 import sys
+from typing import List
 
 def dfs_traversal(n: int, adj: List[List[int]]) -> List[int]:
     # Implementation here

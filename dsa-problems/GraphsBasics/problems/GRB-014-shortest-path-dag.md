@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # GRB-014: Shortest Path in DAG
 
 ## Problem Statement
@@ -136,7 +137,7 @@ def main():
     data = input().split()
     if not data:
         return
-    
+
     iterator = iter(data)
     try:
         n = int(next(iterator))
@@ -148,7 +149,7 @@ def main():
             v = int(next(iterator))
             w = int(next(iterator))
             adj[u].append((v, w))
-            
+
         dist = shortest_path_dag(n, adj, s)
         print(" ".join(map(str, dist)))
     except StopIteration:
@@ -211,47 +212,6 @@ class Solution {
   }
 }
 
-class Solution {
-  shortestPathDAG(n, adj, s) {
-    const visited = new Int8Array(n).fill(0);
-    const stack = [];
-
-    const dfs = (u) => {
-      visited[u] = 1;
-      for (const [v, w] of adj[u]) {
-        if (!visited[v]) dfs(v);
-      }
-      stack.push(u);
-    };
-
-    for (let i = 0; i < n; i++) {
-      if (!visited[i]) dfs(i);
-    }
-
-    // Initialize distances
-    // Use BigInt for safety with large weights, though Number is usually fine up to 2^53
-    // Problem constraints 10^9 * 10^5 = 10^14, fits in Number.
-    const INF = 1e15;
-    const dist = new Array(n).fill(INF);
-    dist[s] = 0;
-
-    // Process in topological order (reverse of post-order stack)
-    while (stack.length > 0) {
-      const u = stack.pop();
-
-      if (dist[u] !== INF) {
-        for (const [v, w] of adj[u]) {
-          if (dist[u] + w < dist[v]) {
-            dist[v] = dist[u] + w;
-          }
-        }
-      }
-    }
-
-    return dist.map((d) => (d === INF ? -1 : d));
-  }
-}
-
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -261,7 +221,7 @@ let data = [];
 rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let idx = 0;
   const n = parseInt(data[idx++], 10);
   const m = parseInt(data[idx++], 10);

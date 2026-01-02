@@ -137,6 +137,7 @@ class Main {
 
 ```python
 import sys
+from typing import List
 
 def is_forest(n: int, edges: List[tuple]) -> bool:
     # Implementation here
@@ -183,7 +184,7 @@ class Solution {
 public:
     bool isForest(int n, vector<pair<int,int>>& edges) {
         // Implementation here
-        return {};
+        return false;
     }
 };
 

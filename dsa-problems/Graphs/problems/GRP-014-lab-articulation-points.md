@@ -162,6 +162,7 @@ class Main {
 
 ```python
 import sys
+from typing import List
 
 def find_articulation_points(n: int, adj: List[List[int]]) -> List[int]:
     # Implementation here

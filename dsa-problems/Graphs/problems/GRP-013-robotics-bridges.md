@@ -158,6 +158,7 @@ class Main {
 
 ```python
 import sys
+from typing import List
 
 def find_bridges(n: int, adj: List[List[int]]) -> List[tuple]:
     # Implementation here

@@ -149,6 +149,7 @@ class Main {
 
 ```python
 import sys
+from typing import List, Tuple
 
 def check_feasibility(n: int, edges: List[Tuple[int, int]]) -> Tuple[int, ...]:
     # Implementation here
@@ -243,8 +244,6 @@ class Solution {
     return null;
   }
 }
-
-const readline = require("readline");
 
 const rl = readline.createInterface({
   input: process.stdin,

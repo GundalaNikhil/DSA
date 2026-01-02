@@ -168,6 +168,7 @@ class Main {
 
 ```python
 import sys
+from typing import List, Tuple
 
 def course_schedule(n: int, prerequisites: List[Tuple[int, int]], pairs: List[Tuple[int, int]]) -> List[int]:
     # Implementation here

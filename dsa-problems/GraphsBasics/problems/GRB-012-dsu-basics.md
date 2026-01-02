@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # GRB-012: Disjoint Set Union Basics
 
 ## Problem Statement
@@ -140,7 +141,7 @@ def main():
     data = input().split()
     if not data:
         return
-    
+
     iterator = iter(data)
     try:
         n = int(next(iterator))
@@ -151,7 +152,7 @@ def main():
             u = int(next(iterator))
             v = int(next(iterator))
             queries.append((t, u, v))
-            
+
         ans = process_queries(n, queries)
         print("\n".join("true" if x else "false" for x in ans))
     except StopIteration:
@@ -214,49 +215,6 @@ class Solution {
   }
 }
 
-class DSU {
-  constructor(n) {
-    this.parent = new Int32Array(n);
-    this.rank = new Int32Array(n);
-    for (let i = 0; i < n; i++) this.parent[i] = i;
-  }
-  find(i) {
-    if (this.parent[i] !== i) {
-      this.parent[i] = this.find(this.parent[i]);
-    }
-    return this.parent[i];
-  }
-  union(i, j) {
-    const rootI = this.find(i);
-    const rootJ = this.find(j);
-    if (rootI !== rootJ) {
-      if (this.rank[rootI] < this.rank[rootJ]) {
-        this.parent[rootI] = rootJ;
-      } else if (this.rank[rootI] > this.rank[rootJ]) {
-        this.parent[rootJ] = rootI;
-      } else {
-        this.parent[rootI] = rootJ;
-        this.rank[rootJ]++;
-      }
-    }
-  }
-}
-
-class Solution {
-  processQueries(n, queries) {
-    const dsu = new DSU(n);
-    const results = [];
-    for (const [t, u, v] of queries) {
-      if (t === "union") {
-        dsu.union(u, v);
-      } else {
-        results.push(dsu.find(u) === dsu.find(v));
-      }
-    }
-    return results;
-  }
-}
-
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -266,7 +224,7 @@ let data = [];
 rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let idx = 0;
   const n = parseInt(data[idx++], 10);
   const q = parseInt(data[idx++], 10);

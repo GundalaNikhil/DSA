@@ -148,6 +148,7 @@ class Main {
 
 ```python
 import sys
+from typing import List
 
 def shortest_distances(n: int, adj: List[List[int]], source: int) -> List[int]:
     # Implementation here

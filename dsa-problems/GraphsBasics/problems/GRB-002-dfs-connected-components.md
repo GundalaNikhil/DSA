@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # GRB-002: DFS Connected Components
 
 ## Problem Statement
@@ -199,32 +200,6 @@ class Solution {
   components(n, adj) {
     // Implementation here
     return null;
-  }
-}
-
-class Solution {
-  components(n, adj) {
-    const comp = new Int32Array(n).fill(0);
-    let count = 0;
-    const stack = [];
-
-    for (let i = 0; i < n; i++) {
-      if (comp[i] !== 0) continue;
-      count++;
-      stack.length = 0;
-      stack.push(i);
-      comp[i] = count;
-      while (stack.length > 0) {
-        const u = stack.pop();
-        for (const v of adj[u]) {
-          if (comp[v] === 0) {
-            comp[v] = count;
-            stack.push(v);
-          }
-        }
-      }
-    }
-    return comp;
   }
 }
 

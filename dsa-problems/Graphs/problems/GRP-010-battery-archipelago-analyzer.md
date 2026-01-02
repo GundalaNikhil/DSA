@@ -197,7 +197,7 @@ class Solution {
 public:
     int shortestPathWithBattery(int n, vector<vector<int>>& edges, int source, int dest, int battery) {
         // Implementation here
-        return {};
+        return 0;
     }
 };
 

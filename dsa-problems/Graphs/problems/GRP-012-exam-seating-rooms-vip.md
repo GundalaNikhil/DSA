@@ -203,7 +203,7 @@ class Solution {
 public:
     int maxComponentSize(int n, vector<pair<int, int>>& edges, unordered_set<int>& vips) {
         // Implementation here
-        return {};
+        return 0;
     }
 };
 

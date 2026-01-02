@@ -20,6 +20,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # GRB-016: Euler Tour of Tree (Array Flatten)
 
 ## Problem Statement
@@ -141,7 +142,7 @@ def main():
     data = input().split()
     if not data:
         return
-    
+
     iterator = iter(data)
     try:
         n = int(next(iterator))
@@ -152,7 +153,7 @@ def main():
             adj[u].append(v)
             adj[v].append(u)
         root = int(next(iterator))
-        
+
         tin, tout = euler_tour(n, adj, root)
         print(" ".join(map(str, tin)))
         print(" ".join(map(str, tout)))
@@ -222,30 +223,6 @@ class Solution {
   }
 }
 
-class Solution {
-  eulerTour(n, adj, root) {
-    const tin = new Int32Array(n);
-    const tout = new Int32Array(n);
-    let timer = 0;
-
-    const dfs = (u, p) => {
-      tin[u] = timer++;
-      
-      for (const v of adj[u]) {
-        if (v !== p) {
-          dfs(v, u);
-          timer++;
-        }
-      }
-      
-      tout[u] = timer;
-    };
-
-    dfs(root, -1);
-    return [tin, tout];
-  }
-}
-
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -255,7 +232,7 @@ let data = [];
 rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let idx = 0;
   const n = parseInt(data[idx++], 10);
   const adj = Array.from({ length: n }, () => []);

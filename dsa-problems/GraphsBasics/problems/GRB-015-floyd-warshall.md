@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # GRB-015: Floyd-Warshall All-Pairs
 
 ## Problem Statement
@@ -143,7 +144,7 @@ def main():
     data = input().split()
     if not data:
         return
-    
+
     iterator = iter(data)
     try:
         n = int(next(iterator))
@@ -151,7 +152,7 @@ def main():
         for i in range(n):
             for j in range(n):
                 dist[i][j] = int(next(iterator))
-                
+
         ans = floyd_warshall(dist)
         if ans is None:
             print("NEGATIVE CYCLE")
@@ -227,50 +228,6 @@ class Solution {
   }
 }
 
-class Solution {
-  floydWarshall(dist) {
-    const n = dist.length;
-    const INF = 1e15; // Safe large number
-
-    // Preprocess
-    for (let i = 0; i < n; i++) {
-      for (let j = 0; j < n; j++) {
-        if (i !== j && dist[i][j] === -1) {
-          dist[i][j] = INF;
-        }
-      }
-    }
-
-    for (let k = 0; k < n; k++) {
-      for (let i = 0; i < n; i++) {
-        for (let j = 0; j < n; j++) {
-          if (dist[i][k] !== INF && dist[k][j] !== INF) {
-            if (dist[i][k] + dist[k][j] < dist[i][j]) {
-              dist[i][j] = dist[i][k] + dist[k][j];
-            }
-          }
-        }
-      }
-    }
-
-    // Negative Cycle Check
-    for (let i = 0; i < n; i++) {
-      if (dist[i][i] < 0) return null;
-    }
-
-    // Postprocess
-    for (let i = 0; i < n; i++) {
-      for (let j = 0; j < n; j++) {
-        if (dist[i][j] >= INF / 2) {
-          dist[i][j] = -1;
-        }
-      }
-    }
-
-    return dist;
-  }
-}
-
 const rl = readline.createInterface({
   input: process.stdin,
   output: process.stdout,
@@ -280,7 +237,7 @@ let data = [];
 rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let idx = 0;
   const n = parseInt(data[idx++], 10);
   const dist = Array.from({ length: n }, () => new Array(n).fill(0));

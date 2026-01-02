@@ -135,6 +135,7 @@ class Main {
 
 ```python
 import sys
+from typing import List
 
 def count_components(n: int, adj: List[List[int]]) -> int:
     # Implementation here
@@ -171,7 +172,7 @@ class Solution {
 public:
     int countComponents(int n, vector<vector<int>>& adj) {
         // Implementation here
-        return {};
+        return 0;
     }
 };
 
