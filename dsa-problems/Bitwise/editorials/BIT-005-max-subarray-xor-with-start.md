@@ -37,7 +37,7 @@ You are a contestant on a game show.
 -   **The Score:** Your score is the Cumulative XOR of all boxes you've opened so far in this streak.
 -   **The Goal:** You generally know (or can calculate) what the boxes contain. You want to stop at the exact moment your score is highest.
 
-![Real-World Application](../images/BIT-005/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291231/Bitwise/BIT-005/v2/zrlhlm2y1z93wh8db5k0.png)
 
 ### From Real World to Algorithm
 -   **Fixed Start:** Unlike the general "Max Subarray XOR" problem (which lets you pick *any* start and end), here your feet are glued to `s`. You can only move forward.
@@ -46,6 +46,8 @@ You are a contestant on a game show.
 It is a straight XOR sprint from the start, so the best stop is just the brightest blink.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291235/Bitwise/BIT-005/v2/tecqcz6yvtni115ibcjt.png)
 
 ### logical Diagram: The Walk
 
@@ -198,6 +200,8 @@ class Solution {
 ```
 
 ## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291238/Bitwise/BIT-005/v2/miwn02cpdqagfpaiwade.png)
 **Input:** `[10, 20, 30]`, s=0.
 -   i=0: XOR=10. Max=10.
 -   i=1: XOR=30. Max=30.

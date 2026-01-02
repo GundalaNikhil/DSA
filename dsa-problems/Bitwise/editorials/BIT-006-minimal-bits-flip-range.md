@@ -36,7 +36,7 @@ You are working on a low-level driver for a legacy circuit board.
 -   **Constraint:** You can only perform this "Low-Bit Toggle" operation once.
 -   **Goal:** Determine the pulse duration `m` needed to reach exactly state `y`, or report that it's impossible.
 
-![Real-World Application](../images/BIT-006/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291242/Bitwise/BIT-006/v2/kr2icvmb05kq5zrwayt6.png)
 
 ### From Real World to Algorithm
 -   **Toggle:** In binary, toggling bits corresponds to the XOR operation.
@@ -47,6 +47,8 @@ You are working on a low-level driver for a legacy circuit board.
 When the bits line up, the mask clicks in like a zipper.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291246/Bitwise/BIT-006/v2/vqxevbxcfvwaoibijwnu.png)
 
 ### logical Diagram: Mask Validation
 
@@ -178,6 +180,8 @@ class Solution {
 ```
 
 ## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291249/Bitwise/BIT-006/v2/gw9ioiiffjvumtg4jdh7.png)
 
 **Input:** `x=10 (1010)`, `y=5 (0101)`.
 1.  `Diff = 1111` (15).

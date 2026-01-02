@@ -38,7 +38,7 @@ You are a teacher organizing a class project.
 -   **Goal:** You have a list of all Student IDs (scanned from the badges of everyone in the room). You want to quickly identify the IDs of the two leftovers.
 -   **Constraint:** The list is huge, and your scanner is weird—it can filter bits based on a mask `M`.
 
-![Real-World Application](../images/BIT-002/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291199/Bitwise/BIT-002/v2/m9nqqxgrxmh23cvrw1pb.png)
 
 ### From Real World to Algorithm
 -   **Normal Approach:** If we just XOR everything, the groups of 3 don't cancel out ($A \oplus A \oplus A = A$). That fails.
@@ -50,6 +50,8 @@ You are a teacher organizing a class project.
 It is a bit of a split decision, but one good separator does all the heavy lifting.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291202/Bitwise/BIT-002/v2/xe0licw60cqnciyrz9j5.png)
 
 ### logical Diagram: The Modulo 3 Filter
 
@@ -163,7 +165,7 @@ Count occurrences. Return keys with count 1.
 
 - **O(1)**.
 
-![Algorithm Visualization](../images/BIT-002/algorithm-visualization.png)
+![Modulo 3 Logic Sketch](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767286649/Bitwise/BIT-002/gpjcp41jj79c60v6kjd4.jpg)
 ![Algorithm Steps](../images/BIT-002/algorithm-steps.png)
 
 ## Implementations
@@ -333,7 +335,9 @@ class Solution {
 }
 ```
 
-## 🧪 Test Case Walkthrough (Dry Run)
+## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291206/Bitwise/BIT-002/v2/qpx0mdwy3bcejjscuava.png) (Dry Run)
 
 **Input**: `[5, 5, 5, 9, 9, 9, 3, 6]`, `M=1`
 

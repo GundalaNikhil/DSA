@@ -37,7 +37,7 @@ You are organizing a very specific event.
 -   **Security Check:** The security system aggregates the IDs of all *admitted* guests using an **AND** operation to verify the "Common Security Signature" (bits that *everyone* present shares).
 -   **Goal:** Calculate this final Signature.
 
-![Real-World Application](../images/BIT-003/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291210/Bitwise/BIT-003/v2/klmzs0qlepyykuccd7lt.png)
 
 ### From Real World to Algorithm
 -   **Range AND:** The standard "AND of range $[L, R]$" is a known problem. It equals the **Common Bit Prefix** of $L$ and $R$.
@@ -53,6 +53,8 @@ You are organizing a very specific event.
 AND is a strict bouncer: once a bit is out, it never sneaks back in.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291213/Bitwise/BIT-003/v2/moyrdjy8imivozimtond.png)
 
 ### ASCII Diagram: Skipping Pattern
 ```
@@ -339,6 +341,8 @@ class Solution {
 ```
 
 ## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291216/Bitwise/BIT-003/v2/tqas26cbkeagtqyol4er.png)
 **Input:** `L=5, R=7, m=2`.
 -   Range: `5, 6, 7`.
 -   Filter: `5 (101), 7 (111)`. (Skip 6).

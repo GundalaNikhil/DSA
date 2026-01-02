@@ -137,7 +137,23 @@
         }
         .victory h2 { color: #00ff88; font-size: 32px; }
 
-    </style>
+    
+        .alert-modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .alert-modal {
+            background: white; padding: 2rem; border-radius: 8px;
+            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+        .alert-modal button {
+            background: #4b5563; color: white; padding: 0.8rem 2rem;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .alert-modal button:hover { opacity: 0.9; }
+</style>
 </head>
 <body>
 
@@ -177,7 +193,7 @@
 <div class="victory" id="victory">
     <h2>🎉 NETWORK SECURED!</h2>
     <p style="margin-top:15px">All edges covered with <span id="finalCount">0</span> shields!</p>
-    <button class="btn" style="margin-top:20px" onclick="location.reload()">PLAY AGAIN</button>
+    <button class="btn" style="margin-top:20px" onclick="this.loadLevel()">PLAY AGAIN</button>
 </div>
 
 <script>
@@ -269,7 +285,7 @@
             document.getElementById('finalCount').textContent = shielded.size;
             document.getElementById('victory').style.display = 'block';
         } else {
-            alert(`Not all edges covered! ${TREE.edges.length - covered} edges remain unprotected.`);
+            this.showGameAlert(`Not all edges covered! ${TREE.edges.length - covered} edges remain unprotected.`);
         }
     }
 

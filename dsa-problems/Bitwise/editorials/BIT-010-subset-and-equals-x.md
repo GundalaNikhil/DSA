@@ -41,7 +41,7 @@ You are organizing a group study session.
     -   They **must** all be free at 5PM and 6PM (Intersection includes X).
     -   They **must not** have any *other* common free time (Intersection is *exactly* X). If they are all free at 7PM too, the session might drag on too long. You want precise time-boxing.
 
-![Real-World Application](../images/BIT-010/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291281/Bitwise/BIT-010/v2/b7e3s2we8eucpymjdq1t.png)
 
 ### From Real World to Algorithm
 -   **Intersection:** Bitwise AND represents the common set bits (intersection).
@@ -50,6 +50,8 @@ You are organizing a group study session.
 AND is picky about consensus, so only bits everyone agrees on survive.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291284/Bitwise/BIT-010/v2/ofgcggt0nswagzqfjl7w.png)
 
 ### logical Diagram: The Filtering Process
 
@@ -258,7 +260,9 @@ class Solution {
 }
 ```
 
-## 🧪 Test Case Walkthrough (Dry Run)
+## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291287/Bitwise/BIT-010/v2/zhtcpbpp6i5yp7fh1x7y.png) (Dry Run)
 
 **Input**: `6, 4, 2`. `X=2`.
 1. **Filter**:

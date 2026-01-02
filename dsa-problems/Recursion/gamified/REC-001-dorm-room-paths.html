@@ -158,7 +158,23 @@
         .hidden { display: none; }
         .dialog { background: white; padding: 2rem; border-radius: 15px; max-width: 400px; text-align: center; border: 5px solid var(--accent); }
 
-    </style>
+    
+        .alert-modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .alert-modal {
+            background: white; padding: 2rem; border-radius: 8px;
+            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+        .alert-modal button {
+            background: #4b5563; color: white; padding: 0.8rem 2rem;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .alert-modal button:hover { opacity: 0.9; }
+</style>
 </head>
 <body>
 
@@ -284,7 +300,7 @@
         const pathSig = currentPath.map(p => `(${p.r},${p.c})`).join('->');
         
         if (foundPaths.has(pathSig)) {
-            alert("You already found this path! Try a different route.");
+            this.showGameAlert("You already found this path! Try a different route.");
         } else {
             foundPaths.add(pathSig);
             document.getElementById('foundCount').textContent = foundPaths.size;
@@ -295,7 +311,7 @@
             document.getElementById('pathLog').appendChild(item);
 
             if (foundPaths.size === totalPossible) {
-                setTimeout(() => alert("CONGRATULATIONS! You exhausted the search space!"), 100);
+                setTimeout(() => this.showGameAlert("CONGRATULATIONS! You exhausted the search space!"), 100);
             } else {
                 // Auto reset for next run after short delay
                 setTimeout(() => {

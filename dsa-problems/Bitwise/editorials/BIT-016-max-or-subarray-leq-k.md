@@ -34,7 +34,7 @@ You are collecting items for a project.
 -   **Budget:** You have a strict risk tolerance `K`. You cannot accept a batch if its accumulated risk exceeds `K`.
 -   **Goal:** You want to pick the longest contiguous sequence of items from the belt such that their combined risk stays within `K`.
 
-![Real-World Application](../images/BIT-016/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291339/Bitwise/BIT-016/v2/cs0p1q0svweyvolwtbfb.png)
 
 ### From Real World to Algorithm
 -   **Monotonicity:** The bitwise OR operation is monotonic. Adding an element `x` to a set `S` can only increase (or keep same) the OR value (`OR(S | x) >= OR(S)`).
@@ -50,6 +50,8 @@ You are collecting items for a project.
     -   We cannot un-OR a bit, so the bit counter acts like a small scoreboard.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291341/Bitwise/BIT-016/v2/ehedrwuebg9xgnbxsg4b.png)
 
 ### logical Diagram: Bit Counter Window
 
@@ -288,6 +290,8 @@ class Solution {
 ```
 
 ## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291345/Bitwise/BIT-016/v2/h8ndqnmmizaqwun1hyuk.png)
 Same as logic diagram. Result 2.
 
 ## ✅ Proof of Correctness

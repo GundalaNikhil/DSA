@@ -37,7 +37,7 @@ You are auditing a Pseudo-Random Number Generator (PRNG).
 -   **metric:** The "Diversity Score" is the count of **distinct** outcomes observed. A low score implies the generator is repetitive or flawed.
 -   **Goal:** Compute this Diversity Score efficiently.
 
-![Real-World Application](../images/BIT-012/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291300/Bitwise/BIT-012/v2/vu0j8d34mq4kqpmzz5mc.png)
 
 ### From Real World to Algorithm
 -   **Subarrays:** There are $O(N^2)$ subarrays.
@@ -49,6 +49,8 @@ Collecting XORs is like collecting fingerprints, the set keeps only the distinct
     -   Here, we assume we implement the Set-based approach.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291303/Bitwise/BIT-012/v2/hthbwyzlb1etp0pm4o4s.png)
 
 ### logical Diagram: Set Collection
 
@@ -219,7 +221,9 @@ class Solution {
 }
 ```
 
-## 🧪 Test Case Walkthrough (Dry Run)
+## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291306/Bitwise/BIT-012/v2/ww6invhwlw4mk072qyo2.png) (Dry Run)
 
 **Input**: `1, 2, 3`.
 1. i=0:

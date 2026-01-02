@@ -37,7 +37,7 @@ You are working with genetic data.
     -   Read as `[Base 1, Base 0, Base 3, Base 2...]`
 -   **Goal:** You need to write a highly efficient repair function that takes the corrupted integer and restores the original order by swapping the 2-bit blocks back.
 
-![Real-World Application](../images/BIT-015/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291328/Bitwise/BIT-015/v2/q3q1bl1nn4g4h0tgvrqk.png)
 
 ### From Real World to Algorithm
 -   **Masking:** We need to isolate the "Even Blocks" (Bits 0-1, 4-5...) and the "Odd Blocks" (Bits 2-3, 6-7...).
@@ -51,6 +51,8 @@ You are working with genetic data.
 It is a quick two-step shuffle for the bits.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291331/Bitwise/BIT-015/v2/qg6cs7jk5izhdfqu3s7q.png)
 
 ### logical Diagram: The Shuffle
 
@@ -174,6 +176,8 @@ class Solution {
 ```
 
 ## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291335/Bitwise/BIT-015/v2/dhwvgbryl0oib4qabog1.png)
 **Input:** `x=6` (`0000 0110`).
 -   Pairs: At 0 (`10` -> 2), At 1 (`01` -> 1).
 -   After swap: `10` moves to Pos 1. `01` moves to Pos 0.

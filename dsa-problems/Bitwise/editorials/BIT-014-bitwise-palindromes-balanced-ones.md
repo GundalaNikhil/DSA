@@ -36,7 +36,7 @@ You are designing a fault-tolerant communication protocol for deep space probes.
 -   **Detection:** To detect errors, you strictly use **Symmetric Packets** (Palindromes). If a packet arrives and it isn't symmetric, you know it's garbage.
 -   **Allocation:** You are assigned a block of IDs from `L` to `R`. You need to know exactly how many valid Symmetric Packets exist in this range to know your bandwidth capacity.
 
-![Real-World Application](../images/BIT-014/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291319/Bitwise/BIT-014/v2/uj3ovmtwhcsruuolubfg.png)
 
 ### From Real World to Algorithm
 -   **Structure:** A binary palindrome is fully determined by its first $\lceil N/2 \rceil$ bits. The rest are reflections.
@@ -45,6 +45,8 @@ Binary palindromes are just neat mirror images, the bits hold up a perfect refle
 -   **Solution:** Calculate `Count(X)` (palindromes $\le X$) and return `Count(R) - Count(L-1)`.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291322/Bitwise/BIT-014/v2/iuh6peubfxtudxaob2xw.png)
 
 ### logical Diagram: Constructing Palindromes
 
@@ -361,6 +363,8 @@ class Solution {
 ```
 
 ## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291325/Bitwise/BIT-014/v2/rgjfckpcgtrlc6uvyrs0.png)
 **Input:** `L=1, R=5`. Range `1, 2, 3, 4, 5`.
 -   1 (`1`): Yes.
 -   2 (`10`): No.

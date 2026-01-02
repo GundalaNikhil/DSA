@@ -168,7 +168,23 @@
 
         .score-box { background: #f8f9fa; padding: 5px 10px; border-radius: 4px; font-family: 'Space Mono'; font-weight: 700; }
         
-    </style>
+    
+        .alert-modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .alert-modal {
+            background: white; padding: 2rem; border-radius: 8px;
+            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+        .alert-modal button {
+            background: #4b5563; color: white; padding: 0.8rem 2rem;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .alert-modal button:hover { opacity: 0.9; }
+</style>
 </head>
 <body>
 
@@ -381,12 +397,12 @@
                 
                 if (this.queue.length === 0) {
                      setTimeout(() => {
-                         alert("PARTITION COMPLETE! Score: " + this.score);
+                         this.showGameAlert("PARTITION COMPLETE! Score: " + this.score);
                          this.loadLevel();
                      }, 500);
                 }
             } else {
-                alert("Incorrect Lane! Check Value vs X.");
+                this.showGameAlert("Incorrect Lane! Check Value vs X.");
                 this.score -= 5;
                 this.ui.score.innerText = this.score;
             }

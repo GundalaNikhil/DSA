@@ -118,7 +118,23 @@
             max-width: 500px; text-align: center; color: #fff;
         }
 
-    </style>
+    
+        .alert-modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .alert-modal {
+            background: white; padding: 2rem; border-radius: 8px;
+            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+        .alert-modal button {
+            background: #4b5563; color: white; padding: 0.8rem 2rem;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .alert-modal button:hover { opacity: 0.9; }
+</style>
 </head>
 <body>
 
@@ -286,7 +302,7 @@
 
         verify() {
             if (this.selectedIds.size !== this.k) {
-                alert(`SELECT EXACTLY ${this.k} ITEMS.`);
+                this.showGameAlert(`SELECT EXACTLY ${this.k} ITEMS.`);
                 return;
             }
             
@@ -305,10 +321,10 @@
             });
             
             if (correct) {
-                alert("SCAN ACCURATE. HEAT SOURCES CONFIRMED.");
+                this.showGameAlert("SCAN ACCURATE. HEAT SOURCES CONFIRMED.");
                 this.loadLevel();
             } else {
-                alert("INCORRECT SELECTION. CHECK SCALAR VALUES AND TIE-BREAKERS.");
+                this.showGameAlert("INCORRECT SELECTION. CHECK SCALAR VALUES AND TIE-BREAKERS.");
                 // Provide hint?
                 // Reveal correct ones visually?
                 // this.selectedIds = expectedIds; this.render();

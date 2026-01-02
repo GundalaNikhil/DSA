@@ -37,7 +37,7 @@ You are building a matching app for college dorms.
 -   **Compatibility:** The compatibility of two students is calculated by XORing their scores. A perfect match is not too similar (XOR 0) and not too different (XOR Max). It must be within a healthy "Band" `[L, U]`.
 -   **Goal:** Count how many valid roommate pairs exist.
 
-![Real-World Application](../images/BIT-004/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291220/Bitwise/BIT-004/v2/hkrqis4fts6xco4btmjc.png)
 
 ### From Real World to Algorithm
 -   **Condition 1 (Parity):** `i + j` is odd implies one index is even and the other is odd.
@@ -56,6 +56,8 @@ You are building a matching app for college dorms.
 Two tries keep the parities in their lanes, and every value merges into the right side.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291225/Bitwise/BIT-004/v2/y7npqtzupu1sw8wgml6s.png)
 
 ### logical Diagram: Trie Range Query
 
@@ -376,6 +378,8 @@ class Solution {
 ```
 
 ## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291228/Bitwise/BIT-004/v2/wpynim0rx4fk3cik7f3z.png)
 **Input:** `[2, 4, 2]`, L=0, U=10.
 -   Indices: 0 (Even, Val 2), 1 (Odd, Val 4), 2 (Even, Val 2).
 -   Evens: `[2, 2]`. Odds: `[4]`.

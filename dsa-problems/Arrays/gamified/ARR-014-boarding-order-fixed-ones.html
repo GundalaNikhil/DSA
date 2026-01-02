@@ -132,7 +132,23 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
-    </style>
+    
+        .alert-modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .alert-modal {
+            background: white; padding: 2rem; border-radius: 8px;
+            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+        .alert-modal button {
+            background: #4b5563; color: white; padding: 0.8rem 2rem;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .alert-modal button:hover { opacity: 0.9; }
+</style>
 </head>
 <body>
 
@@ -245,7 +261,7 @@
             if (this.arr[srcIdx] === 1 || this.arr[destIdx] === 1) {
                 // Should not happen due to draggable=false and check logic
                 // But just in case
-                alert("CANNOT MOVE OR DISPLACE VIP!");
+                this.showGameAlert("CANNOT MOVE OR DISPLACE VIP!");
                 this.render();
                 return;
             }
@@ -288,10 +304,10 @@
             }
             
             if (isSorted) {
-                alert("BOARDING COMPLETE. PERFECT ORDER.");
+                this.showGameAlert("BOARDING COMPLETE. PERFECT ORDER.");
                 this.loadLevel();
             } else {
-                alert("ORDER INCORRECT. SORT 0s BEFORE 2s.");
+                this.showGameAlert("ORDER INCORRECT. SORT 0s BEFORE 2s.");
                 // highlight error?
                 const queue = this.ui.queue.children;
                 for(let idx of indices) {

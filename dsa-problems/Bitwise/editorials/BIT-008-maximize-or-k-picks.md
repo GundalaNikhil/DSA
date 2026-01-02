@@ -37,7 +37,7 @@ You are a Product Manager defining the "Pro" version of a software suite.
 -   **Goal:** You want the "Pro" version to offer the maximum possible number of unique features.
 -   **Logic:** Features are additive (OR logic). If Module A has Feature 1 and Module B has Feature 1, picking both doesn't add Feature 1 twice; you just "have" it. You want to pick modules that cover the most ground, ideally prioritizing high-value features (MSB).
 
-![Real-World Application](../images/BIT-008/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291261/Bitwise/BIT-008/v2/w859xenaxr89ueyghsav.png)
 
 ### From Real World to Algorithm
 -   **Greedy Validity:** In binary, higher bits ($2^i$) are strictly greater than the sum of all lower bits ($\sum_{j=0}^{i-1} 2^j = 2^i - 1$).
@@ -45,6 +45,8 @@ You are a Product Manager defining the "Pro" version of a software suite.
 Greedy is perfectly at home here because the higher bits always get the last word.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291265/Bitwise/BIT-008/v2/jjvhgkjymeekxlrjcq6d.png)
 
 ### logical Diagram: Greedy Choice
 
@@ -253,6 +255,8 @@ class Solution {
 ```
 
 ## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291268/Bitwise/BIT-008/v2/epnykurqyv4x8n7kbyyq.png)
 
 **Input:** `a=[1, 2, 4], k=2`.
 1.  **Loop 1:** `0|1=1`, `0|2=2`, `0|4=4`. Best is 4. Pick 4. `Current=4`.

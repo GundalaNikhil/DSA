@@ -34,7 +34,7 @@ You are configuring a row of security lights.
 -   **Mechanism:** The lights are wired in a series. There is a master control switch that can invert the state of any **contiguous block** of lights. However, using the switch is manual and slow.
 -   **Goal:** Calculate the minimum number of switch actions needed to reach the target configuration.
 
-![Real-World Application](../images/BIT-011/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291291/Bitwise/BIT-011/v2/zr9lxa2o4js6h5rromvt.png)
 
 ### From Real World to Algorithm
 -   **Transformation:** We need `A` to equal `B`. This is equivalent to transforming `(A XOR B)` to `0`. Let `D = A ^ B`.
@@ -50,6 +50,8 @@ You are configuring a row of security lights.
 Every fresh block of ones is a flip waiting to happen.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291294/Bitwise/BIT-011/v2/zi53h8yg0qyk5vpxsirv.png)
 
 ### logical Diagram: Difference Blocks
 
@@ -194,6 +196,8 @@ class Solution {
 ```
 
 ## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291296/Bitwise/BIT-011/v2/zikndz3yw4aa00urkcgu.png)
 **Input:** `A=[0,0,0], B=[1,0,1]`
 -   D = `[1, 0, 1]`.
 -   Index 0: `1`. Prev `0`. Start block. Count=1.

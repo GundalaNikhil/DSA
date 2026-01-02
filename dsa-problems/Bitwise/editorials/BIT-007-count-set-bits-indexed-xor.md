@@ -37,7 +37,7 @@ You are analyzing a data transmission protocol.
 -   **Error Metric:** The amount of corruption is measured by the **Hamming Distance** between the received data `a[i]` and the expected pattern `i`.
 -   **Goal:** Calculate the total accumulated error bits across the entire file stream to decide if a retransmission request (ARQ) is needed.
 
-![Real-World Application](../images/BIT-007/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291252/Bitwise/BIT-007/v2/jcnocmuolsv4miqlkxyx.png)
 
 ### From Real World to Algorithm
 -   **Hamming Distance:** The number of differing bits between two numbers $X$ and $Y$ is formally defined as $\text{Popcount}(X \oplus Y)$.
@@ -45,6 +45,8 @@ You are analyzing a data transmission protocol.
 Each XOR is a quick bitwise handshake that counts how much the index and value disagree.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291255/Bitwise/BIT-007/v2/cb3e8pwhvhhhtdsea54n.png)
 
 ### logical Diagram: Bit Comparison
 
@@ -161,6 +163,8 @@ class Solution {
 ```
 
 ## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291258/Bitwise/BIT-007/v2/rrew7340lrjd7rizjjbz.png)
 
 **Input:** `a = [5, 1, 3]`.
 1.  $i=0, v=5$. $0 \oplus 5 = 5 (101)$. Bits: 2.

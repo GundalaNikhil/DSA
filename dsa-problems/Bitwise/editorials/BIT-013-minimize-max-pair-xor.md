@@ -37,7 +37,7 @@ You are setting up radio links for a remote expedition.
 -   **Constraint:** The whole system is only as good as its weakest (noisiest) link. If any single link has massive interference, it disrupts the network.
 -   **Goal:** Pair the radios such that the **worst** link's interference is as low as possible. (Minimize the Maximum XOR).
 
-![Real-World Application](../images/BIT-013/real-world-scenario.png)
+![Real-World Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291309/Bitwise/BIT-013/v2/cqiahellnfkkhhuw47hg.png)
 
 ### From Real World to Algorithm
 -   **Pairing:** We need to form a perfect matching.
@@ -47,6 +47,8 @@ You are setting up radio links for a remote expedition.
 Pairing is a bitwise dance, and the mask keeps everyone on beat.
 
 ## Detailed Explanation
+
+![Algorithm logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291312/Bitwise/BIT-013/v2/vmdp9khmedkf3wjd9pw6.png)
 
 ### logical Diagram: Recursive Choices
 
@@ -253,6 +255,8 @@ class Solution {
 ```
 
 ## 🧪 Test Case Walkthrough
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767291316/Bitwise/BIT-013/v2/grcfaotxtpo9isb2afri.png)
 Same as logic diagram. `[10, 20, 30, 40]`. Result 34.
 
 ## ✅ Proof of Correctness

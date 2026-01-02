@@ -166,7 +166,23 @@
             padding: 10px 30px; font-size: 1.5rem; margin-top: 20px; cursor: pointer;
         }
 
-    </style>
+    
+        .alert-modal-wrap {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            display: none; justify-content: center; align-items: center;
+            z-index: 100;
+        }
+        .alert-modal {
+            background: white; padding: 2rem; border-radius: 8px;
+            text-align: center; min-width: 300px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .alert-modal p { margin: 0 0 1rem 0; font-size: 1rem; color: #333; }
+        .alert-modal button {
+            background: #4b5563; color: white; padding: 0.8rem 2rem;
+            border: none; border-radius: 6px; cursor: pointer;
+        }
+        .alert-modal button:hover { opacity: 0.9; }
+</style>
 </head>
 <body>
 
@@ -374,7 +390,7 @@
             
             // Logic: Take from idx-1
             if (idx - 1 < 0) {
-                 alert("Error: Cannot borrow from void! (Should not happen if N1 > N2)");
+                 this.showGameAlert("Error: Cannot borrow from void! (Should not happen if N1 > N2)");
                  return;
             }
             
@@ -442,7 +458,7 @@
             this.ui.btnCol.disabled = true;
             this.ui.btnBorrow.disabled = true;
             setTimeout(() => {
-                alert("Result: " + this.res.join(''));
+                this.showGameAlert("Result: " + this.res.join(''));
                 this.loadLevel();
             }, 1000);
         }

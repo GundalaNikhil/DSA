@@ -470,12 +470,32 @@
             setTimeout(() => t.className = 'toast', 1000);
         }
 
+        logError(context, error) {
+            console.error(`[${context}]`, error);
+            this.toast(`Error: ${context}`, 'err');
+        }
+
+        logInfo(msg) {
+            console.log(`[Game] ${msg}`);
+        }
+
         finish() {
             this.toast("Cleanup Complete!", "ok");
             setTimeout(() => {
-                alert(`Final Score: ${this.score}`);
+                this.showFinishModal();
                 this.loadLevel();
             }, 1000);
+        }
+
+        showFinishModal() {
+            const modal = document.getElementById('start-modal');
+            const modalContent = modal.querySelector('.modal');
+            modalContent.innerHTML = `
+                <h2>Level Complete!</h2>
+                <p style="font-size: 1.2rem; margin: 1rem 0;">Final Score: <strong>${this.score}</strong></p>
+                <button class="start-btn" onclick="game.start()">Next Level</button>
+            `;
+            modal.classList.add('show');
         }
     }
 
