@@ -1,0 +1,52 @@
+problem_id: GRP_FESTIVAL_MAZE_SHORTEST__7418
+display_id: GRP-017
+slug: festival-maze-shortest-path
+questions:
+  - question: What does the state (row, col, visited_food) represent in BFS?
+    difficulty: easy
+    points: 10
+    options:
+      - Current position and number of food stalls visited
+      - Current position and whether at least one food stall has been visited
+      - Distance to nearest food stall
+      - Total steps taken so far
+    correct_answer: 1
+    explanation: The state tracks position and whether we've visited at least one food stall (0 or 1).
+    type: single_choice
+    id: prq_1
+  - question: Why is a state-based BFS necessary instead of standard BFS?
+    difficulty: easy
+    points: 10
+    options:
+      - To find the shortest path in weighted graphs
+      - To enforce the constraint of visiting at least one food stall before reaching the exit
+      - To handle cycles in the grid
+      - To optimize space complexity
+    correct_answer: 1
+    explanation: The constraint that we must visit food before exiting requires tracking whether this condition is met.
+    type: single_choice
+    id: edq_1
+  - question: In the given example, can we reach the exit from start without visiting any food stall?
+    difficulty: medium
+    points: 15
+    options:
+      - "Yes"
+      - "No"
+      - It depends on the grid size
+      - It depends on the number of walls
+    correct_answer: 1
+    explanation: The problem explicitly requires visiting at least one food stall before reaching the exit.
+    type: single_choice
+    id: edq_2
+  - question: What is the space complexity of the state space for a grid of size r × c?
+    difficulty: medium
+    points: 15
+    options:
+      - O(r × c)
+      - O(r × c × 2)
+      - O(r + c)
+      - O(2^(r × c))
+    correct_answer: 1
+    explanation: We have r × c positions and 2 possible values for visited_food (0 or 1), giving O(r × c × 2) states.
+    type: single_choice
+    id: edq_3

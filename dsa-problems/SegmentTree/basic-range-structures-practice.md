@@ -91,7 +91,7 @@
 ## 9) Range T-Threshold Majority Check
 
 - Slug: range-t-threshold-majority
-- Difficulty: Medium-Hard
+- Difficulty: Hard
 - Problem: Queries [l,r,T] ask if there exists an element appearing at least T times in the range (where T varies per query). Return the element with highest frequency if it meets threshold, or -1. If multiple meet threshold, return smallest value.
 - Constraints: `1 <= n,q <= 2 * 10^5`, `1 <= T <= r-l+1`.
 - Hint: Segment tree with frequency maps at each node; merge maps tracking top-k frequent; verify threshold at query time.
@@ -135,7 +135,7 @@
 ## 13) Range Sum of Multiple Powers
 
 - Slug: range-sum-multiple-powers
-- Difficulty: Medium-Hard
+- Difficulty: Hard
 - Problem: Queries ask for sum of a[i]^p over [l,r] where p is specified per query (p ∈ {1,2,3}). Support point updates. Return result modulo 10^9+7.
 - Constraints: `1 <= n,q <= 2 * 10^5`, values within 32-bit, `1 <= p <= 3`.
 - Hint: Segment tree storing sum, sum of squares, and sum of cubes; combine appropriately per query.

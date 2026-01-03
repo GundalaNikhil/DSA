@@ -1,0 +1,52 @@
+problem_id: TRE_LAB_TREE_RIGHT_VIEW_SKIPS__3748
+display_id: TRE-017
+slug: lab-tree-right-view-skips
+questions:
+  - question: What is the right view of a binary tree?
+    difficulty: easy
+    points: 10
+    options:
+      - The rightmost node at each level
+      - All nodes on the right subtree
+      - Nodes ordered by right child first
+      - The node with maximum value at each level
+    correct_answer: 0
+    explanation: The right view shows the rightmost node visible at each level when viewed from the right side.
+    type: single_choice
+    id: prq_1
+  - question: What does "skip" mean in this problem?
+    difficulty: easy
+    points: 10
+    options:
+      - Don't traverse the node's children
+      - Omit the node from the right view if its value is negative
+      - Remove the node from the tree
+      - Don't count the node in the output but still traverse its children
+    correct_answer: 1
+    explanation: Nodes with negative values are skipped (not included in output), but we still traverse their children to find other nodes at deeper levels.
+    type: single_choice
+    id: edq_1
+  - question: In the given example, why is node -6 not in the output?
+    difficulty: medium
+    points: 15
+    options:
+      - It's not the rightmost node at its level
+      - Its value is negative and should be skipped
+      - It doesn't have children
+      - It's not connected to the root
+    correct_answer: 1
+    explanation: The node with value -6 has a negative value, so it is skipped according to the problem requirements.
+    type: single_choice
+    id: edq_2
+  - question: If an entire level contains only nodes with negative values, what should be done?
+    difficulty: medium
+    points: 15
+    options:
+      - Include them anyway
+      - Omit that level entirely from the output
+      - Include one of them as representative
+      - Return an error
+    correct_answer: 1
+    explanation: The problem states that if a level contains only skipped nodes, that level should be omitted entirely.
+    type: single_choice
+    id: edq_3

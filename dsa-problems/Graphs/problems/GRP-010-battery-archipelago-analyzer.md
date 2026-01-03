@@ -3,7 +3,7 @@ problem_id: GRP_BATTERY_ARCHIPELAGO__3928
 display_id: GRP-010
 slug: battery-archipelago-analyzer
 title: "Battery Archipelago Analyzer"
-difficulty: Medium-Hard
+difficulty: Hard
 difficulty_score: 65
 topics:
   - Shortest Path
@@ -56,6 +56,7 @@ Return the minimum total cost, or `-1` if no valid path exists.
 ## Example
 
 **Input:**
+
 ```
 4
 5
@@ -68,6 +69,7 @@ Return the minimum total cost, or `-1` if no valid path exists.
 ```
 
 **Output:**
+
 ```
 35
 ```
@@ -77,6 +79,7 @@ Return the minimum total cost, or `-1` if no valid path exists.
 Battery capacity B = 25
 
 Available paths from 0 to 3:
+
 - Direct 0→3: NOT VALID (edge weight 30 > 25)
 - Path 0→1→3: cost = 10+30 = NOT VALID (edge 1→3 has weight 30 > 25)
 - Path 0→2→3: NOT VALID (edge 0→2 has weight 50 > 25)
@@ -106,12 +109,8 @@ Dijkstra's Algorithm, Constrained Shortest Path, Graph Filtering, Weighted Graph
 
 ### Java
 
-
 ### Python
-
 
 ### C++
 
-
 ### JavaScript
-

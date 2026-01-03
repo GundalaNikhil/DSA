@@ -1,0 +1,52 @@
+problem_id: TRE_SEMINAR_OPPOSITE_PARITY_ANCESTOR_GAP__9157
+display_id: TRE-018
+slug: seminar-opposite-parity-ancestor-gap
+questions:
+  - question: What does "opposite parity" mean in the context of depth?
+    difficulty: easy
+    points: 10
+    options:
+      - One ancestor has even depth, the other has odd depth
+      - Both ancestors have the same depth
+      - One has positive value, other has negative
+      - The ancestor is one level above
+    correct_answer: 0
+    explanation: Opposite parity means one ancestor is at an even depth and we're considering the other at odd depth (or vice versa).
+    type: single_choice
+    id: prq_1
+  - question: What is the depth of the root node?
+    difficulty: easy
+    points: 10
+    options:
+      - 1
+      - 0
+      - Undefined
+      - It depends on the number of children
+    correct_answer: 1
+    explanation: By standard convention in tree problems, the root node is at depth 0.
+    type: single_choice
+    id: edq_1
+  - question: For a node at even depth, which ancestors should we consider?
+    difficulty: medium
+    points: 15
+    options:
+      - All ancestors
+      - Only ancestors at odd depth
+      - Only ancestors at even depth
+      - Only the parent
+    correct_answer: 1
+    explanation: For a node at even depth, we look at ancestors with opposite parity, which are at odd depths.
+    type: single_choice
+    id: edq_2
+  - question: What data should be tracked along the path from root to current node?
+    difficulty: medium
+    points: 15
+    options:
+      - Only the minimum value at each depth
+      - Only the maximum value at each depth
+      - Both min and max values for each parity (even and odd depths)
+      - The sum of all ancestor values
+    correct_answer: 2
+    explanation: We need to track both min and max values at even and odd depths to compute the maximum difference for nodes at opposite parities.
+    type: single_choice
+    id: edq_3

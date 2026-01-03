@@ -1,0 +1,52 @@
+problem_id: GRP_ROBOTICS_WEIGHTED_REACH__9571
+display_id: GRP-018
+slug: robotics-weighted-reachability
+questions:
+  - question: What does it mean for a node to be reachable in this problem?
+    difficulty: easy
+    points: 10
+    options:
+      - It can be reached from any other node
+      - It can be reached from node 0 using only edges with weight <= T
+      - It has at least one outgoing edge
+      - It is directly connected to node 0
+    correct_answer: 1
+    explanation: Reachability is defined as being able to reach a node from node 0 through edges with weight not exceeding the threshold T.
+    type: single_choice
+    id: prq_1
+  - question: In the example with T=4, why is node 2 not reachable?
+    difficulty: easy
+    points: 10
+    options:
+      - Node 2 is not in the graph
+      - The edge from node 1 to node 2 has weight 7, which exceeds T=4
+      - Node 2 is not connected to node 0
+      - Node 0 is blocked by walls
+    correct_answer: 1
+    explanation: Even though node 2 exists and is connected to node 1, the edge (1,2) has weight 7 > 4, making it unusable.
+    type: single_choice
+    id: edq_1
+  - question: What approach uses Union-Find to solve this problem efficiently?
+    difficulty: medium
+    points: 15
+    options:
+      - Sort edges by weight and union nodes connected by edges with weight <= T, then find component size of node 0
+      - Create a minimum spanning tree and traverse it
+      - Union all edges regardless of weight and count components
+      - Perform Dijkstra's algorithm from node 0
+    correct_answer: 0
+    explanation: Sort edges by weight, then union pairs connected by valid edges, and finally return the size of the component containing node 0.
+    type: single_choice
+    id: edq_2
+  - question: What is the time complexity for the BFS/DFS approach?
+    difficulty: medium
+    points: 15
+    options:
+      - O(m log m)
+      - O(n + m)
+      - O(n × m)
+      - O(m^2)
+    correct_answer: 1
+    explanation: BFS/DFS visits each node and edge at most once, giving O(n + m) time complexity.
+    type: single_choice
+    id: edq_3
