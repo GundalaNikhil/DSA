@@ -1,4 +1,4 @@
-problem_id: CON_TOPIC_1
+problem_id: CON_LOCK_CHOICE__A9F1
 display_id: CON-001
 slug: mutex-vs-spinlock-selection
 questions:

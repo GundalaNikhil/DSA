@@ -1,5 +1,5 @@
 ---
-problem_id: BIT_PAIRWISE_XOR_BAND_INDEX_PARITY__8404
+problem_id: BIT_PAIRWISE_XOR_BAND_PARITY__8404
 display_id: BIT-004
 slug: pairwise-xor-band-index-parity
 title: "Pairwise XOR in Band With Index Parity"

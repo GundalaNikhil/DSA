@@ -1,5 +1,5 @@
 ---
-problem_id: BIT_ODD_AFTER_BIT_SALT__8401
+problem_id: BIT_XOR_ODD_OCCURRENCE__8401
 display_id: BIT-001
 slug: odd-after-bit-salt
 title: "Odd After Bit Salt"

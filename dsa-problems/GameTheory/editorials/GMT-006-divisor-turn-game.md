@@ -1,5 +1,5 @@
 ---
-problem_id: GMT_DIVISOR_TURN__6421
+problem_id: GMT_DIVISOR_TURN__6832
 display_id: GMT-006
 slug: divisor-turn-game
 title: "Divisor Turn Game"

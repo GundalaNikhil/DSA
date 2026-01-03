@@ -1,5 +1,5 @@
 ---
-problem_id: HSH_CONCAT_EQUAL__3829
+problem_id: HSH_TWO_STRING_CONCAT_EQUAL__4156
 display_id: HSH-010
 slug: two-string-concat-equal
 title: "String Concatenation Equality Check"

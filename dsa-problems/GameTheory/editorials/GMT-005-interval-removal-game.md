@@ -1,5 +1,5 @@
 ---
-problem_id: GMT_INTERVAL_REMOVAL__5738
+problem_id: GMT_INTERVAL_REMOVAL__5921
 display_id: GMT-005
 slug: interval-removal-game
 title: "Interval Removal Game"

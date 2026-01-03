@@ -1,5 +1,5 @@
 ---
-problem_id: BIT_BITWISE_AND_SKIP_MULTIPLES__8403
+problem_id: BIT_AND_SKIP_MULTIPLES__8403
 display_id: BIT-003
 slug: bitwise-and-skip-multiples
 title: "Bitwise AND Skipping Multiples"

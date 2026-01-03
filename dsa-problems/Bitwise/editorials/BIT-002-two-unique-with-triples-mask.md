@@ -1,5 +1,5 @@
 ---
-problem_id: BIT_TWO_UNIQUE_WITH_TRIPLES_MASK__8402
+problem_id: BIT_TWO_UNIQUE_TRIPLES__8402
 display_id: BIT-002
 slug: two-unique-with-triples-mask
 title: "Two Unique With Triple Others Under Mask"

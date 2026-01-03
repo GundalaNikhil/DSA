@@ -1,5 +1,5 @@
 ---
-problem_id: HSH_MAX_REPEATED_BLOCK_LENGTH__9283
+problem_id: HSH_MAX_REPEATED_BLOCK_LENGTH__5827
 display_id: HSH-008
 slug: max-repeated-block-length
 title: "Longest Non-Overlapping Repeating Substring"

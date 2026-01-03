@@ -1,5 +1,5 @@
 ---
-problem_id: HSH_HASH_UNDER_EDITS__7392
+problem_id: HSH_SUBSTRING_HASH_UNDER_EDITS__7394
 display_id: HSH-009
 slug: substring-hash-under-edits
 title: "Range Hash Queries with Updates"

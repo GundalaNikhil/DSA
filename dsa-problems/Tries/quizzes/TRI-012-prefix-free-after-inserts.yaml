@@ -1,4 +1,4 @@
-problem_id: TRI_PREFIX_FREE_AFTER_INSERTS_012
+problem_id: TRI_PREFIX_FREE_CHECK__6183
 display_id: TRI-012
 slug: prefix-free-after-inserts
 questions:

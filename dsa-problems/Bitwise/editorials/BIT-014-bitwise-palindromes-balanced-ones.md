@@ -1,5 +1,5 @@
 ---
-problem_id: BIT_BITWISE_PALINDROMES_BALANCED_ONES__8414
+problem_id: BIT_PALINDROMES_BALANCED_ONES__8414
 display_id: BIT-014
 slug: bitwise-palindromes-balanced-ones
 title: "Count Bitwise Palindromes"
