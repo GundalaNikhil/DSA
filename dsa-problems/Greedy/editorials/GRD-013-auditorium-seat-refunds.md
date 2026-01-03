@@ -3,7 +3,7 @@ problem_id: GRD_AUDITORIUM_SEAT_REFUNDS__2841
 display_id: GRD-013
 slug: auditorium-seat-refunds
 title: "Auditorium Seat Refunds"
-difficulty: Easy-Medium
+difficulty: Medium
 difficulty_score: 35
 topics:
   - Greedy Algorithms

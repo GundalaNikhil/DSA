@@ -3,7 +3,7 @@ problem_id: GEO_POLYGON_AREA_SHOELACE__7719
 display_id: GEO-006
 slug: polygon-area-shoelace
 title: "Polygon Area (Shoelace)"
-difficulty: Easy-Medium
+difficulty: Medium
 difficulty_score: 45
 topics:
   - Computational Geometry

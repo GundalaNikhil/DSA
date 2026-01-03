@@ -6,7 +6,7 @@ tags:
 - strings
 - sliding-window
 - easy-medium
-difficulty: Easy-Medium
+difficulty: Medium
 difficulty_score: 32
 problem_id: STR_ALTERNATING_VOWEL_CONSONANT_SUBSTRING__1004
 display_id: STR-004

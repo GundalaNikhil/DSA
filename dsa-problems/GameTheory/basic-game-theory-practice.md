@@ -2,7 +2,7 @@
 
 ## 1) Pile Split Choice
 - Slug: pile-split-choice
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: A pile of `n` stones; on each turn a player may split one pile into two non-empty piles of different sizes. Player who cannot move loses. Determine the winner with optimal play for given `n`.
 - Constraints: `1 <= n <= 10^5`.
 - Hint: Compute Grundy for n using mex of splits; note pattern for small n.

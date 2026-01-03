@@ -3,7 +3,7 @@
 ## 1) Campus Directory Multi-Tree Comparison
 
 - Slug: campus-directory-multi-tree
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Given two binary trees T1 and T2, return their preorder, inorder, and postorder traversals. Then determine if they are structurally identical (ignoring values) and if any two of the six traversals match exactly.
 - Constraints: `1 <= n <= 10^5`, node values fit in 32-bit int.
 - Hint: Generate all six traversals; compare structures recursively; match lists pairwise.
@@ -36,7 +36,7 @@
 ## 4) Seminar Level Order Odd-Depth Only
 
 - Slug: seminar-level-order-odd
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Return level order lists but include only nodes at odd depths (root at depth 0). Preserve order within those levels.
 - Constraints: `0 <= n <= 10^5`.
 - Hint: BFS with depth tracking; skip even-depth nodes in output but still traverse their children.
@@ -47,7 +47,7 @@
 ## 5) Robotics Mirror Check with Colors
 
 - Slug: robotics-mirror-check-colors
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Each node has a value and a color bit (0/1). Determine if the tree is symmetric in structure and values, and also the multiset of colors on each mirrored level must match (but colors need not match node-for-node).
 - Constraints: `0 <= n <= 10^5`.
 - Hint: Compare mirrored nodes for value equality and collect colors per level; both structural mirror and level-color multisets must align.
@@ -146,7 +146,7 @@
 ## 14) Campus BST Insert & Search
 
 - Slug: campus-bst-insert-search
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Implement insertion and search in a BST and return inorder after insertions.
 - Constraints: `0 <= n <= 10^5`.
 - Hint: Standard BST walk; duplicates go to right or ignore—state rule.

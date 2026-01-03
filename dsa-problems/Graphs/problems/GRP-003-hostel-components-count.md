@@ -3,7 +3,7 @@ problem_id: GRP_HOSTEL_COMPONENTS_COUNT__3184
 display_id: GRP-003
 slug: hostel-components-count
 title: "Hostel Components Count"
-difficulty: Easy-Medium
+difficulty: Medium
 difficulty_score: 35
 topics:
   - Graph Traversal

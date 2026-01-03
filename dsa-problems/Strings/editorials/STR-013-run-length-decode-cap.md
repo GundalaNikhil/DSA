@@ -7,7 +7,7 @@ tags:
 - encoding
 - parsing
 - easy-medium
-difficulty: Easy-Medium
+difficulty: Medium
 difficulty_score: 30
 problem_id: STR_RUN_LENGTH_DECODE_CAP__1013
 display_id: STR-013

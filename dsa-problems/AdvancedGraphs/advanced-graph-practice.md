@@ -71,7 +71,7 @@
 
 ## 8) Strongly Connected Components Compression
 - Slug: scc-compression
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Find SCCs and build the DAG of components (condensation graph).
 - Hint: Kosaraju or Tarjan; then compress edges.
 - Constraints: n<=2e5, m<=2e5.

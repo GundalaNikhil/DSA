@@ -3,7 +3,7 @@ problem_id: GRD_LAB_KIT_DISTRIBUTION__5291
 display_id: GRD-002
 slug: lab-kit-distribution
 title: "Lab Kit Distribution"
-difficulty: Easy-Medium
+difficulty: Medium
 difficulty_score: 35
 topics:
   - Greedy Algorithms

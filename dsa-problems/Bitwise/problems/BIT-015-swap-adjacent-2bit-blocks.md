@@ -3,7 +3,7 @@ problem_id: BIT_SWAP_ADJACENT_2BIT_BLOCKS__8415
 display_id: BIT-015
 slug: swap-adjacent-2bit-blocks
 title: "Swap Adjacent 2-Bit Blocks"
-difficulty: Easy-Medium
+difficulty: Medium
 difficulty_score: 35
 topics:
   - Bitwise Operations

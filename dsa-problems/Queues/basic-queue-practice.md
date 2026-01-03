@@ -17,7 +17,7 @@
 ## 2) Circular Shuttle Buffer with Overwrite
 
 - Slug: circular-shuttle-buffer-overwrite
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Design a circular queue with fixed capacity `k` supporting enqueue, dequeue, front, rear, isEmpty/isFull, and `ENQ_OVR x` that overwrites the oldest element when full (returns the overwritten value). Normal `ENQ` should fail when full.
 - Constraints: `1 <= k <= 10^5`, operations `<= 10^5`.
 - Hint: Maintain head/tail indices modulo `k` and size; `ENQ_OVR` advances head when overwriting.
@@ -45,7 +45,7 @@
 ## 4) Hallway Interleave
 
 - Slug: hallway-interleave
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Given a queue with even length, interleave its first half with the second half (preserve relative order within each half).
 - Constraints: `2 <= n <= 10^5`, `n` is even.
 - Hint: Move first half into a stack or auxiliary queue, then alternately merge back.
@@ -73,7 +73,7 @@
 ## 6) Ticket Window Distinct Prefix
 
 - Slug: ticket-window-distinct-prefix
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Given a stream of lowercase letters, after each arrival output the shortest prefix of the stream that ends at the current character and contains all distinct letters seen so far. If no such prefix exists (a letter missing), output `"#"`.
 - Constraints: `1 <= len(stream) <= 10^5`.
 - Hint: Track first occurrence index of each character and the maximum of those indices among seen letters; output prefix length = current index - minIndex + 1 when all seen letters accounted for.
@@ -115,7 +115,7 @@
 ## 9) Battery Lab First Negative
 
 - Slug: battery-lab-first-negative
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: For each window of size `k` in an array, report the first negative number; output 0 if none.
 - Constraints: `1 <= n <= 10^5`, `1 <= k <= n`.
 - Hint: Maintain a queue of indices of negative numbers; drop indices leaving the window.
@@ -171,7 +171,7 @@
 ## 13) Task Stream Rate Limit
 
 - Slug: task-stream-rate-limit
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Given timestamps of incoming requests and a window size `t`, return for each request whether it is allowed when at most `k` requests can occur in any window of length `t`.
 - Constraints: `1 <= n <= 10^5`, `1 <= t <= 10^9`, `1 <= k <= n`.
 - Hint: Maintain a queue of timestamps; drop those older than `current - t`; allow if queue size < k.
@@ -213,7 +213,7 @@
 ## 16) Assembly Line Buffer Swap
 
 - Slug: assembly-line-buffer-swap
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Swap the contents of two queues of equal length using only queue operations and O(1) extra variables.
 - Constraints: `1 <= n <= 10^5`.
 - Hint: Dequeue from both into the opposite queue in parallel, repeating twice to restore order.

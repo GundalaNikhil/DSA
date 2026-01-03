@@ -3,7 +3,7 @@ problem_id: STR_RUN_LENGTH_DECODE_CAP__1013
 display_id: STR-013
 slug: run-length-decode-cap
 title: "Run-Length Decode with Cap"
-difficulty: Easy-Medium
+difficulty: Medium
 difficulty_score: 30
 topics:
   - String Manipulation

@@ -38,7 +38,7 @@
 
 ## 5) Topological Sort (Kahn)
 - Slug: topo-sort-kahn
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Given DAG, output one topological order.
 - Constraints: n<=1e5.
 - Example:
@@ -47,7 +47,7 @@
 
 ## 6) Detect Cycle in Directed Graph
 - Slug: detect-cycle-directed
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Determine if directed graph has a cycle using DFS colors or Kahn.
 - Constraints: n<=1e5.
 - Example:
@@ -74,7 +74,7 @@
 
 ## 9) Bipartite Check BFS
 - Slug: bipartite-check-bfs
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Check if undirected graph is bipartite; output one 2-coloring or report odd cycle.
 - Constraints: n<=1e5.
 - Example:
@@ -121,7 +121,7 @@
 
 ## 14) Shortest Path in DAG
 - Slug: shortest-path-dag
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Given weighted DAG, compute shortest paths from s via topo order.
 - Constraints: n<=1e5, m<=2e5.
 - Example:

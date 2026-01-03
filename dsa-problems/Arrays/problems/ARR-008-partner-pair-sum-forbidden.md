@@ -3,7 +3,7 @@ problem_id: ARR_PAIR_SUM_FORBIDDEN__8320
 display_id: ARR-008
 slug: partner-pair-sum-forbidden
 title: "Partner Pair Sum With Forbidden"
-difficulty: Easy-Medium
+difficulty: Medium
 difficulty_score: 36
 topics:
   - Arrays

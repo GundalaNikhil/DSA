@@ -17,7 +17,7 @@
 ## 2) Lab Mixed Bracket Repair
 
 - Slug: lab-mixed-bracket-repair
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: The string contains characters from `()[]{}` and wildcard `?`. You may replace each `?` with any single bracket character. Decide if it is possible to replace all `?` so the final string is balanced and well-nested.
 - Constraints: `1 <= len(s) <= 10^5`, number of `?` <= `10^5`.
 - Hint: Use a stack for structure plus a greedy check on available `?` to balance closings; track unmatched openings and remaining wildcards.
@@ -31,7 +31,7 @@
 ## 3) Conveyor Weighted Deduplication
 
 - Slug: conveyor-weighted-deduplication
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Given a string and a weight array `w[]`, repeatedly remove adjacent equal characters, but only if their combined weight is even. When you remove a pair, the weight sum is added to a running total. Return both the reduced string and the total weight removed.
 - Constraints: `1 <= len(s) <= 2 * 10^5`, `1 <= w[i] <= 1000`.
 - Hint: Stack (char, weight) pairs; pop when incoming char matches top AND sum of weights is even; accumulate removed weights.
@@ -45,7 +45,7 @@
 ## 4) Rooftop Sunset Count
 
 - Slug: rooftop-sunset-count
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Given building heights from west to east, count how many buildings can see the sunset looking west (no taller building to their left).
 - Constraints: `1 <= n <= 2 * 10^5`, `0 <= h[i] <= 10^9`.
 - Hint: Monotonic decreasing stack of heights; pop while current is taller.

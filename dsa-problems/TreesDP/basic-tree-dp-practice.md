@@ -3,7 +3,7 @@
 ## 1) Lowest Common Ancestor (Binary Lifting)
 
 - Slug: lca-binary-lifting
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Preprocess rooted tree for O(log n) LCA queries.
 - Constraints: n<=2e5, q<=2e5.
 - Example:
@@ -13,7 +13,7 @@
 ## 2) Tree Diameter DP
 
 - Slug: tree-diameter-dp
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Compute tree diameter using two DFS or DP of heights.
 - Constraints: n<=2e5.
 - Example:

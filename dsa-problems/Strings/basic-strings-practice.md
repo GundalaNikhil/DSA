@@ -14,7 +14,7 @@
 ## 2) Lab Code Palindrome After One Rotate
 
 - Slug: lab-code-palindrome-rotate
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Determine if some rotation of the string can form a palindrome. Characters are lowercase letters.
 - Constraints: `1 <= |s| <= 10^5`.
 - Hint: A rotation does not change character counts; check palindromic feasibility (at most one odd count).
@@ -134,7 +134,7 @@
 ## 13) Run-Length Decode with Cap
 
 - Slug: run-length-decode-cap
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Decode run-length string like "a3b12" but cap any run exceeding `cap` to exactly `cap`. Return decoded string.
 - Constraints: `1 <= |s| <= 10^5`, `1 <= cap <= 10^4`.
 - Example:

@@ -210,7 +210,7 @@ int main() {
 - **Problem ID**: `ARRAY-003`
 - **Display ID**: `A003`
 - **Slug**: `shuttle-shift-blackout`
-- **Difficulty**: Easy-Medium
+- **Difficulty**: Medium
 - **Tags**: `arrays`, `rotation`, `simulation`
 - **Problem**: Rotate the array left by `k` but positions listed in `blackout` stay in place; only other positions rotate cyclically among themselves.
 - **Constraints**:
@@ -583,7 +583,7 @@ int main() {
 - **Problem ID**: `ARRAY-006`
 - **Display ID**: `A006`
 - **Slug**: `zero-slide-limit`
-- **Difficulty**: Easy-Medium
+- **Difficulty**: Medium
 - **Tags**: `two-pointers`, `arrays`, `simulation`
 - **Problem**: Move all zeros to the end but allow at most `m` swaps total; stop once swaps exceed `m`. Return resulting array.
 - **Constraints**:
@@ -806,7 +806,7 @@ int main() {
 - **Problem ID**: `ARRAY-008`
 - **Display ID**: `A008`
 - **Slug**: `partner-pair-sum-forbidden`
-- **Difficulty**: Easy-Medium
+- **Difficulty**: Medium
 - **Tags**: `two-pointers`, `arrays`, `hashing`
 - **Problem**: Given sorted array and target, find if a pair sums to target such that neither element index is in `forbidden` set.
 - **Constraints**:
@@ -1558,7 +1558,7 @@ int main() {
 - **Problem ID**: `ARRAY-015`
 - **Display ID**: `A015`
 - **Slug**: `seat-gap-after-removals`
-- **Difficulty**: Easy-Medium
+- **Difficulty**: Medium
 - **Tags**: `arrays`, `simulation`, `greedy`
 - **Problem**: Seats are sorted; remove seats at given indices (by position in array, not seat number). After removals, return max gap between remaining consecutive seats.
 - **Constraints**:

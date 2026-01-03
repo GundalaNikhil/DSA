@@ -13,7 +13,7 @@
 ## 2) Pattern Search With KMP
 
 - Slug: pattern-search-kmp
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Find all occurrences of pattern `p` in text `t` using KMP.
 - Constraints: `1 <= |p|,|t| <= 2 * 10^5`.
 - Example:
@@ -33,7 +33,7 @@
 ## 4) Pattern Search With Z-Function
 
 - Slug: pattern-search-z
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Using Z on `p + # + t`, find all occurrences of pattern.
 - Constraints: `1 <= |p|,|t| <= 2 * 10^5`.
 - Example:

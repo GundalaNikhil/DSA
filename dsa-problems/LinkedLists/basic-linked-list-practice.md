@@ -25,7 +25,7 @@
 ## 3) Lab Swap Neighbors with Skip and Threshold
 
 - Slug: lab-swap-neighbors-skip-threshold
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Swap nodes in pairs except skip any node whose value is negative (leave it and its neighbor in place). Additionally, you can only perform at most K swaps total. After K swaps are exhausted, leave remaining pairs unswapped. Return new head and the number of swaps actually performed.
 - Constraints: `0 <= n <= 10^5`, `0 <= K <= n/2`.
 - Hint: Dummy head; when a negative appears OR swap budget exhausted, advance without swapping; track swap count.
@@ -36,7 +36,7 @@
 ## 4) Hostel Cleanup Deduplicate (At Most Two)
 
 - Slug: hostel-cleanup-deduplicate-two
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Given a sorted singly linked list, reduce duplicates so each value appears at most twice.
 - Constraints: `0 <= n <= 10^5`.
 - Hint: Keep a counter as you iterate; unlink extras beyond two.
@@ -79,7 +79,7 @@
 ## 8) Lab Playlist Merge by Parity
 
 - Slug: lab-playlist-merge-parity
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Merge two sorted lists into one, but place even-valued nodes ahead of odd-valued nodes while keeping relative order among evens and among odds.
 - Constraints: `0 <= n, m <= 10^5`.
 - Hint: Two-pass merge: first collect evens from both, then odds.
@@ -123,7 +123,7 @@
 ## 12) Hostel Number Remove Mth from Start
 
 - Slug: hostel-number-remove-mth
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Remove the M-th node from the start (1-indexed) and return head; if M > length, return original list.
 - Constraints: `1 <= n <= 10^5`.
 - Hint: Handle head removal carefully; single pass with counter.
@@ -134,7 +134,7 @@
 ## 13) Shuttle Ticket Rotate by Blocks
 
 - Slug: shuttle-ticket-rotate-blocks
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Rotate the list to the right by `k` places but only within blocks of size `b` (last block may be smaller). Concatenate rotated blocks.
 - Constraints: `0 <= n <= 10^5`, `1 <= b <= n`, `0 <= k <= 10^9`.
 - Hint: For each block, compute `k % blockSize` and rotate that block.

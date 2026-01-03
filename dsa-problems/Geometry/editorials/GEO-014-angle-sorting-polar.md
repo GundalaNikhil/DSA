@@ -3,7 +3,7 @@ problem_id: GEO_ANGLE_SORTING_POLAR__2841
 display_id: GEO-014
 slug: angle-sorting-polar
 title: "Angle Sorting for Polar Order"
-difficulty: Easy-Medium
+difficulty: Medium
 difficulty_score: 45
 topics:
   - Computational Geometry

@@ -14,7 +14,7 @@
 ## 2) Lab Kit Distribution
 
 - Slug: lab-kit-distribution
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: There are `k` kit types with quantities `q[i]` and `m` students each requesting one kit. Fulfill as many requests as possible while minimizing leftover kit types that become zero. Return `(fulfilled, zeroedTypes)`.
 - Constraints: `1 <= k, m <= 10^5`, `0 <= q[i] <= 10^9`.
 - Hint: Use a max-heap on quantities; always give from the largest pile to reduce zeroing.
@@ -80,7 +80,7 @@
 ## 8) Exam Proctor Allocation
 
 - Slug: exam-proctor-allocation
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Intervals of exams `[start,end]` need proctors. Each proctor can handle up to `r` overlapping exams at once. Find min number of proctors needed.
 - Constraints: `1 <= n <= 10^5`, `1 <= r <= 10^9`.
 - Hint: Sweep-line counts overlaps; proctors = ceil(maxOverlap / r).
@@ -135,7 +135,7 @@
 ## 13) Auditorium Seat Refunds
 
 - Slug: auditorium-seat-refunds
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Seats sold in rows; refund requests list seat IDs. Process refunds to minimize the highest occupied row index after all refunds (lower rows fill first). Return that highest occupied row.
 - Constraints: `1 <= rows <= 10^5`, initial occupancy full, requests `<= 10^5`.
 - Hint: Use a max-heap of currently occupied rows; pop when emptied.

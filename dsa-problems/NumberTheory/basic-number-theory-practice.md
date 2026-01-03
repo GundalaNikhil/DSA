@@ -3,7 +3,7 @@
 ## 1) Classroom GCD Prefix Queries
 
 - Slug: classroom-gcd-prefix-queries
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Given array `a`, answer queries asking `gcd(a[0..r])` for various `r` in O(1) after preprocessing.
 - Constraints: `1 <= n <= 2 * 10^5`, `|a[i]| <= 10^9`, `1 <= q <= 2 * 10^5`.
 - Hint: Precompute prefix GCDs; each answer is prefix[r].

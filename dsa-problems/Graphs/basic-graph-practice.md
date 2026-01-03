@@ -22,7 +22,7 @@
 
 ## 3) Hostel Components Count
 - Slug: hostel-components-count
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Count connected components in an undirected graph.
 - Constraints: `1 <= n <= 10^5`, `0 <= edges <= 2*10^5`.
 - Hint: Iterate all nodes; BFS/DFS if unvisited.
@@ -72,7 +72,7 @@
 
 ## 8) Shuttle Shortest Stops
 - Slug: shuttle-shortest-stops
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: In an unweighted graph, find the shortest distance (edges) from a source `s` to all nodes.
 - Constraints: `1 <= n <= 10^5`.
 - Hint: BFS distances initialized to -1; distance of source is 0.
@@ -112,7 +112,7 @@
 
 ## 12) Exam Seating Rooms with VIP Isolation
 - Slug: exam-seating-rooms-vip
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: An undirected graph shows students who must sit together. VIP nodes (given) cannot be in the same component as any other VIP. Remove the minimum number of edges to ensure no component contains more than one VIP. Return the resulting maximum component size after removals.
 - Constraints: `1 <= n <= 10^5`, `0 <= edges <= 2*10^5`.
 - Hint: Run DSU; when an edge would merge two components each containing a VIP, skip that edge; track component sizes.

@@ -3,7 +3,7 @@ problem_id: ARR_SHUTTLE_SHIFT_BLACKOUT__2845
 display_id: ARR-003
 slug: shuttle-shift-blackout
 title: "Shuttle Shift With Blackout"
-difficulty: Easy-Medium
+difficulty: Medium
 difficulty_score: 32
 topics:
   - Arrays

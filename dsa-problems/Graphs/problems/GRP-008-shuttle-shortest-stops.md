@@ -3,7 +3,7 @@ problem_id: GRP_SHUTTLE_SHORTEST_STOPS__9247
 display_id: GRP-008
 slug: shuttle-shortest-stops
 title: "Shuttle Shortest Stops"
-difficulty: Easy-Medium
+difficulty: Medium
 difficulty_score: 35
 topics:
   - Graph Traversal

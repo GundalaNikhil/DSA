@@ -3,7 +3,7 @@ problem_id: STR_ALTERNATING_VOWEL_CONSONANT_SUBSTRING__1004
 display_id: STR-004
 slug: alternating-vowel-consonant-substring
 title: "Alternating Vowel-Consonant Substring"
-difficulty: Easy-Medium
+difficulty: Medium
 difficulty_score: 32
 topics:
   - String Manipulation

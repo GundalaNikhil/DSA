@@ -3,7 +3,7 @@ problem_id: GRP_EXAM_SEATING_VIP__3928
 display_id: GRP-012
 slug: exam-seating-rooms-vip
 title: "Exam Seating Rooms with VIP Isolation"
-difficulty: Easy-Medium
+difficulty: Medium
 difficulty_score: 40
 topics:
   - Union-Find

@@ -3,7 +3,7 @@ problem_id: ARR_SEAT_GAP_REMOVALS__6037
 display_id: ARR-015
 slug: seat-gap-after-removals
 title: "Seat Gap After Removals"
-difficulty: Easy-Medium
+difficulty: Medium
 difficulty_score: 33
 topics:
   - Arrays

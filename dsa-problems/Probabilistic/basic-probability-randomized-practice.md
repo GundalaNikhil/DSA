@@ -3,7 +3,7 @@
 ## 1) Coin Flip Streak Probability
 
 - Slug: coin-flip-streak-probability
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Fair coin flipped `n` times. Compute probability of getting at least one streak of `k` consecutive heads.
 - Constraints: `1 <= n <= 60`, `1 <= k <= n`.
 - Hint: DP with states (pos, current run).
@@ -103,7 +103,7 @@
 ## 11) Coupon Collector Expected Trials
 
 - Slug: coupon-collector-expected
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: With N equally likely coupons, expected draws to collect all.
 - Constraints: `1 <= N <= 10^6`.
 - Example:

@@ -155,7 +155,7 @@
 ## 15) Swap Adjacent 2-Bit Blocks
 
 - Slug: swap-adjacent-2bit-blocks
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Treat the 32-bit representation of `x` as 2-bit blocks: swap each pair of adjacent blocks (bits 0-1 with 2-3, 4-5 with 6-7, etc.). Return the resulting integer.
 - Constraints: `0 <= x <= 10^9`, assume unsigned 32-bit operations.
 - Example:

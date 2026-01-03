@@ -13,7 +13,7 @@
 ## 2) Kth Missing Positive with Blocks
 
 - Slug: kth-missing-positive-blocks
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Sorted array of unique positives `arr`, and queries of form `(k, blockSize)` where missing numbers are counted in blocks of size blockSize (i.e., skip ahead by blockSize when counting missing). For each query, find the k-th missing number under that counting scheme.
 - Constraints: `1 <= n <= 10^5`, `1 <= q <= 10^5`, `1 <= blockSize <= 10^9`.
 - Hint: Precompute standard missing counts; adjust by block factor.
@@ -24,7 +24,7 @@
 ## 3) Stable Sort By Two Keys
 
 - Slug: stable-sort-two-keys
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Sort records by key1 ascending, then key2 descending, but stability requirement: original order of equal pairs must be kept. Implement with a stable algorithm conceptually.
 - Constraints: `1 <= n <= 10^5`.
 - Example:
@@ -45,7 +45,7 @@
 ## 5) Two-Pointer Sum Closest to Target
 
 - Slug: two-pointer-closest-target
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Given sorted array and target, find pair sum closest to target; return the pair.
 - Constraints: `2 <= n <= 2 * 10^5`.
 - Example:

@@ -3,7 +3,7 @@ problem_id: GRD_EXAM_PROCTOR_ALLOCATION__3517
 display_id: GRD-008
 slug: exam-proctor-allocation
 title: "Exam Proctor Allocation"
-difficulty: Easy-Medium
+difficulty: Medium
 difficulty_score: 40
 topics:
   - Greedy Algorithms

@@ -13,7 +13,7 @@
 ## 2) Lab ID Permutations With No Adjacent Twins
 
 - Slug: lab-id-permutations-no-twins
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Generate all unique permutations of a string (may have duplicates) such that no two identical characters are adjacent. Return them in lexicographic order.
 - Constraints: `1 <= |s| <= 8`.
 - Example:

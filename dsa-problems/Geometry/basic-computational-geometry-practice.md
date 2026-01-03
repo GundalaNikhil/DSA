@@ -49,7 +49,7 @@
 
 ## 6) Polygon Area (Shoelace)
 - Slug: polygon-area-shoelace
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Compute signed area of a simple polygon.
 - Constraints: n <= 10^5.
 - Example:
@@ -125,7 +125,7 @@
 
 ## 14) Angle Sorting for Polar Order
 - Slug: angle-sorting-polar
-- Difficulty: Easy-Medium
+- Difficulty: Medium
 - Problem: Sort points by polar angle around origin; tie by distance.
 - Constraints: n <= 10^5.
 - Example:

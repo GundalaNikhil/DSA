@@ -3,7 +3,7 @@ problem_id: ARR_ZERO_SLIDE_LIMIT__4908
 display_id: ARR-006
 slug: zero-slide-limit
 title: "Zero Slide With Limit"
-difficulty: Easy-Medium
+difficulty: Medium
 difficulty_score: 34
 topics:
   - Arrays
