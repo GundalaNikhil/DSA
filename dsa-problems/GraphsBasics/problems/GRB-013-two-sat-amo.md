@@ -62,6 +62,202 @@ Clause `(x1 OR x2)` and at-most-one `{x1,x2}` allow either variable to be true.
 ---
 ## Solution Template
 ### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public int[] solveTwoSat(int n, int[][] clauses, List<int[]> groups) {
+        //Implement here
+        return new int[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[][] clauses = new int[m][2];
+        for (int i = 0; i < m; i++) {
+            clauses[i][0] = sc.nextInt();
+            clauses[i][1] = sc.nextInt();
+        }
+        int g = sc.nextInt();
+        List<int[]> groups = new ArrayList<>();
+        for (int i = 0; i < g; i++) {
+            int k = sc.nextInt();
+            int[] vars = new int[k];
+            for (int j = 0; j < k; j++) vars[j] = sc.nextInt();
+            groups.add(vars);
+        }
+
+        Solution solution = new Solution();
+        int[] assign = solution.solveTwoSat(n, clauses, groups);
+        if (assign == null) {
+            System.out.print("UNSAT");
+        } else {
+            StringBuilder sb = new StringBuilder();
+            sb.append("SAT\n");
+            for (int i = 0; i < n; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(assign[i]);
+            }
+            System.out.print(sb.toString());
+        }
+        sc.close();
+    }
+}
+```
+
 ### Python
+
+```python
+import sys
+
+sys.setrecursionlimit(400000)
+
+def solve_two_sat(n: int, clauses: list[tuple[int, int]], groups: list[list[int]]):
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        clauses = []
+        for _ in range(m):
+            a = int(next(iterator))
+            b = int(next(iterator))
+            clauses.append((a, b))
+            
+        g = int(next(iterator))
+        groups = []
+        for _ in range(g):
+            k = int(next(iterator))
+            vars_list = [int(next(iterator)) for _ in range(k)]
+            groups.append(vars_list)
+            
+        assign = solve_two_sat(n, clauses, groups)
+        if assign is None:
+            print("UNSAT")
+        else:
+            print("SAT")
+            print(" ".join(map(str, assign)))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
+
 ### C++
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    public: vector<int> solveTwoSat(int n, const vector<pair<int, int>>& clauses, const vector<vector<int>>& groups) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    vector<pair<int, int>> clauses(m);
+    for (int i = 0; i < m; i++) {
+        cin >> clauses[i].first >> clauses[i].second;
+    }
+    int g;
+    cin >> g;
+    vector<vector<int>> groups(g);
+    for (int i = 0; i < g; i++) {
+        int k;
+        cin >> k;
+        groups[i].resize(k);
+        for (int j = 0; j < k; j++) cin >> groups[i][j];
+    }
+
+    Solution solution;
+    vector<int> assign = solution.solveTwoSat(n, clauses, groups);
+    if (assign.empty()) {
+        cout << "UNSAT";
+    } else {
+        cout << "SAT\n";
+        for (int i = 0; i < n; i++) {
+            if (i) cout << ' ';
+            cout << assign[i];
+        }
+    }
+    return 0;
+}
+```
+
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  solveTwoSat(n, clauses, groups) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const m = parseInt(data[idx++], 10);
+  const clauses = [];
+  for (let i = 0; i < m; i++) {
+    const a = parseInt(data[idx++], 10);
+    const b = parseInt(data[idx++], 10);
+    clauses.push([a, b]);
+  }
+  const g = parseInt(data[idx++], 10);
+  const groups = [];
+  for (let i = 0; i < g; i++) {
+    const k = parseInt(data[idx++], 10);
+    const varsList = [];
+    for (let j = 0; j < k; j++) varsList.push(parseInt(data[idx++], 10));
+    groups.push(varsList);
+  }
+
+  const solution = new Solution();
+  const assign = solution.solveTwoSat(n, clauses, groups);
+  if (assign === null) {
+    console.log("UNSAT");
+  } else {
+    console.log("SAT");
+    console.log(assign.join(" "));
+  }
+});
+```
+

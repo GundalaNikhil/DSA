@@ -82,12 +82,142 @@ Minimum Spanning Tree, Kruskal, DSU
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long mstKruskal(int n, int[][] edges) {
+        //Implement here
+        return 0L;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[][] edges = new int[m][3];
+        for (int i = 0; i < m; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+            edges[i][2] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.mstKruskal(n, edges));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def mst_kruskal(n: int, edges: list[tuple[int, int, int]]) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            w = int(next(iterator))
+            edges.append((u, v, w))
+            
+        print(mst_kruskal(n, edges))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <array>
+#include <numeric>
+
+using namespace std;
+
+class Solution {
+public:
+    public: long long mstKruskal(int n, vector<array<int, 3>>& edges) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    vector<array<int, 3>> edges(m);
+    for (int i = 0; i < m; i++) {
+        cin >> edges[i][0] >> edges[i][1] >> edges[i][2];
+    }
+
+    Solution solution;
+    cout << solution.mstKruskal(n, edges) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  mstKruskal(n, edges) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const m = parseInt(data[idx++], 10);
+  
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(data[idx++], 10);
+    const v = parseInt(data[idx++], 10);
+    const w = parseInt(data[idx++], 10);
+    edges.push([u, v, w]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.mstKruskal(n, edges));
+});
+```
 

@@ -68,6 +68,176 @@ Segment Tree, Fenwick Tree, Rollback
 ---
 ## Solution Template
 ### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public List<Long> process(int[] arr, long mod, List<String[]> ops) {
+        //Implement here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int q = sc.nextInt();
+            long mod = sc.nextLong();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                arr[i] = sc.nextInt();
+            }
+            List<String[]> ops = new ArrayList<>();
+            for (int i = 0; i < q; i++) {
+                String type = sc.next();
+                if (type.equals("UNDO")) {
+                    ops.add(new String[]{type, sc.next()});
+                } else {
+                    ops.add(new String[]{type, sc.next(), sc.next()});
+                }
+            }
+            Solution sol = new Solution();
+            List<Long> results = sol.process(arr, mod, ops);
+            for (long res : results) {
+                System.out.println(res);
+            }
+        }
+        sc.close();
+    }
+}
+```
+
 ### Python
+
+```python
+def process(arr: list[int], mod: int, ops: list[list[str]]) -> list[int]:
+    # //Implement here
+    return 0
+
+def main():
+    import sys
+    def input_gen():
+
+        for line in sys.stdin:
+
+            for token in line.split():
+
+                yield token
+
+    it = input_gen()
+    n = int(next(it))
+    q = int(next(it))
+    mod = int(next(it))
+    arr = [int(next(it)) for _ in range(n)]
+    ops = []
+    for _ in range(q):
+        type = next(it)
+        if type == "UNDO":
+            ops.append([type, next(it)])
+        else:
+            ops.append([type, next(it), next(it)])
+    
+    results = process(arr, mod, ops)
+    for res in results:
+        print(res)
+
+if __name__ == "__main__":
+    main()
+```
+
 ### C++
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <stack>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> process(const vector<int>& arr, long long mod, const vector<vector<string>>& ops) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, q;
+    long long mod;
+    if (!(cin >> n >> q >> mod)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+    vector<vector<string>> ops(q);
+    for (int i = 0; i < q; i++) {
+        string type;
+        cin >> type;
+        if (type == "UNDO") {
+            string k;
+            cin >> k;
+            ops[i] = {type, k};
+        } else {
+            string a, b;
+            cin >> a >> b;
+            ops[i] = {type, a, b};
+        }
+    }
+    Solution sol;
+    vector<long long> results = sol.process(arr, mod, ops);
+    for (long long res : results) {
+        cout << res << "\n";
+    }
+    return 0;
+}
+```
+
 ### JavaScript
+
+```javascript
+class Solution {
+  process(arr, mod, ops) {
+    //Implement here
+    return 0;
+  }
+}
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const q = parseInt(data[idx++], 10);
+  const mod = parseInt(data[idx++], 10);
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(parseInt(data[idx++], 10));
+  const ops = [];
+  for (let i = 0; i < q; i++) {
+    const type = data[idx++];
+    if (type === "UNDO") {
+      ops.push([type, data[idx++]]);
+    } else {
+      ops.push([type, data[idx++], data[idx++]]);
+    }
+  }
+  const solution = new Solution();
+  const out = solution.process(arr, mod, ops);
+  console.log(out.join("\n"));
+});
+```
+

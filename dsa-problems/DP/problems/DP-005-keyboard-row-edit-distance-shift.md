@@ -102,12 +102,119 @@ Dynamic Programming, Edit Distance, String DP
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int minKeyboardEditCost(String a, String b) {
+        //Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String a = sc.hasNextLine() ? sc.nextLine().trim() : "";
+        String b = sc.hasNextLine() ? sc.nextLine().trim() : "";
+        System.out.println(new Solution().minKeyboardEditCost(a, b));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def min_keyboard_edit_cost(a: str, b: str) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    try:
+        a = input()
+        if a.endswith('\n'):
+            a = a[:-1]
+    except EOFError:
+        a = ""
+
+    try:
+        b = input()
+        if b.endswith('\n'):
+            b = b[:-1]
+    except EOFError:
+        b = ""
+
+    print(min_keyboard_edit_cost(a, b))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
+
+using namespace std;
+
+class Solution {
+public:
+    int minKeyboardEditCost(const string& a, const string& b) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string a, b;
+    getline(cin, a);
+    getline(cin, b);
+    Solution sol;
+    cout << sol.minKeyboardEditCost(a, b) << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  minKeyboardEditCost(a, b) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+const lines = [];
+rl.on("line", (line) => lines.push(line));
+rl.on("close", () => {
+  const a = (lines[0] ?? "").trim();
+  const b = (lines[1] ?? "").trim();
+  const sol = new Solution();
+  console.log(sol.minKeyboardEditCost(a, b));
+});
+```
 

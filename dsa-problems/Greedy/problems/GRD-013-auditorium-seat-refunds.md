@@ -112,12 +112,154 @@ Greedy Algorithms, Heap, Priority Queue, State Management, Optimization
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int highestOccupiedRow(int r, int[] capacities, int[][] refunds) {
+        //Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int r = sc.nextInt();
+        int n = sc.nextInt();
+        
+        int[] capacities = new int[r];
+        for (int i = 0; i < r; i++) {
+            capacities[i] = sc.nextInt();
+        }
+        
+        int[][] refunds = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            refunds[i][0] = sc.nextInt();
+            refunds[i][1] = sc.nextInt();
+        }
+        
+        Solution solution = new Solution();
+        System.out.println(solution.highestOccupiedRow(r, capacities, refunds));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def highest_occupied_row(r: int, capacities: list, refunds: list) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    r = int(next(iterator))
+    n = int(next(iterator))
+    
+    capacities = []
+    for _ in range(r):
+        capacities.append(int(next(iterator)))
+        
+    # Skip refunds details as we only need count
+    # But we must consume the input
+    for _ in range(n):
+        next(iterator) # row
+        next(iterator) # seat
+        
+    # Note: refunds list in function signature is just for compatibility with template
+    # We can pass a dummy list or just use n
+    print(highest_occupied_row(r, capacities, [0]*n))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <numeric>
+
+using namespace std;
+
+class Solution {
+public:
+    int highestOccupiedRow(int r, vector<int>& capacities, vector<pair<int,int>>& refunds) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int r, n;
+    if (!(cin >> r >> n)) return 0;
+
+    vector<int> capacities(r);
+    for (int i = 0; i < r; i++) {
+        cin >> capacities[i];
+    }
+
+    vector<pair<int,int>> refunds(n);
+    for (int i = 0; i < n; i++) {
+        cin >> refunds[i].first >> refunds[i].second;
+    }
+
+    Solution solution;
+    cout << solution.highestOccupiedRow(r, capacities, refunds) << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  highestOccupiedRow(r, capacities, refunds) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const [r, n] = data[ptr++].split(" ").map(Number);
+  const capacities = data[ptr++].split(" ").map(Number);
+  
+  const refunds = [];
+  for (let i = 0; i < n; i++) {
+    const [row, seatId] = data[ptr++].split(" ").map(Number);
+    refunds.push([row, seatId]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.highestOccupiedRow(r, capacities, refunds));
+});
+```
 

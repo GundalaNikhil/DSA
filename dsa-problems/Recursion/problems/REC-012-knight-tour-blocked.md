@@ -86,12 +86,146 @@ Backtracking, Graph Traversal, Recursion
 ## Solution Template
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public boolean knightTour(int n, boolean[][] blk) {
+        //Implement here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if(!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int b = sc.nextInt();
+        
+        boolean[][] blocked = new boolean[n][n];
+        for(int i=0; i<b; i++) {
+            if(sc.hasNextInt()) {
+                int r = sc.nextInt();
+                int c = sc.nextInt();
+                if(r >= 0 && r < n && c >= 0 && c < n) blocked[r][c] = true;
+            }
+        }
+        
+        Solution sol = new Solution();
+        if(sol.knightTour(n, blocked)) {
+            System.out.println("YES");
+        } else {
+            System.out.println("NO");
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def knight_tour_possible(n: int, blocked: list[list[bool]]) -> bool:
+    # //Implement here
+    return 0
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if len(lines) < 2:
+        return
+    n = int(lines[0])
+    b = int(lines[1])
+    blocked = [[False] * n for _ in range(n)]
+
+    for i in range(2, 2 + b):
+        if i < len(lines):
+            parts = lines[i].strip().split()
+            if len(parts) >= 2:
+                r, c = int(parts[0]), int(parts[1])
+                if 0 <= r < n and 0 <= c < n:
+                    blocked[r][c] = True
+
+    result = knight_tour_possible(n, blocked)
+    print("YES" if result else "NO")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    bool knightTour(int n, const vector<vector<bool>>& blk) {
+        //Implement here
+        return false;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n, b;
+    if (!(cin >> n >> b)) return 0;
+    
+    vector<vector<bool>> blocked(n, vector<bool>(n, false));
+    for(int i=0; i<b; i++) {
+        int r, c;
+        cin >> r >> c;
+        if(r >= 0 && r < n && c >= 0 && c < n) blocked[r][c] = true;
+    }
+    
+    Solution sol;
+    if(sol.knightTour(n, blocked)) cout << "YES" << endl;
+    else cout << "NO" << endl;
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const n = parseInt(tokens[ptr++]);
+    const b = parseInt(tokens[ptr++]);
+    
+    // JS 2D array
+    const blocked = Array.from({length: n}, () => Array(n).fill(false));
+    for(let i=0; i<b; i++) {
+        if(ptr < tokens.length) {
+            const r = parseInt(tokens[ptr++]);
+            const c = parseInt(tokens[ptr++]);
+            if(r >= 0 && r < n && c >= 0 && c < n) blocked[r][c] = true;
+        }
+    }
+    
+    const sol = new Solution();
+    if(sol.knightTour(n, blocked)) {
+        console.log("YES");
+    } else {
+        console.log("NO");
+    }
+});
+
+class Solution {
+  knightTour(n, blocked) {
+    //Implement here
+    return 0;
+  }
+}
+```
 

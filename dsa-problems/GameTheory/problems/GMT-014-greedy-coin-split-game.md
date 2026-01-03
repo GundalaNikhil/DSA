@@ -87,12 +87,145 @@ Game Theory, Interval DP, Prefix Sums
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int coinSplit(int n, int[] A) {
+        //Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int[] A = new int[n];
+            for (int i = 0; i < n; i++) {
+                A[i] = sc.nextInt();
+            }
+
+            Solution solution = new Solution();
+            System.out.println(solution.coinSplit(n, A));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+import sys
+
+sys.setrecursionlimit(20000)
+
+def coin_split(n: int, A: List[int]) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        A = []
+        for _ in range(n):
+            A.append(int(next(iterator)))
+            
+        print(coin_split(n, A))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <numeric>
+#include <algorithm>
+#include <climits>
+
+using namespace std;
+
+class Solution {
+public:
+    int coinSplit(int n, vector<int>& A) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (cin >> n) {
+        vector<int> A(n);
+        for (int i = 0; i < n; i++) {
+            cin >> A[i];
+        }
+        
+        Solution solution;
+        cout << solution.coinSplit(n, A) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  coinSplit(n, A) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  const flatData = [];
+  data.forEach(line => {
+      line.trim().split(/\s+/).forEach(part => {
+          if (part) flatData.push(part);
+      });
+  });
+  
+  if (flatData.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(flatData[idx++]);
+  
+  const A = [];
+  for (let i = 0; i < n; i++) {
+      A.push(parseInt(flatData[idx++]));
+  }
+
+  const solution = new Solution();
+  console.log(solution.coinSplit(n, A));
+});
+```
 

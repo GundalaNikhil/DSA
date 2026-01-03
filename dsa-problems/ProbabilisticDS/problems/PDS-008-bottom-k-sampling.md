@@ -81,12 +81,133 @@ MinHash, Jaccard Similarity, Sketches
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public double jaccardEstimate(double[] a, double[] b) {
+        //Implement here
+        return 0.0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int k = sc.nextInt();
+            double[] a = new double[k];
+            double[] b = new double[k];
+            for (int i = 0; i < k; i++) a[i] = sc.nextDouble();
+            for (int i = 0; i < k; i++) b[i] = sc.nextDouble();
+    
+            Solution solution = new Solution();
+            System.out.println(String.format("%.6f", solution.jaccardEstimate(a, b)));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def jaccard_estimate(a, b):
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        k = int(next(iterator))
+        a = []
+        for _ in range(k):
+            a.append(float(next(iterator)))
+        b = []
+        for _ in range(k):
+            b.append(float(next(iterator)))
+            
+        print(f"{jaccard_estimate(a, b):.6f}")
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+
+class Solution {
+public:
+    double jaccardEstimate(const vector<double>& a, const vector<double>& b) {
+        //Implement here
+        return 0.0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int k;
+    if (cin >> k) {
+        vector<double> a(k), b(k);
+        for (int i = 0; i < k; i++) cin >> a[i];
+        for (int i = 0; i < k; i++) cin >> b[i];
+    
+        Solution solution;
+        cout << fixed << setprecision(6) << solution.jaccardEstimate(a, b) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function jaccardEstimate(a, b) {
+  //Implement here
+  return 0;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part !== "") data.push(part);
+  }
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const k = parseInt(data[idx++], 10);
+  const a = [];
+  const b = [];
+  for (let i = 0; i < k; i++) a.push(parseFloat(data[idx++]));
+  for (let i = 0; i < k; i++) b.push(parseFloat(data[idx++]));
+  console.log(jaccardEstimate(a, b).toFixed(6));
+});
+```
 

@@ -85,12 +85,140 @@ Sieve of Eratosthenes, Prefix Sums, Number Theory
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long[] buildPrefixDistinct(int N) {
+        //Implement here
+        return new long[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int N = sc.nextInt();
+            int q = sc.nextInt();
+
+            Solution solution = new Solution();
+            long[] pref = solution.buildPrefixDistinct(N);
+
+            for (int i = 0; i < q; i++) {
+                int l = sc.nextInt();
+                int r = sc.nextInt();
+                System.out.println(pref[r] - pref[l - 1]);
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def build_prefix_distinct(N: int):
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    try:
+        N = int(next(iterator))
+        q = int(next(iterator))
+        
+        pref = build_prefix_distinct(N)
+        
+        results = []
+        for _ in range(q):
+            l = int(next(iterator))
+            r = int(next(iterator))
+            results.append(str(pref[r] - pref[l-1]))
+            
+        print('\n'.join(results))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> buildPrefixDistinct(int N) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int N, q;
+    if (cin >> N >> q) {
+        Solution solution;
+        vector<long long> pref = solution.buildPrefixDistinct(N);
+        
+        for (int i = 0; i < q; i++) {
+            int l, r;
+            cin >> l >> r;
+            cout << pref[r] - pref[l - 1] << "\n";
+        }
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function buildPrefixDistinct(N) {
+  //Implement here
+  return 0;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const N = parseInt(data[idx++], 10);
+  const q = parseInt(data[idx++], 10);
+  
+  const pref = buildPrefixDistinct(N);
+  const out = [];
+  
+  for (let i = 0; i < q; i++) {
+    const l = parseInt(data[idx++], 10);
+    const r = parseInt(data[idx++], 10);
+    out.push((pref[r] - pref[l - 1]).toString());
+  }
+  console.log(out.join("\n"));
+});
+```
 

@@ -86,12 +86,132 @@ berlekamp-massey, linear-recurrence, sequence-reconstruction
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long berlekamp_massey(int m, long n, long mod, long[] S) {
+        //Implement here
+        return 0L;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int m = sc.nextInt();
+        long n = sc.nextLong();
+        long[] S = new long[m];
+        for (int i = 0; i < m; i++) S[i] = sc.nextLong();
+        long MOD = sc.nextLong();
+        
+        Solution solution = new Solution();
+        System.out.println(solution.berlekamp_massey(m, n, MOD, S));
+        
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def berlekamp_massey(self, m: int, n: int, MOD: int, S: list[int]) -> int:
+        # //Implement here
+        return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    iterator = iter(data)
+    try:
+        m = int(next(iterator))
+        n = int(next(iterator))
+        S = [int(next(iterator)) for _ in range(m)]
+        MOD = int(next(iterator))
+        
+        sol = Solution()
+        print(sol.berlekamp_massey(m, n, MOD, S))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    long long berlekamp_massey(int m, long long n, long long mod, vector<long long>& S) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int m;
+    long long n, MOD;
+    if (!(cin >> m >> n)) return 0;
+    vector<long long> S(m);
+    for (int i = 0; i < m; i++) cin >> S[i];
+    cin >> MOD;
+
+    Solution solution;
+    cout << solution.berlekamp_massey(m, n, MOD, S) << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  berlekamp_massey(m, n, MOD, S) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let ptr = 0;
+  
+  const m = parseInt(data[ptr++]);
+  const n = BigInt(data[ptr++]);
+  
+  const S = [];
+  for(let i=0; i<m; i++) S.push(parseInt(data[ptr++]));
+  
+  const MOD = parseInt(data[ptr++]);
+  
+  const solution = new Solution();
+  console.log(solution.berlekamp_massey(m, n, MOD, S));
+});
+```
 

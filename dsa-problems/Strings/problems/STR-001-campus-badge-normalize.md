@@ -83,3 +83,95 @@ test-123-code
 
 - Use a state machine or single-pass algorithm for optimal O(n) time complexity
 - Be careful with edge cases: all non-alphanumeric, empty result, etc.
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public String normalizeBadge(String s) {
+        //Implement here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.useDelimiter("\\A").hasNext() ? sc.next() : "";
+        s = s.trim();
+        Solution sol = new Solution();
+        System.out.println(sol.normalizeBadge(s));
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+def normalize_badge(s: str) -> str:
+    # //Implement here
+    return 0
+
+def main():
+    import sys
+
+    input_data = sys.stdin.read().strip()
+    
+    # Call solution
+    result = normalize_badge(input_data)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
+
+```cpp
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <iostream>
+
+class Solution {
+public:
+    string normalizeBadge(string s) {
+        //Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s((istreambuf_iterator<char>(cin)), istreambuf_iterator<char>());
+    while(!s.empty() && isspace(s.back())) s.pop_back();
+    while(!s.empty() && isspace(s.front())) s.erase(0, 1);
+    Solution sol;
+    cout << sol.normalizeBadge(s) << endl;
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+function normalizeBadge(s) {
+  //Implement here
+  return 0;
+}
+
+const fs = require('fs');
+const s = fs.readFileSync(0, 'utf-8').trim();
+console.log(normalizeBadge(s));
+```

@@ -88,12 +88,168 @@ Queue, Circular Buffer, Simulation
 ## Solution Template
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<String> processOperations(int k, List<String[]> operations) {
+        //Implement here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int k = sc.nextInt();
+            int m = sc.nextInt();
+            List<String[]> operations = new ArrayList<>();
+    
+            for (int i = 0; i < m; i++) {
+                String op = sc.next();
+                if (op.equals("ENQ") || op.equals("ENQ_OVR")) {
+                    String x = sc.next();
+                    operations.add(new String[]{op, x});
+                } else {
+                    operations.add(new String[]{op});
+                }
+            }
+    
+            Solution solution = new Solution();
+            List<String> result = solution.processOperations(k, operations);
+            for (String line : result) {
+                System.out.println(line);
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+import sys
+
+def process_operations(k: int, operations: List[List[str]]) -> List[str]:
+    # //Implement here
+    return 0
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        k = int(next(iterator))
+        m = int(next(iterator))
+        operations = []
+        for _ in range(m):
+            op = next(iterator)
+            if op in ("ENQ", "ENQ_OVR"):
+                val = next(iterator)
+                operations.append([op, val])
+            else:
+                operations.append([op])
+
+        result = process_operations(k, operations)
+        print("\n".join(result))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> processOperations(int k, const vector<vector<string>>& operations) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int k, m;
+    if (cin >> k >> m) {
+        vector<vector<string>> operations;
+        operations.reserve(m);
+        for (int i = 0; i < m; i++) {
+            string op;
+            cin >> op;
+            if (op == "ENQ" || op == "ENQ_OVR") {
+                string val;
+                cin >> val;
+                operations.push_back({op, val});
+            } else {
+                operations.push_back({op});
+            }
+        }
+    
+        Solution solution;
+        vector<string> result = solution.processOperations(k, operations);
+        for (const string& line : result) {
+            cout << line << "\n";
+        }
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  processOperations(k, operations) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const k = parseInt(data[idx++], 10);
+  const m = parseInt(data[idx++], 10);
+  const operations = [];
+
+  for (let i = 0; i < m; i++) {
+    const op = data[idx++];
+    if (op === "ENQ" || op === "ENQ_OVR") {
+      const x = data[idx++];
+      operations.push([op, x]);
+    } else {
+      operations.push([op]);
+    }
+  }
+
+  const solution = new Solution();
+  const result = solution.processOperations(k, operations);
+  console.log(result.join("\n"));
+});
+```
 

@@ -82,12 +82,185 @@ Stack, Simulation, String Processing
 ## Solution Template
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public String[] reduce(String s, int[] w) {
+        //Implement here
+        return new String[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            StringBuilder sBuilder = new StringBuilder();
+            int[] w = new int[n];
+            
+            for (int i = 0; i < n; i++) {
+                if (sc.hasNext()) {
+                    String c = sc.next();
+                    sBuilder.append(c);
+                    if (sc.hasNextInt()) {
+                        w[i] = sc.nextInt();
+                    }
+                }
+            }
+            
+            Solution sol = new Solution();
+            String[] res = sol.reduce(sBuilder.toString(), w);
+            
+            if (res[0].isEmpty()) {
+                System.out.println("EMPTY " + res[1]);
+            } else {
+                System.out.println(res[0] + " " + res[1]);
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def reduce_stack(s: str, w: list[int]) -> tuple[str, int]:
+    # //Implement here
+    return 0
+
+def main():
+    import sys
+    # Read all lines
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        chars = []
+        weights = []
+        for _ in range(n):
+            chars.append(next(iterator))
+            weights.append(int(next(iterator)))
+        
+        s = "".join(chars)
+        
+        res_s, res_removed = reduce_stack(s, weights)
+        
+        if not res_s:
+            print(f"EMPTY {res_removed}")
+        else:
+            print(f"{res_s} {res_removed}")
+            
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <stack>
+
+using namespace std;
+
+struct Item {
+    char c;
+    int w;
+};
+
+class Solution {
+public:
+    pair<string, long long> reduce(string s, vector<int> w) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    string s = "";
+    vector<int> w(n);
+    
+    for (int i = 0; i < n; i++) {
+        char c;
+        int weight;
+        cin >> c >> weight;
+        s += c;
+        w[i] = weight;
+    }
+    
+    Solution sol;
+    pair<string, long long> res = sol.reduce(s, w);
+    
+    if (res.first.empty()) {
+        cout << "EMPTY " << res.second << endl;
+    } else {
+        cout << res.first << " " << res.second << endl;
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+class Solution {
+  reduce(s, w) {
+    //Implement here
+    return 0;
+  }
+}
+
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/).filter(x => x !== "");
+  for (const p of parts) data.push(p);
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  let s = "";
+  const w = [];
+  
+  for (let i = 0; i < n; i++) {
+    s += data[idx++];
+    w.push(parseInt(data[idx++], 10));
+  }
+  
+  const solution = new Solution();
+  const res = solution.reduce(s, w);
+  
+  if (res[0] === "") {
+    console.log(`EMPTY ${res[1]}`);
+  } else {
+    console.log(`${res[0]} ${res[1]}`);
+  }
+});
+```
 

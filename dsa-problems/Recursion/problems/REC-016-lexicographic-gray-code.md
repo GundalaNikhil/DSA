@@ -80,12 +80,96 @@ Gray Code, Recursion, Bit Manipulation
 ## Solution Template
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<String> grayCode(int n) {
+        //Implement here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        Solution sol = new Solution();
+        List<String> res = sol.grayCode(n);
+        for(String out_s : res) System.out.println(out_s);
+        if(res.isEmpty()) System.out.println("NONE");
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def gray_code(n: int) -> list[str]:
+    # //Implement here
+    return 0
+
+def main():
+    import sys
+    n = int(sys.stdin.read().strip())
+
+    codes = gray_code(n)
+    for code in codes:
+        print(code)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> grayCode(int n) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n; cin >> n;
+    Solution sol;
+    vector<string> res = sol.grayCode(n); for(const string& s : res) cout << s << endl; if(res.empty()) cout << "NONE" << endl;
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+class Solution {
+  grayCode(n) {
+    //Implement here
+    return 0;
+  }
+}
+
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const n = parseInt(tokens[ptr++]);
+    const sol = new Solution();
+    const res = sol.grayCode(n);
+    if(res.length===0) console.log('NONE'); else res.forEach(s => console.log(s));
+});
+```
 

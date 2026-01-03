@@ -80,12 +80,130 @@ Monte Carlo, Confidence Intervals, Estimation
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public double[] estimatePi(long N, long seed) {
+        //Implement here
+        return new double[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLong()) {
+            long N = sc.nextLong();
+            long C = sc.nextLong();
+
+            Solution solution = new Solution();
+            double[] res = solution.estimatePi(N, C);
+            System.out.printf("%.6f %.6f\n", res[0], res[1]);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import math
+
+
+class LCG:
+    def __init__(self, seed):
+        self.state = seed & 0xFFFFFFFF
+
+    def next_float(self):
+        self.state = (self.state * 1664525 + 1013904223) & 0xFFFFFFFF
+        return self.state / 4294967296.0
+
+def monte_carlo_pi(N: int, seed: int):
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    N = int(data[0])
+    seed = int(data[1])
+    pi_hat, err = monte_carlo_pi(N, seed)
+    print(f"{pi_hat:.6f} {err:.6f}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    pair<double, double> estimatePi(long long N, long long seed) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long N, C;
+    if (cin >> N >> C) {
+        Solution solution;
+        auto res = solution.estimatePi(N, C);
+        cout << fixed << setprecision(6) << res.first << " " << res.second << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class LCG {
+  constructor(seed) {
+    this.state = BigInt(seed) & 0xFFFFFFFFn;
+  }
+  nextFloat() {
+    this.state = (this.state * 1664525n + 1013904223n) & 0xFFFFFFFFn;
+    return Number(this.state) / 4294967296.0;
+  }
+}
+
+function estimatePi(N, seed) {
+  //Implement here
+  return 0;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const N = parseInt(data[0], 10);
+  const C = parseInt(data[1], 10);
+  const res = estimatePi(N, C);
+  console.log(res[0].toFixed(6) + " " + res[1].toFixed(6));
+});
+```
 

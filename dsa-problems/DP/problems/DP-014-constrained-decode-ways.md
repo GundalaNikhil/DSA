@@ -83,12 +83,103 @@ Dynamic Programming, Strings, Combinatorics
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long decodeWays(String s) {
+        //Implement here
+        return 0L;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        String s = sc.next();
+        Solution sol = new Solution();
+        System.out.println(sol.decodeWays(s));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def decode_ways(s: str) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    s = input().strip()
+    print(decode_ways(s))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
+
+using namespace std;
+
+long long decodeWays(const string& s) {
+    //Implement here
+    return 0;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    string s;
+    if (!(cin >> s)) return 0;
+    cout << decodeWays(s) << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function decodeWays(s) {
+  //Implement here
+  return 0;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  const s = data[0];
+  console.log(decodeWays(s));
+});
+```
 

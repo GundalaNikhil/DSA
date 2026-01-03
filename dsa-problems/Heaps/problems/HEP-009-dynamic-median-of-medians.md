@@ -99,12 +99,327 @@ Heaps, Median Maintenance, Union-Find, Merging
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<String> processOperations(List<String[]> operations) {
+        //Implement here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int q = sc.nextInt();
+            List<String[]> operations = new ArrayList<>();
+            for (int i = 0; i < q; i++) {
+                String op = sc.next();
+                if (op.equals("NEW")) {
+                    String id = sc.next();
+                    int m = sc.nextInt();
+                    String[] line = new String[2 + m];
+                    line[0] = op;
+                    line[1] = id;
+                    for (int j = 0; j < m; j++) line[2 + j] = sc.next();
+                    operations.add(line);
+                } else if (op.equals("ADD")) {
+                    String id = sc.next();
+                    String x = sc.next();
+                    operations.add(new String[]{op, id, x});
+                } else if (op.equals("MERGE")) {
+                    String id1 = sc.next();
+                    String id2 = sc.next();
+                    operations.add(new String[]{op, id1, id2});
+                } else {
+                    operations.add(new String[]{op});
+                }
+            }
+            Solution solution = new Solution();
+            List<String> result = solution.processOperations(operations);
+            for (String s : result) System.out.println(s);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import heapq
+from collections import defaultdict
+
+def process_operations(operations: list) -> list:
+    # //Implement here
+    return 0
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    try:
+        q = int(next(it))
+        operations = []
+        for _ in range(q):
+            op = next(it)
+            if op == "NEW":
+                gid = next(it)
+                m = int(next(it))
+                vals = [next(it) for _ in range(m)]
+                operations.append([op, gid, m] + vals)
+            elif op == "ADD":
+                gid = next(it)
+                x = next(it)
+                operations.append([op, gid, x])
+            elif op == "MERGE":
+                gid1 = next(it)
+                gid2 = next(it)
+                operations.append([op, gid1, gid2])
+            else:
+                operations.append([op])
+        
+        result = process_operations(operations)
+        print("\n".join(result))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <queue>
+#include <unordered_map>
+#include <set>
+
+using namespace std;
+
+// Use multiset for easier deletion in C++
+struct Group {
+    multiset<int> left, right;
+    
+    void add(int val) {
+        if (left.empty() || val <= *left.rbegin()) {
+            left.insert(val);
+        } else {
+            right.insert(val);
+        }
+        rebalance();
+    }
+    
+    void rebalance() {
+        while (left.size() > right.size() + 1) {
+            right.insert(*left.rbegin());
+            left.erase(prev(left.end()));
+        }
+        while (right.size() > left.size()) {
+            left.insert(*right.begin());
+            right.erase(right.begin());
+        }
+    }
+    
+    int getMedian() {
+        if (left.empty()) return 0;
+        return *left.rbegin();
+    }
+    
+    int size() { return left.size() + right.size(); }
+    
+    void mergeFrom(Group& other) {
+        for (int x : other.left) add(x);
+        for (int x : other.right) add(x);
+        other.left.clear();
+        other.right.clear();
+    }
+};
+
+class Solution {
+public:
+    vector<string> processOperations(const vector<vector<string>>& operations) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int q;
+    if (cin >> q) {
+        vector<vector<string>> operations;
+        for (int i = 0; i < q; i++) {
+            string op;
+            cin >> op;
+            if (op == "NEW") {
+                string gid;
+                int m;
+                cin >> gid >> m;
+                vector<string> line = {op, gid};
+                for (int j = 0; j < m; j++) {
+                    string x;
+                    cin >> x;
+                    line.push_back(x);
+                }
+                operations.push_back(line);
+            } else if (op == "ADD") {
+                string gid, x;
+                cin >> gid >> x;
+                operations.push_back({op, gid, x});
+            } else if (op == "MERGE") {
+                string gid1, gid2;
+                cin >> gid1 >> gid2;
+                operations.push_back({op, gid1, gid2});
+            } else {
+                operations.push_back({op});
+            }
+        }
+        
+        Solution solution;
+        vector<string> result = solution.processOperations(operations);
+        for (const string& s : result) cout << s << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class PriorityQueue {
+  constructor(compare = (a, b) => a - b) {
+    this.heap = [];
+    this.compare = compare;
+  }
+  size() { return this.heap.length; }
+  isEmpty() { return this.heap.length === 0; }
+  peek() { return this.heap[0]; }
+  push(val) {
+    this.heap.push(val);
+    this.bubbleUp(this.heap.length - 1);
+  }
+  pop() {
+    if (this.size() === 0) return null;
+    const top = this.heap[0];
+    const bottom = this.heap.pop();
+    if (this.size() > 0) {
+      this.heap[0] = bottom;
+      this.bubbleDown(0);
+    }
+    return top;
+  }
+  bubbleUp(idx) {
+    while (idx > 0) {
+      const pIdx = Math.floor((idx - 1) / 2);
+      if (this.compare(this.heap[idx], this.heap[pIdx]) < 0) {
+        [this.heap[idx], this.heap[pIdx]] = [this.heap[pIdx], this.heap[idx]];
+        idx = pIdx;
+      } else break;
+    }
+  }
+  bubbleDown(idx) {
+    while (true) {
+      const left = 2 * idx + 1;
+      const right = 2 * idx + 2;
+      let swap = null;
+      if (left < this.size() && this.compare(this.heap[left], this.heap[idx]) < 0) swap = left;
+      if (right < this.size() && this.compare(this.heap[right], swap === null ? this.heap[idx] : this.heap[swap]) < 0) swap = right;
+      if (swap === null) break;
+      [this.heap[idx], this.heap[swap]] = [this.heap[swap], this.heap[idx]];
+      idx = swap;
+    }
+  }
+}
+
+class Group {
+  constructor() {
+    this.left = new PriorityQueue((a, b) => b - a);
+    this.right = new PriorityQueue((a, b) => a - b);
+  }
+  add(val) {
+    if (this.left.isEmpty() || val <= this.left.peek()) {
+      this.left.push(val);
+    } else {
+      this.right.push(val);
+    }
+    this.rebalance();
+  }
+  rebalance() {
+    while (this.left.size() > this.right.size() + 1) {
+      this.right.push(this.left.pop());
+    }
+    while (this.right.size() > this.left.size()) {
+      this.left.push(this.right.pop());
+    }
+  }
+  getMedian() {
+    if (this.left.isEmpty()) return 0;
+    return this.left.peek();
+  }
+  size() { return this.left.size() + this.right.size(); }
+  getAll() {
+    const res = [];
+    while (!this.left.isEmpty()) res.push(this.left.pop());
+    while (!this.right.isEmpty()) res.push(this.right.pop());
+    return res;
+  }
+}
+
+class Solution {
+  processOperations(operations) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const q = parseInt(data[idx++]);
+  const operations = [];
+  for (let i = 0; i < q; i++) {
+    const type = data[idx++];
+    if (type === "NEW") {
+      const gid = data[idx++];
+      const m = parseInt(data[idx++]);
+      const vals = [];
+      for (let j = 0; j < m; j++) vals.push(data[idx++]);
+      operations.push([type, gid, ...vals]);
+    } else if (type === "ADD") {
+      const gid = data[idx++];
+      const x = data[idx++];
+      operations.push([type, gid, x]);
+    } else if (type === "MERGE") {
+      const gid1 = data[idx++];
+      const gid2 = data[idx++];
+      operations.push([type, gid1, gid2]);
+    } else {
+      operations.push([type]);
+    }
+  }
+  
+  const solution = new Solution();
+  const result = solution.processOperations(operations);
+  console.log(result.join("\n"));
+});
+```
 

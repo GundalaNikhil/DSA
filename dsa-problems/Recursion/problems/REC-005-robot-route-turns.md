@@ -84,12 +84,102 @@ Backtracking, Grid Search, Pruning
 ## Solution Template
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long countPaths(int r, int c, int t) {
+        //Implement here
+        return 0L;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int r = sc.nextInt();
+        int c = sc.nextInt();
+        int T = sc.nextInt();
+        
+        Solution sol = new Solution();
+        System.out.println(sol.countPaths(r, c, T));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def count_paths(r: int, c: int, T: int) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    import sys
+    first_line = sys.stdin.read().strip().split()
+    r = int(first_line[0])
+    c = int(first_line[1])
+    T = int(first_line[2])
+    result = count_paths(r, c, T)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <cstring>
+
+using namespace std;
+
+class Solution {
+public:
+    long long countPaths(int r, int c, int t) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int r, c, T;
+    if (!(cin >> r >> c >> T)) return 0;
+    
+    Solution sol;
+    cout << sol.countPaths(r, c, T) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const r = parseInt(tokens[ptr++]);
+    const c = parseInt(tokens[ptr++]);
+    const T = parseInt(tokens[ptr++]);
+    
+    const sol = new Solution();
+    console.log(sol.countPaths(r, c, T).toString());
+});
+
+class Solution {
+  countPaths(r, c, T) {
+    //Implement here
+    return 0;
+  }
+}
+```
 

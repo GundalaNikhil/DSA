@@ -98,12 +98,120 @@ HyperLogLog, Cardinality Estimation
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public double hllEstimate(int m, int[] registers) {
+        //Implement here
+        return 0.0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int m = sc.nextInt();
+            int[] registers = new int[m];
+            for (int i = 0; i < m; i++) {
+                registers[i] = sc.nextInt();
+            }
+    
+            Solution solution = new Solution();
+            System.out.println(String.format("%.6f", solution.hllEstimate(m, registers)));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import math
+import sys
+
+def hll_estimate(m: int, registers):
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    m = int(data[0])
+    registers = list(map(int, data[1:]))
+    print(f"{hll_estimate(m, registers):.6f}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+
+class Solution {
+public:
+    double hllEstimate(int m, const vector<int>& registers) {
+        //Implement here
+        return 0.0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int m;
+    if (cin >> m) {
+        vector<int> registers(m);
+        for (int i = 0; i < m; i++) cin >> registers[i];
+    
+        Solution solution;
+        cout << fixed << setprecision(6) << solution.hllEstimate(m, registers) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function hllEstimate(m, registers) {
+  //Implement here
+  return 0;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part !== "") data.push(part);
+  }
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const m = parseInt(data[idx++], 10);
+  const registers = [];
+  for (let i = 0; i < m; i++) registers.push(parseInt(data[idx++], 10));
+  console.log(hllEstimate(m, registers).toFixed(6));
+});
+```
 

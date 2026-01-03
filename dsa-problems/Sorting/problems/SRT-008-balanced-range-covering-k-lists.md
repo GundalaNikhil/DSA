@@ -112,12 +112,147 @@ Sliding Window, Heaps, Range Cover
 ## Solution Template
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] smallestRange(List<int[]> lists) {
+        //Implement here
+        return new int[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int k = sc.nextInt();
+        List<int[]> lists = new ArrayList<>();
+        for (int i = 0; i < k; i++) {
+            int m = sc.nextInt();
+            int[] list = new int[m];
+            for (int j = 0; j < m; j++) {
+                list[j] = sc.nextInt();
+            }
+            lists.add(list);
+        }
+        Solution solution = new Solution();
+        int[] result = solution.smallestRange(lists);
+        if (result.length == 0) {
+            System.out.println("NONE");
+        } else {
+            System.out.println(result[0] + " " + result[1]);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def smallest_range(lists: list[list[int]]) -> list[int]:
+    # //Implement here
+    return 0
+
+def main():
+    k = int(input())
+    lists = []
+    for _ in range(k):
+        m = int(input())
+        lst = list(map(int, input().split()))
+        lists.append(lst)
+    result = smallest_range(lists)
+    if result:
+        print(result[0], result[1])
+    else:
+        print('NONE')
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <vector>
+#include <algorithm>
+#include <climits>
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> smallestRange(const vector<vector<int>>& lists) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int k;
+    if (!(cin >> k)) return 0;
+    vector<vector<int>> lists;
+    lists.reserve(k);
+    for (int i = 0; i < k; i++) {
+        int m;
+        cin >> m;
+        vector<int> list(m);
+        for (int j = 0; j < m; j++) {
+            cin >> list[j];
+        }
+        lists.push_back(list);
+    }
+    Solution solution;
+    vector<int> result = solution.smallestRange(lists);
+    if (result.empty()) {
+        cout << "NONE\n";
+    } else {
+        cout << result[0] << " " << result[1] << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+class Solution {
+  smallestRange(lists) {
+    //Implement here
+    return 0;
+  }
+}
+
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const k = parseInt(data[idx++], 10);
+const lists = [];
+for (let i = 0; i < k; i++) {
+  const m = parseInt(data[idx++], 10);
+  const list = [];
+  for (let j = 0; j < m; j++) {
+    list.push(parseInt(data[idx++], 10));
+  }
+  lists.push(list);
+}
+const solution = new Solution();
+const result = solution.smallestRange(lists);
+if (!result || result.length === 0) {
+  console.log("NONE");
+} else {
+  console.log(result[0] + " " + result[1]);
+}
+```
 

@@ -114,19 +114,208 @@ Node 2 minimizes the cost.
 
 ### Java
 
+```java
+import java.util.*;
+
+class Main {
+    static class Edge {
+        int to;
+        Edge(int to) {
+            this.to = to;
+        }
+    }
+
+    static List<Edge>[] graph;
+    static long[] weight;
+    static long[] subtreeWeight;
+    static long[] down;
+    static long[] up;
+    static long totalWeight;
+    static int n;
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+
+        weight = new long[n + 1];
+        for (int i = 1; i <= n; i++) {
+            weight[i] = sc.nextLong();
+            totalWeight += weight[i];
+        }
+
+        graph = new ArrayList[n + 1];
+        for (int i = 0; i <= n; i++) {
+            graph[i] = new ArrayList<>();
+        }
+
+        for (int i = 0; i < n - 1; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            graph[u].add(new Edge(v));
+            graph[v].add(new Edge(u));
+        }
+
+        subtreeWeight = new long[n + 1];
+        down = new long[n + 1];
+        up = new long[n + 1];
+
+        // Phase 1: Compute downward DP
+        dfsDown(1, -1);
+
+        // Phase 2: Compute upward DP (rerooting)
+        dfsUp(1, -1, 0, 0);
+
+        // Find minimum cost node
+        long minCost = Long.MAX_VALUE;
+        int bestNode = 1;
+
+        for (int i = 1; i <= n; i++) {
+            long totalCost = down[i] + up[i];
+            if (totalCost < minCost) {
+                minCost = totalCost;
+                bestNode = i;
+            }
+        }
+
+        System.out.println(bestNode);
+        sc.close();
+    }
+
+
+    static void dfsDown(int u, int parent) {
+
+        //Implement here
+
+    }
+
+static void dfsUp(int u, int parent, long parentUp, long parentSubtreeWeight) {
+
+        //Implement here
+
+    }
+
+}
+```
 
 ### Python
 
+```python
+import sys
+from collections import defaultdict
+
+def solve():
+    # //Implement here
+    return 0
+solve()
+
+
+def main():
+    import sys
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        return
+
+    # TODO: Parse input and call solution
+    pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <cstring>
+#include <climits>
+using namespace std;
+
+const int MAXN = 200005;
+vector<int> graph[MAXN];
+long long weight[MAXN];
+long long subtreeWeight[MAXN];
+long long down[MAXN];
+long long up[MAXN];
+long long totalWeight = 0;
+int n;
+
+
+void dfsDown(int u, int parent) {
+
+    //Implement here
+
+}
+
+void dfsUp(int u, int parent) {
+
+    //Implement here
+
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    cin >> n;
+
+    for (int i = 1; i <= n; i++) {
+        cin >> weight[i];
+        totalWeight += weight[i];
+    }
+
+    for (int i = 0; i < n - 1; i++) {
+        int u, v;
+        cin >> u >> v;
+        graph[u].push_back(v);
+        graph[v].push_back(u);
+    }
+
+    dfsDown(1, -1);
+    dfsUp(1, -1);
+
+    long long minCost = LLONG_MAX;
+    int bestNode = 1;
+
+    for (int i = 1; i <= n; i++) {
+        long long totalCost = down[i] + up[i];
+        if (totalCost < minCost) {
+            minCost = totalCost;
+            bestNode = i;
+        }
+    }
+
+    cout << bestNode << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
 
-## Notes
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
-- The problem requires rerooting DP technique to achieve O(n) time complexity
-- Naive approach of computing cost for each root separately would be O(n²)
-- Be careful with integer overflow - use long/long long for intermediate calculations
-- The squared distance means we need special handling in the DP transition
+let lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  solve();
+});
+
+function solve() {
+  //Implement here
+  return 0;
+}
+```

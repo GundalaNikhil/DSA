@@ -86,12 +86,143 @@ matrix-exponentiation, linear-recurrence, fast-exponentiation
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long matrix_exp_linear_recurrence(int k, long n, long mod, long[] coeffs, long[] initial) {
+        //Implement here
+        return 0L;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int k = sc.nextInt();
+        long n = sc.nextLong();
+        long MOD = sc.nextLong();
+        
+        long[] coeffs = new long[k];
+        for (int i = 0; i < k; i++) coeffs[i] = sc.nextLong();
+        
+        long[] initial = new long[k];
+        for (int i = 0; i < k; i++) initial[i] = sc.nextLong();
+        
+        Solution solution = new Solution();
+        System.out.println(solution.matrix_exp_linear_recurrence(k, n, MOD, coeffs, initial));
+        
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def matrix_exp_linear_recurrence(self, k: int, n: int, MOD: int, coeffs: list[int], initial: list[int]) -> int:
+        # //Implement here
+        return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    iterator = iter(data)
+    try:
+        k = int(next(iterator))
+        n = int(next(iterator))
+        MOD = int(next(iterator))
+        
+        coeffs = [int(next(iterator)) for _ in range(k)]
+        initial = [int(next(iterator)) for _ in range(k)]
+        
+        sol = Solution()
+        print(sol.matrix_exp_linear_recurrence(k, n, MOD, coeffs, initial))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    long long matrix_exp_linear_recurrence(int k, long long n, long long mod, vector<long long>& coeffs, vector<long long>& initial) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int k;
+    long long n, MOD;
+    if (!(cin >> k >> n >> MOD)) return 0;
+
+    vector<long long> coeffs(k);
+    for (int i = 0; i < k; i++) cin >> coeffs[i];
+
+    vector<long long> initial(k);
+    for (int i = 0; i < k; i++) cin >> initial[i];
+
+    Solution solution;
+    cout << solution.matrix_exp_linear_recurrence(k, n, MOD, coeffs, initial) << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  matrix_exp_linear_recurrence(k, n, MOD, coeffs, initial) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let ptr = 0;
+  
+  const k = parseInt(data[ptr++]);
+  const n = BigInt(data[ptr++]); // Keep as BigInt or string
+  const MOD = parseInt(data[ptr++]);
+  
+  const coeffs = [];
+  for(let i=0; i<k; i++) coeffs.push(parseInt(data[ptr++]));
+  
+  const initial = [];
+  for(let i=0; i<k; i++) initial.push(parseInt(data[ptr++]));
+  
+  const solution = new Solution();
+  console.log(solution.matrix_exp_linear_recurrence(k, n, MOD, coeffs, initial));
+});
+```
 

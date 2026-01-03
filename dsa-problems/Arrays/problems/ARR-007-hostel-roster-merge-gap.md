@@ -82,12 +82,154 @@ Arrays, Two Pointers, Merge
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] mergeWithPriority(int[] A, int[] B) {
+        //Implement here
+        return new int[0];
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] A = new int[n];
+        for (int i = 0; i < n; i++) A[i] = sc.nextInt();
+
+        int m = sc.nextInt();
+        int[] B = new int[m];
+        for (int i = 0; i < m; i++) B[i] = sc.nextInt();
+
+        Solution solution = new Solution();
+        int[] result = solution.mergeWithPriority(A, B);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < result.length; i++) {
+            sb.append(result[i]).append(i == result.length - 1 ? "" : " ");
+        }
+        System.out.println(sb);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def merge_with_priority(A: list[int], B: list[int]) -> list[int]:
+    # //Implement here
+    return 0
+
+def main():
+    import sys
+    data = sys.stdin.read().split()
+    if not data:
+        return
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        A = []
+        for _ in range(n):
+            A.append(int(next(iterator)))
+            
+        m = int(next(iterator))
+        B = []
+        for _ in range(m):
+            B.append(int(next(iterator)))
+            
+        result = merge_with_priority(A, B)
+        print(" ".join(map(str, result)))
+    except StopIteration:
+        return
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> mergeWithPriority(vector<int>& A, vector<int>& B) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> A(n);
+    for (int i = 0; i < n; i++) cin >> A[i];
+
+    int m;
+    cin >> m;
+    vector<int> B(m);
+    for (int i = 0; i < m; i++) cin >> B[i];
+
+    Solution solution;
+    vector<int> result = solution.mergeWithPriority(A, B);
+
+    for (size_t i = 0; i < result.size(); i++) {
+        cout << result[i] << (i == result.size() - 1 ? "" : " ");
+    }
+    cout << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  mergeWithPriority(A, B) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const A = [];
+  for (let i = 0; i < n; i++) A.push(Number(tokens[ptr++]));
+
+  const m = Number(tokens[ptr++]);
+  const B = [];
+  for (let i = 0; i < m; i++) B.push(Number(tokens[ptr++]));
+
+  const solution = new Solution();
+  const result = solution.mergeWithPriority(A, B);
+  console.log(result.join(" "));
+});
+```
 

@@ -86,12 +86,136 @@ Queue, Hashing, Streaming
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<String> firstNonRepeating(String s) {
+        //Implement here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        StringBuilder sb = new StringBuilder();
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            if (!sb.isEmpty()) sb.append("\n");
+            sb.append(line);
+        }
+        sc.close();
+
+        String s = sb.toString();
+        // Remove leading/trailing whitespace
+        s = s.replaceAll("^\\s+|\\s+$", "");
+
+        if (!s.isEmpty()) {
+            Solution solution = new Solution();
+            List<String> result = solution.firstNonRepeating(s);
+            System.out.println(String.join(" ", result));
+        }
+    }
+}
+```
 
 ### Python
 
+```python
+from collections import deque
+
+def first_non_repeating(s):
+    # //Implement here
+    return 0
+
+def main():
+    import sys
+    s = sys.stdin.read().strip()
+    result = first_non_repeating(s)
+    print(' '.join(result))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <queue>
+#include <sstream>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> firstNonRepeating(const string& s) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string line;
+    string s;
+    while (getline(cin, line)) {
+        s += line + "\n";
+    }
+
+    // Remove trailing newline if present
+    if (!s.empty() && s.back() == '\n') {
+        s.pop_back();
+    }
+
+    if (!s.empty()) {
+        Solution solution;
+        vector<string> result = solution.firstNonRepeating(s);
+        for (int i = 0; i < (int)result.size(); i++) {
+            if (i) cout << ' ';
+            cout << result[i];
+        }
+        cout << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  firstNonRepeating(s) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = "";
+rl.on("line", (line) => data += line + "\n");
+rl.on("close", () => {
+  // Remove trailing newline
+  if (data.endsWith("\n")) {
+    data = data.slice(0, -1);
+  }
+
+  if (data.length === 0) return;
+  const solution = new Solution();
+  const result = solution.firstNonRepeating(data);
+  console.log(result.join(" "));
+});
+```
 

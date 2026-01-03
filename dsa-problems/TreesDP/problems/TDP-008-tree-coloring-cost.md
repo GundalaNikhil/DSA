@@ -103,36 +103,216 @@ Print a single integer — the minimum total cost to color all nodes.
 
 ### Java
 
+```java
+import java.util.*;
+
+class Main {
+    static List<List<Integer>> adj;
+    static int[][] cost;
+    static long[][] dp;
+    static int n, k;
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        k = sc.nextInt();
+
+        cost = new int[n + 1][k + 1];
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= k; j++) {
+                cost[i][j] = sc.nextInt();
+            }
+        }
+
+        adj = new ArrayList<>();
+        for (int i = 0; i <= n; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < n - 1; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+
+        dp = new long[n + 1][k + 1];
+        boolean[] visited = new boolean[n + 1];
+
+        dfs(1, visited);
+
+        long result = Long.MAX_VALUE;
+        for (int c = 1; c <= k; c++) {
+            result = Math.min(result, dp[1][c]);
+        }
+
+        System.out.println(result);
+    }
+
+
+    static void dfs(int u, boolean[] visited) {
+
+        //Implement here
+
+    }
+
+}
+```
 
 ### Python
 
+```python
+import sys
+from collections import defaultdict
+sys.setrecursionlimit(200005)
+
+def main():
+    input_data = sys.stdin.read().split()
+    idx = 0
+    n = int(input_data[idx]); idx += 1
+    k = int(input_data[idx]); idx += 1
+
+    cost = [[0] * (k + 1) for _ in range(n + 1)]
+    for i in range(1, n + 1):
+        for j in range(1, k + 1):
+            cost[i][j] = int(input_data[idx]); idx += 1
+
+    adj = defaultdict(list)
+    for _ in range(n - 1):
+        u = int(input_data[idx]); idx += 1
+        v = int(input_data[idx]); idx += 1
+        adj[u].append(v)
+        adj[v].append(u)
+
+    dp = [[0] * (k + 1) for _ in range(n + 1)]
+    visited = [False] * (n + 1)
+
+    def dfs(u):
+        # //Implement here
+        return 0
+    dfs(1)
+    print(min(dp[1][c] for c in range(1, k + 1)))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <cstring>
+#include <climits>
+using namespace std;
+
+int n, k;
+vector<vector<int>> adj;
+vector<vector<int>> cost;
+vector<vector<long long>> dp;
+vector<bool> visited;
+
+
+void dfs(int u) {
+
+    //Implement here
+
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    cin >> n >> k;
+
+    cost.assign(n + 1, vector<int>(k + 1));
+    dp.assign(n + 1, vector<long long>(k + 1));
+    adj.resize(n + 1);
+    visited.assign(n + 1, false);
+
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= k; j++) {
+            cin >> cost[i][j];
+        }
+    }
+
+    for (int i = 0; i < n - 1; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    dfs(1);
+
+    long long result = LLONG_MAX;
+    for (int c = 1; c <= k; c++) {
+        result = min(result, dp[1][c]);
+    }
+
+    cout << result << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
 
----
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false,
+});
 
-## Hints
+const lines = [];
+rl.on("line", (line) => lines.push(line.trim()));
+rl.on("close", () => {
+  // Token-based parsing like Python
+  const data = [];
+  lines.forEach(line => data.push(...line.split(" ")));
+  
+  let idx = 0;
+  const n = parseInt(data[idx++]);
+  const k = parseInt(data[idx++]);
 
-<details>
-<summary>Hint 1</summary>
-Think about what information you need to track for each node. Since adjacent nodes can't share colors, you need to know the color of each node.
-</details>
+  const cost = Array.from({ length: n + 1 }, () => Array(k + 1).fill(0));
+  for (let i = 1; i <= n; i++) {
+    for (let j = 1; j <= k; j++) {
+      cost[i][j] = parseInt(data[idx++]);
+    }
+  }
 
-<details>
-<summary>Hint 2</summary>
-Use dp[u][c] to represent the minimum cost to color the subtree rooted at u, where u has color c.
-</details>
+  const adj = Array.from({ length: n + 1 }, () => []);
+  for (let i = 0; i < n - 1; i++) {
+    const u = parseInt(data[idx++]);
+    const v = parseInt(data[idx++]);
+    adj[u].push(v);
+    adj[v].push(u);
+  }
 
-<details>
-<summary>Hint 3</summary>
-For the recurrence, when node u has color c, each child can have any color except c. You need the minimum among valid colors for each child.
-</details>
+  const dp = Array.from({ length: n + 1 }, () => Array(k + 1).fill(0));
+  const visited = Array(n + 1).fill(false);
 
-<details>
-<summary>Hint 4</summary>
-To optimize from O(N × K²) to O(N × K), track the minimum and second minimum costs across all colors for each child.
-</details>
+  function dfs(u) {
+    //Implement here
+    return 0;
+  }
+
+  dfs(1);
+  
+  let result = Infinity;
+  for (let c = 1; c <= k; c++) {
+    result = Math.min(result, dp[1][c]);
+  }
+
+  console.log(result);
+});
+```

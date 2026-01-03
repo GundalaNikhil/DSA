@@ -86,12 +86,128 @@ Poisson Approximation, Binomial Distribution
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public Result solve(int n, double p, int k) {
+        //Implement here
+        return null;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLong()) {
+            int n = (int) sc.nextLong();
+            double p = sc.nextDouble();
+            int k = (int) sc.nextLong();
+
+            Solution solution = new Solution();
+            Solution.Result res = solution.solve(n, p, k);
+            
+            // Output order: Approx Exact Error
+            System.out.printf("%.9f %.9f %.9f\n", res.approx, res.binomial, res.error);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import math
+
+def poisson_approx(n: int, p: float, k: int):
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    n = int(data[0])
+    p = float(data[1])
+    k = int(data[2])
+    binomial, approx, error = poisson_approx(n, p, k)
+    print(f"{approx:.9f} {binomial:.9f} {error:.9f}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    Result solve(int n, double p, int k) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, k;
+    double p;
+    if (cin >> n >> p >> k) {
+        Solution solution;
+        auto res = solution.solve(n, p, k);
+        // Output order: Approx Exact Error (matching Python print f"{approx} {binomial} {error}")
+        cout << fixed << setprecision(9) 
+             << res.approx << " " 
+             << res.binomial << " " 
+             << res.error << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function solve(n, p, k) {
+  //Implement here
+  return 0;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part !== "") data.push(part);
+  }
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const n = parseInt(data[0], 10);
+  const p = parseFloat(data[1]);
+  const k = parseInt(data[2], 10);
+  const res = solve(n, p, k);
+  // Output order: Approx Exact Error
+  console.log(res.approx.toFixed(9) + " " + res.binomial.toFixed(9) + " " + res.error.toFixed(9));
+});
+```
 

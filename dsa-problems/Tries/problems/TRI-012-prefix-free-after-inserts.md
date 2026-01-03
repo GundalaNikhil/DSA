@@ -87,12 +87,160 @@ Trie, String, Prefix Matching, Telecommunications
 
 ### Java
 
+```java
+import java.util.*;
+
+class TrieNode {
+    Map<Character, TrieNode> children = new HashMap<>();
+    boolean isEnd = false;
+}
+
+class Solution {
+    public boolean insert(String number) {
+        //Implement here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        sc.nextLine();
+        
+        Solution solution = new Solution();
+        List<Boolean> results = new ArrayList<>();
+        
+        for (int i = 0; i < n; i++) {
+            String number = sc.nextLine().trim();
+            results.add(solution.insert(number));
+        }
+        
+        System.out.print("[");
+        for (int i = 0; i < results.size(); i++) {
+            System.out.print(results.get(i));
+            if (i < results.size() - 1) System.out.print(",");
+        }
+        System.out.println("]");
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end = False
+
+class Solution:
+    def __init__(self):
+        self.root = TrieNode()
+    
+    def insert(self, number: str) -> bool:
+        # //Implement here
+        return 0
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    n = int(lines[0])
+    
+    solution = Solution()
+    results = []
+    for i in range(1, n + 1):
+        results.append(solution.insert(lines[i].strip()))
+    
+    print("[" + ",".join(str(r).lower() for r in results) + "]")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <unordered_map>
+#include <string>
+#include <vector>
+using namespace std;
+
+struct TrieNode {
+    unordered_map<char, TrieNode*> children;
+    bool isEnd = false;
+};
+
+class Solution {
+public:
+    bool insert(const string& number) {
+        //Implement here
+        return false;
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+    cin.ignore();
+    
+    Solution solution;
+    vector<bool> results;
+    
+    for (int i = 0; i < n; i++) {
+        string number;
+        getline(cin, number);
+        results.push_back(solution.insert(number));
+    }
+    
+    cout << "[";
+    for (int i = 0; i < results.size(); i++) {
+        cout << (results[i] ? "true" : "false");
+        if (i < results.size() - 1) cout << ",";
+    }
+    cout << "]" << endl;
+    
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require('readline');
+
+class TrieNode {
+  constructor() {
+    this.children = new Map();
+    this.isEnd = false;
+  }
+}
+
+class Solution {
+  insert(number) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+const lines = [];
+rl.on('line', (line) => {
+  lines.push(line);
+}).on('close', () => {
+  const n = parseInt(lines[0]);
+  const solution = new Solution();
+  const results = [];
+  
+  for (let i = 1; i <= n; i++) {
+    results.push(solution.insert(lines[i].trim()));
+  }
+  
+  console.log('[' + results.join(',') + ']');
+});
+```

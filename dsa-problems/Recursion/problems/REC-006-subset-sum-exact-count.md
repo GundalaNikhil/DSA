@@ -80,12 +80,145 @@ Backtracking, Subset Sum, Pruning
 ## Solution Template
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<Integer> findSubset(List<Integer> arr, int k, int target) {
+        //Implement here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int target = sc.nextInt();
+        
+        List<Integer> arr = new ArrayList<>();
+        for(int i=0; i<n; i++) {
+             if(sc.hasNextInt()) arr.add(sc.nextInt());
+        }
+        
+        Solution sol = new Solution();
+        List<Integer> res = sol.findSubset(arr, k, target);
+        if(res.isEmpty()) {
+            System.out.println("NONE");
+        } else {
+            for(int i=0; i<res.size(); i++) System.out.print(res.get(i) + (i==res.size()-1?"":" "));
+            System.out.println();
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def find_subset(arr: list[int], k: int, target: int) -> list[int]:
+    # //Implement here
+    return 0
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if not lines:
+        return
+
+    first_line = lines[0].split()
+    n = int(first_line[0])
+    k = int(first_line[1])
+    target = int(first_line[2])
+
+    arr = list(map(int, lines[1].split()))
+
+    result = find_subset(arr, k, target)
+    if result:
+        print(' '.join(map(str, result)))
+    else:
+        print("NONE")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <numeric>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> findSubset(const vector<int>& arr, int k, int target) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n, k, target;
+    if (!(cin >> n >> k >> target)) return 0;
+    
+    vector<int> arr(n);
+    for(int i=0; i<n; i++) cin >> arr[i];
+    
+    Solution sol;
+    vector<int> res = sol.findSubset(arr, k, target);
+    if(res.empty()) {
+        cout << "NONE" << endl;
+    } else {
+        for(size_t i=0; i<res.size(); i++) cout << res[i] << (i==res.size()-1?"":" ");
+        cout << endl;
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    
+    if(ptr >= tokens.length) return;
+    const n = parseInt(tokens[ptr++]);
+    const k = parseInt(tokens[ptr++]);
+    const target = parseInt(tokens[ptr++]);
+    
+    const arr = [];
+    for(let i=0; i<n; i++) {
+        if(ptr < tokens.length) arr.push(parseInt(tokens[ptr++]));
+    }
+    
+    const sol = new Solution();
+    const res = sol.findSubset(arr, k, target);
+    
+    if(res.length === 0) {
+        console.log("NONE");
+    } else {
+        console.log(res.join(' '));
+    }
+});
+
+class Solution {
+  findSubset(arr, k, target) {
+    //Implement here
+    return 0;
+  }
+}
+```
 

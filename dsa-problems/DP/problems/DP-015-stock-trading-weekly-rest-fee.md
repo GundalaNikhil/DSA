@@ -88,12 +88,115 @@ Dynamic Programming, Cooldown Scheduling, Greedy
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long maxProfit(int[] prices, long fee) {
+        //Implement here
+        return 0L;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        long fee = sc.nextLong();
+        int[] prices = new int[n];
+        for (int i = 0; i < n; i++) prices[i] = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.maxProfit(prices, fee));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+def max_profit(prices: List[int], fee: int) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    n, fee = map(int, input().split())
+    prices = list(map(int, input().split()))
+    print(max_profit(prices, fee))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
+
+using namespace std;
+
+long long maxProfit(const vector<int>& prices, long long fee) {
+    //Implement here
+    return 0;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n; long long fee;
+    if (!(cin >> n >> fee)) return 0;
+    vector<int> prices(n);
+    for (int i = 0; i < n; ++i) cin >> prices[i];
+    cout << maxProfit(prices, fee) << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function maxProfit(prices, fee) {
+  //Implement here
+  return 0;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  let ptr = 0;
+  const parts = data[ptr++].split(/\s+/).map(Number);
+  const n = parts[0];
+  const fee = parts[1];
+  const prices = data[ptr++].split(/\s+/).map(Number);
+
+  console.log(maxProfit(prices, fee));
+});
+```
 

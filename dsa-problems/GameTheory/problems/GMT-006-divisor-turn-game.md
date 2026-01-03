@@ -99,12 +99,105 @@ Game Theory, Sieve of Eratosthenes, Memoization
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public String divisorGame(int n) {
+        //Implement here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            Solution solution = new Solution();
+            System.out.println(solution.divisorGame(n));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+sys.setrecursionlimit(20000)
+
+def divisor_game(n: int) -> str:
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    n = int(data[0])
+    print(divisor_game(n))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string divisorGame(int n) {
+        //Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n;
+    if (cin >> n) {
+        Solution solution;
+        cout << solution.divisorGame(n) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  divisorGame(n) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const n = parseInt(data[0]);
+  const solution = new Solution();
+  console.log(solution.divisorGame(n));
+});
+```
 

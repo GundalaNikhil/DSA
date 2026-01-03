@@ -81,12 +81,121 @@ Merge Sort, Counting, Divide and Conquer
 ## Solution Template
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long[] countWithinThreshold(int[] arr, long T) {
+        //Implement here
+        return new long[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        long t = sc.nextLong();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        long[] result = solution.countWithinThreshold(arr, t);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < result.length; i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(result[i]);
+        }
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def count_within_threshold(arr: list[int], T: int) -> list[int]:
+    # //Implement here
+    return 0
+
+def main():
+    n, t = map(int, input().split())
+    arr = list(map(int, input().split()))
+    result = count_within_threshold(arr, t)
+    print(' '.join(map(str, result)))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <vector>
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> countWithinThreshold(const vector<int>& arr, long long T) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    long long t;
+    if (!(cin >> n >> t)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    vector<long long> result = solution.countWithinThreshold(arr, t);
+    for (int i = 0; i < (int)result.size(); i++) {
+        if (i) cout << ' ';
+        cout << result[i];
+    }
+    cout << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+class Solution {
+  countWithinThreshold(arr, T) {
+    //Implement here
+    return 0;
+  }
+}
+
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const t = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+const result = solution.countWithinThreshold(arr, t);
+console.log(result.join(" "));
+```
 

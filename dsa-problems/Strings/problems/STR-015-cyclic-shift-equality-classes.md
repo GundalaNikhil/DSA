@@ -90,3 +90,121 @@ bbb
 - Use minimal rotation (Booth's algorithm) as canonical form
 - Hash canonical forms to count unique classes
 - O(n × m) time where m is max string length
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public int cyclicShiftEquivalenceClasses(List<String> strings) {
+        //Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int strings_n = sc.nextInt();
+        List<String> strings = new ArrayList<>();
+        for(int i=0; i<strings_n; i++) strings.add(sc.next());
+        Solution sol = new Solution();
+        System.out.println(sol.cyclicShiftEquivalenceClasses(strings));
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+def cyclic_shift_equivalence_classes(strings: list[str]) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    import sys
+
+
+    # Read input
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        print(0)
+        return
+        
+    parts = input_data.split()
+    if not parts:
+        return
+        
+    iterator = iter(parts)
+    try:
+        N = int(next(iterator))
+        strings = []
+        for _ in range(N):
+            strings.append(next(iterator))
+            
+        print(cyclic_shift_equivalence_classes(strings))
+    except StopIteration:
+        pass
+    except ValueError:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
+
+```cpp
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <iostream>
+
+class Solution {
+public:
+    int cyclicShiftEquivalenceClasses(vector<string>& strings) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int strings_n; cin >> strings_n; vector<string> strings(strings_n); for(int i=0; i<strings_n; i++) cin >> strings[i];
+    Solution sol;
+    cout << sol.cyclicShiftEquivalenceClasses(strings) << endl;
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+function cyclicShiftEquivalenceClasses(strings) {
+  //Implement here
+  return 0;
+}
+
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const strings_n = parseInt(tokens[ptr++]);
+    const strings = [];
+    for(let i=0; i<strings_n; i++) strings.push(tokens[ptr++]);
+    console.log(cyclicShiftEquivalenceClasses(strings));
+});
+```

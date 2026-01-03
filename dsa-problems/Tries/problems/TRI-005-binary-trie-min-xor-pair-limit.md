@@ -94,12 +94,112 @@ Trie, Binary Trie, Bit Manipulation, XOR Properties
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int minXORPairUnderLimit(int[] arr, int L) {
+        //Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int n = sc.nextInt();
+        int L = sc.nextInt();
+        
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        
+        Solution solution = new Solution();
+        int result = solution.minXORPairUnderLimit(arr, L);
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def min_xor_naive(arr, L):
+    # //Implement here
+    return 0
+def main():
+    import sys
+    input_data = sys.stdin.read().strip().split('\n')
+
+    n, L = map(int, input_data[0].split())
+    arr = list(map(int, input_data[1].split()))
+    result = min_xor_naive(arr, L)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <climits>
+
+using namespace std;
+
+class Solution {
+public:
+    int minXORPairUnderLimit(const vector<int>& arr, int L) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    int n, L;
+    if (!(cin >> n >> L)) {
+        return 0;
+    }
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    Solution solution;
+    int result = solution.minXORPairUnderLimit(arr, L);
+
+    cout << result << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false
+});
+
+function minXORPairUnderLimit(arr, L) {
+  //Implement here
+  return 0;
+}
+
+const lines = [];
+rl.on('line', (line) => lines.push(line.trim()));
+rl.on('close', () => {
+    const [n, L] = lines[0].split(' ').map(Number);
+    const arr = lines[1].split(' ').map(Number);
+    
+    const result = minXORPairUnderLimit(arr, L);
+    console.log(result);
+});
+```

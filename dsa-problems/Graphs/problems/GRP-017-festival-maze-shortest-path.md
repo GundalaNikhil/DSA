@@ -112,11 +112,196 @@ Grid Graph, BFS, State Space Search, Shortest Path with Constraints, Multi-State
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int shortestPath(List<String> grid) {
+        //Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        try {
+            int r = sc.nextInt();
+            int c = sc.nextInt();
+            sc.nextLine(); // consume newline
+
+            List<String> grid = new ArrayList<>();
+            for (int i = 0; i < r; i++) {
+                if (sc.hasNextLine()) {
+                    String line = sc.nextLine();
+                    grid.add(line);
+                } else {
+                    grid.add("");
+                }
+            }
+
+            Solution solution = new Solution();
+            int result = solution.shortestPath(grid);
+            System.out.println(result);
+        } finally {
+            sc.close();
+        }
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from collections import deque
+from typing import List
+
+sys.setrecursionlimit(200000)
+
+def shortest_path(grid: List[List[str]]) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    try:
+        # Use splitlines to preserve row structure
+        lines = sys.stdin.read().splitlines()
+    except Exception:
+        return
+
+    if not lines:
+        return
+        
+    # Wrapper to handle potential empty lines or whitespace issues
+    # Filter out empty lines?
+    valid_lines = [l.strip() for l in lines if l.strip()]
+    if not valid_lines: return
+    
+    try:
+        # First valid line should be r c
+        header = valid_lines[0].split()
+        if len(header) < 2: return
+        r, c = int(header[0]), int(header[1])
+        
+        # Next r lines are grid
+        # If valid_lines has fewer than r+1 lines, it's partial input, fixable or crash
+        # Just safely grab up to r lines
+        
+        grid = []
+        for i in range(r):
+            if i + 1 < len(valid_lines):
+                row_str = valid_lines[i+1]
+                # Ensure we only take first c chars if line is longer? 
+                # Or just list(row_str)
+                grid.append(list(row_str))
+            else:
+                grid.append([]) # Empty row filler
+                
+        result = shortest_path(grid)
+        print(result)
+        
+    except ValueError:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <set>
+#include <tuple>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    public: int shortestPathWithFood(vector<vector<char>>& grid) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int r, c;
+    cin >> r >> c;
+
+    vector<vector<char>> grid(r, vector<char>(c));
+    for (int i = 0; i < r; i++) {
+        string line;
+        cin >> line;
+        for (int j = 0; j < c && j < line.length(); j++) {
+            grid[i][j] = line[j];
+        }
+    }
+
+    Solution solution;
+    cout << solution.shortestPathWithFood(grid) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  shortestPath(grid) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  // Filter out empty lines
+  const validLines = data.filter(line => line.length > 0);
+
+  if (validLines.length === 0) return;
+
+  try {
+    // Parse header (r c)
+    const header = validLines[0].split(/\s+/);
+    if (header.length < 2) return;
+    const r = Number(header[0]);
+    const c = Number(header[1]);
+
+    // Parse grid - safely handle missing lines
+    const grid = [];
+    for (let i = 0; i < r; i++) {
+      if (i + 1 < validLines.length) {
+        grid.push(validLines[i+1].split(''));
+      } else {
+        grid.push([]); // Empty row filler for missing lines
+      }
+    }
+
+      // Only run algorithm if we have a complete grid
+    if (grid.length === r) {
+      const solution = new Solution();
+      console.log(solution.shortestPath(grid));
+    }
+  } catch (e) {
+    // Silently handle parse errors
+  }
+});
+```
+

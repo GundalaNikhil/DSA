@@ -78,12 +78,113 @@ Number Bases, Digit Sum, Search
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long[] minimalBase(long x) {
+        //Implement here
+        return new long[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLong()) {
+            long x = sc.nextLong();
+            Solution solution = new Solution();
+            long[] res = solution.minimalBase(x);
+            System.out.println(res[0] + " " + res[1]);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def get_digit_sum(x: int, b: int) -> int:
+    total = 0
+    while x > 0:
+        total += x % b
+        x //= b
+    return total
+
+def minimal_base(x: int):
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    x = int(data[0])
+    b, s = minimal_base(x)
+    print(f"{b} {s}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <climits>
+
+using namespace std;
+
+class Solution {
+public:
+    pair<long long, long long> minimalBase(long long x) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long x;
+    if (cin >> x) {
+        Solution solution;
+        auto res = solution.minimalBase(x);
+        cout << res.first << " " << res.second << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function minimalBase(x) {
+  //Implement here
+  return 0;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const x = parseInt(data[0], 10);
+  const res = minimalBase(x);
+  console.log(res[0] + " " + res[1]);
+});
+```
 

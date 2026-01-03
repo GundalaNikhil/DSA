@@ -97,12 +97,209 @@ Heaps, K Largest Pairs, Search, Two Arrays
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<Long> topKProducts(long[] A, long[] B, int k, int d) {
+        //Implement here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+            int k = sc.nextInt();
+            int d = sc.nextInt();
+            long[] A = new long[n];
+            long[] B = new long[m];
+            for (int i = 0; i < n; i++) A[i] = sc.nextLong();
+            for (int i = 0; i < m; i++) B[i] = sc.nextLong();
+            
+            Solution solution = new Solution();
+            List<Long> result = solution.topKProducts(A, B, k, d);
+            for (int i = 0; i < result.size(); i++) {
+                System.out.print(result.get(i));
+                if (i < result.size() - 1) System.out.print(" ");
+            }
+            System.out.println();
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import heapq
+
+def top_k_products(A: list, B: list, k: int, d: int) -> list:
+    # //Implement here
+    return 0
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    try:
+        n = int(next(it))
+        m = int(next(it))
+        k = int(next(it))
+        d = int(next(it))
+        A = []
+        for _ in range(n):
+            A.append(int(next(it)))
+        B = []
+        for _ in range(m):
+            B.append(int(next(it)))
+            
+        result = top_k_products(A, B, k, d)
+        print(" ".join(map(str, result)))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <set>
+#include <cmath>
+#include <algorithm>
+
+using namespace std;
+
+struct Node {
+    long long val;
+    int r, c;
+    int dir;
+    
+    bool operator<(const Node& other) const {
+        return val < other.val; // Max heap
+    }
+};
+
+class Solution {
+public:
+    vector<long long> topKProducts(const vector<long long>& A, const vector<long long>& B, int k, int d) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m, k, d;
+    if (cin >> n >> m >> k >> d) {
+        vector<long long> A(n), B(m);
+        for (int i = 0; i < n; i++) cin >> A[i];
+        for (int i = 0; i < m; i++) cin >> B[i];
+        
+        Solution solution;
+        vector<long long> result = solution.topKProducts(A, B, k, d);
+        for (size_t i = 0; i < result.size(); i++) {
+            if (i > 0) cout << " ";
+            cout << result[i];
+        }
+        cout << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class PriorityQueue {
+  constructor(compare = (a, b) => a - b) {
+    this.heap = [];
+    this.compare = compare;
+  }
+  size() { return this.heap.length; }
+  isEmpty() { return this.heap.length === 0; }
+  peek() { return this.heap[0]; }
+  push(val) {
+    this.heap.push(val);
+    this.bubbleUp(this.heap.length - 1);
+  }
+  pop() {
+    if (this.size() === 0) return null;
+    const top = this.heap[0];
+    const bottom = this.heap.pop();
+    if (this.size() > 0) {
+      this.heap[0] = bottom;
+      this.bubbleDown(0);
+    }
+    return top;
+  }
+  bubbleUp(idx) {
+    while (idx > 0) {
+      const pIdx = Math.floor((idx - 1) / 2);
+      if (this.compare(this.heap[idx], this.heap[pIdx]) < 0) {
+        [this.heap[idx], this.heap[pIdx]] = [this.heap[pIdx], this.heap[idx]];
+        idx = pIdx;
+      } else break;
+    }
+  }
+  bubbleDown(idx) {
+    while (true) {
+      const left = 2 * idx + 1;
+      const right = 2 * idx + 2;
+      let swap = null;
+      if (left < this.size() && this.compare(this.heap[left], this.heap[idx]) < 0) swap = left;
+      if (right < this.size() && this.compare(this.heap[right], swap === null ? this.heap[idx] : this.heap[swap]) < 0) swap = right;
+      if (swap === null) break;
+      [this.heap[idx], this.heap[swap]] = [this.heap[swap], this.heap[idx]];
+      idx = swap;
+    }
+  }
+}
+
+class Solution {
+  topKProducts(A, B, k, d) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++]);
+  const m = parseInt(data[idx++]);
+  const k = parseInt(data[idx++]);
+  const d = parseInt(data[idx++]);
+  const A = [];
+  const B = [];
+  for (let i = 0; i < n; i++) A.push(parseInt(data[idx++]));
+  for (let i = 0; i < m; i++) B.push(parseInt(data[idx++]));
+  
+  const solution = new Solution();
+  const result = solution.topKProducts(A, B, k, d);
+  console.log(result.join(" "));
+});
+```
 

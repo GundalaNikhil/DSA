@@ -76,12 +76,124 @@ Suffix Array, Sorting, String Algorithms
 ## Solution Template
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] suffixArray(String s) {
+        //Implement here
+        return new int[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String s = sc.next();
+            Solution solution = new Solution();
+            int[] sa = solution.suffixArray(s);
+            
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < sa.length; i++) {
+                if (i > 0) sb.append(' ');
+                sb.append(sa[i]);
+            }
+            System.out.println(sb.toString());
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def suffix_array(s: str) -> list[int]:
+    # //Implement here
+    return 0
+
+def main():
+    import sys
+    sys.setrecursionlimit(200000)
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    s = input_data[0]
+    sa = suffix_array(s)
+    print(*(sa))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> suffixArray(const string& s) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string s;
+    if (cin >> s) {
+        Solution solution;
+        vector<int> sa = solution.suffixArray(s);
+        for (int i = 0; i < (int)sa.size(); i++) {
+            if (i > 0) cout << " ";
+            cout << sa[i];
+        }
+        cout << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  suffixArray(s) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part) data.push(part);
+  }
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const s = data[0];
+  const solution = new Solution();
+  const sa = solution.suffixArray(s);
+  console.log(sa.join(" "));
+});
+```
 

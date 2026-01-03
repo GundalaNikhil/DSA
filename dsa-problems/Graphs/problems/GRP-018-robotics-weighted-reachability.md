@@ -111,11 +111,167 @@ Weighted Graph, Reachability, BFS, DFS, Union-Find, Edge Filtering
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int countReachable(int n, List<List<int[]>> adj, int threshold) {
+        //Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int threshold = sc.nextInt();
+        int m = sc.nextInt();
+
+        List<List<int[]>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            int w = sc.nextInt();
+
+            if (w <= threshold) {
+                adj.get(u).add(new int[]{v, w});
+                adj.get(v).add(new int[]{u, w});
+            }
+        }
+
+        Solution solution = new Solution();
+        int result = solution.countReachable(n, adj, threshold);
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from collections import deque
+from typing import List
+
+sys.setrecursionlimit(200000)
+
+def count_reachable(n: int, edges: List[tuple], threshold: int) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    try:
+        input_data = sys.stdin.read().split()
+    except Exception:
+        return
+        
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        threshold = int(next(iterator))
+        m = int(next(iterator))
+        
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            w = int(next(iterator))
+            edges.append((u, v, w))
+            
+        result = count_reachable(n, edges, threshold)
+        print(result)
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <unordered_set>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    public: int countReachable(int n, vector<tuple<int,int,int>>& edges, int threshold) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, threshold, m;
+    cin >> n >> threshold >> m;
+
+    vector<tuple<int,int,int>> edges;
+    for (int i = 0; i < m; i++) {
+        int u, v, w;
+        cin >> u >> v >> w;
+        edges.push_back({u, v, w});
+    }
+
+    Solution solution;
+    cout << solution.countReachable(n, edges, threshold) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  countReachable(n, edges, threshold) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  const tokens = data.join(" ").split(/\s+/);
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const threshold = Number(tokens[ptr++]);
+  const m = Number(tokens[ptr++]);
+
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = Number(tokens[ptr++]);
+    const v = Number(tokens[ptr++]);
+    const w = Number(tokens[ptr++]);
+    edges.push([u, v, w]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.countReachable(n, edges, threshold));
+});
+```
+

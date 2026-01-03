@@ -87,12 +87,150 @@ Intervals, Sorting, Sweeping, Heaps
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[][] mergeIntervals(int[][] intervals) {
+        //Implement here
+        return new int[0][0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int[][] intervals = new int[n][3];
+            for (int i = 0; i < n; i++) {
+                intervals[i][0] = sc.nextInt();
+                intervals[i][1] = sc.nextInt();
+                intervals[i][2] = sc.nextInt();
+            }
+            
+            Solution solution = new Solution();
+            int[][] result = solution.mergeIntervals(intervals);
+            System.out.println(result.length);
+            for (int[] row : result) {
+                System.out.println(row[0] + " " + row[1] + " " + row[2]);
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def merge_intervals(intervals: list) -> list:
+    # //Implement here
+    return 0
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    try:
+        n = int(next(it))
+        intervals = []
+        for _ in range(n):
+            start = int(next(it))
+            end = int(next(it))
+            payload = int(next(it))
+            intervals.append([start, end, payload])
+            
+        result = merge_intervals(intervals)
+        print(len(result))
+        for row in result:
+            print(f"{row[0]} {row[1]} {row[2]}")
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> mergeIntervals(vector<vector<int>>& intervals) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (cin >> n) {
+        vector<vector<int>> intervals(n, vector<int>(3));
+        for (int i = 0; i < n; i++) {
+            cin >> intervals[i][0] >> intervals[i][1] >> intervals[i][2];
+        }
+        
+        Solution solution;
+        vector<vector<int>> result = solution.mergeIntervals(intervals);
+        cout << result.size() << "\n";
+        for (const auto& row : result) {
+            cout << row[0] << " " << row[1] << " " << row[2] << "\n";
+        }
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  mergeIntervals(intervals) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++]);
+  const intervals = [];
+  for (let i = 0; i < n; i++) {
+    const start = parseInt(data[idx++]);
+    const end = parseInt(data[idx++]);
+    const payload = parseInt(data[idx++]);
+    intervals.push([start, end, payload]);
+  }
+  
+  const solution = new Solution();
+  const result = solution.mergeIntervals(intervals);
+  console.log(result.length);
+  for (const row of result) {
+    console.log(row[0] + " " + row[1] + " " + row[2]);
+  }
+});
+```
 

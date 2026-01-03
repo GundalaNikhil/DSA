@@ -84,3 +84,97 @@ false
 - Use frequency analysis: a string can form a palindrome if at most one character has an odd count
 - This applies to any rotation since character frequencies don't change
 - O(n) time complexity using frequency counting
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public boolean canRotateToPalindrome(String s) {
+        //Implement here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.useDelimiter("\\A").hasNext() ? sc.next() : "";
+        s = s.trim();
+        Solution sol = new Solution();
+        System.out.println(sol.canRotateToPalindrome(s));
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+def can_rotate_to_palindrome(s: str) -> bool:
+    # //Implement here
+    return 0
+
+def main():
+    import sys
+    # Read input string
+    input_data = sys.stdin.read().strip()
+    
+    # Call solution
+    result = can_rotate_to_palindrome(input_data)
+    
+    # Output formatting: true/false
+    print("true" if result else "false")
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
+
+```cpp
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <iostream>
+#include <string>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    bool canRotateToPalindrome(string s) {
+        //Implement here
+        return false;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s((istreambuf_iterator<char>(cin)), istreambuf_iterator<char>());
+    while(!s.empty() && isspace(s.back())) s.pop_back();
+    while(!s.empty() && isspace(s.front())) s.erase(0, 1);
+    Solution sol;
+    cout << (sol.canRotateToPalindrome(s) ? "true" : "false") << endl;
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+function canRotateToPalindrome(s) {
+  //Implement here
+  return 0;
+}
+
+const fs = require('fs');
+const s = fs.readFileSync(0, 'utf-8').trim();
+console.log(canRotateToPalindrome(s) ? 'true' : 'false');
+```

@@ -80,12 +80,105 @@ Coupon Collector, Harmonic Numbers, Expectation
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public double expectedDraws(int N) {
+        //Implement here
+        return 0.0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLong()) {
+            int N = (int) sc.nextLong();
+            Solution solution = new Solution();
+            System.out.printf("%.6f\n", solution.expectedDraws(N));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def expected_draws(N: int) -> float:
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    N = int(data[0])
+    print(f"{expected_draws(N):.6f}")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+class Solution {
+public:
+    double expectedDraws(int N) {
+        //Implement here
+        return 0.0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int N;
+    if (cin >> N) {
+        Solution solution;
+        cout << fixed << setprecision(6) << solution.expectedDraws(N) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function expectedDraws(N) {
+  //Implement here
+  return 0;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part !== "") data.push(part);
+  }
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const N = parseInt(data[0], 10);
+  console.log(expectedDraws(N).toFixed(6));
+});
+```
 

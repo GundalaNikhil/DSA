@@ -89,12 +89,109 @@ Polygon Geometry, Shoelace Formula, Cross Product
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Main {
+static class Solution {
+    public long polygonArea(long[] xs, long[] ys) {
+        //Implement here
+        return 0L;
+    }
+}
+
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        int n = sc.nextInt();
+        long[] xs = new long[n];
+        long[] ys = new long[n];
+        for(int i=0; i<n; i++) { xs[i] = sc.nextLong(); ys[i] = sc.nextLong(); }
+        System.out.println(new Solution().polygonArea(xs, ys));
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+def polygon_area(xs: List[int], ys: List[int]) -> int:
+    # //Implement here
+    return 0
+def main() -> None:
+    import sys
+    data = list(map(int, sys.stdin.read().strip().split()))
+    if not data:
+        return
+    it = iter(data)
+    try:
+        n = next(it)
+        xs = []
+        ys = []
+        for _ in range(n):
+            xs.append(next(it))
+            ys.append(next(it))
+        print(polygon_area(xs, ys))
+    except StopIteration:
+        return
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+#include <iomanip>
+#include <string>
+using namespace std;
+
+long long polygonArea(const vector<long long>& xs, const vector<long long>& ys) {
+    //Implement here
+    return 0;
+}
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n; cin >> n;
+    vector<long long> xs(n), ys(n);
+    for(int i=0; i<n; i++) cin >> xs[i] >> ys[i];
+    cout << polygonArea(xs, ys) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require('readline');
+
+function polygonArea(xs, ys) {
+  //Implement here
+  return 0;
+}
+
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let lines = [];
+rl.on('line', (line) => { lines.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if (lines.length === 0) return;
+    let idx = 0;
+    const next = () => lines[idx++];
+    const nextInt = () => parseInt(next());
+    const nextFloat = () => parseFloat(next());
+    let n = nextInt();
+    let xs = [], ys = [];
+    for(let i=0; i<n; i++) { xs.push(nextInt()); ys.push(nextInt()); }
+    console.log(Number(polygonArea(xs, ys)));
+});
+```
 

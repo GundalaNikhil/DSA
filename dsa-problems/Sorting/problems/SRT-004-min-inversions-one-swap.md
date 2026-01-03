@@ -80,12 +80,106 @@ Inversion Count, Fenwick Tree, Optimization
 ## Solution Template
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long minInversionsAfterSwap(int[] arr) {
+        //Implement here
+        return 0L;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        Solution solution = new Solution();
+        System.out.println(solution.minInversionsAfterSwap(arr));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def min_inversions_after_swap(arr: list[int]) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+    result = min_inversions_after_swap(arr)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <vector>
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minInversionsAfterSwap(const vector<int>& arr) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    Solution solution;
+    cout << solution.minInversionsAfterSwap(arr) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+class Solution {
+  minInversionsAfterSwap(arr) {
+    //Implement here
+    return 0;
+  }
+}
+
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const solution = new Solution();
+console.log(solution.minInversionsAfterSwap(arr).toString());
+```
 

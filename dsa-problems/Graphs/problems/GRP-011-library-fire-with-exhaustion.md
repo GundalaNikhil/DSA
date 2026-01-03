@@ -123,12 +123,213 @@ Multi-Source BFS, Grid Graph, Simulation, State Tracking, Fire Spread
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int fireSpreadTime(int[][] grid, int[][] stamina) {
+        //Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int r = sc.nextInt();
+        int c = sc.nextInt();
+
+        int[][] grid = new int[r][c];
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                grid[i][j] = sc.nextInt();
+            }
+        }
+
+        // Handle optional stamina matrix
+        int[][] stamina = new int[r][c];
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                if (sc.hasNextInt()) {
+                    stamina[i][j] = sc.nextInt();
+                } else {
+                    stamina[i][j] = 0;
+                }
+            }
+        }
+
+        Solution solution = new Solution();
+        int result = solution.fireSpreadTime(grid, stamina);
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from collections import deque
+from typing import List
+
+sys.setrecursionlimit(200000)
+
+def fire_spread_time(grid: List[List[int]], stamina: List[List[int]]) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    try:
+        input_data = sys.stdin.read().split()
+    except Exception:
+        return
+
+    if not input_data:
+        return
+    
+    iterator = iter(input_data)
+    try:
+        r = int(next(iterator))
+        c = int(next(iterator))
+        
+        grid = []
+        for _ in range(r):
+            row = []
+            for _ in range(c):
+                row.append(int(next(iterator)))
+            grid.append(row)
+            
+        stamina = []
+        try:
+            for _ in range(r):
+                row = []
+                for _ in range(c):
+                    row.append(int(next(iterator)))
+                stamina.append(row)
+        except StopIteration:
+            # Fill remaining with 0s
+            while len(stamina) < r:
+                stamina.append([0] * c)
+        
+        result = fire_spread_time(grid, stamina)
+        print(result)
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <set>
+
+using namespace std;
+
+class Solution {
+public:
+    public: int fireSpreadTime(vector<vector<int>>& grid, vector<vector<int>>& stamina) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int r, c;
+    cin >> r >> c;
+
+    vector<vector<int>> grid(r, vector<int>(c));
+    for (int i = 0; i < r; i++) {
+        for (int j = 0; j < c; j++) {
+            cin >> grid[i][j];
+        }
+    }
+
+    vector<vector<int>> stamina(r, vector<int>(c, 0));
+    for (int i = 0; i < r; i++) {
+        for (int j = 0; j < c; j++) {
+            if (cin.peek() != EOF) {
+                cin >> stamina[i][j];
+            }
+        }
+    }
+
+    Solution solution;
+    cout << solution.fireSpreadTime(grid, stamina) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  fireSpreadTime(grid, stamina) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  const tokens = data.join(" ").split(/\s+/).filter(t => t.length > 0);
+  if (tokens.length === 0) return;
+
+  let ptr = 0;
+  const r = Number(tokens[ptr++]);
+  const c = Number(tokens[ptr++]);
+
+  // Check if we have enough tokens for the grid
+  if (ptr + r * c > tokens.length) return; // Incomplete grid input
+
+  const grid = [];
+  for (let i = 0; i < r; i++) {
+    const row = [];
+    for (let j = 0; j < c; j++) {
+      if (ptr < tokens.length) {
+        row.push(Number(tokens[ptr++]));
+      } else {
+        return; // Incomplete input
+      }
+    }
+    grid.push(row);
+  }
+
+  // Check if we have stamina grid
+  if (ptr + r * c > tokens.length) return; // Incomplete stamina grid
+
+  const stamina = [];
+  for (let i = 0; i < r; i++) {
+    const row = [];
+    for (let j = 0; j < c; j++) {
+      if (ptr < tokens.length) {
+        row.push(Number(tokens[ptr++]));
+      } else {
+        row.push(0); // Use default stamina if missing
+      }
+    }
+    stamina.push(row);
+  }
+
+  const solution = new Solution();
+  console.log(solution.fireSpreadTime(grid, stamina));
+});
+```
 

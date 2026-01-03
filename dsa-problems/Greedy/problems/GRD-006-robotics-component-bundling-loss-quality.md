@@ -121,12 +121,209 @@ Greedy Algorithms, Heap, Priority Queue, Simulation, Constraint Satisfaction
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long maxBundleWeight(int n, int T, int[] weights, int[] qualities) {
+        //Implement here
+        return 0L;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        int T = sc.nextInt();
+
+        int[] weights = new int[n];
+        for (int i = 0; i < n; i++) {
+            weights[i] = sc.nextInt();
+        }
+
+        int[] qualities = new int[n];
+        for (int i = 0; i < n; i++) {
+            qualities[i] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.maxBundleWeight(n, T, weights, qualities));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import heapq
+import math
+import sys
+
+def max_bundle_weight(n: int, T: int, weights: list, qualities: list) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    n = int(next(iterator))
+    T = int(next(iterator))
+    
+    weights = []
+    for _ in range(n):
+        weights.append(int(next(iterator)))
+        
+    qualities = []
+    for _ in range(n):
+        qualities.append(int(next(iterator)))
+
+    result = max_bundle_weight(n, T, weights, qualities)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <cmath>
+#include <algorithm>
+
+using namespace std;
+
+struct Part {
+    long long w;
+    int q;
+
+    // For priority_queue, we want max quality at top, then min weight if tied.
+    // Default is max-heap, so operator< should return true if 'this' is smaller than 'other'.
+    bool operator<(const Part& other) const {
+        if (q != other.q) return q < other.q;
+        return w > other.w;  // If quality is equal, prefer smaller weight (min-heap on weight)
+    }
+};
+
+class Solution {
+public:
+    long long maxBundleWeight(int n, int T, vector<int>& weights, vector<int>& qualities) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, T;
+    if (!(cin >> n >> T)) return 0;
+
+    vector<int> weights(n), qualities(n);
+    for (int i = 0; i < n; i++) {
+        cin >> weights[i];
+    }
+    for (int i = 0; i < n; i++) {
+        cin >> qualities[i];
+    }
+
+    Solution solution;
+    cout << solution.maxBundleWeight(n, T, weights, qualities) << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class MaxHeap {
+  constructor() {
+    this.heap = [];
+  }
+  push(val) {
+    this.heap.push(val);
+    this._siftUp();
+  }
+  pop() {
+    if (this.size() === 0) return null;
+    if (this.size() === 1) return this.heap.pop();
+    const max = this.heap[0];
+    this.heap[0] = this.heap.pop();
+    this._siftDown();
+    return max;
+  }
+  size() {
+    return this.heap.length;
+  }
+  _compare(a, b) {
+    // Compare by quality first (max), then by weight if tied (min)
+    if (a.q !== b.q) return a.q > b.q ? 1 : -1;
+    return a.w < b.w ? 1 : -1;
+  }
+  _siftUp() {
+    let idx = this.heap.length - 1;
+    while (idx > 0) {
+      const parentIdx = Math.floor((idx - 1) / 2);
+      if (this._compare(this.heap[idx], this.heap[parentIdx]) <= 0) break;
+      [this.heap[idx], this.heap[parentIdx]] = [this.heap[parentIdx], this.heap[idx]];
+      idx = parentIdx;
+    }
+  }
+  _siftDown() {
+    let idx = 0;
+    while (idx < this.heap.length) {
+      let maxChildIdx = null;
+      const left = 2 * idx + 1;
+      const right = 2 * idx + 2;
+      if (left < this.heap.length) maxChildIdx = left;
+      if (right < this.heap.length && this._compare(this.heap[right], this.heap[left]) > 0) {
+        maxChildIdx = right;
+      }
+      if (maxChildIdx === null || this._compare(this.heap[idx], this.heap[maxChildIdx]) >= 0) break;
+      [this.heap[idx], this.heap[maxChildIdx]] = [this.heap[maxChildIdx], this.heap[idx]];
+      idx = maxChildIdx;
+    }
+  }
+}
+
+class Solution {
+  maxBundleWeight(n, T, weights, qualities) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const [n, T] = data[ptr++].split(" ").map(Number);
+  const weights = data[ptr++].split(" ").map(Number);
+  const qualities = data[ptr++].split(" ").map(Number);
+
+  const solution = new Solution();
+  console.log(solution.maxBundleWeight(n, T, weights, qualities));
+});
+```
 

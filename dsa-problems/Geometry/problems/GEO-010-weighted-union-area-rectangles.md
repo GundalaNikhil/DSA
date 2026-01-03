@@ -89,12 +89,137 @@ Sweep Line, Segment Tree, Coordinate Compression
 
 ### Java
 
+```java
+import java.util.*;
+
+class Main {
+    public static long solve(int n, int targetW, int[][] rects) {
+        //Implement here
+        return 0L;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int targetW = sc.nextInt();
+        int[][] rects = new int[n][5];
+        for (int i = 0; i < n; i++) {
+            rects[i][0] = sc.nextInt();
+            rects[i][1] = sc.nextInt();
+            rects[i][2] = sc.nextInt();
+            rects[i][3] = sc.nextInt();
+            rects[i][4] = sc.nextInt();
+        }
+        System.out.println(solve(n, targetW, rects));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+def weighted_area(x1: List[int], y1: List[int], x2: List[int], y2: List[int], w: List[int], W: int) -> int:
+    # //Implement here
+    return 0
+def main() -> None:
+    import sys
+    # Increase recursion depth for deep segment tree
+    sys.setrecursionlimit(200000)
+    # Fast I/O
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    try:
+        m = int(next(it))
+        if m == 0:
+            return
+        W = int(next(it))
+        x1, y1, x2, y2, w = [], [], [], [], []
+        for _ in range(m):
+            x1.append(int(next(it)))
+            y1.append(int(next(it)))
+            x2.append(int(next(it)))
+            y2.append(int(next(it)))
+            w.append(int(next(it)))
+        print(weighted_area(x1, y1, x2, y2, w, W))
+    except StopIteration:
+        return
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+struct Rect {
+    int x1, y1, x2, y2, w;
+};
+
+long long weightedUnionArea(const vector<Rect>& rects, long long targetW) {
+    //Implement here
+    return 0;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    long long targetW;
+    if (!(cin >> n >> targetW)) return 0;
+    vector<Rect> rects(n);
+    for (int i = 0; i < n; i++) {
+        cin >> rects[i].x1 >> rects[i].y1 >> rects[i].x2 >> rects[i].y2 >> rects[i].w;
+    }
+
+    cout << weightedUnionArea(rects, targetW) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const fs = require('fs');
+
+function weightedUnionArea(rects, targetW) {
+  //Implement here
+  return 0;
+}
+
+function solve() {
+  const input = fs.readFileSync(0, 'utf8').trim().split(/\s+/);
+  if (input.length === 0 || input[0] === '') return;
+  let idx = 0;
+  const n = parseInt(input[idx++], 10);
+  const targetW = parseInt(input[idx++], 10);
+  if (Number.isNaN(n)) return;
+
+  const rects = [];
+  for (let i = 0; i < n; i++) {
+    const x1 = parseInt(input[idx++], 10);
+    const y1 = parseInt(input[idx++], 10);
+    const x2 = parseInt(input[idx++], 10);
+    const y2 = parseInt(input[idx++], 10);
+    const w = parseInt(input[idx++], 10);
+    rects.push({ x1, y1, x2, y2, w });
+  }
+
+  const result = weightedUnionArea(rects, targetW);
+  console.log(result.toString());
+}
+
+solve();
+```

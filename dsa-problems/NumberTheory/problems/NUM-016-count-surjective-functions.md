@@ -78,12 +78,115 @@ Inclusion-Exclusion, Combinatorics, Counting
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long countSurjections(int n, int k) {
+        //Implement here
+        return 0L;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int k = sc.nextInt();
+            Solution solution = new Solution();
+            System.out.println(solution.countSurjections(n, k));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def power(base, exp, mod):
+    res = 1
+    base %= mod
+    while exp > 0:
+        if exp % 2 == 1:
+            res = (res * base) % mod
+        base = (base * base) % mod
+        exp //= 2
+    return res
+
+def count_surjections(n: int, k: int) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    n = int(data[0])
+    k = int(data[1])
+    print(count_surjections(n, k))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long countSurjections(int n, int k) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, k;
+    if (cin >> n >> k) {
+        Solution solution;
+        cout << solution.countSurjections(n, k) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+const MOD = 1000000007n;
+
+function countSurjections(n, k) {
+  //Implement here
+  return 0;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const n = parseInt(data[0], 10);
+  const k = parseInt(data[1], 10);
+  console.log(countSurjections(n, k));
+});
+```
 

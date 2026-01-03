@@ -87,12 +87,222 @@ Linked Lists, Stable Merge, Partitioning
 
 ### Java
 
+```java
+import java.util.*;
+
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int val) { this.val = val; }
+}
+
+class Solution {
+    public ListNode mergeByParity(ListNode l1, ListNode l2) {
+        //Implement here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        ListNode d1 = new ListNode(0);
+        ListNode c1 = d1;
+        for (int i = 0; i < n; i++) {
+            c1.next = new ListNode(sc.nextInt());
+            c1 = c1.next;
+        }
+        
+        int m = sc.nextInt();
+        ListNode d2 = new ListNode(0);
+        ListNode c2 = d2;
+        for (int i = 0; i < m; i++) {
+            c2.next = new ListNode(sc.nextInt());
+            c2 = c2.next;
+        }
+
+        Solution solution = new Solution();
+        ListNode res = solution.mergeByParity(d1.next, d2.next);
+        
+        boolean first = true;
+        while (res != null) {
+            if (!first) System.out.print(" ");
+            System.out.print(res.val);
+            first = false;
+            res = res.next;
+        }
+        System.out.println();
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class ListNode:
+    def __init__(self, val=0):
+        self.val = val
+        self.next = None
+
+def merge_by_parity(l1: ListNode, l2: ListNode) -> ListNode:
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        d1 = ListNode()
+        c1 = d1
+        for _ in range(n):
+            c1.next = ListNode(int(next(iterator)))
+            c1 = c1.next
+            
+        m = int(next(iterator))
+        d2 = ListNode()
+        c2 = d2
+        for _ in range(m):
+            c2.next = ListNode(int(next(iterator)))
+            c2 = c2.next
+            
+        head = merge_by_parity(d1.next, d2.next)
+        
+        out = []
+        while head:
+            out.append(str(head.val))
+            head = head.next
+        print(" ".join(out))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+using namespace std;
+
+struct ListNode {
+    int val;
+    ListNode* next;
+    ListNode(int v) : val(v), next(nullptr) {}
+};
+
+class Solution {
+public:
+    ListNode* mergeByParity(ListNode* l1, ListNode* l2) {
+        //Implement here
+        return nullptr;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    ListNode d1(0);
+    ListNode* c1 = &d1;
+    for (int i = 0; i < n; i++) {
+        int v;
+        cin >> v;
+        c1->next = new ListNode(v);
+        c1 = c1->next;
+    }
+    
+    int m;
+    cin >> m;
+    ListNode d2(0);
+    ListNode* c2 = &d2;
+    for (int i = 0; i < m; i++) {
+        int v;
+        cin >> v;
+        c2->next = new ListNode(v);
+        c2 = c2->next;
+    }
+
+    Solution solution;
+    ListNode* res = solution.mergeByParity(d1.next, d2.next);
+    
+    bool first = true;
+    while (res) {
+        if (!first) cout << " ";
+        cout << res->val;
+        first = false;
+        res = res->next;
+    }
+    cout << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class ListNode {
+  constructor(val) {
+    this.val = val;
+    this.next = null;
+  }
+}
+
+function mergeByParity(l1, l2) {
+  //Implement here
+  return 0;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  
+  const d1 = new ListNode(0);
+  let c1 = d1;
+  for (let i = 0; i < n; i++) {
+    c1.next = new ListNode(parseInt(data[idx++], 10));
+    c1 = c1.next;
+  }
+  
+  const m = parseInt(data[idx++], 10);
+  const d2 = new ListNode(0);
+  let c2 = d2;
+  for (let i = 0; i < m; i++) {
+    c2.next = new ListNode(parseInt(data[idx++], 10));
+    c2 = c2.next;
+  }
+
+  let head = mergeByParity(d1.next, d2.next);
+  const out = [];
+  while (head) {
+    out.push(head.val);
+    head = head.next;
+  }
+  console.log(out.join(" "));
+});
+```
 

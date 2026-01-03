@@ -84,3 +84,100 @@ aaa
 - Use Booth's algorithm to find minimal rotation in O(n)
 - Check if minimal equals original
 - Booth's algorithm uses doubled string trick
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public String minimalUniqueRotation(String s) {
+        //Implement here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.useDelimiter("\\A").hasNext() ? sc.next() : "";
+        s = s.trim();
+        Solution sol = new Solution();
+        System.out.println(sol.minimalUniqueRotation(s));
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+def minimal_unique_rotation(s: str) -> str:
+    # //Implement here
+    return 0
+
+def main():
+    import sys
+
+
+    # Read input string
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        print("")
+        return
+        
+    # Call solution
+    result = minimal_unique_rotation(input_data)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
+
+```cpp
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <iostream>
+
+class Solution {
+public:
+    string minimalUniqueRotation(string s) {
+        //Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s((istreambuf_iterator<char>(cin)), istreambuf_iterator<char>());
+    while(!s.empty() && isspace(s.back())) s.pop_back();
+    while(!s.empty() && isspace(s.front())) s.erase(0, 1);
+    Solution sol;
+    cout << sol.minimalUniqueRotation(s) << endl;
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+function minimalUniqueRotation(s) {
+  //Implement here
+  return 0;
+}
+
+const fs = require('fs');
+const s = fs.readFileSync(0, 'utf-8').trim();
+console.log(minimalUniqueRotation(s));
+```

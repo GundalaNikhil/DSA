@@ -89,12 +89,143 @@ Tree Paths, DFS, Prefix Sums
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public boolean hasOneTurnPath(int n, long[] values, int[] left, int[] right, long target) {
+        //Implement here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        long[] values = new long[n];
+        int[] left = new int[n];
+        int[] right = new int[n];
+        for (int i = 0; i < n; i++) {
+            values[i] = sc.nextLong();
+            left[i] = sc.nextInt();
+            right[i] = sc.nextInt();
+        }
+        long target = 0;
+        if (sc.hasNextLong()) target = sc.nextLong();
+
+        Solution solution = new Solution();
+        System.out.println(solution.hasOneTurnPath(n, values, left, right, target) ? "true" : "false");
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+# Increase recursion depth
+sys.setrecursionlimit(200000)
+
+def has_one_turn_path(n: int, values: list[int], left: list[int], right: list[int], target: int) -> bool:
+    # //Implement here
+    return 0
+def main():
+    data = sys.stdin.read().strip().split()
+    if not data:
+        return
+    idx = 0
+    n = int(data[idx]); idx += 1
+    values = [0] * n
+    left = [0] * n
+    right = [0] * n
+    for i in range(n):
+        values[i] = int(data[idx]); idx += 1
+        left[i] = int(data[idx]); idx += 1
+        right[i] = int(data[idx]); idx += 1
+    target = int(data[idx]) if idx < len(data) else 0
+    
+    print("true" if has_one_turn_path(n, values, left, right, target) else "false")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+
+using namespace std;
+
+class Solution {
+public:
+    bool hasOneTurnPath(int n, const vector<long long>& values,
+                        const vector<int>& left, const vector<int>& right, long long target) {
+        //Implement here
+        return false;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<long long> values(n);
+    vector<int> left(n), right(n);
+    for (int i = 0; i < n; i++) {
+        cin >> values[i] >> left[i] >> right[i];
+    }
+    long long target;
+    cin >> target;
+
+    Solution solution;
+    cout << (solution.hasOneTurnPath(n, values, left, right, target) ? "true" : "false") << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  hasOneTurnPath(n, values, left, right, target) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const values = new Array(n);
+  const left = new Array(n);
+  const right = new Array(n);
+  for (let i = 0; i < n; i++) {
+    values[i] = parseInt(data[idx++], 10);
+    left[i] = parseInt(data[idx++], 10);
+    right[i] = parseInt(data[idx++], 10);
+  }
+  const target = idx < data.length ? parseInt(data[idx], 10) : 0;
+
+  const solution = new Solution();
+  console.log(solution.hasOneTurnPath(n, values, left, right, target) ? "true" : "false");
+});
+```

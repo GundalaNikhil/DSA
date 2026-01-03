@@ -122,12 +122,188 @@ Trie, String, Recursion, Backtracking, Pattern Matching
 
 ### Java
 
+```java
+import java.util.*;
+
+class TrieNode {
+    Map<Character, TrieNode> children = new HashMap<>();
+    boolean isEnd = false;
+}
+
+class Solution {
+    public void insertWord(String word) {
+        //Implement here
+    }
+    public boolean search(String pattern) {
+        //Implement here
+        return false;
+    }
+    private boolean dfs(TrieNode node, String pattern, int index) {
+        //Implement here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        sc.nextLine();
+
+        Solution solution = new Solution();
+        for (int i = 0; i < n; i++) {
+            solution.insertWord(sc.nextLine().trim());
+        }
+
+        String pattern = sc.nextLine().trim();
+        boolean result = solution.search(pattern);
+
+        System.out.println(result);
+
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end = False
+
+class Solution:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert_word(self, word: str):
+        # //Implement here
+        return 0
+    def search(self, pattern: str) -> bool:
+        # //Implement here
+        return 0
+    def _dfs(self, node: TrieNode, pattern: str, index: int) -> bool:
+        # //Implement here
+        return 0
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+
+    n = int(lines[0])
+
+    solution = Solution()
+    for i in range(1, n + 1):
+        solution.insert_word(lines[i].strip())
+
+    pattern = lines[n + 1].strip()
+    result = solution.search(pattern)
+
+    print('true' if result else 'false')
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <unordered_map>
+#include <string>
+using namespace std;
+
+struct TrieNode {
+    unordered_map<char, TrieNode*> children;
+    bool isEnd = false;
+};
+
+class Solution {
+public:
+    bool dfs(TrieNode* node, const string& pattern, int index) {
+        //Implement here
+        return false;
+    }
+    void insertWord(const string& word) {
+        //Implement here
+    }
+    bool search(const string& pattern) {
+        //Implement here
+        return false;
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+    cin.ignore();
+
+    Solution solution;
+    for (int i = 0; i < n; i++) {
+        string word;
+        getline(cin, word);
+        solution.insertWord(word);
+    }
+
+    string pattern;
+    getline(cin, pattern);
+
+    bool result = solution.search(pattern);
+    cout << (result ? "true" : "false") << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class TrieNode {
+  constructor() {
+    this.children = new Map();
+    this.isEnd = false;
+  }
+}
+
+class Solution {
+  insertWord(word) {
+    //Implement here
+    return 0;
+  }
+  search(pattern) {
+    //Implement here
+    return 0;
+  }
+  dfs(node, pattern, index) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const n = parseInt(lines[0]);
+
+  const solution = new Solution();
+  for (let i = 1; i <= n; i++) {
+    solution.insertWord(lines[i].trim());
+  }
+
+  const pattern = lines[n + 1].trim();
+  const result = solution.search(pattern);
+
+  console.log(result ? "true" : "false");
+});
+```

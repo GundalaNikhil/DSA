@@ -88,12 +88,149 @@ vandermonde-matrix, matrix-inversion, interpolation
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long[][] invert_vandermonde(int n, long mod, long[] x) {
+        //Implement here
+        return new long[0][0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        long MOD = sc.nextLong();
+        
+        long[] x = new long[n];
+        for (int i = 0; i < n; i++) x[i] = sc.nextLong();
+        
+        Solution solution = new Solution();
+        long[][] res = solution.invert_vandermonde(n, MOD, x);
+        
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(res[i][j] + (j < n - 1 ? " " : ""));
+            }
+            System.out.println();
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def invert_vandermonde(self, n: int, MOD: int, x: list[int]) -> list[list[int]]:
+        # //Implement here
+        return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        MOD = int(next(iterator))
+        x = [int(next(iterator)) for _ in range(n)]
+        
+        sol = Solution()
+        res = sol.invert_vandermonde(n, MOD, x)
+        
+        for row in res:
+            print(*(row))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<long long>> invert_vandermonde(int n, long long mod, vector<long long>& x) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    long long MOD;
+    if (!(cin >> n >> MOD)) return 0;
+
+    vector<long long> x(n);
+    for (int i = 0; i < n; i++) cin >> x[i];
+
+    Solution solution;
+    vector<vector<long long>> res = solution.invert_vandermonde(n, MOD, x);
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cout << res[i][j] << (j < n - 1 ? " " : "");
+        }
+        cout << "\n";
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  invert_vandermonde(n, MOD, x) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let ptr = 0;
+  
+  const n = parseInt(data[ptr++]);
+  const MOD = parseInt(data[ptr++]);
+  
+  const x = [];
+  for(let i=0; i<n; i++) x.push(parseInt(data[ptr++]));
+  
+  const solution = new Solution();
+  const res = solution.invert_vandermonde(n, MOD, x);
+  
+  for (let i = 0; i < n; i++) {
+    console.log(res[i].join(" "));
+  }
+});
+```
 

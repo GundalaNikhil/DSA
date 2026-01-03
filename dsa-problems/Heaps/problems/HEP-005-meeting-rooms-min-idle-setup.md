@@ -102,12 +102,211 @@ Heaps, Scheduling, Interval Partitioning, Greedy
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long minTotalSlack(int[][] meetings, int k, int s) {
+        //Implement here
+        return 0L;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int k = sc.nextInt();
+            int s = sc.nextInt();
+            int[][] meetings = new int[n][2];
+            for (int i = 0; i < n; i++) {
+                meetings[i][0] = sc.nextInt();
+                meetings[i][1] = sc.nextInt();
+            }
+            
+            Solution solution = new Solution();
+            System.out.println(solution.minTotalSlack(meetings, k, s));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from bisect import bisect_right
+
+def min_total_slack(meetings: list, k: int, s: int) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    try:
+        n = int(next(it))
+        k = int(next(it))
+        s = int(next(it))
+        meetings = []
+        for _ in range(n):
+            start = int(next(it))
+            end = int(next(it))
+            meetings.append([start, end])
+        
+        result = min_total_slack(meetings, k, s)
+        print(result)
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minTotalSlack(vector<vector<int>>& meetings, int k, int s) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, k, s;
+    if (cin >> n >> k >> s) {
+        vector<vector<int>> meetings(n, vector<int>(2));
+        for (int i = 0; i < n; i++) {
+            cin >> meetings[i][0] >> meetings[i][1];
+        }
+        
+        Solution solution;
+        cout << solution.minTotalSlack(meetings, k, s) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+// Simple BST / TreeMap implementation for JS
+class TreeMap {
+  constructor() {
+    // Sorted array + counts map for used rooms.
+    this.keys = [];
+    this.counts = {};
+  }
+  
+  // Find largest key <= val
+  floorKey(val) {
+    if (this.keys.length === 0) return null;
+    let l = 0, r = this.keys.length - 1;
+    let res = null;
+    while (l <= r) {
+      const mid = Math.floor((l + r) / 2);
+      if (this.keys[mid] <= val) {
+        res = this.keys[mid];
+        l = mid + 1;
+      } else {
+        r = mid - 1;
+      }
+    }
+    return res;
+  }
+  
+  removeOne(key) {
+    if (this.counts[key] > 1) {
+      this.counts[key]--;
+    } else {
+      delete this.counts[key];
+      // Remove from keys array
+      // Binary search to find index
+      let l = 0, r = this.keys.length - 1;
+      while (l <= r) {
+        const mid = Math.floor((l + r) / 2);
+        if (this.keys[mid] === key) {
+          this.keys.splice(mid, 1);
+          return;
+        } else if (this.keys[mid] < key) {
+          l = mid + 1;
+        } else {
+          r = mid - 1;
+        }
+      }
+    }
+  }
+  
+  addOne(key) {
+    if (this.counts[key]) {
+      this.counts[key]++;
+    } else {
+      this.counts[key] = 1;
+      // Insert into keys array sorted
+      // Find index
+      let l = 0, r = this.keys.length - 1;
+      let idx = this.keys.length;
+      while (l <= r) {
+        const mid = Math.floor((l + r) / 2);
+        if (this.keys[mid] < key) {
+          l = mid + 1;
+        } else {
+          idx = mid;
+          r = mid - 1;
+        }
+      }
+      this.keys.splice(idx, 0, key);
+    }
+  }
+}
+
+class Solution {
+  minTotalSlack(meetings, k, s) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++]);
+  const k = parseInt(data[idx++]);
+  const s = parseInt(data[idx++]);
+  const meetings = [];
+  for (let i = 0; i < n; i++) {
+    const start = parseInt(data[idx++]);
+    const end = parseInt(data[idx++]);
+    meetings.push([start, end]);
+  }
+  
+  const solution = new Solution();
+  console.log(solution.minTotalSlack(meetings, k, s));
+});
+```
 

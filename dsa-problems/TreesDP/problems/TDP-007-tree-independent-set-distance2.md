@@ -82,18 +82,154 @@ Two nodes are at distance at least 3 if they are not adjacent AND do not share a
 
 ### Java
 
+```java
+import java.util.*;
+
+class Main {
+    static List<Integer>[] graph;
+    static long[] weight;
+    static long[][] dp;
+    static int n;
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+
+        weight = new long[n + 1];
+        for (int i = 1; i <= n; i++) {
+            weight[i] = sc.nextLong();
+        }
+
+        graph = new ArrayList[n + 1];
+        for (int i = 0; i <= n; i++) {
+            graph[i] = new ArrayList<>();
+        }
+
+        for (int i = 0; i < n - 1; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            graph[u].add(v);
+            graph[v].add(u);
+        }
+
+        dp = new long[n + 1][3];
+
+        dfs(1, -1);
+
+        long result = Math.max(dp[1][0], Math.max(dp[1][1], dp[1][2]));
+        System.out.println(result);
+
+        sc.close();
+    }
+
+
+    static void dfs(int u, int parent) {
+
+        //Implement here
+
+    }
+
+}
+```
 
 ### Python
 
+```python
+import sys
+sys.setrecursionlimit(300000)
+
+def solve():
+    # //Implement here
+    return 0
+solve()
+
+
+def main():
+    import sys
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        return
+
+    # TODO: Parse input and call solution
+    pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <cstring>
+#include <climits>
+using namespace std;
+
+const int MAXN = 200005;
+vector<int> graph[MAXN];
+long long weight[MAXN];
+long long dp[MAXN][3];
+int n;
+
+
+void dfs(int u, int parent) {
+
+    //Implement here
+
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    cin >> n;
+
+    for (int i = 1; i <= n; i++) {
+        cin >> weight[i];
+    }
+
+    for (int i = 0; i < n - 1; i++) {
+        int u, v;
+        cin >> u >> v;
+        graph[u].push_back(v);
+        graph[v].push_back(u);
+    }
+
+    dfs(1, -1);
+
+    long long result = max({dp[1][0], dp[1][1], dp[1][2]});
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
 
-## Notes
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
 
-- dp[u][0] = u not selected, no child selected
-- dp[u][1] = u not selected, some child selected
-- dp[u][2] = u selected (all children must be in state 0)
+let lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  solve();
+});
+
+function solve() {
+  //Implement here
+  return 0;
+}
+```

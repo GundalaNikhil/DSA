@@ -77,3 +77,147 @@ cc
 - Sliding window with frequency tracking
 - Expand until all covered, then contract
 - O(n) time complexity
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public Object[] shortestCoveringWindow(List<String> arr, Set<String> T) {
+        //Implement here
+        return new Object[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int arr_n = sc.nextInt();
+        List<String> arr = new ArrayList<>();
+        for(int i=0; i<arr_n; i++) arr.add(sc.next());
+        int T_n = sc.nextInt();
+        Set<String> T = new HashSet<>();
+        for(int i=0; i<T_n; i++) T.add(sc.next());
+        Solution sol = new Solution();
+        Object[] res = sol.shortestCoveringWindow(arr, T);
+        System.out.println(res[0]);
+        @SuppressWarnings("unchecked")
+        List<String> list = (List<String>)res[1];
+        for(String s : list) System.out.println(s);
+        if(list.isEmpty()) System.out.println("NONE");
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+def shortest_covering_window(arr: list[str], T: set[str]) -> tuple[int, list[str]]:
+    # //Implement here
+    return 0
+
+def main():
+    import sys
+
+
+    # Read input
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        print(0)
+        return
+        
+    parts = input_data.split()
+    if not parts:
+        return
+
+    iterator = iter(parts)
+    try:
+        # Read Array
+        N = int(next(iterator))
+        arr = []
+        for _ in range(N):
+            arr.append(next(iterator))
+            
+        # Read Set T
+        K = int(next(iterator))
+        T = set()
+        for _ in range(K):
+            T.add(next(iterator))
+            
+        length, window = shortest_covering_window(arr, T)
+        
+        print(length)
+        for item in window:
+            print(item)
+            
+    except StopIteration:
+        pass
+    except ValueError:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
+
+```cpp
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <iostream>
+
+class Solution {
+public:
+    pair<int, vector<string>> shortestCoveringWindow(vector<string>& arr, unordered_set<string>& T) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int arr_n; cin >> arr_n; vector<string> arr(arr_n); for(int i=0; i<arr_n; i++) cin >> arr[i];
+    int T_n; cin >> T_n; unordered_set<string> T; for(int i=0; i<T_n; i++) { string s; cin >> s; T.insert(s); }
+    Solution sol;
+    pair<int, vector<string>> res = sol.shortestCoveringWindow(arr, T); cout << res.first << endl; for(const string& s : res.second) cout << s << endl; if(res.second.empty()) cout << "NONE" << endl;
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+function shortestCoveringWindow(arr, T) {
+  //Implement here
+  return 0;
+}
+
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const arr_n = parseInt(tokens[ptr++]);
+    const arr = [];
+    for(let i=0; i<arr_n; i++) arr.push(tokens[ptr++]);
+    const T_n = parseInt(tokens[ptr++]);
+    const T = new Set();
+    for(let i=0; i<T_n; i++) T.add(tokens[ptr++]);
+    const res = shortestCoveringWindow(arr, T);
+    console.log(res[0]);
+    if(res[1].length > 0) { for(const s of res[1]) console.log(s); } else { console.log('NONE'); }
+});
+```

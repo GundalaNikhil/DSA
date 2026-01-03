@@ -86,12 +86,195 @@ Binary Search Trees, Insertion, Traversal
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<Integer> buildInorder(int[] values) {
+        //Implement here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] values = new int[n];
+        for (int i = 0; i < n; i++) values[i] = sc.nextInt();
+        int x = 0;
+        if (sc.hasNextInt()) x = sc.nextInt();
+
+        Solution solution = new Solution();
+        List<Integer> inorder = solution.buildInorder(values);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < inorder.size(); i++) {
+            if (i > 0) sb.append(' ');
+            sb.append(inorder.get(i));
+        }
+        System.out.println(sb.toString());
+        System.out.println(solution.searchValue(values, x) ? "true" : "false");
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+# Increase recursion depth just in case
+sys.setrecursionlimit(200000)
+
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left = None
+        self.right = None
+
+def insert(node, val):
+    # //Implement here
+    return 0
+def get_inorder(node, result):
+    if node is None:
+        return
+    get_inorder(node.left, result)
+    result.append(node.val)
+    get_inorder(node.right, result)
+
+def search(node, x):
+    if node is None:
+        return False
+    if node.val == x:
+        return True
+    if x < node.val:
+        return search(node.left, x)
+    return search(node.right, x)
+
+# Global root for simplicity in functional style
+root = None
+
+def build_inorder(values: list[int]) -> list[int]:
+    global root
+    root = None
+    for v in values:
+        root = insert(root, v)
+    result = []
+    get_inorder(root, result)
+    return result
+
+def search_value(values: list[int], x: int) -> bool:
+    global root
+    # If root is not built (e.g. direct call), rebuild
+    if root is None and values:
+        for v in values:
+            root = insert(root, v)
+    return search(root, x)
+
+def main():
+    data = sys.stdin.read().strip().split()
+    if not data:
+        return
+    idx = 0
+    n = int(data[idx]); idx += 1
+    values = [int(data[idx + i]) for i in range(n)]
+    idx += n
+    x = int(data[idx]) if idx < len(data) else 0
+    
+    inorder = build_inorder(values)
+    print(" ".join(str(v) for v in inorder))
+    print("true" if search_value(values, x) else "false")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+struct TreeNode {
+    int val;
+    TreeNode *left, *right;
+    TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+};
+
+class Solution {
+public:
+    vector<int> buildInorder(const vector<int>& values) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<int> values(n);
+    for (int i = 0; i < n; i++) cin >> values[i];
+    int x;
+    cin >> x;
+
+    Solution solution;
+    vector<int> inorder = solution.buildInorder(values);
+    for (int i = 0; i < (int)inorder.size(); i++) {
+        if (i) cout << ' ';
+        cout << inorder[i];
+    }
+    cout << "\n" << (solution.searchValue(values, x) ? "true" : "false") << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class TreeNode {
+  constructor(val) {
+    this.val = val;
+    this.left = null;
+    this.right = null;
+  }
+}
+
+class Solution {
+  buildInorder(values) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const values = new Array(n);
+  for (let i = 0; i < n; i++) {
+    values[i] = parseInt(data[idx++], 10);
+  }
+  const x = idx < data.length ? parseInt(data[idx], 10) : 0;
+
+  const solution = new Solution();
+  const inorder = solution.buildInorder(values);
+  console.log(inorder.join(" "));
+  console.log(solution.searchValue(values, x) ? "true" : "false");
+});
+```

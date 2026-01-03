@@ -97,12 +97,131 @@ Dynamic Programming, Knapsack, Optimization
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long minCost(int k, int target, int[] d, long[] c, long[] p) {
+        //Implement here
+        return 0L;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int k = sc.nextInt();
+        int target = sc.nextInt();
+        int[] d = new int[k];
+        long[] c = new long[k];
+        long[] p = new long[k];
+        for (int i = 0; i < k; i++) {
+            d[i] = sc.nextInt();
+            c[i] = sc.nextLong();
+            p[i] = sc.nextLong();
+        }
+        System.out.println(new Solution().minCost(k, target, d, c, p));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from collections import deque
+
+def min_cost(k: int, target: int, d: list[int], c: list[int], p: list[int]) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    k, target = map(int, input().split())
+    d, c, p = [], [], []
+    for _ in range(k):
+        di, ci, pi = map(int, input().split())
+        d.append(di); c.append(ci); p.append(pi)
+    print(min_cost(k, target, d, c, p))
+
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minCost(int k, int target, const vector<int>& d, const vector<long long>& c, const vector<long long>& p) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int k, target;
+    cin >> k >> target;
+    vector<int> d(k);
+    vector<long long> c(k), p(k);
+    for (int i = 0; i < k; i++) cin >> d[i] >> c[i] >> p[i];
+
+    Solution sol;
+    cout << sol.minCost(k, target, d, c, p) << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  minCost(k, target, d, c, p) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+const lines = [];
+rl.on("line", (line) => lines.push(line.trim()));
+rl.on("close", () => {
+  let idx = 0;
+  const [kStr, targetStr] = lines[idx++].split(" ");
+  const k = Number(kStr);
+  const target = Number(targetStr);
+  const d = new Array(k), c = new Array(k), p = new Array(k);
+  for (let i = 0; i < k; i++) {
+    const [di, ci, pi] = lines[idx++].split(" ").map(Number);
+    d[i] = di; c[i] = ci; p[i] = pi;
+  }
+  const sol = new Solution();
+  console.log(sol.minCost(k, target, d, c, p));
+});
+```
 

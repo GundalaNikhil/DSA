@@ -82,12 +82,103 @@ Divisor Sums, Sieve, Prefix Sums
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long rangeSigma(int L, int R) {
+        //Implement here
+        return 0L;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int L = sc.nextInt();
+            int R = sc.nextInt();
+            Solution solution = new Solution();
+            System.out.println(solution.rangeSigma(L, R));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def range_sigma(L: int, R: int) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    L = int(data[0])
+    R = int(data[1])
+    print(range_sigma(L, R))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long rangeSigma(int L, int R) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int L, R;
+    if (cin >> L >> R) {
+        Solution solution;
+        cout << solution.rangeSigma(L, R) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function rangeSigma(L, R) {
+  //Implement here
+  return 0;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const L = parseInt(data[0], 10);
+  const R = parseInt(data[1], 10);
+  console.log(rangeSigma(L, R));
+});
+```
 

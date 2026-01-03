@@ -96,12 +96,172 @@ Rolling Hash, Arrays, Subarray Comparison, Integer Hashing
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public boolean[] checkSubarrayEquality(int[] arr, int[][] queries) {
+        //Implement here
+        return new boolean[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int[] arr = new int[n];
+            for (int i = 0; i < n; i++) {
+                arr[i] = sc.nextInt();
+            }
+            
+            int q = sc.nextInt();
+            int[][] queries = new int[q][4];
+            for (int i = 0; i < q; i++) {
+                queries[i][0] = sc.nextInt();
+                queries[i][1] = sc.nextInt();
+                queries[i][2] = sc.nextInt();
+                queries[i][3] = sc.nextInt();
+            }
+            
+            Solution solution = new Solution();
+            boolean[] result = solution.checkSubarrayEquality(arr, queries);
+            
+            for (boolean ans : result) {
+                System.out.println(ans);
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+# Increase recursion depth
+
+def check_subarray_equality(arr: list, queries: list) -> list:
+    # //Implement here
+    return 0
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        arr = []
+        for _ in range(n):
+            arr.append(int(next(iterator)))
+            
+        q = int(next(iterator))
+        queries = []
+        for _ in range(q):
+            l1 = int(next(iterator))
+            r1 = int(next(iterator))
+            l2 = int(next(iterator))
+            r2 = int(next(iterator))
+            queries.append([l1, r1, l2, r2])
+            
+        result = check_subarray_equality(arr, queries)
+        for ans in result:
+            print("true" if ans else "false")
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<bool> checkSubarrayEquality(vector<int>& arr, vector<vector<int>>& queries) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (!(cin >> n)) return 0;
+    
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    
+    int q;
+    if (!(cin >> q)) return 0;
+    
+    vector<vector<int>> queries(q, vector<int>(4));
+    for (int i = 0; i < q; i++) {
+        cin >> queries[i][0] >> queries[i][1] >> queries[i][2] >> queries[i][3];
+    }
+    
+    Solution solution;
+    vector<bool> result = solution.checkSubarrayEquality(arr, queries);
+    
+    for (bool ans : result) {
+        cout << (ans ? "true" : "false") << "\n";
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  checkSubarrayEquality(arr, queries) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const n = parseInt(data[ptr++]);
+  const arr = data[ptr++].split(" ").map(Number);
+  const q = parseInt(data[ptr++]);
+  
+  const queries = [];
+  for (let i = 0; i < q; i++) {
+    queries.push(data[ptr++].split(" ").map(Number));
+  }
+  
+  const solution = new Solution();
+  const result = solution.checkSubarrayEquality(arr, queries);
+  
+  result.forEach((ans) => console.log(ans ? "true" : "false"));
+});
+```
 

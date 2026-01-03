@@ -82,12 +82,118 @@ Combinatorics, Binomial Coefficients, Modular Arithmetic
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long countStrings(int n, int k) {
+        //Implement here
+        return 0L;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int k = sc.nextInt();
+            Solution solution = new Solution();
+            System.out.println(solution.countStrings(n, k));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def power(base, exp, mod):
+    res = 1
+    base %= mod
+    while exp > 0:
+        if exp % 2 == 1:
+            res = (res * base) % mod
+        base = (base * base) % mod
+        exp //= 2
+    return res
+
+def modInverse(n, mod):
+    return power(n, mod - 2, mod)
+
+def count_strings(n: int, k: int) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    n = int(data[0])
+    k = int(data[1])
+    print(count_strings(n, k))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long countStrings(int n, int k) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, k;
+    if (cin >> n >> k) {
+        Solution solution;
+        cout << solution.countStrings(n, k) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+const MOD = 1000000007n;
+
+function countStrings(n, k) {
+  //Implement here
+  return 0;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const n = parseInt(data[0], 10);
+  const k = parseInt(data[1], 10);
+  console.log(countStrings(n, k));
+});
+```
 

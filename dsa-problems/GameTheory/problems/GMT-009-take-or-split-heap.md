@@ -93,12 +93,141 @@ Game Theory, Sprague-Grundy Theorem
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public String takeOrSplit(int n, int[] heaps) {
+        //Implement here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int[] heaps = new int[n];
+            for (int i = 0; i < n; i++) {
+                heaps[i] = sc.nextInt();
+            }
+
+            Solution solution = new Solution();
+            System.out.println(solution.takeOrSplit(n, heaps));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+def take_or_split(n: int, heaps: List[int]) -> str:
+    # //Implement here
+    return 0
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        heaps = []
+        for _ in range(n):
+            heaps.append(int(next(iterator)))
+            
+        print(take_or_split(n, heaps))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string takeOrSplit(int n, vector<int>& heaps) {
+        //Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (cin >> n) {
+        vector<int> heaps(n);
+        for (int i = 0; i < n; i++) {
+            cin >> heaps[i];
+        }
+        
+        Solution solution;
+        cout << solution.takeOrSplit(n, heaps) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  takeOrSplit(n, heaps) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  const flatData = [];
+  data.forEach(line => {
+      line.trim().split(/\s+/).forEach(part => {
+          if (part) flatData.push(part);
+      });
+  });
+  
+  if (flatData.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(flatData[idx++]);
+  
+  const heaps = [];
+  for (let i = 0; i < n; i++) {
+      heaps.push(parseInt(flatData[idx++]));
+  }
+
+  const solution = new Solution();
+  console.log(solution.takeOrSplit(n, heaps));
+});
+```
 

@@ -92,12 +92,156 @@ GCD, Prefix Arrays, Number Theory
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] prefixGcds(int[] a) {
+        //Implement here
+        return new int[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        int q = sc.nextInt();
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        int[] pref = solution.prefixGcds(a);
+        
+        for (int i = 0; i < q; i++) {
+            int r = sc.nextInt();
+            System.out.println(pref[r]);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from math import gcd
+from typing import List
+
+def prefix_gcds(a: List[int]) -> List[int]:
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        q = int(next(iterator))
+        a = [int(next(iterator)) for _ in range(n)]
+        
+        pref = prefix_gcds(a)
+        
+        results = []
+        for _ in range(q):
+            r = int(next(iterator))
+            results.append(str(pref[r]))
+            
+        print('\n'.join(results))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <numeric>
+#include <cmath>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> prefixGcds(const vector<int>& a) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, q;
+    if (!(cin >> n >> q)) return 0;
+    
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+
+    Solution solution;
+    vector<int> pref = solution.prefixGcds(a);
+    
+    for (int i = 0; i < q; i++) {
+        int r;
+        cin >> r;
+        cout << pref[r] << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function prefixGcds(a) {
+  //Implement here
+  return 0;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (let i = 0; i < parts.length; i++) {
+    if (parts[i].length > 0) data.push(parts[i]);
+  }
+});
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const q = parseInt(data[idx++], 10);
+  const a = [];
+  for (let i = 0; i < n; i++) a.push(parseInt(data[idx++], 10));
+  
+  const pref = prefixGcds(a);
+  const out = [];
+  for (let i = 0; i < q; i++) {
+    const r = parseInt(data[idx++], 10);
+    out.push(pref[r].toString());
+  }
+  console.log(out.join("\n"));
+});
+```
 

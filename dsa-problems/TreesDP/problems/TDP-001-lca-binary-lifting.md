@@ -109,12 +109,202 @@ Tree DP, Binary Search, Preprocessing, Graph Traversal
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void preprocess(int root, int n, int[][] edges) {
+        //Implement here
+    }
+
+    public int lca(int u, int v) {
+        //Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int q = sc.nextInt();
+
+        int[][] edges = new int[n - 1][2];
+        for (int i = 0; i < n - 1; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        solution.preprocess(1, n, edges);
+
+        for (int i = 0; i < q; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            System.out.println(solution.lca(u, v));
+        }
+
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+import sys
+
+class Solution:
+    def __init__(self):
+        self.LOG = 20
+        self.tree = []
+        self.up = []
+        self.depth = []
+        self.n = 0
+
+    def preprocess(self, root: int, n: int, edges: List[List[int]]) -> None:
+        # //Implement here
+        return 0
+    def _dfs(self, node: int, parent: int, d: int) -> None:
+        # //Implement here
+        return 0
+    def lca(self, u: int, v: int) -> int:
+        # //Implement here
+        return 0
+def main():
+    input_lines = sys.stdin.read().strip().split('\n')
+    n, q = map(int, input_lines[0].split())
+
+    edges = []
+    for i in range(1, n):
+        u, v = map(int, input_lines[i].split())
+        edges.append([u, v])
+
+    solution = Solution()
+    solution.preprocess(1, n, edges)
+
+    results = []
+    for i in range(n, n + q):
+        u, v = map(int, input_lines[i].split())
+        results.append(str(solution.lca(u, v)))
+
+    print('\n'.join(results))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <cstring>
+using namespace std;
+
+const int MAXN = 100005;
+const int LOG = 20;
+
+int up[MAXN][LOG];
+int depth[MAXN];
+vector<int> tree[MAXN];
+
+
+void dfs(int node, int parent, int d) {
+
+    //Implement here
+
+}
+
+void preprocess(int root, int n) {
+
+    //Implement here
+
+}
+
+int lca(int u, int v) {
+
+    //Implement here
+
+    return 0;
+
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, q;
+    cin >> n >> q;
+    
+    for (int i = 0; i < n - 1; i++) {
+        int u, v;
+        cin >> u >> v;
+        tree[u].push_back(v);
+        tree[v].push_back(u);
+    }
+    
+    preprocess(1, n);
+    
+    for (int i = 0; i < q; i++) {
+        int u, v;
+        cin >> u >> v;
+        cout << lca(u, v) << "\n";
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  preprocess(root, n, edges) {
+    //Implement here
+    return 0;
+  }
+  dfs(node, parent, d) {
+    //Implement here
+    return 0;
+  }
+  lca(u, v) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+});
+
+rl.on("close", () => {
+  const [n, q] = lines[0].split(" ").map(Number);
+
+  const edges = [];
+  for (let i = 1; i < n; i++) {
+    const [u, v] = lines[i].split(" ").map(Number);
+    edges.push([u, v]);
+  }
+
+  const solution = new Solution();
+  solution.preprocess(1, n, edges);
+
+  const results = [];
+  for (let i = n; i < n + q; i++) {
+    const [u, v] = lines[i].split(" ").map(Number);
+    results.push(solution.lca(u, v));
+  }
+
+  console.log(results.join("\n"));
+});
+```

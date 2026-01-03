@@ -88,12 +88,159 @@ Suffix Array, LCP, RMQ
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] lcpQueries(String s, int[][] queries) {
+        //Implement here
+        return new int[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        String s = sc.next();
+
+        java.util.List<int[]> queryList = new java.util.ArrayList<>();
+        while (sc.hasNextInt()) {
+            int i = sc.nextInt();
+            if (!sc.hasNextInt()) break;
+            int j = sc.nextInt();
+            queryList.add(new int[]{i, j});
+        }
+        int[][] queries = queryList.toArray(new int[0][]);
+
+        Solution solution = new Solution();
+        int[] ans = solution.lcpQueries(s, queries);
+        StringBuilder sb = new StringBuilder();
+        for (int k = 0; k < ans.length; k++) {
+            sb.append(ans[k]);
+            if (k + 1 < ans.length) sb.append('\n');
+        }
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+# Increase recursion depth just in case, though not needed for this iterative solution
+sys.setrecursionlimit(200000)
+
+class Solution:
+    def lcp_queries(self, s: str, queries: list[tuple[int, int]]) -> list[int]:
+        # //Implement here
+        return 0
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    s = input_data[0]
+    queries = []
+    idx = 1
+    while idx + 1 < len(input_data):
+        try:
+            i = int(input_data[idx])
+            j = int(input_data[idx + 1])
+            queries.append((i, j))
+            idx += 2
+        except ValueError:
+            break
+        
+    sol = Solution()
+    ans = sol.lcp_queries(s, queries)
+    sys.stdout.write("\n".join(str(x) for x in ans) + "\n")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <cmath>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> lcpQueries(const string& s, const vector<pair<int, int>>& queries) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    string s;
+    if (cin >> s) {
+        vector<pair<int, int>> queries;
+        int i, j;
+        while (cin >> i >> j) {
+            queries.push_back({i, j});
+        }
+
+        Solution solution;
+        vector<int> ans = solution.lcpQueries(s, queries);
+        for (int x : ans) cout << x << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  lcpQueries(s, queries) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => {
+  const parts = line.trim().split(/\s+/);
+  for (const part of parts) {
+    if (part) data.push(part);
+  }
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const s = data[0];
+  const queries = [];
+  let idx = 1;
+  while (idx + 1 < data.length) {
+    const i = parseInt(data[idx++], 10);
+    const j = parseInt(data[idx++], 10);
+    queries.push([i, j]);
+  }
+
+  const solution = new Solution();
+  const ans = solution.lcpQueries(s, queries);
+  console.log(ans.join("\n"));
+});
+```
 

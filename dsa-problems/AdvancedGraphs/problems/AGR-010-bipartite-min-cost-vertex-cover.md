@@ -88,12 +88,155 @@ Vertex Cover, Min Cut, Bipartite Graphs
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long minVertexCoverCost(int nU, int nV, long[] wU, long[] wV, int[][] edges) {
+        //Implement here
+        return 0L;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int nU = sc.nextInt();
+        int nV = sc.nextInt();
+        int m = sc.nextInt();
+        long[] wU = new long[nU];
+        long[] wV = new long[nV];
+        for (int i = 0; i < nU; i++) wU[i] = sc.nextLong();
+        for (int i = 0; i < nV; i++) wV[i] = sc.nextLong();
+        int[][] edges = new int[m][2];
+        for (int i = 0; i < m; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.minVertexCoverCost(nU, nV, wU, wV, edges));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+sys.setrecursionlimit(300000)
+
+def min_vertex_cover_cost(nU: int, nV: int, wU: list[int], wV: list[int], edges: list[tuple[int, int]]) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        nU = int(next(iterator))
+        nV = int(next(iterator))
+        m = int(next(iterator))
+        wU = [int(next(iterator)) for _ in range(nU)]
+        wV = [int(next(iterator)) for _ in range(nV)]
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            edges.append((u, v))
+            
+        print(min_vertex_cover_cost(nU, nV, wU, wV, edges))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minVertexCoverCost(int nU, int nV, const vector<long long>& wU, const vector<long long>& wV, const vector<pair<int, int>>& edges) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int nU, nV, m;
+    if (!(cin >> nU >> nV >> m)) return 0;
+    vector<long long> wU(nU), wV(nV);
+    for (int i = 0; i < nU; i++) cin >> wU[i];
+    for (int i = 0; i < nV; i++) cin >> wV[i];
+    vector<pair<int, int>> edges(m);
+    for (int i = 0; i < m; i++) {
+        cin >> edges[i].first >> edges[i].second;
+    }
+
+    Solution solution;
+    cout << solution.minVertexCoverCost(nU, nV, wU, wV, edges) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  minVertexCoverCost(nU, nV, wU, wV, edges) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => { const parts = line.trim().split(/\s+/); for (const p of parts) if (p) data.push(p); });
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  const nU = parseInt(data[idx++], 10);
+  const nV = parseInt(data[idx++], 10);
+  const m = parseInt(data[idx++], 10);
+  const wU = [];
+  const wV = [];
+  for (let i = 0; i < nU; i++) wU.push(parseInt(data[idx++], 10));
+  for (let i = 0; i < nV; i++) wV.push(parseInt(data[idx++], 10));
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(data[idx++], 10);
+    const v = parseInt(data[idx++], 10);
+    edges.push([u, v]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.minVertexCoverCost(nU, nV, wU, wV, edges).toString());
+});
+```
 

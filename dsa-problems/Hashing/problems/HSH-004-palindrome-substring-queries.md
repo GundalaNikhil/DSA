@@ -94,12 +94,156 @@ Palindrome Detection, Hashing, Rolling Hash, String Reversal
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public boolean[] checkPalindromes(String s, int[][] queries) {
+        //Implement here
+        return new boolean[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLine()) {
+            String s = sc.nextLine();
+            if (sc.hasNextInt()) {
+                int q = sc.nextInt();
+                int[][] queries = new int[q][2];
+                for (int i = 0; i < q; i++) {
+                    queries[i][0] = sc.nextInt();
+                    queries[i][1] = sc.nextInt();
+                }
+                Solution solution = new Solution();
+                boolean[] result = solution.checkPalindromes(s, queries);
+                for (boolean ans : result) {
+                    System.out.println(ans);
+                }
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+# Increase recursion depth just in case
+
+def check_palindromes(s: str, queries: list) -> list:
+    # //Implement here
+    return 0
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+        
+    iterator = iter(input_data)
+    try:
+        s = next(iterator)
+        q = int(next(iterator))
+        queries = []
+        for _ in range(q):
+            l = int(next(iterator))
+            r = int(next(iterator))
+            queries.append([l, r])
+            
+        result = check_palindromes(s, queries)
+        for ans in result:
+            print("true" if ans else "false")
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<bool> checkPalindromes(string s, vector<pair<int,int>>& queries) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    string s;
+    if (!(cin >> s)) return 0;
+    
+    int q;
+    if (!(cin >> q)) return 0;
+    
+    vector<pair<int,int>> queries(q);
+    for (int i = 0; i < q; i++) {
+        cin >> queries[i].first >> queries[i].second;
+    }
+    
+    Solution solution;
+    vector<bool> result = solution.checkPalindromes(s, queries);
+    
+    for (bool ans : result) {
+        cout << (ans ? "true" : "false") << "\n";
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  checkPalindromes(s, queries) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const s = data[ptr++];
+  const q = parseInt(data[ptr++]);
+  
+  const queries = [];
+  for (let i = 0; i < q; i++) {
+    const [l, r] = data[ptr++].split(" ").map(Number);
+    queries.push([l, r]);
+  }
+  
+  const solution = new Solution();
+  const result = solution.checkPalindromes(s, queries);
+  
+  result.forEach((ans) => console.log(ans ? "true" : "false"));
+});
+```
 

@@ -86,3 +86,111 @@ aaa
 - Use DFS with lazy generation to avoid creating all 26^k possibilities
 - Build a set of existing k-length substrings for O(1) lookup
 - Generate candidates in lexicographic order and stop at first missing
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public String smallestMissingSubstring(String s, int k) {
+        //Implement here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        int k = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.smallestMissingSubstring(s, k));
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+def smallest_missing_substring(s: str, k: int) -> str:
+    # //Implement here
+    return 0
+
+def main():
+    import sys
+    # Read all input
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        return
+        
+    # Parse input: expect string s and integer k
+    # Using split() handles newlines and spaces
+    parts = input_data.split()
+    if len(parts) >= 2:
+        s = parts[0]
+        try:
+            k = int(parts[1])
+            print(smallest_missing_substring(s, k))
+        except ValueError:
+            pass
+
+if __name__ == "__main__":
+    main()
+```
+
+### C++
+
+```cpp
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+using namespace std;
+
+#include <algorithm>
+#include <string>
+#include <vector>
+#include <iostream>
+
+class Solution {
+public:
+    string smallestMissingSubstring(string s, int k) {
+        //Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s; cin >> s;
+    int k; cin >> k;
+    Solution sol;
+    cout << sol.smallestMissingSubstring(s, k) << endl;
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+function smallestMissingSubstring(s, k) {
+  //Implement here
+  return 0;
+}
+
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const s = tokens[ptr++];
+    const k = parseInt(tokens[ptr++]);
+    console.log(smallestMissingSubstring(s, k));
+});
+```

@@ -94,13 +94,117 @@ Dynamic Programming, Grid DP, Counting
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int countPathsWithTurnLimit(int m, int n, int T) {
+        //Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int m = sc.nextInt();
+        int n = sc.nextInt();
+        int T = sc.nextInt();
+        System.out.println(new Solution().countPathsWithTurnLimit(m, n, T));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def count_paths_with_turn_limit(m: int, n: int, T: int) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    m, n, T = map(int, input().split())
+    print(count_paths_with_turn_limit(m, n, T))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
+
+using namespace std;
+
+class Solution {
+public:
+    int countPathsWithTurnLimit(int m, int n, int T) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int m, n, T;
+    cin >> m >> n >> T;
+    Solution sol;
+    cout << sol.countPathsWithTurnLimit(m, n, T) << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  countPathsWithTurnLimit(m, n, T) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const m = Number(tokens[ptr++]);
+  const n = Number(tokens[ptr++]);
+  const T = Number(tokens[ptr++]);
+
+  const solution = new Solution();
+  console.log(solution.countPathsWithTurnLimit(m, n, T));
+});
+```
 

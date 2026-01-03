@@ -84,12 +84,104 @@ Digit Parsing, Brute Force Optimization
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long minimalProductSplit(long x) {
+        //Implement here
+        return 0L;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLong()) {
+            long x = sc.nextLong();
+            Solution solution = new Solution();
+            System.out.println(solution.minimalProductSplit(x));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def minimal_product_split(x: int) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    x = int(data[0])
+    print(minimal_product_split(x))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <climits>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minimalProductSplit(long long x) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long x;
+    if (cin >> x) {
+        Solution solution;
+        cout << solution.minimalProductSplit(x) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function minimalProductSplit(x) {
+  //Implement here
+  return 0;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  // Use BigInt for input parsing to handle 10^12 safely in JS (though Number is fine up to 9*10^15)
+  // But consistent BigInt usage is better.
+  const x = BigInt(data[0]);
+  console.log(minimalProductSplit(x));
+});
+```
 

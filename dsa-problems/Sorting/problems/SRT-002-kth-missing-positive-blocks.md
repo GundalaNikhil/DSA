@@ -83,12 +83,143 @@ Binary Search, Missing Number, Prefix Counts
 ## Solution Template
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long[] solve(int[] arr, long[][] queries) {
+        //Implement here
+        return new long[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) {
+            sc.close();
+            return;
+        }
+        int n = sc.nextInt();
+        int q = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+        long[][] queries = new long[q][2];
+        for (int i = 0; i < q; i++) {
+            queries[i][0] = sc.nextLong();
+            queries[i][1] = sc.nextLong();
+        }
+        Solution solution = new Solution();
+        long[] results = solution.solve(arr, queries);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < results.length; i++) {
+            if (i > 0) sb.append('\n');
+            sb.append(results[i]);
+        }
+        System.out.println(sb.toString());
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def solve(arr: list[int], queries: list[tuple[int, int]]) -> list[int]:
+    # //Implement here
+    return 0
+
+def main():
+    n, q = map(int, input().split())
+    arr = list(map(int, input().split()))
+    queries = []
+    for _ in range(q):
+        k, b = map(int, input().split())
+        queries.append((k, b))
+
+    results = solve(arr, queries)
+    for res in results:
+        print(res)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <vector>
+#include <algorithm>
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> solve(const vector<int>& arr, const vector<pair<long long,long long>>& queries) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, q;
+    if (!(cin >> n >> q)) return 0;
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+    vector<pair<long long, long long>> queries;
+    queries.reserve(q);
+    for (int i = 0; i < q; i++) {
+        long long k, b;
+        cin >> k >> b;
+        queries.push_back({k, b});
+    }
+    Solution solution;
+    vector<long long> results = solution.solve(arr, queries);
+    for (long long v : results) {
+        cout << v << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+class Solution {
+  solve(arr, queries) {
+    //Implement here
+    return 0;
+  }
+}
+
+const fs = require("fs");
+
+const input = fs.readFileSync(0, "utf8").trim();
+if (!input) process.exit(0);
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const q = parseInt(data[idx++], 10);
+const arr = [];
+for (let i = 0; i < n; i++) {
+  arr.push(parseInt(data[idx++], 10));
+}
+const queries = [];
+for (let i = 0; i < q; i++) {
+  const k = data[idx++];
+  const b = data[idx++];
+  queries.push([k, b]);
+}
+const solution = new Solution();
+const results = solution.solve(arr, queries);
+console.log(results.join("\n"));
+```
 

@@ -93,12 +93,180 @@ Heaps, Priority Queue, Decrease-Key, Data Structures
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<String> processOperations(List<String[]> operations) {
+        //Implement here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int q = sc.nextInt();
+            List<String[]> operations = new ArrayList<>();
+            for (int i = 0; i < q; i++) {
+                String op = sc.next();
+                if (op.equals("INSERT")) {
+                    String id = sc.next();
+                    String value = sc.next();
+                    operations.add(new String[]{op, id, value});
+                } else if (op.equals("DECREASE")) {
+                    String id = sc.next();
+                    String delta = sc.next();
+                    operations.add(new String[]{op, id, delta});
+                } else {
+                    operations.add(new String[]{op});
+                }
+            }
+            Solution solution = new Solution();
+            List<String> result = solution.processOperations(operations);
+            for (String s : result) System.out.println(s);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def process_operations(operations: list) -> list:
+    # //Implement here
+    return 0
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    it = iter(input_data)
+    try:
+        q = int(next(it))
+        operations = []
+        for _ in range(q):
+            op = next(it)
+            if op == "INSERT":
+                gid = next(it)
+                val = next(it)
+                operations.append([op, gid, val])
+            elif op == "DECREASE":
+                gid = next(it)
+                delta = next(it)
+                operations.append([op, gid, delta])
+            else:
+                operations.append([op])
+                
+        result = process_operations(operations)
+        print("\n".join(result))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <unordered_map>
+
+using namespace std;
+
+struct Node {
+    string id;
+    long long value;
+};
+
+class Solution {
+public:
+    vector<string> processOperations(const vector<vector<string>>& operations) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int q;
+    if (cin >> q) {
+        vector<vector<string>> operations;
+        for (int i = 0; i < q; i++) {
+            string op;
+            cin >> op;
+            if (op == "INSERT") {
+                string id, val;
+                cin >> id >> val;
+                operations.push_back({op, id, val});
+            } else if (op == "DECREASE") {
+                string id, delta;
+                cin >> id >> delta;
+                operations.push_back({op, id, delta});
+            } else {
+                operations.push_back({op});
+            }
+        }
+        
+        Solution solution;
+        vector<string> result = solution.processOperations(operations);
+        for (const string& s : result) cout << s << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  processOperations(operations) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const q = parseInt(data[idx++]);
+  const operations = [];
+  for (let i = 0; i < q; i++) {
+    const type = data[idx++];
+    if (type === "INSERT") {
+      const id = data[idx++];
+      const val = data[idx++];
+      operations.push([type, id, val]);
+    } else if (type === "DECREASE") {
+      const id = data[idx++];
+      const delta = data[idx++];
+      operations.push([type, id, delta]);
+    } else {
+      operations.push([type]);
+    }
+  }
+  
+  const solution = new Solution();
+  const result = solution.processOperations(operations);
+  console.log(result.join("\n"));
+});
+```
 

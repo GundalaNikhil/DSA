@@ -90,12 +90,177 @@ Trie, String, Dynamic Programming, Prefix Matching
 
 ### Java
 
+```java
+import java.util.*;
+
+class TrieNode {
+    Map<Character, TrieNode> children = new HashMap<>();
+    Set<Integer> wordIds = new HashSet<>();
+}
+
+class Solution {
+    public String longestCommonPrefixAfterOneDeletion(String[] words) {
+        //Implement here
+        return "";
+    }
+    private void insertWord(String word, int wordId) {
+        //Implement here
+    }
+    private void dfs(TrieNode node, String prefix, int totalWords) {
+        //Implement here
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        String[] words = new String[n];
+        for (int i = 0; i < n; i++) {
+            words[i] = sc.next();
+        }
+
+        Solution solution = new Solution();
+        String result = solution.longestCommonPrefixAfterOneDeletion(words);
+
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.word_ids = set()
+
+class Solution:
+    def __init__(self):
+        self.root = TrieNode()
+        self.longest_prefix = ""
+
+    def longest_common_prefix_after_one_deletion(self, words: List[str]) -> str:
+        # //Implement here
+        return 0
+    def _insert_word(self, word: str, word_id: int):
+        # //Implement here
+        return 0
+    def _dfs(self, node: TrieNode, prefix: str, total_words: int):
+        # //Implement here
+        return 0
+def main():
+    import sys
+    input_data = sys.stdin.read().strip().split()
+
+    n = int(input_data[0])
+    words = input_data[1:n+1]
+
+    solution = Solution()
+    result = solution.longest_common_prefix_after_one_deletion(words)
+
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <unordered_set>
+#include <string>
+using namespace std;
+
+struct TrieNode {
+    unordered_map<char, TrieNode*> children;
+    unordered_set<int> wordIds;
+};
+
+class Solution {
+public:
+    void insertWord(const string& word, int wordId) {
+        //Implement here
+    }
+    void dfs(TrieNode* node, string prefix, int totalWords) {
+        //Implement here
+    }
+    string longestCommonPrefixAfterOneDeletion(vector<string>& words) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+
+    vector<string> words(n);
+    for (int i = 0; i < n; i++) {
+        cin >> words[i];
+    }
+
+    Solution solution;
+    string result = solution.longestCommonPrefixAfterOneDeletion(words);
+
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class TrieNode {
+  constructor() {
+    this.children = new Map();
+    this.wordIds = new Set();
+  }
+}
+
+class Solution {
+  longestCommonPrefixAfterOneDeletion(words) {
+    //Implement here
+    return 0;
+  }
+  _insertWord(word, wordId) {
+    //Implement here
+    return 0;
+  }
+  _dfs(node, prefix, totalWords) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const tokens = lines.join(" ").split(/\s+/);
+
+  const n = parseInt(tokens[0]);
+  const words = tokens.slice(1, n + 1);
+
+  const solution = new Solution();
+  const result = solution.longestCommonPrefixAfterOneDeletion(words);
+
+  console.log(result);
+});
+```

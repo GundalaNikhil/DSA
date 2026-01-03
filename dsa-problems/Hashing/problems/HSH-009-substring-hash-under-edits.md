@@ -99,12 +99,172 @@ Segment Tree, Fenwick Tree, Hashing, Dynamic Updates
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<Long> processOperations(String s, List<String[]> operations) {
+        //Implement here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLine()) {
+            String s = sc.nextLine();
+            if (sc.hasNextInt()) {
+                int q = sc.nextInt();
+                sc.nextLine();
+                List<String[]> operations = new ArrayList<>();
+                for (int i = 0; i < q; i++) {
+                    operations.add(sc.nextLine().split(" "));
+                }
+                Solution solution = new Solution();
+                List<Long> result = solution.processOperations(s, operations);
+                for (long hash : result) {
+                    System.out.println(hash);
+                }
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+# Increase recursion depth
+
+def process_operations(s: str, operations: list) -> list:
+    # //Implement here
+    return 0
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    
+    iterator = iter(input_data)
+    try:
+        s = next(iterator)
+        q = int(next(iterator))
+        operations = []
+        for _ in range(q):
+            type_op = next(iterator)
+            if type_op == 'U':
+                idx = next(iterator)
+                c = next(iterator)
+                operations.append(['U', idx, c])
+            else:
+                l = next(iterator)
+                r = next(iterator)
+                operations.append(['Q', l, r])
+                
+        result = process_operations(s, operations)
+        for val in result:
+            print(val)
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <sstream>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> processOperations(string s, vector<vector<string>>& operations) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    string s;
+    if (!(cin >> s)) return 0;
+    
+    int q;
+    if (!(cin >> q)) return 0;
+    
+    vector<vector<string>> operations(q);
+    for (int i = 0; i < q; i++) {
+        char type;
+        cin >> type;
+        if (type == 'U') {
+            int idx;
+            char c;
+            cin >> idx >> c;
+            operations[i] = {"U", to_string(idx), string(1, c)};
+        } else {
+            int l, r;
+            cin >> l >> r;
+            operations[i] = {"Q", to_string(l), to_string(r)};
+        }
+    }
+    
+    Solution solution;
+    vector<long long> result = solution.processOperations(s, operations);
+    
+    for (long long hash : result) {
+        cout << hash << "\n";
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  processOperations(s, operations) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let ptr = 0;
+  const s = data[ptr++];
+  const q = parseInt(data[ptr++]);
+  
+  const operations = [];
+  for (let i = 0; i < q; i++) {
+    operations.push(data[ptr++].split(" "));
+  }
+  
+  const solution = new Solution();
+  const result = solution.processOperations(s, operations);
+  
+  result.forEach((hash) => console.log(hash.toString()));
+});
+```
 

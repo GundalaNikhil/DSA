@@ -105,12 +105,126 @@ Tree Traversals, Tree Comparison, Binary Trees
 
 ### Java
 
+```java
+import java.io.InputStream;
+
+class Solution {
+    public int solve(int n) {
+        //Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) throws Exception {
+        FastScanner fs = new FastScanner(System.in);
+        Integer n = fs.nextInt();
+        if (n == null) return;
+        Solution solution = new Solution();
+        System.out.print(solution.solve(n));
+    }
+
+    private static class FastScanner {
+        private final InputStream in;
+        private final byte[] buffer = new byte[1 << 16];
+        private int ptr = 0;
+        private int len = 0;
+
+        FastScanner(InputStream in) {
+            this.in = in;
+        }
+
+        private int read() throws Exception {
+            if (ptr >= len) {
+                len = in.read(buffer);
+                ptr = 0;
+                if (len <= 0) return -1;
+            }
+            return buffer[ptr++];
+        }
+
+        Integer nextInt() throws Exception {
+            int c;
+            do {
+                c = read();
+                if (c == -1) return null;
+            } while (c <= ' ');
+
+            int sign = 1;
+            if (c == '-') {
+                sign = -1;
+                c = read();
+            }
+            int val = 0;
+            while (c > ' ') {
+                val = val * 10 + (c - '0');
+                c = read();
+            }
+            return val * sign;
+        }
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def solve(n):
+    # //Implement here
+    return 0
+
+def main():
+    data = sys.stdin.read().split()
+    if not data:
+        return
+    n = int(data[0])
+    result = solve(n)
+    print(result)
+
+if __name__ == '__main__':
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+
+using namespace std;
+
+int solve(int n) {
+    //Implement here
+    return 0;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    cout << solve(n);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const fs = require("fs");
+
+function solve(n) {
+  //Implement here
+  return 0;
+}
+
+const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+if (data.length === 0 || data[0] === "") {
+  process.exit(0);
+}
+const n = parseInt(data[0], 10);
+const result = solve(n);
+process.stdout.write(result.toString());
+```

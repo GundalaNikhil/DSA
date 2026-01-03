@@ -105,12 +105,156 @@ Game Theory, Graph Traversal, Memoization
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public String blockingTokens(int n, int[][] edges, int u, int v) {
+        //Implement here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+            int[][] edges = new int[m][2];
+            for (int i = 0; i < m; i++) {
+                edges[i][0] = sc.nextInt();
+                edges[i][1] = sc.nextInt();
+            }
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+
+            Solution solution = new Solution();
+            System.out.println(solution.blockingTokens(n, edges, u, v));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+import sys
+
+sys.setrecursionlimit(20000)
+
+def blocking_tokens(n: int, edges: List[List[int]], u: int, v: int) -> str:
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        edges = []
+        for _ in range(m):
+            u_edge = int(next(iterator))
+            v_edge = int(next(iterator))
+            edges.append([u_edge, v_edge])
+        u = int(next(iterator))
+        v = int(next(iterator))
+            
+        print(blocking_tokens(n, edges, u, v))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    string blockingTokens(int n, vector<vector<int>>& edges, int u, int v) {
+        //Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m;
+    if (cin >> n >> m) {
+        vector<vector<int>> edges(m, vector<int>(2));
+        for (int i = 0; i < m; i++) {
+            cin >> edges[i][0] >> edges[i][1];
+        }
+        int u, v;
+        cin >> u >> v;
+        
+        Solution solution;
+        cout << solution.blockingTokens(n, edges, u, v) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  blockingTokens(n, edges, u, v) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  const flatData = [];
+  data.forEach(line => {
+      line.trim().split(/\s+/).forEach(part => {
+          if (part) flatData.push(part);
+      });
+  });
+  
+  if (flatData.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(flatData[idx++]);
+  const m = parseInt(flatData[idx++]);
+  
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+      edges.push([parseInt(flatData[idx++]), parseInt(flatData[idx++])]);
+  }
+  const u = parseInt(flatData[idx++]);
+  const v = parseInt(flatData[idx++]);
+
+  const solution = new Solution();
+  console.log(solution.blockingTokens(n, edges, u, v));
+});
+```
 

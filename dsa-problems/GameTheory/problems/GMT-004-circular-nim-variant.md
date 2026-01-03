@@ -92,12 +92,145 @@ Game Theory, Memoization, Graph Cycle Detection
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public String circularNim(int n, int[] piles) {
+        //Implement here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int[] piles = new int[n];
+            for (int i = 0; i < n; i++) {
+                piles[i] = sc.nextInt();
+            }
+
+            Solution solution = new Solution();
+            System.out.println(solution.circularNim(n, piles));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List, Tuple
+
+def circular_nim(n: int, piles: List[int]) -> str:
+    # //Implement here
+    return 0
+
+def main():
+    import sys
+    # Increase recursion depth
+    sys.setrecursionlimit(20000)
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        piles = []
+        for _ in range(n):
+            piles.append(int(next(iterator)))
+            
+        print(circular_nim(n, piles))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <map>
+#include <set>
+
+using namespace std;
+
+class Solution {
+public:
+    string circularNim(int n, vector<int>& piles) {
+        //Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n;
+    if (cin >> n) {
+        vector<int> piles(n);
+        for (int i = 0; i < n; i++) {
+            cin >> piles[i];
+        }
+        
+        Solution solution;
+        cout << solution.circularNim(n, piles) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  circularNim(n, piles) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  const flatData = [];
+  data.forEach(line => {
+      line.trim().split(/\s+/).forEach(part => {
+          if (part) flatData.push(part);
+      });
+  });
+  
+  if (flatData.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(flatData[idx++]);
+  
+  const piles = [];
+  for (let i = 0; i < n; i++) {
+      piles.push(parseInt(flatData[idx++]));
+  }
+
+  const solution = new Solution();
+  console.log(solution.circularNim(n, piles));
+});
+```
 

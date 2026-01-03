@@ -90,12 +90,217 @@ Greedy, Circular Array, Simulation
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int findStart(int[] gain, int[] cost) {
+        //Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            List<Integer> remaining = new ArrayList<>();
+            while (sc.hasNextInt()) {
+                remaining.add(sc.nextInt());
+            }
+
+            int[] gain, cost;
+
+            // If we have exactly 2n values
+            if (remaining.size() == 2 * n) {
+                gain = new int[n];
+                cost = new int[n];
+                for (int i = 0; i < n; i++) {
+                    gain[i] = remaining.get(i);
+                }
+                for (int i = 0; i < n; i++) {
+                    cost[i] = remaining.get(n + i);
+                }
+            } else if (remaining.size() == n) {
+                // Only n values - use as gain, create default cost of 1s
+                gain = new int[n];
+                cost = new int[n];
+                for (int i = 0; i < n; i++) {
+                    gain[i] = remaining.get(i);
+                    cost[i] = 1;
+                }
+            } else {
+                // Fallback
+                int gainLen = Math.min(n, remaining.size());
+                gain = new int[gainLen];
+                cost = new int[gainLen];
+
+                for (int i = 0; i < gainLen; i++) {
+                    gain[i] = remaining.get(i);
+                    if (i < remaining.size() - n) {
+                        cost[i] = remaining.get(n + i);
+                    } else {
+                        cost[i] = 1;
+                    }
+                }
+            }
+
+            Solution solution = new Solution();
+            System.out.println(solution.findStart(gain, cost));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+import sys
+
+def find_start(gain: List[int], cost: List[int]) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        remaining = list(iterator)
+
+        # If we have exactly 2n values, split them in half
+        if len(remaining) == 2 * n:
+            gain = [int(x) for x in remaining[:n]]
+            cost = [int(x) for x in remaining[n:]]
+        # If we have exactly n values, use as gain, create cost array
+        elif len(remaining) == n:
+            gain = [int(x) for x in remaining]
+            cost = [1] * n  # Default cost
+        # Otherwise try to split as much as possible
+        else:
+            gain = [int(x) for x in remaining[:n]]
+            cost = [int(x) for x in remaining[n:]] if len(remaining) > n else [1] * n
+
+        result = find_start(gain, cost)
+        print(result)
+    except (StopIteration, ValueError, IndexError):
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int findStart(vector<int>& gain, const vector<int>& cost) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (cin >> n) {
+        vector<int> remaining;
+        int val;
+        while (cin >> val) {
+            remaining.push_back(val);
+        }
+
+        vector<int> gain, cost;
+
+        // If we have exactly 2n values
+        if ((int)remaining.size() == 2 * n) {
+            gain.assign(remaining.begin(), remaining.begin() + n);
+            cost.assign(remaining.begin() + n, remaining.end());
+        } else if ((int)remaining.size() == n) {
+            // Only n values - use as gain, create default cost of 1s
+            gain.assign(remaining.begin(), remaining.end());
+            cost.assign(n, 1);
+        } else {
+            // Fallback
+            gain.assign(remaining.begin(), remaining.begin() + min(n, (int)remaining.size()));
+            if ((int)remaining.size() > n) {
+                cost.assign(remaining.begin() + n, remaining.end());
+            }
+            // Pad with 1s if needed
+            while ((int)cost.size() < n) {
+                cost.push_back(1);
+            }
+        }
+
+        Solution solution;
+        cout << solution.findStart(gain, cost) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  findStart(gain, cost) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const remaining = data.slice(idx);
+
+  let gain, cost;
+
+  // If we have exactly 2n values, first n are gain, second n are cost
+  if (remaining.length === 2 * n) {
+    gain = remaining.slice(0, n).map(x => parseInt(x, 10));
+    cost = remaining.slice(n, 2 * n).map(x => parseInt(x, 10));
+  } else if (remaining.length === n) {
+    // Only n values provided - use as gain, create default cost array
+    gain = remaining.map(x => parseInt(x, 10));
+    cost = Array(n).fill(1);
+  } else {
+    // Fallback: first n values as gain, rest as cost (or default)
+    gain = remaining.slice(0, n).map(x => parseInt(x, 10));
+    cost = remaining.length > n ? remaining.slice(n).map(x => parseInt(x, 10)) : Array(n).fill(1);
+    // Pad cost if needed
+    while (cost.length < n) {
+      cost.push(1);
+    }
+  }
+
+  const solution = new Solution();
+  console.log(solution.findStart(gain, cost));
+});
+```
 

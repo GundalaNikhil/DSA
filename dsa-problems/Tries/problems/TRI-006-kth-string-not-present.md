@@ -93,12 +93,172 @@ Trie, String, Combinatorics, DFS, Missing Elements
 
 ### Java
 
+```java
+import java.util.*;
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        // Read all tokens
+        int n = sc.nextInt();
+        int L = sc.nextInt();
+        int k = sc.nextInt();
+        
+        Set<String> inserted = new HashSet<>();
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNext()) {
+                inserted.add(sc.next());
+            }
+        }
+        
+        List<String> allStrings = new ArrayList<>();
+        
+        // Order: a, aa, ab, ..., az, b, ba, bb, ..., bz, c, ...
+        for (char c = 'a'; c <= 'z'; c++) {
+            // Add single character if not inserted and L >= 1
+            if (L >= 1 && !inserted.contains(String.valueOf(c))) {
+                allStrings.add(String.valueOf(c));
+            }
+            
+            // Add all multi-char strings starting with this char
+            for (int length = 2; length <= L; length++) {
+                generateCombinations(String.valueOf(c), length - 1, inserted, allStrings);
+            }
+        }
+        
+        System.out.println(k <= allStrings.size() ? allStrings.get(k - 1) : "");
+        sc.close();
+    }
+
+    
+    static void generateCombinations(String prefix, int remaining, Set<String> inserted, List<String> result) {
+    
+        //Implement here
+    
+    }
+
+}
+```
 
 ### Python
 
+```python
+from itertools import product
+
+def all_combinations_of_length(length):
+    # //Implement here
+    return 0
+def custom_sort_key(s):
+    # //Implement here
+    return 0
+def naive(inserted, L, k):
+    # //Implement here
+    return 0
+def main():
+    import sys
+    input_data = sys.stdin.read().strip().split('\n')
+
+    n, L, k = map(int, input_data[0].split())
+    inserted = set()
+    for i in range(1, n + 1):
+        inserted.add(input_data[i])
+
+    result = naive(inserted, L, k)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <unordered_set>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string kthMissingString(const vector<string>& insertedList, int L, int k) {
+        //Implement here
+        return {};
+    }
+    void generateCombinations(const string& prefix, int remaining,
+                              const unordered_set<string>& inserted,
+                              vector<string>& result) {
+        //Implement here
+    }
+};
+
+int main() {
+    int n, L, k;
+    if (!(cin >> n >> L >> k)) {
+        return 0;
+    }
+
+    vector<string> inserted(n);
+    for (int i = 0; i < n; i++) {
+        cin >> inserted[i];
+    }
+
+    Solution solution;
+    string result = solution.kthMissingString(inserted, L, k);
+
+    cout << result << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+    terminal: false
+});
+
+function* allCombinationsOfLength(length) {
+  //Implement here
+  return 0;
+}
+
+const lines = [];
+rl.on('line', (line) => lines.push(line.trim()));
+rl.on('close', () => {
+    const [n, L, k] = lines[0].split(' ').map(Number);
+    
+    const inserted = new Set();
+    for (let i = 1; i <= n; i++) {
+        inserted.add(lines[i]);
+    }
+    
+    const allStrings = [];
+    
+    // Order: a, aa, ab, ..., az, b, ba, bb, ..., bz, c, ...
+    const chars = 'abcdefghijklmnopqrstuvwxyz';
+    for (const char of chars) {
+        // Add single character if not inserted and L >= 1
+        if (L >= 1 && !inserted.has(char)) {
+            allStrings.push(char);
+        }
+        
+        // Add all multi-char strings starting with this char
+        for (let length = 2; length <= L; length++) {
+            for (const rest of allCombinationsOfLength(length - 1)) {
+                const combo = char + rest;
+                if (!inserted.has(combo)) {
+                    allStrings.push(combo);
+                }
+            }
+        }
+    }
+    
+    console.log(k <= allStrings.length ? allStrings[k - 1] : '');
+});
+```

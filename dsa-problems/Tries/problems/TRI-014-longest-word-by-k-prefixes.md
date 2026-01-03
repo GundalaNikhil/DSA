@@ -104,12 +104,183 @@ Trie, String, Prefix Matching, Lexicographic Order
 
 ### Java
 
+```java
+import java.util.*;
+
+class TrieNode {
+    Map<Character, TrieNode> children = new HashMap<>();
+    boolean isEnd = false;
+}
+
+class Solution {
+    public String longestWordWithKPrefixes(String[] words, int k) {
+        //Implement here
+        return "";
+    }
+    private void insert(String word) {
+        //Implement here
+    }
+    private int countPrefixes(String word) {
+        //Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        sc.nextLine();
+
+        String[] words = new String[n];
+        for (int i = 0; i < n; i++) {
+            words[i] = sc.nextLine().trim();
+        }
+
+        Solution solution = new Solution();
+        String result = solution.longestWordWithKPrefixes(words, k);
+
+        System.out.println(result);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end = False
+
+class Solution:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def longest_word_with_k_prefixes(self, words: List[str], k: int) -> str:
+        # //Implement here
+        return 0
+    def _insert(self, word: str):
+        # //Implement here
+        return 0
+    def _count_prefixes(self, word: str) -> int:
+        # //Implement here
+        return 0
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+
+    n, k = map(int, lines[0].split())
+    words = [lines[i+1].strip() for i in range(n)]
+
+    solution = Solution()
+    result = solution.longest_word_with_k_prefixes(words, k)
+
+    print(result if result else "")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+struct TrieNode {
+    unordered_map<char, TrieNode*> children;
+    bool isEnd = false;
+};
+
+class Solution {
+public:
+    void insert(const string& word) {
+        //Implement here
+    }
+    int countPrefixes(const string& word) {
+        //Implement here
+        return 0;
+    }
+    string longestWordWithKPrefixes(vector<string>& words, int k) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    int n, k;
+    cin >> n >> k;
+    cin.ignore();
+
+    vector<string> words(n);
+    for (int i = 0; i < n; i++) {
+        getline(cin, words[i]);
+    }
+
+    Solution solution;
+    string result = solution.longestWordWithKPrefixes(words, k);
+
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class TrieNode {
+  constructor() {
+    this.children = new Map();
+    this.isEnd = false;
+  }
+}
+
+class Solution {
+  insert(word) {
+    //Implement here
+    return 0;
+  }
+  countPrefixes(word) {
+    //Implement here
+    return 0;
+  }
+  longestWordWithKPrefixes(words, k) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const [n, k] = lines[0].split(" ").map(Number);
+  const words = [];
+  for (let i = 1; i <= n; i++) {
+    words.push(lines[i].trim());
+  }
+
+  const solution = new Solution();
+  const result = solution.longestWordWithKPrefixes(words, k);
+
+  console.log(result);
+});
+```

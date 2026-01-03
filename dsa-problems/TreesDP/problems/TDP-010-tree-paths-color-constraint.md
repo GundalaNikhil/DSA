@@ -85,26 +85,166 @@ Print the count of valid node pairs.
 
 ### Java
 
+```java
+import java.util.*;
+
+class Main {
+    static List<List<Integer>> adj;
+    static int[] color;
+    static int n, K, F;
+    static long answer = 0;
+    static int[][][] dp;
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt(); K = sc.nextInt(); F = sc.nextInt();
+
+        color = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            color[i] = sc.nextInt();
+        }
+
+        adj = new ArrayList<>();
+        for (int i = 0; i <= n; i++) adj.add(new ArrayList<>());
+
+        for (int i = 0; i < n - 1; i++) {
+            int u = sc.nextInt(), v = sc.nextInt();
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+
+        dp = new int[n + 1][K + 1][2];
+        dfs(1, 0);
+        System.out.println(answer);
+    }
+
+
+    static void dfs(int u, int p) {
+
+        //Implement here
+
+    }
+
+}
+```
 
 ### Python
 
+```python
+import sys
+sys.setrecursionlimit(300000)
+
+def main():
+    data = sys.stdin.read().split()
+    idx = 0
+    n, K, F = int(data[idx]), int(data[idx+1]), int(data[idx+2])
+    idx += 3
+
+    color = [0] + [int(data[idx + i]) for i in range(n)]
+    idx += n
+
+    adj = [[] for _ in range(n + 1)]
+    for _ in range(n - 1):
+        u, v = int(data[idx]), int(data[idx+1])
+        idx += 2
+        adj[u].append(v)
+        adj[v].append(u)
+
+    dp = [[[0]*2 for _ in range(K + 1)] for _ in range(n + 1)]
+    answer = [0]
+
+    def dfs(u, p):
+        # //Implement here
+        return 0
+    dfs(1, 0)
+    print(answer[0])
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
+#include <set>
+#include <queue>
+#include <stack>
+#include <cmath>
+#include <cstring>
+#include <climits>
+using namespace std;
+
+int n, K, F;
+vector<int> color;
+vector<vector<int>> adj;
+vector<vector<array<long long, 2>>> dp;
+long long answer = 0;
+
+
+void dfs(int u, int p) {
+
+    //Implement here
+
+}
+
+int main() {
+    cin >> n >> K >> F;
+    color.resize(n + 1);
+    for (int i = 1; i <= n; i++) cin >> color[i];
+
+    adj.resize(n + 1);
+    for (int i = 0; i < n - 1; i++) {
+        int u, v; cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    dp.assign(n + 1, vector<array<long long, 2>>(K + 1, {0, 0}));
+    dfs(1, 0);
+    cout << answer << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false,
+});
 
----
+const lines = [];
+rl.on("line", (line) => lines.push(line.trim()));
+rl.on("close", () => {
+  let idx = 0;
+  const [n, K, F] = lines[idx++].split(" ").map(Number);
+  const color = [0, ...lines[idx++].split(" ").map(Number)];
 
-## Hints
+  const adj = Array.from({ length: n + 1 }, () => []);
+  for (let i = 0; i < n - 1; i++) {
+    const [u, v] = lines[idx++].split(" ").map(Number);
+    adj[u].push(v);
+    adj[v].push(u);
+  }
 
-<details>
-<summary>Hint 1</summary>
-Use DP with state tracking: dp[node][distance][hasForbidden]
-</details>
+  const dp = Array.from({ length: n + 1 }, () =>
+    Array.from({ length: K + 1 }, () => [0, 0])
+  );
+  let answer = 0;
 
-<details>
-<summary>Hint 2</summary>
-During DFS, merge child contributions to count valid pairs at distance K
-</details>
+  function dfs(u, p) {
+    //Implement here
+    return 0;
+  }
+
+  dfs(1, 0);
+  console.log(answer);
+});
+```

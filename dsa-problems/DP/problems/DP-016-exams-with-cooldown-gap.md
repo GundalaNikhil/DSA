@@ -84,12 +84,126 @@ Dynamic Programming, Binary Search, Scheduling
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long maxScore(List<Exam> exams, long g) {
+        //Implement here
+        return 0L;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        long g = sc.nextLong();
+        List<Solution.Exam> exams = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            long s = sc.nextLong(), e = sc.nextLong(), w = sc.nextLong();
+            exams.add(new Solution.Exam(s, e, w));
+        }
+        Solution sol = new Solution();
+        System.out.println(sol.maxScore(exams, g));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from bisect import bisect_right
+from typing import List, Tuple
+
+def max_score(exams: List[Tuple[int, int, int]], g: int) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    n, g = map(int, input().split())
+    exams = []
+    for _ in range(n):
+        s, e, w = map(int, input().split())
+        exams.append((s, e, w))
+    print(max_score(exams, g))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <sstream>
+#include <map>
+#include <set>
+#include <unordered_map>
+#include <unordered_set>
+#include <numeric>
+#include <limits>
+#include <cmath>
+#include <cstring>
+#include <utility>
+
+using namespace std;
+
+long long maxScore(vector<Exam>& exams, long long g) {
+    //Implement here
+    return 0;
+}
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n; long long g;
+    if (!(cin >> n >> g)) return 0;
+    vector<Exam> exams(n);
+    for (int i = 0; i < n; ++i) cin >> exams[i].s >> exams[i].e >> exams[i].w;
+    cout << maxScore(exams, g) << '\n';
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+function maxScore(exams, g) {
+  //Implement here
+  return 0;
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  let ptr = 0;
+  const parts = data[ptr++].split(/\s+/).map(Number);
+  const n = parts[0];
+  const g = parts[1];
+  const exams = [];
+  for (let i = 0; i < n; i++) {
+    const exam = data[ptr++].split(/\s+/).map(Number);
+    exams.push(exam);
+  }
+
+  console.log(maxScore(exams, g));
+});
+```
 

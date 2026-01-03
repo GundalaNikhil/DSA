@@ -124,12 +124,188 @@ Trie, String, Edit Distance, Dynamic Programming, Spell Checking
 
 ### Java
 
+```java
+import java.util.*;
+
+class TrieNode {
+    Map<Character, TrieNode> children = new HashMap<>();
+    boolean isEnd = false;
+}
+
+class Solution {
+    public void insertWord(String word) {
+        //Implement here
+    }
+    public boolean hasEditDistance1(String query) {
+        //Implement here
+        return false;
+    }
+    private boolean dfs(TrieNode node, String query, int index, int edits) {
+        //Implement here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int n = sc.nextInt();
+        sc.nextLine();
+
+        Solution solution = new Solution();
+        for (int i = 0; i < n; i++) {
+            solution.insertWord(sc.nextLine().trim());
+        }
+
+        String query = sc.nextLine().trim();
+        boolean result = solution.hasEditDistance1(query);
+
+        System.out.println(result);
+
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.is_end = False
+
+class Solution:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def insert_word(self, word: str):
+        # //Implement here
+        return 0
+    def has_edit_distance_1(self, query: str) -> bool:
+        # //Implement here
+        return 0
+    def _dfs(self, node: TrieNode, query: str, index: int, edits: int) -> bool:
+        # //Implement here
+        return 0
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+
+    n = int(lines[0])
+
+    solution = Solution()
+    for i in range(1, n + 1):
+        solution.insert_word(lines[i].strip())
+
+    query = lines[n + 1].strip()
+    result = solution.has_edit_distance_1(query)
+
+    print('true' if result else 'false')
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <unordered_map>
+#include <string>
+using namespace std;
+
+struct TrieNode {
+    unordered_map<char, TrieNode*> children;
+    bool isEnd = false;
+};
+
+class Solution {
+public:
+    bool dfs(TrieNode* node, const string& query, int index, int edits) {
+        //Implement here
+        return false;
+    }
+    void insertWord(const string& word) {
+        //Implement here
+    }
+    bool hasEditDistance1(const string& query) {
+        //Implement here
+        return false;
+    }
+};
+
+int main() {
+    int n;
+    cin >> n;
+    cin.ignore();
+
+    Solution solution;
+    for (int i = 0; i < n; i++) {
+        string word;
+        getline(cin, word);
+        solution.insertWord(word);
+    }
+
+    string query;
+    getline(cin, query);
+
+    bool result = solution.hasEditDistance1(query);
+    cout << (result ? "true" : "false") << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class TrieNode {
+  constructor() {
+    this.children = new Map();
+    this.isEnd = false;
+  }
+}
+
+class Solution {
+  insertWord(word) {
+    //Implement here
+    return 0;
+  }
+  hasEditDistance1(query) {
+    //Implement here
+    return 0;
+  }
+  dfs(node, query, index, edits) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const n = parseInt(lines[0]);
+
+  const solution = new Solution();
+  for (let i = 1; i <= n; i++) {
+    solution.insertWord(lines[i].trim());
+  }
+
+  const query = lines[n + 1].trim();
+  const result = solution.hasEditDistance1(query);
+
+  console.log(result ? "true" : "false");
+});
+```

@@ -91,12 +91,174 @@ Bridges, DFS, Graph Connectivity
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<int[]> criticalEdges(int n, int[][] edges, int T) {
+        //Implement here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int T = sc.nextInt();
+        int[][] edges = new int[m][3];
+        for (int i = 0; i < m; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+            edges[i][2] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        List<int[]> ans = solution.criticalEdges(n, edges, T);
+        StringBuilder sb = new StringBuilder();
+        sb.append(ans.size()).append('\n');
+        for (int[] e : ans) {
+            sb.append(e[0]).append(' ').append(e[1]).append('\n');
+        }
+        System.out.print(sb.toString().trim());
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+sys.setrecursionlimit(200000)
+
+def critical_edges(n: int, edges: list[tuple[int, int, int]], T: int) -> list[tuple[int, int]]:
+    # //Implement here
+    return 0
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        T = int(next(iterator))
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            c = int(next(iterator))
+            edges.append((u, v, c))
+        
+        ans = critical_edges(n, edges, T)
+        
+        out = [str(len(ans))]
+        for u, v in ans:
+            out.append(f"{u} {v}")
+        print("\n".join(out))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <array>
+
+using namespace std;
+
+class Solution {
+public:
+    int>> criticalEdges(int n, const vector<array<int, 3>>& edges, int T) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m, T;
+    if (!(cin >> n >> m >> T)) return 0;
+    vector<array<int, 3>> edges(m);
+    for (int i = 0; i < m; i++) {
+        cin >> edges[i][0] >> edges[i][1] >> edges[i][2];
+    }
+
+    Solution solution;
+    vector<pair<int, int>> ans = solution.criticalEdges(n, edges, T);
+    cout << ans.size() << "\n";
+    for (auto& e : ans) {
+        cout << e.first << ' ' << e.second << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  criticalEdges(n, edges, T) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false
+});
+
+let data = [];
+rl.on("line", (line) => {
+    if (line.trim() !== '') {
+        const parts = line.trim().split(/\s+/);
+        for(const p of parts) data.push(p);
+    }
+});
+
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  function nextInt() {
+      return parseInt(data[idx++], 10);
+  }
+  
+  const n = nextInt();
+  const m = nextInt();
+  const T = nextInt();
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = nextInt();
+    const v = nextInt();
+    const c = nextInt();
+    edges.push([u, v, c]);
+  }
+
+  const solution = new Solution();
+  const ans = solution.criticalEdges(n, edges, T);
+  console.log(ans.length.toString());
+  for(const e of ans) {
+      console.log(`${e[0]} ${e[1]}`);
+  }
+});
+```
 

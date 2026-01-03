@@ -96,12 +96,154 @@ Game Theory, Memoization, Young Tableaux
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public String chompGame(int R, int C, int[][] poisons) {
+        //Implement here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int R = sc.nextInt();
+            int C = sc.nextInt();
+            int K = sc.nextInt();
+            int[][] poisons = new int[K][2];
+            for (int i = 0; i < K; i++) {
+                poisons[i][0] = sc.nextInt();
+                poisons[i][1] = sc.nextInt();
+            }
+
+            Solution solution = new Solution();
+            System.out.println(solution.chompGame(R, C, poisons));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List, Tuple
+
+def chomp_game(R: int, C: int, poisons: List[List[int]]) -> str:
+    # //Implement here
+    return 0
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        R = int(next(iterator))
+        C = int(next(iterator))
+        K = int(next(iterator))
+        poisons = []
+        for _ in range(K):
+            r = int(next(iterator))
+            c = int(next(iterator))
+            poisons.append([r, c])
+            
+        print(chomp_game(R, C, poisons))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <map>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    string chompGame(int R, int C, vector<vector<int>>& poisons) {
+        //Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int R, C, K;
+    if (cin >> R >> C >> K) {
+        vector<vector<int>> poisons(K, vector<int>(2));
+        for (int i = 0; i < K; i++) {
+            cin >> poisons[i][0] >> poisons[i][1];
+        }
+        
+        Solution solution;
+        cout << solution.chompGame(R, C, poisons) << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  chompGame(R, C, poisons) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  const flatData = [];
+  data.forEach(line => {
+      line.trim().split(/\s+/).forEach(part => {
+          if (part) flatData.push(part);
+      });
+  });
+  
+  if (flatData.length === 0) return;
+  
+  let idx = 0;
+  const R = parseInt(flatData[idx++]);
+  const C = parseInt(flatData[idx++]);
+  const K = parseInt(flatData[idx++]);
+  
+  const poisons = [];
+  for (let i = 0; i < K; i++) {
+      const r = parseInt(flatData[idx++]);
+      const c = parseInt(flatData[idx++]);
+      poisons.push([r, c]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.chompGame(R, C, poisons));
+});
+```
 

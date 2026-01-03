@@ -98,12 +98,132 @@ Greedy Algorithms, Sorting, Resource Allocation, Optimization
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int minBatterySwaps(int n, long T, long[] capacities) {
+        //Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        long T = sc.nextLong();
+
+        long[] capacities = new long[n];
+        for (int i = 0; i < n; i++) {
+            capacities[i] = sc.nextLong();
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.minBatterySwaps(n, T, capacities));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def min_battery_swaps(n: int, T: int, capacities: list) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    n = int(next(iterator))
+    T = int(next(iterator))
+    
+    capacities = []
+    for _ in range(n):
+        capacities.append(int(next(iterator)))
+
+    result = min_battery_swaps(n, T, capacities)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <numeric>
+
+using namespace std;
+
+class Solution {
+public:
+    int minBatterySwaps(int n, long long T, vector<long long>& capacities) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    long long T;
+    if (!(cin >> n >> T)) return 0;
+
+    vector<long long> capacities(n);
+    for (int i = 0; i < n; i++) {
+        cin >> capacities[i];
+    }
+
+    Solution solution;
+    cout << solution.minBatterySwaps(n, T, capacities) << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  minBatterySwaps(n, T, capacities) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let ptr = 0;
+  const [n, T] = data[ptr++].split(" ").map(Number);
+  const capacities = data[ptr++].split(" ").map(Number);
+
+  const solution = new Solution();
+  console.log(solution.minBatterySwaps(n, T, capacities));
+});
+```
 

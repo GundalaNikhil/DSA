@@ -97,12 +97,114 @@ Hashing, Double Hashing, Combinatorics, Substring Matching
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long countPairs(String s, int L) {
+        //Implement here
+        return 0L;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLine()) {
+            String s = sc.nextLine();
+            if (sc.hasNextInt()) {
+                int L = sc.nextInt();
+                Solution solution = new Solution();
+                System.out.println(solution.countPairs(s, L));
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def count_pairs(s: str, L: int) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    
+    s = input_data[0]
+    if len(input_data) > 1:
+        L = int(input_data[1])
+        print(count_pairs(s, L))
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <map>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long countPairs(string s, int L) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    string s;
+    int L;
+    if (getline(cin, s) && cin >> L) {
+        Solution solution;
+        cout << solution.countPairs(s, L) << "\n";
+    }
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  countPairs(s, L) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length < 2) return;
+  const s = data[0];
+  const L = parseInt(data[1]);
+
+  const solution = new Solution();
+  console.log(solution.countPairs(s, L));
+});
+```
 

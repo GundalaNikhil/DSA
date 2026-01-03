@@ -83,12 +83,149 @@ Max Flow, Dinic, Capacity Scaling
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long maxFlow(int n, int s, int t, int[][] edges) {
+        //Implement here
+        return 0L;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int s = sc.nextInt();
+        int t = sc.nextInt();
+        int[][] edges = new int[m][3];
+        for (int i = 0; i < m; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+            edges[i][2] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.maxFlow(n, s, t, edges));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+sys.setrecursionlimit(300000)
+
+def max_flow(self, s, t):
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        s = int(next(iterator))
+        t = int(next(iterator))
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            c = int(next(iterator))
+            edges.append((u, v, c))
+            
+        print(max_flow(n, s, t, edges))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <array>
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long long maxFlow(int s, int t) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m, s, t;
+    if (!(cin >> n >> m >> s >> t)) return 0;
+    vector<array<int, 3>> edges(m);
+    for (int i = 0; i < m; i++) {
+        cin >> edges[i][0] >> edges[i][1] >> edges[i][2];
+    }
+
+    Solution solution;
+    cout << solution.maxFlow(n, s, t, edges) << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  maxFlow(n, s, t, edges) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => { const parts = line.trim().split(/\s+/); for (const p of parts) if (p) data.push(p); });
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const m = parseInt(data[idx++], 10);
+  const s = parseInt(data[idx++], 10);
+  const t = parseInt(data[idx++], 10);
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(data[idx++], 10);
+    const v = parseInt(data[idx++], 10);
+    const c = parseInt(data[idx++], 10);
+    edges.push([u, v, c]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.maxFlow(n, s, t, edges).toString());
+});
+```
 

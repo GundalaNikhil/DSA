@@ -83,12 +83,104 @@ Backtracking, Palindromes, Recursion
 ## Solution Template
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public String minPalindromePartitions(String s, int l) {
+        //Implement here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if(!sc.hasNext()) return;
+        String s = sc.next();
+        if(!sc.hasNextInt()) return;
+        int L = sc.nextInt();
+        
+        Solution sol = new Solution();
+        System.out.println(sol.minPalindromePartitions(s, L));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def min_palindrome_partitions(s: str, L: int) -> list[str]:
+    # //Implement here
+    return 0
+
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+    if len(lines) < 2:
+        return
+    s = lines[0].strip()
+    L = int(lines[1].strip())
+    result = min_palindrome_partitions(s, L)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    string minPalindromePartitions(string s, int l) {
+        //Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    string s;
+    if (!(cin >> s)) return 0;
+    int L; cin >> L;
+    
+    Solution sol;
+    cout << sol.minPalindromePartitions(s, L) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const s = tokens[ptr++];
+    const L = parseInt(tokens[ptr++]);
+    
+    const sol = new Solution();
+    console.log(sol.minPalindromePartitions(s, L));
+});
+
+class Solution {
+  minPalindromePartitions(s, L) {
+    //Implement here
+    return 0;
+  }
+}
+```
 

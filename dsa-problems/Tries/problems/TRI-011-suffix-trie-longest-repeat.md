@@ -77,12 +77,154 @@ Trie, Suffix Structures, String Algorithms
 
 ### Java
 
+```java
+import java.util.*;
+
+class TrieNode {
+    Map<Character, TrieNode> children = new HashMap<>();
+    int suffixCount = 0;  // Number of suffixes passing through this node
+}
+
+class Solution {
+    public int longestRepeatedSubstring(String s) {
+        //Implement here
+        return 0;
+    }
+    private void insertSuffix(String suffix) {
+        //Implement here
+    }
+    private void dfs(TrieNode node, int depth) {
+        //Implement here
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        String s = sc.nextLine().trim();
+
+        Solution solution = new Solution();
+        int result = solution.longestRepeatedSubstring(s);
+        System.out.println(result);
+
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.suffix_count = 0  # Number of suffixes passing through this node
+
+class Solution:
+    def __init__(self):
+        self.root = TrieNode()
+        self.max_length = 0
+
+    def longest_repeated_substring(self, s: str) -> int:
+        # //Implement here
+        return 0
+    def _insert_suffix(self, suffix: str):
+        # //Implement here
+        return 0
+    def _dfs(self, node: TrieNode, depth: int):
+        # //Implement here
+        return 0
+def main():
+    import sys
+    s = sys.stdin.read().strip()
+
+    solution = Solution()
+    result = solution.longest_repeated_substring(s)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <unordered_map>
+#include <string>
+#include <algorithm>
+using namespace std;
+
+struct TrieNode {
+    unordered_map<char, TrieNode*> children;
+    int suffixCount = 0;  // Number of suffixes passing through this node
+};
+
+class Solution {
+public:
+    void insertSuffix(const string& suffix) {
+        //Implement here
+    }
+    void dfs(TrieNode* node, int depth) {
+        //Implement here
+    }
+    int longestRepeatedSubstring(const string& s) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    string s;
+    getline(cin, s);
+
+    Solution solution;
+    int result = solution.longestRepeatedSubstring(s);
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class TrieNode {
+  constructor() {
+    this.children = new Map();
+    this.suffixCount = 0; // Number of suffixes passing through this node
+  }
+}
+
+class Solution {
+  insertSuffix(suffix) {
+    //Implement here
+    return 0;
+  }
+  dfs(node, depth) {
+    //Implement here
+    return 0;
+  }
+  longestRepeatedSubstring(s) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let input = "";
+rl.on("line", (line) => {
+  input = line.trim();
+  rl.close();
+}).on("close", () => {
+  const solution = new Solution();
+  const result = solution.longestRepeatedSubstring(input);
+  console.log(result);
+});
+```

@@ -90,12 +90,187 @@ Trie, Binary String, Lexicographic Order, DFS, Coding Theory
 
 ### Java
 
+```java
+import java.util.*;
+
+class TrieNode {
+    TrieNode[] children = new TrieNode[2];  // 0 and 1
+    boolean isEnd = false;
+}
+
+class Solution {
+    public String findShortestAbsent(String[] binaryStrings, int L) {
+        //Implement here
+        return "";
+    }
+    private void insert(String s) {
+        //Implement here
+    }
+    private String dfs(TrieNode node, String path, int L) {
+        //Implement here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int L = sc.nextInt();
+        int n = sc.nextInt();
+
+        String[] binaryStrings = new String[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNext()) {
+                binaryStrings[i] = sc.next();
+            } else {
+                binaryStrings[i] = "";
+            }
+        }
+
+        Solution solution = new Solution();
+        String result = solution.findShortestAbsent(binaryStrings, L);
+
+        System.out.println(result.isEmpty() ? "" : result);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+class TrieNode:
+    def __init__(self):
+        self.children = [None, None]  # Index 0 for '0', index 1 for '1'
+        self.is_end = False
+
+class Solution:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def find_shortest_absent(self, binary_strings: List[str], L: int) -> str:
+        # //Implement here
+        return 0
+    def _insert(self, s: str):
+        # //Implement here
+        return 0
+    def _dfs(self, node: TrieNode, path: str, L: int) -> str:
+        # //Implement here
+        return 0
+def main():
+    import sys
+    lines = sys.stdin.read().strip().split('\n')
+
+    L = int(lines[0].split()[0])
+    n = int(lines[0].split()[1])
+
+    binary_strings = [lines[i+1].strip() for i in range(n)]
+
+    solution = Solution()
+    result = solution.find_shortest_absent(binary_strings, L)
+
+    print(result if result else "")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <cmath>
+using namespace std;
+
+struct TrieNode {
+    TrieNode* children[2] = {nullptr, nullptr};
+    bool isEnd = false;
+};
+
+class Solution {
+public:
+    void insert(const string& s) {
+        //Implement here
+    }
+    string dfs(TrieNode* node, string path, int L) {
+        //Implement here
+        return {};
+    }
+    string findShortestAbsent(vector<string>& binaryStrings, int L) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    int L, n;
+    cin >> L >> n;
+    cin.ignore();
+
+    vector<string> binaryStrings(n);
+    for (int i = 0; i < n; i++) {
+        getline(cin, binaryStrings[i]);
+    }
+
+    Solution solution;
+    string result = solution.findShortestAbsent(binaryStrings, L);
+
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class TrieNode {
+  constructor() {
+    this.children = [null, null]; // 0 and 1
+    this.isEnd = false;
+  }
+}
+
+class Solution {
+  insert(s) {
+    //Implement here
+    return 0;
+  }
+  dfs(node, path, L) {
+    //Implement here
+    return 0;
+  }
+  findShortestAbsent(binaryStrings, L) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const [L, n] = lines[0].split(" ").map(Number);
+  const binaryStrings = [];
+  for (let i = 1; i <= n; i++) {
+    binaryStrings.push(lines[i].trim());
+  }
+
+  const solution = new Solution();
+  const result = solution.findShortestAbsent(binaryStrings, L);
+
+  console.log(result);
+});
+```

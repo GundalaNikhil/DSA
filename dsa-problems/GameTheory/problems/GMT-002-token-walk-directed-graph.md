@@ -84,12 +84,164 @@ Graph Theory, DFS, Memoization
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<String> determineWinningNodes(int n, int[][] edges) {
+        //Implement here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int m = sc.nextInt();
+            int[][] edges = new int[m][2];
+            for (int i = 0; i < m; i++) {
+                edges[i][0] = sc.nextInt();
+                edges[i][1] = sc.nextInt();
+            }
+
+            Solution solution = new Solution();
+            List<String> result = solution.determineWinningNodes(n, edges);
+            
+            for (int i = 0; i < result.size(); i++) {
+                System.out.print(result.get(i) + (i == result.size() - 1 ? "" : " "));
+            }
+            System.out.println();
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+import sys
+
+sys.setrecursionlimit(200005)
+
+def determine_winning_nodes(n: int, edges: List[List[int]]) -> List[str]:
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+    
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            edges.append([u, v])
+            
+        result = determine_winning_nodes(n, edges)
+        print(" ".join(result))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> determineWinningNodes(int n, vector<vector<int>>& edges) {
+        //Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m;
+    if (cin >> n >> m) {
+        vector<vector<int>> edges(m, vector<int>(2));
+        for (int i = 0; i < m; i++) {
+            cin >> edges[i][0] >> edges[i][1];
+        }
+        
+        Solution solution;
+        vector<string> result = solution.determineWinningNodes(n, edges);
+        
+        for (int i = 0; i < result.size(); i++) {
+            cout << result[i] << (i == result.size() - 1 ? "" : " ");
+        }
+        cout << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  determineWinningNodes(n, edges) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  
+  // Flatten data
+  const flatData = [];
+  data.forEach(line => {
+      line.trim().split(/\s+/).forEach(part => {
+          if (part) flatData.push(part);
+      });
+  });
+  
+  if (flatData.length === 0) return;
+  
+  let idx = 0;
+  const n = parseInt(flatData[idx++]);
+  const m = parseInt(flatData[idx++]);
+  
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+      const u = parseInt(flatData[idx++]);
+      const v = parseInt(flatData[idx++]);
+      edges.push([u, v]);
+  }
+
+  const solution = new Solution();
+  const result = solution.determineWinningNodes(n, edges);
+  console.log(result.join(" "));
+});
+```
 

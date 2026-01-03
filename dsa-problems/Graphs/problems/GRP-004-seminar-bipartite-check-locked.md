@@ -113,12 +113,181 @@ Bipartite Graphs, Graph Coloring, BFS, DFS, Two-Coloring
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public boolean canColorBipartite(int n, List<List<Integer>> adj, int[] locked) {
+        //Implement here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+        
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+        
+        // Parse locked array, defaulting to all zeros if missing
+        int[] locked = new int[n];
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextInt()) {
+                locked[i] = sc.nextInt();
+            } else {
+                locked[i] = 0;
+            }
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.canColorBipartite(n, adj, locked) ? "true" : "false");
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from collections import deque
+from typing import List
+
+sys.setrecursionlimit(200000)
+
+def can_color_bipartite(n: int, adj: List[List[int]], locked: List[int]) -> bool:
+    # //Implement here
+    return 0
+
+def main():
+    n = int(input())
+    m = int(input())
+    
+    adj = [[] for _ in range(n)]
+    
+    for _ in range(m):
+        u, v = map(int, input().split())
+        adj[u].append(v)
+        adj[v].append(u)
+    
+    try:
+        locked = list(map(int, input().split()))
+    except EOFError:
+        # Default to no locked nodes if input is missing
+        locked = [0] * n
+    
+    result = can_color_bipartite(n, adj, locked)
+    print("true" if result else "false")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    public: bool canColorBipartite(int n, vector<vector<int>>& adj, vector<int>& locked) {
+        //Implement here
+        return false;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    
+    int n, m;
+    cin >> n >> m;
+    
+    vector<vector<int>> adj(n);
+    
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+    
+    vector<int> locked(n);
+    for (int i = 0; i < n; i++) {
+        cin >> locked[i];
+    }
+    
+    Solution solution;
+    cout << (solution.canColorBipartite(n, adj, locked) ? "true" : "false") << "\n";
+    
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  canColorBipartite(n, adj, locked) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  const tokens = data.join(" ").split(/\s+/);
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const m = Number(tokens[ptr++]);
+
+  const adj = Array.from({ length: n }, () => []);
+
+  for (let i = 0; i < m; i++) {
+    const u = Number(tokens[ptr++]);
+    const v = Number(tokens[ptr++]);
+    adj[u].push(v);
+    adj[v].push(u);
+  }
+
+  // Sort neighbors for deterministic traversal
+  for (let i = 0; i < n; i++) {
+    adj[i].sort((a, b) => a - b);
+  }
+
+  // Parse locked array, defaulting to all zeros if missing
+  const locked = Array(n).fill(0);
+  let lockIdx = 0;
+  while (ptr < tokens.length && lockIdx < n) {
+    locked[lockIdx++] = Number(tokens[ptr++]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.canColorBipartite(n, adj, locked) ? "true" : "false");
+});
+```
 

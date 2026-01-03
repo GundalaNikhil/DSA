@@ -79,12 +79,94 @@ Backtracking, Combinatorics, Recursion
 ## Solution Template
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int countNQueens(int n) {
+        //Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if(!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        
+        Solution sol = new Solution();
+        System.out.println(sol.countNQueens(n));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+def count_nqueens(n: int) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    import sys
+    n = int(sys.stdin.read().strip())
+    result = count_nqueens(n)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int countNQueens(int n) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false); cin.tie(nullptr);
+    int n; 
+    if (!(cin >> n)) return 0;
+    
+    Solution sol;
+    cout << sol.countNQueens(n) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require('readline');
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+let tokens = [];
+rl.on('line', (line) => { tokens.push(...line.trim().split(/\s+/)); });
+rl.on('close', () => {
+    if(tokens.length===0) return;
+    let ptr = 0;
+    const n = parseInt(tokens[ptr++]);
+    
+    const sol = new Solution();
+    console.log(sol.countNQueens(n));
+});
+
+class Solution {
+  countNQueens(n) {
+    //Implement here
+    return 0;
+  }
+}
+```
 

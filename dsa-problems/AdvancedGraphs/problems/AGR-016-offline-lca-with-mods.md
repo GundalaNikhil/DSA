@@ -70,6 +70,182 @@ LCA, DSU Rollback, Offline Queries
 ---
 ## Solution Template
 ### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public int[] offlineLca(int n, int[][] edges, String[] type, int[][] args) {
+        //Implement here
+        return new int[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int m = n - 1;
+        int[][] edges = new int[m][2];
+        for (int i = 0; i < m; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+        }
+        int q = sc.nextInt();
+        String[] type = new String[q];
+        int[][] queryArgs = new int[q][2];
+        for (int i = 0; i < q; i++) {
+            type[i] = sc.next();
+            queryArgs[i][0] = sc.nextInt();
+            queryArgs[i][1] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        int[] results = solution.offlineLca(n, edges, type, queryArgs);
+
+        for (int res : results) {
+            System.out.println(res);
+        }
+        sc.close();
+    }
+}
+```
+
 ### Python
+
+```python
+import sys
+
+sys.setrecursionlimit(300000)
+
+def offline_lca(n: int, edges: list[tuple[int, int]], ops: list[tuple[str, int, int]]) -> list[int]:
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+
+    iterator = iter(data)
+    try:
+        n = int(next(iterator))
+        edges = []
+        for _ in range(n - 1):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            edges.append((u, v))
+
+        q = int(next(iterator))
+        ops = []
+        for _ in range(q):
+            t = next(iterator)
+            u = int(next(iterator))
+            v = int(next(iterator))
+            ops.append((t, u, v))
+
+        out = offline_lca(n, edges, ops)
+        sys.stdout.write("\n".join(map(str, out)))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
+
 ### C++
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <map>
+#include <algorithm>
+#include <stack>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> offlineLca(int n, const vector<pair<int, int>>& edges, const vector<string>& type, const vector<pair<int, int>>& args) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<pair<int, int>> edges(n - 1);
+    for (int i = 0; i < n - 1; i++) {
+        cin >> edges[i].first >> edges[i].second;
+    }
+
+    int q;
+    cin >> q;
+    vector<string> type(q);
+    vector<pair<int, int>> args(q);
+    for (int i = 0; i < q; i++) {
+        cin >> type[i] >> args[i].first >> args[i].second;
+    }
+
+    Solution solution;
+    vector<int> out = solution.offlineLca(n, edges, type, args);
+    for (int i = 0; i < (int)out.size(); i++) {
+        if (i) cout << "\n";
+        cout << out[i];
+    }
+    return 0;
+}
+```
+
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  offlineLca(n, edges, ops) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => { const parts = line.trim().split(/\s+/); for (const p of parts) if (p) data.push(p); });
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  let idx = 0;
+  const n = parseInt(data[idx++], 10);
+  const edges = [];
+  for (let i = 0; i < n - 1; i++) {
+    const u = parseInt(data[idx++], 10);
+    const v = parseInt(data[idx++], 10);
+    edges.push([u, v]);
+  }
+  const q = parseInt(data[idx++], 10);
+  const ops = [];
+  for (let i = 0; i < q; i++) {
+    const t = data[idx++];
+    const u = parseInt(data[idx++], 10);
+    const v = parseInt(data[idx++], 10);
+    ops.push([t, u, v]);
+  }
+
+  const solution = new Solution();
+  const out = solution.offlineLca(n, edges, ops);
+  console.log(out.join("\n"));
+});
+```
+

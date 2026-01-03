@@ -100,12 +100,141 @@ Newton Iteration, Polynomial Inverse, NTT, Modular Arithmetic, Divide and Conque
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long[] inversePolynomial(long[] P, int n, long MOD) {
+        //Implement here
+        return new long[0];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int k = sc.nextInt();
+        int n = sc.nextInt();
+        long[] P = new long[k];
+        for (int i = 0; i < k; i++) P[i] = sc.nextLong();
+        long MOD = sc.nextLong();
+
+        Solution solution = new Solution();
+        long[] result = solution.inversePolynomial(P, n, MOD);
+
+        for (int i = 0; i < result.length; i++) {
+            System.out.print(result[i] + (i < result.length - 1 ? " " : ""));
+        }
+        System.out.println();
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def inverse_polynomial(self, P: list[int], n: int, MOD: int) -> list[int]:
+        # //Implement here
+        return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data: return
+    
+    iterator = iter(data)
+    try:
+        k = int(next(iterator))
+        n = int(next(iterator))
+        P = [int(next(iterator)) for _ in range(k)]
+        MOD = int(next(iterator))
+        
+        sol = Solution()
+        res = sol.inverse_polynomial(P, n, MOD)
+        print(*(res))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> inversePolynomial(vector<long long>& P, int n, long long mod) {
+        //Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int k, n;
+    if (!(cin >> k >> n)) return 0;
+    vector<long long> P(k);
+    for (int i = 0; i < k; i++) cin >> P[i];
+    long long MOD;
+    cin >> MOD;
+
+    Solution solution;
+    vector<long long> result = solution.inversePolynomial(P, n, MOD);
+
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i] << (i < result.size() - 1 ? " " : "");
+    }
+    cout << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  inversePolynomial(P, n, MOD) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  let ptr = 0;
+  const k = parseInt(data[ptr++]);
+  const n = parseInt(data[ptr++]);
+  const P = [];
+  for(let i=0; i<k; i++) P.push(parseInt(data[ptr++]));
+  const MOD = parseInt(data[ptr++]);
+
+  const solution = new Solution();
+  const result = solution.inversePolynomial(P, n, MOD);
+  console.log(result.join(" "));
+});
+```
 

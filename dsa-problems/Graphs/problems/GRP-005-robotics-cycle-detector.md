@@ -100,12 +100,155 @@ Cycle Detection, DFS, Back Edge, Undirected Graph, Parent Tracking
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public boolean hasCycle(int n, List<List<Integer>> adj) {
+        //Implement here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adj.add(new ArrayList<>());
+        }
+
+        for (int i = 0; i < m; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+
+        Solution solution = new Solution();
+        boolean result = solution.hasCycle(n, adj);
+
+        System.out.println(result ? "true" : "false");
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from typing import List
+
+sys.setrecursionlimit(200000)
+
+def has_cycle(n: int, adj: List[List[int]]) -> bool:
+    # //Implement here
+    return 0
+
+def main():
+    n = int(input())
+    m = int(input())
+
+    adj = [[] for _ in range(n)]
+
+    for _ in range(m):
+        u, v = map(int, input().split())
+        adj[u].append(v)
+        adj[v].append(u)
+
+    result = has_cycle(n, adj)
+    print("true" if result else "false")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    public: bool hasCycle(int n, vector<vector<int>>& adj) {
+        //Implement here
+        return false;
+    }
+};
+
+int main() {
+    int n, m;
+    cin >> n >> m;
+
+    vector<vector<int>> adj(n);
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    // Sort neighbors for deterministic traversal
+    for (int i = 0; i < n; i++) {
+        sort(adj[i].begin(), adj[i].end());
+    }
+
+    Solution solution;
+    cout << (solution.hasCycle(n, adj) ? "true" : "false") << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  hasCycle(n, adj) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  const tokens = data.join(" ").split(/\s+/);
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const m = Number(tokens[ptr++]);
+
+  const adj = Array.from({ length: n }, () => []);
+
+  for (let i = 0; i < m; i++) {
+    const u = Number(tokens[ptr++]);
+    const v = Number(tokens[ptr++]);
+    adj[u].push(v);
+    adj[v].push(u);
+  }
+
+  // Sort neighbors for deterministic traversal
+  for (let i = 0; i < n; i++) {
+    adj[i].sort((a, b) => a - b);
+  }
+
+  const solution = new Solution();
+  console.log(solution.hasCycle(n, adj) ? "true" : "false");
+});
+```
 

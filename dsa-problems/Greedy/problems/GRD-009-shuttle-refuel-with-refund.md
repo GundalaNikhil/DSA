@@ -108,12 +108,145 @@ Greedy Algorithms, Circular Array, Prefix Sum, Kadane's Algorithm, Optimization
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int findStart(int n, int[] gain, int[] cost) {
+        //Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        
+        int n = sc.nextInt();
+        int[] gain = new int[n];
+        for (int i = 0; i < n; i++) gain[i] = sc.nextInt();
+        
+        int[] cost = new int[n];
+        for (int i = 0; i < n; i++) cost[i] = sc.nextInt();
+        
+        Solution solution = new Solution();
+        System.out.println(solution.findStart(n, gain, cost));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def find_start(n: int, gain: list, cost: list) -> int:
+    # //Implement here
+    return 0
+
+def main():
+    input = sys.stdin.read
+    data = input().split()
+    if not data:
+        return
+        
+    iterator = iter(data)
+    n = int(next(iterator))
+    
+    gain = []
+    for _ in range(n):
+        gain.append(int(next(iterator)))
+        
+    cost = []
+    for _ in range(n):
+        cost.append(int(next(iterator)))
+
+    result = find_start(n, gain, cost)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <numeric>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int findStart(int n, vector<int>& gain, vector<int>& cost) {
+        //Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> gain(n), cost(n);
+    for (int i = 0; i < n; i++) cin >> gain[i];
+    for (int i = 0; i < n; i++) cin >> cost[i];
+
+    Solution solution;
+    cout << solution.findStart(n, gain, cost) << "\n";
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  findStart(n, gain, cost) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+
+  // Parse all numbers from all lines
+  const allNumbers = [];
+  for (const line of data) {
+    allNumbers.push(...line.split(" ").map(Number));
+  }
+
+  let ptr = 0;
+  const n = allNumbers[ptr++];
+  const gain = [];
+  for (let i = 0; i < n; i++) {
+    gain.push(allNumbers[ptr++]);
+  }
+  const cost = [];
+  for (let i = 0; i < n; i++) {
+    cost.push(allNumbers[ptr++]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.findStart(n, gain, cost));
+});
+```
 

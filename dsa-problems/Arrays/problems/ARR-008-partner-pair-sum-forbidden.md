@@ -83,16 +83,141 @@ Arrays, Two Pointers, Hashing
 
 ### Java
 
+```java
+import java.util.*;
 
+class Solution {
+    public boolean hasPairWithForbidden(int[] arr, int target, Set<Integer> forbidden) {
+        //Implement here
+        return false;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) arr[i] = sc.nextInt();
+
+        int target = sc.nextInt();
+        int f = sc.nextInt();
+        Set<Integer> forbidden = new HashSet<>();
+        for (int i = 0; i < f; i++) forbidden.add(sc.nextInt());
+
+        Solution solution = new Solution();
+        boolean result = solution.hasPairWithForbidden(arr, target, forbidden);
+        System.out.println(result ? "true" : "false");
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
 
+def has_pair_with_forbidden(arr: list[int], target: int, forbidden: set[int]) -> bool:
+    # //Implement here
+    return 0
+
+def main():
+    n = int(input())
+    arr = list(map(int, input().split()))
+    target = int(input())
+    f = int(input())
+    forbidden = set(map(int, input().split())) if f > 0 else set()
+
+    result = has_pair_with_forbidden(arr, target, forbidden)
+    print("true" if result else "false")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_set>
 
+using namespace std;
+
+class Solution {
+public:
+    bool hasPairWithForbidden(vector<int>& arr, int target, unordered_set<int>& forbidden) {
+        //Implement here
+        return false;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+
+    int target, f;
+    cin >> target >> f;
+
+    unordered_set<int> forbidden;
+    for (int i = 0; i < f; i++) {
+        int idx;
+        cin >> idx;
+        forbidden.insert(idx);
+    }
+
+    Solution solution;
+    cout << (solution.hasPairWithForbidden(arr, target, forbidden) ? "true" : "false") << "\n";
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  hasPairWithForbidden(arr, target, forbidden) {
+    //Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let data = [];
+rl.on("line", (line) => data.push(line.trim()));
+rl.on("close", () => {
+  if (data.length === 0) return;
+  const tokens = data.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+
+  let ptr = 0;
+  const n = Number(tokens[ptr++]);
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(Number(tokens[ptr++]));
+
+  const target = Number(tokens[ptr++]);
+  const f = Number(tokens[ptr++]);
+  const forbidden = new Set();
+  for (let i = 0; i < f; i++) forbidden.add(Number(tokens[ptr++]));
+
+  const solution = new Solution();
+  console.log(
+    solution.hasPairWithForbidden(arr, target, forbidden) ? "true" : "false"
+  );
+});
+```
 
