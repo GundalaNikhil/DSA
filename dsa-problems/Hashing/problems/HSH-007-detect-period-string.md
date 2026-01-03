@@ -89,24 +89,32 @@ String Period, Pattern Matching, Hashing, KMP Failure Function
 ### Java
 
 ```java
+import java.io.*;
 import java.util.*;
 
 class Solution {
     public int detectPeriod(String s) {
-        //Implement here
+        //Implemention here
         return 0;
     }
 }
 
 class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextLine()) {
-            String s = sc.nextLine();
-            Solution solution = new Solution();
-            System.out.println(solution.detectPeriod(s));
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line).append(' ');
         }
-        sc.close();
+        String input = sb.toString().trim();
+        if (input.isEmpty()) return;
+        String[] data = input.split("\\s+");
+        int idx = 0;
+        String s = data[idx++];
+        Solution solution = new Solution();
+        int result = solution.detectPeriod(s);
+        System.out.print(result);
     }
 }
 ```
@@ -116,18 +124,20 @@ class Main {
 ```python
 import sys
 
-def detect_period(s: str) -> int:
-    # //Implement here
+def detect_period(s):
+    # //Implemention here
     return 0
 
 def main():
-    input_data = sys.stdin.read().split()
-    if not input_data:
+    data = sys.stdin.read().split()
+    if not data:
         return
-    s = input_data[0]
-    print(detect_period(s))
+    idx = 0
+    s = data[idx]
+    result = detect_period(s)
+    sys.stdout.write(str(result))
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
 ```
 
@@ -136,30 +146,22 @@ if __name__ == "__main__":
 ```cpp
 #include <iostream>
 #include <string>
-#include <vector>
-#include <algorithm>
-#include <cmath>
 
 using namespace std;
 
-class Solution {
-public:
-    int detectPeriod(string s) {
-        //Implement here
-        return 0;
-    }
-};
+int detect_period(const string& s) {
+    //Implemention here
+    return 0;
+}
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     string s;
-    if (getline(cin, s)) {
-        Solution solution;
-        cout << solution.detectPeriod(s) << "\n";
-    }
-    
+    if (!(cin >> s)) return 0;
+    int result = detect_period(s);
+    cout << result;
     return 0;
 }
 ```
@@ -167,28 +169,21 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
 
-class Solution {
-  detectPeriod(s) {
-    //Implement here
-    return 0;
-  }
+function detectPeriod(s) {
+  //Implemention here
+  return 0;
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const s = data[0];
-
-  const solution = new Solution();
-  console.log(solution.detectPeriod(s));
-});
+const input = fs.readFileSync(0, "utf8").trim();
+if (input.length === 0) {
+  process.exit(0);
+}
+const data = input.split(/\s+/);
+let idx = 0;
+const s = data[idx++];
+const result = detectPeriod(s);
+process.stdout.write(String(result));
 ```
 

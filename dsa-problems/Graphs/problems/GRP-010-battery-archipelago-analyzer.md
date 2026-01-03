@@ -56,6 +56,7 @@ Return the minimum total cost, or `-1` if no valid path exists.
 ## Example
 
 **Input:**
+
 ```
 4
 5
@@ -68,6 +69,7 @@ Return the minimum total cost, or `-1` if no valid path exists.
 ```
 
 **Output:**
+
 ```
 35
 ```
@@ -77,6 +79,7 @@ Return the minimum total cost, or `-1` if no valid path exists.
 Battery capacity B = 25
 
 Available paths from 0 to 3:
+
 - Direct 0→3: NOT VALID (edge weight 30 > 25)
 - Path 0→1→3: cost = 10+30 = NOT VALID (edge 1→3 has weight 30 > 25)
 - Path 0→2→3: NOT VALID (edge 0→2 has weight 50 > 25)
@@ -122,7 +125,7 @@ class Main {
         if (!sc.hasNextInt()) return;
         int n = sc.nextInt();
         int m = sc.nextInt();
-        
+
         List<int[]> edges = new ArrayList<>();
         for (int i = 0; i < m; i++) {
             int u = sc.nextInt();
@@ -130,11 +133,11 @@ class Main {
             int w = sc.nextInt();
             edges.add(new int[]{u, v, w});
         }
-        
+
         int source = sc.nextInt();
         int dest = sc.nextInt();
         int battery = sc.nextInt();
-        
+
         Solution solution = new Solution();
         System.out.println(solution.shortestPathWithBattery(n, edges, source, dest, battery));
         sc.close();
@@ -148,40 +151,39 @@ class Main {
 import heapq
 import sys
 
+# Increase recursion depth for deep DFS/Graph traversals
 sys.setrecursionlimit(200000)
 
-def shortest_path_with_battery(n: int, edges: list[tuple[int, int, int]],:
-    # //Implement here
-    return 0
+class Solution:
+    def shortest_path_with_battery(self, n: int, edges: list[tuple[int, int, int]], source: int, dest: int, battery: int) -> int:
+        # //Implement here
+        return 0
 
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-    
-    iterator = iter(data)
+if __name__ == "__main__":
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        sys.exit(0)
+
+    iterator = iter(input_data)
     try:
         n = int(next(iterator))
         m = int(next(iterator))
-        
+
         edges = []
         for _ in range(m):
             u = int(next(iterator))
             v = int(next(iterator))
             w = int(next(iterator))
             edges.append((u, v, w))
-            
+
         source = int(next(iterator))
         dest = int(next(iterator))
         battery = int(next(iterator))
-        
-        print(shortest_path_with_battery(n, edges, source, dest, battery))
+
+        solution = Solution()
+        print(solution.shortest_path_with_battery(n, edges, source, dest, battery))
     except StopIteration:
         pass
-
-if __name__ == "__main__":
-    main()
 ```
 
 ### C++
@@ -196,7 +198,7 @@ using namespace std;
 
 class Solution {
 public:
-    public: int shortestPathWithBattery(int n, vector<vector<int>>& edges, int source, int dest, int battery) {
+    int shortestPathWithBattery(int n, vector<vector<int>>& edges, int source, int dest, int battery) {
         //Implement here
         return 0;
     }
@@ -205,23 +207,23 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int n, m;
     if (!(cin >> n >> m)) return 0;
-    
+
     vector<vector<int>> edges;
     for (int i = 0; i < m; i++) {
         int u, v, w;
         cin >> u >> v >> w;
         edges.push_back({u, v, w});
     }
-    
+
     int source, dest, battery;
     cin >> source >> dest >> battery;
-    
+
     Solution solution;
     cout << solution.shortestPathWithBattery(n, edges, source, dest, battery) << "\n";
-    
+
     return 0;
 }
 ```
@@ -269,7 +271,8 @@ rl.on("close", () => {
   const battery = parseInt(data[ptr++], 10);
 
   const solution = new Solution();
-  console.log(solution.shortestPathWithBattery(n, edges, source, dest, battery));
+  console.log(
+    solution.shortestPathWithBattery(n, edges, source, dest, battery)
+  );
 });
 ```
-

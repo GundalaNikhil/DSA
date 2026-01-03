@@ -55,6 +55,7 @@ Return `true` if the graph is a forest (has no cycles), `false` otherwise.
 ## Example
 
 **Input:**
+
 ```
 3
 2
@@ -63,6 +64,7 @@ Return `true` if the graph is a forest (has no cycles), `false` otherwise.
 ```
 
 **Output:**
+
 ```
 true
 ```
@@ -70,6 +72,7 @@ true
 **Explanation:**
 
 Graph structure:
+
 ```
 0 --- 1 --- 2
 ```
@@ -139,39 +142,35 @@ class Main {
 import sys
 from typing import List
 
+# Increase recursion depth for deep DFS/Graph traversals
 sys.setrecursionlimit(200000)
 
-def is_forest(n: int, edges: List[tuple]) -> bool:
-    # //Implement here
-    return 0
+class Solution:
+    def is_forest(self, n: int, edges: List[tuple]) -> bool:
+        # //Implement here
+        return False
 
-def main():
-    try:
-        input_data = sys.stdin.read().split()
-    except Exception:
-        return
-        
+if __name__ == "__main__":
+    input_data = sys.stdin.read().split()
     if not input_data:
-        return
+        sys.exit(0)
 
     iterator = iter(input_data)
     try:
         n = int(next(iterator))
         m = int(next(iterator))
-        
+
         edges = []
         for _ in range(m):
             u = int(next(iterator))
             v = int(next(iterator))
             edges.append((u, v))
-            
-        result = is_forest(n, edges)
+
+        solution = Solution()
+        result = solution.is_forest(n, edges)
         print("true" if result else "false")
     except StopIteration:
         pass
-
-if __name__ == "__main__":
-    main()
 ```
 
 ### C++
@@ -184,7 +183,7 @@ using namespace std;
 
 class Solution {
 public:
-    public: bool isForest(int n, vector<pair<int,int>>& edges) {
+    bool isForest(int n, vector<pair<int,int>>& edges) {
         //Implement here
         return false;
     }
@@ -219,7 +218,7 @@ const readline = require("readline");
 class Solution {
   isForest(n, edges) {
     //Implement here
-    return 0;
+    return false;
   }
 }
 
@@ -248,4 +247,3 @@ rl.on("close", () => {
   console.log(result ? "true" : "false");
 });
 ```
-

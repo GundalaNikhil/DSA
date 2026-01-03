@@ -148,32 +148,32 @@ class Main {
 import heapq
 import sys
 
-def min_slots(tasks_data: list, k: int) -> int:
-    # //Implement here
-    return 0
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-        
-    iterator = iter(data)
-    n = int(next(iterator))
-    k = int(next(iterator))
-    
-    tasks = []
-    for _ in range(n):
-        name = next(iterator)
-        count = int(next(iterator))
-        priority = int(next(iterator))
-        tasks.append((name, count, priority))
-
-    result = min_slots(tasks, k)
-    print(result)
+class Solution:
+    def min_slots(self, tasks_data: list[tuple[str, int, int]], k: int) -> int:
+        # //Implement here
+        return 0
 
 if __name__ == "__main__":
-    main()
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        sys.exit(0)
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        k = int(next(iterator))
+
+        tasks = []
+        for _ in range(n):
+            name = next(iterator)
+            count = int(next(iterator))
+            priority = int(next(iterator))
+            tasks.append((name, count, priority))
+
+        solution = Solution()
+        print(solution.min_slots(tasks, k))
+    except StopIteration:
+        pass
 ```
 
 ### C++
@@ -191,7 +191,7 @@ struct Task {
     int count;
     int priority;
     int readyTime;
-    
+
     // Priority Queue needs operator<
     // We want High Priority first, then High Count
     bool operator<(const Task& other) const {
@@ -269,7 +269,10 @@ class MaxHeap {
     while (idx > 0) {
       const parentIdx = Math.floor((idx - 1) / 2);
       if (this._compare(this.heap[idx], this.heap[parentIdx]) <= 0) break;
-      [this.heap[idx], this.heap[parentIdx]] = [this.heap[parentIdx], this.heap[idx]];
+      [this.heap[idx], this.heap[parentIdx]] = [
+        this.heap[parentIdx],
+        this.heap[idx],
+      ];
       idx = parentIdx;
     }
   }
@@ -280,11 +283,21 @@ class MaxHeap {
       const left = 2 * idx + 1;
       const right = 2 * idx + 2;
       if (left < this.heap.length) maxChildIdx = left;
-      if (right < this.heap.length && this._compare(this.heap[right], this.heap[left]) > 0) {
+      if (
+        right < this.heap.length &&
+        this._compare(this.heap[right], this.heap[left]) > 0
+      ) {
         maxChildIdx = right;
       }
-      if (maxChildIdx === null || this._compare(this.heap[idx], this.heap[maxChildIdx]) >= 0) break;
-      [this.heap[idx], this.heap[maxChildIdx]] = [this.heap[maxChildIdx], this.heap[idx]];
+      if (
+        maxChildIdx === null ||
+        this._compare(this.heap[idx], this.heap[maxChildIdx]) >= 0
+      )
+        break;
+      [this.heap[idx], this.heap[maxChildIdx]] = [
+        this.heap[maxChildIdx],
+        this.heap[idx],
+      ];
       idx = maxChildIdx;
     }
   }
@@ -306,10 +319,10 @@ let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let ptr = 0;
   const [n, k] = data[ptr++].split(" ").map(Number);
-  
+
   const tasks = [];
   for (let i = 0; i < n; i++) {
     const parts = data[ptr++].split(" ");
@@ -323,4 +336,3 @@ rl.on("close", () => {
   console.log(solution.minSlots(tasks, k));
 });
 ```
-

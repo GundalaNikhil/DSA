@@ -57,6 +57,7 @@ Return a list of all bridges as pairs of nodes.
 ## Example
 
 **Input:**
+
 ```
 5
 5
@@ -68,6 +69,7 @@ Return a list of all bridges as pairs of nodes.
 ```
 
 **Output:**
+
 ```
 2
 1 3
@@ -77,11 +79,13 @@ Return a list of all bridges as pairs of nodes.
 **Explanation:**
 
 Graph structure:
+
 - Nodes {0, 1, 2} form a cycle (triangle)
 - Node 3 is connected to node 1
 - Node 4 is connected to node 3
 
 Bridges:
+
 - Edge (1, 3): Removing it disconnects the triangle {0,1,2} from nodes {3,4}
 - Edge (3, 4): Removing it disconnects node 4 from the rest
 
@@ -160,32 +164,41 @@ class Main {
 import sys
 from typing import List
 
+# Increase recursion depth for deep DFS/Graph traversals
 sys.setrecursionlimit(200000)
 
-def find_bridges(n: int, adj: List[List[int]]) -> List[tuple]:
-    # //Implement here
-    return 0
-
-def main():
-    n = int(input())
-    m = int(input())
-    
-    adj = [[] for _ in range(n)]
-    
-    for _ in range(m):
-        u, v = map(int, input().split())
-        adj[u].append(v)
-        adj[v].append(u)
-    
-    bridges = find_bridges(n, adj)
-    bridges.sort()
-    
-    print(len(bridges))
-    for u, v in bridges:
-        print(f"{u} {v}")
+class Solution:
+    def find_bridges(self, n: int, adj: List[List[int]]) -> List[tuple]:
+        # //Implement here
+        return []
 
 if __name__ == "__main__":
-    main()
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        sys.exit(0)
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+
+        adj = [[] for _ in range(n)]
+
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            adj[u].append(v)
+            adj[v].append(u)
+
+        solution = Solution()
+        bridges = solution.find_bridges(n, adj)
+        bridges.sort()
+
+        print(len(bridges))
+        for u, v in bridges:
+            print(f"{u} {v}")
+    except StopIteration:
+        pass
 ```
 
 ### C++
@@ -199,7 +212,7 @@ using namespace std;
 
 class Solution {
 public:
-    int>> findBridges(int n, vector<vector<int>>& adj) {
+    vector<pair<int, int>> findBridges(int n, vector<vector<int>>& adj) {
         //Implement here
         return 0;
     }
@@ -229,7 +242,7 @@ int main() {
         cout << u << " " << v << endl;
     }
 
-    return 0;
+    return [];
 }
 ```
 
@@ -274,7 +287,7 @@ rl.on("close", () => {
 
   const solution = new Solution();
   const bridges = solution.findBridges(n, adj);
-  bridges.sort((a, b) => a[0] !== b[0] ? a[0] - b[0] : a[1] - b[1]);
+  bridges.sort((a, b) => (a[0] !== b[0] ? a[0] - b[0] : a[1] - b[1]));
 
   console.log(bridges.length);
   for (const [u, v] of bridges) {
@@ -282,4 +295,3 @@ rl.on("close", () => {
   }
 });
 ```
-

@@ -93,7 +93,7 @@ class ListNode {
 class Solution {
     public ListNode deduplicateAtMostTwo(ListNode head) {
         //Implement here
-        return new ArrayList<>();
+        return null;
     }
 }
 
@@ -102,7 +102,7 @@ class Main {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
         int n = sc.nextInt();
-        
+
         ListNode dummy = new ListNode(0);
         ListNode cur = dummy;
         for (int i = 0; i < n; i++) {
@@ -112,7 +112,7 @@ class Main {
 
         Solution solution = new Solution();
         ListNode res = solution.deduplicateAtMostTwo(dummy.next);
-        
+
         boolean first = true;
         while (res != null) {
             if (!first) System.out.print(" ");
@@ -136,16 +136,16 @@ class ListNode:
         self.val = val
         self.next = None
 
-def deduplicate_at_most_two(head: ListNode) -> ListNode:
+def deduplicate(head: ListNode) -> ListNode:
     # //Implement here
-    return 0
+    return None
 
 def main():
     input = sys.stdin.read
     data = input().split()
     if not data:
         return
-    
+
     iterator = iter(data)
     try:
         n = int(next(iterator))
@@ -154,9 +154,9 @@ def main():
         for _ in range(n):
             cur.next = ListNode(int(next(iterator)))
             cur = cur.next
-            
-        head = deduplicate_at_most_two(dummy.next)
-        
+
+        head = deduplicate(dummy.next)
+
         out = []
         while head:
             out.append(str(head.val))
@@ -195,7 +195,7 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    
+
     ListNode dummy(0);
     ListNode* cur = &dummy;
     for (int i = 0; i < n; i++) {
@@ -207,7 +207,7 @@ int main() {
 
     Solution solution;
     ListNode* res = solution.deduplicateAtMostTwo(dummy.next);
-    
+
     bool first = true;
     while (res) {
         if (!first) cout << " ";
@@ -232,9 +232,9 @@ class ListNode {
   }
 }
 
-function deduplicateAtMostTwo(head) {
+function deduplicate(head) {
   //Implement here
-  return 0;
+  return null;
 }
 
 const rl = readline.createInterface({
@@ -243,12 +243,19 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x)));
+rl.on("line", (line) =>
+  data.push(
+    ...line
+      .trim()
+      .split(/\s+/)
+      .filter((x) => x)
+  )
+);
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
   const n = parseInt(data[idx++], 10);
-  
+
   const dummy = new ListNode(0);
   let cur = dummy;
   for (let i = 0; i < n; i++) {
@@ -256,7 +263,7 @@ rl.on("close", () => {
     cur = cur.next;
   }
 
-  let head = deduplicateAtMostTwo(dummy.next);
+  let head = deduplicate(dummy.next);
   const out = [];
   while (head) {
     out.push(head.val);
@@ -265,4 +272,3 @@ rl.on("close", () => {
   console.log(out.join(" "));
 });
 ```
-

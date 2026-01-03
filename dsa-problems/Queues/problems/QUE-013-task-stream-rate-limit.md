@@ -163,7 +163,7 @@ import sys
 
 def rate_limit(times: List[int], t: int, k: int) -> List[str]:
     # //Implement here
-    return 0
+    return []
 
 def main():
     input_data = sys.stdin.read().split()

@@ -127,7 +127,7 @@ from collections import deque
 
 def first_non_repeating(s):
     # //Implement here
-    return 0
+    return []
 
 def main():
     import sys
@@ -195,7 +195,7 @@ const readline = require("readline");
 class Solution {
   firstNonRepeating(s) {
     //Implement here
-    return 0;
+    return [];
   }
 }
 
@@ -205,7 +205,7 @@ const rl = readline.createInterface({
 });
 
 let data = "";
-rl.on("line", (line) => data += line + "\n");
+rl.on("line", (line) => (data += line + "\n"));
 rl.on("close", () => {
   // Remove trailing newline
   if (data.endsWith("\n")) {
@@ -218,4 +218,3 @@ rl.on("close", () => {
   console.log(result.join(" "));
 });
 ```
-

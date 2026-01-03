@@ -49,6 +49,7 @@ Your task is to find the minimum number of proctors needed to cover all exam ses
 ## Example
 
 **Input:**
+
 ```
 3 2
 0 10
@@ -57,6 +58,7 @@ Your task is to find the minimum number of proctors needed to cover all exam ses
 ```
 
 **Output:**
+
 ```
 2
 ```
@@ -64,13 +66,15 @@ Your task is to find the minimum number of proctors needed to cover all exam ses
 **Explanation:**
 
 Exams:
+
 - Exam 1: [0, 10]
-- Exam 2: [5, 7]  
+- Exam 2: [5, 7]
 - Exam 3: [6, 9]
 
 Each proctor can handle up to r = 2 exams simultaneously.
 
 Timeline analysis:
+
 - At time 5: Exams 1 and 2 are active (2 exams)
 - At time 6: Exams 1, 2, and 3 are active (3 exams)
 - Maximum overlap: 3 exams
@@ -112,16 +116,16 @@ class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
-        
+
         int n = sc.nextInt();
         int r = sc.nextInt();
-        
+
         int[][] exams = new int[n][2];
         for (int i = 0; i < n; i++) {
             exams[i][0] = sc.nextInt();
             exams[i][1] = sc.nextInt();
         }
-        
+
         Solution solution = new Solution();
         System.out.println(solution.minProctors(n, r, exams));
         sc.close();
@@ -135,31 +139,31 @@ class Main {
 import sys
 import math
 
-def min_proctors(n: int, r: int, exams: list) -> int:
-    # //Implement here
-    return 0
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-        
-    iterator = iter(data)
-    n = int(next(iterator))
-    r = int(next(iterator))
-    
-    exams = []
-    for _ in range(n):
-        start = int(next(iterator))
-        end = int(next(iterator))
-        exams.append([start, end])
-    
-    result = min_proctors(n, r, exams)
-    print(result)
+class Solution:
+    def min_proctors(self, n: int, r: int, exams: list[list[int]]) -> int:
+        # //Implement here
+        return 0
 
 if __name__ == "__main__":
-    main()
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        sys.exit(0)
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        r = int(next(iterator))
+
+        exams = []
+        for _ in range(n):
+            start = int(next(iterator))
+            end = int(next(iterator))
+            exams.append([start, end])
+
+        solution = Solution()
+        print(solution.min_proctors(n, r, exams))
+    except StopIteration:
+        pass
 ```
 
 ### C++
@@ -183,18 +187,18 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int n, r;
     if (!(cin >> n >> r)) return 0;
-    
+
     vector<pair<int,int>> exams(n);
     for (int i = 0; i < n; i++) {
         cin >> exams[i].first >> exams[i].second;
     }
-    
+
     Solution solution;
     cout << solution.minProctors(n, r, exams) << "\n";
-    
+
     return 0;
 }
 ```
@@ -220,18 +224,17 @@ let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let ptr = 0;
   const [n, r] = data[ptr++].split(" ").map(Number);
-  
+
   const exams = [];
   for (let i = 0; i < n; i++) {
     const [start, end] = data[ptr++].split(" ").map(Number);
     exams.push([start, end]);
   }
-  
+
   const solution = new Solution();
   console.log(solution.minProctors(n, r, exams));
 });
 ```
-

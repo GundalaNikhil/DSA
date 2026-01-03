@@ -96,6 +96,12 @@ class TrieNode {
 }
 
 class Solution {
+    private TrieNode root;
+
+    public Solution() {
+        this.root = new TrieNode();
+    }
+
     public boolean insert(String number) {
         //Implement here
         return false;
@@ -141,7 +147,7 @@ class Solution:
     
     def insert(self, number: str) -> bool:
         # //Implement here
-        return 0
+        return False
 def main():
     import sys
     lines = sys.stdin.read().strip().split('\n')
@@ -173,7 +179,14 @@ struct TrieNode {
 };
 
 class Solution {
+private:
+    TrieNode* root;
+
 public:
+    Solution() {
+        this->root = new TrieNode();
+    }
+
     bool insert(const string& number) {
         //Implement here
         return false;
@@ -218,9 +231,13 @@ class TrieNode {
 }
 
 class Solution {
+  constructor() {
+    this.root = new TrieNode();
+  }
+
   insert(number) {
     //Implement here
-    return 0;
+    return false;
   }
 }
 

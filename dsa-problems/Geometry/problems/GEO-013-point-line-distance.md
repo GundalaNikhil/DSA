@@ -81,24 +81,39 @@ Distance Computation, Vector Projection
 ### Java
 
 ```java
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-class Main {
-static class Solution {
+class Solution {
     public double distancePointSegment(long x1, long y1, long x2, long y2, long px, long py) {
-        //Implement here
+        //Implemention here
         return 0.0;
     }
 }
 
-    public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNext()) return;
-        long x1 = sc.nextLong(); long y1 = sc.nextLong();
-        long x2 = sc.nextLong(); long y2 = sc.nextLong();
-        long px = sc.nextLong(); long py = sc.nextLong();
-        System.out.printf("%.6f\n", new Solution().distancePointSegment(x1, y1, x2, y2, px, py));
+class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line).append(' ');
+        }
+        String input = sb.toString().trim();
+        if (input.isEmpty()) return;
+        String[] data = input.split("\\s+");
+        if (data.length < 6) return;
+        int idx = 0;
+        long x1 = Long.parseLong(data[idx++]);
+        long y1 = Long.parseLong(data[idx++]);
+        long x2 = Long.parseLong(data[idx++]);
+        long y2 = Long.parseLong(data[idx++]);
+        long px = Long.parseLong(data[idx++]);
+        long py = Long.parseLong(data[idx++]);
+
+        Solution solution = new Solution();
+        double result = solution.distancePointSegment(x1, y1, x2, y2, px, py);
+        System.out.print(String.format(Locale.US, "%.6f", result));
     }
 }
 ```
@@ -106,19 +121,19 @@ static class Solution {
 ### Python
 
 ```python
-import math
+import sys
 
-def distance_point_segment(x1: int, y1: int, x2: int, y2: int, px: int, py: int) -> float:
-    # //Implement here
-    return 0
-def main() -> None:
-    import sys
-    data = list(map(int, sys.stdin.read().strip().split()))
+def distance_point_segment(x1, y1, x2, y2, px, py):
+    # //Implemention here
+    return 0.0
+
+def main():
+    data = sys.stdin.read().strip().split()
     if len(data) < 6:
         return
-    x1, y1, x2, y2, px, py = data[:6]
-    val = distance_point_segment(x1, y1, x2, y2, px, py)
-    print(f"{val:.6f}")
+    x1, y1, x2, y2, px, py = map(int, data[:6])
+    result = distance_point_segment(x1, y1, x2, y2, px, py)
+    sys.stdout.write(f"{result:.6f}")
 
 if __name__ == "__main__":
     main()
@@ -129,21 +144,26 @@ if __name__ == "__main__":
 ```cpp
 #include <iostream>
 #include <vector>
-#include <algorithm>
-#include <cmath>
-#include <iomanip>
 #include <string>
+#include <iomanip>
+
 using namespace std;
 
-double distancePointSegment(long long x1, long long y1, long long x2, long long y2, long long px, long long py) {
-    //Implement here
+double distance_point_segment(long long x1, long long y1, long long x2, long long y2,
+                              long long px, long long py) {
+    //Implemention here
     return 0.0;
 }
 
 int main() {
-    ios::sync_with_stdio(false); cin.tie(nullptr);
-    long long x1, y1, x2, y2, px, py; cin >> x1 >> y1 >> x2 >> y2 >> px >> py;
-    cout << fixed << setprecision(6) << distancePointSegment(x1, y1, x2, y2, px, py) << endl;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long x1, y1, x2, y2, px, py;
+    if (!(cin >> x1 >> y1 >> x2 >> y2 >> px >> py)) return 0;
+
+    double result = distance_point_segment(x1, y1, x2, y2, px, py);
+    cout << fixed << setprecision(6) << result;
     return 0;
 }
 ```
@@ -151,24 +171,30 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require('readline');
+const fs = require("fs");
 
 function distancePointSegment(x1, y1, x2, y2, px, py) {
-  //Implement here
-  return 0;
+  //Implemention here
+  return 0.0;
 }
 
+const input = fs.readFileSync(0, "utf8").trim();
+if (input.length === 0) {
+  process.exit(0);
+}
+const data = input.split(/\s+/).map(Number);
+if (data.length < 6) {
+  process.exit(0);
+}
+let idx = 0;
+const x1 = data[idx++];
+const y1 = data[idx++];
+const x2 = data[idx++];
+const y2 = data[idx++];
+const px = data[idx++];
+const py = data[idx++];
 
-const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-let lines = [];
-rl.on('line', (line) => { lines.push(...line.trim().split(/\s+/)); });
-rl.on('close', () => {
-    if (lines.length === 0) return;
-    let idx = 0;
-    const next = () => lines[idx++];
-    const nextInt = () => parseInt(next());
-    const nextFloat = () => parseFloat(next());
-    console.log(distancePointSegment(nextInt(), nextInt(), nextInt(), nextInt(), nextInt(), nextInt()).toFixed(6));
-});
+const result = distancePointSegment(x1, y1, x2, y2, px, py);
+process.stdout.write(result.toFixed(6));
 ```
 

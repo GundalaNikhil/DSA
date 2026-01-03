@@ -122,7 +122,7 @@ class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
-        
+
         int n = sc.nextInt();
         long H = sc.nextLong();
 
@@ -144,31 +144,31 @@ class Main {
 ```python
 import sys
 
-def min_overtime_cost(n: int, H: int, shifts: list) -> int:
-    # //Implement here
-    return 0
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-        
-    iterator = iter(data)
-    n = int(next(iterator))
-    H = int(next(iterator))
-    
-    shifts = []
-    for _ in range(n):
-        l = int(next(iterator))
-        p = int(next(iterator))
-        shifts.append([l, p])
-
-    result = min_overtime_cost(n, H, shifts)
-    print(result)
+class Solution:
+    def min_overtime_cost(self, n: int, H: int, shifts: list[list[int]]) -> int:
+        # //Implement here
+        return 0
 
 if __name__ == "__main__":
-    main()
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        sys.exit(0)
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        H = int(next(iterator))
+
+        shifts = []
+        for _ in range(n):
+            l = int(next(iterator))
+            p = int(next(iterator))
+            shifts.append([l, p])
+
+        solution = Solution()
+        print(solution.min_overtime_cost(n, H, shifts))
+    except StopIteration:
+        pass
 ```
 
 ### C++
@@ -229,7 +229,7 @@ let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let ptr = 0;
   const [n, H] = data[ptr++].split(" ").map(Number);
 
@@ -243,4 +243,3 @@ rl.on("close", () => {
   console.log(solution.minOvertimeCost(n, H, shifts));
 });
 ```
-

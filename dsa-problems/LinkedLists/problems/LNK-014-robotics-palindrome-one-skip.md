@@ -101,7 +101,7 @@ class Main {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
         int n = sc.nextInt();
-        
+
         ListNode dummy = new ListNode(0);
         ListNode cur = dummy;
         for (int i = 0; i < n; i++) {
@@ -136,14 +136,14 @@ def is_palindrome(vals, left, right):
 
 def can_be_palindrome(head: ListNode) -> bool:
     # //Implement here
-    return 0
+    return False
 
 def main():
     input = sys.stdin.read
     data = input().split()
     if not data:
         return
-    
+
     iterator = iter(data)
     try:
         n = int(next(iterator))
@@ -152,7 +152,7 @@ def main():
         for _ in range(n):
             cur.next = ListNode(int(next(iterator)))
             cur = cur.next
-            
+
         print("true" if can_be_palindrome(dummy.next) else "false")
     except StopIteration:
         pass
@@ -188,7 +188,7 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    
+
     ListNode dummy(0);
     ListNode* cur = &dummy;
     for (int i = 0; i < n; i++) {
@@ -218,7 +218,7 @@ class ListNode {
 
 function canBePalindrome(head) {
   //Implement here
-  return 0;
+  return false;
 }
 
 const rl = readline.createInterface({
@@ -227,12 +227,19 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x)));
+rl.on("line", (line) =>
+  data.push(
+    ...line
+      .trim()
+      .split(/\s+/)
+      .filter((x) => x)
+  )
+);
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
   const n = parseInt(data[idx++], 10);
-  
+
   const dummy = new ListNode(0);
   let cur = dummy;
   for (let i = 0; i < n; i++) {
@@ -243,4 +250,3 @@ rl.on("close", () => {
   console.log(canBePalindrome(dummy.next) ? "true" : "false");
 });
 ```
-

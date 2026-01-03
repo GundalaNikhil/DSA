@@ -187,7 +187,7 @@ import sys
 
 def min_seats(arrivals: List[int], departures: List[int]) -> int:
     # //Implement here
-    return 0
+    return []
 
 def main():
     input_data = sys.stdin.read().split()

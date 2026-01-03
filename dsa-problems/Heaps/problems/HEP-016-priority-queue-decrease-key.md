@@ -139,7 +139,7 @@ import sys
 
 def process_operations(operations: list) -> list:
     # //Implement here
-    return 0
+    return []
 
 def main():
     input_data = sys.stdin.read().split()
@@ -161,7 +161,7 @@ def main():
                 operations.append([op, gid, delta])
             else:
                 operations.append([op])
-                
+
         result = process_operations(operations)
         print("\n".join(result))
     except StopIteration:
@@ -197,7 +197,7 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int q;
     if (cin >> q) {
         vector<vector<string>> operations;
@@ -216,7 +216,7 @@ int main() {
                 operations.push_back({op});
             }
         }
-        
+
         Solution solution;
         vector<string> result = solution.processOperations(operations);
         for (const string& s : result) cout << s << "\n";
@@ -233,7 +233,7 @@ const readline = require("readline");
 class Solution {
   processOperations(operations) {
     //Implement here
-    return 0;
+    return [];
   }
 }
 
@@ -263,10 +263,9 @@ rl.on("close", () => {
       operations.push([type]);
     }
   }
-  
+
   const solution = new Solution();
   const result = solution.processOperations(operations);
   console.log(result.join("\n"));
 });
 ```
-

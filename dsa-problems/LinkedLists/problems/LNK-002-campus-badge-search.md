@@ -103,7 +103,7 @@ class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
-        
+
         int n = sc.nextInt();
         ListNode dummy = new ListNode(0);
         ListNode cur = dummy;
@@ -111,7 +111,7 @@ class Main {
             cur.next = new ListNode(sc.nextInt());
             cur = cur.next;
         }
-        
+
         int target = sc.nextInt();
         Solution solution = new Solution();
         System.out.println(solution.findFirstIndex(dummy.next, target));
@@ -132,7 +132,7 @@ class ListNode:
 
 def find_first_index(head: ListNode, target: int) -> int:
     # //Implement here
-    return 0
+    return -1
 
 def main():
     input = sys.stdin.read
@@ -149,7 +149,7 @@ def main():
             val = int(next(iterator))
             cur.next = ListNode(val)
             cur = cur.next
-        
+
         target = int(next(iterator))
         print(find_first_index(dummy.next, target))
     except StopIteration:
@@ -185,7 +185,7 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    
+
     ListNode dummy(0);
     ListNode* cur = &dummy;
     for (int i = 0; i < n; i++) {
@@ -194,7 +194,7 @@ int main() {
         cur->next = new ListNode(v);
         cur = cur->next;
     }
-    
+
     int target;
     cin >> target;
 
@@ -218,7 +218,7 @@ class ListNode {
 
 function findFirstIndex(head, target) {
   //Implement here
-  return 0;
+  return -1;
 }
 
 const rl = readline.createInterface({
@@ -227,23 +227,29 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x)));
+rl.on("line", (line) =>
+  data.push(
+    ...line
+      .trim()
+      .split(/\s+/)
+      .filter((x) => x)
+  )
+);
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
   const n = parseInt(data[idx++], 10);
-  
+
   const dummy = new ListNode(0);
   let cur = dummy;
   for (let i = 0; i < n; i++) {
     cur.next = new ListNode(parseInt(data[idx++], 10));
     cur = cur.next;
   }
-  
+
   if (idx < data.length) {
-      const target = parseInt(data[idx++], 10);
-      console.log(findFirstIndex(dummy.next, target));
+    const target = parseInt(data[idx++], 10);
+    console.log(findFirstIndex(dummy.next, target));
   }
 });
 ```
-

@@ -107,34 +107,43 @@ Computational Geometry, Polygon Containment, Cross Product
 ### Java
 
 ```java
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-class Main {
-
-static class Solution {
-    private boolean onSegment(long xi, long yi, long xj, long yj, long qx, long qy) {
-        long cross = (xj - xi) * (qy - yi) - (yj - yi) * (qx - xi);
-        if (cross != 0) return false;
-        return Math.min(xi, xj) <= qx && qx <= Math.max(xi, xj)
-            && Math.min(yi, yj) <= qy && qy <= Math.max(yi, yj);
-    }
-
-    public String pointInPolygon(long[] xs, long[] ys, long qx, long qy) {
-        //Implement here
+class Solution {
+    public String classifyPoint(long[] xs, long[] ys, long qx, long qy) {
+        //Implemention here
         return "";
     }
 }
 
-    public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNext()) return;
-        int n = sc.nextInt();
+class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line).append(' ');
+        }
+        String input = sb.toString().trim();
+        if (input.isEmpty()) return;
+        String[] data = input.split("\\s+");
+        int idx = 0;
+        if (data.length == 0) return;
+        int n = Integer.parseInt(data[idx++]);
+        if (data.length < 1 + 2 * n + 2) return;
         long[] xs = new long[n];
         long[] ys = new long[n];
-        for(int i=0; i<n; i++) { xs[i] = sc.nextLong(); ys[i] = sc.nextLong(); }
-        long qx = sc.nextLong(); long qy = sc.nextLong();
-        System.out.println(new Solution().pointInPolygon(xs, ys, qx, qy));
+        for (int i = 0; i < n; i++) {
+            xs[i] = Long.parseLong(data[idx++]);
+            ys[i] = Long.parseLong(data[idx++]);
+        }
+        long qx = Long.parseLong(data[idx++]);
+        long qy = Long.parseLong(data[idx++]);
+
+        Solution solution = new Solution();
+        String result = solution.classifyPoint(xs, ys, qx, qy);
+        System.out.print(result);
     }
 }
 ```
@@ -142,30 +151,31 @@ static class Solution {
 ### Python
 
 ```python
-from typing import List
+import sys
 
-def classify_point(xs: List[int], ys: List[int], qx: int, qy: int) -> str:
-    # //Implement here
-    return 0
-def main() -> None:
-    import sys
-    # Read all tokens at once to handle newlines/spaces robustly
-    data = list(map(int, sys.stdin.read().strip().split()))
+def classify_point(xs, ys, qx, qy):
+    # //Implemention here
+    return ""
+
+def main():
+    data = sys.stdin.read().strip().split()
     if not data:
         return
-    it = iter(data)
-    try:
-        n = next(it)
-        xs = []
-        ys = []
-        for _ in range(n):
-            xs.append(next(it))
-            ys.append(next(it))
-        qx = next(it)
-        qy = next(it)
-        print(classify_point(xs, ys, qx, qy))
-    except StopIteration:
+    idx = 0
+    n = int(data[idx]);
+    idx += 1
+    if len(data) < 1 + 2 * n + 2:
         return
+    xs = []
+    ys = []
+    for _ in range(n):
+        xs.append(int(data[idx]));
+        ys.append(int(data[idx + 1]));
+        idx += 2
+    qx = int(data[idx]);
+    qy = int(data[idx + 1]);
+    result = classify_point(xs, ys, qx, qy)
+    sys.stdout.write(str(result))
 
 if __name__ == "__main__":
     main()
@@ -176,27 +186,38 @@ if __name__ == "__main__":
 ```cpp
 #include <iostream>
 #include <vector>
-#include <algorithm>
-#include <cmath>
-#include <iomanip>
 #include <string>
+#include <iomanip>
+
 using namespace std;
 
-
-using namespace std;
-
-string classifyPoint(const vector<long long>& xs, const vector<long long>& ys, long long qx, long long qy) {
-    //Implement here
+string classify_point(const vector<long long>& xs, const vector<long long>& ys, long long qx, long long qy) {
+    //Implemention here
     return "";
 }
 
 int main() {
-    ios::sync_with_stdio(false); cin.tie(nullptr);
-    int n; cin >> n;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    vector<long long> data;
+    long long val;
+    while (cin >> val) {
+        data.push_back(val);
+    }
+    if (data.empty()) return 0;
+    size_t idx = 0;
+    long long n = data[idx++];
+    if (data.size() < 1 + 2 * n + 2) return 0;
     vector<long long> xs(n), ys(n);
-    for(int i=0; i<n; i++) cin >> xs[i] >> ys[i];
-    long long qx, qy; cin >> qx >> qy;
-    cout << classifyPoint(xs, ys, qx, qy) << endl;
+    for (long long i = 0; i < n; i++) {
+        xs[i] = data[idx++];
+        ys[i] = data[idx++];
+    }
+    long long qx = data[idx++];
+    long long qy = data[idx++];
+
+    cout << classify_point(xs, ys, qx, qy);
     return 0;
 }
 ```
@@ -204,27 +225,33 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require('readline');
+const fs = require("fs");
 
 function classifyPoint(xs, ys, qx, qy) {
-  //Implement here
-  return 0;
+  //Implemention here
+  return "";
 }
 
+const input = fs.readFileSync(0, "utf8").trim();
+if (input.length === 0) {
+  process.exit(0);
+}
+const data = input.split(/\s+/).map(Number);
+let idx = 0;
+const n = data[idx++];
+if (!Number.isFinite(n) || data.length < 1 + 2 * n + 2) {
+  process.exit(0);
+}
+const xs = [];
+const ys = [];
+for (let i = 0; i < n; i++) {
+  xs.push(data[idx++]);
+  ys.push(data[idx++]);
+}
+const qx = data[idx++];
+const qy = data[idx++];
 
-const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-let lines = [];
-rl.on('line', (line) => { lines.push(...line.trim().split(/\s+/)); });
-rl.on('close', () => {
-    if (lines.length === 0) return;
-    let idx = 0;
-    const next = () => lines[idx++];
-    const nextInt = () => parseInt(next());
-    const nextFloat = () => parseFloat(next());
-    let n = nextInt();
-    let xs = [], ys = [];
-    for(let i=0; i<n; i++) { xs.push(nextInt()); ys.push(nextInt()); }
-    console.log(classifyPoint(xs, ys, nextInt(), nextInt()));
-});
+const result = classifyPoint(xs, ys, qx, qy);
+process.stdout.write(String(result));
 ```
 

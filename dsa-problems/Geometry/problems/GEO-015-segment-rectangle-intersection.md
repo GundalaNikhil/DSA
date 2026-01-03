@@ -88,43 +88,41 @@ Segment Intersection, Bounding Boxes, Orientation Test
 ### Java
 
 ```java
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-class Main {
-static class Solution {
-    private int orient(long ax,long ay,long bx,long by,long cx,long cy){
-        long v = (bx-ax)*(cy-ay) - (by-ay)*(cx-ax);
-        return Long.compare(v,0);
-    }
-    private boolean onSeg(long ax,long ay,long bx,long by,long cx,long cy){
-        return orient(ax,ay,bx,by,cx,cy)==0 &&
-               Math.min(ax,bx)<=cx && cx<=Math.max(ax,bx) &&
-               Math.min(ay,by)<=cy && cy<=Math.max(ay,by);
-    }
-    private boolean segInter(long ax,long ay,long bx,long by,long cx,long cy,long dx,long dy){
-        int o1=orient(ax,ay,bx,by,cx,cy), o2=orient(ax,ay,bx,by,dx,dy);
-        int o3=orient(cx,cy,dx,dy,ax,ay), o4=orient(cx,cy,dx,dy,bx,by);
-        if (o1==0 && onSeg(ax,ay,bx,by,cx,cy)) return true;
-        if (o2==0 && onSeg(ax,ay,bx,by,dx,dy)) return true;
-        if (o3==0 && onSeg(cx,cy,dx,dy,ax,ay)) return true;
-        if (o4==0 && onSeg(cx,cy,dx,dy,bx,by)) return true;
-        return (long)o1*o2 < 0 && (long)o3*o4 < 0;
-    }
+class Solution {
     public boolean intersects(long xL, long yB, long xR, long yT, long x1, long y1, long x2, long y2) {
-        //Implement here
+        //Implemention here
         return false;
     }
 }
 
-    public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNext()) return;
-        long xL = sc.nextLong(); long yB = sc.nextLong();
-        long xR = sc.nextLong(); long yT = sc.nextLong();
-        long x1 = sc.nextLong(); long y1 = sc.nextLong();
-        long x2 = sc.nextLong(); long y2 = sc.nextLong();
-        System.out.println(new Solution().intersects(xL, yB, xR, yT, x1, y1, x2, y2) ? "true" : "false");
+class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line).append(' ');
+        }
+        String input = sb.toString().trim();
+        if (input.isEmpty()) return;
+        String[] data = input.split("\\s+");
+        if (data.length < 8) return;
+        int idx = 0;
+        long xL = Long.parseLong(data[idx++]);
+        long yB = Long.parseLong(data[idx++]);
+        long xR = Long.parseLong(data[idx++]);
+        long yT = Long.parseLong(data[idx++]);
+        long x1 = Long.parseLong(data[idx++]);
+        long y1 = Long.parseLong(data[idx++]);
+        long x2 = Long.parseLong(data[idx++]);
+        long y2 = Long.parseLong(data[idx++]);
+
+        Solution solution = new Solution();
+        boolean result = solution.intersects(xL, yB, xR, yT, x1, y1, x2, y2);
+        System.out.print(result ? "true" : "false");
     }
 }
 ```
@@ -132,17 +130,19 @@ static class Solution {
 ### Python
 
 ```python
-def intersects(xL, yB, xR, yT, x1, y1, x2, y2) -> bool:
-    # //Implement here
-    return 0
-def main() -> None:
-    import sys
-    data = list(map(int, sys.stdin.read().strip().split()))
+import sys
+
+def intersects(xL, yB, xR, yT, x1, y1, x2, y2):
+    # //Implemention here
+    return False
+
+def main():
+    data = sys.stdin.read().strip().split()
     if len(data) < 8:
         return
-    xL, yB, xR, yT, x1, y1, x2, y2 = data[:8]
-    val = intersects(xL, yB, xR, yT, x1, y1, x2, y2)
-    print("true" if val else "false")
+    vals = list(map(int, data[:8]))
+    result = intersects(vals[0], vals[1], vals[2], vals[3], vals[4], vals[5], vals[6], vals[7])
+    sys.stdout.write("true" if result else "false")
 
 if __name__ == "__main__":
     main()
@@ -153,55 +153,26 @@ if __name__ == "__main__":
 ```cpp
 #include <iostream>
 #include <vector>
-#include <algorithm>
-#include <cmath>
+#include <string>
+#include <iomanip>
 
 using namespace std;
 
-class Solution {
-    int orient(long long ax, long long ay, long long bx, long long by, long long cx, long long cy) {
-        long long v = (bx - ax) * (cy - ay) - (by - ay) * (cx - ax);
-        if (v > 0) return 1;
-        if (v < 0) return -1;
-        return 0;
-    }
-
-    bool onSeg(long long ax, long long ay, long long bx, long long by, long long cx, long long cy) {
-        return orient(ax, ay, bx, by, cx, cy) == 0 &&
-               min(ax, bx) <= cx && cx <= max(ax, bx) &&
-               min(ay, by) <= cy && cy <= max(ay, by);
-    }
-
-    bool segInter(long long ax, long long ay, long long bx, long long by, long long cx, long long cy, long long dx, long long dy) {
-        int o1 = orient(ax, ay, bx, by, cx, cy);
-        int o2 = orient(ax, ay, bx, by, dx, dy);
-        int o3 = orient(cx, cy, dx, dy, ax, ay);
-        int o4 = orient(cx, cy, dx, dy, bx, by);
-
-        if (o1 == 0 && onSeg(ax, ay, bx, by, cx, cy)) return true;
-        if (o2 == 0 && onSeg(ax, ay, bx, by, dx, dy)) return true;
-        if (o3 == 0 && onSeg(cx, cy, dx, dy, ax, ay)) return true;
-        if (o4 == 0 && onSeg(cx, cy, dx, dy, bx, by)) return true;
-
-        return o1 != o2 && o3 != o4;
-    }
-
-public:
-    bool intersects(long long xL, long long yB, long long xR, long long yT, long long x1, long long y1, long long x2, long long y2) {
-        //Implement here
-        return false;
-    }
-};
+bool intersects(long long xL, long long yB, long long xR, long long yT,
+                long long x1, long long y1, long long x2, long long y2) {
+    //Implemention here
+    return false;
+}
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
     long long xL, yB, xR, yT, x1, y1, x2, y2;
-    if (cin >> xL >> yB >> xR >> yT >> x1 >> y1 >> x2 >> y2) {
-        Solution sol;
-        cout << (sol.intersects(xL, yB, xR, yT, x1, y1, x2, y2) ? "true" : "false") << "\n";
-    }
+    if (!(cin >> xL >> yB >> xR >> yT >> x1 >> y1 >> x2 >> y2)) return 0;
+
+    bool result = intersects(xL, yB, xR, yT, x1, y1, x2, y2);
+    cout << (result ? "true" : "false");
     return 0;
 }
 ```
@@ -209,37 +180,32 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
 
-class Solution {
-  intersects(xL, yB, xR, yT, x1, y1, x2, y2) {
-    //Implement here
-    return 0;
-  }
+function intersects(xL, yB, xR, yT, x1, y1, x2, y2) {
+  //Implemention here
+  return false;
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
+const input = fs.readFileSync(0, "utf8").trim();
+if (input.length === 0) {
+  process.exit(0);
+}
+const data = input.split(/\s+/).map(Number);
+if (data.length < 8) {
+  process.exit(0);
+}
+let idx = 0;
+const xL = data[idx++];
+const yB = data[idx++];
+const xR = data[idx++];
+const yT = data[idx++];
+const x1 = data[idx++];
+const y1 = data[idx++];
+const x2 = data[idx++];
+const y2 = data[idx++];
 
-let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/)));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  
-  let ptr = 0;
-  const xL = data[ptr++];
-  const yB = data[ptr++];
-  const xR = data[ptr++];
-  const yT = data[ptr++];
-  const x1 = data[ptr++];
-  const y1 = data[ptr++];
-  const x2 = data[ptr++];
-  const y2 = data[ptr++];
-  
-  const solution = new Solution();
-  console.log(solution.intersects(xL, yB, xR, yT, x1, y1, x2, y2));
-});
+const result = intersects(xL, yB, xR, yT, x1, y1, x2, y2);
+process.stdout.write(result ? "true" : "false");
 ```
 

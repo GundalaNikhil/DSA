@@ -115,7 +115,7 @@ class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
-        
+
         int n = sc.nextInt();
         int d = sc.nextInt();
 
@@ -137,31 +137,31 @@ class Main {
 ```python
 import sys
 
-def max_stalls(stalls: list, d: int) -> int:
-    # //Implement here
-    return 0
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-        
-    iterator = iter(data)
-    n = int(next(iterator))
-    d = int(next(iterator))
-    
-    stalls = []
-    for _ in range(n):
-        start = int(next(iterator))
-        end = int(next(iterator))
-        stalls.append([start, end])
-
-    result = max_stalls(stalls, d)
-    print(result)
+class Solution:
+    def max_stalls(self, stalls: list[list[int]], d: int) -> int:
+        # //Implement here
+        return 0
 
 if __name__ == "__main__":
-    main()
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        sys.exit(0)
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        d = int(next(iterator))
+
+        stalls = []
+        for _ in range(n):
+            start = int(next(iterator))
+            end = int(next(iterator))
+            stalls.append([start, end])
+
+        solution = Solution()
+        print(solution.max_stalls(stalls, d))
+    except StopIteration:
+        pass
 ```
 
 ### C++
@@ -221,7 +221,7 @@ let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let ptr = 0;
   const [n, d] = data[ptr++].split(" ").map(Number);
 
@@ -235,4 +235,3 @@ rl.on("close", () => {
   console.log(solution.maxStalls(stalls, d));
 });
 ```
-

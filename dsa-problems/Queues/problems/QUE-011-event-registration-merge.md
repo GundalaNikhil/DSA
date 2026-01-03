@@ -185,7 +185,7 @@ import sys
 
 def merge_queues(a: List[int], b: List[int]) -> List[int]:
     # //Implement here
-    return 0
+    return []
 
 def main():
     input_data = sys.stdin.read().split()

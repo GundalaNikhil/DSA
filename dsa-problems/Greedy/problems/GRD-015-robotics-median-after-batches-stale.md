@@ -166,36 +166,34 @@ import sys
 import math
 from collections import defaultdict
 
-def median_after_batches(k: int, t: int, batches: list) -> list:
-    # //Implement here
-    return 0
+class Solution:
+    def median_after_batches(self, k: int, t: int, batches: list[list[int]]) -> list[str]:
+        # //Implement here
+        return []
 
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-        
-    iterator = iter(data)
+if __name__ == "__main__":
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        sys.exit(0)
+
+    iterator = iter(input_data)
     try:
         k = int(next(iterator))
         t = int(next(iterator))
+
+        batches = []
+        for _ in range(k):
+            m = int(next(iterator))
+            batch = []
+            for _ in range(m):
+                batch.append(int(next(iterator)))
+            batches.append(batch)
+
+        solution = Solution()
+        result = solution.median_after_batches(k, t, batches)
+        print(' '.join(result))
     except StopIteration:
-        return
-
-    batches = []
-    for _ in range(k):
-        m = int(next(iterator))
-        batch = []
-        for _ in range(m):
-            batch.append(int(next(iterator)))
-        batches.append(batch)
-
-    result = median_after_batches(k, t, batches)
-    print(' '.join(result))
-
-if __name__ == "__main__":
-    main()
+        pass
 ```
 
 ### C++
@@ -254,8 +252,13 @@ int main() {
 const readline = require("readline");
 
 class MinHeap {
-  constructor() { this.heap = []; }
-  push(val) { this.heap.push(val); this._siftUp(); }
+  constructor() {
+    this.heap = [];
+  }
+  push(val) {
+    this.heap.push(val);
+    this._siftUp();
+  }
   pop() {
     if (this.size() === 0) return null;
     if (this.size() === 1) return this.heap.pop();
@@ -264,8 +267,12 @@ class MinHeap {
     this._siftDown();
     return top;
   }
-  peek() { return this.size() === 0 ? null : this.heap[0]; }
-  size() { return this.heap.length; }
+  peek() {
+    return this.size() === 0 ? null : this.heap[0];
+  }
+  size() {
+    return this.heap.length;
+  }
   _siftUp() {
     let idx = this.heap.length - 1;
     while (idx > 0) {
@@ -279,7 +286,8 @@ class MinHeap {
     let idx = 0;
     while (idx < this.heap.length) {
       let min = idx;
-      const l = 2*idx+1, r = 2*idx+2;
+      const l = 2 * idx + 1,
+        r = 2 * idx + 2;
       if (l < this.heap.length && this.heap[l] < this.heap[min]) min = l;
       if (r < this.heap.length && this.heap[r] < this.heap[min]) min = r;
       if (min === idx) break;
@@ -290,8 +298,13 @@ class MinHeap {
 }
 
 class MaxHeap {
-  constructor() { this.heap = []; }
-  push(val) { this.heap.push(val); this._siftUp(); }
+  constructor() {
+    this.heap = [];
+  }
+  push(val) {
+    this.heap.push(val);
+    this._siftUp();
+  }
   pop() {
     if (this.size() === 0) return null;
     if (this.size() === 1) return this.heap.pop();
@@ -300,8 +313,12 @@ class MaxHeap {
     this._siftDown();
     return top;
   }
-  peek() { return this.size() === 0 ? null : this.heap[0]; }
-  size() { return this.heap.length; }
+  peek() {
+    return this.size() === 0 ? null : this.heap[0];
+  }
+  size() {
+    return this.heap.length;
+  }
   _siftUp() {
     let idx = this.heap.length - 1;
     while (idx > 0) {
@@ -315,7 +332,8 @@ class MaxHeap {
     let idx = 0;
     while (idx < this.heap.length) {
       let max = idx;
-      const l = 2*idx+1, r = 2*idx+2;
+      const l = 2 * idx + 1,
+        r = 2 * idx + 2;
       if (l < this.heap.length && this.heap[l] > this.heap[max]) max = l;
       if (r < this.heap.length && this.heap[r] > this.heap[max]) max = r;
       if (max === idx) break;
@@ -328,7 +346,7 @@ class MaxHeap {
 class Solution {
   medianAfterBatches(k, t, batches) {
     //Implement here
-    return 0;
+    return [];
   }
 }
 
@@ -367,4 +385,3 @@ rl.on("close", () => {
   console.log(result.join(" "));
 });
 ```
-

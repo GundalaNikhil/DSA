@@ -125,16 +125,15 @@ class TrieNode {
 }
 
 class Solution {
+    private TrieNode root;
+
+    public Solution() {
+        this.root = new TrieNode();
+    }
+
     public int[] findMinimumPrefixLengths(String[] words) {
         //Implement here
         return new int[0];
-    }
-    private void insert(String word) {
-        //Implement here
-    }
-    private int findMinLength(String word) {
-        //Implement here
-        return 0;
     }
 }
 
@@ -182,13 +181,7 @@ class Solution:
 
     def find_minimum_prefix_lengths(self, words: List[str]) -> List[int]:
         # //Implement here
-        return 0
-    def _insert(self, word: str):
-        # //Implement here
-        return 0
-    def _find_min_length(self, word: str) -> int:
-        # //Implement here
-        return 0
+        return []
 def main():
     import sys
     lines = sys.stdin.read().strip().split('\n')
@@ -221,13 +214,11 @@ struct TrieNode {
 };
 
 class Solution {
+private:
+    TrieNode* root;
 public:
-    void insert(const string& word) {
-        //Implement here
-    }
-    int findMinLength(const string& word) {
-        //Implement here
-        return 0;
+    Solution() {
+        root = new TrieNode();
     }
     vector<int> findMinimumPrefixLengths(vector<string>& words) {
         //Implement here
@@ -273,14 +264,6 @@ class TrieNode {
 }
 
 class Solution {
-  insert(word) {
-    //Implement here
-    return 0;
-  }
-  findMinLength(word) {
-    //Implement here
-    return 0;
-  }
   findMinimumPrefixLengths(words) {
     //Implement here
     return 0;

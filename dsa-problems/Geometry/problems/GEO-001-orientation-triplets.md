@@ -94,24 +94,39 @@ Computational Geometry, Cross Product, Orientation Testing
 ### Java
 
 ```java
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-class Main {
-static class Solution {
+class Solution {
     public String orientation(long x1, long y1, long x2, long y2, long x3, long y3) {
-        //Implement here
+        //Implemention here
         return "";
     }
 }
 
-    public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNext()) return;
-        long x1 = sc.nextLong(); long y1 = sc.nextLong();
-        long x2 = sc.nextLong(); long y2 = sc.nextLong();
-        long x3 = sc.nextLong(); long y3 = sc.nextLong();
-        System.out.println(new Solution().orientation(x1, y1, x2, y2, x3, y3));
+class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line).append(' ');
+        }
+        String input = sb.toString().trim();
+        if (input.isEmpty()) return;
+        String[] data = input.split("\\s+");
+        if (data.length < 6) return;
+        int idx = 0;
+        long x1 = Long.parseLong(data[idx++]);
+        long y1 = Long.parseLong(data[idx++]);
+        long x2 = Long.parseLong(data[idx++]);
+        long y2 = Long.parseLong(data[idx++]);
+        long x3 = Long.parseLong(data[idx++]);
+        long y3 = Long.parseLong(data[idx++]);
+
+        Solution solution = new Solution();
+        String result = solution.orientation(x1, y1, x2, y2, x3, y3);
+        System.out.print(result);
     }
 }
 ```
@@ -120,21 +135,18 @@ static class Solution {
 
 ```python
 import sys
-sys.setrecursionlimit(200000)
 
-def orientation(x1: int, y1: int, x2: int, y2: int, x3: int, y3: int) -> str:
-    # //Implement here
-    return 0
+def orientation(x1, y1, x2, y2, x3, y3):
+    # //Implemention here
+    return ""
+
 def main():
-    input_data = sys.stdin.read().strip()
-    if not input_data:
+    data = sys.stdin.read().strip().split()
+    if len(data) < 6:
         return
-
-    data = input_data.split()
-    x1, y1, x2, y2, x3, y3 = map(int, data)
-
+    x1, y1, x2, y2, x3, y3 = map(int, data[:6])
     result = orientation(x1, y1, x2, y2, x3, y3)
-    print(result)
+    sys.stdout.write(str(result))
 
 if __name__ == "__main__":
     main()
@@ -145,25 +157,34 @@ if __name__ == "__main__":
 ```cpp
 #include <iostream>
 #include <vector>
-#include <algorithm>
-#include <cmath>
-#include <iomanip>
 #include <string>
+#include <iomanip>
+
 using namespace std;
 
-long long cross(long long x1, long long y1, long long x2, long long y2, long long x3, long long y3) {
-    return (x2 - x1) * (y3 - y1) - (y2 - y1) * (x3 - x1);
-}
-
 string orientation(long long x1, long long y1, long long x2, long long y2, long long x3, long long y3) {
-    //Implement here
+    //Implemention here
     return "";
 }
 
 int main() {
-    ios::sync_with_stdio(false); cin.tie(nullptr);
-    long long x1,y1,x2,y2,x3,y3;
-    if(cin >> x1 >> y1 >> x2 >> y2 >> x3 >> y3) cout << orientation(x1,y1,x2,y2,x3,y3) << endl;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    vector<long long> data;
+    long long val;
+    while (cin >> val) {
+        data.push_back(val);
+    }
+    if (data.size() < 6) return 0;
+    long long x1 = data[0];
+    long long y1 = data[1];
+    long long x2 = data[2];
+    long long y2 = data[3];
+    long long x3 = data[4];
+    long long y3 = data[5];
+
+    cout << orientation(x1, y1, x2, y2, x3, y3);
     return 0;
 }
 ```
@@ -171,24 +192,30 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require('readline');
+const fs = require("fs");
 
 function orientation(x1, y1, x2, y2, x3, y3) {
-  //Implement here
-  return 0;
+  //Implemention here
+  return "";
 }
 
+const input = fs.readFileSync(0, "utf8").trim();
+if (input.length === 0) {
+  process.exit(0);
+}
+const data = input.split(/\s+/).map(Number);
+if (data.length < 6) {
+  process.exit(0);
+}
+let idx = 0;
+const x1 = data[idx++];
+const y1 = data[idx++];
+const x2 = data[idx++];
+const y2 = data[idx++];
+const x3 = data[idx++];
+const y3 = data[idx++];
 
-const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-let lines = [];
-rl.on('line', (line) => { lines.push(...line.trim().split(/\s+/)); });
-rl.on('close', () => {
-    if (lines.length === 0) return;
-    let idx = 0;
-    const next = () => lines[idx++];
-    const nextInt = () => parseInt(next());
-    const nextFloat = () => parseFloat(next());
-    console.log(orientation(nextInt(), nextInt(), nextInt(), nextInt(), nextInt(), nextInt()));
-});
+const result = orientation(x1, y1, x2, y2, x3, y3);
+process.stdout.write(String(result));
 ```
 

@@ -128,19 +128,19 @@ class Main {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int m = sc.nextInt();
-        
+
         List<List<Integer>> adj = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             adj.add(new ArrayList<>());
         }
-        
+
         for (int i = 0; i < m; i++) {
             int u = sc.nextInt();
             int v = sc.nextInt();
             adj.get(u).add(v);
             adj.get(v).add(u);
         }
-        
+
         // Parse locked array, defaulting to all zeros if missing
         int[] locked = new int[n];
         for (int i = 0; i < n; i++) {
@@ -165,34 +165,44 @@ import sys
 from collections import deque
 from typing import List
 
+# Increase recursion depth for deep DFS/Graph traversals
 sys.setrecursionlimit(200000)
 
-def can_color_bipartite(n: int, adj: List[List[int]], locked: List[int]) -> bool:
-    # //Implement here
-    return 0
-
-def main():
-    n = int(input())
-    m = int(input())
-    
-    adj = [[] for _ in range(n)]
-    
-    for _ in range(m):
-        u, v = map(int, input().split())
-        adj[u].append(v)
-        adj[v].append(u)
-    
-    try:
-        locked = list(map(int, input().split()))
-    except EOFError:
-        # Default to no locked nodes if input is missing
-        locked = [0] * n
-    
-    result = can_color_bipartite(n, adj, locked)
-    print("true" if result else "false")
+class Solution:
+    def can_color_bipartite(self, n: int, adj: List[List[int]], locked: List[int]) -> bool:
+        # //Implement here
+        return False
 
 if __name__ == "__main__":
-    main()
+    lines = sys.stdin.read().split()
+    ptr = 0
+
+    if ptr < len(lines):
+        n = int(lines[ptr])
+        ptr += 1
+        m = int(lines[ptr])
+        ptr += 1
+
+        adj = [[] for _ in range(n)]
+
+        for _ in range(m):
+            u = int(lines[ptr])
+            ptr += 1
+            v = int(lines[ptr])
+            ptr += 1
+            adj[u].append(v)
+            adj[v].append(u)
+
+        locked = [0] * n
+        # Read locked array if available
+        for i in range(n):
+            if ptr < len(lines):
+                locked[i] = int(lines[ptr])
+                ptr += 1
+
+        solution = Solution()
+        result = solution.can_color_bipartite(n, adj, locked)
+        print("true" if result else "false")
 ```
 
 ### C++
@@ -206,7 +216,7 @@ using namespace std;
 
 class Solution {
 public:
-    public: bool canColorBipartite(int n, vector<vector<int>>& adj, vector<int>& locked) {
+    bool canColorBipartite(int n, vector<vector<int>>& adj, vector<int>& locked) {
         //Implement here
         return false;
     }
@@ -215,27 +225,27 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int n, m;
     cin >> n >> m;
-    
+
     vector<vector<int>> adj(n);
-    
+
     for (int i = 0; i < m; i++) {
         int u, v;
         cin >> u >> v;
         adj[u].push_back(v);
         adj[v].push_back(u);
     }
-    
+
     vector<int> locked(n);
     for (int i = 0; i < n; i++) {
         cin >> locked[i];
     }
-    
+
     Solution solution;
     cout << (solution.canColorBipartite(n, adj, locked) ? "true" : "false") << "\n";
-    
+
     return 0;
 }
 ```
@@ -248,7 +258,7 @@ const readline = require("readline");
 class Solution {
   canColorBipartite(n, adj, locked) {
     //Implement here
-    return 0;
+    return false;
   }
 }
 
@@ -290,4 +300,3 @@ rl.on("close", () => {
   console.log(solution.canColorBipartite(n, adj, locked) ? "true" : "false");
 });
 ```
-

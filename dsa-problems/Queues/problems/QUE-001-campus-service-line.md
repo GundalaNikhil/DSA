@@ -92,6 +92,7 @@ Queue, Simulation, FIFO
 ---
 
 ## Solution Template
+
 ### Java
 
 ```java
@@ -110,7 +111,7 @@ class Main {
         if (sc.hasNextInt()) {
             int m = sc.nextInt();
             List<String[]> commands = new ArrayList<>();
-    
+
             for (int i = 0; i < m; i++) {
                 String op = sc.next();
                 if (op.equals("ENQUEUE")) {
@@ -120,7 +121,7 @@ class Main {
                     commands.add(new String[]{op});
                 }
             }
-    
+
             Solution solution = new Solution();
             List<String> result = solution.processCommands(commands);
             for (String line : result) {
@@ -141,13 +142,13 @@ import sys
 
 def process_commands(commands: List[List[str]]) -> List[str]:
     # //Implement here
-    return 0
+    return []
 
 def main():
     input_data = sys.stdin.read().split()
     if not input_data:
         return
-    
+
     iterator = iter(input_data)
     try:
         m = int(next(iterator))
@@ -159,7 +160,7 @@ def main():
                 commands.append([op, val])
             else:
                 commands.append([op])
-        
+
         result = process_commands(commands)
         print("\n".join(result))
     except StopIteration:
@@ -206,7 +207,7 @@ int main() {
                 commands.push_back({op});
             }
         }
-    
+
         Solution solution;
         vector<string> result = solution.processCommands(commands);
         for (const string& line : result) {
@@ -225,7 +226,7 @@ const readline = require("readline");
 class Solution {
   processCommands(commands) {
     //Implement here
-    return 0;
+    return [];
   }
 }
 
@@ -235,7 +236,14 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("line", (line) =>
+  data.push(
+    ...line
+      .trim()
+      .split(/\s+/)
+      .filter((x) => x !== "")
+  )
+);
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
@@ -257,4 +265,3 @@ rl.on("close", () => {
   console.log(result.join("\n"));
 });
 ```
-

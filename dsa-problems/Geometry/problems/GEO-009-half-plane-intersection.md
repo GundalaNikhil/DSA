@@ -98,73 +98,51 @@ Half-Plane Intersection, Convex Polygons, Geometry Deque
 ### Java
 
 ```java
-import java.util.*;
 import java.io.*;
+import java.util.*;
+
+class Solution {
+    public List<double[]> halfPlaneIntersection(long[] a, long[] b, long[] c) {
+        //Implemention here
+        return new ArrayList<>();
+    }
+}
 
 class Main {
-    static class Solution {
-        private static final double EPS = 1e-9;
-
-        private static class Line {
-            double a, b, c, ang;
-            Line(double a, double b, double c) {
-                this.a = a;
-                this.b = b;
-                this.c = c;
-                this.ang = Math.atan2(b, a);
-            }
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line).append(' ');
+        }
+        String input = sb.toString().trim();
+        if (input.isEmpty()) return;
+        String[] data = input.split("\\s+");
+        int idx = 0;
+        int m = Integer.parseInt(data[idx++]);
+        if (data.length < 1 + 3 * m) return;
+        long[] a = new long[m];
+        long[] b = new long[m];
+        long[] c = new long[m];
+        for (int i = 0; i < m; i++) {
+            a[i] = Long.parseLong(data[idx++]);
+            b[i] = Long.parseLong(data[idx++]);
+            c[i] = Long.parseLong(data[idx++]);
         }
 
-        private double norm(Line l) {
-            return Math.hypot(l.a, l.b);
+        Solution solution = new Solution();
+        List<double[]> result = solution.halfPlaneIntersection(a, b, c);
+        if (result.isEmpty()) {
+            System.out.print("EMPTY");
+            return;
         }
-
-        private double[] intersect(Line l1, Line l2) {
-            double det = l1.a * l2.b - l2.a * l1.b;
-            if (Math.abs(det) < EPS) return null;
-            double x = (l1.c * l2.b - l2.c * l1.b) / det;
-            double y = (l1.a * l2.c - l2.a * l1.c) / det;
-            return new double[]{x, y};
+        StringBuilder out = new StringBuilder();
+        out.append(result.size()).append('\n');
+        for (double[] p : result) {
+            out.append(String.format(Locale.US, "%.6f %.6f", p[0], p[1])).append('\n');
         }
-
-        private boolean outside(double[] p, Line l) {
-            return l.a * p[0] + l.b * p[1] - l.c > EPS;
-        }
-
-        private Line secondLast(Deque<Line> dq) {
-            Iterator<Line> it = dq.descendingIterator();
-            it.next();
-            return it.next();
-        }
-
-        private Line secondFirst(Deque<Line> dq) {
-            Iterator<Line> it = dq.iterator();
-            it.next();
-            return it.next();
-        }
-
-        public List<double[]> halfPlaneIntersection(long[] A, long[] B, long[] C) {
-            //Implement here
-            return new ArrayList<>();
-        }
-    }
-
-    public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNext()) return;
-        int m = sc.nextInt();
-        long[] A = new long[m]; long[] B = new long[m]; long[] C = new long[m];
-        for(int i=0; i<m; i++) { A[i] = sc.nextLong(); B[i] = sc.nextLong(); C[i] = sc.nextLong(); }
-        List<double[]> res = new Solution().halfPlaneIntersection(A, B, C);
-        if(res.isEmpty()) System.out.println("EMPTY");
-        else {
-            System.out.println(res.size());
-            for(double[] p : res) {
-                double x = Math.abs(p[0]) < 1e-9 ? 0.0 : p[0];
-                double y = Math.abs(p[1]) < 1e-9 ? 0.0 : p[1];
-                System.out.printf("%.6f %.6f\n", x, y);
-            }
-        }
+        System.out.print(out.toString());
     }
 }
 ```
@@ -172,36 +150,37 @@ class Main {
 ### Python
 
 ```python
-import math
-from typing import List, Tuple
+import sys
 
-EPS = 1e-9
+def half_plane_intersection(a, b, c):
+    # //Implemention here
+    return []
 
-def half_plane_intersection(A: List[int], B: List[int], C: List[int]) -> List[Tuple[float, float]]:
-    # //Implement here
-    return 0
-def main() -> None:
-    import sys
+def main():
     data = sys.stdin.read().strip().split()
     if not data:
         return
-    it = iter(data)
-    try:
-        m = int(next(it))
-        A,B,C = [],[],[]
-        for _ in range(m):
-            A.append(int(next(it)))
-            B.append(int(next(it)))
-            C.append(int(next(it)))
-        poly = half_plane_intersection(A,B,C)
-        if not poly:
-            print("EMPTY")
-        else:
-            print(len(poly))
-            for x,y in poly:
-                print(f"{x:.6f} {y:.6f}")
-    except StopIteration:
+    idx = 0
+    m = int(data[idx]);
+    idx += 1
+    if len(data) < 1 + 3 * m:
         return
+    a = []
+    b = []
+    c = []
+    for _ in range(m):
+        a.append(int(data[idx]));
+        b.append(int(data[idx + 1]));
+        c.append(int(data[idx + 2]));
+        idx += 3
+    result = half_plane_intersection(a, b, c)
+    if not result:
+        sys.stdout.write("EMPTY")
+        return
+    out_lines = [str(len(result))]
+    for x, y in result:
+        out_lines.append(f"{x:.6f} {y:.6f}")
+    sys.stdout.write("\n".join(out_lines))
 
 if __name__ == "__main__":
     main()
@@ -212,178 +191,38 @@ if __name__ == "__main__":
 ```cpp
 #include <iostream>
 #include <vector>
-#include <cmath>
-#include <algorithm>
+#include <string>
 #include <iomanip>
-#include <deque>
 
 using namespace std;
 
-const double EPS = 1e-9;
-
-struct Line {
-    double a, b, c;
-    double ang; // angle
-};
-
-struct Point {
-    double x, y;
-};
-
-// Sort comparator
-bool cmp(const Line& a, const Line& b) {
-    if (abs(a.ang - b.ang) > EPS) return a.ang < b.ang;
-    // Tie break: deeper cut first (larger c/norm? or smaller?)
-    // Python code: t[3] / hypot(t[1], t[2]) is c/norm
-    // If parallel, key is c/norm. Python uses lambda t: (t[0], t[3]/norm)
-    // and prune parallel keeping tightest?
-    // Python prune: if L[3]/normL < pruned[-1][3]/normP keep pruned else replace
-    // This implies we want larger C/norm? No, wait.
-    // Logic: ax + by <= c.
-    // Distance from origin is c / norm.
-    // Actually, let's just use the Python logic exactly.
-    // Sort by angle.
-    return false; // handled in sort block
-}
-
-Point intersect(Line l1, Line l2) {
-    //Implement here
-    return 0;
-}
-
-bool outside(Point p, Line l) {
-    if (isnan(p.x)) return true;
-    return l.a * p.x + l.b * p.y - l.c > EPS;
+vector<pair<double, double>> half_plane_intersection(const vector<long long>& a, const vector<long long>& b,
+                                                     const vector<long long>& c) {
+    //Implemention here
+    return {};
 }
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int m;
+    long long m;
     if (!(cin >> m)) return 0;
-
-    vector<Line> lines;
-    for (int i = 0; i < m; ++i) {
-        double a, b, c;
-        cin >> a >> b >> c;
-        lines.push_back({a, b, c, atan2(b, a)});
+    vector<long long> a(m), b(m), c(m);
+    for (long long i = 0; i < m; i++) {
+        cin >> a[i] >> b[i] >> c[i];
     }
 
-    sort(lines.begin(), lines.end(), [](const Line& a, const Line& b) {
-        if (abs(a.ang - b.ang) > EPS) return a.ang < b.ang;
-        double normA = hypot(a.a, a.b);
-        double normB = hypot(b.a, b.b);
-        return a.c / normA < b.c / normB;
-    });
-
-    // Prune parallel lines
-    vector<Line> unique_lines;
-    for (const auto& l : lines) {
-        if (unique_lines.empty()) {
-            unique_lines.push_back(l);
-        } else {
-            Line& last = unique_lines.back();
-            if (abs(l.ang - last.ang) < EPS) {
-                // Same angle, we sorted by c/norm ascending
-                // Python logic: kept the one with smaller c/norm?
-                // Python: if L[3]/normL < pruned[-1][3]/normP: pruned[-1] = L
-                // So python keeps the SMALLER c/norm.
-                // Since we sorted ascending, the smaller one is first.
-                // So if we see a duplicate angle, the first one was smaller.
-                // Wait, if sort is ascending, then unique_lines.back() is smaller than l.
-                // So we just ignore l?
-                // Let's re-read python carefully.
-                // lines.sort(key=...) ascending.
-                // for L in lines:
-                //   if abs(ang diff) < EPS:
-                //      if L.c/norm < last.c/norm: replace last with L
-                //      else: ignore L
-                // Since list is sorted ascending by c/norm:
-                // The first one encountered for a given angle group is the SMALLEST c/norm.
-                // Subsequent ones are larger.
-                // So Python keeps the smallest c/norm.
-                // Wait, if ax + by <= c, smaller c means the half plane has "smaller area" or is "shifted left"?
-                // Yes, smaller c is tighter constraint.
-                // So we want smallest c.
-                // Since we sorted ascending, the first one is best.
-                // So we just skip subsequent ones.
-                continue; 
-            } else {
-                unique_lines.push_back(l);
-            }
-        }
+    vector<pair<double, double>> result = half_plane_intersection(a, b, c);
+    if (result.empty()) {
+        cout << "EMPTY";
+        return 0;
     }
-
-    deque<Line> dq;
-    for (const auto& l : unique_lines) {
-        while (dq.size() >= 2 && outside(intersect(dq[dq.size()-2], dq.back()), l)) {
-            dq.pop_back();
-        }
-        while (dq.size() >= 2 && outside(intersect(dq[0], dq[1]), l)) {
-            dq.pop_front();
-        }
-        dq.push_back(l);
+    cout << result.size() << "\n";
+    cout << fixed << setprecision(6);
+    for (const auto& p : result) {
+        cout << p.first << " " << p.second << "\n";
     }
-
-    while (dq.size() >= 3 && outside(intersect(dq[dq.size()-2], dq.back()), dq.front())) {
-        dq.pop_back();
-    }
-    while (dq.size() >= 3 && outside(intersect(dq.front(), dq[1]), dq.back())) {
-        dq.pop_front();
-    }
-
-    vector<Point> res;
-    if (dq.size() < 3) {
-        // empty
-    } else {
-        for (int i = 0; i < dq.size(); ++i) {
-            Point p = intersect(dq[i], dq[(i+1)%dq.size()]);
-            if (isnan(p.x)) { res.clear(); break; }
-            res.push_back(p);
-        }
-    }
-
-    // Filter duplicates and print
-    // Logic from python: filter adjacent duplicates, rotate to min x,y
-    if (res.empty()) {
-        cout << "EMPTY\n";
-    } else {
-        // Remove duplicate points
-        vector<Point> unique_pts;
-        for (const auto& p : res) {
-            if (unique_pts.empty()) unique_pts.push_back(p);
-            else if (hypot(p.x - unique_pts.back().x, p.y - unique_pts.back().y) > EPS) {
-                unique_pts.push_back(p);
-            }
-        }
-        if (unique_pts.size() > 1 && hypot(unique_pts[0].x - unique_pts.back().x, unique_pts[0].y - unique_pts.back().y) < EPS) {
-            unique_pts.pop_back();
-        }
-
-        if (unique_pts.size() < 3) {
-            cout << "EMPTY\n";
-        } else {
-            // Find min idx
-            int idx = 0;
-            for (int i = 1; i < unique_pts.size(); ++i) {
-                if (unique_pts[i].x < unique_pts[idx].x - EPS || 
-                   (abs(unique_pts[i].x - unique_pts[idx].x) < EPS && unique_pts[i].y < unique_pts[idx].y)) {
-                    idx = i;
-                }
-            }
-            
-            cout << unique_pts.size() << "\n";
-            cout << fixed << setprecision(6);
-            for (int i = 0; i < unique_pts.size(); ++i) {
-                Point p = unique_pts[(idx + i) % unique_pts.size()];
-                if (abs(p.x) < 1e-9) p.x = 0; // Avoid -0.000000
-                if (abs(p.y) < 1e-9) p.y = 0;
-                cout << p.x << " " << p.y << "\n";
-            }
-        }
-    }
-
     return 0;
 }
 ```
@@ -391,45 +230,42 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require('readline');
-const EPS = 1e-9;
+const fs = require("fs");
 
-class Solution {
-    solve(A, B, C) {
-      //Implement here
-      return 0;
-    }
+function halfPlaneIntersection(a, b, c) {
+  //Implemention here
+  return [];
 }
-const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-let lines = [];
-rl.on('line', (line) => {
-    let tokens = line.match(/\S+/g) || [];
-    lines.push(...tokens);
-});
-rl.on('close', () => {
-    if (lines.length === 0) return;
-    let idx = 0;
-    const next = () => lines[idx++];
-    const nextInt = () => parseInt(next());
 
-    let m = nextInt();
-    let A = [], B = [], C = [];
-    for(let i=0; i<m; i++) {
-        A.push(nextInt()); B.push(nextInt()); C.push(nextInt());
-    }
+const input = fs.readFileSync(0, "utf8").trim();
+if (input.length === 0) {
+  process.exit(0);
+}
+const data = input.split(/\s+/).map(Number);
+let idx = 0;
+const m = data[idx++];
+if (!Number.isFinite(m) || data.length < 1 + 3 * m) {
+  process.exit(0);
+}
+const a = [];
+const b = [];
+const c = [];
+for (let i = 0; i < m; i++) {
+  a.push(data[idx++]);
+  b.push(data[idx++]);
+  c.push(data[idx++]);
+}
 
-    const sol = new Solution();
-    const res = sol.solve(A, B, C);
-    
-    if (res.length === 0) console.log("EMPTY");
-    else {
-        console.log(res.length);
-        for(let p of res) {
-            let px = Math.abs(p.x) < 1e-9 ? 0.0 : p.x;
-            let py = Math.abs(p.y) < 1e-9 ? 0.0 : p.y;
-            console.log(`${px.toFixed(6)} ${py.toFixed(6)}`);
-        }
-    }
-});
+const result = halfPlaneIntersection(a, b, c);
+if (!result || result.length === 0) {
+  process.stdout.write("EMPTY");
+  process.exit(0);
+}
+let out = [];
+out.push(String(result.length));
+for (const p of result) {
+  out.push(p[0].toFixed(6) + " " + p[1].toFixed(6));
+}
+process.stdout.write(out.join("\n"));
 ```
 

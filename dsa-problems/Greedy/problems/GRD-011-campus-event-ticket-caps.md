@@ -120,14 +120,14 @@ class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
-        
+
         int n = sc.nextInt();
         int[][] requests = new int[n][2];
         for (int i = 0; i < n; i++) {
             requests[i][0] = sc.nextInt();
             requests[i][1] = sc.nextInt();
         }
-        
+
         Solution solution = new Solution();
         System.out.println(solution.maxTickets(n, requests));
         sc.close();
@@ -141,30 +141,30 @@ class Main {
 import heapq
 import sys
 
-def max_tickets(n: int, requests: list) -> int:
-    # //Implement here
-    return 0
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-        
-    iterator = iter(data)
-    n = int(next(iterator))
-    
-    requests = []
-    for _ in range(n):
-        q = int(next(iterator))
-        d = int(next(iterator))
-        requests.append([q, d])
-
-    result = max_tickets(n, requests)
-    print(result)
+class Solution:
+    def max_tickets(self, n: int, requests: list[list[int]]) -> int:
+        # //Implement here
+        return 0
 
 if __name__ == "__main__":
-    main()
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        sys.exit(0)
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+
+        requests = []
+        for _ in range(n):
+            q = int(next(iterator))
+            d = int(next(iterator))
+            requests.append([q, d])
+
+        solution = Solution()
+        print(solution.max_tickets(n, requests))
+    except StopIteration:
+        pass
 ```
 
 ### C++
@@ -233,7 +233,10 @@ class MinHeap {
     while (idx > 0) {
       const parentIdx = Math.floor((idx - 1) / 2);
       if (this.heap[idx] >= this.heap[parentIdx]) break;
-      [this.heap[idx], this.heap[parentIdx]] = [this.heap[parentIdx], this.heap[idx]];
+      [this.heap[idx], this.heap[parentIdx]] = [
+        this.heap[parentIdx],
+        this.heap[idx],
+      ];
       idx = parentIdx;
     }
   }
@@ -247,8 +250,12 @@ class MinHeap {
       if (right < this.heap.length && this.heap[right] < this.heap[left]) {
         minChildIdx = right;
       }
-      if (minChildIdx === null || this.heap[idx] <= this.heap[minChildIdx]) break;
-      [this.heap[idx], this.heap[minChildIdx]] = [this.heap[minChildIdx], this.heap[idx]];
+      if (minChildIdx === null || this.heap[idx] <= this.heap[minChildIdx])
+        break;
+      [this.heap[idx], this.heap[minChildIdx]] = [
+        this.heap[minChildIdx],
+        this.heap[idx],
+      ];
       idx = minChildIdx;
     }
   }
@@ -270,10 +277,10 @@ let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let ptr = 0;
   const n = parseInt(data[ptr++]);
-  
+
   const requests = [];
   for (let i = 0; i < n; i++) {
     const [q, d] = data[ptr++].split(" ").map(Number);
@@ -284,4 +291,3 @@ rl.on("close", () => {
   console.log(solution.maxTickets(n, requests));
 });
 ```
-

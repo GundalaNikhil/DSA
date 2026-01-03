@@ -132,7 +132,7 @@ import sys
 
 def reverse_first_k(values: List[int], k: int) -> List[int]:
     # //Implement here
-    return 0
+    return []
 
 def main():
     input_data = sys.stdin.read().split()
@@ -205,7 +205,7 @@ const readline = require("readline");
 class Solution {
   reverseFirstK(values, k) {
     //Implement here
-    return 0;
+    return [];
   }
 }
 
@@ -215,7 +215,14 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("line", (line) =>
+  data.push(
+    ...line
+      .trim()
+      .split(/\s+/)
+      .filter((x) => x !== "")
+  )
+);
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
@@ -231,4 +238,3 @@ rl.on("close", () => {
   console.log(result.join(" "));
 });
 ```
-

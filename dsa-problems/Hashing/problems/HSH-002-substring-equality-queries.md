@@ -105,39 +105,47 @@ Rolling Hash, String Matching, Substring Comparison, Double Hashing
 ### Java
 
 ```java
+import java.io.*;
 import java.util.*;
 
 class Solution {
-    public boolean[] checkSubstringEquality(String s, int[][] queries) {
-        //Implement here
-        return new boolean[0];
+    public List<Boolean> checkSubstringEquality(String s, List<int[]> queries) {
+        //Implemention here
+        return new ArrayList<>();
     }
 }
 
 class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextLine()) {
-            String s = sc.nextLine();
-            if (sc.hasNextInt()) {
-                int q = sc.nextInt();
-                int[][] queries = new int[q][4];
-                for (int i = 0; i < q; i++) {
-                    queries[i][0] = sc.nextInt();
-                    queries[i][1] = sc.nextInt();
-                    queries[i][2] = sc.nextInt();
-                    queries[i][3] = sc.nextInt();
-                }
-                
-                Solution solution = new Solution();
-                boolean[] result = solution.checkSubstringEquality(s, queries);
-                
-                for (boolean ans : result) {
-                    System.out.println(ans);
-                }
-            }
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line).append(' ');
         }
-        sc.close();
+        String input = sb.toString().trim();
+        if (input.isEmpty()) return;
+        String[] data = input.split("\\s+");
+        int idx = 0;
+        String s = data[idx++];
+        int q = Integer.parseInt(data[idx++]);
+        List<int[]> queries = new ArrayList<>();
+        for (int i = 0; i < q; i++) {
+            int l1 = Integer.parseInt(data[idx++]);
+            int r1 = Integer.parseInt(data[idx++]);
+            int l2 = Integer.parseInt(data[idx++]);
+            int r2 = Integer.parseInt(data[idx++]);
+            queries.add(new int[]{l1, r1, l2, r2});
+        }
+
+        Solution solution = new Solution();
+        List<Boolean> result = solution.checkSubstringEquality(s, queries);
+        StringBuilder out = new StringBuilder();
+        for (int i = 0; i < result.size(); i++) {
+            out.append(result.get(i) ? "true" : "false");
+            if (i + 1 < result.size()) out.append('\n');
+        }
+        System.out.print(out.toString());
     }
 }
 ```
@@ -147,36 +155,32 @@ class Main {
 ```python
 import sys
 
-# Increase recursion depth just in case
-
-def check_substring_equality(s: str, queries: list) -> list:
-    # //Implement here
-    return 0
+def check_substring_equality(s, queries):
+    # //Implemention here
+    return []
 
 def main():
-    input_data = sys.stdin.read().split()
-    if not input_data:
+    data = sys.stdin.read().split()
+    if not data:
         return
-        
-    iterator = iter(input_data)
-    try:
-        s = next(iterator)
-        q = int(next(iterator))
-        queries = []
-        for _ in range(q):
-            l1 = int(next(iterator))
-            r1 = int(next(iterator))
-            l2 = int(next(iterator))
-            r2 = int(next(iterator))
-            queries.append([l1, r1, l2, r2])
-            
-        result = check_substring_equality(s, queries)
-        for ans in result:
-            print("true" if ans else "false")
-    except StopIteration:
-        pass
+    idx = 0
+    s = data[idx]
+    idx += 1
+    q = int(data[idx])
+    idx += 1
+    queries = []
+    for _ in range(q):
+        l1 = int(data[idx]);
+        r1 = int(data[idx + 1]);
+        l2 = int(data[idx + 2]);
+        r2 = int(data[idx + 3]);
+        idx += 4
+        queries.append([l1, r1, l2, r2])
+    result = check_substring_equality(s, queries)
+    out_lines = [('true' if ans else 'false') for ans in result]
+    sys.stdout.write('\n'.join(out_lines))
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
 ```
 
@@ -186,39 +190,36 @@ if __name__ == "__main__":
 #include <iostream>
 #include <vector>
 #include <string>
+#include <array>
 
 using namespace std;
 
-class Solution {
-public:
-    vector<bool> checkSubstringEquality(string s, vector<vector<int>>& queries) {
-        //Implement here
-        return {};
-    }
-};
+vector<bool> check_substring_equality(const string& s, const vector<array<int, 4>>& queries) {
+    //Implemention here
+    return {};
+}
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     string s;
     if (!(cin >> s)) return 0;
-    
     int q;
     if (!(cin >> q)) return 0;
-    
-    vector<vector<int>> queries(q, vector<int>(4));
+    vector<array<int, 4>> queries;
+    queries.reserve(q);
     for (int i = 0; i < q; i++) {
-        cin >> queries[i][0] >> queries[i][1] >> queries[i][2] >> queries[i][3];
+        int l1, r1, l2, r2;
+        cin >> l1 >> r1 >> l2 >> r2;
+        queries.push_back({l1, r1, l2, r2});
     }
-    
-    Solution solution;
-    vector<bool> result = solution.checkSubstringEquality(s, queries);
-    
-    for (bool ans : result) {
-        cout << (ans ? "true" : "false") << "\n";
+
+    vector<bool> result = check_substring_equality(s, queries);
+    for (size_t i = 0; i < result.size(); i++) {
+        cout << (result[i] ? "true" : "false");
+        if (i + 1 < result.size()) cout << '\n';
     }
-    
     return 0;
 }
 ```
@@ -226,39 +227,31 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
 
-class Solution {
-  checkSubstringEquality(s, queries) {
-    //Implement here
-    return 0;
-  }
+function checkSubstringEquality(s, queries) {
+  //Implemention here
+  return [];
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  
-  let ptr = 0;
-  const s = data[ptr++];
-  const q = parseInt(data[ptr++]);
-  
-  const queries = [];
-  for (let i = 0; i < q; i++) {
-    const parts = data[ptr++].split(" ").map(Number);
-    queries.push(parts);
-  }
-  
-  const solution = new Solution();
-  const result = solution.checkSubstringEquality(s, queries);
-  
-  result.forEach((ans) => console.log(ans ? "true" : "false"));
-});
+const input = fs.readFileSync(0, "utf8").trim();
+if (input.length === 0) {
+  process.exit(0);
+}
+const data = input.split(/\s+/);
+let idx = 0;
+const s = data[idx++];
+const q = parseInt(data[idx++], 10);
+const queries = [];
+for (let i = 0; i < q; i++) {
+  const l1 = parseInt(data[idx++], 10);
+  const r1 = parseInt(data[idx++], 10);
+  const l2 = parseInt(data[idx++], 10);
+  const r2 = parseInt(data[idx++], 10);
+  queries.push([l1, r1, l2, r2]);
+}
+const result = checkSubstringEquality(s, queries);
+const out = result.map(v => (v ? 'true' : 'false')).join('\n');
+process.stdout.write(out);
 ```
 

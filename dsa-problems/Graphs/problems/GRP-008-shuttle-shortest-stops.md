@@ -53,6 +53,7 @@ For each node, output its shortest distance from the source. If a node is unreac
 ## Example
 
 **Input:**
+
 ```
 5
 4
@@ -64,6 +65,7 @@ For each node, output its shortest distance from the source. If a node is unreac
 ```
 
 **Output:**
+
 ```
 0 1 2 1 2
 ```
@@ -71,6 +73,7 @@ For each node, output its shortest distance from the source. If a node is unreac
 **Explanation:**
 
 Starting from node 0 (source):
+
 - Distance to node 0: 0 (source itself)
 - Distance to node 1: 1 (direct edge 0→1)
 - Distance to node 2: 2 (path 0→1→2)
@@ -151,45 +154,45 @@ import sys
 from collections import deque
 from typing import List
 
+# Increase recursion depth for deep DFS/Graph traversals
 sys.setrecursionlimit(200000)
 
-def shortest_distances(n: int, adj: List[List[int]], source: int) -> List[int]:
-    # //Implement here
-    return 0
+class Solution:
+    def shortest_distances(self, n: int, adj: List[List[int]], source: int) -> List[int]:
+        # //Implement here
+        return []
 
-def main():
+if __name__ == "__main__":
     try:
         input_data = sys.stdin.read().split()
     except Exception:
-        return
+        sys.exit(0)
 
     if not input_data:
-        return
-        
+        sys.exit(0)
+
     iterator = iter(input_data)
     try:
         n = int(next(iterator))
         m = int(next(iterator))
-        
+
         adj = [[] for _ in range(n)]
         for _ in range(m):
             u = int(next(iterator))
             v = int(next(iterator))
             adj[u].append(v)
             adj[v].append(u)
-            
+
         try:
             source = int(next(iterator))
         except StopIteration:
             source = 0
-            
-        result = shortest_distances(n, adj, source)
+
+        solution = Solution()
+        result = solution.shortest_distances(n, adj, source)
         print(' '.join(map(str, result)))
     except StopIteration:
         pass
-
-if __name__ == "__main__":
-    main()
 ```
 
 ### C++
@@ -204,7 +207,7 @@ using namespace std;
 
 class Solution {
 public:
-    public: vector<int> shortestDistances(int n, vector<vector<int>>& adj, int source) {
+    vector<int> shortestDistances(int n, vector<vector<int>>& adj, int source) {
         //Implement here
         return {};
     }
@@ -251,7 +254,7 @@ const readline = require("readline");
 class Solution {
   shortestDistances(n, adj, source) {
     //Implement here
-    return 0;
+    return [];
   }
 }
 
@@ -292,4 +295,3 @@ rl.on("close", () => {
   console.log(result.join(" "));
 });
 ```
-

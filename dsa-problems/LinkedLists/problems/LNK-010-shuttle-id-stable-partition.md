@@ -98,7 +98,7 @@ class ListNode {
 class Solution {
     public ListNode stablePartition(ListNode head, int x) {
         //Implement here
-        return new ArrayList<>();
+        return null;
     }
 }
 
@@ -107,7 +107,7 @@ class Main {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
         int n = sc.nextInt();
-        
+
         ListNode dummy = new ListNode(0);
         ListNode cur = dummy;
         for (int i = 0; i < n; i++) {
@@ -118,7 +118,7 @@ class Main {
 
         Solution solution = new Solution();
         ListNode res = solution.stablePartition(dummy.next, x);
-        
+
         boolean first = true;
         while (res != null) {
             if (!first) System.out.print(" ");
@@ -144,14 +144,14 @@ class ListNode:
 
 def stable_partition(head: ListNode, x: int) -> ListNode:
     # //Implement here
-    return 0
+    return None
 
 def main():
     input = sys.stdin.read
     data = input().split()
     if not data:
         return
-    
+
     iterator = iter(data)
     try:
         n = int(next(iterator))
@@ -160,11 +160,11 @@ def main():
         for _ in range(n):
             cur.next = ListNode(int(next(iterator)))
             cur = cur.next
-            
+
         x = int(next(iterator))
-        
+
         head = stable_partition(dummy.next, x)
-        
+
         out = []
         while head:
             out.append(str(head.val))
@@ -203,7 +203,7 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    
+
     ListNode dummy(0);
     ListNode* cur = &dummy;
     for (int i = 0; i < n; i++) {
@@ -217,7 +217,7 @@ int main() {
 
     Solution solution;
     ListNode* res = solution.stablePartition(dummy.next, x);
-    
+
     bool first = true;
     while (res) {
         if (!first) cout << " ";
@@ -244,7 +244,7 @@ class ListNode {
 
 function stablePartition(head, x) {
   //Implement here
-  return 0;
+  return null;
 }
 
 const rl = readline.createInterface({
@@ -253,29 +253,35 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x)));
+rl.on("line", (line) =>
+  data.push(
+    ...line
+      .trim()
+      .split(/\s+/)
+      .filter((x) => x)
+  )
+);
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
   const n = parseInt(data[idx++], 10);
-  
+
   const dummy = new ListNode(0);
   let cur = dummy;
   for (let i = 0; i < n; i++) {
     cur.next = new ListNode(parseInt(data[idx++], 10));
     cur = cur.next;
   }
-  
+
   if (idx < data.length) {
-      const x = parseInt(data[idx++], 10);
-      let head = stablePartition(dummy.next, x);
-      const out = [];
-      while (head) {
-        out.push(head.val);
-        head = head.next;
-      }
-      console.log(out.join(" "));
+    const x = parseInt(data[idx++], 10);
+    let head = stablePartition(dummy.next, x);
+    const out = [];
+    while (head) {
+      out.push(head.val);
+      head = head.next;
+    }
+    console.log(out.join(" "));
   }
 });
 ```
-

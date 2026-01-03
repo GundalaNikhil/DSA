@@ -133,14 +133,16 @@ class TrieNode {
 }
 
 class Solution {
+    private TrieNode root;
+
+    public Solution() {
+        this.root = new TrieNode();
+    }
+
     public void insertWord(String word) {
         //Implement here
     }
     public boolean hasEditDistance1(String query) {
-        //Implement here
-        return false;
-    }
-    private boolean dfs(TrieNode node, String query, int index, int edits) {
         //Implement here
         return false;
     }
@@ -184,13 +186,10 @@ class Solution:
 
     def insert_word(self, word: str):
         # //Implement here
-        return 0
+        pass
     def has_edit_distance_1(self, query: str) -> bool:
         # //Implement here
-        return 0
-    def _dfs(self, node: TrieNode, query: str, index: int, edits: int) -> bool:
-        # //Implement here
-        return 0
+        return False
 def main():
     import sys
     lines = sys.stdin.read().strip().split('\n')
@@ -224,11 +223,14 @@ struct TrieNode {
 };
 
 class Solution {
+private:
+    TrieNode* root;
+
 public:
-    bool dfs(TrieNode* node, const string& query, int index, int edits) {
-        //Implement here
-        return false;
+    Solution() {
+        this->root = new TrieNode();
     }
+
     void insertWord(const string& word) {
         //Implement here
     }
@@ -273,17 +275,16 @@ class TrieNode {
 }
 
 class Solution {
+  constructor() {
+    this.root = new TrieNode();
+  }
+
   insertWord(word) {
     //Implement here
-    return 0;
   }
   hasEditDistance1(query) {
     //Implement here
-    return 0;
-  }
-  dfs(node, query, index, edits) {
-    //Implement here
-    return 0;
+    return false;
   }
 }
 

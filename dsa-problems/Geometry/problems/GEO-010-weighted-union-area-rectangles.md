@@ -90,29 +90,48 @@ Sweep Line, Segment Tree, Coordinate Compression
 ### Java
 
 ```java
+import java.io.*;
 import java.util.*;
 
-class Main {
-    public static long solve(int n, int targetW, int[][] rects) {
-        //Implement here
+class Solution {
+    public long weightedArea(long[] x1, long[] y1, long[] x2, long[] y2, long[] w, long W) {
+        //Implemention here
         return 0L;
     }
+}
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNextInt()) return;
-        int n = sc.nextInt();
-        int targetW = sc.nextInt();
-        int[][] rects = new int[n][5];
-        for (int i = 0; i < n; i++) {
-            rects[i][0] = sc.nextInt();
-            rects[i][1] = sc.nextInt();
-            rects[i][2] = sc.nextInt();
-            rects[i][3] = sc.nextInt();
-            rects[i][4] = sc.nextInt();
+class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line).append(' ');
         }
-        System.out.println(solve(n, targetW, rects));
-        sc.close();
+        String input = sb.toString().trim();
+        if (input.isEmpty()) return;
+        String[] data = input.split("\\s+");
+        int idx = 0;
+        int m = Integer.parseInt(data[idx++]);
+        if (data.length < 2) return;
+        long W = Long.parseLong(data[idx++]);
+        if (data.length < 2 + 5 * m) return;
+        long[] x1 = new long[m];
+        long[] y1 = new long[m];
+        long[] x2 = new long[m];
+        long[] y2 = new long[m];
+        long[] w = new long[m];
+        for (int i = 0; i < m; i++) {
+            x1[i] = Long.parseLong(data[idx++]);
+            y1[i] = Long.parseLong(data[idx++]);
+            x2[i] = Long.parseLong(data[idx++]);
+            y2[i] = Long.parseLong(data[idx++]);
+            w[i] = Long.parseLong(data[idx++]);
+        }
+
+        Solution solution = new Solution();
+        long result = solution.weightedArea(x1, y1, x2, y2, w, W);
+        System.out.print(result);
     }
 }
 ```
@@ -120,35 +139,39 @@ class Main {
 ### Python
 
 ```python
-from typing import List
+import sys
 
-def weighted_area(x1: List[int], y1: List[int], x2: List[int], y2: List[int], w: List[int], W: int) -> int:
-    # //Implement here
+def weighted_area(x1, y1, x2, y2, w, W):
+    # //Implemention here
     return 0
-def main() -> None:
-    import sys
-    # Increase recursion depth for deep segment tree
-    sys.setrecursionlimit(200000)
-    # Fast I/O
-    input_data = sys.stdin.read().split()
-    if not input_data:
+
+def main():
+    data = sys.stdin.read().strip().split()
+    if not data:
         return
-    it = iter(input_data)
-    try:
-        m = int(next(it))
-        if m == 0:
-            return
-        W = int(next(it))
-        x1, y1, x2, y2, w = [], [], [], [], []
-        for _ in range(m):
-            x1.append(int(next(it)))
-            y1.append(int(next(it)))
-            x2.append(int(next(it)))
-            y2.append(int(next(it)))
-            w.append(int(next(it)))
-        print(weighted_area(x1, y1, x2, y2, w, W))
-    except StopIteration:
+    idx = 0
+    m = int(data[idx]);
+    idx += 1
+    if len(data) < 2:
         return
+    W = int(data[idx]);
+    idx += 1
+    if len(data) < 2 + 5 * m:
+        return
+    x1 = []
+    y1 = []
+    x2 = []
+    y2 = []
+    w = []
+    for _ in range(m):
+        x1.append(int(data[idx]));
+        y1.append(int(data[idx + 1]));
+        x2.append(int(data[idx + 2]));
+        y2.append(int(data[idx + 3]));
+        w.append(int(data[idx + 4]));
+        idx += 5
+    result = weighted_area(x1, y1, x2, y2, w, W)
+    sys.stdout.write(str(result))
 
 if __name__ == "__main__":
     main()
@@ -159,32 +182,32 @@ if __name__ == "__main__":
 ```cpp
 #include <iostream>
 #include <vector>
-#include <algorithm>
+#include <string>
+#include <iomanip>
 
 using namespace std;
 
-struct Rect {
-    int x1, y1, x2, y2, w;
-};
-
-long long weightedUnionArea(const vector<Rect>& rects, long long targetW) {
-    //Implement here
-    return 0;
+long long weighted_area(const vector<long long>& x1, const vector<long long>& y1,
+                        const vector<long long>& x2, const vector<long long>& y2,
+                        const vector<long long>& w, long long W) {
+    //Implemention here
+    return 0LL;
 }
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int n;
-    long long targetW;
-    if (!(cin >> n >> targetW)) return 0;
-    vector<Rect> rects(n);
-    for (int i = 0; i < n; i++) {
-        cin >> rects[i].x1 >> rects[i].y1 >> rects[i].x2 >> rects[i].y2 >> rects[i].w;
+    long long m;
+    if (!(cin >> m)) return 0;
+    long long W;
+    cin >> W;
+    vector<long long> x1(m), y1(m), x2(m), y2(m), w(m);
+    for (long long i = 0; i < m; i++) {
+        cin >> x1[i] >> y1[i] >> x2[i] >> y2[i] >> w[i];
     }
 
-    cout << weightedUnionArea(rects, targetW) << "\n";
+    cout << weighted_area(x1, y1, x2, y2, w, W);
     return 0;
 }
 ```
@@ -192,34 +215,40 @@ int main() {
 ### JavaScript
 
 ```javascript
-const fs = require('fs');
+const fs = require("fs");
 
-function weightedUnionArea(rects, targetW) {
-  //Implement here
+function weightedArea(x1, y1, x2, y2, w, W) {
+  //Implemention here
   return 0;
 }
 
-function solve() {
-  const input = fs.readFileSync(0, 'utf8').trim().split(/\s+/);
-  if (input.length === 0 || input[0] === '') return;
-  let idx = 0;
-  const n = parseInt(input[idx++], 10);
-  const targetW = parseInt(input[idx++], 10);
-  if (Number.isNaN(n)) return;
-
-  const rects = [];
-  for (let i = 0; i < n; i++) {
-    const x1 = parseInt(input[idx++], 10);
-    const y1 = parseInt(input[idx++], 10);
-    const x2 = parseInt(input[idx++], 10);
-    const y2 = parseInt(input[idx++], 10);
-    const w = parseInt(input[idx++], 10);
-    rects.push({ x1, y1, x2, y2, w });
-  }
-
-  const result = weightedUnionArea(rects, targetW);
-  console.log(result.toString());
+const input = fs.readFileSync(0, "utf8").trim();
+if (input.length === 0) {
+  process.exit(0);
+}
+const data = input.split(/\s+/).map(Number);
+let idx = 0;
+const m = data[idx++];
+if (!Number.isFinite(m) || data.length < 2) {
+  process.exit(0);
+}
+const W = data[idx++];
+if (data.length < 2 + 5 * m) {
+  process.exit(0);
+}
+const x1 = [];
+const y1 = [];
+const x2 = [];
+const y2 = [];
+const w = [];
+for (let i = 0; i < m; i++) {
+  x1.push(data[idx++]);
+  y1.push(data[idx++]);
+  x2.push(data[idx++]);
+  y2.push(data[idx++]);
+  w.push(data[idx++]);
 }
 
-solve();
+const result = weightedArea(x1, y1, x2, y2, w, W);
+process.stdout.write(String(result));
 ```

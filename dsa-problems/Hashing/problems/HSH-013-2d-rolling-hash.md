@@ -106,41 +106,48 @@ B appears in A starting at position (1, 1).
 ### Java
 
 ```java
+import java.io.*;
 import java.util.*;
 
 class Solution {
-    public boolean findMatrix(int[][] A, int[][] B) {
-        //Implement here
+    public boolean findMatrix(long[][] A, long[][] B) {
+        //Implemention here
         return false;
     }
 }
 
 class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextInt()) {
-            int n = sc.nextInt();
-            int m = sc.nextInt();
-            int[][] A = new int[n][m];
-            for (int i = 0; i < n; i++) {
-                for (int j = 0; j < m; j++) {
-                    A[i][j] = sc.nextInt();
-                }
-            }
-            
-            int p = sc.nextInt();
-            int q = sc.nextInt();
-            int[][] B = new int[p][q];
-            for (int i = 0; i < p; i++) {
-                for (int j = 0; j < q; j++) {
-                    B[i][j] = sc.nextInt();
-                }
-            }
-            
-            Solution solution = new Solution();
-            System.out.println(solution.findMatrix(A, B));
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line).append(' ');
         }
-        sc.close();
+        String input = sb.toString().trim();
+        if (input.isEmpty()) return;
+        String[] data = input.split("\\s+");
+        int idx = 0;
+        int n = Integer.parseInt(data[idx++]);
+        int m = Integer.parseInt(data[idx++]);
+        long[][] A = new long[n][m];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                A[i][j] = Long.parseLong(data[idx++]);
+            }
+        }
+        int p = Integer.parseInt(data[idx++]);
+        int q = Integer.parseInt(data[idx++]);
+        long[][] B = new long[p][q];
+        for (int i = 0; i < p; i++) {
+            for (int j = 0; j < q; j++) {
+                B[i][j] = Long.parseLong(data[idx++]);
+            }
+        }
+
+        Solution solution = new Solution();
+        boolean result = solution.findMatrix(A, B);
+        System.out.print(result ? "true" : "false");
     }
 }
 ```
@@ -150,41 +157,39 @@ class Main {
 ```python
 import sys
 
-def find_matrix(A: list, B: list) -> bool:
-    # //Implement here
-    return 0
+def find_matrix(A, B):
+    # //Implemention here
+    return False
 
 def main():
-    input_data = sys.stdin.read().split()
-    if not input_data:
+    data = sys.stdin.read().split()
+    if not data:
         return
-    
-    iterator = iter(input_data)
-    try:
-        n = int(next(iterator))
-        m = int(next(iterator))
-        A = []
-        for _ in range(n):
-            row = []
-            for _ in range(m):
-                row.append(int(next(iterator)))
-            A.append(row)
-            
-        p = int(next(iterator))
-        q = int(next(iterator))
-        B = []
-        for _ in range(p):
-            row = []
-            for _ in range(q):
-                row.append(int(next(iterator)))
-            B.append(row)
-            
-        result = find_matrix(A, B)
-        print("true" if result else "false")
-    except StopIteration:
-        pass
+    idx = 0
+    n = int(data[idx]);
+    m = int(data[idx + 1]);
+    idx += 2
+    A = []
+    for _ in range(n):
+        row = []
+        for _ in range(m):
+            row.append(int(data[idx]));
+            idx += 1
+        A.append(row)
+    p = int(data[idx]);
+    q = int(data[idx + 1]);
+    idx += 2
+    B = []
+    for _ in range(p):
+        row = []
+        for _ in range(q):
+            row.append(int(data[idx]));
+            idx += 1
+        B.append(row)
+    result = find_matrix(A, B)
+    sys.stdout.write('true' if result else 'false')
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
 ```
 
@@ -193,44 +198,38 @@ if __name__ == "__main__":
 ```cpp
 #include <iostream>
 #include <vector>
+#include <string>
 
 using namespace std;
 
-class Solution {
-public:
-    bool findMatrix(vector<vector<int>>& A, vector<vector<int>>& B) {
-        //Implement here
-        return false;
-    }
-};
+bool find_matrix(const vector<vector<long long>>& A, const vector<vector<long long>>& B) {
+    //Implemention here
+    return false;
+}
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int n, m;
     if (!(cin >> n >> m)) return 0;
-    
-    vector<vector<int>> A(n, vector<int>(m));
+    vector<vector<long long>> A(n, vector<long long>(m));
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < m; j++) {
             cin >> A[i][j];
         }
     }
-    
     int p, q;
-    if (!(cin >> p >> q)) return 0;
-    
-    vector<vector<int>> B(p, vector<int>(q));
+    cin >> p >> q;
+    vector<vector<long long>> B(p, vector<long long>(q));
     for (int i = 0; i < p; i++) {
         for (int j = 0; j < q; j++) {
             cin >> B[i][j];
         }
     }
-    
-    Solution solution;
-    cout << (solution.findMatrix(A, B) ? "true" : "false") << "\n";
-    
+
+    bool result = find_matrix(A, B);
+    cout << (result ? "true" : "false");
     return 0;
 }
 ```
@@ -238,41 +237,40 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
 
-class Solution {
-  findMatrix(A, B) {
-    //Implement here
-    return 0;
-  }
+function findMatrix(A, B) {
+  //Implemention here
+  return false;
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let ptr = 0;
-  const [n, m] = data[ptr++].split(" ").map(Number);
-  
-  const A = [];
-  for (let i = 0; i < n; i++) {
-    A.push(data[ptr++].split(" ").map(Number));
+const input = fs.readFileSync(0, "utf8").trim();
+if (input.length === 0) {
+  process.exit(0);
+}
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const m = parseInt(data[idx++], 10);
+const A = [];
+for (let i = 0; i < n; i++) {
+  const row = [];
+  for (let j = 0; j < m; j++) {
+    row.push(parseInt(data[idx++], 10));
   }
-  
-  const [p, q] = data[ptr++].split(" ").map(Number);
-  
-  const B = [];
-  for (let i = 0; i < p; i++) {
-    B.push(data[ptr++].split(" ").map(Number));
+  A.push(row);
+}
+const p = parseInt(data[idx++], 10);
+const q = parseInt(data[idx++], 10);
+const B = [];
+for (let i = 0; i < p; i++) {
+  const row = [];
+  for (let j = 0; j < q; j++) {
+    row.push(parseInt(data[idx++], 10));
   }
-  
-  const solution = new Solution();
-  console.log(solution.findMatrix(A, B) ? "true" : "false");
-});
+  B.push(row);
+}
+const result = findMatrix(A, B);
+process.stdout.write(result ? "true" : "false");
 ```
 

@@ -143,28 +143,32 @@ class Main {
 import sys
 from typing import List
 
+# Increase recursion depth for deep DFS/Graph traversals
 sys.setrecursionlimit(200000)
 
-def has_cycle(n: int, adj: List[List[int]]) -> bool:
-    # //Implement here
-    return 0
+class Solution:
+    def has_cycle(self, n: int, adj: List[List[int]]) -> bool:
+        # //Implement here
+        return False
 
-def main():
-    n = int(input())
-    m = int(input())
+if __name__ == "__main__":
+    n = int(sys.stdin.readline())
+    m = int(sys.stdin.readline())
 
     adj = [[] for _ in range(n)]
 
     for _ in range(m):
-        u, v = map(int, input().split())
+        u, v = map(int, sys.stdin.readline().split())
         adj[u].append(v)
         adj[v].append(u)
 
-    result = has_cycle(n, adj)
-    print("true" if result else "false")
+    # Sort neighbors for deterministic traversal
+    for i in range(n):
+        adj[i].sort()
 
-if __name__ == "__main__":
-    main()
+    solution = Solution()
+    result = solution.has_cycle(n, adj)
+    print("true" if result else "false")
 ```
 
 ### C++
@@ -178,7 +182,7 @@ using namespace std;
 
 class Solution {
 public:
-    public: bool hasCycle(int n, vector<vector<int>>& adj) {
+    bool hasCycle(int n, vector<vector<int>>& adj) {
         //Implement here
         return false;
     }
@@ -216,7 +220,7 @@ const readline = require("readline");
 class Solution {
   hasCycle(n, adj) {
     //Implement here
-    return 0;
+    return false;
   }
 }
 
@@ -251,4 +255,3 @@ rl.on("close", () => {
   console.log(solution.hasCycle(n, adj) ? "true" : "false");
 });
 ```
-

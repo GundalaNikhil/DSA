@@ -133,11 +133,8 @@ class Main {
 
     
     static void generateCombinations(String prefix, int remaining, Set<String> inserted, List<String> result) {
-    
         //Implement here
-    
     }
-
 }
 ```
 
@@ -146,15 +143,14 @@ class Main {
 ```python
 from itertools import product
 
-def all_combinations_of_length(length):
-    # //Implement here
-    return 0
-def custom_sort_key(s):
-    # //Implement here
-    return 0
-def naive(inserted, L, k):
-    # //Implement here
-    return 0
+class Solution:
+    def __init__(self):
+        self.root = None
+
+    def kth_missing_string(self, inserted, L, k):
+        # //Implement here
+        return ""
+
 def main():
     import sys
     input_data = sys.stdin.read().strip().split('\n')
@@ -164,7 +160,8 @@ def main():
     for i in range(1, n + 1):
         inserted.add(input_data[i])
 
-    result = naive(inserted, L, k)
+    solution = Solution()
+    result = solution.kth_missing_string(inserted, L, k)
     print(result)
 
 if __name__ == "__main__":
@@ -182,10 +179,15 @@ if __name__ == "__main__":
 using namespace std;
 
 class Solution {
+private:
+    void* root;
 public:
+    Solution() {
+        root = nullptr;
+    }
     string kthMissingString(const vector<string>& insertedList, int L, int k) {
         //Implement here
-        return {};
+        return "";
     }
     void generateCombinations(const string& prefix, int remaining,
                               const unordered_set<string>& inserted,

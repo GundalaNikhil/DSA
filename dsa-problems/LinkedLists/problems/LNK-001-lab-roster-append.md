@@ -158,20 +158,20 @@ class ListNode:
 class Solution:
     def push_back(self, value: int) -> None:
         # //Implement here
-        return 0
+        pass
     def to_array(self):
         # //Implement here
-        return 0
+        return []
 
 def main():
     input = sys.stdin.read
     data = input().splitlines()
     if not data:
         return
-    
+
     n = int(data[0])
     sol = Solution()
-    
+
     for i in range(1, n + 1):
         line = data[i].strip()
         if line.startswith("push_back"):
@@ -258,12 +258,11 @@ class ListNode {
 class Solution {
   pushBack(value) {
     //Implement here
-    return 0;
   }
 
   toArray() {
     //Implement here
-    return 0;
+    return [];
   }
 }
 
@@ -290,4 +289,3 @@ rl.on("close", () => {
   }
 });
 ```
-

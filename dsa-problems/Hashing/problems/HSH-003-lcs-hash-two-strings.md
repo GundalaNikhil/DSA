@@ -95,25 +95,31 @@ Binary Search, Hashing, Rolling Hash, Longest Common Substring
 ### Java
 
 ```java
+import java.io.*;
 import java.util.*;
 
 class Solution {
     public int longestCommonSubstring(String a, String b) {
-        //Implement here
+        //Implemention here
         return 0;
     }
 }
 
 class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextLine()) {
-            String a = sc.nextLine();
-            String b = sc.nextLine();
-            Solution solution = new Solution();
-            System.out.println(solution.longestCommonSubstring(a, b));
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        List<String> lines = new ArrayList<>();
+        String line;
+        while ((line = br.readLine()) != null) {
+            lines.add(line);
         }
-        sc.close();
+        if (lines.size() < 2) return;
+        String a = lines.get(0);
+        String b = lines.get(1);
+
+        Solution solution = new Solution();
+        int result = solution.longestCommonSubstring(a, b);
+        System.out.print(result);
     }
 }
 ```
@@ -123,20 +129,20 @@ class Main {
 ```python
 import sys
 
-def longest_common_substring(a: str, b: str) -> int:
-    # //Implement here
+def longest_common_substring(a, b):
+    # //Implemention here
     return 0
 
 def main():
-    lines = sys.stdin.read().strip().split('\n')
+    lines = sys.stdin.read().split('\n')
     if len(lines) < 2:
         return
+    a = lines[0]
+    b = lines[1]
+    result = longest_common_substring(a, b)
+    sys.stdout.write(str(result))
 
-    a = lines[0] if len(lines) > 0 else ""
-    b = lines[1] if len(lines) > 1 else ""
-    print(longest_common_substring(a, b))
-
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
 ```
 
@@ -145,30 +151,26 @@ if __name__ == "__main__":
 ```cpp
 #include <iostream>
 #include <string>
-#include <unordered_set>
-#include <vector>
-#include <algorithm>
 
 using namespace std;
 
-class Solution {
-public:
-    int longestCommonSubstring(string a, string b) {
-        //Implement here
-        return 0;
-    }
-};
+int longest_common_substring(const string& a, const string& b) {
+    //Implemention here
+    return 0;
+}
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
     string a, b;
-    if (getline(cin, a) && getline(cin, b)) {
-        Solution solution;
-        cout << solution.longestCommonSubstring(a, b) << "\n";
-    }
+    if (!getline(cin, a)) return 0;
+    if (!getline(cin, b)) return 0;
+    if (!a.empty() && a.back() == '\r') a.pop_back();
+    if (!b.empty() && b.back() == '\r') b.pop_back();
 
+    int result = longest_common_substring(a, b);
+    cout << result;
     return 0;
 }
 ```
@@ -176,29 +178,24 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
 
-class Solution {
-  longestCommonSubstring(a, b) {
-    //Implement here
-    return 0;
-  }
+function longestCommonSubstring(a, b) {
+  //Implemention here
+  return 0;
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  if (data.length < 2) return;
-  const a = data[0];
-  const b = data[1];
-
-  const solution = new Solution();
-  console.log(solution.longestCommonSubstring(a, b));
-});
+const raw = fs.readFileSync(0, "utf8");
+if (raw.length === 0) {
+  process.exit(0);
+}
+const lines = raw.replace(/\r/g, "").split(/\n/);
+if (lines.length < 2) {
+  process.exit(0);
+}
+const a = lines[0];
+const b = lines[1];
+const result = longestCommonSubstring(a, b);
+process.stdout.write(String(result));
 ```
 

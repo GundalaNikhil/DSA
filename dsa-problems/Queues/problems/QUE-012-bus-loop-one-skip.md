@@ -162,7 +162,7 @@ import sys
 
 def find_start(gain: List[int], cost: List[int]) -> int:
     # //Implement here
-    return 0
+    return []
 
 def main():
     input_data = sys.stdin.read().split()

@@ -122,14 +122,14 @@ class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
-        
+
         int n = sc.nextInt();
         int[] gain = new int[n];
         for (int i = 0; i < n; i++) gain[i] = sc.nextInt();
-        
+
         int[] cost = new int[n];
         for (int i = 0; i < n; i++) cost[i] = sc.nextInt();
-        
+
         Solution solution = new Solution();
         System.out.println(solution.findStart(n, gain, cost));
         sc.close();
@@ -142,32 +142,32 @@ class Main {
 ```python
 import sys
 
-def find_start(n: int, gain: list, cost: list) -> int:
-    # //Implement here
-    return 0
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-        
-    iterator = iter(data)
-    n = int(next(iterator))
-    
-    gain = []
-    for _ in range(n):
-        gain.append(int(next(iterator)))
-        
-    cost = []
-    for _ in range(n):
-        cost.append(int(next(iterator)))
-
-    result = find_start(n, gain, cost)
-    print(result)
+class Solution:
+    def find_start(self, n: int, gain: list[int], cost: list[int]) -> int:
+        # //Implement here
+        return 0
 
 if __name__ == "__main__":
-    main()
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        sys.exit(0)
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+
+        gain = []
+        for _ in range(n):
+            gain.append(int(next(iterator)))
+
+        cost = []
+        for _ in range(n):
+            cost.append(int(next(iterator)))
+
+        solution = Solution()
+        print(solution.find_start(n, gain, cost))
+    except StopIteration:
+        pass
 ```
 
 ### C++
@@ -249,4 +249,3 @@ rl.on("close", () => {
   console.log(solution.findStart(n, gain, cost));
 });
 ```
-

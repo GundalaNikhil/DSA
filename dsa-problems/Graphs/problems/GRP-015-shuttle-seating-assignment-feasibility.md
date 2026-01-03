@@ -27,6 +27,7 @@ memory_limit: 256
 ## Problem Statement
 
 Given `n` tasks (numbered 0 to n-1) with directed dependencies (represented as edges where `u → v` means task `u` must be completed before task `v`), determine:
+
 1. Whether a valid ordering of tasks exists (i.e., the graph is a DAG with no cycles)
 2. How many nodes had zero in-degree initially (i.e., could be started first)
 
@@ -56,6 +57,7 @@ Return these two pieces of information.
 ## Example
 
 **Input:**
+
 ```
 4
 3
@@ -65,6 +67,7 @@ Return these two pieces of information.
 ```
 
 **Output:**
+
 ```
 1 2
 ```
@@ -72,11 +75,13 @@ Return these two pieces of information.
 **Explanation:**
 
 Task dependencies:
+
 - Task 0 must be done before task 2
 - Task 1 must be done before task 2
 - Task 2 must be done before task 3
 
 In-degrees:
+
 - Task 0: in-degree 0 (can start immediately)
 - Task 1: in-degree 0 (can start immediately)
 - Task 2: in-degree 2 (depends on tasks 0 and 1)
@@ -149,46 +154,41 @@ class Main {
 
 ```python
 import sys
-from collections import deque
 from typing import List, Tuple
 
+# Increase recursion depth for deep DFS/Graph traversals
 sys.setrecursionlimit(200000)
 
-def check_feasibility(n: int, edges: List[Tuple[int, int]]) -> Tuple[int, ...]:
-    # //Implement here
-    return 0
+class Solution:
+    def check_feasibility(self, n: int, edges: List[Tuple[int, int]]) -> Tuple[int, ...]:
+        # //Implement here
+        return tuple()
 
-def main():
-    try:
-        input_data = sys.stdin.read().split()
-    except Exception:
-        return
-        
+if __name__ == "__main__":
+    input_data = sys.stdin.read().split()
     if not input_data:
-        return
+        sys.exit(0)
 
     iterator = iter(input_data)
     try:
         n = int(next(iterator))
         m = int(next(iterator))
-        
+
         edges = []
         for _ in range(m):
             u = int(next(iterator))
             v = int(next(iterator))
             edges.append((u, v))
-            
-        result = check_feasibility(n, edges)
-        
+
+        solution = Solution()
+        result = solution.check_feasibility(n, edges)
+
         if len(result) == 1:
             print(result[0])
         else:
             print(f"{result[0]} {result[1]}")
     except StopIteration:
         pass
-
-if __name__ == "__main__":
-    main()
 ```
 
 ### C++
@@ -203,7 +203,7 @@ using namespace std;
 
 class Solution {
 public:
-    int> checkFeasibility(int n, vector<pair<int,int>>& edges) {
+    vector<int> checkFeasibility(int n, vector<pair<int,int>>& edges) {
         //Implement here
         return 0;
     }
@@ -244,7 +244,7 @@ const readline = require("readline");
 class Solution {
   checkFeasibility(n, edges) {
     //Implement here
-    return 0;
+    return [];
   }
 }
 
@@ -278,4 +278,3 @@ rl.on("close", () => {
   }
 });
 ```
-

@@ -102,13 +102,6 @@ class Solution {
         //Implement here
         return 0;
     }
-    private void insert(int num) {
-        //Implement here
-    }
-    private int query(int num) {
-        //Implement here
-        return 0;
-    }
 }
 
 class Main {
@@ -150,12 +143,6 @@ class Solution:
     def minimize_xor(self, a: List[int], X: int) -> int:
         # //Implement here
         return 0
-    def _insert(self, num: int):
-        # //Implement here
-        return 0
-    def _query(self, num: int) -> int:
-        # //Implement here
-        return 0
 def main():
     import sys
     input_data = sys.stdin.read().strip().split()
@@ -187,14 +174,14 @@ struct TrieNode {
 };
 
 class Solution {
+private:
+    TrieNode* root;
+
 public:
-    void insert(int num) {
-        //Implement here
+    Solution() {
+        this->root = new TrieNode();
     }
-    int query(int num) {
-        //Implement here
-        return 0;
-    }
+
     int minimizeXOR(vector<int>& a, int X) {
         //Implement here
         return 0;
@@ -231,14 +218,10 @@ class TrieNode {
 }
 
 class Solution {
-  insert(num) {
-    //Implement here
-    return 0;
+  constructor() {
+    this.root = new TrieNode();
   }
-  query(num) {
-    //Implement here
-    return 0;
-  }
+
   minimizeXOR(a, X) {
     //Implement here
     return 0;

@@ -158,14 +158,14 @@ class ListNode:
 
 def swap_with_skip(head: ListNode, K: int):
     # //Implement here
-    return 0
+    return (None, 0)
 
 def main():
     input = sys.stdin.read
     data = input().split()
     if not data:
         return
-    
+
     iterator = iter(data)
     try:
         n = int(next(iterator))
@@ -174,11 +174,11 @@ def main():
         for _ in range(n):
             cur.next = ListNode(int(next(iterator)))
             cur = cur.next
-        
+
         K = int(next(iterator))
-        
+
         head, swaps = swap_with_skip(dummy.next, K)
-        
+
         out = []
         while head:
             out.append(str(head.val))
@@ -224,7 +224,7 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    
+
     ListNode dummy(0);
     ListNode* cur = &dummy;
     for (int i = 0; i < n; i++) {
@@ -233,13 +233,13 @@ int main() {
         cur->next = new ListNode(v);
         cur = cur->next;
     }
-    
+
     int K;
     cin >> K;
 
     Solution solution;
     Result res = solution.swapWithSkip(dummy.next, K);
-    
+
     ListNode* out = res.head;
     bool first = true;
     while (out) {
@@ -268,7 +268,7 @@ class ListNode {
 
 function swapWithSkip(head, K) {
   //Implement here
-  return 0;
+  return [null, 0];
 }
 
 const rl = readline.createInterface({
@@ -277,33 +277,39 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x)));
+rl.on("line", (line) =>
+  data.push(
+    ...line
+      .trim()
+      .split(/\s+/)
+      .filter((x) => x)
+  )
+);
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
   const n = parseInt(data[idx++], 10);
-  
+
   const dummy = new ListNode(0);
   let cur = dummy;
   for (let i = 0; i < n; i++) {
     cur.next = new ListNode(parseInt(data[idx++], 10));
     cur = cur.next;
   }
-  
+
   if (idx < data.length) {
-      const K = parseInt(data[idx++], 10);
-      const result = swapWithSkip(dummy.next, K);
-      let head = result[0];
-      const swaps = result[1];
-      
-      const out = [];
-      while (head) {
-        out.push(head.val);
-        head = head.next;
-      }
-      console.log(out.join(" "));
-      console.log(swaps);
+    const K = parseInt(data[idx++], 10);
+    const result = swapWithSkip(dummy.next, K);
+    let head = result[0];
+    const swaps = result[1];
+
+    const out = [];
+    while (head) {
+      out.push(head.val);
+      head = head.next;
+    }
+    console.log(out.join(" "));
+    console.log(swaps);
   }
 });
 ```
-

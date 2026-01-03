@@ -101,30 +101,37 @@ Anagrams, Hashing, Union-Find, String Manipulation, Grouping
 ### Java
 
 ```java
+import java.io.*;
 import java.util.*;
 
 class Solution {
-    public int countNearAnagramGroups(String[] words) {
-        //Implement here
+    public int countNearAnagramGroups(List<String> words) {
+        //Implemention here
         return 0;
     }
 }
 
 class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextInt()) {
-            int n = sc.nextInt();
-            sc.nextLine();
-            String[] words = new String[n];
-            for (int i = 0; i < n; i++) {
-                words[i] = sc.nextLine();
-            }
-            
-            Solution solution = new Solution();
-            System.out.println(solution.countNearAnagramGroups(words));
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line).append(' ');
         }
-        sc.close();
+        String input = sb.toString().trim();
+        if (input.isEmpty()) return;
+        String[] data = input.split("\\s+");
+        int idx = 0;
+        int n = Integer.parseInt(data[idx++]);
+        List<String> words = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            words.add(data[idx++]);
+        }
+
+        Solution solution = new Solution();
+        int result = solution.countNearAnagramGroups(words);
+        System.out.print(result);
     }
 }
 ```
@@ -134,27 +141,25 @@ class Main {
 ```python
 import sys
 
-def count_near_anagram_groups(words: list) -> int:
-    # //Implement here
+def count_near_anagram_groups(words):
+    # //Implemention here
     return 0
 
 def main():
-    input_data = sys.stdin.read().split()
-    if not input_data:
+    data = sys.stdin.read().split()
+    if not data:
         return
-    
-    iterator = iter(input_data)
-    try:
-        n = int(next(iterator))
-        words = []
-        for _ in range(n):
-            words.append(next(iterator))
-            
-        print(count_near_anagram_groups(words))
-    except StopIteration:
-        pass
+    idx = 0
+    n = int(data[idx])
+    idx += 1
+    words = []
+    for _ in range(n):
+        words.append(data[idx])
+        idx += 1
+    result = count_near_anagram_groups(words)
+    sys.stdout.write(str(result))
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
 ```
 
@@ -164,61 +169,30 @@ if __name__ == "__main__":
 #include <iostream>
 #include <vector>
 #include <string>
-#include <algorithm>
-#include <unordered_map>
-#include <numeric>
 
 using namespace std;
 
-class UnionFind {
-public:
-    vector<int> parent;
-    int count;
-    
-    UnionFind(int n) {
-        parent.resize(n);
-        iota(parent.begin(), parent.end(), 0);
-        count = n;
-    }
-    
-    int find(int x) {
-        if (parent[x] != x) parent[x] = find(parent[x]);
-        return parent[x];
-    }
-    
-    void unite(int x, int y) {
-        int rootX = find(x);
-        int rootY = find(y);
-        if (rootX != rootY) {
-            parent[rootX] = rootY;
-            count--;
-        }
-    }
-};
-
-class Solution {
-public:
-    int countNearAnagramGroups(vector<string>& words) {
-        //Implement here
-        return 0;
-    }
-};
+int count_near_anagram_groups(const vector<string>& words) {
+    //Implemention here
+    return 0;
+}
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int n;
-    if (cin >> n) {
-        vector<string> words(n);
-        for (int i = 0; i < n; i++) {
-            cin >> words[i];
-        }
-        
-        Solution solution;
-        cout << solution.countNearAnagramGroups(words) << "\n";
+    if (!(cin >> n)) return 0;
+    vector<string> words;
+    words.reserve(n);
+    for (int i = 0; i < n; i++) {
+        string w;
+        cin >> w;
+        words.push_back(w);
     }
-    
+
+    int result = count_near_anagram_groups(words);
+    cout << result;
     return 0;
 }
 ```
@@ -226,57 +200,25 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
 
-class UnionFind {
-  constructor(n) {
-    this.parent = Array.from({ length: n }, (_, i) => i);
-    this.count = n;
-  }
-  
-  find(x) {
-    if (this.parent[x] !== x) {
-      this.parent[x] = this.find(this.parent[x]);
-    }
-    return this.parent[x];
-  }
-  
-  union(x, y) {
-    const rootX = this.find(x);
-    const rootY = this.find(y);
-    if (rootX !== rootY) {
-      this.parent[rootX] = rootY;
-      this.count--;
-    }
-  }
+function countNearAnagramGroups(words) {
+  //Implemention here
+  return 0;
 }
 
-class Solution {
-  countNearAnagramGroups(words) {
-    //Implement here
-    return 0;
-  }
+const input = fs.readFileSync(0, "utf8").trim();
+if (input.length === 0) {
+  process.exit(0);
 }
-
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let ptr = 0;
-  const n = parseInt(data[ptr++]);
-  
-  const words = [];
-  for (let i = 0; i < n; i++) {
-    words.push(data[ptr++]);
-  }
-  
-  const solution = new Solution();
-  console.log(solution.countNearAnagramGroups(words));
-});
+const data = input.split(/\s+/);
+let idx = 0;
+const n = parseInt(data[idx++], 10);
+const words = [];
+for (let i = 0; i < n; i++) {
+  words.push(data[idx++]);
+}
+const result = countNearAnagramGroups(words);
+process.stdout.write(String(result));
 ```
 

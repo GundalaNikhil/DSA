@@ -99,7 +99,7 @@ class ListNode {
 class Solution {
     public ListNode rotateBlocks(ListNode head, int b, int k) {
         //Implement here
-        return new ArrayList<>();
+        return null;
     }
 }
 
@@ -108,7 +108,7 @@ class Main {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
         int n = sc.nextInt();
-        
+
         ListNode dummy = new ListNode(0);
         ListNode cur = dummy;
         for (int i = 0; i < n; i++) {
@@ -120,7 +120,7 @@ class Main {
 
         Solution solution = new Solution();
         ListNode res = solution.rotateBlocks(dummy.next, b, k);
-        
+
         boolean first = true;
         while (res != null) {
             if (!first) System.out.print(" ");
@@ -150,34 +150,34 @@ def rotate_list(head: ListNode, length: int, k: int):
         while tail.next:
             tail = tail.next
         return head, tail
-    
+
     k = k % length
     moves = length - k
-    
+
     new_tail = head
     for _ in range(moves - 1):
         new_tail = new_tail.next
-        
+
     new_head = new_tail.next
     new_tail.next = None
-    
+
     temp = new_head
     while temp.next:
         temp = temp.next
     temp.next = head
-    
+
     return new_head, new_tail
 
 def rotate_blocks(head: ListNode, b: int, k: int) -> ListNode:
     # //Implement here
-    return 0
+    return None
 
 def main():
     input = sys.stdin.read
     data = input().split()
     if not data:
         return
-    
+
     iterator = iter(data)
     try:
         n = int(next(iterator))
@@ -186,12 +186,12 @@ def main():
         for _ in range(n):
             cur.next = ListNode(int(next(iterator)))
             cur = cur.next
-            
+
         b = int(next(iterator))
         k = int(next(iterator))
-        
+
         head = rotate_blocks(dummy.next, b, k)
-        
+
         out = []
         while head:
             out.append(str(head.val))
@@ -231,7 +231,7 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    
+
     ListNode dummy(0);
     ListNode* cur = &dummy;
     for (int i = 0; i < n; i++) {
@@ -245,7 +245,7 @@ int main() {
 
     Solution solution;
     ListNode* res = solution.rotateBlocks(dummy.next, b, k);
-    
+
     bool first = true;
     while (res) {
         if (!first) cout << " ";
@@ -272,7 +272,7 @@ class ListNode {
 
 function rotateBlocks(head, b, k) {
   //Implement here
-  return 0;
+  return null;
 }
 
 const rl = readline.createInterface({
@@ -281,31 +281,37 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x)));
+rl.on("line", (line) =>
+  data.push(
+    ...line
+      .trim()
+      .split(/\s+/)
+      .filter((x) => x)
+  )
+);
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
   const n = parseInt(data[idx++], 10);
-  
+
   const dummy = new ListNode(0);
   let cur = dummy;
   for (let i = 0; i < n; i++) {
     cur.next = new ListNode(parseInt(data[idx++], 10));
     cur = cur.next;
   }
-  
-  if (idx < data.length) {
-      const b = parseInt(data[idx++], 10);
-      const k = parseInt(data[idx++], 10);
 
-      let head = rotateBlocks(dummy.next, b, k);
-      const out = [];
-      while (head) {
-        out.push(head.val);
-        head = head.next;
-      }
-      console.log(out.join(" "));
+  if (idx < data.length) {
+    const b = parseInt(data[idx++], 10);
+    const k = parseInt(data[idx++], 10);
+
+    let head = rotateBlocks(dummy.next, b, k);
+    const out = [];
+    while (head) {
+      out.push(head.val);
+      head = head.next;
+    }
+    console.log(out.join(" "));
   }
 });
 ```
-

@@ -108,7 +108,7 @@ class Main {
                 intervals[i][1] = sc.nextInt();
                 intervals[i][2] = sc.nextInt();
             }
-            
+
             Solution solution = new Solution();
             int[][] result = solution.mergeIntervals(intervals);
             System.out.println(result.length);
@@ -128,7 +128,7 @@ import sys
 
 def merge_intervals(intervals: list) -> list:
     # //Implement here
-    return 0
+    return []
 
 def main():
     input_data = sys.stdin.read().split()
@@ -143,7 +143,7 @@ def main():
             end = int(next(it))
             payload = int(next(it))
             intervals.append([start, end, payload])
-            
+
         result = merge_intervals(intervals)
         print(len(result))
         for row in result:
@@ -175,14 +175,14 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int n;
     if (cin >> n) {
         vector<vector<int>> intervals(n, vector<int>(3));
         for (int i = 0; i < n; i++) {
             cin >> intervals[i][0] >> intervals[i][1] >> intervals[i][2];
         }
-        
+
         Solution solution;
         vector<vector<int>> result = solution.mergeIntervals(intervals);
         cout << result.size() << "\n";
@@ -202,7 +202,7 @@ const readline = require("readline");
 class Solution {
   mergeIntervals(intervals) {
     //Implement here
-    return 0;
+    return [];
   }
 }
 
@@ -224,7 +224,7 @@ rl.on("close", () => {
     const payload = parseInt(data[idx++]);
     intervals.push([start, end, payload]);
   }
-  
+
   const solution = new Solution();
   const result = solution.mergeIntervals(intervals);
   console.log(result.length);
@@ -233,4 +233,3 @@ rl.on("close", () => {
   }
 });
 ```
-

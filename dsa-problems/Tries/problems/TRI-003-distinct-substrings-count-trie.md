@@ -121,12 +121,11 @@ class TrieNode {
 }
 
 class Solution {
+    private TrieNode root = new TrieNode();
+
     public int countDistinctSubstrings(String s) {
         //Implement here
         return 0;
-    }
-    private void insertSuffix(TrieNode root, String s, int start) {
-        //Implement here
     }
 }
 
@@ -145,9 +144,14 @@ class Main {
 ### Python
 
 ```python
-def count_distinct_naive(s):
-    # //Implement here
-    return 0
+class Solution:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def count_distinct_substrings(self, s: str) -> int:
+        # //Implement here
+        return 0
+
 def main():
     import sys
     input_data = sys.stdin.read().strip()
@@ -155,7 +159,8 @@ def main():
         return
 
     s = input_data
-    result = count_distinct_naive(s)
+    solution = Solution()
+    result = solution.count_distinct_substrings(s)
     print(result)
 
 if __name__ == "__main__":
@@ -176,7 +181,12 @@ struct TrieNode {
 };
 
 class Solution {
+private:
+    TrieNode* root;
+
 public:
+    Solution() : root(new TrieNode()) {}
+
     int countDistinctSubstrings(const string& s) {
         //Implement here
         return 0;
@@ -205,11 +215,11 @@ class TrieNode {
 }
 
 class Solution {
-  countDistinctSubstrings(s) {
-    //Implement here
-    return 0;
+  constructor() {
+    this.root = new TrieNode();
   }
-  insertSuffix(root, s, start) {
+
+  countDistinctSubstrings(s) {
     //Implement here
     return 0;
   }

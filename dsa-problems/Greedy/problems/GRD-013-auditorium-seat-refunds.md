@@ -126,21 +126,21 @@ class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
-        
+
         int r = sc.nextInt();
         int n = sc.nextInt();
-        
+
         int[] capacities = new int[r];
         for (int i = 0; i < r; i++) {
             capacities[i] = sc.nextInt();
         }
-        
+
         int[][] refunds = new int[n][2];
         for (int i = 0; i < n; i++) {
             refunds[i][0] = sc.nextInt();
             refunds[i][1] = sc.nextInt();
         }
-        
+
         Solution solution = new Solution();
         System.out.println(solution.highestOccupiedRow(r, capacities, refunds));
         sc.close();
@@ -152,37 +152,37 @@ class Main {
 
 ```python
 import sys
+import heapq
 
-def highest_occupied_row(r: int, capacities: list, refunds: list) -> int:
-    # //Implement here
-    return 0
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-        
-    iterator = iter(data)
-    r = int(next(iterator))
-    n = int(next(iterator))
-    
-    capacities = []
-    for _ in range(r):
-        capacities.append(int(next(iterator)))
-        
-    # Skip refunds details as we only need count
-    # But we must consume the input
-    for _ in range(n):
-        next(iterator) # row
-        next(iterator) # seat
-        
-    # Note: refunds list in function signature is just for compatibility with template
-    # We can pass a dummy list or just use n
-    print(highest_occupied_row(r, capacities, [0]*n))
+class Solution:
+    def highest_occupied_row(self, r: int, capacities: list[int], refunds: list[list[int]]) -> int:
+        # //Implement here
+        return 0
 
 if __name__ == "__main__":
-    main()
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        sys.exit(0)
+
+    iterator = iter(input_data)
+    try:
+        r = int(next(iterator))
+        n = int(next(iterator))
+
+        capacities = []
+        for _ in range(r):
+            capacities.append(int(next(iterator)))
+
+        refunds = []
+        for _ in range(n):
+            row = int(next(iterator))
+            seat = int(next(iterator))
+            refunds.append([row, seat])
+
+        solution = Solution()
+        print(solution.highest_occupied_row(r, capacities, refunds))
+    except StopIteration:
+        pass
 ```
 
 ### C++
@@ -247,11 +247,11 @@ let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let ptr = 0;
   const [r, n] = data[ptr++].split(" ").map(Number);
   const capacities = data[ptr++].split(" ").map(Number);
-  
+
   const refunds = [];
   for (let i = 0; i < n; i++) {
     const [row, seatId] = data[ptr++].split(" ").map(Number);
@@ -262,4 +262,3 @@ rl.on("close", () => {
   console.log(solution.highestOccupiedRow(r, capacities, refunds));
 });
 ```
-

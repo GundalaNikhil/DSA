@@ -132,15 +132,15 @@ class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
-        
+
         int k = sc.nextInt();
         int m = sc.nextInt();
-        
+
         int[] quantities = new int[k];
         for (int i = 0; i < k; i++) {
             quantities[i] = sc.nextInt();
         }
-        
+
         Solution solution = new Solution();
         int[] result = solution.distributeKits(k, m, quantities);
         System.out.println(result[0] + " " + result[1]);
@@ -155,29 +155,30 @@ class Main {
 import heapq
 import sys
 
-def distribute_kits(k: int, m: int, quantities: list) -> tuple:
-    # //Implement here
-    return 0
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-        
-    iterator = iter(data)
-    k = int(next(iterator))
-    m = int(next(iterator))
-    
-    quantities = []
-    for _ in range(k):
-        quantities.append(int(next(iterator)))
-        
-    fulfilled, zeroed = distribute_kits(k, m, quantities)
-    print(f"{fulfilled} {zeroed}")
+class Solution:
+    def distribute_kits(self, k: int, m: int, quantities: list) -> tuple:
+        # //Implement here
+        return (0, 0)
 
 if __name__ == "__main__":
-    main()
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        sys.exit(0)
+
+    iterator = iter(input_data)
+    try:
+        k = int(next(iterator))
+        m = int(next(iterator))
+
+        quantities = []
+        for _ in range(k):
+            quantities.append(int(next(iterator)))
+
+        solution = Solution()
+        fulfilled, zeroed = solution.distribute_kits(k, m, quantities)
+        print(f"{fulfilled} {zeroed}")
+    except StopIteration:
+        pass
 ```
 
 ### C++
@@ -228,51 +229,61 @@ class MaxHeap {
   constructor() {
     this.heap = [];
   }
-  
+
   push(val) {
     this.heap.push(val);
     this._siftUp();
   }
-  
+
   pop() {
     if (this.size() === 0) return null;
     if (this.size() === 1) return this.heap.pop();
-    
+
     const max = this.heap[0];
     this.heap[0] = this.heap.pop();
     this._siftDown();
     return max;
   }
-  
+
   size() {
     return this.heap.length;
   }
-  
+
   _siftUp() {
     let nodeIdx = this.heap.length - 1;
     while (nodeIdx > 0) {
       const parentIdx = Math.floor((nodeIdx - 1) / 2);
       if (this.heap[nodeIdx] <= this.heap[parentIdx]) break;
-      [this.heap[nodeIdx], this.heap[parentIdx]] = [this.heap[parentIdx], this.heap[nodeIdx]];
+      [this.heap[nodeIdx], this.heap[parentIdx]] = [
+        this.heap[parentIdx],
+        this.heap[nodeIdx],
+      ];
       nodeIdx = parentIdx;
     }
   }
-  
+
   _siftDown() {
     let nodeIdx = 0;
     while (nodeIdx < this.heap.length) {
       let maxChildIdx = null;
       const leftChildIdx = 2 * nodeIdx + 1;
       const rightChildIdx = 2 * nodeIdx + 2;
-      
+
       if (leftChildIdx < this.heap.length) maxChildIdx = leftChildIdx;
-      if (rightChildIdx < this.heap.length && this.heap[rightChildIdx] > this.heap[leftChildIdx]) {
+      if (
+        rightChildIdx < this.heap.length &&
+        this.heap[rightChildIdx] > this.heap[leftChildIdx]
+      ) {
         maxChildIdx = rightChildIdx;
       }
-      
-      if (maxChildIdx === null || this.heap[nodeIdx] >= this.heap[maxChildIdx]) break;
-      
-      [this.heap[nodeIdx], this.heap[maxChildIdx]] = [this.heap[maxChildIdx], this.heap[nodeIdx]];
+
+      if (maxChildIdx === null || this.heap[nodeIdx] >= this.heap[maxChildIdx])
+        break;
+
+      [this.heap[nodeIdx], this.heap[maxChildIdx]] = [
+        this.heap[maxChildIdx],
+        this.heap[nodeIdx],
+      ];
       nodeIdx = maxChildIdx;
     }
   }
@@ -281,7 +292,7 @@ class MaxHeap {
 class Solution {
   distributeKits(k, m, quantities) {
     //Implement here
-    return 0;
+    return [0, 0];
   }
 }
 
@@ -294,7 +305,7 @@ let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let ptr = 0;
   const [k, m] = data[ptr++].split(" ").map(Number);
   const quantities = data[ptr++].split(" ").map(Number);
@@ -304,4 +315,3 @@ rl.on("close", () => {
   console.log(`${fulfilled} ${zeroed}`);
 });
 ```
-

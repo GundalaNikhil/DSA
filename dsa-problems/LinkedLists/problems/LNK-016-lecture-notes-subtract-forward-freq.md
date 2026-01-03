@@ -182,14 +182,14 @@ def get_length(head):
 
 def subtract_with_freq(a: ListNode, b: ListNode):
     # //Implement here
-    return 0
+    return (0, None, [0]*10)
 
 def main():
     input = sys.stdin.read
     data = input().split()
     if not data:
         return
-    
+
     iterator = iter(data)
     try:
         n = int(next(iterator))
@@ -198,14 +198,14 @@ def main():
         for _ in range(n):
             cur.next = ListNode(int(next(iterator)))
             cur = cur.next
-            
+
         m = int(next(iterator))
         dummy_b = ListNode()
         cur = dummy_b
         for _ in range(m):
             cur.next = ListNode(int(next(iterator)))
             cur = cur.next
-            
+
         sign, head, freq = subtract_with_freq(dummy_a.next, dummy_b.next)
         print(sign)
         out = []
@@ -255,7 +255,7 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    
+
     ListNode dummyA(0);
     ListNode* curA = &dummyA;
     for (int i = 0; i < n; i++) {
@@ -309,7 +309,7 @@ class ListNode {
 
 function subtractWithFreq(a, b) {
   //Implement here
-  return 0;
+  return [0, null, Array(10).fill(0)];
 }
 
 const rl = readline.createInterface({
@@ -328,14 +328,14 @@ rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
   const n = parseInt(data[idx++], 10);
-  
+
   const dummyA = new ListNode(0);
   let curA = dummyA;
   for (let i = 0; i < n; i++) {
     curA.next = new ListNode(parseInt(data[idx++], 10));
     curA = curA.next;
   }
-  
+
   const m = parseInt(data[idx++], 10);
   const dummyB = new ListNode(0);
   let curB = dummyB;
@@ -346,7 +346,7 @@ rl.on("close", () => {
 
   const result = subtractWithFreq(dummyA.next, dummyB.next);
   console.log(result[0]);
-  
+
   let head = result[1];
   const out = [];
   while (head) {
@@ -357,4 +357,3 @@ rl.on("close", () => {
   console.log(result[2].join(" "));
 });
 ```
-

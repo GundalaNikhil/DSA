@@ -129,20 +129,20 @@ class Main {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
         int n = sc.nextInt();
-        
+
         ListNode dummy = new ListNode(0);
         ListNode cur = dummy;
         for (int i = 0; i < n; i++) {
             cur.next = new ListNode(sc.nextInt());
             cur = cur.next;
         }
-        
+
         int k = sc.nextInt();
         int s = sc.nextInt();
 
         Solution solution = new Solution();
         Result res = solution.reverseFromOffset(dummy.next, k, s);
-        
+
         ListNode out = res.head;
         boolean first = true;
         while (out != null) {
@@ -171,14 +171,14 @@ class ListNode:
 
 def reverse_from_offset(head: ListNode, k: int, s: int):
     # //Implement here
-    return 0
+    return (None, 0, 0)
 
 def main():
     input = sys.stdin.read
     data = input().split()
     if not data:
         return
-    
+
     iterator = iter(data)
     try:
         n = int(next(iterator))
@@ -187,12 +187,12 @@ def main():
         for _ in range(n):
             cur.next = ListNode(int(next(iterator)))
             cur = cur.next
-            
+
         k = int(next(iterator))
         s = int(next(iterator))
-        
+
         head, groups, total_sum = reverse_from_offset(dummy.next, k, s)
-        
+
         out = []
         while head:
             out.append(str(head.val))
@@ -239,7 +239,7 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    
+
     ListNode dummy(0);
     ListNode* cur = &dummy;
     for (int i = 0; i < n; i++) {
@@ -248,13 +248,13 @@ int main() {
         cur->next = new ListNode(v);
         cur = cur->next;
     }
-    
+
     int k, s;
     cin >> k >> s;
 
     Solution solution;
     Result res = solution.reverseFromOffset(dummy.next, k, s);
-    
+
     ListNode* out = res.head;
     bool first = true;
     while (out) {
@@ -282,7 +282,7 @@ class ListNode {
 
 function reverseFromOffset(head, k, s) {
   //Implement here
-  return 0;
+  return [null, 0, 0];
 }
 
 const rl = readline.createInterface({
@@ -291,37 +291,43 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x)));
+rl.on("line", (line) =>
+  data.push(
+    ...line
+      .trim()
+      .split(/\s+/)
+      .filter((x) => x)
+  )
+);
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
   const n = parseInt(data[idx++], 10);
-  
+
   const dummy = new ListNode(0);
   let cur = dummy;
   for (let i = 0; i < n; i++) {
     cur.next = new ListNode(parseInt(data[idx++], 10));
     cur = cur.next;
   }
-  
-  if (idx < data.length) {
-      const k = parseInt(data[idx++], 10);
-      const s = parseInt(data[idx++], 10);
 
-      const result = reverseFromOffset(dummy.next, k, s);
-      let head = result[0];
-      const groups = result[1];
-      const sum = result[2];
-      
-      const out = [];
-      while (head) {
-        out.push(head.val);
-        head = head.next;
-      }
-      console.log(out.join(" "));
-      console.log(groups);
-      console.log(sum);
+  if (idx < data.length) {
+    const k = parseInt(data[idx++], 10);
+    const s = parseInt(data[idx++], 10);
+
+    const result = reverseFromOffset(dummy.next, k, s);
+    let head = result[0];
+    const groups = result[1];
+    const sum = result[2];
+
+    const out = [];
+    while (head) {
+      out.push(head.val);
+      head = head.next;
+    }
+    console.log(out.join(" "));
+    console.log(groups);
+    console.log(sum);
   }
 });
 ```
-

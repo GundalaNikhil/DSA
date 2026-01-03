@@ -55,6 +55,7 @@ Each edge has a non-negative weight representing the toll/cost. Output the minim
 ## Example
 
 **Input:**
+
 ```
 4
 5
@@ -67,6 +68,7 @@ Each edge has a non-negative weight representing the toll/cost. Output the minim
 ```
 
 **Output:**
+
 ```
 0 3 1 4
 ```
@@ -74,6 +76,7 @@ Each edge has a non-negative weight representing the toll/cost. Output the minim
 **Explanation:**
 
 From source node 0:
+
 - To node 0: 0 (source itself)
 - To node 1: 3 (path 0→2→1 with cost 1+2=3, better than direct 0→1 with cost 4)
 - To node 2: 1 (direct path 0→2)
@@ -156,45 +159,45 @@ import sys
 import heapq
 from typing import List
 
+# Increase recursion depth for deep DFS/Graph traversals
 sys.setrecursionlimit(200000)
 
-def dijkstra(n: int, adj: List[List[tuple]], source: int) -> List[int]:
-    # //Implement here
-    return 0
+class Solution:
+    def dijkstra(self, n: int, adj: List[List[tuple]], source: int) -> List[int]:
+        # //Implement here
+        return []
 
-def main():
+if __name__ == "__main__":
     try:
         input_data = sys.stdin.read().split()
     except Exception:
-        return
+        sys.exit(0)
 
     if not input_data:
-        return
-        
+        sys.exit(0)
+
     iterator = iter(input_data)
     try:
         n = int(next(iterator))
         m = int(next(iterator))
-        
+
         adj = [[] for _ in range(n)]
         for _ in range(m):
             u = int(next(iterator))
             v = int(next(iterator))
             w = int(next(iterator))
             adj[u].append((v, w))
-            
+
         try:
             source = int(next(iterator))
         except StopIteration:
             source = 0
-            
-        result = dijkstra(n, adj, source)
+
+        solution = Solution()
+        result = solution.dijkstra(n, adj, source)
         print(' '.join(map(str, result)))
     except StopIteration:
         pass
-
-if __name__ == "__main__":
-    main()
 ```
 
 ### C++
@@ -210,7 +213,7 @@ using namespace std;
 
 class Solution {
 public:
-    public: vector<long long> dijkstra(int n, vector<vector<pair<int,int>>>& adj, int source) {
+    vector<long long> dijkstra(int n, vector<vector<pair<int,int>>>& adj, int source) {
         //Implement here
         return {};
     }
@@ -259,16 +262,16 @@ int main() {
 ### JavaScript
 
 ```javascript
-const fs = require('fs');
+const fs = require("fs");
 
 class Solution {
   dijkstra(n, adj, source) {
     //Implement here
-    return 0;
+    return [];
   }
 }
 
-const data = fs.readFileSync(0, 'utf8').trim().split(/\s+/);
+const data = fs.readFileSync(0, "utf8").trim().split(/\s+/);
 if (data.length > 0) {
   let idx = 0;
   const n = parseInt(data[idx++], 10);
@@ -283,7 +286,6 @@ if (data.length > 0) {
   const source = idx < data.length ? parseInt(data[idx++], 10) : 0;
   const sol = new Solution();
   const result = sol.dijkstra(n, adj, source);
-  console.log(result.join(' '));
+  console.log(result.join(" "));
 }
 ```
-

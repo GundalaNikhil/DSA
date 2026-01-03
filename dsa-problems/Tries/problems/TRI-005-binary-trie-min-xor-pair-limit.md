@@ -98,9 +98,15 @@ Trie, Binary Trie, Bit Manipulation, XOR Properties
 import java.util.*;
 
 class Solution {
+    private TrieNode root;
+
+    public Solution() {
+        root = new TrieNode();
+    }
+
     public int minXORPairUnderLimit(int[] arr, int L) {
         //Implement here
-        return 0;
+        return -1;
     }
 }
 
@@ -127,16 +133,22 @@ class Main {
 ### Python
 
 ```python
-def min_xor_naive(arr, L):
-    # //Implement here
-    return 0
+class Solution:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def min_xor_pair_under_limit(self, arr: list, L: int) -> int:
+        # //Implement here
+        return -1
+
 def main():
     import sys
     input_data = sys.stdin.read().strip().split('\n')
 
     n, L = map(int, input_data[0].split())
     arr = list(map(int, input_data[1].split()))
-    result = min_xor_naive(arr, L)
+    solution = Solution()
+    result = solution.min_xor_pair_under_limit(arr, L)
     print(result)
 
 if __name__ == "__main__":
@@ -153,10 +165,15 @@ if __name__ == "__main__":
 using namespace std;
 
 class Solution {
+private:
+    TrieNode* root;
+
 public:
+    Solution() : root(new TrieNode()) {}
+
     int minXORPairUnderLimit(const vector<int>& arr, int L) {
         //Implement here
-        return 0;
+        return -1;
     }
 };
 
@@ -188,10 +205,18 @@ const rl = readline.createInterface({
     terminal: false
 });
 
-function minXORPairUnderLimit(arr, L) {
-  //Implement here
-  return 0;
+class Solution {
+  constructor() {
+    this.root = new TrieNode();
+  }
+
+  minXORPairUnderLimit(arr, L) {
+    //Implement here
+    return -1;
+  }
 }
+
+const solution = new Solution();
 
 const lines = [];
 rl.on('line', (line) => lines.push(line.trim()));
@@ -199,7 +224,7 @@ rl.on('close', () => {
     const [n, L] = lines[0].split(' ').map(Number);
     const arr = lines[1].split(' ').map(Number);
     
-    const result = minXORPairUnderLimit(arr, L);
+    const result = solution.minXORPairUnderLimit(arr, L);
     console.log(result);
 });
 ```

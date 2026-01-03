@@ -93,35 +93,39 @@ Polynomial Hash, Rolling Hash, String Hashing, Rabin-Karp
 ### Java
 
 ```java
+import java.io.*;
 import java.util.*;
 
 class Solution {
     public long[] computePrefixHashes(String s, long B, long M) {
-        //Implement here
+        //Implemention here
         return new long[0];
     }
 }
 
 class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextLine()) {
-            String s = sc.nextLine();
-            if (sc.hasNextLong()) {
-                long B = sc.nextLong();
-                long M = sc.nextLong();
-
-                Solution solution = new Solution();
-                long[] result = solution.computePrefixHashes(s, B, M);
-
-                for (int i = 0; i < result.length; i++) {
-                    System.out.print(result[i]);
-                    if (i < result.length - 1) System.out.print(" ");
-                }
-                System.out.println();
-            }
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        List<String> lines = new ArrayList<>();
+        String line;
+        while ((line = br.readLine()) != null) {
+            lines.add(line);
         }
-        sc.close();
+        if (lines.size() < 2) return;
+        String s = lines.get(0);
+        String[] parts = lines.get(1).trim().split("\\s+");
+        if (parts.length < 2) return;
+        long B = Long.parseLong(parts[0]);
+        long M = Long.parseLong(parts[1]);
+
+        Solution solution = new Solution();
+        long[] result = solution.computePrefixHashes(s, B, M);
+        StringBuilder out = new StringBuilder();
+        for (int i = 0; i < result.length; i++) {
+            if (i > 0) out.append(' ');
+            out.append(result[i]);
+        }
+        System.out.print(out.toString());
     }
 }
 ```
@@ -131,25 +135,24 @@ class Main {
 ```python
 import sys
 
-# Increase recursion depth just in case, though not needed for iterative
-
-def compute_prefix_hashes(s: str, B: int, M: int) -> list:
-    # //Implement here
-    return 0
+def compute_prefix_hashes(s, B, M):
+    # //Implemention here
+    return []
 
 def main():
-    # Read input line by line
-    lines = sys.stdin.read().strip().split('\n')
+    lines = sys.stdin.read().split('\n')
     if len(lines) < 2:
         return
-
     s = lines[0]
-    B, M = map(int, lines[1].split())
-
+    parts = lines[1].strip().split()
+    if len(parts) < 2:
+        return
+    B = int(parts[0])
+    M = int(parts[1])
     result = compute_prefix_hashes(s, B, M)
-    print(' '.join(map(str, result)))
+    sys.stdout.write(' '.join(map(str, result)))
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
 ```
 
@@ -159,38 +162,36 @@ if __name__ == "__main__":
 #include <iostream>
 #include <vector>
 #include <string>
+#include <sstream>
 
 using namespace std;
 
-class Solution {
-public:
-    vector<long long> computePrefixHashes(string s, long long B, long long M) {
-        //Implement here
-        return {};
-    }
-};
+vector<long long> compute_prefix_hashes(const string& s, long long B, long long M) {
+    //Implemention here
+    return {};
+}
 
 int main() {
-    // Fast I/O
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    string s;
-    long long B, M;
-
-    if (getline(cin, s)) {
-        if (cin >> B >> M) {
-            Solution solution;
-            vector<long long> result = solution.computePrefixHashes(s, B, M);
-
-            for (int i = 0; i < result.size(); i++) {
-                cout << result[i];
-                if (i < result.size() - 1) cout << " ";
-            }
-            cout << "\n";
-        }
+    vector<string> lines;
+    string line;
+    while (getline(cin, line)) {
+        if (!line.empty() && line.back() == '\r') line.pop_back();
+        lines.push_back(line);
     }
+    if (lines.size() < 2) return 0;
+    string s = lines[0];
+    stringstream ss(lines[1]);
+    long long B, M;
+    if (!(ss >> B >> M)) return 0;
 
+    vector<long long> result = compute_prefix_hashes(s, B, M);
+    for (size_t i = 0; i < result.size(); i++) {
+        if (i > 0) cout << ' ';
+        cout << result[i];
+    }
     return 0;
 }
 ```
@@ -198,32 +199,29 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
 
-class Solution {
-  computePrefixHashes(s, B, M) {
-    //Implement here
-    return 0;
-  }
+function computePrefixHashes(s, B, M) {
+  //Implemention here
+  return [];
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  if (data.length === 0) return;
-
-  let ptr = 0;
-  const s = data[ptr++];
-  const [B, M] = data[ptr++].split(" ").map(Number);
-
-  const solution = new Solution();
-  const result = solution.computePrefixHashes(s, B, M);
-  console.log(result.join(" "));
-});
+const raw = fs.readFileSync(0, "utf8");
+if (raw.length === 0) {
+  process.exit(0);
+}
+const lines = raw.replace(/\r/g, "").split(/\n/);
+if (lines.length < 2) {
+  process.exit(0);
+}
+const s = lines[0];
+const parts = lines[1].trim().split(/\s+/);
+if (parts.length < 2) {
+  process.exit(0);
+}
+const B = Number(parts[0]);
+const M = Number(parts[1]);
+const result = computePrefixHashes(s, B, M);
+process.stdout.write(result.map(String).join(' '));
 ```
 

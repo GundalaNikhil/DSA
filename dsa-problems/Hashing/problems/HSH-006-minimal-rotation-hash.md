@@ -90,24 +90,32 @@ String Rotation, Hashing, Binary Search, Lexicographic Order
 ### Java
 
 ```java
+import java.io.*;
 import java.util.*;
 
 class Solution {
     public String minimalRotation(String s) {
-        //Implement here
+        //Implemention here
         return "";
     }
 }
 
 class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextLine()) {
-            String s = sc.nextLine();
-            Solution solution = new Solution();
-            System.out.println(solution.minimalRotation(s));
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line).append(' ');
         }
-        sc.close();
+        String input = sb.toString().trim();
+        if (input.isEmpty()) return;
+        String[] data = input.split("\\s+");
+        int idx = 0;
+        String s = data[idx++];
+        Solution solution = new Solution();
+        String result = solution.minimalRotation(s);
+        System.out.print(result);
     }
 }
 ```
@@ -117,20 +125,20 @@ class Main {
 ```python
 import sys
 
-# Increase recursion depth just in case
-
-def minimal_rotation(s: str) -> str:
-    # //Implement here
-    return 0
+def minimal_rotation(s):
+    # //Implemention here
+    return ""
 
 def main():
-    input_data = sys.stdin.read().split()
-    if not input_data:
+    data = sys.stdin.read().split()
+    if not data:
         return
-    s = input_data[0]
-    print(minimal_rotation(s))
+    idx = 0
+    s = data[idx]
+    result = minimal_rotation(s)
+    sys.stdout.write(str(result))
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
 ```
 
@@ -139,28 +147,22 @@ if __name__ == "__main__":
 ```cpp
 #include <iostream>
 #include <string>
-#include <vector>
 
 using namespace std;
 
-class Solution {
-public:
-    string minimalRotation(string s) {
-        //Implement here
-        return "";
-    }
-};
+string minimal_rotation(const string& s) {
+    //Implemention here
+    return "";
+}
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     string s;
-    if (getline(cin, s)) {
-        Solution solution;
-        cout << solution.minimalRotation(s) << "\n";
-    }
-    
+    if (!(cin >> s)) return 0;
+    string result = minimal_rotation(s);
+    cout << result;
     return 0;
 }
 ```
@@ -168,28 +170,21 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
 
-class Solution {
-  minimalRotation(s) {
-    //Implement here
-    return 0;
-  }
+function minimalRotation(s) {
+  //Implemention here
+  return "";
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const s = data[0];
-
-  const solution = new Solution();
-  console.log(solution.minimalRotation(s));
-});
+const input = fs.readFileSync(0, "utf8").trim();
+if (input.length === 0) {
+  process.exit(0);
+}
+const data = input.split(/\s+/);
+let idx = 0;
+const s = data[idx++];
+const result = minimalRotation(s);
+process.stdout.write(String(result));
 ```
 

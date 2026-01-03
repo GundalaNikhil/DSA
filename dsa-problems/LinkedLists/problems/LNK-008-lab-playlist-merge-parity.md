@@ -99,7 +99,7 @@ class ListNode {
 class Solution {
     public ListNode mergeByParity(ListNode l1, ListNode l2) {
         //Implement here
-        return new ArrayList<>();
+        return null;
     }
 }
 
@@ -107,7 +107,7 @@ class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
-        
+
         int n = sc.nextInt();
         ListNode d1 = new ListNode(0);
         ListNode c1 = d1;
@@ -115,7 +115,7 @@ class Main {
             c1.next = new ListNode(sc.nextInt());
             c1 = c1.next;
         }
-        
+
         int m = sc.nextInt();
         ListNode d2 = new ListNode(0);
         ListNode c2 = d2;
@@ -126,7 +126,7 @@ class Main {
 
         Solution solution = new Solution();
         ListNode res = solution.mergeByParity(d1.next, d2.next);
-        
+
         boolean first = true;
         while (res != null) {
             if (!first) System.out.print(" ");
@@ -150,16 +150,16 @@ class ListNode:
         self.val = val
         self.next = None
 
-def merge_by_parity(l1: ListNode, l2: ListNode) -> ListNode:
+def merge_parity(l1: ListNode, l2: ListNode) -> ListNode:
     # //Implement here
-    return 0
+    return None
 
 def main():
     input = sys.stdin.read
     data = input().split()
     if not data:
         return
-    
+
     iterator = iter(data)
     try:
         n = int(next(iterator))
@@ -168,16 +168,16 @@ def main():
         for _ in range(n):
             c1.next = ListNode(int(next(iterator)))
             c1 = c1.next
-            
+
         m = int(next(iterator))
         d2 = ListNode()
         c2 = d2
         for _ in range(m):
             c2.next = ListNode(int(next(iterator)))
             c2 = c2.next
-            
-        head = merge_by_parity(d1.next, d2.next)
-        
+
+        head = merge_parity(d1.next, d2.next)
+
         out = []
         while head:
             out.append(str(head.val))
@@ -216,7 +216,7 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    
+
     ListNode d1(0);
     ListNode* c1 = &d1;
     for (int i = 0; i < n; i++) {
@@ -225,7 +225,7 @@ int main() {
         c1->next = new ListNode(v);
         c1 = c1->next;
     }
-    
+
     int m;
     cin >> m;
     ListNode d2(0);
@@ -239,7 +239,7 @@ int main() {
 
     Solution solution;
     ListNode* res = solution.mergeByParity(d1.next, d2.next);
-    
+
     bool first = true;
     while (res) {
         if (!first) cout << " ";
@@ -264,9 +264,9 @@ class ListNode {
   }
 }
 
-function mergeByParity(l1, l2) {
+function mergeParity(l1, l2) {
   //Implement here
-  return 0;
+  return null;
 }
 
 const rl = readline.createInterface({
@@ -275,19 +275,26 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x)));
+rl.on("line", (line) =>
+  data.push(
+    ...line
+      .trim()
+      .split(/\s+/)
+      .filter((x) => x)
+  )
+);
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
   const n = parseInt(data[idx++], 10);
-  
+
   const d1 = new ListNode(0);
   let c1 = d1;
   for (let i = 0; i < n; i++) {
     c1.next = new ListNode(parseInt(data[idx++], 10));
     c1 = c1.next;
   }
-  
+
   const m = parseInt(data[idx++], 10);
   const d2 = new ListNode(0);
   let c2 = d2;
@@ -296,7 +303,7 @@ rl.on("close", () => {
     c2 = c2.next;
   }
 
-  let head = mergeByParity(d1.next, d2.next);
+  let head = mergeParity(d1.next, d2.next);
   const out = [];
   while (head) {
     out.push(head.val);
@@ -305,4 +312,3 @@ rl.on("close", () => {
   console.log(out.join(" "));
 });
 ```
-

@@ -104,7 +104,7 @@ class Main {
             int[] minHeap = new int[m];
             for (int i = 0; i < n; i++) maxHeap[i] = sc.nextInt();
             for (int i = 0; i < m; i++) minHeap[i] = sc.nextInt();
-            
+
             Solution solution = new Solution();
             double result = solution.findMedian(maxHeap, minHeap);
             if (result == (long) result) {
@@ -125,7 +125,7 @@ import sys
 
 def find_median(max_heap: list, min_heap: list) -> float:
     # //Implement here
-    return 0
+    return 0.0
 
 def main():
     input_data = sys.stdin.read().split()
@@ -141,7 +141,7 @@ def main():
         min_heap = []
         for _ in range(m):
             min_heap.append(int(next(it)))
-            
+
         print(find_median(max_heap, min_heap))
     except StopIteration:
         pass
@@ -170,13 +170,13 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int n, m;
     if (cin >> n >> m) {
         vector<int> maxHeap(n), minHeap(m);
         for (int i = 0; i < n; i++) cin >> maxHeap[i];
         for (int i = 0; i < m; i++) cin >> minHeap[i];
-        
+
         Solution solution;
         double res = solution.findMedian(maxHeap, minHeap);
         if (res == (long long)res) {
@@ -222,9 +222,8 @@ rl.on("close", () => {
   const minHeap = [];
   for (let i = 0; i < n; i++) maxHeap.push(parseInt(data[idx++]));
   for (let i = 0; i < m; i++) minHeap.push(parseInt(data[idx++]));
-  
+
   const solution = new Solution();
   console.log(solution.findMedian(maxHeap, minHeap));
 });
 ```
-

@@ -19,8 +19,11 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # QUE-002: Circular Shuttle Buffer with Overwrite
+
 ## Problem Statement
+
 A campus shuttle system stores the last `k` sensor readings in a circular buffer. You must implement a fixed-capacity circular queue with the following commands:
 
 - `ENQ x`: insert `x` at the rear if the buffer is not full (report success)
@@ -28,14 +31,20 @@ A campus shuttle system stores the last `k` sensor readings in a circular buffer
 - `DEQ`: remove and report the front value
 - `FRONT` / `REAR`: report value without removing
 - `ISEMPTY` / `ISFULL`: report whether the buffer is empty/full
-![Problem Illustration](../images/QUE-002/problem-illustration.png)
+  ![Problem Illustration](../images/QUE-002/problem-illustration.png)
+
 ## Input Format
+
 - First line: integer `k` (capacity)
 - Second line: integer `m` (number of commands)
 - Next `m` lines: one command per line
+
 ## Output Format
+
 - For each command that reports a value, output one line: `ENQ` -> `true`/`false`, `ENQ_OVR` -> overwritten or `NONE`, `DEQ`/`FRONT`/`REAR` -> value or `EMPTY`, `ISEMPTY`/`ISFULL` -> `true`/`false`
+
 ## Constraints
+
 - `1 <= k <= 100000`
 - `1 <= m <= 100000`
 - `-10^9 <= x <= 10^9`
@@ -86,6 +95,7 @@ Queue, Circular Buffer, Simulation
 ---
 
 ## Solution Template
+
 ### Java
 
 ```java
@@ -105,7 +115,7 @@ class Main {
             int k = sc.nextInt();
             int m = sc.nextInt();
             List<String[]> operations = new ArrayList<>();
-    
+
             for (int i = 0; i < m; i++) {
                 String op = sc.next();
                 if (op.equals("ENQ") || op.equals("ENQ_OVR")) {
@@ -115,7 +125,7 @@ class Main {
                     operations.add(new String[]{op});
                 }
             }
-    
+
             Solution solution = new Solution();
             List<String> result = solution.processOperations(k, operations);
             for (String line : result) {
@@ -135,7 +145,7 @@ import sys
 
 def process_operations(k: int, operations: List[List[str]]) -> List[str]:
     # //Implement here
-    return 0
+    return []
 
 def main():
     input_data = sys.stdin.read().split()
@@ -200,7 +210,7 @@ int main() {
                 operations.push_back({op});
             }
         }
-    
+
         Solution solution;
         vector<string> result = solution.processOperations(k, operations);
         for (const string& line : result) {
@@ -229,7 +239,14 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("line", (line) =>
+  data.push(
+    ...line
+      .trim()
+      .split(/\s+/)
+      .filter((x) => x !== "")
+  )
+);
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
@@ -252,4 +269,3 @@ rl.on("close", () => {
   console.log(result.join("\n"));
 });
 ```
-

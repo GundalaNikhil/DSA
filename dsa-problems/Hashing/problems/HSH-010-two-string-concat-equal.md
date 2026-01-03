@@ -84,28 +84,36 @@ Hashing, String Concatenation, Polynomial Hash
 ### Java
 
 ```java
+import java.io.*;
 import java.util.*;
 
 class Solution {
     public boolean checkConcatenationEqual(String a, String b, String c, String d) {
-        //Implement here
+        //Implemention here
         return false;
     }
 }
 
 class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextLine()) {
-            String a = sc.nextLine();
-            String b = sc.nextLine();
-            String c = sc.nextLine();
-            String d = sc.nextLine();
-
-            Solution solution = new Solution();
-            System.out.println(solution.checkConcatenationEqual(a, b, c, d));
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        List<String> lines = new ArrayList<>();
+        String line;
+        while ((line = br.readLine()) != null) {
+            lines.add(line);
         }
-        sc.close();
+        if (lines.isEmpty()) return;
+        while (lines.size() < 4) {
+            lines.add("");
+        }
+        String a = lines.get(0);
+        String b = lines.get(1);
+        String c = lines.get(2);
+        String d = lines.get(3);
+
+        Solution solution = new Solution();
+        boolean result = solution.checkConcatenationEqual(a, b, c, d);
+        System.out.print(result ? "true" : "false");
     }
 }
 ```
@@ -115,25 +123,24 @@ class Main {
 ```python
 import sys
 
-def check_concatenation_equal(a: str, b: str, c: str, d: str) -> bool:
-    # //Implement here
-    return 0
+def check_concatenation_equal(a, b, c, d):
+    # //Implemention here
+    return False
 
 def main():
-    import sys
-    lines = sys.stdin.read().strip().split('\n')
-    if len(lines) < 4:
-        # Pad with empty strings if needed
-        while len(lines) < 4:
-            lines.append('')
-    a = lines[0] if len(lines) > 0 else ''
-    b = lines[1] if len(lines) > 1 else ''
-    c = lines[2] if len(lines) > 2 else ''
-    d = lines[3] if len(lines) > 3 else ''
+    lines = sys.stdin.read().split('\n')
+    if not lines:
+        return
+    while len(lines) < 4:
+        lines.append('')
+    a = lines[0]
+    b = lines[1]
+    c = lines[2]
+    d = lines[3]
     result = check_concatenation_equal(a, b, c, d)
-    print("true" if result else "false")
+    sys.stdout.write('true' if result else 'false')
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
 ```
 
@@ -142,27 +149,36 @@ if __name__ == "__main__":
 ```cpp
 #include <iostream>
 #include <string>
+#include <vector>
 
 using namespace std;
 
-class Solution {
-public:
-    bool checkConcatenationEqual(string a, string b, string c, string d) {
-        //Implement here
-        return false;
-    }
-};
+bool check_concatenation_equal(const string& a, const string& b, const string& c, const string& d) {
+    //Implemention here
+    return false;
+}
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    string a, b, c, d;
-    if (getline(cin, a) && getline(cin, b) && getline(cin, c) && getline(cin, d)) {
-        Solution solution;
-        cout << (solution.checkConcatenationEqual(a, b, c, d) ? "true" : "false") << "\n";
+    vector<string> lines;
+    string line;
+    while (getline(cin, line)) {
+        if (!line.empty() && line.back() == '\r') line.pop_back();
+        lines.push_back(line);
     }
+    if (lines.empty()) return 0;
+    while (lines.size() < 4) {
+        lines.push_back("");
+    }
+    string a = lines[0];
+    string b = lines[1];
+    string c = lines[2];
+    string d = lines[3];
 
+    bool result = check_concatenation_equal(a, b, c, d);
+    cout << (result ? "true" : "false");
     return 0;
 }
 ```
@@ -170,28 +186,26 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
 
-class Solution {
-  checkConcatenationEqual(a, b, c, d) {
-    //Implement here
-    return 0;
-  }
+function checkConcatenationEqual(a, b, c, d) {
+  //Implemention here
+  return false;
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  if (data.length < 4) return;
-  const [a, b, c, d] = data;
-
-  const solution = new Solution();
-  console.log(solution.checkConcatenationEqual(a, b, c, d) ? "true" : "false");
-});
+const raw = fs.readFileSync(0, "utf8");
+if (raw.length === 0) {
+  process.exit(0);
+}
+const lines = raw.replace(/\r/g, "").split(/\n/);
+while (lines.length < 4) {
+  lines.push("");
+}
+const a = lines[0];
+const b = lines[1];
+const c = lines[2];
+const d = lines[3];
+const result = checkConcatenationEqual(a, b, c, d);
+process.stdout.write(result ? "true" : "false");
 ```
 

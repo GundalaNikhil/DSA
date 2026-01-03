@@ -150,35 +150,33 @@ import heapq
 import sys
 from typing import List
 
-def merge_queues(queues: List[List[int]]) -> List[int]:
-    # //Implement here
-    return 0
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-        
-    iterator = iter(data)
-    try:
-        k = int(next(iterator))
-    except StopIteration:
-        return
-
-    queues = []
-    for _ in range(k):
-        length = int(next(iterator))
-        queue = []
-        for _ in range(length):
-            queue.append(int(next(iterator)))
-        queues.append(queue)
-
-    result = merge_queues(queues)
-    print(' '.join(map(str, result)))
+class Solution:
+    def merge_queues(self, queues: List[List[int]]) -> List[int]:
+        # //Implement here
+        return []
 
 if __name__ == "__main__":
-    main()
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        sys.exit(0)
+
+    iterator = iter(input_data)
+    try:
+        k = int(next(iterator))
+
+        queues = []
+        for _ in range(k):
+            length = int(next(iterator))
+            queue = []
+            for _ in range(length):
+                queue.append(int(next(iterator)))
+            queues.append(queue)
+
+        solution = Solution()
+        result = solution.merge_queues(queues)
+        print(' '.join(map(str, result)))
+    except StopIteration:
+        pass
 ```
 
 ### C++
@@ -193,7 +191,7 @@ using namespace std;
 struct Node {
     int val;
     int queueIndex;
-    
+
     // Min-heap: greater value means lower priority
     bool operator>(const Node& other) const {
         return val > other.val;
@@ -267,7 +265,10 @@ class MinHeap {
     while (idx > 0) {
       const parentIdx = Math.floor((idx - 1) / 2);
       if (this.heap[idx].val >= this.heap[parentIdx].val) break;
-      [this.heap[idx], this.heap[parentIdx]] = [this.heap[parentIdx], this.heap[idx]];
+      [this.heap[idx], this.heap[parentIdx]] = [
+        this.heap[parentIdx],
+        this.heap[idx],
+      ];
       idx = parentIdx;
     }
   }
@@ -278,11 +279,21 @@ class MinHeap {
       const left = 2 * idx + 1;
       const right = 2 * idx + 2;
       if (left < this.heap.length) minChildIdx = left;
-      if (right < this.heap.length && this.heap[right].val < this.heap[left].val) {
+      if (
+        right < this.heap.length &&
+        this.heap[right].val < this.heap[left].val
+      ) {
         minChildIdx = right;
       }
-      if (minChildIdx === null || this.heap[idx].val <= this.heap[minChildIdx].val) break;
-      [this.heap[idx], this.heap[minChildIdx]] = [this.heap[minChildIdx], this.heap[idx]];
+      if (
+        minChildIdx === null ||
+        this.heap[idx].val <= this.heap[minChildIdx].val
+      )
+        break;
+      [this.heap[idx], this.heap[minChildIdx]] = [
+        this.heap[minChildIdx],
+        this.heap[idx],
+      ];
       idx = minChildIdx;
     }
   }
@@ -291,7 +302,7 @@ class MinHeap {
 class Solution {
   mergeQueues(queues) {
     //Implement here
-    return 0;
+    return [];
   }
 }
 
@@ -329,4 +340,3 @@ rl.on("close", () => {
   console.log(result.join(" "));
 });
 ```
-

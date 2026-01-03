@@ -100,35 +100,52 @@ Segment Tree, Fenwick Tree, Hashing, Dynamic Updates
 ### Java
 
 ```java
+import java.io.*;
 import java.util.*;
 
 class Solution {
     public List<Long> processOperations(String s, List<String[]> operations) {
-        //Implement here
+        //Implemention here
         return new ArrayList<>();
     }
 }
 
 class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextLine()) {
-            String s = sc.nextLine();
-            if (sc.hasNextInt()) {
-                int q = sc.nextInt();
-                sc.nextLine();
-                List<String[]> operations = new ArrayList<>();
-                for (int i = 0; i < q; i++) {
-                    operations.add(sc.nextLine().split(" "));
-                }
-                Solution solution = new Solution();
-                List<Long> result = solution.processOperations(s, operations);
-                for (long hash : result) {
-                    System.out.println(hash);
-                }
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line).append(' ');
+        }
+        String input = sb.toString().trim();
+        if (input.isEmpty()) return;
+        String[] data = input.split("\\s+");
+        int idx = 0;
+        String s = data[idx++];
+        int q = Integer.parseInt(data[idx++]);
+        List<String[]> operations = new ArrayList<>();
+        for (int i = 0; i < q; i++) {
+            String type = data[idx++];
+            if (type.equals("U")) {
+                String pos = data[idx++];
+                String c = data[idx++];
+                operations.add(new String[]{type, pos, c});
+            } else {
+                String l = data[idx++];
+                String r = data[idx++];
+                operations.add(new String[]{type, l, r});
             }
         }
-        sc.close();
+
+        Solution solution = new Solution();
+        List<Long> result = solution.processOperations(s, operations);
+        StringBuilder out = new StringBuilder();
+        for (int i = 0; i < result.size(); i++) {
+            out.append(result.get(i));
+            if (i + 1 < result.size()) out.append('\n');
+        }
+        System.out.print(out.toString());
     }
 }
 ```
@@ -138,40 +155,38 @@ class Main {
 ```python
 import sys
 
-# Increase recursion depth
-
-def process_operations(s: str, operations: list) -> list:
-    # //Implement here
-    return 0
+def process_operations(s, operations):
+    # //Implemention here
+    return []
 
 def main():
-    input_data = sys.stdin.read().split()
-    if not input_data:
+    data = sys.stdin.read().split()
+    if not data:
         return
-    
-    iterator = iter(input_data)
-    try:
-        s = next(iterator)
-        q = int(next(iterator))
-        operations = []
-        for _ in range(q):
-            type_op = next(iterator)
-            if type_op == 'U':
-                idx = next(iterator)
-                c = next(iterator)
-                operations.append(['U', idx, c])
-            else:
-                l = next(iterator)
-                r = next(iterator)
-                operations.append(['Q', l, r])
-                
-        result = process_operations(s, operations)
-        for val in result:
-            print(val)
-    except StopIteration:
-        pass
+    idx = 0
+    s = data[idx]
+    idx += 1
+    q = int(data[idx])
+    idx += 1
+    operations = []
+    for _ in range(q):
+        type_op = data[idx]
+        idx += 1
+        if type_op == 'U':
+            pos = data[idx]
+            c = data[idx + 1]
+            idx += 2
+            operations.append(['U', pos, c])
+        else:
+            l = data[idx]
+            r = data[idx + 1]
+            idx += 2
+            operations.append(['Q', l, r])
+    result = process_operations(s, operations)
+    out_lines = [str(val) for val in result]
+    sys.stdout.write('\n'.join(out_lines))
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
 ```
 
@@ -181,52 +196,43 @@ if __name__ == "__main__":
 #include <iostream>
 #include <vector>
 #include <string>
-#include <sstream>
-#include <algorithm>
 
 using namespace std;
 
-class Solution {
-public:
-    vector<long long> processOperations(string s, vector<vector<string>>& operations) {
-        //Implement here
-        return {};
-    }
-};
+vector<long long> process_operations(const string& s, const vector<vector<string>>& operations) {
+    //Implemention here
+    return {};
+}
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     string s;
     if (!(cin >> s)) return 0;
-    
     int q;
     if (!(cin >> q)) return 0;
-    
-    vector<vector<string>> operations(q);
+    vector<vector<string>> operations;
+    operations.reserve(q);
     for (int i = 0; i < q; i++) {
-        char type;
+        string type;
         cin >> type;
-        if (type == 'U') {
-            int idx;
-            char c;
-            cin >> idx >> c;
-            operations[i] = {"U", to_string(idx), string(1, c)};
+        if (type == "U") {
+            string pos, c;
+            cin >> pos >> c;
+            operations.push_back({type, pos, c});
         } else {
-            int l, r;
+            string l, r;
             cin >> l >> r;
-            operations[i] = {"Q", to_string(l), to_string(r)};
+            operations.push_back({type, l, r});
         }
     }
-    
-    Solution solution;
-    vector<long long> result = solution.processOperations(s, operations);
-    
-    for (long long hash : result) {
-        cout << hash << "\n";
+
+    vector<long long> result = process_operations(s, operations);
+    for (size_t i = 0; i < result.size(); i++) {
+        cout << result[i];
+        if (i + 1 < result.size()) cout << '\n';
     }
-    
     return 0;
 }
 ```
@@ -234,37 +240,35 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
 
-class Solution {
-  processOperations(s, operations) {
-    //Implement here
-    return 0;
-  }
+function processOperations(s, operations) {
+  //Implemention here
+  return [];
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  let ptr = 0;
-  const s = data[ptr++];
-  const q = parseInt(data[ptr++]);
-  
-  const operations = [];
-  for (let i = 0; i < q; i++) {
-    operations.push(data[ptr++].split(" "));
+const input = fs.readFileSync(0, "utf8").trim();
+if (input.length === 0) {
+  process.exit(0);
+}
+const data = input.split(/\s+/);
+let idx = 0;
+const s = data[idx++];
+const q = parseInt(data[idx++], 10);
+const operations = [];
+for (let i = 0; i < q; i++) {
+  const type = data[idx++];
+  if (type === 'U') {
+    const pos = data[idx++];
+    const c = data[idx++];
+    operations.push(['U', pos, c]);
+  } else {
+    const l = data[idx++];
+    const r = data[idx++];
+    operations.push(['Q', l, r]);
   }
-  
-  const solution = new Solution();
-  const result = solution.processOperations(s, operations);
-  
-  result.forEach((hash) => console.log(hash.toString()));
-});
+}
+const result = processOperations(s, operations);
+process.stdout.write(result.map(String).join('\n'));
 ```
 

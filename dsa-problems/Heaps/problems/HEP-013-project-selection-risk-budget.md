@@ -124,7 +124,7 @@ class Main {
                 profit[i] = sc.nextLong();
                 risk[i] = sc.nextLong();
             }
-            
+
             Solution solution = new Solution();
             System.out.println(solution.maximizeCapital(k, C, R, cost, profit, risk));
         }
@@ -160,7 +160,7 @@ def main():
             cost.append(int(next(it)))
             profit.append(int(next(it)))
             risk.append(int(next(it)))
-            
+
         print(maximize_capital(k, C, R, cost, profit, risk))
     except StopIteration:
         pass
@@ -201,13 +201,13 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int n, k;
     long long C, R;
     if (cin >> n >> k >> C >> R) {
         vector<long long> cost(n), profit(n), risk(n);
         for (int i = 0; i < n; i++) cin >> cost[i] >> profit[i] >> risk[i];
-        
+
         Solution solution;
         cout << solution.maximizeCapital(k, C, R, cost, profit, risk) << "\n";
     }
@@ -219,51 +219,6 @@ int main() {
 
 ```javascript
 const readline = require("readline");
-
-class PriorityQueue {
-  constructor(compare) {
-    this.heap = [];
-    this.compare = compare;
-  }
-  size() { return this.heap.length; }
-  isEmpty() { return this.heap.length === 0; }
-  peek() { return this.heap[0]; }
-  push(val) {
-    this.heap.push(val);
-    this.bubbleUp(this.heap.length - 1);
-  }
-  pop() {
-    if (this.size() === 0) return null;
-    const top = this.heap[0];
-    const bottom = this.heap.pop();
-    if (this.size() > 0) {
-      this.heap[0] = bottom;
-      this.bubbleDown(0);
-    }
-    return top;
-  }
-  bubbleUp(idx) {
-    while (idx > 0) {
-      const pIdx = Math.floor((idx - 1) / 2);
-      if (this.compare(this.heap[idx], this.heap[pIdx]) < 0) {
-        [this.heap[idx], this.heap[pIdx]] = [this.heap[pIdx], this.heap[idx]];
-        idx = pIdx;
-      } else break;
-    }
-  }
-  bubbleDown(idx) {
-    while (true) {
-      const left = 2 * idx + 1;
-      const right = 2 * idx + 2;
-      let swap = null;
-      if (left < this.size() && this.compare(this.heap[left], this.heap[idx]) < 0) swap = left;
-      if (right < this.size() && this.compare(this.heap[right], swap === null ? this.heap[idx] : this.heap[swap]) < 0) swap = right;
-      if (swap === null) break;
-      [this.heap[idx], this.heap[swap]] = [this.heap[swap], this.heap[idx]];
-      idx = swap;
-    }
-  }
-}
 
 class Solution {
   maximizeCapital(k, C, R, cost, profit, risk) {
@@ -294,9 +249,8 @@ rl.on("close", () => {
     profit.push(parseInt(data[idx++]));
     risk.push(parseInt(data[idx++]));
   }
-  
+
   const solution = new Solution();
   console.log(solution.maximizeCapital(k, C, R, cost, profit, risk));
 });
 ```
-

@@ -99,14 +99,13 @@ class TrieNode {
 }
 
 class Solution {
+    private TrieNode root;
+
+    public Solution() {
+        this.root = new TrieNode();
+    }
+
     public String findShortestAbsent(String[] binaryStrings, int L) {
-        //Implement here
-        return "";
-    }
-    private void insert(String s) {
-        //Implement here
-    }
-    private String dfs(TrieNode node, String path, int L) {
         //Implement here
         return "";
     }
@@ -153,13 +152,7 @@ class Solution:
 
     def find_shortest_absent(self, binary_strings: List[str], L: int) -> str:
         # //Implement here
-        return 0
-    def _insert(self, s: str):
-        # //Implement here
-        return 0
-    def _dfs(self, node: TrieNode, path: str, L: int) -> str:
-        # //Implement here
-        return 0
+        return ""
 def main():
     import sys
     lines = sys.stdin.read().strip().split('\n')
@@ -193,14 +186,14 @@ struct TrieNode {
 };
 
 class Solution {
+private:
+    TrieNode* root;
+
 public:
-    void insert(const string& s) {
-        //Implement here
+    Solution() {
+        this->root = new TrieNode();
     }
-    string dfs(TrieNode* node, string path, int L) {
-        //Implement here
-        return {};
-    }
+
     string findShortestAbsent(vector<string>& binaryStrings, int L) {
         //Implement here
         return {};
@@ -239,17 +232,13 @@ class TrieNode {
 }
 
 class Solution {
-  insert(s) {
-    //Implement here
-    return 0;
+  constructor() {
+    this.root = new TrieNode();
   }
-  dfs(node, path, L) {
-    //Implement here
-    return 0;
-  }
+
   findShortestAbsent(binaryStrings, L) {
     //Implement here
-    return 0;
+    return "";
   }
 }
 

@@ -137,14 +137,9 @@ class TrieNode {
 }
 
 class Solution {
+    private TrieNode root = new TrieNode();
+
     public String replaceWords(Map<String, Integer> dictionary, String sentence) {
-        //Implement here
-        return "";
-    }
-    private void insert(String word, int rarity) {
-        //Implement here
-    }
-    private String findReplacement(String word) {
         //Implement here
         return "";
     }
@@ -176,9 +171,14 @@ class Main {
 ### Python
 
 ```python
-def replace_naive(dictionary, sentence):
-    # //Implement here
-    return 0
+class Solution:
+    def __init__(self):
+        self.root = TrieNode()
+
+    def replace_words(self, dictionary: dict, sentence: str) -> str:
+        # //Implement here
+        return ""
+
 def main():
     import sys
     input_data = sys.stdin.read().strip().split('\n')
@@ -192,7 +192,8 @@ def main():
         dictionary[root] = rarity
 
     sentence = input_data[n + 1]
-    result = replace_naive(dictionary, sentence)
+    solution = Solution()
+    result = solution.replace_words(dictionary, sentence)
     print(result)
 
 if __name__ == "__main__":
@@ -220,17 +221,15 @@ struct TrieNode {
 };
 
 class Solution {
+private:
+    TrieNode* root;
+
 public:
+    Solution() : root(new TrieNode()) {}
+
     string replaceWords(unordered_map<string, int>& dictionary, const string& sentence) {
         //Implement here
-        return {};
-    }
-    void insert(const string& word, int rarity) {
-        //Implement here
-    }
-    string findReplacement(const string& word) {
-        //Implement here
-        return {};
+        return "";
     }
 };
 
@@ -272,17 +271,13 @@ class TrieNode {
 }
 
 class Solution {
+  constructor() {
+    this.root = new TrieNode();
+  }
+
   replaceWords(dictionary, sentence) {
     //Implement here
-    return 0;
-  }
-  insert(word, rarity) {
-    //Implement here
-    return 0;
-  }
-  findReplacement(word) {
-    //Implement here
-    return 0;
+    return "";
   }
 }
 

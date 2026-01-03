@@ -173,52 +173,55 @@ import sys
 from collections import deque
 from typing import List
 
+# Increase recursion depth for deep DFS/Graph traversals
 sys.setrecursionlimit(200000)
 
-def fire_spread_time(grid: List[List[int]], stamina: List[List[int]]) -> int:
-    # //Implement here
-    return 0
+class Solution:
+    def fire_spread_time(self, grid: List[List[int]], stamina: List[List[int]]) -> int:
+        # //Implement here
+        return 0
 
-def main():
-    try:
-        input_data = sys.stdin.read().split()
-    except Exception:
-        return
-
+if __name__ == "__main__":
+    input_data = sys.stdin.read().split()
     if not input_data:
-        return
-    
+        sys.exit(0)
+
     iterator = iter(input_data)
     try:
         r = int(next(iterator))
         c = int(next(iterator))
-        
+
         grid = []
         for _ in range(r):
             row = []
             for _ in range(c):
                 row.append(int(next(iterator)))
             grid.append(row)
-            
+
         stamina = []
         try:
             for _ in range(r):
                 row = []
                 for _ in range(c):
-                    row.append(int(next(iterator)))
+                    if iterator: # Check vaguely if more items exist or handle StopIteration
+                        row.append(int(next(iterator)))
                 stamina.append(row)
         except StopIteration:
             # Fill remaining with 0s
             while len(stamina) < r:
-                stamina.append([0] * c)
-        
-        result = fire_spread_time(grid, stamina)
-        print(result)
+                row = []
+                while len(row) < c:
+                    row.append(0)
+                stamina.append(row)
+            # If a row was partially filled, pad it
+            for row in stamina:
+                 while len(row) < c:
+                     row.append(0)
+
+        solution = Solution()
+        print(solution.fire_spread_time(grid, stamina))
     except StopIteration:
         pass
-
-if __name__ == "__main__":
-    main()
 ```
 
 ### C++
@@ -233,7 +236,7 @@ using namespace std;
 
 class Solution {
 public:
-    public: int fireSpreadTime(vector<vector<int>>& grid, vector<vector<int>>& stamina) {
+    int fireSpreadTime(vector<vector<int>>& grid, vector<vector<int>>& stamina) {
         //Implement here
         return 0;
     }
@@ -289,7 +292,10 @@ const rl = readline.createInterface({
 let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
-  const tokens = data.join(" ").split(/\s+/).filter(t => t.length > 0);
+  const tokens = data
+    .join(" ")
+    .split(/\s+/)
+    .filter((t) => t.length > 0);
   if (tokens.length === 0) return;
 
   let ptr = 0;
@@ -332,4 +338,3 @@ rl.on("close", () => {
   console.log(solution.fireSpreadTime(grid, stamina));
 });
 ```
-

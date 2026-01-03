@@ -28,6 +28,7 @@ memory_limit: 256
 ## Problem Statement
 
 You are given a 2D grid representing a festival maze with the following cells:
+
 - `S`: Start position (exactly one)
 - `E`: Exit position (exactly one)
 - `F`: Food stall (at least one)
@@ -60,6 +61,7 @@ Find the minimum number of steps from `S` to `E` while satisfying the food stall
 ## Example
 
 **Input:**
+
 ```
 3 3
 SF.
@@ -68,6 +70,7 @@ SF.
 ```
 
 **Output:**
+
 ```
 4
 ```
@@ -75,6 +78,7 @@ SF.
 **Explanation:**
 
 Grid layout:
+
 ```
 S F .
 # # # E
@@ -82,6 +86,7 @@ S F .
 ```
 
 The optimal path demonstrates the constraint requirement:
+
 ```
 S . F
 # . .
@@ -155,58 +160,48 @@ class Main {
 
 ```python
 import sys
-from collections import deque
 from typing import List
 
+# Increase recursion depth for deep DFS/Graph traversals
 sys.setrecursionlimit(200000)
 
-def shortest_path(grid: List[List[str]]) -> int:
-    # //Implement here
-    return 0
+class Solution:
+    def shortest_path(self, grid: List[List[str]]) -> int:
+        # //Implement here
+        return 0
 
-def main():
-    try:
-        # Use splitlines to preserve row structure
-        lines = sys.stdin.read().splitlines()
-    except Exception:
-        return
-
+if __name__ == "__main__":
+    # Use splitlines to preserve row structure
+    lines = sys.stdin.read().splitlines()
     if not lines:
-        return
-        
+        sys.exit(0)
+
     # Wrapper to handle potential empty lines or whitespace issues
-    # Filter out empty lines?
     valid_lines = [l.strip() for l in lines if l.strip()]
-    if not valid_lines: return
-    
+    if not valid_lines:
+        sys.exit(0)
+
     try:
         # First valid line should be r c
         header = valid_lines[0].split()
-        if len(header) < 2: return
+        if len(header) < 2:
+            sys.exit(0)
         r, c = int(header[0]), int(header[1])
-        
+
         # Next r lines are grid
-        # If valid_lines has fewer than r+1 lines, it's partial input, fixable or crash
-        # Just safely grab up to r lines
-        
         grid = []
         for i in range(r):
             if i + 1 < len(valid_lines):
-                row_str = valid_lines[i+1]
-                # Ensure we only take first c chars if line is longer? 
-                # Or just list(row_str)
-                grid.append(list(row_str))
+                # Ensure we handle strings correctly
+                grid.append(list(valid_lines[i+1]))
             else:
                 grid.append([]) # Empty row filler
-                
-        result = shortest_path(grid)
-        print(result)
-        
+
+        solution = Solution()
+        print(solution.shortest_path(grid))
+
     except ValueError:
         pass
-
-if __name__ == "__main__":
-    main()
 ```
 
 ### C++
@@ -223,7 +218,7 @@ using namespace std;
 
 class Solution {
 public:
-    public: int shortestPathWithFood(vector<vector<char>>& grid) {
+    int shortestPathWithFood(vector<vector<char>>& grid) {
         //Implement here
         return 0;
     }
@@ -273,7 +268,7 @@ let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
   // Filter out empty lines
-  const validLines = data.filter(line => line.length > 0);
+  const validLines = data.filter((line) => line.length > 0);
 
   if (validLines.length === 0) return;
 
@@ -288,13 +283,13 @@ rl.on("close", () => {
     const grid = [];
     for (let i = 0; i < r; i++) {
       if (i + 1 < validLines.length) {
-        grid.push(validLines[i+1].split(''));
+        grid.push(validLines[i + 1].split(""));
       } else {
         grid.push([]); // Empty row filler for missing lines
       }
     }
 
-      // Only run algorithm if we have a complete grid
+    // Only run algorithm if we have a complete grid
     if (grid.length === r) {
       const solution = new Solution();
       console.log(solution.shortestPath(grid));
@@ -304,4 +299,3 @@ rl.on("close", () => {
   }
 });
 ```
-

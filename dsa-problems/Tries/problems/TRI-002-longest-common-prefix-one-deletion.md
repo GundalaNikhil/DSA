@@ -99,15 +99,12 @@ class TrieNode {
 }
 
 class Solution {
+    private TrieNode root = new TrieNode();
+    private String longestPrefix = "";
+
     public String longestCommonPrefixAfterOneDeletion(String[] words) {
         //Implement here
         return "";
-    }
-    private void insertWord(String word, int wordId) {
-        //Implement here
-    }
-    private void dfs(TrieNode node, String prefix, int totalWords) {
-        //Implement here
     }
 }
 
@@ -147,13 +144,7 @@ class Solution:
 
     def longest_common_prefix_after_one_deletion(self, words: List[str]) -> str:
         # //Implement here
-        return 0
-    def _insert_word(self, word: str, word_id: int):
-        # //Implement here
-        return 0
-    def _dfs(self, node: TrieNode, prefix: str, total_words: int):
-        # //Implement here
-        return 0
+        return ""
 def main():
     import sys
     input_data = sys.stdin.read().strip().split()
@@ -186,16 +177,16 @@ struct TrieNode {
 };
 
 class Solution {
+private:
+    TrieNode* root;
+    string longestPrefix;
+
 public:
-    void insertWord(const string& word, int wordId) {
-        //Implement here
-    }
-    void dfs(TrieNode* node, string prefix, int totalWords) {
-        //Implement here
-    }
+    Solution() : root(new TrieNode()), longestPrefix("") {}
+
     string longestCommonPrefixAfterOneDeletion(vector<string>& words) {
         //Implement here
-        return {};
+        return "";
     }
 };
 
@@ -230,17 +221,14 @@ class TrieNode {
 }
 
 class Solution {
+  constructor() {
+    this.root = new TrieNode();
+    this.longestPrefix = "";
+  }
+
   longestCommonPrefixAfterOneDeletion(words) {
     //Implement here
-    return 0;
-  }
-  _insertWord(word, wordId) {
-    //Implement here
-    return 0;
-  }
-  _dfs(node, prefix, totalWords) {
-    //Implement here
-    return 0;
+    return "";
   }
 }
 

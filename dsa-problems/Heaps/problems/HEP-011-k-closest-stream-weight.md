@@ -142,7 +142,7 @@ import heapq
 
 def process_operations(k: int, operations: list) -> list:
     # //Implement here
-    return 0
+    return []
 
 def main():
     input_data = sys.stdin.read().split()
@@ -162,7 +162,7 @@ def main():
                 operations.append([op, x, y, w])
             else:
                 operations.append([op])
-        
+
         result = process_operations(k, operations)
         print("\n".join(result))
     except StopIteration:
@@ -186,7 +186,7 @@ using namespace std;
 struct Point {
     long long num, den;
     int id;
-    
+
     // operator< for "Better" (Smaller)
     bool operator<(const Point& other) const {
         // val1 = num/den, val2 = other.num/other.den
@@ -226,7 +226,7 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int q, k;
     if (cin >> q >> k) {
         vector<vector<string>> operations;
@@ -241,7 +241,7 @@ int main() {
                 operations.push_back({op});
             }
         }
-        
+
         Solution solution;
         vector<string> result = solution.processOperations(k, operations);
         for (const string& s : result) cout << s << "\n";
@@ -255,55 +255,10 @@ int main() {
 ```javascript
 const readline = require("readline");
 
-class PriorityQueue {
-  constructor(compare) {
-    this.heap = [];
-    this.compare = compare;
-  }
-  size() { return this.heap.length; }
-  isEmpty() { return this.heap.length === 0; }
-  peek() { return this.heap[0]; }
-  push(val) {
-    this.heap.push(val);
-    this.bubbleUp(this.heap.length - 1);
-  }
-  pop() {
-    if (this.size() === 0) return null;
-    const top = this.heap[0];
-    const bottom = this.heap.pop();
-    if (this.size() > 0) {
-      this.heap[0] = bottom;
-      this.bubbleDown(0);
-    }
-    return top;
-  }
-  bubbleUp(idx) {
-    while (idx > 0) {
-      const pIdx = Math.floor((idx - 1) / 2);
-      if (this.compare(this.heap[idx], this.heap[pIdx]) < 0) {
-        [this.heap[idx], this.heap[pIdx]] = [this.heap[pIdx], this.heap[idx]];
-        idx = pIdx;
-      } else break;
-    }
-  }
-  bubbleDown(idx) {
-    while (true) {
-      const left = 2 * idx + 1;
-      const right = 2 * idx + 2;
-      let swap = null;
-      if (left < this.size() && this.compare(this.heap[left], this.heap[idx]) < 0) swap = left;
-      if (right < this.size() && this.compare(this.heap[right], swap === null ? this.heap[idx] : this.heap[swap]) < 0) swap = right;
-      if (swap === null) break;
-      [this.heap[idx], this.heap[swap]] = [this.heap[swap], this.heap[idx]];
-      idx = swap;
-    }
-  }
-}
-
 class Solution {
   processOperations(k, operations) {
     //Implement here
-    return 0;
+    return [];
   }
 }
 
@@ -331,10 +286,9 @@ rl.on("close", () => {
       operations.push([type]);
     }
   }
-  
+
   const solution = new Solution();
   const result = solution.processOperations(k, operations);
   console.log(result.join("\n"));
 });
 ```
-

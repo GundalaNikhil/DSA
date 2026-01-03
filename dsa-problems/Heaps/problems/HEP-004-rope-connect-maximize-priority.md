@@ -110,6 +110,7 @@ Heaps, Greedy, Priority Scheduling, Merging
 
 ```java
 import java.util.*;
+import java.io.*;
 
 class Solution {
     public long maxFinalStrength(int[] strengths, int[] priority) {
@@ -119,23 +120,28 @@ class Solution {
 }
 
 class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextInt()) {
-            int n = sc.nextInt();
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line;
+
+        if ((line = br.readLine()) != null) {
+            int n = Integer.parseInt(line.trim());
+
             int[] strengths = new int[n];
+            String[] strengthTokens = br.readLine().trim().split(" ");
+            for (int i = 0; i < n; i++) {
+                strengths[i] = Integer.parseInt(strengthTokens[i]);
+            }
+
             int[] priority = new int[n];
+            String[] priorityTokens = br.readLine().trim().split(" ");
             for (int i = 0; i < n; i++) {
-                strengths[i] = sc.nextInt();
+                priority[i] = Integer.parseInt(priorityTokens[i]);
             }
-            for (int i = 0; i < n; i++) {
-                priority[i] = sc.nextInt();
-            }
-            
+
             Solution solution = new Solution();
             System.out.println(solution.maxFinalStrength(strengths, priority));
         }
-        sc.close();
     }
 }
 ```
@@ -153,17 +159,17 @@ def main():
     input_data = sys.stdin.read().split()
     if not input_data:
         return
-    
-    iterator = iter(input_data)
+
+    it = iter(input_data)
     try:
-        n = int(next(iterator))
+        n = int(next(it))
         strengths = []
         for _ in range(n):
-            strengths.append(int(next(iterator)))
+            strengths.append(int(next(it)))
         priority = []
         for _ in range(n):
-            priority.append(int(next(iterator)))
-            
+            priority.append(int(next(it)))
+
         print(max_final_strength(strengths, priority))
     except StopIteration:
         pass
@@ -192,13 +198,13 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int n;
     if (cin >> n) {
         vector<int> strengths(n), priority(n);
         for (int i = 0; i < n; i++) cin >> strengths[i];
         for (int i = 0; i < n; i++) cin >> priority[i];
-        
+
         Solution solution;
         cout << solution.maxFinalStrength(strengths, priority) << "\n";
     }
@@ -233,9 +239,8 @@ rl.on("close", () => {
   const priority = [];
   for (let i = 0; i < n; i++) strengths.push(parseInt(data[idx++]));
   for (let i = 0; i < n; i++) priority.push(parseInt(data[idx++]));
-  
+
   const solution = new Solution();
   console.log(solution.maxFinalStrength(strengths, priority));
 });
 ```
-

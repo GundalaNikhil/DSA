@@ -89,57 +89,44 @@ Sweep Line, Segment Tree, Coordinate Compression
 ### Java
 
 ```java
-import java.util.*;
 import java.io.*;
+import java.util.*;
+
+class Solution {
+    public long maxOverlap(long[] x1, long[] y1, long[] x2, long[] y2) {
+        //Implemention here
+        return 0L;
+    }
+}
 
 class Main {
-    static class Solution {
-        static class Event {
-            long x;
-            int type;
-            int l, r;
-            Event(long x, int type, int l, int r) {
-                this.x = x;
-                this.type = type;
-                this.l = l;
-                this.r = r;
-            }
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line).append(' ');
+        }
+        String input = sb.toString().trim();
+        if (input.isEmpty()) return;
+        String[] data = input.split("\\s+");
+        int idx = 0;
+        int m = Integer.parseInt(data[idx++]);
+        if (data.length < 1 + 4 * m) return;
+        long[] x1 = new long[m];
+        long[] y1 = new long[m];
+        long[] x2 = new long[m];
+        long[] y2 = new long[m];
+        for (int i = 0; i < m; i++) {
+            x1[i] = Long.parseLong(data[idx++]);
+            y1[i] = Long.parseLong(data[idx++]);
+            x2[i] = Long.parseLong(data[idx++]);
+            y2[i] = Long.parseLong(data[idx++]);
         }
 
-        private int[] add;
-        private int[] mx;
-
-        private void update(int node, int l, int r, int ql, int qr, int val) {
-            if (qr <= l || r <= ql) return;
-            if (ql <= l && r <= qr) {
-                int realVal = -val;
-                add[node] += realVal;
-                mx[node] += realVal;
-                return;
-            }
-            int mid = (l + r) / 2;
-            update(node * 2, l, mid, ql, qr, val);
-            update(node * 2 + 1, mid, r, ql, qr, val);
-            mx[node] = add[node] + Math.max(mx[node * 2], mx[node * 2 + 1]);
-        }
-
-        public int maxOverlap(long[] x1, long[] y1, long[] x2, long[] y2) {
-            //Implement here
-            return 0;
-        }
-    }
-
-    public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNext()) return;
-        int m = sc.nextInt();
-        long[] x1 = new long[m]; long[] y1 = new long[m];
-        long[] x2 = new long[m]; long[] y2 = new long[m];
-        for(int i=0; i<m; i++) {
-            x1[i] = sc.nextLong(); y1[i] = sc.nextLong();
-            x2[i] = sc.nextLong(); y2[i] = sc.nextLong();
-        }
-        System.out.println(new Solution().maxOverlap(x1, y1, x2, y2));
+        Solution solution = new Solution();
+        long result = solution.maxOverlap(x1, y1, x2, y2);
+        System.out.print(result);
     }
 }
 ```
@@ -147,28 +134,33 @@ class Main {
 ### Python
 
 ```python
-from typing import List
+import sys
 
-def max_overlap(x1: List[int], y1: List[int], x2: List[int], y2: List[int]) -> int:
-    # //Implement here
+def max_overlap(x1, y1, x2, y2):
+    # //Implemention here
     return 0
-def main() -> None:
-    import sys
-    # Use generator input reading for robustness
-    sys.setrecursionlimit(200000)
-    def input_gen():
-        for line in sys.stdin:
-            for token in line.split():
-                yield token
-    it = input_gen()
-    try:
-        m = int(next(it))
-        x1=[]; y1=[]; x2=[]; y2=[]
-        for _ in range(m):
-            x1.append(int(next(it))); y1.append(int(next(it))); x2.append(int(next(it))); y2.append(int(next(it)))
-        print(max_overlap(x1, y1, x2, y2))
-    except StopIteration:
+
+def main():
+    data = sys.stdin.read().strip().split()
+    if not data:
         return
+    idx = 0
+    m = int(data[idx]);
+    idx += 1
+    if len(data) < 1 + 4 * m:
+        return
+    x1 = []
+    y1 = []
+    x2 = []
+    y2 = []
+    for _ in range(m):
+        x1.append(int(data[idx]));
+        y1.append(int(data[idx + 1]));
+        x2.append(int(data[idx + 2]));
+        y2.append(int(data[idx + 3]));
+        idx += 4
+    result = max_overlap(x1, y1, x2, y2)
+    sys.stdout.write(str(result))
 
 if __name__ == "__main__":
     main()
@@ -179,28 +171,29 @@ if __name__ == "__main__":
 ```cpp
 #include <iostream>
 #include <vector>
-#include <algorithm>
-#include <cmath>
-#include <iomanip>
 #include <string>
-#include <unordered_map>
-#include <functional>
+#include <iomanip>
+
 using namespace std;
 
-// Same sweep; compress ys; segment tree supports range add and tracks max at root.
-
-long long maxOverlap(const vector<long long>& x1, const vector<long long>& y1,
-                     const vector<long long>& x2, const vector<long long>& y2) {
-                         //Implement here
-                         return 0;
-                     }
+long long max_overlap(const vector<long long>& x1, const vector<long long>& y1,
+                      const vector<long long>& x2, const vector<long long>& y2) {
+    //Implemention here
+    return 0LL;
+}
 
 int main() {
-    ios::sync_with_stdio(false); cin.tie(nullptr);
-    int m; cin >> m;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long m;
+    if (!(cin >> m)) return 0;
     vector<long long> x1(m), y1(m), x2(m), y2(m);
-    for(int i=0; i<m; i++) cin >> x1[i] >> y1[i] >> x2[i] >> y2[i];
-    cout << maxOverlap(x1, y1, x2, y2) << endl;
+    for (long long i = 0; i < m; i++) {
+        cin >> x1[i] >> y1[i] >> x2[i] >> y2[i];
+    }
+
+    cout << max_overlap(x1, y1, x2, y2);
     return 0;
 }
 ```
@@ -208,34 +201,35 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require('readline');
+const fs = require("fs");
 
-class Solution {
-    solve(x1, y1, x2, y2) {
-      //Implement here
-      return 0;
-    }
+function maxOverlap(x1, y1, x2, y2) {
+  //Implemention here
+  return 0;
 }
-const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-let lines = [];
-rl.on('line', (line) => {
-    let tokens = line.match(/\S+/g) || [];
-    lines.push(...tokens);
-});
-rl.on('close', () => {
-    if (lines.length === 0) return;
-    let idx = 0;
-    const next = () => lines[idx++];
-    const nextInt = () => parseInt(next());
 
-    let m = nextInt();
-    let x1=[], y1=[], x2=[], y2=[];
-    for(let i=0; i<m; i++) {
-        x1.push(nextInt()); y1.push(nextInt()); x2.push(nextInt()); y2.push(nextInt());
-    }
+const input = fs.readFileSync(0, "utf8").trim();
+if (input.length === 0) {
+  process.exit(0);
+}
+const data = input.split(/\s+/).map(Number);
+let idx = 0;
+const m = data[idx++];
+if (!Number.isFinite(m) || data.length < 1 + 4 * m) {
+  process.exit(0);
+}
+const x1 = [];
+const y1 = [];
+const x2 = [];
+const y2 = [];
+for (let i = 0; i < m; i++) {
+  x1.push(data[idx++]);
+  y1.push(data[idx++]);
+  x2.push(data[idx++]);
+  y2.push(data[idx++]);
+}
 
-    const sol = new Solution();
-    console.log(sol.solve(x1, y1, x2, y2));
-});
+const result = maxOverlap(x1, y1, x2, y2);
+process.stdout.write(String(result));
 ```
 

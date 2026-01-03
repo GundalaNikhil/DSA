@@ -106,7 +106,7 @@ class Main {
             for (int i = 0; i < n; i++) {
                 values[i] = sc.nextInt();
             }
-            
+
             Solution sol = new Solution();
             int[] result = sol.buildDeque(values);
             for (int i = 0; i < result.length; i++) {
@@ -127,18 +127,18 @@ import sys
 
 def build_deque(values: List[int]) -> List[int]:
     # //Implement here
-    return 0
+    return []
 
 def main():
     input_data = sys.stdin.read().split()
     if not input_data:
         return
-    
+
     iterator = iter(input_data)
     try:
         n = int(next(iterator))
         values = [int(next(iterator)) for _ in range(n)]
-        
+
         result = build_deque(values)
         print(" ".join(map(str, result)))
     except (StopIteration, ValueError):
@@ -167,12 +167,12 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int n;
     if (cin >> n) {
         vector<int> values(n);
         for (int i = 0; i < n; i++) cin >> values[i];
-        
+
         Solution sol;
         vector<int> result = sol.buildDeque(values);
         for (int i = 0; i < (int)result.size(); i++) {
@@ -202,7 +202,14 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("line", (line) =>
+  data.push(
+    ...line
+      .trim()
+      .split(/\s+/)
+      .filter((x) => x !== "")
+  )
+);
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
@@ -217,4 +224,3 @@ rl.on("close", () => {
   console.log(result.join(" "));
 });
 ```
-

@@ -95,6 +95,7 @@ Heaps, Greedy Scheduling, Resource Management
 
 ```java
 import java.util.*;
+import java.io.*;
 
 class Solution {
     public int maxTasks(int E, int[] duration, int[] gain) {
@@ -115,7 +116,7 @@ class Main {
                 duration[i] = sc.nextInt();
                 gain[i] = sc.nextInt();
             }
-            
+
             Solution solution = new Solution();
             System.out.println(solution.maxTasks(E, duration, gain));
         }
@@ -147,7 +148,7 @@ def main():
         for _ in range(n):
             duration.append(int(next(it)))
             gain.append(int(next(it)))
-            
+
         print(max_tasks(E, duration, gain))
     except StopIteration:
         pass
@@ -181,13 +182,13 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int n;
     long long E;
     if (cin >> n >> E) {
         vector<int> duration(n), gain(n);
         for (int i = 0; i < n; i++) cin >> duration[i] >> gain[i];
-        
+
         Solution solution;
         cout << solution.maxTasks(E, duration, gain) << "\n";
     }
@@ -199,51 +200,6 @@ int main() {
 
 ```javascript
 const readline = require("readline");
-
-class PriorityQueue {
-  constructor(compare = (a, b) => a - b) {
-    this.heap = [];
-    this.compare = compare;
-  }
-  size() { return this.heap.length; }
-  isEmpty() { return this.heap.length === 0; }
-  peek() { return this.heap[0]; }
-  push(val) {
-    this.heap.push(val);
-    this.bubbleUp(this.heap.length - 1);
-  }
-  pop() {
-    if (this.size() === 0) return null;
-    const top = this.heap[0];
-    const bottom = this.heap.pop();
-    if (this.size() > 0) {
-      this.heap[0] = bottom;
-      this.bubbleDown(0);
-    }
-    return top;
-  }
-  bubbleUp(idx) {
-    while (idx > 0) {
-      const pIdx = Math.floor((idx - 1) / 2);
-      if (this.compare(this.heap[idx], this.heap[pIdx]) < 0) {
-        [this.heap[idx], this.heap[pIdx]] = [this.heap[pIdx], this.heap[idx]];
-        idx = pIdx;
-      } else break;
-    }
-  }
-  bubbleDown(idx) {
-    while (true) {
-      const left = 2 * idx + 1;
-      const right = 2 * idx + 2;
-      let swap = null;
-      if (left < this.size() && this.compare(this.heap[left], this.heap[idx]) < 0) swap = left;
-      if (right < this.size() && this.compare(this.heap[right], swap === null ? this.heap[idx] : this.heap[swap]) < 0) swap = right;
-      if (swap === null) break;
-      [this.heap[idx], this.heap[swap]] = [this.heap[swap], this.heap[idx]];
-      idx = swap;
-    }
-  }
-}
 
 class Solution {
   maxTasks(E, duration, gain) {
@@ -270,9 +226,8 @@ rl.on("close", () => {
     duration.push(parseInt(data[idx++]));
     gain.push(parseInt(data[idx++]));
   }
-  
+
   const solution = new Solution();
   console.log(solution.maxTasks(E, duration, gain));
 });
 ```
-

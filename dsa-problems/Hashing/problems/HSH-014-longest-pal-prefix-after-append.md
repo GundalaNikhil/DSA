@@ -90,49 +90,33 @@ Palindrome, Hashing, Prefix, String Algorithms
 ### Java
 
 ```java
+import java.io.*;
 import java.util.*;
 
 class Solution {
     public int longestPalindromicPrefix(String s, char c) {
-        //Implement here
+        //Implemention here
         return 0;
     }
 }
 
 class Main {
-    public static void main(String[] args) {
-        try {
-            byte[] bytes = System.in.readAllBytes();
-            if (bytes.length == 0) return;
-            String data = new String(bytes);
-            String[] raw = data.split("\\n", -1);
-            for (int i = 0; i < raw.length; i++) {
-                if (raw[i].endsWith("\\r")) {
-                    raw[i] = raw[i].substring(0, raw[i].length() - 1);
-                }
-            }
-            String s;
-            String cstr = "";
-            if (raw.length == 1) {
-                s = "";
-                cstr = raw[0];
-            } else {
-                s = raw[0];
-                for (int i = 1; i < raw.length; i++) {
-                    if (!raw[i].isEmpty()) {
-                        cstr = raw[i];
-                        break;
-                    }
-                }
-                if (cstr.isEmpty()) cstr = raw[1];
-            }
-            if (cstr.isEmpty()) return;
-            char c = cstr.charAt(0);
-            Solution solution = new Solution();
-            System.out.println(solution.longestPalindromicPrefix(s, c));
-        } catch (Exception e) {
-            return;
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        List<String> lines = new ArrayList<>();
+        String line;
+        while ((line = br.readLine()) != null) {
+            lines.add(line);
         }
+        if (lines.size() < 2) return;
+        String s = lines.get(0);
+        String cLine = lines.get(1);
+        if (cLine.isEmpty()) return;
+        char c = cLine.charAt(0);
+
+        Solution solution = new Solution();
+        int result = solution.longestPalindromicPrefix(s, c);
+        System.out.print(result);
     }
 }
 ```
@@ -142,20 +126,22 @@ class Main {
 ```python
 import sys
 
-def longest_palindromic_prefix(s: str, c: str) -> int:
-    # //Implement here
+def longest_palindromic_prefix(s, c):
+    # //Implemention here
     return 0
 
 def main():
-    import sys
-    lines = sys.stdin.read().strip().split('\n')
-    if len(lines) < 1:
+    lines = sys.stdin.read().split('\n')
+    if len(lines) < 2:
         return
-    s = lines[0] if len(lines) > 0 else ''
-    c = lines[1] if len(lines) > 1 else ''
-    print(longest_palindromic_prefix(s, c))
+    s = lines[0]
+    c_line = lines[1]
+    if c_line == '':
+        return
+    result = longest_palindromic_prefix(s, c_line[0])
+    sys.stdout.write(str(result))
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
 ```
 
@@ -168,58 +154,29 @@ if __name__ == "__main__":
 
 using namespace std;
 
-class Solution {
-public:
-    int longestPalindromicPrefix(string s, char c) {
-        //Implement here
-        return 0;
-    }
-};
+int longest_palindromic_prefix(const string& s, char c) {
+    //Implemention here
+    return 0;
+}
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    string data((istreambuf_iterator<char>(cin)), istreambuf_iterator<char>());
-    if (data.empty()) {
-        return 0;
-    }
     vector<string> lines;
-    string cur;
-    for (char ch : data) {
-        if (ch == '\n') {
-            lines.push_back(cur);
-            cur.clear();
-        } else if (ch != '\r') {
-            cur.push_back(ch);
-        }
+    string line;
+    while (getline(cin, line)) {
+        if (!line.empty() && line.back() == '\r') line.pop_back();
+        lines.push_back(line);
     }
-    lines.push_back(cur);
+    if (lines.size() < 2) return 0;
+    string s = lines[0];
+    string cLine = lines[1];
+    if (cLine.empty()) return 0;
+    char c = cLine[0];
 
-    string s;
-    string cstr;
-    if (lines.size() == 1) {
-        s = "";
-        cstr = lines[0];
-    } else {
-        s = lines[0];
-        for (size_t i = 1; i < lines.size(); i++) {
-            if (!lines[i].empty()) {
-                cstr = lines[i];
-                break;
-            }
-        }
-        if (cstr.empty()) {
-            cstr = lines[1];
-        }
-    }
-    if (cstr.empty()) {
-        return 0;
-    }
-    char c = cstr[0];
-    Solution solution;
-    cout << solution.longestPalindromicPrefix(s, c) << "\n";
-
+    int result = longest_palindromic_prefix(s, c);
+    cout << result;
     return 0;
 }
 ```
@@ -227,40 +184,27 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
-
-class Solution {
-  longestPalindromicPrefix(s, c) {
-    //Implement here
-    return 0;
-  }
-}
-
 const fs = require("fs");
 
-const input = fs.readFileSync(0, "utf8");
-if (input.length > 0) {
-  const raw = input.split("\n").map((line) => line.replace(/\r$/, ""));
-  let s = "";
-  let cstr = "";
-  if (raw.length === 1) {
-    s = "";
-    cstr = raw[0];
-  } else {
-    s = raw[0];
-    for (let i = 1; i < raw.length; i++) {
-      if (raw[i].length > 0) {
-        cstr = raw[i];
-        break;
-      }
-    }
-    if (cstr.length === 0) cstr = raw[1];
-  }
-  if (cstr.length > 0) {
-    const c = cstr[0];
-    const solution = new Solution();
-    console.log(solution.longestPalindromicPrefix(s, c));
-  }
+function longestPalindromicPrefix(s, c) {
+  //Implemention here
+  return 0;
 }
+
+const raw = fs.readFileSync(0, "utf8");
+if (raw.length === 0) {
+  process.exit(0);
+}
+const lines = raw.replace(/\r/g, "").split(/\n/);
+if (lines.length < 2) {
+  process.exit(0);
+}
+const s = lines[0];
+const cLine = lines[1];
+if (cLine.length === 0) {
+  process.exit(0);
+}
+const result = longestPalindromicPrefix(s, cLine[0]);
+process.stdout.write(String(result));
 ```
 

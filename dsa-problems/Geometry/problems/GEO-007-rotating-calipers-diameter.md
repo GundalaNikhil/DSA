@@ -88,32 +88,40 @@ Rotating Calipers, Convex Geometry, Distance Computation
 ### Java
 
 ```java
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-class Main {
-static class Solution {
-    private long cross(long ax, long ay, long bx, long by, long cx, long cy) {
-        return (bx - ax) * (cy - ay) - (by - ay) * (cx - ax);
-    }
-    private long dist2(long ax, long ay, long bx, long by) {
-        long dx = ax - bx, dy = ay - by;
-        return dx*dx + dy*dy;
-    }
+class Solution {
     public long diameterSquared(long[] xs, long[] ys) {
-        //Implement here
+        //Implemention here
         return 0L;
     }
 }
 
-    public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNext()) return;
-        int n = sc.nextInt();
+class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line).append(' ');
+        }
+        String input = sb.toString().trim();
+        if (input.isEmpty()) return;
+        String[] data = input.split("\\s+");
+        int idx = 0;
+        int n = Integer.parseInt(data[idx++]);
+        if (data.length < 1 + 2 * n) return;
         long[] xs = new long[n];
         long[] ys = new long[n];
-        for(int i=0; i<n; i++) { xs[i] = sc.nextLong(); ys[i] = sc.nextLong(); }
-        System.out.println(new Solution().diameterSquared(xs, ys));
+        for (int i = 0; i < n; i++) {
+            xs[i] = Long.parseLong(data[idx++]);
+            ys[i] = Long.parseLong(data[idx++]);
+        }
+
+        Solution solution = new Solution();
+        long result = solution.diameterSquared(xs, ys);
+        System.out.print(result);
     }
 }
 ```
@@ -121,27 +129,29 @@ static class Solution {
 ### Python
 
 ```python
-from typing import List, Tuple
+import sys
 
-def diameter_squared(xs: List[int], ys: List[int]) -> int:
-    # //Implement here
+def diameter_squared(xs, ys):
+    # //Implemention here
     return 0
-def main() -> None:
-    import sys
-    data = list(map(int, sys.stdin.read().strip().split()))
+
+def main():
+    data = sys.stdin.read().strip().split()
     if not data:
         return
-    it = iter(data)
-    try:
-        n = next(it)
-        xs = []
-        ys = []
-        for _ in range(n):
-            xs.append(next(it))
-            ys.append(next(it))
-        print(diameter_squared(xs, ys))
-    except StopIteration:
+    idx = 0
+    n = int(data[idx]);
+    idx += 1
+    if len(data) < 1 + 2 * n:
         return
+    xs = []
+    ys = []
+    for _ in range(n):
+        xs.append(int(data[idx]));
+        ys.append(int(data[idx + 1]));
+        idx += 2
+    result = diameter_squared(xs, ys)
+    sys.stdout.write(str(result))
 
 if __name__ == "__main__":
     main()
@@ -152,26 +162,28 @@ if __name__ == "__main__":
 ```cpp
 #include <iostream>
 #include <vector>
-#include <algorithm>
-#include <cmath>
-#include <iomanip>
 #include <string>
+#include <iomanip>
+
 using namespace std;
 
-
-using namespace std;
-
-long long diameterSquared(const vector<long long>& xs, const vector<long long>& ys) {
-    //Implement here
-    return 0;
+long long diameter_squared(const vector<long long>& xs, const vector<long long>& ys) {
+    //Implemention here
+    return 0LL;
 }
 
 int main() {
-    ios::sync_with_stdio(false); cin.tie(nullptr);
-    int n; cin >> n;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long n;
+    if (!(cin >> n)) return 0;
     vector<long long> xs(n), ys(n);
-    for(int i=0; i<n; i++) cin >> xs[i] >> ys[i];
-    cout << diameterSquared(xs, ys) << endl;
+    for (long long i = 0; i < n; i++) {
+        cin >> xs[i] >> ys[i];
+    }
+
+    cout << diameter_squared(xs, ys);
     return 0;
 }
 ```
@@ -179,35 +191,31 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require('readline');
+const fs = require("fs");
 
-class Solution {
-    solve(xs, ys) {
-      //Implement here
-      return 0;
-    }
+function diameterSquared(xs, ys) {
+  //Implemention here
+  return 0;
 }
-const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-let lines = [];
-rl.on('line', (line) => {
-    let tokens = line.match(/\S+/g) || [];
-    lines.push(...tokens);
-});
-rl.on('close', () => {
-    if (lines.length === 0) return;
-    let idx = 0;
-    const next = () => lines[idx++];
-    const nextInt = () => next(); 
 
-    let n = parseInt(nextInt());
-    let xs=[], ys=[];
-    for(let i=0; i<n; i++) {
-        xs.push(nextInt());
-        ys.push(nextInt());
-    }
+const input = fs.readFileSync(0, "utf8").trim();
+if (input.length === 0) {
+  process.exit(0);
+}
+const data = input.split(/\s+/).map(Number);
+let idx = 0;
+const n = data[idx++];
+if (!Number.isFinite(n) || data.length < 1 + 2 * n) {
+  process.exit(0);
+}
+const xs = [];
+const ys = [];
+for (let i = 0; i < n; i++) {
+  xs.push(data[idx++]);
+  ys.push(data[idx++]);
+}
 
-    const sol = new Solution();
-    console.log(sol.solve(xs, ys));
-});
+const result = diameterSquared(xs, ys);
+process.stdout.write(String(result));
 ```
 

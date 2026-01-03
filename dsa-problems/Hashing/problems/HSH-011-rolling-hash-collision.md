@@ -91,32 +91,37 @@ Hash Collision, Birthday Paradox, Brute Force Search, Cryptography
 ### Java
 
 ```java
+import java.io.*;
 import java.util.*;
 
 class Solution {
     public String[] findCollision(long B, long M, int L) {
-        //Implement here
-        return new String[0];
+        //Implemention here
+        return new String[]{"", ""};
     }
 }
 
 class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextLong()) {
-            long B = sc.nextLong();
-            long M = sc.nextLong();
-            int L = sc.nextInt();
-            
-            Solution solution = new Solution();
-            String[] result = solution.findCollision(B, M, L);
-            
-            if (result != null) {
-                System.out.println(result[0]);
-                System.out.println(result[1]);
-            }
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line).append(' ');
         }
-        sc.close();
+        String input = sb.toString().trim();
+        if (input.isEmpty()) return;
+        String[] data = input.split("\\s+");
+        int idx = 0;
+        long B = Long.parseLong(data[idx++]);
+        long M = Long.parseLong(data[idx++]);
+        int L = Integer.parseInt(data[idx++]);
+        Solution solution = new Solution();
+        String[] result = solution.findCollision(B, M, L);
+        if (result.length >= 2) {
+            System.out.println(result[0]);
+            System.out.print(result[1]);
+        }
     }
 }
 ```
@@ -126,26 +131,23 @@ class Main {
 ```python
 import sys
 
-# Increase recursion depth
-
-def find_collision(B: int, M: int, L: int) -> tuple:
-    # //Implement here
-    return 0
+def find_collision(B, M, L):
+    # //Implemention here
+    return ("", "")
 
 def main():
-    input_data = sys.stdin.read().split()
-    if not input_data:
+    data = sys.stdin.read().split()
+    if not data:
         return
-    
-    B = int(input_data[0])
-    M = int(input_data[1])
-    L = int(input_data[2])
-    
-    s1, s2 = find_collision(B, M, L)
-    print(s1)
-    print(s2)
+    idx = 0
+    B = int(data[idx]);
+    M = int(data[idx + 1]);
+    L = int(data[idx + 2]);
+    result = find_collision(B, M, L)
+    if result:
+        sys.stdout.write(str(result[0]) + '\n' + str(result[1]))
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
 ```
 
@@ -154,31 +156,24 @@ if __name__ == "__main__":
 ```cpp
 #include <iostream>
 #include <string>
-#include <unordered_map>
-#include <vector>
+#include <utility>
 
 using namespace std;
 
-class Solution {
-public:
-    pair<string, string> findCollision(long long B, long long M, int L) {
-        //Implement here
-        return {};
-    }
-};
+pair<string, string> find_collision(long long B, long long M, int L) {
+    //Implemention here
+    return {"", ""};
+}
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     long long B, M;
     int L;
-    if (cin >> B >> M >> L) {
-        Solution solution;
-        auto result = solution.findCollision(B, M, L);
-        cout << result.first << "\n" << result.second << "\n";
-    }
-    
+    if (!(cin >> B >> M >> L)) return 0;
+    auto result = find_collision(B, M, L);
+    cout << result.first << "\n" << result.second;
     return 0;
 }
 ```
@@ -186,31 +181,25 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
 
-class Solution {
-  findCollision(B, M, L) {
-    //Implement here
-    return 0;
-  }
+function findCollision(B, M, L) {
+  //Implemention here
+  return ["", ""];
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const [B, M, L] = data[0].split(" ").map(Number);
-
-  const solution = new Solution();
-  const [s1, s2] = solution.findCollision(B, M, L);
-
-  console.log(s1);
-  console.log(s2);
-});
+const input = fs.readFileSync(0, "utf8").trim();
+if (input.length === 0) {
+  process.exit(0);
+}
+const data = input.split(/\s+/);
+let idx = 0;
+const B = parseInt(data[idx++], 10);
+const M = parseInt(data[idx++], 10);
+const L = parseInt(data[idx++], 10);
+const result = findCollision(B, M, L);
+if (result && result.length >= 2) {
+  process.stdout.write(String(result[0]) + '\n' + String(result[1]));
+}
 ```
 

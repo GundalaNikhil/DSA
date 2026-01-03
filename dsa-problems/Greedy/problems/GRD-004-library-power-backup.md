@@ -112,7 +112,7 @@ class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
-        
+
         int n = sc.nextInt();
         long T = sc.nextLong();
 
@@ -133,29 +133,29 @@ class Main {
 ```python
 import sys
 
-def min_battery_swaps(n: int, T: int, capacities: list) -> int:
-    # //Implement here
-    return 0
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-        
-    iterator = iter(data)
-    n = int(next(iterator))
-    T = int(next(iterator))
-    
-    capacities = []
-    for _ in range(n):
-        capacities.append(int(next(iterator)))
-
-    result = min_battery_swaps(n, T, capacities)
-    print(result)
+class Solution:
+    def min_battery_swaps(self, n: int, T: int, capacities: list[int]) -> int:
+        # //Implement here
+        return 0
 
 if __name__ == "__main__":
-    main()
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        sys.exit(0)
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        T = int(next(iterator))
+
+        capacities = []
+        for _ in range(n):
+            capacities.append(int(next(iterator)))
+
+        solution = Solution()
+        print(solution.min_battery_swaps(n, T, capacities))
+    except StopIteration:
+        pass
 ```
 
 ### C++
@@ -217,7 +217,7 @@ let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let ptr = 0;
   const [n, T] = data[ptr++].split(" ").map(Number);
   const capacities = data[ptr++].split(" ").map(Number);
@@ -226,4 +226,3 @@ rl.on("close", () => {
   console.log(solution.minBatterySwaps(n, T, capacities));
 });
 ```
-

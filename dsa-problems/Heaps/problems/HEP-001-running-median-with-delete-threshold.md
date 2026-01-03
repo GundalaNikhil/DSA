@@ -100,6 +100,7 @@ Heaps, Median Maintenance, Lazy Deletion, Data Streams
 
 ```java
 import java.util.*;
+import java.io.*;
 
 class Solution {
     public List<String> processOperations(int T, List<String[]> operations) {
@@ -137,26 +138,23 @@ class Main {
 
 ```python
 import sys
-import heapq
-from collections import defaultdict
 
 def process_operations(T: int, operations: list) -> list:
     # //Implement here
-    return 0
+    return []
 
 def main():
     input_data = sys.stdin.read().split()
     if not input_data:
         return
     it = iter(input_data)
-    
     q_str = next(it, None)
     if q_str is None: return
     q = int(q_str)
     t_str = next(it, None)
     if t_str is None: return
     T = int(t_str)
-    
+
     operations = []
     for _ in range(q):
         op = next(it)
@@ -165,7 +163,7 @@ def main():
             operations.append([op, x])
         else:
             operations.append([op])
-    
+
     result = process_operations(T, operations)
     print("\n".join(result))
 
@@ -195,7 +193,7 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int q, T;
     if (cin >> q >> T) {
         vector<vector<string>> operations;
@@ -210,7 +208,7 @@ int main() {
                 operations.push_back({op});
             }
         }
-        
+
         Solution solution;
         vector<string> result = solution.processOperations(T, operations);
         for (const string& s : result) cout << s << "\n";
@@ -224,55 +222,10 @@ int main() {
 ```javascript
 const readline = require("readline");
 
-class PriorityQueue {
-  constructor(compare = (a, b) => a - b) {
-    this.heap = [];
-    this.compare = compare;
-  }
-  size() { return this.heap.length; }
-  isEmpty() { return this.heap.length === 0; }
-  peek() { return this.heap[0]; }
-  push(val) {
-    this.heap.push(val);
-    this.bubbleUp(this.heap.length - 1);
-  }
-  pop() {
-    if (this.size() === 0) return null;
-    const top = this.heap[0];
-    const bottom = this.heap.pop();
-    if (this.size() > 0) {
-      this.heap[0] = bottom;
-      this.bubbleDown(0);
-    }
-    return top;
-  }
-  bubbleUp(idx) {
-    while (idx > 0) {
-      const pIdx = Math.floor((idx - 1) / 2);
-      if (this.compare(this.heap[idx], this.heap[pIdx]) < 0) {
-        [this.heap[idx], this.heap[pIdx]] = [this.heap[pIdx], this.heap[idx]];
-        idx = pIdx;
-      } else break;
-    }
-  }
-  bubbleDown(idx) {
-    while (true) {
-      const left = 2 * idx + 1;
-      const right = 2 * idx + 2;
-      let swap = null;
-      if (left < this.size() && this.compare(this.heap[left], this.heap[idx]) < 0) swap = left;
-      if (right < this.size() && this.compare(this.heap[right], swap === null ? this.heap[idx] : this.heap[swap]) < 0) swap = right;
-      if (swap === null) break;
-      [this.heap[idx], this.heap[swap]] = [this.heap[swap], this.heap[idx]];
-      idx = swap;
-    }
-  }
-}
-
 class Solution {
   processOperations(T, operations) {
     //Implement here
-    return 0;
+    return [];
   }
 }
 
@@ -298,10 +251,9 @@ rl.on("close", () => {
       operations.push([op]);
     }
   }
-  
+
   const solution = new Solution();
   const result = solution.processOperations(T, operations);
   console.log(result.join("\n"));
 });
 ```
-

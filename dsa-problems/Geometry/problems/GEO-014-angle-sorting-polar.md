@@ -89,26 +89,44 @@ Sorting by Angle, Cross Product, Polar Coordinates
 ### Java
 
 ```java
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-class Main {
-static class Solution {
+class Solution {
     public List<long[]> sortByAngle(long[] xs, long[] ys) {
-        //Implement here
+        //Implemention here
         return new ArrayList<>();
     }
 }
 
-    public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNext()) return;
-        int n = sc.nextInt();
+class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line).append(' ');
+        }
+        String input = sb.toString().trim();
+        if (input.isEmpty()) return;
+        String[] data = input.split("\\s+");
+        int idx = 0;
+        int n = Integer.parseInt(data[idx++]);
+        if (data.length < 1 + 2 * n) return;
         long[] xs = new long[n];
         long[] ys = new long[n];
-        for(int i=0; i<n; i++) { xs[i] = sc.nextLong(); ys[i] = sc.nextLong(); }
-        List<long[]> res = new Solution().sortByAngle(xs, ys);
-        for(long[] p : res) System.out.println(p[0] + " " + p[1]);
+        for (int i = 0; i < n; i++) {
+            xs[i] = Long.parseLong(data[idx++]);
+            ys[i] = Long.parseLong(data[idx++]);
+        }
+
+        Solution solution = new Solution();
+        List<long[]> result = solution.sortByAngle(xs, ys);
+        StringBuilder out = new StringBuilder();
+        for (long[] p : result) {
+            out.append(p[0]).append(' ').append(p[1]).append('\n');
+        }
+        System.out.print(out.toString());
     }
 }
 ```
@@ -116,28 +134,32 @@ static class Solution {
 ### Python
 
 ```python
-import functools
+import sys
+
 def sort_by_angle(xs, ys):
-    # //Implement here
-    return 0
-def main() -> None:
-    import sys
-    data = list(map(int, sys.stdin.read().strip().split()))
+    # //Implemention here
+    return []
+
+def main():
+    data = sys.stdin.read().strip().split()
     if not data:
         return
-    it = iter(data)
-    try:
-        n = next(it)
-        xs = []
-        ys = []
-        for _ in range(n):
-            xs.append(next(it))
-            ys.append(next(it))
-        res = sort_by_angle(xs, ys)
-        for x, y in res:
-            print(f"{x} {y}")
-    except StopIteration:
+    idx = 0
+    n = int(data[idx]);
+    idx += 1
+    if len(data) < 1 + 2 * n:
         return
+    xs = []
+    ys = []
+    for _ in range(n):
+        xs.append(int(data[idx]));
+        ys.append(int(data[idx + 1]));
+        idx += 2
+    result = sort_by_angle(xs, ys)
+    out_lines = []
+    for x, y in result:
+        out_lines.append(f"{x} {y}")
+    sys.stdout.write("\n".join(out_lines))
 
 if __name__ == "__main__":
     main()
@@ -148,27 +170,31 @@ if __name__ == "__main__":
 ```cpp
 #include <iostream>
 #include <vector>
-#include <algorithm>
-#include <cmath>
-#include <iomanip>
 #include <string>
+#include <iomanip>
+
 using namespace std;
 
-
-using namespace std;
-
-vector<pair<long long,long long>> sortByAngle(const vector<long long>& xs, const vector<long long>& ys) {
-    //Implement here
+vector<pair<long long, long long>> sort_by_angle(const vector<long long>& xs, const vector<long long>& ys) {
+    //Implemention here
     return {};
 }
 
 int main() {
-    ios::sync_with_stdio(false); cin.tie(nullptr);
-    int n; cin >> n;
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    long long n;
+    if (!(cin >> n)) return 0;
     vector<long long> xs(n), ys(n);
-    for(int i=0; i<n; i++) cin >> xs[i] >> ys[i];
-    auto res = sortByAngle(xs, ys);
-    for(auto p : res) cout << p.first << " " << p.second << endl;
+    for (long long i = 0; i < n; i++) {
+        cin >> xs[i] >> ys[i];
+    }
+
+    vector<pair<long long, long long>> result = sort_by_angle(xs, ys);
+    for (const auto& p : result) {
+        cout << p.first << " " << p.second << "\n";
+    }
     return 0;
 }
 ```
@@ -176,28 +202,35 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require('readline');
+const fs = require("fs");
 
 function sortByAngle(xs, ys) {
-  //Implement here
-  return 0;
+  //Implemention here
+  return [];
 }
 
+const input = fs.readFileSync(0, "utf8").trim();
+if (input.length === 0) {
+  process.exit(0);
+}
+const data = input.split(/\s+/).map(Number);
+let idx = 0;
+const n = data[idx++];
+if (!Number.isFinite(n) || data.length < 1 + 2 * n) {
+  process.exit(0);
+}
+const xs = [];
+const ys = [];
+for (let i = 0; i < n; i++) {
+  xs.push(data[idx++]);
+  ys.push(data[idx++]);
+}
 
-const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-let lines = [];
-rl.on('line', (line) => { lines.push(...line.trim().split(/\s+/)); });
-rl.on('close', () => {
-    if (lines.length === 0) return;
-    let idx = 0;
-    const next = () => lines[idx++];
-    const nextInt = () => parseInt(next());
-    const nextFloat = () => parseFloat(next());
-    let n = nextInt();
-    let xs = [], ys = [];
-    for(let i=0; i<n; i++) { xs.push(nextInt()); ys.push(nextInt()); }
-    let res = sortByAngle(xs, ys);
-    res.forEach(p => console.log(p.join(' ')));
-});
+const result = sortByAngle(xs, ys);
+let out = [];
+for (const p of result) {
+  out.push(p[0] + " " + p[1]);
+}
+process.stdout.write(out.join("\n"));
 ```
 

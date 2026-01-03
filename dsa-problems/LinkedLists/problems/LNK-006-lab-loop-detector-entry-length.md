@@ -115,7 +115,7 @@ class Main {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
         int n = sc.nextInt();
-        
+
         ListNode dummy = new ListNode(0);
         ListNode cur = dummy;
         ListNode[] nodes = new ListNode[n];
@@ -124,7 +124,7 @@ class Main {
             cur = cur.next;
             nodes[i] = cur;
         }
-        
+
         int pos = sc.nextInt();
         if (pos >= 0 && n > 0) {
             cur.next = nodes[pos];
@@ -150,14 +150,14 @@ class ListNode:
 
 def cycle_info(head: ListNode):
     # //Implement here
-    return 0
+    return (-1, 0, 0)
 
 def main():
     input = sys.stdin.read
     data = input().split()
     if not data:
         return
-    
+
     iterator = iter(data)
     try:
         n = int(next(iterator))
@@ -169,11 +169,11 @@ def main():
             cur.next = node
             cur = cur.next
             nodes.append(node)
-            
+
         pos = int(next(iterator))
         if pos >= 0 and n > 0:
             cur.next = nodes[pos]
-            
+
         entry, length, max_val = cycle_info(dummy.next)
         print(f"{entry} {length} {max_val}")
     except StopIteration:
@@ -212,12 +212,12 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    
+
     ListNode dummy(0);
     ListNode* cur = &dummy;
     vector<ListNode*> nodes;
     nodes.reserve(n);
-    
+
     for (int i = 0; i < n; i++) {
         int v;
         cin >> v;
@@ -225,7 +225,7 @@ int main() {
         cur = cur->next;
         nodes.push_back(cur);
     }
-    
+
     int pos;
     cin >> pos;
     if (pos >= 0 && n > 0) {
@@ -253,7 +253,7 @@ class ListNode {
 
 function cycleInfo(head) {
   //Implement here
-  return 0;
+  return [-1, 0, 0];
 }
 
 const rl = readline.createInterface({
@@ -262,12 +262,19 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x)));
+rl.on("line", (line) =>
+  data.push(
+    ...line
+      .trim()
+      .split(/\s+/)
+      .filter((x) => x)
+  )
+);
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
   const n = parseInt(data[idx++], 10);
-  
+
   const dummy = new ListNode(0);
   let cur = dummy;
   const nodes = [];
@@ -277,16 +284,15 @@ rl.on("close", () => {
     cur = cur.next;
     nodes.push(node);
   }
-  
+
   if (idx < data.length) {
-      const pos = parseInt(data[idx++], 10);
-      if (pos >= 0 && n > 0) {
-        cur.next = nodes[pos];
-      }
-      
-      const res = cycleInfo(dummy.next);
-      console.log(res.join(" "));
+    const pos = parseInt(data[idx++], 10);
+    if (pos >= 0 && n > 0) {
+      cur.next = nodes[pos];
+    }
+
+    const res = cycleInfo(dummy.next);
+    console.log(res.join(" "));
   }
 });
 ```
-

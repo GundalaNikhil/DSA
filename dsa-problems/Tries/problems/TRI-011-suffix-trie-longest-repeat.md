@@ -86,15 +86,17 @@ class TrieNode {
 }
 
 class Solution {
+    private TrieNode root;
+    private int maxLength;
+
+    public Solution() {
+        this.root = new TrieNode();
+        this.maxLength = 0;
+    }
+
     public int longestRepeatedSubstring(String s) {
         //Implement here
         return 0;
-    }
-    private void insertSuffix(String suffix) {
-        //Implement here
-    }
-    private void dfs(TrieNode node, int depth) {
-        //Implement here
     }
 }
 
@@ -128,12 +130,6 @@ class Solution:
     def longest_repeated_substring(self, s: str) -> int:
         # //Implement here
         return 0
-    def _insert_suffix(self, suffix: str):
-        # //Implement here
-        return 0
-    def _dfs(self, node: TrieNode, depth: int):
-        # //Implement here
-        return 0
 def main():
     import sys
     s = sys.stdin.read().strip()
@@ -161,13 +157,16 @@ struct TrieNode {
 };
 
 class Solution {
+private:
+    TrieNode* root;
+    int maxLength;
+
 public:
-    void insertSuffix(const string& suffix) {
-        //Implement here
+    Solution() {
+        this->root = new TrieNode();
+        this->maxLength = 0;
     }
-    void dfs(TrieNode* node, int depth) {
-        //Implement here
-    }
+
     int longestRepeatedSubstring(const string& s) {
         //Implement here
         return 0;
@@ -199,14 +198,11 @@ class TrieNode {
 }
 
 class Solution {
-  insertSuffix(suffix) {
-    //Implement here
-    return 0;
+  constructor() {
+    this.root = new TrieNode();
+    this.maxLength = 0;
   }
-  dfs(node, depth) {
-    //Implement here
-    return 0;
-  }
+
   longestRepeatedSubstring(s) {
     //Implement here
     return 0;

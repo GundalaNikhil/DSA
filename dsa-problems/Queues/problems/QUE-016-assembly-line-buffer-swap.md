@@ -164,7 +164,7 @@ import sys
 
 def swap_queues(q1: List[int], q2: List[int]) -> List[List[int]]:
     # //Implement here
-    return 0
+    return [[], []]
 
 def main():
     input_data = sys.stdin.read().split()
@@ -280,7 +280,14 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("line", (line) =>
+  data.push(
+    ...line
+      .trim()
+      .split(/\s+/)
+      .filter((x) => x !== "")
+  )
+);
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
@@ -291,16 +298,19 @@ rl.on("close", () => {
 
   // If we have exactly 2n values
   if (remaining.length === 2 * n) {
-    q1 = remaining.slice(0, n).map(x => parseInt(x, 10));
-    q2 = remaining.slice(n, 2 * n).map(x => parseInt(x, 10));
+    q1 = remaining.slice(0, n).map((x) => parseInt(x, 10));
+    q2 = remaining.slice(n, 2 * n).map((x) => parseInt(x, 10));
   } else if (remaining.length === n) {
     // Only n values - use as q1, create default q2
-    q1 = remaining.map(x => parseInt(x, 10));
+    q1 = remaining.map((x) => parseInt(x, 10));
     q2 = Array(n).fill(0);
   } else {
     // Fallback
-    q1 = remaining.slice(0, n).map(x => parseInt(x, 10));
-    q2 = remaining.length > n ? remaining.slice(n).map(x => parseInt(x, 10)) : Array(n).fill(0);
+    q1 = remaining.slice(0, n).map((x) => parseInt(x, 10));
+    q2 =
+      remaining.length > n
+        ? remaining.slice(n).map((x) => parseInt(x, 10))
+        : Array(n).fill(0);
     // Pad q2 if needed
     while (q2.length < n) {
       q2.push(0);
@@ -314,4 +324,3 @@ rl.on("close", () => {
   });
 });
 ```
-

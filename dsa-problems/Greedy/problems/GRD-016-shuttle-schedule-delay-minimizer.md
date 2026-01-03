@@ -26,6 +26,7 @@ memory_limit: 256
 ## Problem Statement
 
 You have `n` shuttle trips to schedule. Each trip `i` has:
+
 - Planned start time `s[i]`
 - Duration `d[i]`
 
@@ -56,6 +57,7 @@ Return the minimum total delay.
 ## Example
 
 **Input:**
+
 ```
 2
 0 3
@@ -63,6 +65,7 @@ Return the minimum total delay.
 ```
 
 **Output:**
+
 ```
 2
 ```
@@ -70,15 +73,18 @@ Return the minimum total delay.
 **Explanation:**
 
 Trips:
+
 - Trip 0: planned start=0, duration=3
 - Trip 1: planned start=1, duration=2
 
 **Order 1: Execute [Trip 0, Trip 1]**
+
 - Trip 0 starts at time 0 (planned), delay=0, ends at time 3
 - Trip 1 starts at time 3 (planned for 1), delay=2, ends at time 5
 - Total delay = 0 + 2 = 2
 
 **Order 2: Execute [Trip 1, Trip 0]**
+
 - Trip 1 starts at time 0 (planned for 1), delay=0 (early is OK, no negative delay), ends at time 2
 - Trip 0 starts at time 2 (planned for 0), delay=2, ends at time 5
 - Total delay = 0 + 2 = 2
@@ -121,14 +127,14 @@ class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
-        
+
         int n = sc.nextInt();
         int[][] trips = new int[n][2];
         for (int i = 0; i < n; i++) {
             trips[i][0] = sc.nextInt();
             trips[i][1] = sc.nextInt();
         }
-        
+
         Solution solution = new Solution();
         System.out.println(solution.minTotalDelay(n, trips));
         sc.close();
@@ -141,33 +147,30 @@ class Main {
 ```python
 import sys
 
-def min_total_delay(n: int, trips: list) -> int:
-    # //Implement here
-    return 0
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-        
-    iterator = iter(data)
-    try:
-        n = int(next(iterator))
-    except StopIteration:
-        return
-
-    trips = []
-    for _ in range(n):
-        s = int(next(iterator))
-        d = int(next(iterator))
-        trips.append([s, d])
-
-    result = min_total_delay(n, trips)
-    print(result)
+class Solution:
+    def min_total_delay(self, n: int, trips: list[list[int]]) -> int:
+        # //Implement here
+        return 0
 
 if __name__ == "__main__":
-    main()
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        sys.exit(0)
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+
+        trips = []
+        for _ in range(n):
+            s = int(next(iterator))
+            d = int(next(iterator))
+            trips.append([s, d])
+
+        solution = Solution()
+        print(solution.min_total_delay(n, trips))
+    except StopIteration:
+        pass
 ```
 
 ### C++
@@ -190,18 +193,18 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int n;
     if (!(cin >> n)) return 0;
-    
+
     vector<pair<int,int>> trips(n);
     for (int i = 0; i < n; i++) {
         cin >> trips[i].first >> trips[i].second;
     }
-    
+
     Solution solution;
     cout << solution.minTotalDelay(n, trips) << "\n";
-    
+
     return 0;
 }
 ```
@@ -227,18 +230,17 @@ let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let ptr = 0;
   const n = parseInt(data[ptr++]);
-  
+
   const trips = [];
   for (let i = 0; i < n; i++) {
     const [s, d] = data[ptr++].split(" ").map(Number);
     trips.push([s, d]);
   }
-  
+
   const solution = new Solution();
   console.log(solution.minTotalDelay(n, trips));
 });
 ```
-

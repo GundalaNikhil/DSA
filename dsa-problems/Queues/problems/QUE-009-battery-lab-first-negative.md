@@ -122,7 +122,7 @@ import sys
 
 def solve(arr):
     # //Implement here
-    return 0
+    return []
 
 def main():
     input_data = sys.stdin.read().split()

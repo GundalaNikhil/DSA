@@ -131,14 +131,16 @@ class TrieNode {
 }
 
 class Solution {
+    private TrieNode root;
+
+    public Solution() {
+        this.root = new TrieNode();
+    }
+
     public void insertWord(String word) {
         //Implement here
     }
     public boolean search(String pattern) {
-        //Implement here
-        return false;
-    }
-    private boolean dfs(TrieNode node, String pattern, int index) {
         //Implement here
         return false;
     }
@@ -182,13 +184,10 @@ class Solution:
 
     def insert_word(self, word: str):
         # //Implement here
-        return 0
+        pass
     def search(self, pattern: str) -> bool:
         # //Implement here
-        return 0
-    def _dfs(self, node: TrieNode, pattern: str, index: int) -> bool:
-        # //Implement here
-        return 0
+        return False
 def main():
     import sys
     lines = sys.stdin.read().strip().split('\n')
@@ -222,11 +221,14 @@ struct TrieNode {
 };
 
 class Solution {
+private:
+    TrieNode* root;
+
 public:
-    bool dfs(TrieNode* node, const string& pattern, int index) {
-        //Implement here
-        return false;
+    Solution() {
+        this->root = new TrieNode();
     }
+
     void insertWord(const string& word) {
         //Implement here
     }
@@ -271,17 +273,16 @@ class TrieNode {
 }
 
 class Solution {
+  constructor() {
+    this.root = new TrieNode();
+  }
+
   insertWord(word) {
     //Implement here
-    return 0;
   }
   search(pattern) {
     //Implement here
-    return 0;
-  }
-  dfs(node, pattern, index) {
-    //Implement here
-    return 0;
+    return false;
   }
 }
 

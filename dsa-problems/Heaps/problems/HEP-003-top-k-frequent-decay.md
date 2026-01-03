@@ -102,6 +102,7 @@ Heaps, Time Decay, Lazy Updates, Streaming
 
 ```java
 import java.util.*;
+import java.io.*;
 
 class Solution {
     public List<String> processOperations(int d, int k, List<String[]> operations) {
@@ -142,12 +143,10 @@ class Main {
 
 ```python
 import sys
-import math
-import heapq
 
 def process_operations(d: int, k: int, operations: list) -> list:
     # //Implement here
-    return 0
+    return []
 
 def main():
     input_data = sys.stdin.read().split()
@@ -164,7 +163,7 @@ def main():
                 op = next(it)
             except StopIteration:
                 break
-                
+
             if op == "ADD":
                 key = next(it)
                 t = next(it)
@@ -172,11 +171,10 @@ def main():
             else:
                 t = next(it)
                 operations.append([op, t])
-        
+
         result = process_operations(d, k, operations)
         print("\n".join(result))
     except StopIteration:
-        # Fallback if initial params or arguments fail
         if 'operations' in locals() and operations:
              result = process_operations(d, k, operations)
              print("\n".join(result))
@@ -230,7 +228,7 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int q, d, k;
     if (cin >> q >> d >> k) {
         vector<vector<string>> operations;
@@ -247,7 +245,7 @@ int main() {
                 operations.push_back({op, t});
             }
         }
-        
+
         Solution solution;
         vector<string> result = solution.processOperations(d, k, operations);
         for (const string& s : result) cout << s << "\n";
@@ -261,64 +259,10 @@ int main() {
 ```javascript
 const readline = require("readline");
 
-class MaxHeap {
-  constructor() {
-    this.data = [];
-  }
-  isEmpty() {
-    return this.data.length === 0;
-  }
-  better(a, b) {
-    // a is "better" if it should be higher in heap
-    // Higher count = better
-    // Equal count = lexicographically smaller key = better
-    if (Math.abs(a.count - b.count) > 1e-9) return a.count > b.count;
-    return a.key < b.key;
-  }
-  push(item) {
-    this.data.push(item);
-    this.bubbleUp(this.data.length - 1);
-  }
-  pop() {
-    if (this.data.length === 0) return null;
-    const top = this.data[0];
-    const last = this.data.pop();
-    if (this.data.length > 0) {
-      this.data[0] = last;
-      this.bubbleDown(0);
-    }
-    return top;
-  }
-  bubbleUp(idx) {
-    while (idx > 0) {
-      const pIdx = Math.floor((idx - 1) / 2);
-      if (this.better(this.data[idx], this.data[pIdx])) {
-        [this.data[idx], this.data[pIdx]] = [this.data[pIdx], this.data[idx]];
-        idx = pIdx;
-      } else {
-        break;
-      }
-    }
-  }
-  bubbleDown(idx) {
-    const n = this.data.length;
-    while (true) {
-      let best = idx;
-      const left = 2 * idx + 1;
-      const right = 2 * idx + 2;
-      if (left < n && this.better(this.data[left], this.data[best])) best = left;
-      if (right < n && this.better(this.data[right], this.data[best])) best = right;
-      if (best === idx) break;
-      [this.data[idx], this.data[best]] = [this.data[best], this.data[idx]];
-      idx = best;
-    }
-  }
-}
-
 class Solution {
   processOperations(d, k, operations) {
     //Implement here
-    return 0;
+    return [];
   }
 }
 
@@ -347,10 +291,9 @@ rl.on("close", () => {
       operations.push([op, t]);
     }
   }
-  
+
   const solution = new Solution();
   const result = solution.processOperations(d, k, operations);
   console.log(result.join("\n"));
 });
 ```
-

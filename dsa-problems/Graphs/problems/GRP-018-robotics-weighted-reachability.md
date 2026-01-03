@@ -55,6 +55,7 @@ An edge (u, v, w) can be traversed if and only if `w <= T`. Count all nodes that
 ## Example
 
 **Input:**
+
 ```
 5 4
 4
@@ -65,6 +66,7 @@ An edge (u, v, w) can be traversed if and only if `w <= T`. Count all nodes that
 ```
 
 **Output:**
+
 ```
 3
 ```
@@ -72,17 +74,20 @@ An edge (u, v, w) can be traversed if and only if `w <= T`. Count all nodes that
 **Explanation:**
 
 Graph edges:
+
 - (0, 1) with weight 3 ≤ 4 ✓ (valid)
 - (1, 2) with weight 7 > 4 ✗ (invalid)
 - (0, 3) with weight 2 ≤ 4 ✓ (valid)
 - (3, 4) with weight 5 > 4 ✗ (invalid)
 
 Reachable nodes from node 0 using edges with weight ≤ 4:
+
 - Node 0 (starting point)
 - Node 1 (via edge 0-1 with weight 3)
 - Node 3 (via edge 0-3 with weight 2)
 
 Nodes 2 and 4 are not reachable because:
+
 - Node 2 requires edge (1,2) with weight 7 > 4
 - Node 4 requires edge (3,4) with weight 5 > 4
 
@@ -156,44 +161,38 @@ class Main {
 
 ```python
 import sys
-from collections import deque
 from typing import List
 
+# Increase recursion depth for deep DFS/Graph traversals
 sys.setrecursionlimit(200000)
 
-def count_reachable(n: int, edges: List[tuple], threshold: int) -> int:
-    # //Implement here
-    return 0
+class Solution:
+    def count_reachable(self, n: int, edges: List[tuple], threshold: int) -> int:
+        # //Implement here
+        return 0
 
-def main():
-    try:
-        input_data = sys.stdin.read().split()
-    except Exception:
-        return
-        
+if __name__ == "__main__":
+    input_data = sys.stdin.read().split()
     if not input_data:
-        return
+        sys.exit(0)
 
     iterator = iter(input_data)
     try:
         n = int(next(iterator))
         threshold = int(next(iterator))
         m = int(next(iterator))
-        
+
         edges = []
         for _ in range(m):
             u = int(next(iterator))
             v = int(next(iterator))
             w = int(next(iterator))
             edges.append((u, v, w))
-            
-        result = count_reachable(n, edges, threshold)
-        print(result)
+
+        solution = Solution()
+        print(solution.count_reachable(n, edges, threshold))
     except StopIteration:
         pass
-
-if __name__ == "__main__":
-    main()
 ```
 
 ### C++
@@ -209,7 +208,7 @@ using namespace std;
 
 class Solution {
 public:
-    public: int countReachable(int n, vector<tuple<int,int,int>>& edges, int threshold) {
+    int countReachable(int n, vector<tuple<int,int,int>>& edges, int threshold) {
         //Implement here
         return 0;
     }
@@ -274,4 +273,3 @@ rl.on("close", () => {
   console.log(solution.countReachable(n, edges, threshold));
 });
 ```
-

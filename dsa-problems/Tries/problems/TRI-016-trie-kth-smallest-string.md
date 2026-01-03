@@ -101,16 +101,15 @@ class TrieNode {
 }
 
 class Solution {
+    private TrieNode root;
+
+    public Solution() {
+        this.root = new TrieNode();
+    }
+
     public String kthSmallest(String[] words, int k) {
         //Implement here
         return "";
-    }
-    private void insert(String word) {
-        //Implement here
-    }
-    private boolean dfs(TrieNode node, StringBuilder path) {
-        //Implement here
-        return false;
     }
 }
 
@@ -155,13 +154,7 @@ class Solution:
 
     def kth_smallest(self, words: List[str], k: int) -> str:
         # //Implement here
-        return 0
-    def _insert(self, word: str):
-        # //Implement here
-        return 0
-    def _dfs(self, node: TrieNode, path: List[str]) -> bool:
-        # //Implement here
-        return 0
+        return ""
 def main():
     import sys
     lines = sys.stdin.read().strip().split('\n')
@@ -194,14 +187,18 @@ struct TrieNode {
 };
 
 class Solution {
+private:
+    TrieNode* root;
+    string result;
+    int remaining;
+
 public:
-    void insert(const string& word) {
-        //Implement here
+    Solution() {
+        this->root = new TrieNode();
+        this->result = "";
+        this->remaining = 0;
     }
-    bool dfs(TrieNode* node, string& path) {
-        //Implement here
-        return false;
-    }
+
     string kthSmallest(vector<string>& words, int k) {
         //Implement here
         return {};
@@ -241,17 +238,15 @@ class TrieNode {
 }
 
 class Solution {
-  insert(word) {
-    //Implement here
-    return 0;
+  constructor() {
+    this.root = new TrieNode();
+    this.result = "";
+    this.remaining = 0;
   }
-  dfs(node, path) {
-    //Implement here
-    return 0;
-  }
+
   kthSmallest(words, k) {
     //Implement here
-    return 0;
+    return "";
   }
 }
 

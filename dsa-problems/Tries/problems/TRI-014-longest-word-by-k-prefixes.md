@@ -113,16 +113,15 @@ class TrieNode {
 }
 
 class Solution {
+    private TrieNode root;
+
+    public Solution() {
+        this.root = new TrieNode();
+    }
+
     public String longestWordWithKPrefixes(String[] words, int k) {
         //Implement here
         return "";
-    }
-    private void insert(String word) {
-        //Implement here
-    }
-    private int countPrefixes(String word) {
-        //Implement here
-        return 0;
     }
 }
 
@@ -164,13 +163,7 @@ class Solution:
 
     def longest_word_with_k_prefixes(self, words: List[str], k: int) -> str:
         # //Implement here
-        return 0
-    def _insert(self, word: str):
-        # //Implement here
-        return 0
-    def _count_prefixes(self, word: str) -> int:
-        # //Implement here
-        return 0
+        return ""
 def main():
     import sys
     lines = sys.stdin.read().strip().split('\n')
@@ -203,14 +196,14 @@ struct TrieNode {
 };
 
 class Solution {
+private:
+    TrieNode* root;
+
 public:
-    void insert(const string& word) {
-        //Implement here
+    Solution() {
+        this->root = new TrieNode();
     }
-    int countPrefixes(const string& word) {
-        //Implement here
-        return 0;
-    }
+
     string longestWordWithKPrefixes(vector<string>& words, int k) {
         //Implement here
         return {};
@@ -249,17 +242,13 @@ class TrieNode {
 }
 
 class Solution {
-  insert(word) {
-    //Implement here
-    return 0;
+  constructor() {
+    this.root = new TrieNode();
   }
-  countPrefixes(word) {
-    //Implement here
-    return 0;
-  }
+
   longestWordWithKPrefixes(words, k) {
     //Implement here
-    return 0;
+    return "";
   }
 }
 

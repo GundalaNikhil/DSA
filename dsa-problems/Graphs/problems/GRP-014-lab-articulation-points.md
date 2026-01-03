@@ -56,6 +56,7 @@ Return a list of all articulation points in sorted order.
 ## Example
 
 **Input:**
+
 ```
 5
 5
@@ -67,6 +68,7 @@ Return a list of all articulation points in sorted order.
 ```
 
 **Output:**
+
 ```
 2
 1 3
@@ -75,15 +77,18 @@ Return a list of all articulation points in sorted order.
 **Explanation:**
 
 Graph structure:
+
 - Nodes {0, 1, 2} form a cycle (triangle)
 - Node 3 is connected to node 1
 - Node 4 is connected to node 3
 
 Articulation points:
+
 - Node 1: Removing it disconnects the triangle {0,2} from nodes {3,4}
 - Node 3: Removing it disconnects node 4 from the rest of the graph
 
 Nodes 0, 2, and 4 are NOT articulation points:
+
 - Removing 0: Nodes still connected via 1-2 path
 - Removing 2: Nodes still connected via 0-1 path
 - Removing 4: Only isolates itself, doesn't increase components
@@ -164,32 +169,41 @@ class Main {
 import sys
 from typing import List
 
+# Increase recursion depth for deep DFS/Graph traversals
 sys.setrecursionlimit(200000)
 
-def find_articulation_points(n: int, adj: List[List[int]]) -> List[int]:
-    # //Implement here
-    return 0
-
-def main():
-    n = int(input())
-    m = int(input())
-    
-    adj = [[] for _ in range(n)]
-    
-    for _ in range(m):
-        u, v = map(int, input().split())
-        adj[u].append(v)
-        adj[v].append(u)
-    
-    articulation_points = find_articulation_points(n, adj)
-    articulation_points.sort()
-    
-    print(len(articulation_points))
-    if articulation_points:
-        print(' '.join(map(str, articulation_points)))
+class Solution:
+    def find_articulation_points(self, n: int, adj: List[List[int]]) -> List[int]:
+        # //Implement here
+        return []
 
 if __name__ == "__main__":
-    main()
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        sys.exit(0)
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+
+        adj = [[] for _ in range(n)]
+
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            adj[u].append(v)
+            adj[v].append(u)
+
+        solution = Solution()
+        articulation_points = solution.find_articulation_points(n, adj)
+        articulation_points.sort()
+
+        print(len(articulation_points))
+        if articulation_points:
+            print(' '.join(map(str, articulation_points)))
+    except StopIteration:
+        pass
 ```
 
 ### C++
@@ -204,7 +218,7 @@ using namespace std;
 
 class Solution {
 public:
-    public: vector<int> findArticulationPoints(int n, vector<vector<int>>& adj) {
+    vector<int> findArticulationPoints(int n, vector<vector<int>>& adj) {
         //Implement here
         return {};
     }
@@ -250,7 +264,7 @@ const readline = require("readline");
 class Solution {
   findArticulationPoints(n, adj) {
     //Implement here
-    return 0;
+    return [];
   }
 }
 
@@ -291,4 +305,3 @@ rl.on("close", () => {
   }
 });
 ```
-

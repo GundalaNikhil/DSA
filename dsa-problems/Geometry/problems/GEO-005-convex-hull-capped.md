@@ -127,33 +127,46 @@ Convex Hull, Geometry Filtering, Cross Product
 ### Java
 
 ```java
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
-class Main {
-
-static class Solution {
-    private long cross(long ox, long oy, long ax, long ay, long bx, long by) {
-        return (ax - ox) * (by - oy) - (ay - oy) * (bx - ox);
-    }
-
-    public List<long[]> cappedHull(long[] xs, long[] ys, int theta) {
-        //Implement here
+class Solution {
+    public List<long[]> cappedHull(long[] xs, long[] ys, long theta) {
+        //Implemention here
         return new ArrayList<>();
     }
 }
 
-    public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        if (!sc.hasNext()) return;
-        int n = sc.nextInt();
+class Main {
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line).append(' ');
+        }
+        String input = sb.toString().trim();
+        if (input.isEmpty()) return;
+        String[] data = input.split("\\s+");
+        int idx = 0;
+        int n = Integer.parseInt(data[idx++]);
+        if (data.length < 1 + 2 * n + 1) return;
         long[] xs = new long[n];
         long[] ys = new long[n];
-        for(int i=0; i<n; i++) { xs[i] = sc.nextLong(); ys[i] = sc.nextLong(); }
-        int theta = sc.nextInt();
-        List<long[]> res = new Solution().cappedHull(xs, ys, theta);
-        System.out.println(res.size());
-        for(long[] p : res) System.out.println(p[0] + " " + p[1]);
+        for (int i = 0; i < n; i++) {
+            xs[i] = Long.parseLong(data[idx++]);
+            ys[i] = Long.parseLong(data[idx++]);
+        }
+        long theta = Long.parseLong(data[idx++]);
+
+        Solution solution = new Solution();
+        List<long[]> result = solution.cappedHull(xs, ys, theta);
+        StringBuilder out = new StringBuilder();
+        out.append(result.size()).append('\n');
+        for (long[] p : result) {
+            out.append(p[0]).append(' ').append(p[1]).append('\n');
+        }
+        System.out.print(out.toString());
     }
 }
 ```
@@ -161,32 +174,33 @@ static class Solution {
 ### Python
 
 ```python
-import math
-from typing import List, Tuple
+import sys
 
-def capped_hull(xs: List[int], ys: List[int], theta: int) -> List[Tuple[int, int]]:
-    # //Implement here
-    return 0
-def main() -> None:
-    import sys
-    data = list(map(int, sys.stdin.read().strip().split()))
+def capped_hull(xs, ys, theta):
+    # //Implemention here
+    return []
+
+def main():
+    data = sys.stdin.read().strip().split()
     if not data:
         return
-    it = iter(data)
-    try:
-        n = next(it)
-        xs = []
-        ys = []
-        for _ in range(n):
-            xs.append(next(it))
-            ys.append(next(it))
-        theta = next(it)
-        res = capped_hull(xs, ys, theta)
-        print(len(res))
-        for x, y in res:
-            print(f"{x} {y}")
-    except StopIteration:
+    idx = 0
+    n = int(data[idx]);
+    idx += 1
+    if len(data) < 1 + 2 * n + 1:
         return
+    xs = []
+    ys = []
+    for _ in range(n):
+        xs.append(int(data[idx]));
+        ys.append(int(data[idx + 1]));
+        idx += 2
+    theta = int(data[idx]);
+    result = capped_hull(xs, ys, theta)
+    out_lines = [str(len(result))]
+    for x, y in result:
+        out_lines.append(f"{x} {y}")
+    sys.stdout.write("\n".join(out_lines))
 
 if __name__ == "__main__":
     main()
@@ -197,127 +211,34 @@ if __name__ == "__main__":
 ```cpp
 #include <iostream>
 #include <vector>
-#include <cmath>
-#include <algorithm>
+#include <string>
 #include <iomanip>
 
 using namespace std;
 
-struct Point {
-    long long x, y;
-    bool operator<(const Point& other) const {
-        if (x != other.x) return x < other.x;
-        return y < other.y;
-    }
-    bool operator==(const Point& other) const {
-        return x == other.x && y == other.y;
-    }
-};
-
-long long cross(Point o, Point a, Point b) {
-    //Implement here
-    return 0;
+vector<pair<long long, long long>> capped_hull(const vector<long long>& xs, const vector<long long>& ys, long long theta) {
+    //Implemention here
+    return {};
 }
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
 
-    int n;
+    long long n;
     if (!(cin >> n)) return 0;
-
-    vector<Point> pts(n);
-    for (int i = 0; i < n; ++i) cin >> pts[i].x >> pts[i].y;
-
-    int theta;
+    vector<long long> xs(n), ys(n);
+    for (long long i = 0; i < n; i++) {
+        cin >> xs[i] >> ys[i];
+    }
+    long long theta;
     cin >> theta;
 
-    // Remove duplicates
-    sort(pts.begin(), pts.end());
-    pts.erase(unique(pts.begin(), pts.end()), pts.end());
-
-    if (pts.size() <= 1) {
-        if (pts.empty()) cout << "0\n";
-        else cout << "1\n" << pts[0].x << " " << pts[0].y << "\n";
-        return 0;
+    vector<pair<long long, long long>> result = capped_hull(xs, ys, theta);
+    cout << result.size() << "\n";
+    for (const auto& p : result) {
+        cout << p.first << " " << p.second << "\n";
     }
-
-    // Monotone Chain
-    vector<Point> lower, upper;
-    for (const auto& p : pts) {
-        while (lower.size() >= 2 && cross(lower[lower.size()-2], lower.back(), p) <= 0) {
-            lower.pop_back();
-        }
-        lower.push_back(p);
-    }
-    for (int i = pts.size() - 1; i >= 0; i--) {
-        const auto& p = pts[i];
-        while (upper.size() >= 2 && cross(upper[upper.size()-2], upper.back(), p) <= 0) {
-            upper.pop_back();
-        }
-        upper.push_back(p);
-    }
-
-    vector<Point> hull = lower;
-    hull.pop_back();
-    hull.insert(hull.end(), upper.begin(), upper.end());
-    hull.pop_back();
-
-    if (hull.size() <= 2) {
-        cout << hull.size() << "\n";
-        for (const auto& p : hull) cout << p.x << " " << p.y << "\n";
-        return 0;
-    }
-
-    long long h = hull.size();
-    double cosT = cos(theta * M_PI / 180.0);
-    vector<Point> keep;
-
-    for (int i = 0; i < h; ++i) {
-        Point prev = hull[(i - 1 + h) % h];
-        Point curr = hull[i];
-        Point nxt = hull[(i + 1) % h];
-
-        double ux = (double)prev.x - curr.x;
-        double uy = (double)prev.y - curr.y;
-        double vx = (double)nxt.x - curr.x;
-        double vy = (double)nxt.y - curr.y;
-
-        double lenU = hypot(ux, uy);
-        double lenV = hypot(vx, vy);
-
-        if (lenU == 0 || lenV == 0) {
-            keep.push_back(curr);
-            continue;
-        }
-
-        double dot = ux * vx + uy * vy;
-        double cosA = dot / (lenU * lenV); // Note: Python logic: cosA = dot / ...
-        
-        // Wait, Python logic:
-        // ux, uy vector from curr to prev? No: prev - curr. So vector CP.
-        // vx, vy vector from curr to nxt? No: nxt - curr. So vector CN.
-        // Angle at C is angle betwen CP and CN.
-        // dot = |CP||CN|cos(angle)
-        // Check my previous C++ implementation (step 271) used cosA = -dot / ... ?
-        // Python code (step 270):
-        // ux, uy = prev[0]-curr[0], prev[1]-curr[1]  -> Vector CP
-        // vx, vy = nxt[0]-curr[0], nxt[1]-curr[1]    -> Vector CN
-        // dot = ux*vx + uy*vy
-        // cosA = dot / (lenU*lenV)
-        // if cosA <= cosT: keep
-        // This is correct. My previous C++ at 271 had `cosA = -dot` which was probably wrong.
-        
-        if (cosA <= cosT + 1e-9) { // strict inequality + epsilon for safety
-            keep.push_back(curr);
-        }
-    }
-
-    cout << keep.size() << "\n";
-    for (const auto& p : keep) {
-        cout << p.x << " " << p.y << "\n";
-    }
-
     return 0;
 }
 ```
@@ -325,42 +246,37 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require('readline');
+const fs = require("fs");
 
-class Solution {
-    solve(xs, ys, theta) {
-      //Implement here
-      return 0;
-    }
+function cappedHull(xs, ys, theta) {
+  //Implemention here
+  return [];
 }
-const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
-let lines = [];
-rl.on('line', (line) => {
-    let tokens = line.match(/\S+/g) || [];
-    lines.push(...tokens);
-});
-rl.on('close', () => {
-    if (lines.length === 0) return;
-    let idx = 0;
-    const next = () => lines[idx++];
-    const nextInt = () => next(); 
 
-    let n = parseInt(nextInt());
-    let xs = [], ys = [];
-    for(let i=0; i<n; i++) {
-        xs.push(nextInt());
-        ys.push(nextInt());
-    }
-    let theta = parseInt(nextInt());
+const input = fs.readFileSync(0, "utf8").trim();
+if (input.length === 0) {
+  process.exit(0);
+}
+const data = input.split(/\s+/).map(Number);
+let idx = 0;
+const n = data[idx++];
+if (!Number.isFinite(n) || data.length < 1 + 2 * n + 1) {
+  process.exit(0);
+}
+const xs = [];
+const ys = [];
+for (let i = 0; i < n; i++) {
+  xs.push(data[idx++]);
+  ys.push(data[idx++]);
+}
+const theta = data[idx++];
 
-    const sol = new Solution();
-    const res = sol.solve(xs, ys, theta);
-    
-    if (res.length === 0) console.log(0);
-    else {
-        console.log(res.length);
-        for(let p of res) console.log(`${p.x} ${p.y}`);
-    }
-});
+const result = cappedHull(xs, ys, theta);
+let out = [];
+out.push(String(result.length));
+for (const p of result) {
+  out.push(p[0] + " " + p[1]);
+}
+process.stdout.write(out.join("\n"));
 ```
 

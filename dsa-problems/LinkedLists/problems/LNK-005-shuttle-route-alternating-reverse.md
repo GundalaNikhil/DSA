@@ -108,7 +108,7 @@ class ListNode {
 class Solution {
     public ListNode alternatingReverse(ListNode head, int l, int k) {
         //Implement here
-        return new ArrayList<>();
+        return null;
     }
 }
 
@@ -117,20 +117,20 @@ class Main {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
         int n = sc.nextInt();
-        
+
         ListNode dummy = new ListNode(0);
         ListNode cur = dummy;
         for (int i = 0; i < n; i++) {
             cur.next = new ListNode(sc.nextInt());
             cur = cur.next;
         }
-        
+
         int l = sc.nextInt();
         int k = sc.nextInt();
 
         Solution solution = new Solution();
         ListNode res = solution.alternatingReverse(dummy.next, l, k);
-        
+
         boolean first = true;
         while (res != null) {
             if (!first) System.out.print(" ");
@@ -156,14 +156,14 @@ class ListNode:
 
 def alternating_reverse(head: ListNode, l: int, k: int) -> ListNode:
     # //Implement here
-    return 0
+    return None
 
 def main():
     input = sys.stdin.read
     data = input().split()
     if not data:
         return
-    
+
     iterator = iter(data)
     try:
         n = int(next(iterator))
@@ -172,12 +172,12 @@ def main():
         for _ in range(n):
             cur.next = ListNode(int(next(iterator)))
             cur = cur.next
-            
+
         l = int(next(iterator))
         k = int(next(iterator))
-        
+
         head = alternating_reverse(dummy.next, l, k)
-        
+
         out = []
         while head:
             out.append(str(head.val))
@@ -216,7 +216,7 @@ int main() {
 
     int n;
     if (!(cin >> n)) return 0;
-    
+
     ListNode dummy(0);
     ListNode* cur = &dummy;
     for (int i = 0; i < n; i++) {
@@ -225,13 +225,13 @@ int main() {
         cur->next = new ListNode(v);
         cur = cur->next;
     }
-    
+
     int l, k;
     cin >> l >> k;
 
     Solution solution;
     ListNode* res = solution.alternatingReverse(dummy.next, l, k);
-    
+
     bool first = true;
     while (res) {
         if (!first) cout << " ";
@@ -258,7 +258,7 @@ class ListNode {
 
 function alternatingReverse(head, l, k) {
   //Implement here
-  return 0;
+  return null;
 }
 
 const rl = readline.createInterface({
@@ -267,31 +267,37 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x)));
+rl.on("line", (line) =>
+  data.push(
+    ...line
+      .trim()
+      .split(/\s+/)
+      .filter((x) => x)
+  )
+);
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
   const n = parseInt(data[idx++], 10);
-  
+
   const dummy = new ListNode(0);
   let cur = dummy;
   for (let i = 0; i < n; i++) {
     cur.next = new ListNode(parseInt(data[idx++], 10));
     cur = cur.next;
   }
-  
-  if (idx < data.length) {
-      const l = parseInt(data[idx++], 10);
-      const k = parseInt(data[idx++], 10);
 
-      let head = alternatingReverse(dummy.next, l, k);
-      const out = [];
-      while (head) {
-        out.push(head.val);
-        head = head.next;
-      }
-      console.log(out.join(" "));
+  if (idx < data.length) {
+    const l = parseInt(data[idx++], 10);
+    const k = parseInt(data[idx++], 10);
+
+    let head = alternatingReverse(dummy.next, l, k);
+    const out = [];
+    while (head) {
+      out.push(head.val);
+      head = head.next;
+    }
+    console.log(out.join(" "));
   }
 });
 ```
-

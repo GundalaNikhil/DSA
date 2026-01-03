@@ -53,6 +53,7 @@ A cycle in a directed graph is a path that starts and ends at the same vertex, f
 ## Example
 
 **Input:**
+
 ```
 4
 4
@@ -63,6 +64,7 @@ A cycle in a directed graph is a path that starts and ends at the same vertex, f
 ```
 
 **Output:**
+
 ```
 true
 ```
@@ -70,6 +72,7 @@ true
 **Explanation:**
 
 The directed graph has a cycle:
+
 - Node 1 → Node 2 → Node 1 (cycle of length 2)
 
 The path 1 → 2 → 1 forms a cycle, so the output is `true`.
@@ -136,27 +139,31 @@ class Main {
 import sys
 from typing import List
 
+# Increase recursion depth for deep DFS/Graph traversals
 sys.setrecursionlimit(200000)
 
-def has_cycle(n: int, adj: List[List[int]]) -> bool:
-    # //Implement here
-    return 0
-
-def main():
-    n = int(input())
-    m = int(input())
-    
-    adj = [[] for _ in range(n)]
-    
-    for _ in range(m):
-        u, v = map(int, input().split())
-        adj[u].append(v)
-    
-    result = has_cycle(n, adj)
-    print("true" if result else "false")
+class Solution:
+    def has_cycle(self, n: int, adj: List[List[int]]) -> bool:
+        # //Implement here
+        return False
 
 if __name__ == "__main__":
-    main()
+    n = int(sys.stdin.readline())
+    m = int(sys.stdin.readline())
+
+    adj = [[] for _ in range(n)]
+
+    for _ in range(m):
+        u, v = map(int, sys.stdin.readline().split())
+        adj[u].append(v)
+
+    # Sort neighbors for deterministic traversal
+    for i in range(n):
+        adj[i].sort()
+
+    solution = Solution()
+    result = solution.has_cycle(n, adj)
+    print("true" if result else "false")
 ```
 
 ### C++
@@ -170,7 +177,7 @@ using namespace std;
 
 class Solution {
 public:
-    public: bool hasCycle(int n, vector<vector<int>>& adj) {
+    bool hasCycle(int n, vector<vector<int>>& adj) {
         //Implement here
         return false;
     }
@@ -205,7 +212,7 @@ const readline = require("readline");
 class Solution {
   hasCycle(n, adj) {
     //Implement here
-    return 0;
+    return false;
   }
 }
 
@@ -239,4 +246,3 @@ rl.on("close", () => {
   console.log(solution.hasCycle(n, adj) ? "true" : "false");
 });
 ```
-

@@ -96,6 +96,7 @@ Heaps, K-Way Merge, Streaming, Rate Limiting
 
 ```java
 import java.util.*;
+import java.io.*;
 
 class Solution {
     public List<Integer> mergeStreams(List<List<Integer>> streams, int r) {
@@ -105,30 +106,31 @@ class Solution {
 }
 
 class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextInt()) {
-            int k = sc.nextInt();
-            int r = sc.nextInt();
-            List<List<Integer>> streams = new ArrayList<>();
-            for (int i = 0; i < k; i++) {
-                int m = sc.nextInt();
-                List<Integer> stream = new ArrayList<>();
-                for (int j = 0; j < m; j++) {
-                    stream.add(sc.nextInt());
-                }
-                streams.add(stream);
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String[] firstLine = br.readLine().split(" ");
+        int k = Integer.parseInt(firstLine[0]);
+        int r = Integer.parseInt(firstLine[1]);
+
+        List<List<Integer>> streams = new ArrayList<>();
+        for (int i = 0; i < k; i++) {
+            int m = Integer.parseInt(br.readLine());
+            String[] streamElements = br.readLine().split(" ");
+            List<Integer> stream = new ArrayList<>();
+            for (String s : streamElements) {
+                stream.add(Integer.parseInt(s));
             }
-            
-            Solution solution = new Solution();
-            List<Integer> result = solution.mergeStreams(streams, r);
-            for (int i = 0; i < result.size(); i++) {
-                System.out.print(result.get(i));
-                if (i < result.size() - 1) System.out.print(" ");
-            }
-            System.out.println();
+            streams.add(stream);
         }
-        sc.close();
+
+        Solution solution = new Solution();
+        List<Integer> result = solution.mergeStreams(streams, r);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < result.size(); i++) {
+            sb.append(result.get(i));
+            if (i < result.size() - 1) sb.append(" ");
+        }
+        System.out.println(sb.toString());
     }
 }
 ```
@@ -137,11 +139,10 @@ class Main {
 
 ```python
 import sys
-import heapq
 
 def merge_streams(streams: list, r: int) -> list:
     # //Implement here
-    return 0
+    return []
 
 def main():
     input_data = sys.stdin.read().split()
@@ -158,7 +159,7 @@ def main():
             for _ in range(m):
                 stream.append(int(next(it)))
             streams.append(stream)
-            
+
         result = merge_streams(streams, r)
         print(" ".join(map(str, result)))
     except StopIteration:
@@ -188,7 +189,7 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int k, r;
     if (cin >> k >> r) {
         vector<vector<int>> streams(k);
@@ -200,7 +201,7 @@ int main() {
                 cin >> streams[i][j];
             }
         }
-        
+
         Solution solution;
         vector<int> result = solution.mergeStreams(streams, r);
         for (size_t i = 0; i < result.size(); i++) {
@@ -218,54 +219,10 @@ int main() {
 ```javascript
 const readline = require("readline");
 
-class PriorityQueue {
-  constructor(compare = (a, b) => a - b) {
-    this.heap = [];
-    this.compare = compare;
-  }
-  size() { return this.heap.length; }
-  isEmpty() { return this.heap.length === 0; }
-  push(val) {
-    this.heap.push(val);
-    this.bubbleUp(this.heap.length - 1);
-  }
-  pop() {
-    if (this.size() === 0) return null;
-    const top = this.heap[0];
-    const bottom = this.heap.pop();
-    if (this.size() > 0) {
-      this.heap[0] = bottom;
-      this.bubbleDown(0);
-    }
-    return top;
-  }
-  bubbleUp(idx) {
-    while (idx > 0) {
-      const pIdx = Math.floor((idx - 1) / 2);
-      if (this.compare(this.heap[idx], this.heap[pIdx]) < 0) {
-        [this.heap[idx], this.heap[pIdx]] = [this.heap[pIdx], this.heap[idx]];
-        idx = pIdx;
-      } else break;
-    }
-  }
-  bubbleDown(idx) {
-    while (true) {
-      const left = 2 * idx + 1;
-      const right = 2 * idx + 2;
-      let swap = null;
-      if (left < this.size() && this.compare(this.heap[left], this.heap[idx]) < 0) swap = left;
-      if (right < this.size() && this.compare(this.heap[right], swap === null ? this.heap[idx] : this.heap[swap]) < 0) swap = right;
-      if (swap === null) break;
-      [this.heap[idx], this.heap[swap]] = [this.heap[swap], this.heap[idx]];
-      idx = swap;
-    }
-  }
-}
-
 class Solution {
   mergeStreams(streams, r) {
     //Implement here
-    return 0;
+    return [];
   }
 }
 
@@ -295,10 +252,9 @@ rl.on("close", () => {
     }
     streams.push(stream);
   }
-  
+
   const solution = new Solution();
   const result = solution.mergeStreams(streams, r);
   console.log(result.join(" "));
 });
 ```
-

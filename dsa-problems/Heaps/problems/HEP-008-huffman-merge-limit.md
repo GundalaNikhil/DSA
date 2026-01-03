@@ -110,7 +110,7 @@ class Main {
             for (int i = 0; i < n; i++) {
                 freq[i] = sc.nextInt();
             }
-            
+
             Solution solution = new Solution();
             System.out.println(solution.huffmanCost(freq, m));
         }
@@ -140,7 +140,7 @@ def main():
         freq = []
         for _ in range(n):
             freq.append(int(next(it)))
-            
+
         print(huffman_cost(freq, m))
     except StopIteration:
         pass
@@ -170,12 +170,12 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int n, m;
     if (cin >> n >> m) {
         vector<int> freq(n);
         for (int i = 0; i < n; i++) cin >> freq[i];
-        
+
         Solution solution;
         cout << solution.huffmanCost(freq, m) << "\n";
     }
@@ -187,51 +187,6 @@ int main() {
 
 ```javascript
 const readline = require("readline");
-
-class PriorityQueue {
-  constructor(compare = (a, b) => a - b) {
-    this.heap = [];
-    this.compare = compare;
-  }
-  size() { return this.heap.length; }
-  isEmpty() { return this.heap.length === 0; }
-  peek() { return this.heap[0]; }
-  push(val) {
-    this.heap.push(val);
-    this.bubbleUp(this.heap.length - 1);
-  }
-  pop() {
-    if (this.size() === 0) return null;
-    const top = this.heap[0];
-    const bottom = this.heap.pop();
-    if (this.size() > 0) {
-      this.heap[0] = bottom;
-      this.bubbleDown(0);
-    }
-    return top;
-  }
-  bubbleUp(idx) {
-    while (idx > 0) {
-      const pIdx = Math.floor((idx - 1) / 2);
-      if (this.compare(this.heap[idx], this.heap[pIdx]) < 0) {
-        [this.heap[idx], this.heap[pIdx]] = [this.heap[pIdx], this.heap[idx]];
-        idx = pIdx;
-      } else break;
-    }
-  }
-  bubbleDown(idx) {
-    while (true) {
-      const left = 2 * idx + 1;
-      const right = 2 * idx + 2;
-      let swap = null;
-      if (left < this.size() && this.compare(this.heap[left], this.heap[idx]) < 0) swap = left;
-      if (right < this.size() && this.compare(this.heap[right], swap === null ? this.heap[idx] : this.heap[swap]) < 0) swap = right;
-      if (swap === null) break;
-      [this.heap[idx], this.heap[swap]] = [this.heap[swap], this.heap[idx]];
-      idx = swap;
-    }
-  }
-}
 
 class Solution {
   huffmanCost(freq, m) {
@@ -256,9 +211,8 @@ rl.on("close", () => {
   for (let i = 0; i < n; i++) {
     freq.push(parseInt(data[idx++]));
   }
-  
+
   const solution = new Solution();
   console.log(solution.huffmanCost(freq, m));
 });
 ```
-

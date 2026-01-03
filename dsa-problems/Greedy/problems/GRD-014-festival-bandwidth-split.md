@@ -128,15 +128,15 @@ class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
-        
+
         int n = sc.nextInt();
         long B = sc.nextLong();
-        
+
         long[] bandwidths = new long[n];
         for (int i = 0; i < n; i++) {
             bandwidths[i] = sc.nextLong();
         }
-        
+
         Solution solution = new Solution();
         System.out.println(solution.maxStages(n, B, bandwidths));
         sc.close();
@@ -149,29 +149,29 @@ class Main {
 ```python
 import sys
 
-def max_stages(n: int, B: int, bandwidths: list) -> int:
-    # //Implement here
-    return 0
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-        
-    iterator = iter(data)
-    n = int(next(iterator))
-    B = int(next(iterator))
-    
-    bandwidths = []
-    for _ in range(n):
-        bandwidths.append(int(next(iterator)))
-
-    result = max_stages(n, B, bandwidths)
-    print(result)
+class Solution:
+    def max_stages(self, n: int, B: int, bandwidths: list[int]) -> int:
+        # //Implement here
+        return 0
 
 if __name__ == "__main__":
-    main()
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        sys.exit(0)
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        B = int(next(iterator))
+
+        bandwidths = []
+        for _ in range(n):
+            bandwidths.append(int(next(iterator)))
+
+        solution = Solution()
+        print(solution.max_stages(n, B, bandwidths))
+    except StopIteration:
+        pass
 ```
 
 ### C++
@@ -232,7 +232,7 @@ let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let ptr = 0;
   const [n, B] = data[ptr++].split(" ").map(Number);
   const bandwidths = data[ptr++].split(" ").map(Number);
@@ -241,4 +241,3 @@ rl.on("close", () => {
   console.log(solution.maxStages(n, B, bandwidths));
 });
 ```
-

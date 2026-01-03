@@ -135,7 +135,7 @@ class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
-        
+
         int n = sc.nextInt();
         int T = sc.nextInt();
 
@@ -163,33 +163,33 @@ import heapq
 import math
 import sys
 
-def max_bundle_weight(n: int, T: int, weights: list, qualities: list) -> int:
-    # //Implement here
-    return 0
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-        
-    iterator = iter(data)
-    n = int(next(iterator))
-    T = int(next(iterator))
-    
-    weights = []
-    for _ in range(n):
-        weights.append(int(next(iterator)))
-        
-    qualities = []
-    for _ in range(n):
-        qualities.append(int(next(iterator)))
-
-    result = max_bundle_weight(n, T, weights, qualities)
-    print(result)
+class Solution:
+    def max_bundle_weight(self, n: int, T: int, weights: list[int], qualities: list[int]) -> int:
+        # //Implement here
+        return 0
 
 if __name__ == "__main__":
-    main()
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        sys.exit(0)
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        T = int(next(iterator))
+
+        weights = []
+        for _ in range(n):
+            weights.append(int(next(iterator)))
+
+        qualities = []
+        for _ in range(n):
+            qualities.append(int(next(iterator)))
+
+        solution = Solution()
+        print(solution.max_bundle_weight(n, T, weights, qualities))
+    except StopIteration:
+        pass
 ```
 
 ### C++
@@ -279,7 +279,10 @@ class MaxHeap {
     while (idx > 0) {
       const parentIdx = Math.floor((idx - 1) / 2);
       if (this._compare(this.heap[idx], this.heap[parentIdx]) <= 0) break;
-      [this.heap[idx], this.heap[parentIdx]] = [this.heap[parentIdx], this.heap[idx]];
+      [this.heap[idx], this.heap[parentIdx]] = [
+        this.heap[parentIdx],
+        this.heap[idx],
+      ];
       idx = parentIdx;
     }
   }
@@ -290,11 +293,21 @@ class MaxHeap {
       const left = 2 * idx + 1;
       const right = 2 * idx + 2;
       if (left < this.heap.length) maxChildIdx = left;
-      if (right < this.heap.length && this._compare(this.heap[right], this.heap[left]) > 0) {
+      if (
+        right < this.heap.length &&
+        this._compare(this.heap[right], this.heap[left]) > 0
+      ) {
         maxChildIdx = right;
       }
-      if (maxChildIdx === null || this._compare(this.heap[idx], this.heap[maxChildIdx]) >= 0) break;
-      [this.heap[idx], this.heap[maxChildIdx]] = [this.heap[maxChildIdx], this.heap[idx]];
+      if (
+        maxChildIdx === null ||
+        this._compare(this.heap[idx], this.heap[maxChildIdx]) >= 0
+      )
+        break;
+      [this.heap[idx], this.heap[maxChildIdx]] = [
+        this.heap[maxChildIdx],
+        this.heap[idx],
+      ];
       idx = maxChildIdx;
     }
   }
@@ -316,7 +329,7 @@ let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let ptr = 0;
   const [n, T] = data[ptr++].split(" ").map(Number);
   const weights = data[ptr++].split(" ").map(Number);
@@ -326,4 +339,3 @@ rl.on("close", () => {
   console.log(solution.maxBundleWeight(n, T, weights, qualities));
 });
 ```
-

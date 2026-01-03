@@ -92,24 +92,32 @@ Hashing, Substring Generation, Set Operations, Suffix Array
 ### Java
 
 ```java
+import java.io.*;
 import java.util.*;
 
 class Solution {
-    public int countDistinctSubstrings(String s) {
-        //Implement here
-        return 0;
+    public long countDistinctSubstrings(String s) {
+        //Implemention here
+        return 0L;
     }
 }
 
 class Main {
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        if (sc.hasNextLine()) {
-            String s = sc.nextLine();
-            Solution solution = new Solution();
-            System.out.println(solution.countDistinctSubstrings(s));
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = br.readLine()) != null) {
+            sb.append(line).append(' ');
         }
-        sc.close();
+        String input = sb.toString().trim();
+        if (input.isEmpty()) return;
+        String[] data = input.split("\\s+");
+        int idx = 0;
+        String s = data[idx++];
+        Solution solution = new Solution();
+        long result = solution.countDistinctSubstrings(s);
+        System.out.print(result);
     }
 }
 ```
@@ -119,18 +127,20 @@ class Main {
 ```python
 import sys
 
-def count_distinct_substrings(s: str) -> int:
-    # //Implement here
+def count_distinct_substrings(s):
+    # //Implemention here
     return 0
 
 def main():
-    input_data = sys.stdin.read().split()
-    if not input_data:
+    data = sys.stdin.read().split()
+    if not data:
         return
-    s = input_data[0]
-    print(count_distinct_substrings(s))
+    idx = 0
+    s = data[idx]
+    result = count_distinct_substrings(s)
+    sys.stdout.write(str(result))
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     main()
 ```
 
@@ -139,29 +149,22 @@ if __name__ == "__main__":
 ```cpp
 #include <iostream>
 #include <string>
-#include <unordered_set>
-#include <vector>
 
 using namespace std;
 
-class Solution {
-public:
-    int countDistinctSubstrings(string s) {
-        //Implement here
-        return 0;
-    }
-};
+long long count_distinct_substrings(const string& s) {
+    //Implemention here
+    return 0LL;
+}
 
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     string s;
-    if (getline(cin, s)) {
-        Solution solution;
-        cout << solution.countDistinctSubstrings(s) << "\n";
-    }
-    
+    if (!(cin >> s)) return 0;
+    long long result = count_distinct_substrings(s);
+    cout << result;
     return 0;
 }
 ```
@@ -169,28 +172,21 @@ int main() {
 ### JavaScript
 
 ```javascript
-const readline = require("readline");
+const fs = require("fs");
 
-class Solution {
-  countDistinctSubstrings(s) {
-    //Implement here
-    return 0;
-  }
+function countDistinctSubstrings(s) {
+  //Implemention here
+  return 0;
 }
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-let data = [];
-rl.on("line", (line) => data.push(line.trim()));
-rl.on("close", () => {
-  if (data.length === 0) return;
-  const s = data[0];
-
-  const solution = new Solution();
-  console.log(solution.countDistinctSubstrings(s));
-});
+const input = fs.readFileSync(0, "utf8").trim();
+if (input.length === 0) {
+  process.exit(0);
+}
+const data = input.split(/\s+/);
+let idx = 0;
+const s = data[idx++];
+const result = countDistinctSubstrings(s);
+process.stdout.write(String(result));
 ```
 

@@ -54,6 +54,7 @@ Your goal is to find the minimum total cost to ensure all buildings are connecte
 ## Example
 
 **Input:**
+
 ```
 3
 5 1 9
@@ -61,6 +62,7 @@ Your goal is to find the minimum total cost to ensure all buildings are connecte
 ```
 
 **Output:**
+
 ```
 8
 ```
@@ -71,11 +73,13 @@ Buildings with heights: [5, 1, 9]
 No existing cables (m = 0)
 
 Need to connect all 3 buildings. Possible edges:
+
 - Building 0 to Building 1: cost = |5 - 1| = 4
 - Building 0 to Building 2: cost = |5 - 9| = 4
 - Building 1 to Building 2: cost = |1 - 9| = 8
 
 Using Minimum Spanning Tree (MST):
+
 - Connect buildings 0 and 1: cost = 4
 - Connect buildings 0 and 2: cost = 4
 - Total cost = 8
@@ -115,18 +119,18 @@ class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
-        
+
         int n = sc.nextInt();
         int[] heights = new int[n];
         for (int i = 0; i < n; i++) heights[i] = sc.nextInt();
-        
+
         int m = sc.nextInt();
         int[][] existingCables = new int[m][2];
         for (int i = 0; i < m; i++) {
             existingCables[i][0] = sc.nextInt();
             existingCables[i][1] = sc.nextInt();
         }
-        
+
         Solution solution = new Solution();
         System.out.println(solution.minCost(n, heights, existingCables));
         sc.close();
@@ -139,34 +143,38 @@ class Main {
 ```python
 import sys
 
-def min_cost(n: int, heights: list, existing_cables: list) -> int:
-    # //Implement here
-    return 0
+# Increase recursion depth for DSU operations if needed
+sys.setrecursionlimit(200000)
 
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-        
-    iterator = iter(data)
-    n = int(next(iterator))
-    
-    heights = []
-    for _ in range(n):
-        heights.append(int(next(iterator)))
-        
-    m = int(next(iterator))
-    existing_cables = []
-    for _ in range(m):
-        u = int(next(iterator))
-        v = int(next(iterator))
-        existing_cables.append([u, v])
-        
-    print(min_cost(n, heights, existing_cables))
+class Solution:
+    def min_cost(self, n: int, heights: list[int], existing_cables: list[list[int]]) -> int:
+        # //Implement here
+        return 0
 
 if __name__ == "__main__":
-    main()
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        sys.exit(0)
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+
+        heights = []
+        for _ in range(n):
+            heights.append(int(next(iterator)))
+
+        m = int(next(iterator))
+        existing_cables = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            existing_cables.append([u, v])
+
+        solution = Solution()
+        print(solution.min_cost(n, heights, existing_cables))
+    except StopIteration:
+        pass
 ```
 
 ### C++
@@ -282,12 +290,12 @@ let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let ptr = 0;
   const n = parseInt(data[ptr++]);
   const heights = data[ptr++].split(" ").map(Number);
   const m = parseInt(data[ptr++]);
-  
+
   const existingCables = [];
   for (let i = 0; i < m; i++) {
     const [u, v] = data[ptr++].split(" ").map(Number);
@@ -298,4 +306,3 @@ rl.on("close", () => {
   console.log(solution.minCost(n, heights, existingCables));
 });
 ```
-

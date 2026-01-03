@@ -25,6 +25,7 @@ memory_limit: 256
 ## Problem Statement
 
 You have `n` shuttle trips that need to be covered by drivers. Each trip has a specific time interval `[start, end]`. Two drivers, A and B, are available with their own availability intervals:
+
 - Driver A is available during interval `[A_start, A_end]`
 - Driver B is available during interval `[B_start, B_end]`
 
@@ -56,6 +57,7 @@ Return the minimum number of switches needed, or `-1` if it's impossible to cove
 ## Example
 
 **Input:**
+
 ```
 3
 1 3
@@ -66,6 +68,7 @@ Return the minimum number of switches needed, or `-1` if it's impossible to cove
 ```
 
 **Output:**
+
 ```
 1
 ```
@@ -73,15 +76,18 @@ Return the minimum number of switches needed, or `-1` if it's impossible to cove
 **Explanation:**
 
 Trips:
+
 - Trip 1: [1, 3]
 - Trip 2: [4, 6]
 - Trip 3: [7, 9]
 
 Driver availabilities:
+
 - Driver A: [1, 8]
 - Driver B: [3, 10]
 
 Optimal assignment:
+
 - Trip 1 [1, 3]: Assign to Driver A (A is available during [1, 8])
 - Trip 2 [4, 6]: Assign to Driver A (continue with same driver)
 - Trip 3 [7, 9]: Assign to Driver B (A ends at 8, so switch to B)
@@ -123,21 +129,21 @@ class Main {
         Scanner sc = new Scanner(System.in);
         if (!sc.hasNextInt()) return;
         int n = sc.nextInt();
-        
+
         int[][] trips = new int[n][2];
         for (int i = 0; i < n; i++) {
             trips[i][0] = sc.nextInt();
             trips[i][1] = sc.nextInt();
         }
-        
+
         int[] driverA = new int[2];
         driverA[0] = sc.nextInt();
         driverA[1] = sc.nextInt();
-        
+
         int[] driverB = new int[2];
         driverB[0] = sc.nextInt();
         driverB[1] = sc.nextInt();
-        
+
         Solution solution = new Solution();
         System.out.println(solution.minDriverSwaps(trips, driverA, driverB));
         sc.close();
@@ -150,37 +156,38 @@ class Main {
 ```python
 import sys
 
-def min_driver_swaps(trips, driver_a, driver_b) -> int:
-    # //Implement here
-    return 0
-
-def main():
-    input = sys.stdin.read
-    data = input().split()
-    if not data:
-        return
-        
-    iterator = iter(data)
-    n = int(next(iterator))
-    
-    trips = []
-    for _ in range(n):
-        start = int(next(iterator))
-        end = int(next(iterator))
-        trips.append((start, end))
-        
-    a_start = int(next(iterator))
-    a_end = int(next(iterator))
-    driver_a = (a_start, a_end)
-    
-    b_start = int(next(iterator))
-    b_end = int(next(iterator))
-    driver_b = (b_start, b_end)
-    
-    print(min_driver_swaps(trips, driver_a, driver_b))
+class Solution:
+    def min_driver_swaps(self, trips: list[tuple[int, int]], driver_a: tuple[int, int], driver_b: tuple[int, int]) -> int:
+        # //Implement here
+        return 0
 
 if __name__ == "__main__":
-    main()
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        sys.exit(0)
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+
+        trips = []
+        for _ in range(n):
+            start = int(next(iterator))
+            end = int(next(iterator))
+            trips.append((start, end))
+
+        a_start = int(next(iterator))
+        a_end = int(next(iterator))
+        driver_a = (a_start, a_end)
+
+        b_start = int(next(iterator))
+        b_end = int(next(iterator))
+        driver_b = (b_start, b_end)
+
+        solution = Solution()
+        print(solution.min_driver_swaps(trips, driver_a, driver_b))
+    except StopIteration:
+        pass
 ```
 
 ### C++
@@ -203,22 +210,22 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int n;
     if (!(cin >> n)) return 0;
-    
+
     vector<pair<int,int>> trips(n);
     for (int i = 0; i < n; i++) {
         cin >> trips[i].first >> trips[i].second;
     }
-    
+
     pair<int,int> driverA, driverB;
     cin >> driverA.first >> driverA.second;
     cin >> driverB.first >> driverB.second;
-    
+
     Solution solution;
     cout << solution.minDriverSwaps(trips, driverA, driverB) << "\n";
-    
+
     return 0;
 }
 ```
@@ -244,24 +251,23 @@ let data = [];
 rl.on("line", (line) => data.push(line.trim()));
 rl.on("close", () => {
   if (data.length === 0) return;
-  
+
   let ptr = 0;
   const n = parseInt(data[ptr++]);
-  
+
   const trips = [];
   for (let i = 0; i < n; i++) {
     const [start, end] = data[ptr++].split(" ").map(Number);
     trips.push([start, end]);
   }
-  
+
   const [aStart, aEnd] = data[ptr++].split(" ").map(Number);
   const driverA = [aStart, aEnd];
-  
+
   const [bStart, bEnd] = data[ptr++].split(" ").map(Number);
   const driverB = [bStart, bEnd];
-  
+
   const solution = new Solution();
   console.log(solution.minDriverSwaps(trips, driverA, driverB));
 });
 ```
-

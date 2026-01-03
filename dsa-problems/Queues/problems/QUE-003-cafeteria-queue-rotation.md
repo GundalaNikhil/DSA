@@ -137,7 +137,7 @@ import sys
 
 def process_queue_operations(operations: List[List[str]]) -> str:
     # //Implement here
-    return 0
+    return ""
 
 def main():
     input_data = sys.stdin.read().split()
@@ -220,7 +220,7 @@ const readline = require("readline");
 class Solution {
   processQueueOperations(operations) {
     //Implement here
-    return 0;
+    return "";
   }
 }
 
@@ -230,7 +230,14 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("line", (line) =>
+  data.push(
+    ...line
+      .trim()
+      .split(/\s+/)
+      .filter((x) => x !== "")
+  )
+);
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
@@ -252,4 +259,3 @@ rl.on("close", () => {
   console.log(result);
 });
 ```
-

@@ -105,7 +105,7 @@ class Main {
             for (int i = 0; i < n; i++) {
                 values[i] = sc.nextInt();
             }
-    
+
             Solution solution = new Solution();
             int[] result = solution.interleaveQueue(values);
             StringBuilder sb = new StringBuilder();
@@ -128,18 +128,18 @@ import sys
 
 def interleave_queue(values: List[int]) -> List[int]:
     # //Implement here
-    return 0
+    return []
 
 def main():
     input_data = sys.stdin.read().split()
     if not input_data:
         return
-    
+
     iterator = iter(input_data)
     try:
         n = int(next(iterator))
         values = [int(next(iterator)) for _ in range(n)]
-        
+
         result = interleave_queue(values)
         if result:  # Only print if result is non-empty
             print(" ".join(map(str, result)))
@@ -176,7 +176,7 @@ int main() {
         for (int i = 0; i < n; i++) {
             cin >> values[i];
         }
-    
+
         Solution solution;
         vector<int> result = solution.interleaveQueue(values);
         for (int i = 0; i < (int)result.size(); i++) {
@@ -197,7 +197,7 @@ const readline = require("readline");
 class Solution {
   interleaveQueue(values) {
     //Implement here
-    return 0;
+    return [];
   }
 }
 
@@ -207,7 +207,14 @@ const rl = readline.createInterface({
 });
 
 let data = [];
-rl.on("line", (line) => data.push(...line.trim().split(/\s+/).filter(x => x !== "")));
+rl.on("line", (line) =>
+  data.push(
+    ...line
+      .trim()
+      .split(/\s+/)
+      .filter((x) => x !== "")
+  )
+);
 rl.on("close", () => {
   if (data.length === 0) return;
   let idx = 0;
@@ -222,4 +229,3 @@ rl.on("close", () => {
   console.log(result.join(" "));
 });
 ```
-

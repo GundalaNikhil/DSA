@@ -52,6 +52,7 @@ DFS explores as far as possible along each branch before backtracking. The preor
 ## Example
 
 **Input:**
+
 ```
 5
 3
@@ -61,6 +62,7 @@ DFS explores as far as possible along each branch before backtracking. The preor
 ```
 
 **Output:**
+
 ```
 0 1 4 2
 ```
@@ -68,6 +70,7 @@ DFS explores as far as possible along each branch before backtracking. The preor
 **Explanation:**
 
 Starting from node 0:
+
 - Visit node 0 (record it)
 - Go to neighbor 1 (first neighbor in adjacency list)
 - Visit node 1 (record it)
@@ -114,12 +117,12 @@ class Main {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int m = sc.nextInt();
-        
+
         List<List<Integer>> adj = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             adj.add(new ArrayList<>());
         }
-        
+
         for (int i = 0; i < m; i++) {
             int u = sc.nextInt();
             int v = sc.nextInt();
@@ -134,7 +137,7 @@ class Main {
 
         Solution solution = new Solution();
         List<Integer> result = solution.dfsTraversal(n, adj);
-        
+
         for (int i = 0; i < result.size(); i++) {
             System.out.print(result.get(i));
             if (i < result.size() - 1) System.out.print(" ");
@@ -151,28 +154,32 @@ class Main {
 import sys
 from typing import List
 
+# Increase recursion depth for deep DFS/Graph traversals
 sys.setrecursionlimit(200000)
 
-def dfs_traversal(n: int, adj: List[List[int]]) -> List[int]:
-    # //Implement here
-    return 0
-
-def main():
-    n = int(input())
-    m = int(input())
-    
-    adj = [[] for _ in range(n)]
-    
-    for _ in range(m):
-        u, v = map(int, input().split())
-        adj[u].append(v)
-        adj[v].append(u)
-    
-    result = dfs_traversal(n, adj)
-    print(' '.join(map(str, result)))
+class Solution:
+    def dfs_traversal(self, n: int, adj: List[List[int]]) -> List[int]:
+        # //Implement here
+        return []
 
 if __name__ == "__main__":
-    main()
+    n = int(sys.stdin.readline())
+    m = int(sys.stdin.readline())
+
+    adj = [[] for _ in range(n)]
+
+    for _ in range(m):
+        u, v = map(int, sys.stdin.readline().split())
+        adj[u].append(v)
+        adj[v].append(u)
+
+    # Sort neighbors for deterministic traversal
+    for i in range(n):
+        adj[i].sort()
+
+    solution = Solution()
+    result = solution.dfs_traversal(n, adj)
+    print(' '.join(map(str, result)))
 ```
 
 ### C++
@@ -186,7 +193,7 @@ using namespace std;
 
 class Solution {
 public:
-    public: vector<int> dfsTraversal(int n, vector<vector<int>>& adj) {
+    vector<int> dfsTraversal(int n, vector<vector<int>>& adj) {
         //Implement here
         return {};
     }
@@ -195,12 +202,12 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int n, m;
     cin >> n >> m;
-    
+
     vector<vector<int>> adj(n);
-    
+
     for (int i = 0; i < m; i++) {
         int u, v;
         cin >> u >> v;
@@ -215,13 +222,13 @@ int main() {
 
     Solution solution;
     vector<int> result = solution.dfsTraversal(n, adj);
-    
+
     for (int i = 0; i < result.size(); i++) {
         cout << result[i];
         if (i < result.size() - 1) cout << " ";
     }
     cout << "\n";
-    
+
     return 0;
 }
 ```
@@ -234,7 +241,7 @@ const readline = require("readline");
 class Solution {
   dfsTraversal(n, adj) {
     //Implement here
-    return 0;
+    return [];
   }
 }
 
@@ -249,7 +256,7 @@ rl.on("close", () => {
   let ptr = 0;
   const n = parseInt(data[ptr++]);
   const m = parseInt(data[ptr++]);
-  
+
   const adj = Array.from({ length: n }, () => []);
 
   for (let i = 0; i < m; i++) {
@@ -268,4 +275,3 @@ rl.on("close", () => {
   console.log(result.join(" "));
 });
 ```
-

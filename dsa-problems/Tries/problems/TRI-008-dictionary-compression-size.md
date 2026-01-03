@@ -139,12 +139,15 @@ class TrieNode {
 }
 
 class Solution {
+    private TrieNode root;
+
+    public Solution() {
+        this.root = new TrieNode();
+    }
+
     public int countTrieNodes(String[] words) {
         //Implement here
         return 0;
-    }
-    private void insert(String word) {
-        //Implement here
     }
 }
 
@@ -191,9 +194,6 @@ class Solution:
     def count_trie_nodes(self, words: List[str]) -> int:
         # //Implement here
         return 0
-    def _insert(self, word: str):
-        # //Implement here
-        return 0
 def main():
     import sys
     lines = sys.stdin.read().strip().split('\n')
@@ -225,9 +225,11 @@ struct TrieNode {
 };
 
 class Solution {
+private:
+    TrieNode* root;
 public:
-    void insert(const string& word) {
-        //Implement here
+    Solution() {
+        root = new TrieNode();
     }
     int countTrieNodes(vector<string>& words) {
         //Implement here
@@ -267,10 +269,6 @@ class TrieNode {
 }
 
 class Solution {
-  insert(word) {
-    //Implement here
-    return 0;
-  }
   countTrieNodes(words) {
     //Implement here
     return 0;

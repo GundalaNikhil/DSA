@@ -28,6 +28,7 @@ memory_limit: 256
 You are given `n` courses (numbered 0 to n-1) with prerequisite relationships forming a Directed Acyclic Graph (DAG). Additionally, you have pairs of courses that must appear adjacent to each other (in any order) in the final schedule.
 
 Produce a topological ordering of courses that:
+
 1. Respects all prerequisite constraints (if A is a prerequisite of B, A must come before B)
 2. Ensures that for each mandatory pair (u, v), courses u and v are adjacent in the final ordering
 
@@ -59,6 +60,7 @@ Return the valid schedule as a list of course numbers. If no valid schedule exis
 ## Example
 
 **Input:**
+
 ```
 4
 2
@@ -69,6 +71,7 @@ Return the valid schedule as a list of course numbers. If no valid schedule exis
 ```
 
 **Output:**
+
 ```
 0 1 2 3
 ```
@@ -76,13 +79,16 @@ Return the valid schedule as a list of course numbers. If no valid schedule exis
 **Explanation:**
 
 Prerequisites:
+
 - Course 0 must come before course 2
 - Course 1 must come before course 2
 
 Mandatory adjacent pair:
+
 - Courses 2 and 3 must be adjacent
 
 One valid ordering is: [0, 1, 2, 3]
+
 - Satisfies 0 → 2 (0 before 2)
 - Satisfies 1 → 2 (1 before 2)
 - Courses 2 and 3 are adjacent
@@ -171,54 +177,57 @@ import sys
 from typing import List, Tuple
 from collections import defaultdict, deque
 
+# Increase recursion depth for deep DFS/Graph traversals
 sys.setrecursionlimit(200000)
 
-def course_schedule(n: int, prerequisites: List[Tuple[int, int]], pairs: List[Tuple[int, int]]) -> List[int]:
-    # //Implement here
-    return 0
+class Solution:
+    def course_schedule(self, n: int, prerequisites: List[Tuple[int, int]], pairs: List[Tuple[int, int]]) -> List[int]:
+        # //Implement here
+        return []
 
-def main():
+if __name__ == "__main__":
     try:
         input_data = sys.stdin.read().split()
     except Exception:
-        return
+        sys.exit(0)
 
     if not input_data:
-        return
+        sys.exit(0)
 
     iterator = iter(input_data)
     try:
         n = int(next(iterator))
         m = int(next(iterator))
-        
+
         prerequisites = []
         for _ in range(m):
             u = int(next(iterator))
             v = int(next(iterator))
             prerequisites.append((u, v))
-        
+
         # Handle optional pairs input
+        pairs = []
         try:
-            p = int(next(iterator))
-            pairs = []
+            # Check if there are more integers for p
+            # The iterator might raise StopIteration if we are at the end
+            p_val = next(iterator)
+            p = int(p_val)
             for _ in range(p):
                 a = int(next(iterator))
                 b = int(next(iterator))
                 pairs.append((a, b))
         except StopIteration:
-            pairs = []
-            
-        result = course_schedule(n, prerequisites, pairs)
-        
+            pass
+
+        solution = Solution()
+        result = solution.course_schedule(n, prerequisites, pairs)
+
         if not result:
             print(-1)
         else:
             print(' '.join(map(str, result)))
     except StopIteration:
         pass
-
-if __name__ == "__main__":
-    main()
 ```
 
 ### C++
@@ -235,7 +244,7 @@ using namespace std;
 
 class Solution {
 public:
-    public: vector<int> courseSchedule(int n, vector<pair<int,int>>& prerequisites, vector<pair<int,int>>& pairs) {
+    vector<int> courseSchedule(int n, vector<pair<int,int>>& prerequisites, vector<pair<int,int>>& pairs) {
         //Implement here
         return {};
     }
@@ -289,7 +298,7 @@ const readline = require("readline");
 class Solution {
   courseSchedule(n, prerequisites, pairs) {
     //Implement here
-    return 0;
+    return [];
   }
 }
 
@@ -334,4 +343,3 @@ rl.on("close", () => {
   }
 });
 ```
-

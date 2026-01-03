@@ -135,15 +135,16 @@ class WordMetadata {
 }
 
 class Solution {
+    private TrieNode root = new TrieNode();
+    private Map<String, WordMetadata> metadata = new HashMap<>();
+
     public void insertWord(String word, int frequency, int timestamp) {
         //Implement here
     }
+
     public List<String> autocomplete(String prefix, int currentTime, int D, int k) {
         //Implement here
         return new ArrayList<>();
-    }
-    private void collectWords(TrieNode node, String prefix, List<String> result) {
-        //Implement here
     }
 }
 
@@ -200,13 +201,11 @@ class Solution:
 
     def insert_word(self, word: str, frequency: int, timestamp: int):
         # //Implement here
-        return 0
+        pass
+
     def autocomplete(self, prefix: str, current_time: int, D: int, k: int) -> List[str]:
         # //Implement here
-        return 0
-    def _collect_words(self, node: TrieNode, prefix: str, result: List[str]):
-        # //Implement here
-        return 0
+        return []
 def main():
     import sys
     input_data = sys.stdin.read().strip().split()
@@ -269,13 +268,17 @@ struct WordScore {
 };
 
 class Solution {
+private:
+    TrieNode* root;
+    unordered_map<string, WordMetadata> metadata;
+
 public:
-    void collectWords(TrieNode* node, string prefix, vector<string>& result) {
-        //Implement here
-    }
+    Solution() : root(new TrieNode()) {}
+
     void insertWord(string word, int frequency, int timestamp) {
         //Implement here
     }
+
     vector<string> autocomplete(string prefix, int currentTime, int D, int k) {
         //Implement here
         return {};
@@ -324,17 +327,18 @@ class TrieNode {
 }
 
 class Solution {
+  constructor() {
+    this.root = new TrieNode();
+    this.metadata = new Map();
+  }
+
   insertWord(word, frequency, timestamp) {
     //Implement here
-    return 0;
   }
+
   autocomplete(prefix, currentTime, D, k) {
     //Implement here
-    return 0;
-  }
-  _collectWords(node, prefix, result) {
-    //Implement here
-    return 0;
+    return [];
   }
 }
 

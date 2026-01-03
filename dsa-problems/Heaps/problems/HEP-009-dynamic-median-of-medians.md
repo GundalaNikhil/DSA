@@ -155,7 +155,7 @@ from collections import defaultdict
 
 def process_operations(operations: list) -> list:
     # //Implement here
-    return 0
+    return []
 
 def main():
     input_data = sys.stdin.read().split()
@@ -182,7 +182,7 @@ def main():
                 operations.append([op, gid1, gid2])
             else:
                 operations.append([op])
-        
+
         result = process_operations(operations)
         print("\n".join(result))
     except StopIteration:
@@ -207,7 +207,7 @@ using namespace std;
 // Use multiset for easier deletion in C++
 struct Group {
     multiset<int> left, right;
-    
+
     void add(int val) {
         if (left.empty() || val <= *left.rbegin()) {
             left.insert(val);
@@ -216,7 +216,7 @@ struct Group {
         }
         rebalance();
     }
-    
+
     void rebalance() {
         while (left.size() > right.size() + 1) {
             right.insert(*left.rbegin());
@@ -227,14 +227,14 @@ struct Group {
             right.erase(right.begin());
         }
     }
-    
+
     int getMedian() {
         if (left.empty()) return 0;
         return *left.rbegin();
     }
-    
+
     int size() { return left.size() + right.size(); }
-    
+
     void mergeFrom(Group& other) {
         for (int x : other.left) add(x);
         for (int x : other.right) add(x);
@@ -254,7 +254,7 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int q;
     if (cin >> q) {
         vector<vector<string>> operations;
@@ -284,7 +284,7 @@ int main() {
                 operations.push_back({op});
             }
         }
-        
+
         Solution solution;
         vector<string> result = solution.processOperations(operations);
         for (const string& s : result) cout << s << "\n";
@@ -298,89 +298,10 @@ int main() {
 ```javascript
 const readline = require("readline");
 
-class PriorityQueue {
-  constructor(compare = (a, b) => a - b) {
-    this.heap = [];
-    this.compare = compare;
-  }
-  size() { return this.heap.length; }
-  isEmpty() { return this.heap.length === 0; }
-  peek() { return this.heap[0]; }
-  push(val) {
-    this.heap.push(val);
-    this.bubbleUp(this.heap.length - 1);
-  }
-  pop() {
-    if (this.size() === 0) return null;
-    const top = this.heap[0];
-    const bottom = this.heap.pop();
-    if (this.size() > 0) {
-      this.heap[0] = bottom;
-      this.bubbleDown(0);
-    }
-    return top;
-  }
-  bubbleUp(idx) {
-    while (idx > 0) {
-      const pIdx = Math.floor((idx - 1) / 2);
-      if (this.compare(this.heap[idx], this.heap[pIdx]) < 0) {
-        [this.heap[idx], this.heap[pIdx]] = [this.heap[pIdx], this.heap[idx]];
-        idx = pIdx;
-      } else break;
-    }
-  }
-  bubbleDown(idx) {
-    while (true) {
-      const left = 2 * idx + 1;
-      const right = 2 * idx + 2;
-      let swap = null;
-      if (left < this.size() && this.compare(this.heap[left], this.heap[idx]) < 0) swap = left;
-      if (right < this.size() && this.compare(this.heap[right], swap === null ? this.heap[idx] : this.heap[swap]) < 0) swap = right;
-      if (swap === null) break;
-      [this.heap[idx], this.heap[swap]] = [this.heap[swap], this.heap[idx]];
-      idx = swap;
-    }
-  }
-}
-
-class Group {
-  constructor() {
-    this.left = new PriorityQueue((a, b) => b - a);
-    this.right = new PriorityQueue((a, b) => a - b);
-  }
-  add(val) {
-    if (this.left.isEmpty() || val <= this.left.peek()) {
-      this.left.push(val);
-    } else {
-      this.right.push(val);
-    }
-    this.rebalance();
-  }
-  rebalance() {
-    while (this.left.size() > this.right.size() + 1) {
-      this.right.push(this.left.pop());
-    }
-    while (this.right.size() > this.left.size()) {
-      this.left.push(this.right.pop());
-    }
-  }
-  getMedian() {
-    if (this.left.isEmpty()) return 0;
-    return this.left.peek();
-  }
-  size() { return this.left.size() + this.right.size(); }
-  getAll() {
-    const res = [];
-    while (!this.left.isEmpty()) res.push(this.left.pop());
-    while (!this.right.isEmpty()) res.push(this.right.pop());
-    return res;
-  }
-}
-
 class Solution {
   processOperations(operations) {
     //Implement here
-    return 0;
+    return [];
   }
 }
 
@@ -416,10 +337,9 @@ rl.on("close", () => {
       operations.push([type]);
     }
   }
-  
+
   const solution = new Solution();
   const result = solution.processOperations(operations);
   console.log(result.join("\n"));
 });
 ```
-

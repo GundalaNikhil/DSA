@@ -111,19 +111,19 @@ class Main {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int m = sc.nextInt();
-        
+
         List<List<Integer>> adj = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             adj.add(new ArrayList<>());
         }
-        
+
         for (int i = 0; i < m; i++) {
             int u = sc.nextInt();
             int v = sc.nextInt();
             adj.get(u).add(v);
             adj.get(v).add(u);
         }
-        
+
         Solution solution = new Solution();
         System.out.println(solution.countComponents(n, adj));
         sc.close();
@@ -138,28 +138,27 @@ import sys
 from collections import deque
 from typing import List
 
+# Increase recursion depth for deep DFS/Graph traversals
 sys.setrecursionlimit(200000)
 
-def count_components(n: int, adj: List[List[int]]) -> int:
-    # //Implement here
-    return 0
-
-def main():
-    n = int(input())
-    m = int(input())
-    
-    adj = [[] for _ in range(n)]
-    
-    for _ in range(m):
-        u, v = map(int, input().split())
-        adj[u].append(v)
-        adj[v].append(u)
-    
-    result = count_components(n, adj)
-    print(result)
+class Solution:
+    def count_components(self, n: int, adj: List[List[int]]) -> int:
+        # //Implement here
+        return 0
 
 if __name__ == "__main__":
-    main()
+    n = int(sys.stdin.readline())
+    m = int(sys.stdin.readline())
+
+    adj = [[] for _ in range(n)]
+
+    for _ in range(m):
+        u, v = map(int, sys.stdin.readline().split())
+        adj[u].append(v)
+        adj[v].append(u)
+
+    solution = Solution()
+    print(solution.count_components(n, adj))
 ```
 
 ### C++
@@ -173,7 +172,7 @@ using namespace std;
 
 class Solution {
 public:
-    public: int countComponents(int n, vector<vector<int>>& adj) {
+    int countComponents(int n, vector<vector<int>>& adj) {
         //Implement here
         return 0;
     }
@@ -182,22 +181,22 @@ public:
 int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
-    
+
     int n, m;
     cin >> n >> m;
-    
+
     vector<vector<int>> adj(n);
-    
+
     for (int i = 0; i < m; i++) {
         int u, v;
         cin >> u >> v;
         adj[u].push_back(v);
         adj[v].push_back(u);
     }
-    
+
     Solution solution;
     cout << solution.countComponents(n, adj) << "\n";
-    
+
     return 0;
 }
 ```
@@ -225,7 +224,7 @@ rl.on("close", () => {
   let ptr = 0;
   const n = parseInt(data[ptr++]);
   const m = parseInt(data[ptr++]);
-  
+
   const adj = Array.from({ length: n }, () => []);
 
   for (let i = 0; i < m; i++) {
@@ -243,4 +242,3 @@ rl.on("close", () => {
   console.log(solution.countComponents(n, adj));
 });
 ```
-
