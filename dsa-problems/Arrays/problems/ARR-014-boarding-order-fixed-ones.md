@@ -45,12 +45,14 @@ Print the resulting array, space-separated.
 ## Example
 
 **Input:**
+
 ```
 6
 2 1 0 2 0 1
 ```
 
 **Output:**
+
 ```
 0 1 0 1 2 2
 ```
@@ -77,16 +79,145 @@ Arrays, Sorting, Two Pointers
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
 
+class Solution {
+    public int[] sortWithFixedOnes(int n, int[] arr) {
+        // Implement here
+        return new int[0];
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        int[] arr = new int[n];
+        String arrLine = br.readLine();
+        if (arrLine != null) {
+            String[] parts = arrLine.trim().split("\\s+");
+            for (int i = 0; i < n; i++) {
+                arr[i] = Integer.parseInt(parts[i]);
+            }
+        }
+
+        Solution sol = new Solution();
+        int[] result = sol.sortWithFixedOnes(n, arr);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < n; i++) {
+            sb.append(result[i]).append(i == n - 1 ? "" : " ");
+        }
+        System.out.println(sb);
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
 
+class Solution:
+    def sort_with_fixed_ones(self, n, arr):
+        # Implement here
+        return []
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    arr = list(map(int, input_data[1:n+1]))
+
+    sol = Solution()
+    result = sol.sort_with_fixed_ones(n, arr)
+
+    print(*(result))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    vector<int> sortWithFixedOnes(int n, vector<int>& arr) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    Solution sol;
+    vector<int> result = sol.sortWithFixedOnes(n, arr);
+
+    for (int i = 0; i < n; i++) {
+        cout << result[i] << (i == n - 1 ? "" : " ");
+    }
+    cout << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
 
+const fs = require("fs");
+
+class Solution {
+  sortWithFixedOnes(n, arr) {
+    // Implement here
+    return [];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+
+  let idx = 0;
+  function readInt() {
+    return parseInt(input[idx++]);
+  }
+
+  const n = readInt();
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(readInt());
+
+  const sol = new Solution();
+  const result = sol.sortWithFixedOnes(n, arr);
+
+  console.log(result.join(" "));
+}
+
+solve();
+```

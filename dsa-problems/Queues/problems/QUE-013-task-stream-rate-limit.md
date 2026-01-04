@@ -87,12 +87,108 @@ Queue, Sliding Window, Rate Limiting
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void rateLimit(int n, int t, int k, int[] timestamps) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int t = sc.nextInt();
+        int k = sc.nextInt();
+        int[] timestamps = new int[n];
+        for (int i = 0; i < n; i++) timestamps[i] = sc.nextInt();
+        Solution sol = new Solution();
+        sol.rateLimit(n, t, k, timestamps);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def rate_limit(self, n, t, k, timestamps):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    t = int(input_data[1])
+    k = int(input_data[2])
+    timestamps = [int(x) for x in input_data[3:3+n]]
+    sol = Solution()
+    sol.rate_limit(n, t, k, timestamps)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void rateLimit(int n, int t, int k, const vector<int>& timestamps) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, t, k;
+    if (!(cin >> n >> t >> k)) return 0;
+    vector<int> timestamps(n);
+    for (int i = 0; i < n; i++) cin >> timestamps[i];
+    Solution sol;
+    sol.rateLimit(n, t, k, timestamps);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  rateLimit(n, t, k, timestamps) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 3) return;
+  const n = parseInt(input[0]);
+  const t = parseInt(input[1]);
+  const k = parseInt(input[2]);
+  const timestamps = [];
+  for (let i = 0; i < n; i++) timestamps.push(parseInt(input[3 + i]));
+  const sol = new Solution();
+  sol.rateLimit(n, t, k, timestamps);
+}
+
+solve();
+```

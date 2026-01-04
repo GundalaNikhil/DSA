@@ -53,6 +53,7 @@ For each node, output its shortest distance from the source. If a node is unreac
 ## Example
 
 **Input:**
+
 ```
 5
 4
@@ -64,6 +65,7 @@ For each node, output its shortest distance from the source. If a node is unreac
 ```
 
 **Output:**
+
 ```
 0 1 2 1 2
 ```
@@ -71,6 +73,7 @@ For each node, output its shortest distance from the source. If a node is unreac
 **Explanation:**
 
 Starting from node 0 (source):
+
 - Distance to node 0: 0 (source itself)
 - Distance to node 1: 1 (direct edge 0→1)
 - Distance to node 2: 2 (path 0→1→2)
@@ -97,12 +100,177 @@ BFS, Shortest Path, Unweighted Graph, Level Order Traversal
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int[] getShortestDistances(int n, List<List<Integer>> adj, int s) {
+        // Implement here
+        return new int[0];
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        String mLine = br.readLine();
+        if (mLine == null) return;
+        int m = Integer.parseInt(mLine.trim());
+
+        List<List<Integer>> adj = new ArrayList<>(n);
+        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
+
+        for (int i = 0; i < m; i++) {
+            String[] edge = br.readLine().trim().split("\\s+");
+            int u = Integer.parseInt(edge[0]);
+            int v = Integer.parseInt(edge[1]);
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+
+        String sLine = br.readLine();
+        if (sLine == null) return;
+        int s = Integer.parseInt(sLine.trim());
+
+        Solution sol = new Solution();
+        int[] result = sol.getShortestDistances(n, adj, s);
+
+        PrintWriter out = new PrintWriter(System.out);
+        for (int i = 0; i < n; i++) {
+            out.print(result[i] + (i == n - 1 ? "" : " "));
+        }
+        out.println();
+        out.flush();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from collections import deque
+
+class Solution:
+    def get_shortest_distances(self, n, adj, s):
+        # Implement here
+        return []
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    m = int(input_data[1])
+
+    adj = [[] for _ in range(n)]
+    idx = 2
+    for _ in range(m):
+        u = int(input_data[idx])
+        v = int(input_data[idx+1])
+        adj[u].append(v)
+        adj[v].append(u)
+        idx += 2
+
+    s = int(input_data[idx])
+
+    sol = Solution()
+    result = sol.get_shortest_distances(n, adj, s)
+    print(*(result))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> getShortestDistances(int n, vector<vector<int>>& adj, int s) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+
+    vector<vector<int>> adj(n);
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    int s;
+    cin >> s;
+
+    Solution sol;
+    vector<int> result = sol.getShortestDistances(n, adj, s);
+
+    for (int i = 0; i < n; i++) {
+        cout << result[i] << (i == n - 1 ? "" : " ");
+    }
+    cout << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  getShortestDistances(n, adj, s) {
+    // Implement here
+    return [];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const m = parseInt(input[idx++]);
+
+  const adj = Array.from({ length: n }, () => []);
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(input[idx++]);
+    const v = parseInt(input[idx++]);
+    adj[u].push(v);
+    adj[v].push(u);
+  }
+
+  const s = parseInt(input[idx++]);
+
+  const sol = new Solution();
+  const result = sol.getShortestDistances(n, adj, s);
+  console.log(result.join(" "));
+}
+
+solve();
+```

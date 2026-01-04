@@ -99,12 +99,151 @@ Heaps, Median Maintenance, Union-Find, Merging
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public void processMedianOperations(int q, List<String> queries) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String firstLine = br.readLine();
+        if (firstLine == null) return;
+        int q = Integer.parseInt(firstLine.trim());
+
+        List<String> queries = new ArrayList<>();
+        for (int i = 0; i < q; i++) {
+            StringBuilder queryLine = new StringBuilder(br.readLine());
+            if (queryLine.toString().startsWith("NEW")) {
+                queryLine.append("\n").append(br.readLine());
+            }
+            queries.add(queryLine.toString());
+        }
+
+        Solution sol = new Solution();
+        sol.processMedianOperations(q, queries);
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def process_median_operations(self, q, queries):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().splitlines()
+    if not input_data:
+        return
+
+    q = int(input_data[0].strip())
+    queries = []
+    i = 1
+    while len(queries) < q:
+        query_line = input_data[i]
+        if query_line.startswith("NEW"):
+            queries.append(query_line + "\n" + input_data[i+1])
+            i += 2
+        else:
+            queries.append(query_line)
+            i += 1
+
+    sol = Solution()
+    sol.process_median_operations(q, queries)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <sstream>
+
+using namespace std;
+
+class Solution {
+public:
+    void processMedianOperations(int q, const vector<string>& queries) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int q;
+    if (!(cin >> q)) return 0;
+    cin.ignore();
+
+    vector<string> queries;
+    for (int i = 0; i < q; i++) {
+        string line;
+        getline(cin, line);
+        if (line.substr(0, 3) == "NEW") {
+            string nextLine;
+            getline(cin, nextLine);
+            queries.push_back(line + "\n" + nextLine);
+        } else {
+            queries.push_back(line);
+        }
+    }
+
+    Solution sol;
+    sol.processMedianOperations(q, queries);
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  processMedianOperations(q, queries) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\r?\n/);
+  if (input.length < 1) return;
+
+  const q = parseInt(input[0].trim());
+  const queries = [];
+  let i = 1;
+  while (queries.length < q) {
+    let queryLine = input[i];
+    if (queryLine.startsWith("NEW")) {
+      queries.push(queryLine + "\n" + input[i + 1]);
+      i += 2;
+    } else {
+      queries.push(queryLine);
+      i += 1;
+    }
+  }
+
+  const sol = new Solution();
+  sol.processMedianOperations(q, queries);
+}
+
+solve();
+```

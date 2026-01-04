@@ -110,12 +110,157 @@ Greedy Algorithms, Heap, Priority Queue, Task Scheduling, Cooldown Management
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long minTotalTime(int n, int k, List<TaskType> tasks) {
+        // Implement here
+        return 0;
+    }
+
+    static class TaskType {
+        char id;
+        int count;
+        int priority;
+        TaskType(char id, int count, int priority) {
+            this.id = id;
+            this.count = count;
+            this.priority = priority;
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nkLine = br.readLine();
+        if (nkLine == null) return;
+        String[] nk = nkLine.trim().split("\\s+");
+        int n = Integer.parseInt(nk[0]);
+        int k = Integer.parseInt(nk[1]);
+
+        List<Solution.TaskType> tasks = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            String[] tLine = br.readLine().trim().split("\\s+");
+            tasks.add(new Solution.TaskType(tLine[0].charAt(0), Integer.parseInt(tLine[1]), Integer.parseInt(tLine[2])));
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.minTotalTime(n, k, tasks));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def min_total_time(self, n, k, tasks):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().splitlines()
+    if not input_data:
+        return
+
+    nk = input_data[0].split()
+    n = int(nk[0])
+    k = int(nk[1])
+
+    tasks = []
+    for i in range(1, n + 1):
+        line = input_data[i].split()
+        tasks.append({'id': line[0], 'count': int(line[1]), 'priority': int(line[2])})
+
+    sol = Solution()
+    print(sol.min_total_time(n, k, tasks))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+struct TaskType {
+    char id;
+    int count;
+    int priority;
+};
+
+class Solution {
+public:
+    long long minTotalTime(int n, int k, vector<TaskType>& tasks) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, k;
+    if (!(cin >> n >> k)) return 0;
+
+    vector<TaskType> tasks(n);
+    for (int i = 0; i < n; i++) {
+        cin >> tasks[i].id >> tasks[i].count >> tasks[i].priority;
+    }
+
+    Solution sol;
+    cout << sol.minTotalTime(n, k, tasks) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  minTotalTime(n, k, tasks) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\r?\n/);
+  if (input.length < 1) return;
+
+  const nk = input[0].trim().split(/\s+/);
+  const n = parseInt(nk[0]);
+  const k = parseInt(nk[1]);
+
+  const tasks = [];
+  for (let i = 1; i <= n; i++) {
+    const line = input[i].trim().split(/\s+/);
+    tasks.push({
+      id: line[0],
+      count: parseInt(line[1]),
+      priority: parseInt(line[2]),
+    });
+  }
+
+  const sol = new Solution();
+  console.log(sol.minTotalTime(n, k, tasks).toString());
+}
+
+solve();
+```

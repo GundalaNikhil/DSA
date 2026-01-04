@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # STK-011: Circuit Postfix Evaluator with Variables
 
 ## Problem Statement
@@ -69,7 +70,7 @@ y 2
 
 **Explanation:**
 
-(3 + 5) * 2 = 16.
+(3 + 5) \* 2 = 16.
 
 ![Example Visualization](../images/STK-011/example-1.png)
 
@@ -87,14 +88,152 @@ Postfix Evaluation, Stack, Parsing
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long evaluate(int t, String[] tokens, Map<Character, Long> variables) {
+        // Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int t = sc.nextInt();
+            sc.nextLine(); // Consume newline
+            String[] tokens = sc.nextLine().split("\\s+");
+            int m = sc.nextInt();
+            Map<Character, Long> variables = new HashMap<>();
+            for (int i = 0; i < m; i++) {
+                char var = sc.next().charAt(0);
+                long val = sc.nextLong();
+                variables.put(var, val);
+            }
+            Solution sol = new Solution();
+            System.out.println(sol.evaluate(t, tokens, variables));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def evaluate(self, t: int, tokens: list, variables: dict) -> int:
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().splitlines()
+    if not input_data:
+        return
+    t = int(input_data[0])
+    tokens = input_data[1].split()
+    m = int(input_data[2])
+    variables = {}
+    for i in range(m):
+        var, val = input_data[3+i].split()
+        variables[var] = int(val)
+    sol = Solution()
+    print(sol.evaluate(t, tokens, variables))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <unordered_map>
+#include <sstream>
+
+using namespace std;
+
+class Solution {
+public:
+    long long evaluate(int t, const vector<string>& tokens, unordered_map<char, long long>& variables) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int t;
+    if (cin >> t) {
+        string line;
+        getline(cin, line); // consume newline
+        getline(cin, line);
+        stringstream ss(line);
+        vector<string> tokens;
+        string token;
+        while (ss >> token) tokens.push_back(token);
+
+        int m;
+        cin >> m;
+        unordered_map<char, long long> variables;
+        for (int i = 0; i < m; i++) {
+            char var;
+            long long val;
+            cin >> var >> val;
+            variables[var] = val;
+        }
+
+        Solution sol;
+        cout << sol.evaluate(t, tokens, variables) << endl;
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  evaluate(t, tokens, variables) {
+    // Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false,
+});
+
+let input = [];
+rl.on("line", (line) => {
+  if (line.trim()) input.push(line.trim());
+}).on("close", () => {
+  if (input.length < 3) return;
+  const t = parseInt(input[0]);
+  const tokens = input[1].split(/\s+/);
+  const m = parseInt(input[2]);
+  const variables = {};
+  for (let i = 0; i < m; i++) {
+    const [varName, val] = input[3 + i].split(/\s+/);
+    variables[varName] = BigInt(val);
+  }
+  const sol = new Solution();
+  console.log(sol.evaluate(t, tokens, variables).toString());
+});
+```

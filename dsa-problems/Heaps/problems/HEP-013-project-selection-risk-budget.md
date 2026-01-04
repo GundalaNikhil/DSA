@@ -98,12 +98,148 @@ Heaps, Greedy, Resource Allocation, Scheduling
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long maxFinalCapital(int n, int k, long c, long r, long[][] projects) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String firstLine = br.readLine();
+        if (firstLine == null) return;
+        String[] parts = firstLine.trim().split("\\s+");
+        int n = Integer.parseInt(parts[0]);
+        int k = Integer.parseInt(parts[1]);
+        long c = Long.parseLong(parts[2]);
+        long r = Long.parseLong(parts[3]);
+
+        long[][] projects = new long[n][3];
+        for (int i = 0; i < n; i++) {
+            String[] pParts = br.readLine().trim().split("\\s+");
+            projects[i][0] = Long.parseLong(pParts[0]);
+            projects[i][1] = Long.parseLong(pParts[1]);
+            projects[i][2] = Long.parseLong(pParts[2]);
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.maxFinalCapital(n, k, c, r, projects));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def max_final_capital(self, n, k, c, r, projects):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    idx = 0
+    n = int(input_data[idx++])
+    k = int(input_data[idx++])
+    c = int(input_data[idx++])
+    r = int(input_data[idx++])
+
+    projects = []
+    for _ in range(n):
+        cost = int(input_data[idx++])
+        profit = int(input_data[idx++])
+        risk = int(input_data[idx++])
+        projects.append([cost, profit, risk])
+
+    sol = Solution()
+    print(sol.max_final_capital(n, k, c, r, projects))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long maxFinalCapital(int n, int k, long long c, long long r, vector<vector<long long>>& projects) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, k;
+    long long c, r;
+    if (!(cin >> n >> k >> c >> r)) return 0;
+
+    vector<vector<long long>> projects(n, vector<long long>(3));
+    for (int i = 0; i < n; i++) {
+        cin >> projects[i][0] >> projects[i][1] >> projects[i][2];
+    }
+
+    Solution sol;
+    cout << sol.maxFinalCapital(n, k, c, r, projects) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  maxFinalCapital(n, k, c, r, projects) {
+    // Implement here
+    return 0n;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 4) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const k = parseInt(input[idx++]);
+  const c = BigInt(input[idx++]);
+  const r = BigInt(input[idx++]);
+
+  const projects = [];
+  for (let i = 0; i < n; i++) {
+    const cost = BigInt(input[idx++]);
+    const profit = BigInt(input[idx++]);
+    const risk = BigInt(input[idx++]);
+    projects.push([cost, profit, risk]);
+  }
+
+  const sol = new Solution();
+  console.log(sol.maxFinalCapital(n, k, c, r, projects).toString());
+}
+
+solve();
+```

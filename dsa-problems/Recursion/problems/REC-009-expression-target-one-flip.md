@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # REC-009: Expression Target With One Negation Flip
 
 ## Problem Statement
@@ -85,14 +86,106 @@ Backtracking, Expression Evaluation, Recursion
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void findExpressions(String s, int target, int c) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        String s = sc.next();
+        int target = sc.nextInt();
+        int c = sc.nextInt();
+        Solution sol = new Solution();
+        sol.findExpressions(s, target, c);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def find_expressions(self, s, target, c):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    s = input_data[0]
+    target = int(input_data[1])
+    c = int(input_data[2])
+    sol = Solution()
+    sol.find_expressions(s, target, c)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    void findExpressions(string s, int target, int c) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    string s;
+    int target, c;
+    if (!(cin >> s >> target >> c)) return 0;
+    Solution sol;
+    sol.findExpressions(s, target, c);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  findExpressions(s, target, c) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 3) return;
+  const s = input[0];
+  const target = parseInt(input[1]);
+  const c = parseInt(input[2]);
+  const sol = new Solution();
+  sol.findExpressions(s, target, c);
+}
+
+solve();
+```

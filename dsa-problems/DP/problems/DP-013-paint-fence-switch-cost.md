@@ -35,7 +35,7 @@ Rules:
 
 Return the minimum possible total cost to paint all posts while respecting the constraint.
 
-![Problem Illustration](../images/DP-013/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767513333/dsa/dp/llqliea6mb6jplerjlgp.jpg)
 
 ## Input Format
 
@@ -56,12 +56,14 @@ Return the minimum possible total cost to paint all posts while respecting the c
 ## Example
 
 **Input:**
+
 ```
 3 2
 0 2 1
 ```
 
 **Output:**
+
 ```
 4
 ```
@@ -91,12 +93,133 @@ Dynamic Programming, Optimization, Greedy
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long minPaintingCost(int n, int k, int[] s) {
+        // Implement here
+        return -1;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nkLine = br.readLine();
+        if (nkLine == null) return;
+        String[] nkParts = nkLine.trim().split("\\s+");
+        int n = Integer.parseInt(nkParts[0]);
+        int k = Integer.parseInt(nkParts[1]);
+
+        int[] s = new int[n];
+        String sLine = br.readLine();
+        if (sLine != null) {
+            String[] sParts = sLine.trim().split("\\s+");
+            for (int i = 0; i < n; i++) {
+                s[i] = Integer.parseInt(sParts[i]);
+            }
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.minPaintingCost(n, k, s));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def min_painting_cost(self, n, k, s):
+        # Implement here
+        return -1
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    k = int(input_data[1])
+    s = list(map(int, input_data[2:2+n]))
+
+    sol = Solution()
+    print(sol.min_painting_cost(n, k, s))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minPaintingCost(int n, int k, const vector<int>& s) {
+        // Implement here
+        return -1;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, k;
+    if (!(cin >> n >> k)) return 0;
+
+    vector<int> s(n);
+    for (int i = 0; i < n; i++) {
+        cin >> s[i];
+    }
+
+    Solution sol;
+    cout << sol.minPaintingCost(n, k, s) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  minPaintingCost(n, k, s) {
+    // Implement here
+    return -1;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const k = parseInt(input[idx++]);
+  const s = [];
+  for (let i = 0; i < n; i++) {
+    s.push(parseInt(input[idx++]));
+  }
+
+  const sol = new Solution();
+  const res = sol.minPaintingCost(n, k, s);
+  console.log(res === null || res === undefined ? -1 : res.toString());
+}
+
+solve();
+```

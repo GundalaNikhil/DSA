@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # REC-001: Dorm Room Paths
 
 ## Problem Statement
@@ -66,8 +67,8 @@ The valid paths are: RRD, RDR, and DRR.
 
 - Base case: reaching the last cell counts as 1 path
 - Memoize the number of paths from each cell
-- Time complexity: O(r * c)
-- Space complexity: O(r * c)
+- Time complexity: O(r \* c)
+- Space complexity: O(r \* c)
 
 ## Related Topics
 
@@ -76,14 +77,104 @@ Recursion, Memoization, Grid DP
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long countPaths(int r, int c) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int r = sc.nextInt();
+        int c = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.countPaths(r, c));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def count_paths(self, r, c):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    r = int(input_data[0])
+    c = int(input_data[1])
+    sol = Solution()
+    print(sol.count_paths(r, c))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long countPaths(int r, int c) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int r, c;
+    if (!(cin >> r >> c)) return 0;
+    Solution sol;
+    cout << sol.countPaths(r, c) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  countPaths(r, c) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+  const r = parseInt(input[0]);
+  const c = parseInt(input[1]);
+  const sol = new Solution();
+  console.log(sol.countPaths(r, c).toString());
+}
+
+solve();
+```

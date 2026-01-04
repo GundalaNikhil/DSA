@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # STC-011: Longest Common Substring of Two Strings (SA)
 
 ## Problem Statement
@@ -80,12 +81,114 @@ Suffix Array, LCP, Longest Common Substring
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int longestCommonSubstring(String a, String b) {
+        // Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String a = sc.next();
+            if (sc.hasNext()) {
+                String b = sc.next();
+                Solution solution = new Solution();
+                System.out.println(solution.longestCommonSubstring(a, b));
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if len(input_data) < 2:
+        return
+
+    a = input_data[0]
+    b = input_data[1]
+
+    solution = Solution()
+    print(solution.longest_common_substring(a, b))
+
+class Solution:
+    def longest_common_substring(self, a: str, b: str) -> int:
+        # Implement here
+        return 0
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int longestCommonSubstring(string a, string b) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string a, b;
+    if (cin >> a >> b) {
+        Solution sol;
+        cout << sol.longestCommonSubstring(a, b) << endl;
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  longestCommonSubstring(a, b) {
+    // Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let input = [];
+rl.on("line", (line) => {
+  if (line.trim()) input.push(...line.trim().split(/\s+/));
+}).on("close", () => {
+  if (input.length < 2) return;
+  const a = input[0];
+  const b = input[1];
+
+  const sol = new Solution();
+  console.log(sol.longestCommonSubstring(a, b));
+});
+```

@@ -83,12 +83,116 @@ Hashing, String Concatenation, Polynomial Hash
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public boolean isConcatEqual(String a, String b, String c, String d) {
+        // Implement here
+        return false;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String a = br.readLine();
+        String b = br.readLine();
+        String c = br.readLine();
+        String d = br.readLine();
+        if (a == null || b == null || c == null || d == null) return;
+
+        Solution sol = new Solution();
+        System.out.println(sol.isConcatEqual(a.trim(), b.trim(), c.trim(), d.trim()));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def is_concat_equal(self, a, b, c, d):
+        # Implement here
+        return False
+
+def solve():
+    input_data = sys.stdin.read().splitlines()
+    if len(input_data) < 4:
+        return
+
+    a = input_data[0].strip()
+    b = input_data[1].strip()
+    c = input_data[2].strip()
+    d = input_data[3].strip()
+
+    sol = Solution()
+    print("true" if sol.is_concat_equal(a, b, c, d) else "false")
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    bool isConcatEqual(string a, string b, string c, string d) {
+        // Implement here
+        return false;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string a, b, c, d;
+    if (!(cin >> a >> b >> c >> d)) return 0;
+
+    Solution sol;
+    cout << (sol.isConcatEqual(a, b, c, d) ? "true" : "false") << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  isConcatEqual(a, b, c, d) {
+    // Implement here
+    return false;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\r?\n/);
+  if (input.length < 4) return;
+
+  const a = input[0].trim();
+  const b = input[1].trim();
+  const c = input[2].trim();
+  const d = input[3].trim();
+
+  const sol = new Solution();
+  console.log(sol.isConcatEqual(a, b, c, d));
+}
+
+solve();
+```

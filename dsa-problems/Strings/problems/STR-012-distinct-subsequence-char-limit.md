@@ -73,3 +73,124 @@ aaa
 - DP with frequency state tracking
 - Use map for sparse state representation
 - Apply modulo at every step
+
+---
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public int countDistinctSubsequences(String s, int maxFreq, int MOD) {
+        // Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String s = sc.next();
+            if (sc.hasNextInt()) {
+                int maxFreq = sc.nextInt();
+                if (sc.hasNextInt()) {
+                    int MOD = sc.nextInt();
+                    Solution sol = new Solution();
+                    System.out.println(sol.countDistinctSubsequences(s, maxFreq, MOD));
+                }
+            }
+        }
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+import sys
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if len(input_data) < 3:
+        return
+    s = input_data[0]
+    max_freq = int(input_data[1])
+    MOD = int(input_data[2])
+    solution = Solution()
+    print(solution.count_distinct_subsequences(s, max_freq, MOD))
+
+class Solution:
+    def count_distinct_subsequences(self, s: str, max_freq: int, MOD: int) -> int:
+        # Implement here
+        return 0
+
+if __name__ == "__main__":
+    solve()
+```
+
+### C++
+
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int countDistinctSubsequences(string s, int maxFreq, int MOD) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string s;
+    int maxFreq, MOD;
+    if (cin >> s >> maxFreq >> MOD) {
+        Solution sol;
+        cout << sol.countDistinctSubsequences(s, maxFreq, MOD) << endl;
+    }
+
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  countDistinctSubsequences(s, maxFreq, MOD) {
+    // Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let input = [];
+rl.on("line", (line) => {
+  input.push(...line.trim().split(/\s+/));
+}).on("close", () => {
+  if (input.length >= 3) {
+    const s = input[0];
+    const maxFreq = parseInt(input[1]);
+    const MOD = parseInt(input[2]);
+    const sol = new Solution();
+    console.log(sol.countDistinctSubsequences(s, maxFreq, MOD));
+  }
+});
+```

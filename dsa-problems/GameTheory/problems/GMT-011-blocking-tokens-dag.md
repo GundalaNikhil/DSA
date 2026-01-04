@@ -34,7 +34,7 @@ The player who cannot make a valid move loses.
 
 Determine if the first player has a winning strategy.
 
-![Problem Illustration](../images/GMT-011/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767539108/dsa/gametheory_simple/bzehnyamdwqw0vr6sajg.jpg)
 
 ## Input Format
 
@@ -57,6 +57,7 @@ Determine if the first player has a winning strategy.
 ## Example
 
 **Input:**
+
 ```
 4 3
 1 2
@@ -66,11 +67,13 @@ Determine if the first player has a winning strategy.
 ```
 
 **Output:**
+
 ```
 First
 ```
 
 **Explanation:**
+
 - Nodes: 1, 2, 3, 4.
 - Edges: 1->2, 2->3, 1->3.
 - Tokens at 1 and 2.
@@ -105,12 +108,165 @@ Game Theory, Graph Traversal, Memoization
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public String determineWinner(int n, int m, List<List<Integer>> adj, int u, int v) {
+        // Implement here
+        return "";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nmLine = br.readLine();
+        if (nmLine == null) return;
+        String[] nmParts = nmLine.trim().split("\\s+");
+        int n = Integer.parseInt(nmParts[0]);
+        int m = Integer.parseInt(nmParts[1]);
+
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i <= n; i++) adj.add(new ArrayList<>());
+        for (int i = 0; i < m; i++) {
+            String line = br.readLine();
+            if (line == null) break;
+            String[] uvParts = line.trim().split("\\s+");
+            int a = Integer.parseInt(uvParts[0]);
+            int b = Integer.parseInt(uvParts[1]);
+            adj.get(a).add(b);
+        }
+
+        String startLine = br.readLine();
+        if (startLine == null) return;
+        String[] startParts = startLine.trim().split("\\s+");
+        int u = Integer.parseInt(startParts[0]);
+        int v = Integer.parseInt(startParts[1]);
+
+        Solution sol = new Solution();
+        System.out.println(sol.determineWinner(n, m, adj, u, v));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+# Increase recursion depth if needed
+sys.setrecursionlimit(20000)
+
+class Solution:
+    def determine_winner(self, n, m, adj, u, v):
+        # Implement here
+        return ""
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    m = int(input_data[1])
+
+    adj = [[] for _ in range(n + 1)]
+    idx = 2
+    for _ in range(m):
+        a = int(input_data[idx])
+        b = int(input_data[idx+1])
+        adj[a].append(b)
+        idx += 2
+
+    u = int(input_data[idx])
+    v = int(input_data[idx+1])
+
+    sol = Solution()
+    print(sol.determine_winner(n, m, adj, u, v))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    string determineWinner(int n, int m, const vector<vector<int>>& adj, int u, int v) {
+        // Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+
+    vector<vector<int>> adj(n + 1);
+    for (int i = 0; i < m; i++) {
+        int a, b;
+        cin >> a >> b;
+        adj[a].push_back(b);
+    }
+
+    int u, v;
+    cin >> u >> v;
+
+    Solution sol;
+    cout << sol.determineWinner(n, m, adj, u, v) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  determineWinner(n, m, adj, u, v) {
+    // Implement here
+    return "";
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const m = parseInt(input[idx++]);
+
+  const adj = Array.from({ length: n + 1 }, () => []);
+  for (let i = 0; i < m; i++) {
+    const a = parseInt(input[idx++]);
+    const b = parseInt(input[idx++]);
+    adj[a].push(b);
+  }
+
+  const u = parseInt(input[idx++]);
+  const v = parseInt(input[idx++]);
+
+  const sol = new Solution();
+  console.log(sol.determineWinner(n, m, adj, u, v));
+}
+
+solve();
+```

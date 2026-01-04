@@ -46,6 +46,7 @@ A single integer representing P(X) modulo MOD, where P is the interpolating poly
 ## Example
 
 **Input:**
+
 ```
 2 2
 1000000007
@@ -54,6 +55,7 @@ A single integer representing P(X) modulo MOD, where P is the interpolating poly
 ```
 
 **Output:**
+
 ```
 5
 ```
@@ -87,12 +89,142 @@ lagrange-interpolation, modular-arithmetic, polynomial
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long interpolate(int k, long xQuery, long mod, long[][] points) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
+        String[] firstLine = line.trim().split("\\s+");
+        int k = Integer.parseInt(firstLine[0]);
+        long xQuery = Long.parseLong(firstLine[1]);
+
+        long mod = Long.parseLong(br.readLine().trim());
+
+        long[][] points = new long[k][2];
+        for (int i = 0; i < k; i++) {
+            String[] pLine = br.readLine().trim().split("\\s+");
+            points[i][0] = Long.parseLong(pLine[0]);
+            points[i][1] = Long.parseLong(pLine[1]);
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.interpolate(k, xQuery, mod, points));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def interpolate(self, k, x_query, mod, points):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    k = int(input_data[0])
+    x_query = int(input_data[1])
+    mod = int(input_data[2])
+
+    points = []
+    idx = 3
+    for _ in range(k):
+        points.append((int(input_data[idx]), int(input_data[idx+1])))
+        idx += 2
+
+    sol = Solution()
+    print(sol.interpolate(k, x_query, mod, points))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long interpolate(int k, long long X, long long MOD, const vector<pair<long long, long long>>& points) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int k;
+    long long X, MOD;
+    if (!(cin >> k >> X >> MOD)) return 0;
+
+    vector<pair<long long, long long>> points(k);
+    for (int i = 0; i < k; i++) {
+        cin >> points[i].first >> points[i].second;
+    }
+
+    Solution sol;
+    cout << sol.interpolate(k, X, MOD, points) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  interpolate(k, xQuery, mod, points) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 3) return;
+
+  const k = parseInt(input[0]);
+  const xQuery = BigInt(input[1]);
+  const mod = BigInt(input[2]);
+
+  const points = [];
+  let idx = 3;
+  for (let i = 0; i < k; i++) {
+    const x = BigInt(input[idx++]);
+    const y = BigInt(input[idx++]);
+    points.push([x, y]);
+  }
+
+  const sol = new Solution();
+  console.log(sol.interpolate(k, xQuery, mod, points).toString());
+}
+
+solve();
+```

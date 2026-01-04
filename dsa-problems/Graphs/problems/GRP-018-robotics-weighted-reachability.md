@@ -55,6 +55,7 @@ An edge (u, v, w) can be traversed if and only if `w <= T`. Count all nodes that
 ## Example
 
 **Input:**
+
 ```
 5 4
 4
@@ -65,6 +66,7 @@ An edge (u, v, w) can be traversed if and only if `w <= T`. Count all nodes that
 ```
 
 **Output:**
+
 ```
 3
 ```
@@ -72,17 +74,20 @@ An edge (u, v, w) can be traversed if and only if `w <= T`. Count all nodes that
 **Explanation:**
 
 Graph edges:
+
 - (0, 1) with weight 3 ≤ 4 ✓ (valid)
 - (1, 2) with weight 7 > 4 ✗ (invalid)
 - (0, 3) with weight 2 ≤ 4 ✓ (valid)
 - (3, 4) with weight 5 > 4 ✗ (invalid)
 
 Reachable nodes from node 0 using edges with weight ≤ 4:
+
 - Node 0 (starting point)
 - Node 1 (via edge 0-1 with weight 3)
 - Node 3 (via edge 0-3 with weight 2)
 
 Nodes 2 and 4 are not reachable because:
+
 - Node 2 requires edge (1,2) with weight 7 > 4
 - Node 4 requires edge (3,4) with weight 5 > 4
 
@@ -111,11 +116,165 @@ Weighted Graph, Reachability, BFS, DFS, Union-Find, Edge Filtering
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int countReachable(int n, long t, List<Edge> edges) {
+        // Implement here
+        return 0;
+    }
+
+    static class Edge {
+        int u, v;
+        long w;
+        Edge(int u, int v, long w) {
+            this.u = u;
+            this.v = v;
+            this.w = w;
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String ntLine = br.readLine();
+        if (ntLine == null) return;
+        String[] nt = ntLine.trim().split("\\s+");
+        int n = Integer.parseInt(nt[0]);
+        long t = Long.parseLong(nt[1]);
+
+        String mLine = br.readLine();
+        if (mLine == null) return;
+        int m = Integer.parseInt(mLine.trim());
+
+        List<Solution.Edge> edges = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            String[] line = br.readLine().trim().split("\\s+");
+            edges.add(new Solution.Edge(Integer.parseInt(line[0]), Integer.parseInt(line[1]), Long.parseLong(line[2])));
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.countReachable(n, t, edges));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def count_reachable(self, n, t, edges):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    t = int(input_data[1])
+    m = int(input_data[2])
+
+    idx = 3
+    edges = []
+    for _ in range(m):
+        u = int(input_data[idx])
+        v = int(input_data[idx+1])
+        w = int(input_data[idx+2])
+        edges.append((u, v, w))
+        idx += 3
+
+    sol = Solution()
+    print(sol.count_reachable(n, t, edges))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+struct Edge {
+    int u, v;
+    long long w;
+};
+
+class Solution {
+public:
+    int countReachable(int n, long long t, vector<Edge>& edges) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    long long t;
+    if (!(cin >> n >> t)) return 0;
+
+    int m;
+    cin >> m;
+
+    vector<Edge> edges(m);
+    for (int i = 0; i < m; i++) {
+        cin >> edges[i].u >> edges[i].v >> edges[i].w;
+    }
+
+    Solution sol;
+    cout << sol.countReachable(n, t, edges) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  countReachable(n, t, edges) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 3) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const t = BigInt(input[idx++]);
+  const m = parseInt(input[idx++]);
+
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(input[idx++]);
+    const v = parseInt(input[idx++]);
+    const w = BigInt(input[idx++]);
+    edges.push([u, v, w]);
+  }
+
+  const sol = new Solution();
+  console.log(sol.countReachable(n, t, edges));
+}
+
+solve();
+```

@@ -98,12 +98,127 @@ Heaps, Median Maintenance, Lazy Deletion, Data Streams
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public void processOperations(int q, int t, List<String> ops) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String firstLine = br.readLine();
+        if (firstLine == null) return;
+        String[] parts = firstLine.trim().split("\\s+");
+        int q = Integer.parseInt(parts[0]);
+        int t = Integer.parseInt(parts[1]);
+
+        List<String> ops = new ArrayList<>();
+        for (int i = 0; i < q; i++) {
+            ops.add(br.readLine());
+        }
+
+        Solution sol = new Solution();
+        sol.processOperations(q, t, ops);
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def process_operations(self, q, t, operations):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().splitlines()
+    if not input_data:
+        return
+
+    first_line = input_data[0].split()
+    q = int(first_line[0])
+    threshold = int(first_line[1])
+
+    operations = input_data[1:q+1]
+
+    sol = Solution()
+    sol.process_operations(q, threshold, operations)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <sstream>
+
+using namespace std;
+
+class Solution {
+public:
+    void processOperations(int q, int t, const vector<string>& ops) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int q, t;
+    if (!(cin >> q >> t)) return 0;
+    cin.ignore();
+
+    vector<string> ops(q);
+    for (int i = 0; i < q; i++) {
+        getline(cin, ops[i]);
+    }
+
+    Solution sol;
+    sol.processOperations(q, t, ops);
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  processOperations(q, t, ops) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\r?\n/);
+  if (input.length < 1) return;
+
+  const firstLine = input[0].trim().split(/\s+/);
+  const q = parseInt(firstLine[0]);
+  const threshold = parseInt(firstLine[1]);
+
+  const ops = input.slice(1, q + 1);
+
+  const sol = new Solution();
+  sol.processOperations(q, threshold, ops);
+}
+
+solve();
+```

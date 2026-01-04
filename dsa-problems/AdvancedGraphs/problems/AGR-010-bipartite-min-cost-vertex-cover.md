@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # AGR-010: Minimum Cost Vertex Cover in Bipartite Graph
 
 ## Problem Statement
@@ -88,12 +89,190 @@ Vertex Cover, Min Cut, Bipartite Graphs
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long minCostVertexCover(int nU, int nV, int m, int[] weightU, int[] weightV, int[][] edges) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
+        String[] parts = line.trim().split("\\s+");
+        int nU = Integer.parseInt(parts[0]);
+        int nV = Integer.parseInt(parts[1]);
+        int m = Integer.parseInt(parts[2]);
+
+        int[] weightU = new int[nU];
+        line = br.readLine();
+        if (line != null) {
+            parts = line.trim().split("\\s+");
+            for (int i = 0; i < nU; i++) {
+                weightU[i] = Integer.parseInt(parts[i]);
+            }
+        }
+
+        int[] weightV = new int[nV];
+        line = br.readLine();
+        if (line != null) {
+            parts = line.trim().split("\\s+");
+            for (int i = 0; i < nV; i++) {
+                weightV[i] = Integer.parseInt(parts[i]);
+            }
+        }
+
+        int[][] edges = new int[m][2];
+        for (int i = 0; i < m; i++) {
+            line = br.readLine();
+            if (line == null) break;
+            parts = line.trim().split("\\s+");
+            edges[i][0] = Integer.parseInt(parts[0]);
+            edges[i][1] = Integer.parseInt(parts[1]);
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.minCostVertexCover(nU, nV, m, weightU, weightV, edges));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def min_cost_vertex_cover(self, nU, nV, m, weightU, weightV, edges):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        nU = int(next(iterator))
+        nV = int(next(iterator))
+        m = int(next(iterator))
+
+        weightU = []
+        for _ in range(nU):
+            weightU.append(int(next(iterator)))
+
+        weightV = []
+        for _ in range(nV):
+            weightV.append(int(next(iterator)))
+
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            edges.append([u, v])
+
+    except StopIteration:
+        pass
+
+    sol = Solution()
+    print(sol.min_cost_vertex_cover(nU, nV, m, weightU, weightV, edges))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minCostVertexCover(int nU, int nV, int m, vector<int>& weightU, vector<int>& weightV, vector<vector<int>>& edges) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int nU, nV, m;
+    if (!(cin >> nU >> nV >> m)) return 0;
+
+    vector<int> weightU(nU);
+    for (int i = 0; i < nU; i++) cin >> weightU[i];
+
+    vector<int> weightV(nV);
+    for (int i = 0; i < nV; i++) cin >> weightV[i];
+
+    vector<vector<int>> edges(m, vector<int>(2));
+    for (int i = 0; i < m; i++) {
+        cin >> edges[i][0] >> edges[i][1];
+    }
+
+    Solution sol;
+    cout << sol.minCostVertexCover(nU, nV, m, weightU, weightV, edges) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  minCostVertexCover(nU, nV, m, weightU, weightV, edges) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 3) return;
+
+  let idx = 0;
+  function readInt() {
+    return parseInt(input[idx++]);
+  }
+
+  const nU = readInt();
+  const nV = readInt();
+  const m = readInt();
+
+  const weightU = [];
+  for (let i = 0; i < nU; i++) weightU.push(readInt());
+
+  const weightV = [];
+  for (let i = 0; i < nV; i++) weightV.push(readInt());
+
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = readInt();
+    const v = readInt();
+    edges.push([u, v]);
+  }
+
+  const sol = new Solution();
+  console.log(sol.minCostVertexCover(nU, nV, m, weightU, weightV, edges));
+}
+
+solve();
+```

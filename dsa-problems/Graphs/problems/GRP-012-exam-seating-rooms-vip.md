@@ -54,6 +54,7 @@ Your task is to remove the minimum number of edges such that no component contai
 ## Example
 
 **Input:**
+
 ```
 5
 3
@@ -64,6 +65,7 @@ Your task is to remove the minimum number of edges such that no component contai
 ```
 
 **Output:**
+
 ```
 3
 ```
@@ -74,12 +76,14 @@ Edges: (0,1), (1,2), (3,4)
 VIPs: {2, 3}
 
 Initial components:
+
 - Component 1: {0, 1, 2} (contains VIP 2)
 - Component 2: {3, 4} (contains VIP 3)
 
 Since VIPs 2 and 3 are already in different components, no edges need to be removed.
 
 Final components:
+
 - Component 1: {0, 1, 2} → size 3
 - Component 2: {3, 4} → size 2
 
@@ -107,11 +111,161 @@ Union-Find, DSU, Connected Components, Graph Constraints, Component Tracking
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int maxSafeComponentSize(int n, int m, List<int[]> edges, Set<Integer> vips) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        String mLine = br.readLine();
+        if (mLine == null) return;
+        int m = Integer.parseInt(mLine.trim());
+
+        List<int[]> edges = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            String[] edge = br.readLine().trim().split("\\s+");
+            edges.add(new int[]{Integer.parseInt(edge[0]), Integer.parseInt(edge[1])});
+        }
+
+        String vipLine = br.readLine();
+        Set<Integer> vips = new HashSet<>();
+        if (vipLine != null && !vipLine.trim().isEmpty()) {
+            String[] vipsArr = vipLine.trim().split("\\s+");
+            for (String s : vipsArr) vips.add(Integer.parseInt(s));
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.maxSafeComponentSize(n, m, edges, vips));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def max_safe_component_size(self, n, m, edges, vips):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().splitlines()
+    if not input_data:
+        return
+
+    n = int(input_data[0].strip())
+    m = int(input_data[1].strip())
+
+    edges = []
+    for i in range(2, 2 + m):
+        edges.append(list(map(int, input_data[i].split())))
+
+    vips = set()
+    if len(input_data) > 2 + m:
+        vips = set(map(int, input_data[2 + m].split()))
+
+    sol = Solution()
+    print(sol.max_safe_component_size(n, m, edges, vips))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+#include <numeric>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxSafeComponentSize(int n, int m, vector<pair<int, int>>& edges, unordered_set<int>& vips) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+
+    vector<pair<int, int>> edges(m);
+    for (int i = 0; i < m; i++) {
+        cin >> edges[i].first >> edges[i].second;
+    }
+
+    unordered_set<int> vips;
+    int v;
+    while (cin >> v) {
+        vips.insert(v);
+    }
+
+    Solution sol;
+    cout << sol.maxSafeComponentSize(n, m, edges, vips) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  maxSafeComponentSize(n, m, edges, vips) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\r?\n/);
+  if (input.length < 2) return;
+
+  const n = parseInt(input[0].trim());
+  const m = parseInt(input[1].trim());
+
+  const edges = [];
+  for (let i = 2; i < 2 + m; i++) {
+    edges.push(input[i].trim().split(/\s+/).map(Number));
+  }
+
+  let vips = new Set();
+  if (input.length > 2 + m) {
+    const vipsArr = input[2 + m].trim().split(/\s+/);
+    if (vipsArr[0] !== "") {
+      vipsArr.forEach((v) => vips.add(parseInt(v)));
+    }
+  }
+
+  const sol = new Solution();
+  console.log(sol.maxSafeComponentSize(n, m, edges, vips));
+}
+
+solve();
+```

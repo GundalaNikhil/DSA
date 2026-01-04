@@ -89,12 +89,103 @@ String Rotation, Hashing, Binary Search, Lexicographic Order
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public String findMinimalRotation(String s) {
+        // Implement here
+        return "";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String s = br.readLine();
+        if (s == null) return;
+
+        Solution sol = new Solution();
+        System.out.println(sol.findMinimalRotation(s.trim()));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def find_minimal_rotation(self, s):
+        # Implement here
+        return ""
+
+def solve():
+    s = sys.stdin.read().strip()
+    if not s:
+        return
+
+    sol = Solution()
+    print(sol.find_minimal_rotation(s))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    string findMinimalRotation(string s) {
+        // Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string s;
+    if (!(cin >> s)) return 0;
+
+    Solution sol;
+    cout << sol.findMinimalRotation(s) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  findMinimalRotation(s) {
+    // Implement here
+    return "";
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").trim();
+  if (!input) return;
+
+  const sol = new Solution();
+  console.log(sol.findMinimalRotation(input));
+}
+
+solve();
+```

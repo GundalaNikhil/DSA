@@ -101,12 +101,133 @@ Greedy Algorithms, Interval Scheduling, Activity Selection, Sorting
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int maxStalls(int n, int d, int[][] requests) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String ndLine = br.readLine();
+        if (ndLine == null) return;
+        String[] nd = ndLine.trim().split("\\s+");
+        int n = Integer.parseInt(nd[0]);
+        int d = Integer.parseInt(nd[1]);
+
+        int[][] requests = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            String[] req = br.readLine().trim().split("\\s+");
+            requests[i][0] = Integer.parseInt(req[0]);
+            requests[i][1] = Integer.parseInt(req[1]);
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.maxStalls(n, d, requests));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def max_stalls(self, n, d, requests):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    d = int(input_data[1])
+    idx = 2
+    requests = []
+    for _ in range(n):
+        requests.append([int(input_data[idx]), int(input_data[idx+1])])
+        idx += 2
+
+    sol = Solution()
+    print(sol.max_stalls(n, d, requests))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxStalls(int n, int d, vector<vector<int>>& requests) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, d;
+    if (!(cin >> n >> d)) return 0;
+
+    vector<vector<int>> requests(n, vector<int>(2));
+    for (int i = 0; i < n; i++) {
+        cin >> requests[i][0] >> requests[i][1];
+    }
+
+    Solution sol;
+    cout << sol.maxStalls(n, d, requests) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  maxStalls(n, d, requests) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const d = parseInt(input[idx++]);
+  const requests = [];
+  for (let i = 0; i < n; i++) {
+    requests.push([parseInt(input[idx++]), parseInt(input[idx++])]);
+  }
+
+  const sol = new Solution();
+  console.log(sol.maxStalls(n, d, requests));
+}
+
+solve();
+```

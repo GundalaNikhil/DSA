@@ -30,7 +30,7 @@ A digit string encodes letters `1 -> A`, `2 -> B`, ..., `26 -> Z`. You must coun
 
 Return the number of valid decodings modulo `1_000_000_007`.
 
-![Problem Illustration](../images/DP-014/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767513333/dsa/dp/hcpe4g2obpvzoru30esw.jpg)
 
 ## Input Format
 
@@ -49,11 +49,13 @@ Return the number of valid decodings modulo `1_000_000_007`.
 ## Example
 
 **Input:**
+
 ```
 2012
 ```
 
 **Output:**
+
 ```
 2
 ```
@@ -83,12 +85,103 @@ Dynamic Programming, Strings, Combinatorics
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int countDecodings(String s) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String s = br.readLine();
+        if (s == null) return;
+
+        Solution sol = new Solution();
+        System.out.println(sol.countDecodings(s));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def count_decodings(self, s):
+        # Implement here
+        return 0
+
+def solve():
+    s = sys.stdin.readline().strip()
+    if not s:
+        return
+
+    sol = Solution()
+    print(sol.count_decodings(s))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int countDecodings(string s) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string s;
+    if (!(cin >> s)) return 0;
+
+    Solution sol;
+    cout << sol.countDecodings(s) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  countDecodings(s) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").trim();
+  if (!input) return;
+
+  const sol = new Solution();
+  console.log(sol.countDecodings(input));
+}
+
+solve();
+```

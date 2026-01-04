@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # GRB-004: Bellman-Ford with Negative Edges
 
 ## Problem Statement
@@ -84,12 +85,162 @@ Bellman-Ford, Shortest Path, Negative Cycles
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public String bellmanFord(int n, int m, int s, List<Edge> edges) {
+        // Implement here
+        return "";
+    }
+
+    static class Edge {
+        int u, v;
+        long w;
+        Edge(int u, int v, long w) {
+            this.u = u;
+            this.v = v;
+            this.w = w;
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nmsLine = br.readLine();
+        if (nmsLine == null) return;
+        String[] nms = nmsLine.trim().split("\\s+");
+        int n = Integer.parseInt(nms[0]);
+        int m = Integer.parseInt(nms[1]);
+        int s = Integer.parseInt(nms[2]);
+
+        List<Solution.Edge> edges = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            String[] edgeLine = br.readLine().trim().split("\\s+");
+            int u = Integer.parseInt(edgeLine[0]);
+            int v = Integer.parseInt(edgeLine[1]);
+            long w = Long.parseLong(edgeLine[2]);
+            edges.add(new Solution.Edge(u, v, w));
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.bellmanFord(n, m, s, edges));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def bellman_ford(self, n, m, s, edges):
+        # Implement here
+        return ""
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    m = int(input_data[1])
+    s = int(input_data[2])
+
+    edges = []
+    idx = 3
+    for _ in range(m):
+        u = int(input_data[idx])
+        v = int(input_data[idx+1])
+        w = int(input_data[idx+2])
+        edges.append((u, v, w))
+        idx += 3
+
+    sol = Solution()
+    print(sol.bellman_ford(n, m, s, edges))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+struct Edge {
+    int u, v;
+    long long w;
+};
+
+class Solution {
+public:
+    string bellmanFord(int n, int m, int s, vector<Edge>& edges) {
+        // Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, m, s;
+    if (!(cin >> n >> m >> s)) return 0;
+
+    vector<Edge> edges(m);
+    for (int i = 0; i < m; i++) {
+        cin >> edges[i].u >> edges[i].v >> edges[i].w;
+    }
+
+    Solution sol;
+    cout << sol.bellmanFord(n, m, s, edges) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  bellmanFord(n, m, s, edges) {
+    // Implement here
+    return "";
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 3) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const m = parseInt(input[idx++]);
+  const s = parseInt(input[idx++]);
+
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(input[idx++]);
+    const v = parseInt(input[idx++]);
+    const w = BigInt(input[idx++]);
+    edges.push({ u, v, w });
+  }
+
+  const sol = new Solution();
+  console.log(sol.bellmanFord(n, m, s, edges));
+}
+
+solve();
+```

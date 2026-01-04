@@ -82,12 +82,101 @@ Divisor Sums, Sieve, Prefix Sums
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long sumDivisorsInRange(int l, int r) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int l = sc.nextInt();
+        int r = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.sumDivisorsInRange(l, r));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def sum_divisors_in_range(self, l, r):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    l = int(input_data[0])
+    r = int(input_data[1])
+    sol = Solution()
+    print(sol.sum_divisors_in_range(l, r))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long sumDivisorsInRange(int l, int r) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int l, r;
+    if (!(cin >> l >> r)) return 0;
+    Solution sol;
+    cout << sol.sumDivisorsInRange(l, r) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  sumDivisorsInRange(l, r) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+  const l = parseInt(input[0]);
+  const r = parseInt(input[1]);
+  const sol = new Solution();
+  console.log(sol.sumDivisorsInRange(l, r).toString());
+}
+
+solve();
+```

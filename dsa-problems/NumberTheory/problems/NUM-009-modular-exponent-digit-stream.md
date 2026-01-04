@@ -66,7 +66,7 @@ Compute `a^e mod m`, where `e` is given as a decimal digit string that may be ve
 
 ## Notes
 
-- Process digits: result = result^10 * a^digit (mod m)
+- Process digits: result = result^10 \* a^digit (mod m)
 - Use fast modular exponentiation for small powers
 - Time complexity: O(|e| log m)
 - Space complexity: O(1)
@@ -81,12 +81,105 @@ Modular Exponentiation, Big Exponents
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long modularExponent(long a, String e, long m) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextLong()) return;
+        long a = sc.nextLong();
+        long m = sc.nextLong();
+        String e = sc.next();
+        Solution sol = new Solution();
+        System.out.println(sol.modularExponent(a, e, m));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def modular_exponent(self, a, e, m):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    a = int(input_data[0])
+    m = int(input_data[1])
+    e = input_data[2]
+    sol = Solution()
+    print(sol.modular_exponent(a, e, m))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    long long modularExponent(long long a, string e, long long m) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    long long a, m;
+    string e;
+    if (!(cin >> a >> m >> e)) return 0;
+    Solution sol;
+    cout << sol.modularExponent(a, e, m) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  modularExponent(a, e, m) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 3) return;
+  const a = BigInt(input[0]);
+  const m = BigInt(input[1]);
+  const e = input[2];
+  const sol = new Solution();
+  console.log(sol.modularExponent(a, e, m).toString());
+}
+
+solve();
+```

@@ -80,12 +80,123 @@ Bitwise Operations, Prefix XOR
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int countDistinctSubarrayXors(int n, int[] a) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.countDistinctSubarrayXors(n, a));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def count_distinct_subarray_xors(self, n, a):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    a = list(map(int, input_data[1:n+1]))
+
+    sol = Solution()
+    print(sol.count_distinct_subarray_xors(n, a))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+
+using namespace std;
+
+class Solution {
+public:
+    int countDistinctSubarrayXors(int n, const vector<int>& a) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+    Solution sol;
+    cout << sol.countDistinctSubarrayXors(n, a) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  countDistinctSubarrayXors(n, a) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const a = [];
+  for (let i = 0; i < n; i++) {
+    a.push(parseInt(input[idx++]));
+  }
+
+  const sol = new Solution();
+  console.log(sol.countDistinctSubarrayXors(n, a));
+}
+
+solve();
+```

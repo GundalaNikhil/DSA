@@ -112,12 +112,146 @@ Greedy Algorithms, Heap, Priority Queue, State Management, Optimization
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int highestOccupiedRow(int r, int n, int[] capacity, int[][] refunds) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String rnLine = br.readLine();
+        if (rnLine == null) return;
+        String[] rn = rnLine.trim().split("\\s+");
+        int r = Integer.parseInt(rn[0]);
+        int n = Integer.parseInt(rn[1]);
+
+        int[] capacity = new int[r];
+        String[] capLine = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < r; i++) capacity[i] = Integer.parseInt(capLine[i]);
+
+        int[][] refunds = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            String[] refLine = br.readLine().trim().split("\\s+");
+            refunds[i][0] = Integer.parseInt(refLine[0]);
+            refunds[i][1] = Integer.parseInt(refLine[1]);
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.highestOccupiedRow(r, n, capacity, refunds));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def highest_occupied_row(self, r, n, capacity, refunds):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    r = int(input_data[0])
+    n = int(input_data[1])
+    idx = 2
+    capacity = list(map(int, input_data[idx:idx+r]))
+    idx += r
+    refunds = []
+    for _ in range(n):
+        refunds.append([int(input_data[idx]), int(input_data[idx+1])])
+        idx += 2
+
+    sol = Solution()
+    print(sol.highest_occupied_row(r, n, capacity, refunds))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int highestOccupiedRow(int r, int n, vector<int>& capacity, vector<vector<int>>& refunds) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int r, n;
+    if (!(cin >> r >> n)) return 0;
+
+    vector<int> capacity(r);
+    for (int i = 0; i < r; i++) cin >> capacity[i];
+
+    vector<vector<int>> refunds(n, vector<int>(2));
+    for (int i = 0; i < n; i++) {
+        cin >> refunds[i][0] >> refunds[i][1];
+    }
+
+    Solution sol;
+    cout << sol.highestOccupiedRow(r, n, capacity, refunds) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  highestOccupiedRow(r, n, capacity, refunds) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const r = parseInt(input[idx++]);
+  const n = parseInt(input[idx++]);
+
+  const capacity = [];
+  for (let i = 0; i < r; i++) capacity.push(parseInt(input[idx++]));
+
+  const refunds = [];
+  for (let i = 0; i < n; i++) {
+    refunds.push([parseInt(input[idx++]), parseInt(input[idx++])]);
+  }
+
+  const sol = new Solution();
+  console.log(sol.highestOccupiedRow(r, n, capacity, refunds));
+}
+
+solve();
+```

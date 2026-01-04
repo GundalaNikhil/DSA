@@ -90,12 +90,126 @@ Heaps, Huffman Coding, Greedy Algorithms
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long minMergeCost(int n, int m, long[] frequencies) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String firstLine = br.readLine();
+        if (firstLine == null) return;
+        String[] parts = firstLine.trim().split("\\s+");
+        int n = Integer.parseInt(parts[0]);
+        int m = Integer.parseInt(parts[1]);
+
+        long[] frequencies = new long[n];
+        String[] vals = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < n; i++) {
+            frequencies[i] = Long.parseLong(vals[i]);
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.minMergeCost(n, m, frequencies));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def min_merge_cost(self, n, m, frequencies):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    m = int(input_data[1])
+    frequencies = list(map(int, input_data[2:2+n]))
+
+    sol = Solution()
+    print(sol.min_merge_cost(n, m, frequencies))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minMergeCost(int n, int m, vector<long long>& frequencies) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+
+    vector<long long> frequencies(n);
+    for (int i = 0; i < n; i++) cin >> frequencies[i];
+
+    Solution sol;
+    cout << sol.minMergeCost(n, m, frequencies) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  minMergeCost(n, m, frequencies) {
+    // Implement here
+    return 0n;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const m = parseInt(input[idx++]);
+  const frequencies = [];
+  for (let i = 0; i < n; i++) {
+    frequencies.push(BigInt(input[idx++]));
+  }
+
+  const sol = new Solution();
+  console.log(sol.minMergeCost(n, m, frequencies).toString());
+}
+
+solve();
+```

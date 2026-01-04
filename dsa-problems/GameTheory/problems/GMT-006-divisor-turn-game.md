@@ -31,7 +31,7 @@ This happens when the current number is prime (since its only divisors are 1 and
 
 Determine if the first player has a winning strategy for a given `n`.
 
-![Problem Illustration](../images/GMT-006/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767539105/dsa/gametheory_simple/qc9rkazlzst0cbe4mu4z.jpg)
 
 ## Input Format
 
@@ -48,16 +48,19 @@ Determine if the first player has a winning strategy for a given `n`.
 ## Example
 
 **Input:**
+
 ```
 2
 ```
 
 **Output:**
+
 ```
 Second
 ```
 
 **Explanation:**
+
 - `n = 2`.
 - Divisors of 2 are 1, 2.
 - Proper divisors: 1.
@@ -66,16 +69,19 @@ Second
 - First player loses immediately.
 
 **Input:**
+
 ```
 6
 ```
 
 **Output:**
+
 ```
 First
 ```
 
 **Explanation:**
+
 - `n = 6`.
 - Proper divisors > 1: 2, 3.
 - If P1 chooses 2: P2 receives 2. P2 has no moves (2 is prime). P2 loses.
@@ -99,12 +105,104 @@ Game Theory, Sieve of Eratosthenes, Memoization
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public String determineWinner(int n) {
+        // Implement here
+        return "";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+
+        Solution sol = new Solution();
+        System.out.println(sol.determineWinner(n));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def determine_winner(self, n):
+        # Implement here
+        return ""
+
+def solve():
+    line = sys.stdin.readline().strip()
+    if not line:
+        return
+    n = int(line)
+
+    sol = Solution()
+    print(sol.determine_winner(n))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string determineWinner(int n) {
+        // Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    Solution sol;
+    cout << sol.determineWinner(n) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  determineWinner(n) {
+    // Implement here
+    return "";
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").trim();
+  if (!input) return;
+  const n = parseInt(input);
+
+  const sol = new Solution();
+  console.log(sol.determineWinner(n));
+}
+
+solve();
+```

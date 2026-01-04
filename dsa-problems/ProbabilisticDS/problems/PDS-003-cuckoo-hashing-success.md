@@ -87,12 +87,104 @@ Cuckoo Hashing, Randomized Analysis
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public double successProbability(int m, double alpha) {
+        // Implement here
+        return 0.0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int m = sc.nextInt();
+        double alpha = sc.nextDouble();
+        Solution sol = new Solution();
+        System.out.println(String.format("%.6f", sol.successProbability(m, alpha)));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import math
+
+class Solution:
+    def success_probability(self, m, alpha):
+        # Implement here
+        return 0.0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    m = int(input_data[0])
+    alpha = float(input_data[1])
+    sol = Solution()
+    print(format(sol.success_probability(m, alpha), ".6f"))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+
+using namespace std;
+
+class Solution {
+public:
+    double successProbability(int m, double alpha) {
+        // Implement here
+        return 0.0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int m;
+    double alpha;
+    if (!(cin >> m >> alpha)) return 0;
+    Solution sol;
+    cout << fixed << setprecision(6) << sol.successProbability(m, alpha) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  successProbability(m, alpha) {
+    // Implement here
+    return 0.0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+  const m = parseInt(input[0]);
+  const alpha = parseFloat(input[1]);
+  const sol = new Solution();
+  console.log(sol.successProbability(m, alpha).toFixed(6));
+}
+
+solve();
+```

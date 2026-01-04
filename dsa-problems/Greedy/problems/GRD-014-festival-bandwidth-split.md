@@ -114,12 +114,123 @@ Greedy Algorithms, Knapsack Problem, Resource Allocation, Optimization
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int maxStages(int n, long bLimit, long[] b) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nbLine = br.readLine();
+        if (nbLine == null) return;
+        String[] nb = nbLine.trim().split("\\s+");
+        int n = Integer.parseInt(nb[0]);
+        long bLimit = Long.parseLong(nb[1]);
+
+        long[] b = new long[n];
+        String[] bLine = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < n; i++) b[i] = Long.parseLong(bLine[i]);
+
+        Solution sol = new Solution();
+        System.out.println(sol.maxStages(n, bLimit, b));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def max_stages(self, n, b_limit, b):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    b_limit = int(input_data[1])
+    b = list(map(int, input_data[2:2+n]))
+
+    sol = Solution()
+    print(sol.max_stages(n, b_limit, b))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxStages(int n, long long bLimit, vector<long long>& b) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    long long bLimit;
+    if (!(cin >> n >> bLimit)) return 0;
+
+    vector<long long> b(n);
+    for (int i = 0; i < n; i++) cin >> b[i];
+
+    Solution sol;
+    cout << sol.maxStages(n, bLimit, b) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  maxStages(n, bLimit, b) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const bLimit = BigInt(input[idx++]);
+  const b = [];
+  for (let i = 0; i < n; i++) b.push(BigInt(input[idx++]));
+
+  const sol = new Solution();
+  console.log(sol.maxStages(n, bLimit, b));
+}
+
+solve();
+```

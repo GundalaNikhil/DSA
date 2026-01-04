@@ -24,6 +24,8 @@ memory_limit: 256
 
 ## Problem Statement
 
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767539586/dsa/geometry/zs3qtdzwqnfgqb4tz1ew.jpg)
+
 You are given a **convex** polygon with `n` vertices in counterclockwise order. Find the maximum squared distance between any pair of its vertices (the squared diameter of the polygon).
 
 Return that maximum squared distance as an integer.
@@ -54,6 +56,7 @@ Fartherst pair are opposite corners:
 ## Example
 
 **Input:**
+
 ```
 4
 0 0
@@ -63,6 +66,7 @@ Fartherst pair are opposite corners:
 ```
 
 **Output:**
+
 ```
 2
 ```
@@ -87,12 +91,130 @@ Rotating Calipers, Convex Geometry, Distance Computation
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long findMaxSquaredDiameter(int n, long[][] vertices) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        long[][] vertices = new long[n][2];
+        for (int i = 0; i < n; i++) {
+            String[] v = br.readLine().trim().split("\\s+");
+            vertices[i][0] = Long.parseLong(v[0]);
+            vertices[i][1] = Long.parseLong(v[1]);
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.findMaxSquaredDiameter(n, vertices));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def find_max_squared_diameter(self, n, vertices):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    idx = 1
+    vertices = []
+    for _ in range(n):
+        vertices.append((int(input_data[idx]), int(input_data[idx+1])))
+        idx += 2
+
+    sol = Solution()
+    print(sol.find_max_squared_diameter(n, vertices))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long long findMaxSquaredDiameter(int n, vector<pair<long long, long long>>& vertices) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<pair<long long, long long>> vertices(n);
+    for (int i = 0; i < n; i++) {
+        cin >> vertices[i].first >> vertices[i].second;
+    }
+
+    Solution sol;
+    cout << sol.findMaxSquaredDiameter(n, vertices) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  findMaxSquaredDiameter(n, vertices) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const vertices = [];
+  for (let i = 0; i < n; i++) {
+    vertices.push([BigInt(input[idx++]), BigInt(input[idx++])]);
+  }
+
+  const sol = new Solution();
+  console.log(sol.findMaxSquaredDiameter(n, vertices).toString());
+}
+
+solve();
+```

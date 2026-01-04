@@ -118,12 +118,149 @@ Two Heaps, Median Finding, Lazy Deletion, Frequency Map, Data Structures
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public List<String> processBatches(int k, int t, List<List<Integer>> batches) {
+        // Implement here
+        return new ArrayList<>();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String ktLine = br.readLine();
+        if (ktLine == null) return;
+        String[] kt = ktLine.trim().split("\\s+");
+        int k = Integer.parseInt(kt[0]);
+        int t = Integer.parseInt(kt[1]);
+
+        List<List<Integer>> batches = new ArrayList<>();
+        for (int i = 0; i < k; i++) {
+            String[] line = br.readLine().trim().split("\\s+");
+            int m = Integer.parseInt(line[0]);
+            List<Integer> batch = new ArrayList<>();
+            for (int j = 1; j <= m; j++) batch.add(Integer.parseInt(line[j]));
+            batches.add(batch);
+        }
+
+        Solution sol = new Solution();
+        List<String> results = sol.processBatches(k, t, batches);
+        System.out.println(String.join(" ", results));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def process_batches(self, k, t, batches):
+        # Implement here
+        return []
+
+def solve():
+    input_data = sys.stdin.read().splitlines()
+    if not input_data:
+        return
+
+    kt = input_data[0].split()
+    k = int(kt[0])
+    t = int(kt[1])
+
+    batches = []
+    for i in range(1, k + 1):
+        line = list(map(int, input_data[i].split()))
+        batches.append(line[1:])
+
+    sol = Solution()
+    results = sol.process_batches(k, t, batches)
+    print(" ".join(results))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> processBatches(int k, int t, vector<vector<int>>& batches) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int k, t;
+    if (!(cin >> k >> t)) return 0;
+
+    vector<vector<int>> batches(k);
+    for (int i = 0; i < k; i++) {
+        int m;
+        cin >> m;
+        batches[i].resize(m);
+        for (int j = 0; j < m; j++) cin >> batches[i][j];
+    }
+
+    Solution sol;
+    vector<string> results = sol.processBatches(k, t, batches);
+    for (int i = 0; i < results.size(); i++) {
+        cout << results[i] << (i == results.size() - 1 ? "" : " ");
+    }
+    cout << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  processBatches(k, t, batches) {
+    // Implement here
+    return [];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\r?\n/);
+  if (input.length < 1) return;
+
+  const kt = input[0].trim().split(/\s+/);
+  const k = parseInt(kt[0]);
+  const t = parseInt(kt[1]);
+
+  const batches = [];
+  for (let i = 1; i <= k; i++) {
+    const line = input[i].trim().split(/\s+/).map(Number);
+    batches.push(line.slice(1));
+  }
+
+  const sol = new Solution();
+  const results = sol.processBatches(k, t, batches);
+  console.log(results.join(" "));
+}
+
+solve();
+```

@@ -51,6 +51,7 @@ The graph is represented as an adjacency list where each node may have zero or m
 ## Example
 
 **Input:**
+
 ```
 4
 3
@@ -60,6 +61,7 @@ The graph is represented as an adjacency list where each node may have zero or m
 ```
 
 **Output:**
+
 ```
 0 1 2 3
 ```
@@ -67,6 +69,7 @@ The graph is represented as an adjacency list where each node may have zero or m
 **Explanation:**
 
 Starting from node 0:
+
 - Level 0: Visit node 0
 - Level 1: Visit nodes 1 and 2 (neighbors of 0, in the order they appear in adjacency list)
 - Level 2: Visit node 3 (neighbor of 1)
@@ -93,12 +96,166 @@ Graph Traversal, BFS, Queue, Visited Set, Level Order Traversal
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public List<Integer> bfsTraversal(int n, List<List<Integer>> adj) {
+        // Implement here
+        return new ArrayList<>();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        String mLine = br.readLine();
+        if (mLine == null) return;
+        int m = Integer.parseInt(mLine.trim());
+
+        List<List<Integer>> adj = new ArrayList<>(n);
+        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
+
+        for (int i = 0; i < m; i++) {
+            String[] edge = br.readLine().trim().split("\\s+");
+            int u = Integer.parseInt(edge[0]);
+            int v = Integer.parseInt(edge[1]);
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+
+        Solution sol = new Solution();
+        List<Integer> result = sol.bfsTraversal(n, adj);
+
+        PrintWriter out = new PrintWriter(System.out);
+        for (int i = 0; i < result.size(); i++) {
+            out.print(result.get(i) + (i == result.size() - 1 ? "" : " "));
+        }
+        out.println();
+        out.flush();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from collections import deque
+
+class Solution:
+    def bfs_traversal(self, n, adj):
+        # Implement here
+        return []
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    m = int(input_data[1])
+
+    adj = [[] for _ in range(n)]
+    idx = 2
+    for _ in range(m):
+        u = int(input_data[idx])
+        v = int(input_data[idx+1])
+        adj[u].append(v)
+        adj[v].append(u)
+        idx += 2
+
+    sol = Solution()
+    result = sol.bfs_traversal(n, adj)
+    print(*(result))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> bfsTraversal(int n, vector<vector<int>>& adj) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+
+    vector<vector<int>> adj(n);
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    Solution sol;
+    vector<int> result = sol.bfsTraversal(n, adj);
+
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i] << (i == result.size() - 1 ? "" : " ");
+    }
+    cout << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  bfsTraversal(n, adj) {
+    // Implement here
+    return [];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const m = parseInt(input[idx++]);
+
+  const adj = Array.from({ length: n }, () => []);
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(input[idx++]);
+    const v = parseInt(input[idx++]);
+    adj[u].push(v);
+    adj[v].push(u);
+  }
+
+  const sol = new Solution();
+  const result = sol.bfsTraversal(n, adj);
+  console.log(result.join(" "));
+}
+
+solve();
+```

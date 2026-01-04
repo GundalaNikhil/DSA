@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # AGR-003: K Shortest Paths (Loopless)
 
 ## Problem Statement
@@ -87,12 +88,180 @@ K Shortest Paths, Dijkstra, Yen's Algorithm
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public List<Long> kShortestPaths(int n, int m, int s, int t, int k, int[][] edges) {
+        // Implement here
+        return new ArrayList<>();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
+        String[] parts = line.trim().split("\\s+");
+        int n = Integer.parseInt(parts[0]);
+        int m = Integer.parseInt(parts[1]);
+        int s = Integer.parseInt(parts[2]);
+        int t = Integer.parseInt(parts[3]);
+        int k = Integer.parseInt(parts[4]);
+
+        int[][] edges = new int[m][3];
+        for (int i = 0; i < m; i++) {
+            parts = br.readLine().trim().split("\\s+");
+            edges[i][0] = Integer.parseInt(parts[0]);
+            edges[i][1] = Integer.parseInt(parts[1]);
+            edges[i][2] = Integer.parseInt(parts[2]);
+        }
+
+        Solution sol = new Solution();
+        List<Long> result = sol.kShortestPaths(n, m, s, t, k, edges);
+
+        System.out.println(result.size());
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < result.size(); i++) {
+            sb.append(result.get(i)).append(i == result.size() - 1 ? "" : " ");
+        }
+        System.out.println(sb);
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import heapq
+
+class Solution:
+    def k_shortest_paths(self, n, m, s, t, k, edges):
+        # Implement here
+        return []
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        s = int(next(iterator))
+        t = int(next(iterator))
+        k = int(next(iterator))
+
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            w = int(next(iterator))
+            edges.append([u, v, w])
+
+    except StopIteration:
+        pass
+
+    sol = Solution()
+    result = sol.k_shortest_paths(n, m, s, t, k, edges)
+
+    print(len(result))
+    print(*(result))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> kShortestPaths(int n, int m, int s, int t, int k, vector<vector<int>>& edges) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, m, s, t, k;
+    if (!(cin >> n >> m >> s >> t >> k)) return 0;
+
+    vector<vector<int>> edges(m, vector<int>(3));
+    for (int i = 0; i < m; i++) {
+        cin >> edges[i][0] >> edges[i][1] >> edges[i][2];
+    }
+
+    Solution sol;
+    vector<long long> result = sol.kShortestPaths(n, m, s, t, k, edges);
+
+    cout << result.size() << endl;
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i] << (i == result.size() - 1 ? "" : " ");
+    }
+    cout << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  kShortestPaths(n, m, s, t, k, edges) {
+    // Implement here
+    return [];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 5) return;
+
+  let idx = 0;
+  function readInt() {
+    return parseInt(input[idx++]);
+  }
+
+  const n = readInt();
+  const m = readInt();
+  const s = readInt();
+  const t = readInt();
+  const k = readInt();
+
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = readInt();
+    const v = readInt();
+    const w = readInt();
+    edges.push([u, v, w]);
+  }
+
+  const sol = new Solution();
+  const result = sol.kShortestPaths(n, m, s, t, k, edges);
+
+  console.log(result.length);
+  console.log(result.join(" "));
+}
+
+solve();
+```

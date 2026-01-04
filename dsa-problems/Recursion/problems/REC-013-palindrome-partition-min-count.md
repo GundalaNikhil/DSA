@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # REC-013: Palindrome Partition with Minimum Count
 
 ## Problem Statement
@@ -81,14 +82,103 @@ Backtracking, Palindromes, Recursion
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void findPartition(String s, int l) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        String s = sc.next();
+        int l = sc.nextInt();
+        Solution sol = new Solution();
+        sol.findPartition(s, l);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def find_partition(self, s, l):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    s = input_data[0]
+    l = int(input_data[1])
+    sol = Solution()
+    sol.find_partition(s, l)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    void findPartition(string s, int l) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    string s;
+    int l;
+    if (!(cin >> s >> l)) return 0;
+    Solution sol;
+    sol.findPartition(s, l);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  findPartition(s, l) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+  const s = input[0];
+  const l = parseInt(input[1]);
+  const sol = new Solution();
+  sol.findPartition(s, l);
+}
+
+solve();
+```

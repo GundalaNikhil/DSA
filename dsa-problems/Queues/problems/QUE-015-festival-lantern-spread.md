@@ -74,7 +74,7 @@ The farthest cell from a lit lantern is at Manhattan distance 3, so it takes 3 m
 - Use multi-source BFS starting from all `1` cells
 - Track the number of unlit cells to detect impossible cases
 - Each BFS layer corresponds to one minute
-- Time complexity: O(r * c)
+- Time complexity: O(r \* c)
 
 ## Related Topics
 
@@ -86,12 +86,123 @@ BFS, Grid, Queue
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int minMinutes(int r, int c, int[][] grid) {
+        // Implement here
+        return -1;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int r = sc.nextInt();
+        int c = sc.nextInt();
+        int[][] grid = new int[r][c];
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                grid[i][j] = sc.nextInt();
+            }
+        }
+        Solution sol = new Solution();
+        System.out.println(sol.minMinutes(r, c, grid));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def min_minutes(self, r, c, grid):
+        # Implement here
+        return -1
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    r = int(input_data[0])
+    c = int(input_data[1])
+    grid = []
+    idx = 2
+    for i in range(r):
+        grid.append([int(x) for x in input_data[idx:idx+c]])
+        idx += c
+    sol = Solution()
+    print(sol.min_minutes(r, c, grid))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int minMinutes(int r, int c, vector<vector<int>>& grid) {
+        // Implement here
+        return -1;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int r, c;
+    if (!(cin >> r >> c)) return 0;
+    vector<vector<int>> grid(r, vector<int>(c));
+    for (int i = 0; i < r; i++) {
+        for (int j = 0; j < c; j++) cin >> grid[i][j];
+    }
+    Solution sol;
+    cout << sol.minMinutes(r, c, grid) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  minMinutes(r, c, grid) {
+    // Implement here
+    return -1;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+  const r = parseInt(input[0]);
+  const c = parseInt(input[1]);
+  const grid = [];
+  let idx = 2;
+  for (let i = 0; i < r; i++) {
+    const row = [];
+    for (let j = 0; j < c; j++) row.push(parseInt(input[idx++]));
+    grid.push(row);
+  }
+  const sol = new Solution();
+  console.log(sol.minMinutes(r, c, grid));
+}
+
+solve();
+```

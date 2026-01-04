@@ -95,8 +95,110 @@ Binary Search, Hashing, Rolling Hash, Longest Common Substring
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int longestCommonSubstringLength(String a, String b) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String a = br.readLine();
+        String b = br.readLine();
+        if (a == null || b == null) return;
+
+        Solution sol = new Solution();
+        System.out.println(sol.longestCommonSubstringLength(a, b));
+    }
+}
+```
+
 ### Python
+
+```python
+import sys
+
+class Solution:
+    def longest_common_substring_length(self, a, b):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().splitlines()
+    if len(input_data) < 2:
+        return
+
+    a = input_data[0].strip()
+    b = input_data[1].strip()
+
+    sol = Solution()
+    print(sol.longest_common_substring_length(a, b))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int longestCommonSubstringLength(string a, string b) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string a, b;
+    if (!(cin >> a >> b)) return 0;
+
+    Solution sol;
+    cout << sol.longestCommonSubstringLength(a, b) << endl;
+
+    return 0;
+}
+```
+
 ### JavaScript
+
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  longestCommonSubstringLength(a, b) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\r?\n/);
+  if (input.length < 2) return;
+
+  const a = input[0].trim();
+  const b = input[1].trim();
+
+  const sol = new Solution();
+  console.log(sol.longestCommonSubstringLength(a, b));
+}
+
+solve();
+```

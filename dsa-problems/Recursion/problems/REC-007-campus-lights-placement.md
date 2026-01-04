@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # REC-007: Campus Lights Placement
 
 ## Problem Statement
@@ -82,14 +83,104 @@ Backtracking, Combinatorics, Recursion
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void findPlacements(int n, int k, int d) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int d = sc.nextInt();
+        Solution sol = new Solution();
+        sol.findPlacements(n, k, d);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def find_placements(self, n, k, d):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    k = int(input_data[1])
+    d = int(input_data[2])
+    sol = Solution()
+    sol.find_placements(n, k, d)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void findPlacements(int n, int k, int d) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, k, d;
+    if (!(cin >> n >> k >> d)) return 0;
+    Solution sol;
+    sol.findPlacements(n, k, d);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  findPlacements(n, k, d) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 3) return;
+  const n = parseInt(input[0]);
+  const k = parseInt(input[1]);
+  const d = parseInt(input[2]);
+  const sol = new Solution();
+  sol.findPlacements(n, k, d);
+}
+
+solve();
+```

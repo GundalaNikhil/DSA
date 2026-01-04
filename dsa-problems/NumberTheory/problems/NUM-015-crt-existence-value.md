@@ -89,12 +89,119 @@ CRT, Extended GCD, Number Theory
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void solveCRT(int k, long[] a, long[] m) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int k = sc.nextInt();
+        long[] a = new long[k];
+        long[] m = new long[k];
+        for (int i = 0; i < k; i++) {
+            a[i] = sc.nextLong();
+            m[i] = sc.nextLong();
+        }
+        Solution sol = new Solution();
+        sol.solveCRT(k, a, m);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def solve_crt(self, k, a, m):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    k = int(input_data[0])
+    a = []
+    m = []
+    idx = 1
+    for _ in range(k):
+        a.append(int(input_data[idx]))
+        m.append(int(input_data[idx+1]))
+        idx += 2
+    sol = Solution()
+    sol.solve_crt(k, a, m)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void solveCRT(int k, const vector<long long>& a, const vector<long long>& m) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int k;
+    if (!(cin >> k)) return 0;
+    vector<long long> a(k), m(k);
+    for (int i = 0; i < k; i++) {
+        cin >> a[i] >> m[i];
+    }
+    Solution sol;
+    sol.solveCRT(k, a, m);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  solveCRT(k, a, m) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+  const k = parseInt(input[0]);
+  const a = [];
+  const m = [];
+  let idx = 1;
+  for (let i = 0; i < k; i++) {
+    a.push(BigInt(input[idx++]));
+    m.push(BigInt(input[idx++]));
+  }
+  const sol = new Solution();
+  sol.solveCRT(k, a, m);
+}
+
+solve();
+```

@@ -31,7 +31,7 @@ You are given an array `a` of length `n` and an integer `D`. Partition the array
 
 Return the minimum possible larger-group size. If no valid partition exists, return `-1`.
 
-![Problem Illustration](../images/DP-012/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767513332/dsa/dp/slhopnkq5djpuzkeit9k.jpg)
 
 ## Input Format
 
@@ -51,12 +51,14 @@ Print one integer: the minimum larger-group size, or `-1` if impossible.
 ## Example
 
 **Input:**
+
 ```
 4 1
 3 1 4 2
 ```
 
 **Output:**
+
 ```
 2
 ```
@@ -86,13 +88,132 @@ Dynamic Programming, Subset Sum, Partitioning
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int minLargerGroupSize(int n, int D, int[] a) {
+        // Implement here
+        return -1;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nDLine = br.readLine();
+        if (nDLine == null) return;
+        String[] nDParts = nDLine.trim().split("\\s+");
+        int n = Integer.parseInt(nDParts[0]);
+        int D = Integer.parseInt(nDParts[1]);
+
+        int[] a = new int[n];
+        String aLine = br.readLine();
+        if (aLine != null) {
+            String[] aParts = aLine.trim().split("\\s+");
+            for (int i = 0; i < n; i++) {
+                a[i] = Integer.parseInt(aParts[i]);
+            }
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.minLargerGroupSize(n, D, a));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def min_larger_group_size(self, n, D, a):
+        # Implement here
+        return -1
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    D = int(input_data[1])
+    a = list(map(int, input_data[2:2+n]))
+
+    sol = Solution()
+    print(sol.min_larger_group_size(n, D, a))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int minLargerGroupSize(int n, int D, const vector<int>& a) {
+        // Implement here
+        return -1;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, D;
+    if (!(cin >> n >> D)) return 0;
+
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+    Solution sol;
+    cout << sol.minLargerGroupSize(n, D, a) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
 
+const fs = require("fs");
+
+class Solution {
+  minLargerGroupSize(n, D, a) {
+    // Implement here
+    return -1;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const D = parseInt(input[idx++]);
+  const a = [];
+  for (let i = 0; i < n; i++) {
+    a.push(parseInt(input[idx++]));
+  }
+
+  const sol = new Solution();
+  console.log(sol.minLargerGroupSize(n, D, a));
+}
+
+solve();
+```

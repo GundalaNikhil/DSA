@@ -87,12 +87,102 @@ Deque, Two Pointers, Simulation
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void rearrange(int n, int[] values) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] values = new int[n];
+        for (int i = 0; i < n; i++) values[i] = sc.nextInt();
+        Solution sol = new Solution();
+        sol.rearrange(n, values);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def rearrange(self, n, values):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    values = [int(x) for x in input_data[1:1+n]]
+    sol = Solution()
+    sol.rearrange(n, values)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void rearrange(int n, const vector<int>& values) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<int> values(n);
+    for (int i = 0; i < n; i++) cin >> values[i];
+    Solution sol;
+    sol.rearrange(n, values);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  rearrange(n, values) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+  const n = parseInt(input[0]);
+  const values = [];
+  for (let i = 0; i < n; i++) values.push(parseInt(input[1 + i]));
+  const sol = new Solution();
+  sol.rearrange(n, values);
+}
+
+solve();
+```

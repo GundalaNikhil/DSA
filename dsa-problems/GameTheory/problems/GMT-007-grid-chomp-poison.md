@@ -34,7 +34,7 @@ The player who cannot make a valid move loses.
 
 Determine if the first player has a winning strategy.
 
-![Problem Illustration](../images/GMT-007/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767539106/dsa/gametheory_simple/mvgdka2blqnzfwxwzt2i.jpg)
 
 ## Input Format
 
@@ -56,6 +56,7 @@ Determine if the first player has a winning strategy.
 ## Example
 
 **Input:**
+
 ```
 2 2
 1
@@ -63,11 +64,13 @@ Determine if the first player has a winning strategy.
 ```
 
 **Output:**
+
 ```
 First
 ```
 
 **Explanation:**
+
 - Grid 2x2. Poison at (0,0).
 - Valid moves:
   - (0, 1): Removes (0,1), (1,1).
@@ -96,12 +99,143 @@ Game Theory, Memoization, Young Tableaux
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public String determineWinner(int r, int c, int k, int[][] poisoned) {
+        // Implement here
+        return "";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String rcLine = br.readLine();
+        if (rcLine == null) return;
+        String[] rcParts = rcLine.trim().split("\\s+");
+        int r = Integer.parseInt(rcParts[0]);
+        int c = Integer.parseInt(rcParts[1]);
+
+        String kLine = br.readLine();
+        if (kLine == null) return;
+        int k = Integer.parseInt(kLine.trim());
+
+        int[][] poisoned = new int[k][2];
+        for (int i = 0; i < k; i++) {
+            String[] pParts = br.readLine().trim().split("\\s+");
+            poisoned[i][0] = Integer.parseInt(pParts[0]);
+            poisoned[i][1] = Integer.parseInt(pParts[1]);
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.determineWinner(r, c, k, poisoned));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def determine_winner(self, r, c, k, poisoned):
+        # Implement here
+        return ""
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    r = int(input_data[0])
+    c = int(input_data[1])
+    k = int(input_data[2])
+
+    poisoned = []
+    idx = 3
+    for _ in range(k):
+        poisoned.append([int(input_data[idx]), int(input_data[idx+1])])
+        idx += 2
+
+    sol = Solution()
+    print(sol.determine_winner(r, c, k, poisoned))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    string determineWinner(int r, int c, int k, const vector<pair<int, int>>& poisoned) {
+        // Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int r, c, k;
+    if (!(cin >> r >> c >> k)) return 0;
+
+    vector<pair<int, int>> poisoned(k);
+    for (int i = 0; i < k; i++) {
+        cin >> poisoned[i].first >> poisoned[i].second;
+    }
+
+    Solution sol;
+    cout << sol.determineWinner(r, c, k, poisoned) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  determineWinner(r, c, k, poisoned) {
+    // Implement here
+    return "";
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 3) return;
+
+  let idx = 0;
+  const r = parseInt(input[idx++]);
+  const c = parseInt(input[idx++]);
+  const k = parseInt(input[idx++]);
+
+  const poisoned = [];
+  for (let i = 0; i < k; i++) {
+    poisoned.push([parseInt(input[idx++]), parseInt(input[idx++])]);
+  }
+
+  const sol = new Solution();
+  console.log(sol.determineWinner(r, c, k, poisoned));
+}
+
+solve();
+```

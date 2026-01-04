@@ -104,12 +104,148 @@ Merge K Sorted Lists, Heap, Priority Queue, Greedy Algorithms, Constraint Handli
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public List<Integer> mergeWithConstraint(int k, List<List<Integer>> queues) {
+        // Implement here
+        return new ArrayList<>();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String kLine = br.readLine();
+        if (kLine == null) return;
+        int k = Integer.parseInt(kLine.trim());
+
+        List<List<Integer>> queues = new ArrayList<>();
+        for (int i = 0; i < k; i++) {
+            String[] line = br.readLine().trim().split("\\s+");
+            int len = Integer.parseInt(line[0]);
+            List<Integer> q = new ArrayList<>();
+            for (int j = 1; j <= len; j++) q.add(Integer.parseInt(line[j]));
+            queues.add(q);
+        }
+
+        Solution sol = new Solution();
+        List<Integer> result = sol.mergeWithConstraint(k, queues);
+
+        PrintWriter out = new PrintWriter(System.out);
+        for (int i = 0; i < result.size(); i++) {
+            out.print(result.get(i) + (i == result.size() - 1 ? "" : " "));
+        }
+        out.println();
+        out.flush();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def merge_with_constraint(self, k, queues):
+        # Implement here
+        return []
+
+def solve():
+    input_data = sys.stdin.read().splitlines()
+    if not input_data:
+        return
+
+    k = int(input_data[0].strip())
+    queues = []
+    for i in range(1, k + 1):
+        line = list(map(int, input_data[i].split()))
+        queues.append(line[1:])
+
+    sol = Solution()
+    result = sol.merge_with_constraint(k, queues)
+    print(" ".join(map(str, result)))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> mergeWithConstraint(int k, vector<vector<int>>& queues) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int k;
+    if (!(cin >> k)) return 0;
+
+    vector<vector<int>> queues(k);
+    for (int i = 0; i < k; i++) {
+        int len;
+        cin >> len;
+        queues[i].resize(len);
+        for (int j = 0; j < len; j++) cin >> queues[i][j];
+    }
+
+    Solution sol;
+    vector<int> result = sol.mergeWithConstraint(k, queues);
+
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i] << (i == result.size() - 1 ? "" : " ");
+    }
+    cout << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  mergeWithConstraint(k, queues) {
+    // Implement here
+    return [];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\r?\n/);
+  if (input.length < 1) return;
+
+  const k = parseInt(input[0].trim());
+  const queues = [];
+  for (let i = 1; i <= k; i++) {
+    const line = input[i].trim().split(/\s+/).map(Number);
+    queues.push(line.slice(1));
+  }
+
+  const sol = new Solution();
+  const result = sol.mergeWithConstraint(k, queues);
+  console.log(result.join(" "));
+}
+
+solve();
+```

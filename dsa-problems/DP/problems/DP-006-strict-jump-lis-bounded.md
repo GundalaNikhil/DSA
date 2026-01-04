@@ -33,7 +33,7 @@ Find the length of the longest subsequence `a[i1], a[i2], ..., a[ik]` (with `i1 
 
 Return the maximum possible length `k`.
 
-![Problem Illustration](../images/DP-006/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767513328/dsa/dp/e7iapogzin4mggqfz0w1.jpg)
 
 ## Input Format
 
@@ -54,6 +54,7 @@ Print one integer: the length of the longest valid subsequence.
 ## Example
 
 **Input:**
+
 ```
 5
 1 3 4 9 10
@@ -61,6 +62,7 @@ Print one integer: the length of the longest valid subsequence.
 ```
 
 **Output:**
+
 ```
 3
 ```
@@ -92,13 +94,147 @@ Dynamic Programming, Coordinate Compression, Segment Tree / Fenwick Tree
 
 ### Java
 
-
 ### Python
-
 
 ### C++
 
+### Java
+
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int longestSubsequence(int n, long[] a, long d, long g) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        long[] a = new long[n];
+        String aLine = br.readLine();
+        if (aLine != null) {
+            String[] aParts = aLine.trim().split("\\s+");
+            for (int i = 0; i < n; i++) {
+                a[i] = Long.parseLong(aParts[i]);
+            }
+        }
+
+        String dgLine = br.readLine();
+        if (dgLine == null) return;
+        String[] dgParts = dgLine.trim().split("\\s+");
+        long d = Long.parseLong(dgParts[0]);
+        long g = Long.parseLong(dgParts[1]);
+
+        Solution sol = new Solution();
+        System.out.println(sol.longestSubsequence(n, a, d, g));
+    }
+}
+```
+
+### Python
+
+```python
+import sys
+
+class Solution:
+    def longest_subsequence(self, n, a, d, g):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    a = list(map(int, input_data[1:1+n]))
+    d = int(input_data[1+n])
+    g = int(input_data[2+n])
+
+    sol = Solution()
+    print(sol.longest_subsequence(n, a, d, g))
+
+if __name__ == "__main__":
+    solve()
+```
+
+### C++
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int longestSubsequence(int n, const vector<long long>& a, long long d, long long g) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<long long> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+    long long d, g;
+    cin >> d >> g;
+
+    Solution sol;
+    cout << sol.longestSubsequence(n, a, d, g) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
 
+const fs = require("fs");
+
+class Solution {
+  longestSubsequence(n, a, d, g) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const a = [];
+  for (let i = 0; i < n; i++) {
+    a.push(BigInt(input[idx++]));
+  }
+  const d = BigInt(input[idx++]);
+  const g = BigInt(input[idx++]);
+
+  const sol = new Solution();
+  console.log(sol.longestSubsequence(n, a, d, g));
+}
+
+solve();
+```

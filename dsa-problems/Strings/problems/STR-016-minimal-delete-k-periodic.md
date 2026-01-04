@@ -87,3 +87,119 @@ aabbcc
 - Group positions by i mod k
 - Keep most frequent char at each position class
 - O(n) greedy algorithm
+
+---
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public int minDeletions(String s, int k) {
+        // Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String s = sc.next();
+            if (sc.hasNextInt()) {
+                int k = sc.nextInt();
+                Solution sol = new Solution();
+                System.out.println(sol.minDeletions(s, k));
+            }
+        }
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+import sys
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if len(input_data) < 2:
+        return
+    s = input_data[0]
+    k = int(input_data[1])
+    solution = Solution()
+    print(solution.min_deletions(s, k))
+
+class Solution:
+    def min_deletions(self, s: str, k: int) -> int:
+        # Implement here
+        return 0
+
+if __name__ == "__main__":
+    solve()
+```
+
+### C++
+
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int minDeletions(string s, int k) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string s;
+    int k;
+    if (cin >> s >> k) {
+        Solution sol;
+        cout << sol.minDeletions(s, k) << endl;
+    }
+
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  minDeletions(s, k) {
+    // Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let input = [];
+rl.on("line", (line) => {
+  input.push(...line.trim().split(/\s+/));
+}).on("close", () => {
+  if (input.length >= 2) {
+    const s = input[0];
+    const k = parseInt(input[1]);
+    const sol = new Solution();
+    console.log(sol.minDeletions(s, k));
+  }
+});
+```

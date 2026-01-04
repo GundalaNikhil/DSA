@@ -35,7 +35,7 @@ The player who cannot make a valid move loses.
 
 Determine if the first player has a winning strategy.
 
-![Problem Illustration](../images/GMT-012/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767539109/dsa/gametheory_simple/ymiigvgiy7u1tkuetsgj.jpg)
 
 ## Input Format
 
@@ -98,12 +98,108 @@ Game Theory, Parity Analysis
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public String determineWinner(long r, long c) {
+        // Implement here
+        return "";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextLong()) return;
+        long r = sc.nextLong();
+        long c = sc.nextLong();
+
+        Solution sol = new Solution();
+        System.out.println(sol.determineWinner(r, c));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def determine_winner(self, r, c):
+        # Implement here
+        return ""
+
+def solve():
+    line = sys.stdin.readline().split()
+    if not line:
+        return
+    r = int(line[0])
+    c = int(line[1])
+
+    sol = Solution()
+    print(sol.determine_winner(r, c))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string determineWinner(long long r, long long c) {
+        // Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    long long r, c;
+    if (!(cin >> r >> c)) return 0;
+
+    Solution sol;
+    cout << sol.determineWinner(r, c) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  determineWinner(r, c) {
+    // Implement here
+    return "";
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+  if (input.length < 2) return;
+
+  const r = BigInt(input[0]);
+  const c = BigInt(input[1]);
+
+  const sol = new Solution();
+  console.log(sol.determineWinner(r, c));
+}
+
+solve();
+```

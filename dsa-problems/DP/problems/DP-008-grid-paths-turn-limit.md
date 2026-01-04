@@ -37,7 +37,7 @@ Given an integer `T`, count the number of valid paths that use **at most `T` tur
 
 Because the count can be huge, output the answer modulo `1_000_000_007`.
 
-![Problem Illustration](../images/DP-008/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767513330/dsa/dp/tfm7flidt5znphiuzh9p.jpg)
 
 ## Input Format
 
@@ -55,11 +55,13 @@ Print one integer: number of paths from `(0,0)` to `(m-1,n-1)` using at most `T`
 ## Example
 
 **Input:**
+
 ```
 2 3 1
 ```
 
 **Output:**
+
 ```
 2
 ```
@@ -94,13 +96,115 @@ Dynamic Programming, Grid DP, Counting
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int countPaths(int m, int n, int t) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
+        String[] parts = line.trim().split("\\s+");
+        if (parts.length < 3) return;
+        int m = Integer.parseInt(parts[0]);
+        int n = Integer.parseInt(parts[1]);
+        int t = Integer.parseInt(parts[2]);
+
+        Solution sol = new Solution();
+        System.out.println(sol.countPaths(m, n, t));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def count_paths(self, m, n, t):
+        # Implement here
+        return 0
+
+def solve():
+    line = sys.stdin.readline()
+    if not line:
+        return
+    parts = list(map(int, line.split()))
+    if len(parts) < 3:
+        return
+    m, n, t = parts
+
+    sol = Solution()
+    print(sol.count_paths(m, n, t))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int countPaths(int m, int n, int t) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int m, n, t;
+    if (!(cin >> m >> n >> t)) return 0;
+
+    Solution sol;
+    cout << sol.countPaths(m, n, t) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
 
+const fs = require("fs");
+
+class Solution {
+  countPaths(m, n, t) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 3) return;
+
+  const m = parseInt(input[0]);
+  const n = parseInt(input[1]);
+  const t = parseInt(input[2]);
+
+  const sol = new Solution();
+  console.log(sol.countPaths(m, n, t));
+}
+
+solve();
+```

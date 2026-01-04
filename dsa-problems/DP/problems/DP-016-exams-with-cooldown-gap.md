@@ -28,7 +28,7 @@ You are given `n` exams, each with start time `start[i]`, end time `end[i]`, and
 
 Select a subset of exams maximizing total score while respecting the cooldown gap.
 
-![Problem Illustration](../images/DP-016/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767513335/dsa/dp/x206bmrngmovr8lpjaem.jpg)
 
 ## Input Format
 
@@ -50,6 +50,7 @@ Select a subset of exams maximizing total score while respecting the cooldown ga
 ## Example
 
 **Input:**
+
 ```
 3 1
 1 3 5
@@ -58,6 +59,7 @@ Select a subset of exams maximizing total score while respecting the cooldown ga
 ```
 
 **Output:**
+
 ```
 11
 ```
@@ -84,12 +86,154 @@ Dynamic Programming, Binary Search, Scheduling
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Exam {
+    long start, end, score;
+    Exam(long s, long e, long sc) {
+        this.start = s;
+        this.end = e;
+        this.score = sc;
+    }
+}
+
+class Solution {
+    public long maxScore(int n, long g, List<Exam> exams) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String ngLine = br.readLine();
+        if (ngLine == null) return;
+        String[] ngParts = ngLine.trim().split("\\s+");
+        int n = Integer.parseInt(ngParts[0]);
+        long g = Long.parseLong(ngParts[1]);
+
+        List<Exam> exams = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            String line = br.readLine();
+            if (line == null) break;
+            String[] eParts = line.trim().split("\\s+");
+            exams.add(new Exam(Long.parseLong(eParts[0]), Long.parseLong(eParts[1]), Long.parseLong(eParts[2])));
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.maxScore(n, g, exams));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def max_score(self, n, g, exams):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    g = int(input_data[1])
+    idx = 2
+    exams = []
+    for _ in range(n):
+        exams.append([int(input_data[idx]), int(input_data[idx+1]), int(input_data[idx+2])])
+        idx += 3
+
+    sol = Solution()
+    print(sol.max_score(n, g, exams))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+struct Exam {
+    long long start, end, score;
+};
+
+class Solution {
+public:
+    long long maxScore(int n, long long g, vector<Exam>& exams) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    long long g;
+    if (!(cin >> n >> g)) return 0;
+
+    vector<Exam> exams(n);
+    for (int i = 0; i < n; i++) {
+        cin >> exams[i].start >> exams[i].end >> exams[i].score;
+    }
+
+    Solution sol;
+    cout << sol.maxScore(n, g, exams) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  maxScore(n, g, exams) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const g = BigInt(input[idx++]);
+  const exams = [];
+  for (let i = 0; i < n; i++) {
+    exams.push({
+      start: BigInt(input[idx++]),
+      end: BigInt(input[idx++]),
+      score: BigInt(input[idx++]),
+    });
+  }
+
+  const sol = new Solution();
+  const res = sol.maxScore(n, g, exams);
+  console.log(res === null || res === undefined ? 0 : res.toString());
+}
+
+solve();
+```

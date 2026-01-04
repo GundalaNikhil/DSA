@@ -46,18 +46,21 @@ The normalized string should be suitable for use as a URL slug or identifier.
 ## Example 1
 
 **Input:**
+
 ```
 Hello__World!!
 ```
 
 **Output:**
+
 ```
 hello-world
 ```
 
 **Explanation:**
+
 - "Hello" → "hello" (lowercase)
-- "__" → "-" (collapse to single hyphen)
+- "\_\_" → "-" (collapse to single hyphen)
 - "World" → "world" (lowercase)
 - "!!" → "-" (collapse, but trailing so removed)
 - Final: "hello-world"
@@ -65,16 +68,19 @@ hello-world
 ## Example 2
 
 **Input:**
+
 ```
-  Test@123#Code  
+  Test@123#Code
 ```
 
 **Output:**
+
 ```
 test-123-code
 ```
 
 **Explanation:**
+
 - Leading spaces removed
 - "@" and "#" replaced with "-"
 - Trailing spaces removed
@@ -83,3 +89,106 @@ test-123-code
 
 - Use a state machine or single-pass algorithm for optimal O(n) time complexity
 - Be careful with edge cases: all non-alphanumeric, empty result, etc.
+
+---
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public String normalize(String s) {
+        // Implement here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLine()) {
+            String s = sc.nextLine();
+            Solution sol = new Solution();
+            System.out.println(sol.normalize(s));
+        }
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+import sys
+
+def solve():
+    s = sys.stdin.read()
+    if not s:
+        return
+    solution = Solution()
+    print(solution.normalize(s))
+
+class Solution:
+    def normalize(self, s: str) -> str:
+        # Implement here
+        return ""
+
+if __name__ == "__main__":
+    solve()
+```
+
+### C++
+
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string normalize(string s) {
+        // Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string s;
+    if (getline(cin, s)) {
+        Solution sol;
+        cout << sol.normalize(s) << endl;
+    }
+
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  normalize(s) {
+    // Implement here
+    return "";
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+rl.on("line", (line) => {
+  const sol = new Solution();
+  console.log(sol.normalize(line));
+});
+```

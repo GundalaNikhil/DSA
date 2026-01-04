@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # STK-001: Notebook Undo Simulator
 
 ## Problem Statement
@@ -90,14 +91,207 @@ Stack, Simulation, LIFO
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    // Implement underlying stack logic here
+    private List<Long> stack = new ArrayList<>();
+
+    public String push(long x) {
+        stack.add(x);
+        return null;
+    }
+
+    public String pop() {
+        if (stack.isEmpty()) return "EMPTY";
+        return String.valueOf(stack.remove(stack.size() - 1));
+    }
+
+    public String top() {
+        if (stack.isEmpty()) return "EMPTY";
+        return String.valueOf(stack.get(stack.size() - 1));
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int m = sc.nextInt();
+            Solution sol = new Solution();
+            for (int i = 0; i < m; i++) {
+                String cmd = sc.next();
+                if (cmd.equals("PUSH")) {
+                    sol.push(sc.nextLong());
+                } else if (cmd.equals("POP")) {
+                    System.out.println(sol.pop());
+                } else if (cmd.equals("TOP")) {
+                    System.out.println(sol.top());
+                }
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def __init__(self):
+        self.stack = []
+
+    def push(self, x: int):
+        self.stack.append(x)
+
+    def pop(self) -> str:
+        if not self.stack:
+            return "EMPTY"
+        return str(self.stack.pop())
+
+    def top(self) -> str:
+        if not self.stack:
+            return "EMPTY"
+        return str(self.stack[-1])
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    m = int(input_data[0])
+    sol = Solution()
+    idx = 1
+    for _ in range(m):
+        cmd = input_data[idx]
+        idx += 1
+        if cmd == "PUSH":
+            sol.push(int(input_data[idx]))
+            idx += 1
+        elif cmd == "POP":
+            print(sol.pop())
+        elif cmd == "TOP":
+            print(sol.top())
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+private:
+    vector<long long> stack;
+
+public:
+    void push(long long x) {
+        stack.push_back(x);
+    }
+
+    string pop() {
+        if (stack.empty()) return "EMPTY";
+        long long val = stack.back();
+        stack.pop_back();
+        return to_string(val);
+    }
+
+    string top() {
+        if (stack.empty()) return "EMPTY";
+        return to_string(stack.back());
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int m;
+    if (cin >> m) {
+        Solution sol;
+        for (int i = 0; i < m; i++) {
+            string cmd;
+            cin >> cmd;
+            if (cmd == "PUSH") {
+                long long x;
+                cin >> x;
+                sol.push(x);
+            } else if (cmd == "POP") {
+                cout << sol.pop() << "\n";
+            } else if (cmd == "TOP") {
+                cout << sol.top() << "\n";
+            }
+        }
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  constructor() {
+    this.stack = [];
+  }
+
+  push(x) {
+    this.stack.push(x);
+  }
+
+  pop() {
+    if (this.stack.length === 0) return "EMPTY";
+    return this.stack.pop().toString();
+  }
+
+  top() {
+    if (this.stack.length === 0) return "EMPTY";
+    return this.stack[this.stack.length - 1].toString();
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false,
+});
+
+let sol = new Solution();
+let m = -1;
+let count = 0;
+
+rl.on("line", (line) => {
+  if (m === -1) {
+    m = parseInt(line.trim());
+    return;
+  }
+  if (count < m) {
+    const parts = line.trim().split(/\s+/);
+    const cmd = parts[0];
+    if (cmd === "PUSH") {
+      sol.push(BigInt(parts[1]));
+    } else if (cmd === "POP") {
+      process.stdout.write(sol.pop() + "\n");
+    } else if (cmd === "TOP") {
+      process.stdout.write(sol.top() + "\n");
+    }
+    count++;
+  }
+});
+```

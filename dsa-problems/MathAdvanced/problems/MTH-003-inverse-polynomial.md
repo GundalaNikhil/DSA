@@ -100,12 +100,143 @@ Newton Iteration, Polynomial Inverse, NTT, Modular Arithmetic, Divide and Conque
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long[] inversePolynomial(int k, int n, long[] p, long mod) {
+        // Implement here
+        return new long[0];
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
+        String[] firstLine = line.trim().split("\\s+");
+        int k = Integer.parseInt(firstLine[0]);
+        int n = Integer.parseInt(firstLine[1]);
+
+        long[] p = new long[k];
+        String[] pLine = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < k; i++) p[i] = Long.parseLong(pLine[i]);
+
+        long mod = Long.parseLong(br.readLine().trim());
+
+        Solution sol = new Solution();
+        long[] result = sol.inversePolynomial(k, n, p, mod);
+
+        PrintWriter out = new PrintWriter(System.out);
+        for (int i = 0; i < result.length; i++) {
+            out.print(result[i] + (i == result.length - 1 ? "" : " "));
+        }
+        out.println();
+        out.flush();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def inverse_polynomial(self, k, n, p, mod):
+        # Implement here
+        return []
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    k = int(input_data[0])
+    n = int(input_data[1])
+    p = [int(x) for x in input_data[2:2+k]]
+    mod = int(input_data[2+k])
+
+    sol = Solution()
+    result = sol.inverse_polynomial(k, n, p, mod)
+    sys.stdout.write(" ".join(map(str, result)) + "\n")
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> inversePolynomial(int k, int n, vector<long long>& p, long long mod) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int k, n;
+    if (!(cin >> k >> n)) return 0;
+
+    vector<long long> p(k);
+    for (int i = 0; i < k; i++) cin >> p[i];
+
+    long long mod;
+    cin >> mod;
+
+    Solution sol;
+    vector<long long> result = sol.inversePolynomial(k, n, p, mod);
+
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i] << (i == result.size() - 1 ? "" : " ");
+    }
+    cout << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  inversePolynomial(k, n, p, mod) {
+    // Implement here
+    return [];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  const k = parseInt(input[0]);
+  const n = parseInt(input[1]);
+  const p = [];
+  for (let i = 0; i < k; i++) p.push(BigInt(input[2 + i]));
+  const mod = BigInt(input[2 + k]);
+
+  const sol = new Solution();
+  const result = sol.inversePolynomial(k, n, p, mod);
+  process.stdout.write(result.join(" ") + "\n");
+}
+
+solve();
+```

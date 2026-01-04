@@ -66,7 +66,7 @@ Total = 9.
 
 ## Notes
 
-- The answer equals sum_{k=2..N} phi(k)
+- The answer equals sum\_{k=2..N} phi(k)
 - Compute phi for all k with a sieve
 - Time complexity: O(N log log N)
 - Space complexity: O(N)
@@ -81,12 +81,98 @@ Euler Totient, Counting, GCD
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long countCoprimePairs(int n) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.countCoprimePairs(n));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def count_coprime_pairs(self, n):
+        # Implement here
+        return 0
+
+def solve():
+    line = sys.stdin.read().split()
+    if not line:
+        return
+    n = int(line[0])
+    sol = Solution()
+    print(sol.count_coprime_pairs(n))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long countCoprimePairs(int n) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n;
+    if (!(cin >> n)) return 0;
+    Solution sol;
+    cout << sol.countCoprimePairs(n) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  countCoprimePairs(n) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").trim();
+  if (!input) return;
+  const n = parseInt(input);
+  const sol = new Solution();
+  console.log(sol.countCoprimePairs(n).toString());
+}
+
+solve();
+```

@@ -108,12 +108,134 @@ Greedy Algorithms, Heap, Priority Queue, Cost Optimization, Resource Allocation
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long minOvertimeCost(int n, long h, long[][] shifts) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nhLine = br.readLine();
+        if (nhLine == null) return;
+        String[] nh = nhLine.trim().split("\\s+");
+        int n = Integer.parseInt(nh[0]);
+        long h = Long.parseLong(nh[1]);
+
+        long[][] shifts = new long[n][2];
+        for (int i = 0; i < n; i++) {
+            String[] sLine = br.readLine().trim().split("\\s+");
+            shifts[i][0] = Long.parseLong(sLine[0]);
+            shifts[i][1] = Long.parseLong(sLine[1]);
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.minOvertimeCost(n, h, shifts));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def min_overtime_cost(self, n, h, shifts):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    h = int(input_data[1])
+    idx = 2
+    shifts = []
+    for _ in range(n):
+        shifts.append([int(input_data[idx]), int(input_data[idx+1])])
+        idx += 2
+
+    sol = Solution()
+    print(sol.min_overtime_cost(n, h, shifts))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minOvertimeCost(int n, long long h, vector<vector<long long>>& shifts) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    long long h;
+    if (!(cin >> n >> h)) return 0;
+
+    vector<vector<long long>> shifts(n, vector<long long>(2));
+    for (int i = 0; i < n; i++) {
+        cin >> shifts[i][0] >> shifts[i][1];
+    }
+
+    Solution sol;
+    cout << sol.minOvertimeCost(n, h, shifts) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  minOvertimeCost(n, h, shifts) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const h = BigInt(input[idx++]);
+  const shifts = [];
+  for (let i = 0; i < n; i++) {
+    shifts.push([BigInt(input[idx++]), BigInt(input[idx++])]);
+  }
+
+  const sol = new Solution();
+  console.log(sol.minOvertimeCost(n, h, shifts).toString());
+}
+
+solve();
+```

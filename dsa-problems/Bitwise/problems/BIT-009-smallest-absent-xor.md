@@ -47,12 +47,14 @@ Print the smallest absent XOR value.
 ## Example
 
 **Input:**
+
 ```
 3
 1 2 3
 ```
 
 **Output:**
+
 ```
 4
 ```
@@ -79,16 +81,128 @@ Bitwise Operations, Linear Basis
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
 
+class Solution {
+    public long findSmallestAbsentXor(int n, long[] a) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        long[] a = new long[n];
+        String aLine = br.readLine();
+        if (aLine != null) {
+            String[] parts = aLine.trim().split("\\s+");
+            for (int i = 0; i < n; i++) {
+                a[i] = Long.parseLong(parts[i]);
+            }
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.findSmallestAbsentXor(n, a));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
 
+class Solution:
+    def find_smallest_absent_xor(self, n, a):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    a = list(map(int, input_data[1:n+1]))
+
+    sol = Solution()
+    print(sol.find_smallest_absent_xor(n, a))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    long long findSmallestAbsentXor(int n, const vector<long long>& a) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<long long> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+    Solution sol;
+    cout << sol.findSmallestAbsentXor(n, a) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
 
+const fs = require("fs");
+
+class Solution {
+  findSmallestAbsentXor(n, a) {
+    // Implement here
+    return BigInt(0);
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const a = [];
+  for (let i = 0; i < n; i++) {
+    a.push(BigInt(input[idx++]));
+  }
+
+  const sol = new Solution();
+  console.log(sol.findSmallestAbsentXor(n, a).toString());
+}
+
+solve();
+```

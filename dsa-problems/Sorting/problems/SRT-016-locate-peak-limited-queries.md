@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # SRT-016: Locate Peak with Limited Queries
 
 ## Problem Statement
@@ -79,14 +80,122 @@ Binary Search, Peak Finding, Searching
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int findPeak(int n, int q, int[] a) {
+        // Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int q = sc.nextInt();
+            int[] a = new int[n];
+            for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+
+            Solution sol = new Solution();
+            System.out.println(sol.findPeak(n, q, a));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def find_peak(self, n: int, q: int, a: list) -> int:
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    q = int(input_data[1])
+    a = [int(x) for x in input_data[2:]]
+
+    sol = Solution()
+    print(sol.find_peak(n, q, a))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int findPeak(int n, int q, const vector<int>& a) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, q;
+    if (cin >> n >> q) {
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+
+        Solution sol;
+        cout << sol.findPeak(n, q, a) << endl;
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  findPeak(n, q, a) {
+    // Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false,
+});
+
+let input = [];
+rl.on("line", (line) => {
+  if (line.trim()) input.push(...line.trim().split(/\s+/));
+}).on("close", () => {
+  if (input.length < 2) return;
+  const n = parseInt(input[0]);
+  const q = parseInt(input[1]);
+  const a = input.slice(2).map(Number);
+
+  const sol = new Solution();
+  console.log(sol.findPeak(n, q, a));
+});
+```

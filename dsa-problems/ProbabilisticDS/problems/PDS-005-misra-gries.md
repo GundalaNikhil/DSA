@@ -82,12 +82,107 @@ Heavy Hitters, Streaming Algorithms
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void misraGries(int n, int k, int[] stream) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] stream = new int[n];
+        for (int i = 0; i < n; i++) stream[i] = sc.nextInt();
+        Solution sol = new Solution();
+        sol.misraGries(n, k, stream);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def misra_gries(self, n, k, stream):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    k = int(input_data[1])
+    stream = [int(x) for x in input_data[2:2+n]]
+    sol = Solution()
+    sol.misra_gries(n, k, stream)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
+
+using namespace std;
+
+class Solution {
+public:
+    void misraGries(int n, int k, const vector<int>& stream) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, k;
+    if (!(cin >> n >> k)) return 0;
+    vector<int> stream(n);
+    for (int i = 0; i < n; i++) cin >> stream[i];
+    Solution sol;
+    sol.misraGries(n, k, stream);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  misraGries(n, k, stream) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+  const n = parseInt(input[0]);
+  const k = parseInt(input[1]);
+  const stream = [];
+  for (let i = 0; i < n; i++) stream.push(parseInt(input[2 + i]));
+  const sol = new Solution();
+  sol.misraGries(n, k, stream);
+}
+
+solve();
+```

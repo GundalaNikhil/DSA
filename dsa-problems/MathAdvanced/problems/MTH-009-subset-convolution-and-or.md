@@ -46,6 +46,7 @@ A single line containing 2^n space-separated integers representing the subset co
 ## Example
 
 **Input:**
+
 ```
 2 1
 1 1 0 0
@@ -53,6 +54,7 @@ A single line containing 2^n space-separated integers representing the subset co
 ```
 
 **Output:**
+
 ```
 0 1 1 2
 ```
@@ -85,12 +87,149 @@ subset-convolution, zeta-transform, mobius-transform
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long[] subsetConvolution(int n, int op, long[] a, long[] b) {
+        // Implement here
+        return new long[0];
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
+        String[] firstLine = line.trim().split("\\s+");
+        int n = Integer.parseInt(firstLine[0]);
+        int op = Integer.parseInt(firstLine[1]);
+        int size = 1 << n;
+
+        long[] a = new long[size];
+        String[] aLine = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < size; i++) a[i] = Long.parseLong(aLine[i]);
+
+        long[] b = new long[size];
+        String[] bLine = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < size; i++) b[i] = Long.parseLong(bLine[i]);
+
+        Solution sol = new Solution();
+        long[] result = sol.subsetConvolution(n, op, a, b);
+
+        PrintWriter out = new PrintWriter(System.out);
+        for (int i = 0; i < size; i++) {
+            out.print(result[i] + (i == size - 1 ? "" : " "));
+        }
+        out.println();
+        out.flush();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def subset_convolution(self, n, op, a, b):
+        # Implement here
+        return []
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    op = int(input_data[1])
+    size = 1 << n
+    a = [int(val) for val in input_data[2:2+size]]
+    b = [int(val) for val in input_data[2+size:2+2*size]]
+
+    sol = Solution()
+    result = sol.subset_convolution(n, op, a, b)
+    sys.stdout.write(" ".join(map(str, result)) + "\n")
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> subsetConvolution(int n, int op, vector<long long>& a, vector<long long>& b) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, op;
+    if (!(cin >> n >> op)) return 0;
+    int size = 1 << n;
+
+    vector<long long> a(size), b(size);
+    for (int i = 0; i < size; i++) cin >> a[i];
+    for (int i = 0; i < size; i++) cin >> b[i];
+
+    Solution sol;
+    vector<long long> result = sol.subsetConvolution(n, op, a, b);
+
+    for (int i = 0; i < size; i++) {
+        cout << result[i] << (i == size - 1 ? "" : " ");
+    }
+    cout << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  subsetConvolution(n, op, a, b) {
+    // Implement here
+    return [];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  const n = parseInt(input[0]);
+  const op = parseInt(input[1]);
+  const size = 1 << n;
+  const a = [];
+  const b = [];
+  let idx = 2;
+  for (let i = 0; i < size; i++) a.push(BigInt(input[idx++]));
+  for (let i = 0; i < size; i++) b.push(BigInt(input[idx++]));
+
+  const sol = new Solution();
+  const result = sol.subsetConvolution(n, op, a, b);
+  process.stdout.write(result.join(" ") + "\n");
+}
+
+solve();
+```

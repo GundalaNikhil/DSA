@@ -123,12 +123,177 @@ Multi-Source BFS, Grid Graph, Simulation, State Tracking, Fire Spread
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int solveFire(int r, int c, int[][] grid, int[][] stamina) {
+        // Implement here
+        return -1;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String rcLine = br.readLine();
+        if (rcLine == null) return;
+        String[] rc = rcLine.trim().split("\\s+");
+        int r = Integer.parseInt(rc[0]);
+        int c = Integer.parseInt(rc[1]);
+
+        int[][] grid = new int[r][c];
+        for (int i = 0; i < r; i++) {
+            String[] line = br.readLine().trim().split("\\s+");
+            for (int j = 0; j < c; j++) {
+                grid[i][j] = Integer.parseInt(line[j]);
+            }
+        }
+
+        int[][] stamina = new int[r][c];
+        for (int i = 0; i < r; i++) {
+            String[] line = br.readLine().trim().split("\\s+");
+            for (int j = 0; j < c; j++) {
+                stamina[i][j] = Integer.parseInt(line[j]);
+            }
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.solveFire(r, c, grid, stamina));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from collections import deque
+
+class Solution:
+    def solve_fire(self, r, c, grid, stamina):
+        # Implement here
+        return -1
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    r = int(input_data[0])
+    c = int(input_data[1])
+
+    idx = 2
+    grid = []
+    for _ in range(r):
+        grid.append([int(input_data[i]) for i in range(idx, idx + c)])
+        idx += c
+
+    stamina = []
+    for _ in range(r):
+        stamina.append([int(input_data[i]) for i in range(idx, idx + c)])
+        idx += c
+
+    sol = Solution()
+    print(sol.solve_fire(r, c, grid, stamina))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+struct State {
+    int r, c, s, t;
+};
+
+class Solution {
+public:
+    int solveFire(int r, int c, vector<vector<int>>& grid, vector<vector<int>>& stamina) {
+        // Implement here
+        return -1;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int r, c;
+    if (!(cin >> r >> c)) return 0;
+
+    vector<vector<int>> grid(r, vector<int>(c));
+    for (int i = 0; i < r; i++) {
+        for (int j = 0; j < c; j++) {
+            cin >> grid[i][j];
+        }
+    }
+
+    vector<vector<int>> stamina(r, vector<int>(c));
+    for (int i = 0; i < r; i++) {
+        for (int j = 0; j < c; j++) {
+            cin >> stamina[i][j];
+        }
+    }
+
+    Solution sol;
+    cout << sol.solveFire(r, c, grid, stamina) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  solveFire(r, c, grid, stamina) {
+    // Implement here
+    return -1;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const r = parseInt(input[idx++]);
+  const c = parseInt(input[idx++]);
+
+  const grid = [];
+  for (let i = 0; i < r; i++) {
+    const row = [];
+    for (let j = 0; j < c; j++) {
+      row.push(parseInt(input[idx++]));
+    }
+    grid.push(row);
+  }
+
+  const stamina = [];
+  for (let i = 0; i < r; i++) {
+    const row = [];
+    for (let j = 0; j < c; j++) {
+      row.push(parseInt(input[idx++]));
+    }
+    stamina.push(row);
+  }
+
+  const sol = new Solution();
+  console.log(sol.solveFire(r, c, grid, stamina));
+}
+
+solve();
+```

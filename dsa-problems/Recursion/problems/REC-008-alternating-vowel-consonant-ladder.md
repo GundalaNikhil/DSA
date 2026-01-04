@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # REC-008: Alternating Vowel-Consonant Ladder
 
 ## Problem Statement
@@ -88,14 +89,115 @@ BFS, Backtracking, Word Ladder
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void findLadders(String startWord, String endWord, List<String> dictionary) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        String startWord = sc.next();
+        String endWord = sc.next();
+        int m = sc.nextInt();
+        List<String> dictionary = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            dictionary.add(sc.next());
+        }
+        Solution sol = new Solution();
+        sol.findLadders(startWord, endWord, dictionary);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def find_ladders(self, start_word, end_word, dictionary):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    start_word = input_data[0]
+    end_word = input_data[1]
+    m = int(input_data[2])
+    dictionary = input_data[3:3+m]
+    sol = Solution()
+    sol.find_ladders(start_word, end_word, dictionary)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    void findLadders(string startWord, string endWord, const vector<string>& dictionary) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    string startWord, endWord;
+    if (!(cin >> startWord >> endWord)) return 0;
+    int m;
+    cin >> m;
+    vector<string> dictionary(m);
+    for (int i = 0; i < m; i++) cin >> dictionary[i];
+    Solution sol;
+    sol.findLadders(startWord, endWord, dictionary);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  findLadders(startWord, endWord, dictionary) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 3) return;
+  const startWord = input[0];
+  const endWord = input[1];
+  const m = parseInt(input[2]);
+  const dictionary = input.slice(3, 3 + m);
+  const sol = new Solution();
+  sol.findLadders(startWord, endWord, dictionary);
+}
+
+solve();
+```

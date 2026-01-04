@@ -109,15 +109,195 @@ For each query, print the distance between nodes u and v.
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void build(int n, int[][] edges) {
+        // Implement here
+    }
+
+    public int queryDistance(int u, int v) {
+        // Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+
+        int[][] edges = new int[n - 1][3];
+        for (int i = 0; i < n - 1; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+            edges[i][2] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        solution.build(n, edges);
+
+        int q = sc.nextInt();
+        for (int i = 0; i < q; i++) {
+            int u = sc.nextInt();
+            int v = sc.nextInt();
+            System.out.println(solution.queryDistance(u, v));
+        }
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+import sys
+
+sys.setrecursionlimit(200000)
+
+class Solution:
+    def build(self, n: int, edges: List[List[int]]) -> None:
+        # Implement here
+        pass
+
+    def query_distance(self, u: int, v: int) -> int:
+        # Implement here
+        return 0
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+
+        edges = []
+        for _ in range(n - 1):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            w = int(next(iterator))
+            edges.append([u, v, w])
+
+        solution = Solution()
+        solution.build(n, edges)
+
+        q = int(next(iterator))
+        for _ in range(q):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            print(solution.query_distance(u, v))
+
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    void build(int n, const vector<vector<int>>& edges) {
+        // Implement here
+    }
+
+    int queryDistance(int u, int v) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<vector<int>> edges(n - 1, vector<int>(3));
+    for (int i = 0; i < n - 1; i++) {
+        cin >> edges[i][0] >> edges[i][1] >> edges[i][2];
+    }
+
+    Solution solution;
+    solution.build(n, edges);
+
+    int q;
+    cin >> q;
+    while (q--) {
+        int u, v;
+        cin >> u >> v;
+        cout << solution.queryDistance(u, v) << "\n";
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  build(n, edges) {
+    // Implement here
+  }
+
+  queryDistance(u, v) {
+    // Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const tokens = lines
+    .join(" ")
+    .split(/\s+/)
+    .filter((t) => t !== "");
+  if (tokens.length === 0) return;
+
+  let idx = 0;
+  const n = parseInt(tokens[idx++]);
+
+  const edges = [];
+  for (let i = 0; i < n - 1; i++) {
+    const u = parseInt(tokens[idx++]);
+    const v = parseInt(tokens[idx++]);
+    const w = parseInt(tokens[idx++]);
+    edges.push([u, v, w]);
+  }
+
+  const solution = new Solution();
+  solution.build(n, edges);
+
+  const q = parseInt(tokens[idx++]);
+  for (let i = 0; i < q; i++) {
+    const u = parseInt(tokens[idx++]);
+    const v = parseInt(tokens[idx++]);
+    console.log(solution.queryDistance(u, v));
+  }
+});
+```
 
 ---
 

@@ -63,7 +63,7 @@ Output `H`.
 
 **Explanation:**
 
-log_{1/p}(n) = log_2(1024) = 10.
+log\_{1/p}(n) = log_2(1024) = 10.
 
 ![Example Visualization](../images/PRB-007/example-1.png)
 
@@ -83,12 +83,104 @@ Skip Lists, Expected Value, Logarithms
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public double expectedHeight(int n, double p) {
+        // Implement here
+        return 0.0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        double p = sc.nextDouble();
+        Solution sol = new Solution();
+        System.out.println(String.format("%.6f", sol.expectedHeight(n, p)));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import math
+
+class Solution:
+    def expected_height(self, n, p):
+        # Implement here
+        return 0.0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    p = float(input_data[1])
+    sol = Solution()
+    print(format(sol.expected_height(n, p), ".6f"))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+
+using namespace std;
+
+class Solution {
+public:
+    double expectedHeight(int n, double p) {
+        // Implement here
+        return 0.0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n;
+    double p;
+    if (!(cin >> n >> p)) return 0;
+    Solution sol;
+    cout << fixed << setprecision(6) << sol.expectedHeight(n, p) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  expectedHeight(n, p) {
+    // Implement here
+    return 0.0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+  const n = parseInt(input[0]);
+  const p = parseFloat(input[1]);
+  const sol = new Solution();
+  console.log(sol.expectedHeight(n, p).toFixed(6));
+}
+
+solve();
+```

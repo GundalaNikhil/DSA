@@ -108,12 +108,136 @@ Heaps, Greedy, Priority Scheduling, Merging
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long maximizeStrength(int n, long[] strengths, int[] classes) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String firstLine = br.readLine();
+        if (firstLine == null) return;
+        int n = Integer.parseInt(firstLine.trim());
+
+        long[] strengths = new long[n];
+        String[] sVals = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < n; i++) {
+            strengths[i] = Long.parseLong(sVals[i]);
+        }
+
+        int[] classes = new int[n];
+        String[] cVals = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < n; i++) {
+            classes[i] = Integer.parseInt(cVals[i]);
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.maximizeStrength(n, strengths, classes));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def maximize_strength(self, n, strengths, classes):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    strengths = list(map(int, input_data[1:n+1]))
+    classes = list(map(int, input_data[n+1:2*n+1]))
+
+    sol = Solution()
+    print(sol.maximize_strength(n, strengths, classes))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long maximizeStrength(int n, vector<long long>& strengths, vector<int>& classes) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<long long> strengths(n);
+    for (int i = 0; i < n; i++) cin >> strengths[i];
+
+    vector<int> classes(n);
+    for (int i = 0; i < n; i++) cin >> classes[i];
+
+    Solution sol;
+    cout << sol.maximizeStrength(n, strengths, classes) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  maximizeStrength(n, strengths, classes) {
+    // Implement here
+    return 0n;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const strengths = [];
+  for (let i = 0; i < n; i++) {
+    strengths.push(BigInt(input[idx++]));
+  }
+  const classes = [];
+  for (let i = 0; i < n; i++) {
+    classes.push(parseInt(input[idx++]));
+  }
+
+  const sol = new Solution();
+  console.log(sol.maximizeStrength(n, strengths, classes).toString());
+}
+
+solve();
+```

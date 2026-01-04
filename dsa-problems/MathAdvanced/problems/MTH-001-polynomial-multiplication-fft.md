@@ -97,12 +97,153 @@ Fast Fourier Transform, Number Theoretic Transform, Polynomial Algorithms, Divid
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long[] multiply(int n, long[] a, int m, long[] b) {
+        // Implement here
+        return new long[0];
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
+        int n = Integer.parseInt(line.trim());
+        long[] a = new long[n];
+        String[] aCoeffs = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < n; i++) a[i] = Long.parseLong(aCoeffs[i]);
+
+        line = br.readLine();
+        if (line == null) return;
+        int m = Integer.parseInt(line.trim());
+        long[] b = new long[m];
+        String[] bCoeffs = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < m; i++) b[i] = Long.parseLong(bCoeffs[i]);
+
+        Solution sol = new Solution();
+        long[] result = sol.multiply(n, a, m, b);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < result.length; i++) {
+            sb.append(result[i]).append(i == result.length - 1 ? "" : " ");
+        }
+        System.out.println(sb.toString());
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def multiply(self, n, a, m, b):
+        # Implement here
+        return []
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    idx = 0
+    n = int(input_data[idx])
+    idx += 1
+    a = [int(x) for x in input_data[idx:idx+n]]
+    idx += n
+
+    m = int(input_data[idx])
+    idx += 1
+    b = [int(x) for x in input_data[idx:idx+m]]
+
+    sol = Solution()
+    result = sol.multiply(n, a, m, b)
+    print(*(result))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <complex>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> multiply(int n, vector<long long>& a, int m, vector<long long>& b) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    if (!(cin >> n)) return 0;
+    vector<long long> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+
+    if (!(cin >> m)) return 0;
+    vector<long long> b(m);
+    for (int i = 0; i < m; i++) cin >> b[i];
+
+    Solution sol;
+    vector<long long> result = sol.multiply(n, a, m, b);
+
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i] << (i == result.size() - 1 ? "" : " ");
+    }
+    cout << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  multiply(n, a, m, b) {
+    // Implement here
+    return [];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const a = [];
+  for (let i = 0; i < n; i++) a.push(BigInt(input[idx++]));
+
+  const m = parseInt(input[idx++]);
+  const b = [];
+  for (let i = 0; i < m; i++) b.push(BigInt(input[idx++]));
+
+  const sol = new Solution();
+  const result = sol.multiply(n, a, m, b);
+  console.log(result.join(" "));
+}
+
+solve();
+```

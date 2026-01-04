@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # SEG-005: K-th Order Statistic in Prefix
 
 ## Problem Statement
@@ -80,14 +81,151 @@ Persistent Segment Tree, Order Statistics, Prefix Queries
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void processQueries(int n, int q, long[] a, int[] r, int[] k) {
+        // Implement here
+        // For each query, output the k-th smallest value
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int q = sc.nextInt();
+            long[] a = new long[n];
+            for (int i = 0; i < n; i++) a[i] = sc.nextLong();
+            int[] rs = new int[q];
+            int[] ks = new int[q];
+            for (int i = 0; i < q; i++) {
+                String cmd = sc.next();
+                rs[i] = sc.nextInt();
+                ks[i] = sc.nextInt();
+            }
+            Solution sol = new Solution();
+            sol.processQueries(n, q, a, rs, ks);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def process_queries(self, n, q, a, queries):
+        # Implement here
+        # For each query, print the k-th smallest value
+        pass
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    q = int(input_data[1])
+    a = [int(x) for x in input_data[2:2+n]]
+    queries = []
+    ptr = 2 + n
+    for _ in range(q):
+        cmd = input_data[ptr]
+        r = int(input_data[ptr+1])
+        k = int(input_data[ptr+2])
+        queries.append((r, k))
+        ptr += 3
+
+    sol = Solution()
+    sol.process_queries(n, q, a, queries)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    void processQueries(int n, int q, const vector<long long>& a, const vector<pair<int, int>>& queries) {
+        // Implement here
+        // For each query, cout << kth_val << endl;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, q;
+    if (cin >> n >> q) {
+        vector<long long> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        vector<pair<int, int>> queries(q);
+        for (int i = 0; i < q; i++) {
+            string cmd;
+            cin >> cmd >> queries[i].first >> queries[i].second;
+        }
+
+        Solution sol;
+        sol.processQueries(n, q, a, queries);
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  processQueries(n, q, a, queries) {
+    // Implement here
+    // For each query, console.log(kth_val.toString());
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false,
+});
+
+let input = [];
+rl.on("line", (line) => {
+  if (line.trim()) input.push(...line.trim().split(/\s+/));
+}).on("close", () => {
+  if (input.length < 2) return;
+  const n = parseInt(input[0]);
+  const q = parseInt(input[1]);
+  const a = input.slice(2, 2 + n).map(BigInt);
+  const queries = [];
+  let ptr = 2 + n;
+  for (let i = 0; i < q; i++) {
+    const r = parseInt(input[ptr + 1]);
+    const k = parseInt(input[ptr + 2]);
+    queries.push({ r, k });
+    ptr += 3;
+  }
+
+  const sol = new Solution();
+  sol.processQueries(n, q, a, queries);
+});
+```

@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # STK-012: Campus Expression Optimizer
 
 ## Problem Statement
@@ -82,14 +83,109 @@ Infix to Postfix, Stack, Parsing
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public String optimize(String expr) {
+        // Implement here
+        // Return in format "POSTFIX <result> <redundant>" or "ERROR <msg> 0"
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextLine()) {
+            String expr = sc.nextLine();
+            Solution sol = new Solution();
+            System.out.println(sol.optimize(expr));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def optimize(self, expr: str) -> str:
+        # Implement here
+        return ""
+
+def solve():
+    expr = sys.stdin.read().strip()
+    if not expr:
+        return
+    sol = Solution()
+    print(sol.optimize(expr))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <stack>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    string optimize(string expr) {
+        // Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string expr;
+    if (getline(cin, expr)) {
+        Solution sol;
+        cout << sol.optimize(expr) << endl;
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  optimize(expr) {
+    // Implement here
+    return "";
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false,
+});
+
+rl.on("line", (line) => {
+  const expr = line.trim();
+  if (expr) {
+    const sol = new Solution();
+    console.log(sol.optimize(expr));
+  }
+});
+```

@@ -81,12 +81,112 @@ MinHash, Jaccard Similarity, Sketches
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public double estimateJaccard(int k, double[] sigA, double[] sigB) {
+        // Implement here
+        return 0.0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int k = sc.nextInt();
+        double[] sigA = new double[k];
+        for (int i = 0; i < k; i++) sigA[i] = sc.nextDouble();
+        double[] sigB = new double[k];
+        for (int i = 0; i < k; i++) sigB[i] = sc.nextDouble();
+        Solution sol = new Solution();
+        System.out.println(String.format("%.6f", sol.estimateJaccard(k, sigA, sigB)));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def estimate_jaccard(self, k, sig_a, sig_b):
+        # Implement here
+        return 0.0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    k = int(input_data[0])
+    sig_a = [float(x) for x in input_data[1:1+k]]
+    sig_b = [float(x) for x in input_data[1+k:1+2*k]]
+    sol = Solution()
+    print(format(sol.estimate_jaccard(k, sig_a, sig_b), ".6f"))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <iomanip>
+
+using namespace std;
+
+class Solution {
+public:
+    double estimateJaccard(int k, const vector<double>& sigA, const vector<double>& sigB) {
+        // Implement here
+        return 0.0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int k;
+    if (!(cin >> k)) return 0;
+    vector<double> sigA(k), sigB(k);
+    for (int i = 0; i < k; i++) cin >> sigA[i];
+    for (int i = 0; i < k; i++) cin >> sigB[i];
+    Solution sol;
+    cout << fixed << setprecision(6) << sol.estimateJaccard(k, sigA, sigB) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  estimateJaccard(k, sigA, sigB) {
+    // Implement here
+    return 0.0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+  const k = parseInt(input[0]);
+  const sigA = [];
+  for (let i = 0; i < k; i++) sigA.push(parseFloat(input[1 + i]));
+  const sigB = [];
+  for (let i = 0; i < k; i++) sigB.push(parseFloat(input[1 + k + i]));
+  const sol = new Solution();
+  console.log(sol.estimateJaccard(k, sigA, sigB).toFixed(6));
+}
+
+solve();
+```

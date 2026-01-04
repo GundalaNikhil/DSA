@@ -55,6 +55,7 @@ Each edge has a non-negative weight representing the toll/cost. Output the minim
 ## Example
 
 **Input:**
+
 ```
 4
 5
@@ -67,6 +68,7 @@ Each edge has a non-negative weight representing the toll/cost. Output the minim
 ```
 
 **Output:**
+
 ```
 0 3 1 4
 ```
@@ -74,6 +76,7 @@ Each edge has a non-negative weight representing the toll/cost. Output the minim
 **Explanation:**
 
 From source node 0:
+
 - To node 0: 0 (source itself)
 - To node 1: 3 (path 0→2→1 with cost 1+2=3, better than direct 0→1 with cost 4)
 - To node 2: 1 (direct path 0→2)
@@ -101,12 +104,191 @@ Dijkstra's Algorithm, Shortest Path, Weighted Graph, Priority Queue, Greedy Algo
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long[] getShortestCosts(int n, List<List<Edge>> adj, int s) {
+        // Implement here
+        return new long[0];
+    }
+
+    static class Edge {
+        int to;
+        long weight;
+        Edge(int to, long weight) {
+            this.to = to;
+            this.weight = weight;
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        String mLine = br.readLine();
+        if (mLine == null) return;
+        int m = Integer.parseInt(mLine.trim());
+
+        List<List<Solution.Edge>> adj = new ArrayList<>(n);
+        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
+
+        for (int i = 0; i < m; i++) {
+            String[] edge = br.readLine().trim().split("\\s+");
+            int u = Integer.parseInt(edge[0]);
+            int v = Integer.parseInt(edge[1]);
+            long w = Long.parseLong(edge[2]);
+            adj.get(u).add(new Solution.Edge(v, w));
+        }
+
+        String sLine = br.readLine();
+        if (sLine == null) return;
+        int s = Integer.parseInt(sLine.trim());
+
+        Solution sol = new Solution();
+        long[] result = sol.getShortestCosts(n, adj, s);
+
+        PrintWriter out = new PrintWriter(System.out);
+        for (int i = 0; i < n; i++) {
+            out.print(result[i] + (i == n - 1 ? "" : " "));
+        }
+        out.println();
+        out.flush();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import heapq
+
+class Solution:
+    def get_shortest_costs(self, n, adj, s):
+        # Implement here
+        return []
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    m = int(input_data[1])
+
+    adj = [[] for _ in range(n)]
+    idx = 2
+    for _ in range(m):
+        u = int(input_data[idx])
+        v = int(input_data[idx+1])
+        w = int(input_data[idx+2])
+        adj[u].append((v, w))
+        idx += 3
+
+    s = int(input_data[idx])
+
+    sol = Solution()
+    result = sol.get_shortest_costs(n, adj, s)
+    print(*(result))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+struct Edge {
+    int to;
+    long long weight;
+};
+
+class Solution {
+public:
+    vector<long long> getShortestCosts(int n, vector<vector<Edge>>& adj, int s) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+
+    vector<vector<Edge>> adj(n);
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        long long w;
+        cin >> u >> v >> w;
+        adj[u].push_back({v, w});
+    }
+
+    int s;
+    cin >> s;
+
+    Solution sol;
+    vector<long long> result = sol.getShortestCosts(n, adj, s);
+
+    for (int i = 0; i < n; i++) {
+        cout << result[i] << (i == n - 1 ? "" : " ");
+    }
+    cout << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  getShortestCosts(n, adj, s) {
+    // Implement here
+    return [];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const m = parseInt(input[idx++]);
+
+  const adj = Array.from({ length: n }, () => []);
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(input[idx++]);
+    const v = parseInt(input[idx++]);
+    const w = BigInt(input[idx++]);
+    adj[u].push([v, w]);
+  }
+
+  const s = parseInt(input[idx++]);
+
+  const sol = new Solution();
+  const result = sol.getShortestCosts(n, adj, s);
+  console.log(result.join(" "));
+}
+
+solve();
+```

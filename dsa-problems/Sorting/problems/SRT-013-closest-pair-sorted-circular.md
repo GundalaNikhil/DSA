@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # SRT-013: Closest Pair in Sorted Circular Array
 
 ## Problem Statement
@@ -80,14 +81,130 @@ Two Pointers, Circular Arrays, Searching
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] findClosestPairCircular(int n, int[] a, int target) {
+        // Implement here
+        return new int[]{0, 0};
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int[] a = new int[n];
+            for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+            int target = sc.nextInt();
+
+            Solution sol = new Solution();
+            int[] result = sol.findClosestPairCircular(n, a, target);
+            System.out.println(result[0] + " " + result[1]);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def find_closest_pair_circular(self, n: int, a: list, target: int) -> list:
+        # Implement here
+        return [0, 0]
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    a = [int(x) for x in input_data[1:1+n]]
+    target = int(input_data[1+n])
+
+    sol = Solution()
+    result = sol.find_closest_pair_circular(n, a, target)
+    print(f"{result[0]} {result[1]}")
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    pair<int, int> findClosestPairCircular(int n, vector<int>& a, int target) {
+        // Implement here
+        return {0, 0};
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (cin >> n) {
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+        int target;
+        cin >> target;
+
+        Solution sol;
+        pair<int, int> result = sol.findClosestPairCircular(n, a, target);
+        cout << result.first << " " << result.second << endl;
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  findClosestPairCircular(n, a, target) {
+    // Implement here
+    return [0, 0];
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false,
+});
+
+let input = [];
+rl.on("line", (line) => {
+  if (line.trim()) input.push(...line.trim().split(/\s+/));
+}).on("close", () => {
+  if (input.length < 2) return;
+  const n = parseInt(input[0]);
+  const a = input.slice(1, 1 + n).map(Number);
+  const target = parseInt(input[1 + n]);
+
+  const sol = new Solution();
+  const result = sol.findClosestPairCircular(n, a, target);
+  console.log(`${result[0]} ${result[1]}`);
+});
+```

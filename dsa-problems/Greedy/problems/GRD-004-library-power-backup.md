@@ -98,12 +98,129 @@ Greedy Algorithms, Sorting, Resource Allocation, Optimization
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int minSwaps(int n, long t, long[] c) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String ntLine = br.readLine();
+        if (ntLine == null) return;
+        String[] nt = ntLine.trim().split("\\s+");
+        int n = Integer.parseInt(nt[0]);
+        long t = Long.parseLong(nt[1]);
+
+        long[] c = new long[n];
+        String[] cLine = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < n; i++) {
+            c[i] = Long.parseLong(cLine[i]);
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.minSwaps(n, t, c));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def min_swaps(self, n, t, c):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    t = int(input_data[1])
+    c = list(map(int, input_data[2:2+n]))
+
+    sol = Solution()
+    print(sol.min_swaps(n, t, c))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int minSwaps(int n, long long t, vector<long long>& c) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    long long t;
+    if (!(cin >> n >> t)) return 0;
+
+    vector<long long> c(n);
+    for (int i = 0; i < n; i++) {
+        cin >> c[i];
+    }
+
+    Solution sol;
+    cout << sol.minSwaps(n, t, c) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  minSwaps(n, t, c) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const t = BigInt(input[idx++]);
+  const c = [];
+  for (let i = 0; i < n; i++) {
+    c.push(BigInt(input[idx++]));
+  }
+
+  const sol = new Solution();
+  console.log(sol.minSwaps(n, t, c));
+}
+
+solve();
+```

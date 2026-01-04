@@ -86,12 +86,105 @@ Sliding Window, Queue, Two Pointers
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void findFirstNegative(int n, int k, int[] deltas) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] deltas = new int[n];
+        for (int i = 0; i < n; i++) deltas[i] = sc.nextInt();
+        Solution sol = new Solution();
+        sol.findFirstNegative(n, k, deltas);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def find_first_negative(self, n, k, deltas):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    k = int(input_data[1])
+    deltas = [int(x) for x in input_data[2:2+n]]
+    sol = Solution()
+    sol.find_first_negative(n, k, deltas)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void findFirstNegative(int n, int k, const vector<int>& deltas) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, k;
+    if (!(cin >> n >> k)) return 0;
+    vector<int> deltas(n);
+    for (int i = 0; i < n; i++) cin >> deltas[i];
+    Solution sol;
+    sol.findFirstNegative(n, k, deltas);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  findFirstNegative(n, k, deltas) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+  const n = parseInt(input[0]);
+  const k = parseInt(input[1]);
+  const deltas = [];
+  for (let i = 0; i < n; i++) deltas.push(parseInt(input[2 + i]));
+  const sol = new Solution();
+  sol.findFirstNegative(n, k, deltas);
+}
+
+solve();
+```

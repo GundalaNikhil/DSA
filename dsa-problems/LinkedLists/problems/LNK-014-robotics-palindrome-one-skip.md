@@ -80,12 +80,162 @@ Linked Lists, Palindromes, Two Pointers
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int x) { val = x; }
+}
+
+class Solution {
+    public boolean canBePalindrome(ListNode head) {
+        // Implement here
+        return false;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
+        int n = Integer.parseInt(line.trim());
+
+        ListNode dummy = new ListNode(0);
+        ListNode curr = dummy;
+        if (n > 0) {
+            String[] vals = br.readLine().trim().split("\\s+");
+            for (int i = 0; i < n; i++) {
+                curr.next = new ListNode(Integer.parseInt(vals[i]));
+                curr = curr.next;
+            }
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.canBePalindrome(dummy.next));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+class Solution:
+    def can_be_palindrome(self, head):
+        # Implement here
+        return False
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    dummy = ListNode(0)
+    curr = dummy
+    for i in range(1, n + 1):
+        curr.next = ListNode(int(input_data[i]))
+        curr = curr.next
+
+    sol = Solution()
+    print(str(sol.can_be_palindrome(dummy.next)).lower())
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};
+
+class Solution {
+public:
+    bool canBePalindrome(ListNode* head) {
+        // Implement here
+        return false;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    ListNode* dummy = new ListNode(0);
+    ListNode* curr = dummy;
+    for (int i = 0; i < n; i++) {
+        int val;
+        cin >> val;
+        curr->next = new ListNode(val);
+        curr = curr->next;
+    }
+
+    Solution sol;
+    cout << (sol.canBePalindrome(dummy->next) ? "true" : "false") << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class ListNode {
+  constructor(x) {
+    this.val = x;
+    this.next = null;
+  }
+}
+
+class Solution {
+  canBePalindrome(head) {
+    // Implement here
+    return false;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const dummy = new ListNode(0);
+  let curr = dummy;
+  for (let i = 0; i < n; i++) {
+    curr.next = new ListNode(parseInt(input[idx++]));
+    curr = curr.next;
+  }
+
+  const sol = new Solution();
+  console.log(sol.canBePalindrome(dummy.next));
+}
+
+solve();
+```

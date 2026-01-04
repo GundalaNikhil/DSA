@@ -118,12 +118,132 @@ Greedy Algorithms, Heap, Priority Queue, Resource Distribution, Load Balancing
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int[] distributeKits(int k, int m, long[] q) {
+        // Implement here
+        return new int[]{0, 0};
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String kmLine = br.readLine();
+        if (kmLine == null) return;
+        String[] km = kmLine.trim().split("\\s+");
+        int k = Integer.parseInt(km[0]);
+        int m = Integer.parseInt(km[1]);
+
+        long[] q = new long[k];
+        String[] qLine = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < k; i++) {
+            q[i] = Long.parseLong(qLine[i]);
+        }
+
+        Solution sol = new Solution();
+        int[] result = sol.distributeKits(k, m, q);
+        System.out.println(result[0] + " " + result[1]);
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def distribute_kits(self, k, m, q):
+        # Implement here
+        return [0, 0]
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    k = int(input_data[0])
+    m = int(input_data[1])
+    q = list(map(int, input_data[2:2+k]))
+
+    sol = Solution()
+    result = sol.distribute_kits(k, m, q)
+    print(f"{result[0]} {result[1]}")
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> distributeKits(int k, int m, vector<long long>& q) {
+        // Implement here
+        return {0, 0};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int k, m;
+    if (!(cin >> k >> m)) return 0;
+
+    vector<long long> q(k);
+    for (int i = 0; i < k; i++) {
+        cin >> q[i];
+    }
+
+    Solution sol;
+    vector<int> result = sol.distributeKits(k, m, q);
+    cout << result[0] << " " << result[1] << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  distributeKits(k, m, q) {
+    // Implement here
+    return [0, 0];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const k = parseInt(input[idx++]);
+  const m = parseInt(input[idx++]);
+  const q = [];
+  for (let i = 0; i < k; i++) {
+    q.push(BigInt(input[idx++]));
+  }
+
+  const sol = new Solution();
+  const result = sol.distributeKits(k, m, q);
+  console.log(`${result[0]} ${result[1]}`);
+}
+
+solve();
+```

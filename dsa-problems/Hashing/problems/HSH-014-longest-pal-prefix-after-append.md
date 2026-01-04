@@ -89,12 +89,112 @@ Palindrome, Hashing, Prefix, String Algorithms
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int longestPalindromicPrefixAfterAppend(String s, char c) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String s = br.readLine();
+        String cLine = br.readLine();
+        if (s == null || cLine == null) return;
+        char c = cLine.trim().charAt(0);
+
+        Solution sol = new Solution();
+        System.out.println(sol.longestPalindromicPrefixAfterAppend(s.trim(), c));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def longest_palindromic_prefix_after_append(self, s, c):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().splitlines()
+    if len(input_data) < 2:
+        return
+
+    s = input_data[0].strip()
+    c = input_data[1].strip()[0]
+
+    sol = Solution()
+    print(sol.longest_palindromic_prefix_after_append(s, c))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int longestPalindromicPrefixAfterAppend(string s, char c) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string s;
+    char c;
+    if (!(cin >> s >> c)) return 0;
+
+    Solution sol;
+    cout << sol.longestPalindromicPrefixAfterAppend(s, c) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  longestPalindromicPrefixAfterAppend(s, c) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\r?\n/);
+  if (input.length < 2) return;
+
+  const s = input[0].trim();
+  const c = input[1].trim()[0];
+
+  const sol = new Solution();
+  console.log(sol.longestPalindromicPrefixAfterAppend(s, c));
+}
+
+solve();
+```

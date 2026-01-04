@@ -99,12 +99,125 @@ Segment Tree, Fenwick Tree, Hashing, Dynamic Updates
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public void processHashingOperations(String s, int q, List<String> ops) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String s = br.readLine();
+        if (s == null) return;
+        String qLine = br.readLine();
+        if (qLine == null) return;
+        int q = Integer.parseInt(qLine.trim());
+
+        List<String> ops = new ArrayList<>();
+        for (int i = 0; i < q; i++) {
+            ops.add(br.readLine());
+        }
+
+        Solution sol = new Solution();
+        sol.processHashingOperations(s, q, ops);
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def process_hashing_operations(self, s, q, ops):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().splitlines()
+    if not input_data:
+        return
+
+    s = input_data[0].strip()
+    q = int(input_data[1].strip())
+    ops = input_data[2:2+q]
+
+    sol = Solution()
+    sol.process_hashing_operations(s, q, ops)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void processHashingOperations(string s, int q, const vector<string>& ops) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string s;
+    if (!(cin >> s)) return 0;
+
+    int q;
+    if (!(cin >> q)) return 0;
+    cin.ignore();
+
+    vector<string> ops(q);
+    for (int i = 0; i < q; i++) {
+        getline(cin, ops[i]);
+    }
+
+    Solution sol;
+    sol.processHashingOperations(s, q, ops);
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  processHashingOperations(s, q, ops) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\r?\n/);
+  if (input.length < 2) return;
+
+  const s = input[0].trim();
+  const q = parseInt(input[1].trim());
+  const ops = input.slice(2, 2 + q);
+
+  const sol = new Solution();
+  sol.processHashingOperations(s, q, ops);
+}
+
+solve();
+```

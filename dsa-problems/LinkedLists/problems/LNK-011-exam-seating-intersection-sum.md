@@ -91,12 +91,229 @@ Linked Lists, Intersection, Two Pointers
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class ListNode {
+    long val;
+    ListNode next;
+    ListNode(long x) { val = x; }
+}
+
+class Solution {
+    public long getIntersectionSum(ListNode headA, ListNode headB) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String firstLine = br.readLine();
+        if (firstLine == null) return;
+        String[] lens = firstLine.trim().split("\\s+");
+        int n = Integer.parseInt(lens[0]);
+        int m = Integer.parseInt(lens[1]);
+
+        ListNode[] nodesA = new ListNode[n];
+        if (n > 0) {
+            String[] valsA = br.readLine().trim().split("\\s+");
+            for (int i = 0; i < n; i++) {
+                nodesA[i] = new ListNode(Long.parseLong(valsA[i]));
+                if (i > 0) nodesA[i-1].next = nodesA[i];
+            }
+        } else {
+            br.readLine();
+        }
+
+        ListNode[] nodesB = new ListNode[m];
+        if (m > 0) {
+            String[] valsB = br.readLine().trim().split("\\s+");
+            for (int i = 0; i < m; i++) {
+                nodesB[i] = new ListNode(Long.parseLong(valsB[i]));
+                if (i > 0) nodesB[i-1].next = nodesB[i];
+            }
+        } else {
+            br.readLine();
+        }
+
+        String[] conn = br.readLine().trim().split("\\s+");
+        int ia = Integer.parseInt(conn[0]);
+        int ib = Integer.parseInt(conn[1]);
+        if (ia != -1 && ib != -1 && n > 0 && m > 0) {
+            nodesB[ib].next = nodesA[ia];
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.getIntersectionSum(n > 0 ? nodesA[0] : null, m > 0 ? nodesB[0] : null));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+class Solution:
+    def get_intersection_sum(self, head_a, head_b):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    idx = 0
+    n = int(input_data[idx++])
+    m = int(input_data[idx++])
+
+    nodes_a = []
+    for i in range(n):
+        nodes_a.append(ListNode(int(input_data[idx++])))
+    for i in range(n - 1):
+        nodes_a[i].next = nodes_a[i + 1]
+
+    nodes_b = []
+    for i in range(m):
+        nodes_b.append(ListNode(int(input_data[idx++])))
+    for i in range(m - 1):
+        nodes_b[i].next = nodes_b[i + 1]
+
+    ia = int(input_data[idx++])
+    ib = int(input_data[idx++])
+
+    if ia != -1 and ib != -1 and n > 0 and m > 0:
+        nodes_b[ib].next = nodes_a[ia]
+
+    sol = Solution()
+    print(sol.get_intersection_sum(nodes_a[0] if n > 0 else None, nodes_b[0] if m > 0 else None))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+struct ListNode {
+    long long val;
+    ListNode *next;
+    ListNode(long long x) : val(x), next(NULL) {}
+};
+
+class Solution {
+public:
+    long long getIntersectionSum(ListNode* headA, ListNode* headB) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+
+    vector<ListNode*> nodesA(n);
+    for (int i = 0; i < n; i++) {
+        long long val;
+        cin >> val;
+        nodesA[i] = new ListNode(val);
+        if (i > 0) nodesA[i-1]->next = nodesA[i];
+    }
+
+    vector<ListNode*> nodesB(m);
+    for (int i = 0; i < m; i++) {
+        long long val;
+        cin >> val;
+        nodesB[i] = new ListNode(val);
+        if (i > 0) nodesB[i-1]->next = nodesB[i];
+    }
+
+    int ia, ib;
+    cin >> ia >> ib;
+    if (ia != -1 && ib != -1 && n > 0 && m > 0) {
+        nodesB[ib]->next = nodesA[ia];
+    }
+
+    Solution sol;
+    cout << sol.getIntersectionSum(n > 0 ? nodesA[0] : NULL, m > 0 ? nodesB[0] : NULL) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class ListNode {
+  constructor(x) {
+    this.val = x;
+    this.next = null;
+  }
+}
+
+class Solution {
+  getIntersectionSum(headA, headB) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const m = parseInt(input[idx++]);
+
+  const nodesA = [];
+  for (let i = 0; i < n; i++) {
+    nodesA.push(new ListNode(BigInt(input[idx++])));
+    if (i > 0) nodesA[i - 1].next = nodesA[i];
+  }
+
+  const nodesB = [];
+  for (let i = 0; i < m; i++) {
+    nodesB.push(new ListNode(BigInt(input[idx++])));
+    if (i > 0) nodesB[i - 1].next = nodesB[i];
+  }
+
+  const ia = parseInt(input[idx++]);
+  const ib = parseInt(input[idx++]);
+
+  if (ia !== -1 && ib !== -1 && n > 0 && m > 0) {
+    nodesB[ib].next = nodesA[ia];
+  }
+
+  const sol = new Solution();
+  console.log(
+    sol
+      .getIntersectionSum(n > 0 ? nodesA[0] : null, m > 0 ? nodesB[0] : null)
+      .toString()
+  );
+}
+
+solve();
+```

@@ -100,12 +100,118 @@ Anagrams, Hashing, Union-Find, String Manipulation, Grouping
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int countNearAnagramGroups(int n, String[] words) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        String[] words = new String[n];
+        for (int i = 0; i < n; i++) {
+            words[i] = br.readLine().trim();
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.countNearAnagramGroups(n, words));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def count_near_anagram_groups(self, n, words):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().splitlines()
+    if not input_data:
+        return
+
+    n = int(input_data[0].strip())
+    words = input_data[1:n+1]
+
+    sol = Solution()
+    print(sol.count_near_anagram_groups(n, words))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int countNearAnagramGroups(int n, const vector<string>& words) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<string> words(n);
+    for (int i = 0; i < n; i++) cin >> words[i];
+
+    Solution sol;
+    cout << sol.countNearAnagramGroups(n, words) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  countNearAnagramGroups(n, words) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\r?\n/);
+  if (input.length < 1) return;
+
+  const n = parseInt(input[0].trim());
+  const words = input.slice(1, n + 1).map((w) => w.trim());
+
+  const sol = new Solution();
+  console.log(sol.countNearAnagramGroups(n, words));
+}
+
+solve();
+```

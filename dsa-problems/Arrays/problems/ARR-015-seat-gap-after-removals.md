@@ -48,6 +48,7 @@ Print the maximum gap between remaining consecutive seats.
 ## Example
 
 **Input:**
+
 ```
 4
 2 5 9 10
@@ -56,6 +57,7 @@ Print the maximum gap between remaining consecutive seats.
 ```
 
 **Output:**
+
 ```
 7
 ```
@@ -82,16 +84,162 @@ Simulation, Greedy, Arrays
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
 
+class Solution {
+    public int maxSeatGap(int n, int[] seats, int r, HashSet<Integer> removals) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        int[] seats = new int[n];
+        String sLine = br.readLine();
+        if (sLine != null) {
+            String[] parts = sLine.trim().split("\\s+");
+            for (int i = 0; i < n; i++) {
+                seats[i] = Integer.parseInt(parts[i]);
+            }
+        }
+
+        String rLine = br.readLine();
+        if (rLine == null) return;
+        int r = Integer.parseInt(rLine.trim());
+
+        HashSet<Integer> removals = new HashSet<>();
+        String remLine = br.readLine();
+        if (remLine != null && r > 0) {
+            String[] parts = remLine.trim().split("\\s+");
+            for (String p : parts) {
+                removals.add(Integer.parseInt(p));
+            }
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.maxSeatGap(n, seats, r, removals));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
 
+class Solution:
+    def max_seat_gap(self, n, seats, r, removals):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    seats = list(map(int, input_data[1:n+1]))
+    r = int(input_data[n+1])
+    removals = set()
+    for i in range(r):
+        removals.add(int(input_data[n+2+i]))
+
+    sol = Solution()
+    print(sol.max_seat_gap(n, seats, r, removals))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    int maxSeatGap(int n, vector<int>& seats, int r, unordered_set<int>& removals) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> seats(n);
+    for (int i = 0; i < n; i++) {
+        cin >> seats[i];
+    }
+
+    int r;
+    cin >> r;
+
+    unordered_set<int> removals;
+    for (int i = 0; i < r; i++) {
+        int idx;
+        cin >> idx;
+        removals.insert(idx);
+    }
+
+    Solution sol;
+    cout << sol.maxSeatGap(n, seats, r, removals) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
 
+const fs = require("fs");
+
+class Solution {
+  maxSeatGap(n, seats, r, removals) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+
+  let idx = 0;
+  function readInt() {
+    return parseInt(input[idx++]);
+  }
+
+  const n = readInt();
+  const seats = [];
+  for (let i = 0; i < n; i++) seats.push(readInt());
+
+  const r = readInt();
+  const removals = new Set();
+  for (let i = 0; i < r; i++) removals.add(readInt());
+
+  const sol = new Solution();
+  console.log(sol.maxSeatGap(n, seats, r, removals));
+}
+
+solve();
+```

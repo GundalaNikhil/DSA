@@ -83,12 +83,140 @@ Bitwise Operations, XOR, Counting
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long countPairsInBand(int n, int[] a, int l, int u) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        int[] a = new int[n];
+        String aLine = br.readLine();
+        if (aLine != null) {
+            String[] parts = aLine.trim().split("\\s+");
+            for (int i = 0; i < n; i++) {
+                a[i] = Integer.parseInt(parts[i]);
+            }
+        }
+
+        String luLine = br.readLine();
+        if (luLine == null) return;
+        String[] luParts = luLine.trim().split("\\s+");
+        int l = Integer.parseInt(luParts[0]);
+        int u = Integer.parseInt(luParts[1]);
+
+        Solution sol = new Solution();
+        System.out.println(sol.countPairsInBand(n, a, l, u));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def count_pairs_in_band(self, n, a, l, u):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    a = list(map(int, input_data[1:n+1]))
+    l = int(input_data[n+1])
+    u = int(input_data[n+2])
+
+    sol = Solution()
+    print(sol.count_pairs_in_band(n, a, l, u))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long countPairsInBand(int n, vector<int>& a, int l, int u) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+    int l, u;
+    cin >> l >> u;
+
+    Solution sol;
+    cout << sol.countPairsInBand(n, a, l, u) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  countPairsInBand(n, a, l, u) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 3) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const a = [];
+  for (let i = 0; i < n; i++) {
+    a.push(parseInt(input[idx++]));
+  }
+  const l = parseInt(input[idx++]);
+  const u = parseInt(input[idx++]);
+
+  const sol = new Solution();
+  console.log(sol.countPairsInBand(n, a, l, u).toString());
+}
+
+solve();
+```

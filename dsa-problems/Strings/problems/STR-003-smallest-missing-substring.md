@@ -86,3 +86,119 @@ aaa
 - Use DFS with lazy generation to avoid creating all 26^k possibilities
 - Build a set of existing k-length substrings for O(1) lookup
 - Generate candidates in lexicographic order and stop at first missing
+
+---
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public String smallestMissing(String s, int k) {
+        // Implement here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String s = sc.next();
+            if (sc.hasNextInt()) {
+                int k = sc.nextInt();
+                Solution sol = new Solution();
+                System.out.println(sol.smallestMissing(s, k));
+            }
+        }
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+import sys
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if len(input_data) < 2:
+        return
+    s = input_data[0]
+    k = int(input_data[1])
+    solution = Solution()
+    print(solution.smallest_missing(s, k))
+
+class Solution:
+    def smallest_missing(self, s: str, k: int) -> str:
+        # Implement here
+        return ""
+
+if __name__ == "__main__":
+    solve()
+```
+
+### C++
+
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string smallestMissing(string s, int k) {
+        // Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string s;
+    int k;
+    if (cin >> s >> k) {
+        Solution sol;
+        cout << sol.smallestMissing(s, k) << endl;
+    }
+
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  smallestMissing(s, k) {
+    // Implement here
+    return "";
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let input = [];
+rl.on("line", (line) => {
+  input.push(...line.trim().split(/\s+/));
+}).on("close", () => {
+  if (input.length >= 2) {
+    const s = input[0];
+    const k = parseInt(input[1]);
+    const sol = new Solution();
+    console.log(sol.smallestMissing(s, k));
+  }
+});
+```

@@ -82,12 +82,129 @@ Bitwise Operations, DP, Subsets
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long countSubsetsWithAndX(int n, int[] a, int x) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        int x = sc.nextInt();
+
+        Solution sol = new Solution();
+        System.out.println(sol.countSubsetsWithAndX(n, a, x));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def count_subsets_with_and_x(self, n, a, x):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    a = list(map(int, input_data[1:n+1]))
+    x = int(input_data[n+1])
+
+    sol = Solution()
+    print(sol.count_subsets_with_and_x(n, a, x))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long countSubsetsWithAndX(int n, const vector<int>& a, int x) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+    int x;
+    cin >> x;
+
+    Solution sol;
+    cout << sol.countSubsetsWithAndX(n, a, x) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  countSubsetsWithAndX(n, a, x) {
+    // Implement here
+    return BigInt(0);
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const a = [];
+  for (let i = 0; i < n; i++) {
+    a.push(parseInt(input[idx++]));
+  }
+  const x = parseInt(input[idx++]);
+
+  const sol = new Solution();
+  console.log(sol.countSubsetsWithAndX(n, a, x).toString());
+}
+
+solve();
+```

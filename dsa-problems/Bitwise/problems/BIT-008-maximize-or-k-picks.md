@@ -48,6 +48,7 @@ Print the maximum possible OR value.
 ## Example
 
 **Input:**
+
 ```
 3
 1 2 4
@@ -55,6 +56,7 @@ Print the maximum possible OR value.
 ```
 
 **Output:**
+
 ```
 6
 ```
@@ -80,16 +82,140 @@ Bitwise Operations, Greedy
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
 
+class Solution {
+    public long maximizeOrWithK(int n, long[] a, int k) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        long[] a = new long[n];
+        String aLine = br.readLine();
+        if (aLine != null) {
+            String[] parts = aLine.trim().split("\\s+");
+            for (int i = 0; i < n; i++) {
+                a[i] = Long.parseLong(parts[i]);
+            }
+        }
+
+        String kLine = br.readLine();
+        if (kLine == null) return;
+        int k = Integer.parseInt(kLine.trim());
+
+        Solution sol = new Solution();
+        System.out.println(sol.maximizeOrWithK(n, a, k));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
 
+class Solution:
+    def maximize_or_with_k(self, n, a, k):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    a = list(map(int, input_data[1:n+1]))
+    if len(input_data) > n+1:
+        k = int(input_data[n+1])
+    else:
+        k = n
+
+    sol = Solution()
+    print(sol.maximize_or_with_k(n, a, k))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    long long maximizeOrWithK(int n, const vector<long long>& a, int k) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<long long> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+    int k;
+    cin >> k;
+
+    Solution sol;
+    cout << sol.maximizeOrWithK(n, a, k) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
 
+const fs = require("fs");
+
+class Solution {
+  maximizeOrWithK(n, a, k) {
+    // Implement here
+    return BigInt(0);
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const a = [];
+  for (let i = 0; i < n; i++) {
+    a.push(BigInt(input[idx++]));
+  }
+  const k = parseInt(input[idx++]);
+
+  const sol = new Solution();
+  console.log(sol.maximizeOrWithK(n, a, k).toString());
+}
+
+solve();
+```

@@ -30,7 +30,7 @@ The player who cannot make a valid move loses.
 
 Determine if the first player has a winning strategy.
 
-![Problem Illustration](../images/GMT-005/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767513719/dsa/gametheory/gqxa2d0ootusmfps4ifm.jpg)
 
 ## Input Format
 
@@ -50,6 +50,7 @@ Determine if the first player has a winning strategy.
 ## Example
 
 **Input:**
+
 ```
 2
 0 2
@@ -57,11 +58,13 @@ Determine if the first player has a winning strategy.
 ```
 
 **Output:**
+
 ```
 First
 ```
 
 **Explanation:**
+
 - Interval 1: `[0, 2]`, length 2.
 - Interval 2: `[5, 6]`, length 1.
 - This is equivalent to a Nim game with piles of size 2 and 1.
@@ -85,12 +88,129 @@ Game Theory, Nim Game, XOR
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public String determineWinner(int n, long[][] intervals) {
+        // Implement here
+        return "";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
+        int n = Integer.parseInt(line.trim());
+
+        long[][] intervals = new long[n][2];
+        for (int i = 0; i < n; i++) {
+            String[] parts = br.readLine().trim().split("\\s+");
+            intervals[i][0] = Long.parseLong(parts[0]);
+            intervals[i][1] = Long.parseLong(parts[1]);
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.determineWinner(n, intervals));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def determine_winner(self, n, intervals):
+        # Implement here
+        return ""
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    intervals = []
+    idx = 1
+    for _ in range(n):
+        intervals.append([int(input_data[idx]), int(input_data[idx+1])])
+        idx += 2
+
+    sol = Solution()
+    print(sol.determine_winner(n, intervals))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string determineWinner(int n, vector<pair<long long, long long>>& intervals) {
+        // Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<pair<long long, long long>> intervals(n);
+    for (int i = 0; i < n; i++) {
+        cin >> intervals[i].first >> intervals[i].second;
+    }
+
+    Solution sol;
+    cout << sol.determineWinner(n, intervals) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  determineWinner(n, intervals) {
+    // Implement here
+    return "";
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const intervals = [];
+  for (let i = 0; i < n; i++) {
+    intervals.push([BigInt(input[idx++]), BigInt(input[idx++])]);
+  }
+
+  const sol = new Solution();
+  console.log(sol.determineWinner(n, intervals));
+}
+
+solve();
+```

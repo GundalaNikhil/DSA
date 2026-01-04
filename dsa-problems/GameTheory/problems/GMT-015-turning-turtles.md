@@ -26,6 +26,7 @@ You are given a row of `N` coins, represented by a string `S` of length `N`.
 Each character is either 'H' (Heads) or 'T' (Tails).
 Two players take turns making a move.
 In each turn, a player must:
+
 1.  Choose an index `i` (`0 <= i < N`) such that `S[i]` is 'H'.
 2.  Flip the coin at `i` from 'H' to 'T'.
 3.  **Optionally**, choose another index `j` such that `i - K <= j < i` (where `K` is a given integer) and flip the coin at `j` (from 'H' to 'T' or 'T' to 'H').
@@ -35,7 +36,7 @@ The player who cannot make a valid move loses.
 
 Determine if the first player has a winning strategy.
 
-![Problem Illustration](../images/GMT-015/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767539112/dsa/gametheory_simple/bfyyf0mcqdcvdowdwvx6.jpg)
 
 ## Input Format
 
@@ -55,17 +56,20 @@ Determine if the first player has a winning strategy.
 ## Example
 
 **Input:**
+
 ```
 5 2
 THTHH
 ```
 
 **Output:**
+
 ```
 First
 ```
 
 **Explanation:**
+
 - `N=5, K=2`. String `THTHH`.
 - Heads at indices: 1, 3, 4.
 - We need to compute Grundy values `G(i)`.
@@ -95,12 +99,117 @@ Game Theory, Sprague-Grundy Theorem
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public String determineWinner(int n, long k, String s) {
+        // Implement here
+        return "";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nkLine = br.readLine();
+        if (nkLine == null) return;
+        String[] nkParts = nkLine.trim().split("\\s+");
+        int n = Integer.parseInt(nkParts[0]);
+        long k = Long.parseLong(nkParts[1]);
+        String s = br.readLine();
+
+        Solution sol = new Solution();
+        System.out.println(sol.determineWinner(n, k, s));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def determine_winner(self, n, k, s):
+        # Implement here
+        return ""
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    k = int(input_data[1])
+    s = input_data[2]
+
+    sol = Solution()
+    print(sol.determine_winner(n, k, s))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    string determineWinner(int n, long long k, string s) {
+        // Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    long long k;
+    if (!(cin >> n >> k)) return 0;
+    string s;
+    cin >> s;
+
+    Solution sol;
+    cout << sol.determineWinner(n, k, s) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  determineWinner(n, k, s) {
+    // Implement here
+    return "";
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 3) return;
+
+  const n = parseInt(input[0]);
+  const k = BigInt(input[1]);
+  const s = input[2];
+
+  const sol = new Solution();
+  console.log(sol.determineWinner(n, k, s));
+}
+
+solve();
+```

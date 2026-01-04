@@ -26,6 +26,7 @@ You are given `N` heaps of stones. The `i`-th heap has `A[i]` stones.
 Each heap also has a specific move limit `L[i]`.
 Two players take turns making a move.
 In each turn, a player must:
+
 1.  Choose a heap `i` that is not empty.
 2.  Remove `k` stones from it, such that `1 <= k <= min(A[i], L[i])`.
 
@@ -34,7 +35,7 @@ The player who cannot make a valid move loses.
 
 Determine if the first player has a winning strategy.
 
-![Problem Illustration](../images/GMT-016/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767539112/dsa/gametheory_simple/gfjupmih06kpneh56gmg.jpg)
 
 ## Input Format
 
@@ -54,6 +55,7 @@ Determine if the first player has a winning strategy.
 ## Example
 
 **Input:**
+
 ```
 2
 10 15
@@ -61,11 +63,13 @@ Determine if the first player has a winning strategy.
 ```
 
 **Output:**
+
 ```
 First
 ```
 
 **Explanation:**
+
 - Heap 1: Size 10, Limit 3.
   - `G(10) = 10 % (3 + 1) = 10 % 4 = 2`.
 - Heap 2: Size 15, Limit 5.
@@ -90,12 +94,133 @@ Game Theory, Sprague-Grundy Theorem
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public String determineWinner(int n, long[] a, long[] l) {
+        // Implement here
+        return "";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        long[] a = new long[n];
+        long[] l = new long[n];
+
+        String aLine = br.readLine();
+        if (aLine != null) {
+            String[] aParts = aLine.trim().split("\\s+");
+            for (int i = 0; i < n; i++) a[i] = Long.parseLong(aParts[i]);
+        }
+
+        String lLine = br.readLine();
+        if (lLine != null) {
+            String[] lParts = lLine.trim().split("\\s+");
+            for (int i = 0; i < n; i++) l[i] = Long.parseLong(lParts[i]);
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.determineWinner(n, a, l));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def determine_winner(self, n, a, l):
+        # Implement here
+        return ""
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    a = list(map(int, input_data[1:1+n]))
+    l = list(map(int, input_data[1+n:1+2*n]))
+
+    sol = Solution()
+    print(sol.determine_winner(n, a, l))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string determineWinner(int n, vector<long long>& a, vector<long long>& l) {
+        // Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<long long> a(n), l(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+    for (int i = 0; i < n; i++) cin >> l[i];
+
+    Solution sol;
+    cout << sol.determineWinner(n, a, l) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  determineWinner(n, a, l) {
+    // Implement here
+    return "";
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const a = [];
+  for (let i = 0; i < n; i++) a.push(BigInt(input[idx++]));
+  const l = [];
+  for (let i = 0; i < n; i++) l.push(BigInt(input[idx++]));
+
+  const sol = new Solution();
+  console.log(sol.determineWinner(n, a, l));
+}
+
+solve();
+```

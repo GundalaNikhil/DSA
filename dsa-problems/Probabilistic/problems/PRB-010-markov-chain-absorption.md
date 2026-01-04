@@ -86,12 +86,126 @@ Markov Chains, Linear Algebra, Absorption
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void absorptionAnalysis(int n, int s, double[][] transition) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int s = sc.nextInt();
+        double[][] transition = new double[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                transition[i][j] = sc.nextDouble();
+            }
+        }
+        Solution sol = new Solution();
+        sol.absorptionAnalysis(n, s, transition);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def absorption_analysis(self, n, s, transition):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    s = int(input_data[1])
+    transition = []
+    idx = 2
+    for i in range(n):
+        row = [float(x) for x in input_data[idx:idx+n]]
+        transition.append(row)
+        idx += n
+    sol = Solution()
+    sol.absorption_analysis(n, s, transition)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <iomanip>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void absorptionAnalysis(int n, int s, const vector<vector<double>>& transition) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, s;
+    if (!(cin >> n >> s)) return 0;
+    vector<vector<double>> transition(n, vector<double>(n));
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            cin >> transition[i][j];
+        }
+    }
+    Solution sol;
+    sol.absorptionAnalysis(n, s, transition);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  absorptionAnalysis(n, s, transition) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+  const n = parseInt(input[0]);
+  const s = parseInt(input[1]);
+  const transition = [];
+  let idx = 2;
+  for (let i = 0; i < n; i++) {
+    const row = [];
+    for (let j = 0; j < n; j++) {
+      row.push(parseFloat(input[idx++]));
+    }
+    transition.push(row);
+  }
+  const sol = new Solution();
+  sol.absorptionAnalysis(n, s, transition);
+}
+
+solve();
+```

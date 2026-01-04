@@ -84,3 +84,119 @@ xxxxxyyyyy
 - Parse character and following digits
 - Apply min(count, cap) for each run
 - O(n + output_size) time complexity
+
+---
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public String decodeWithCap(String s, int cap) {
+        // Implement here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String s = sc.next();
+            if (sc.hasNextInt()) {
+                int cap = sc.nextInt();
+                Solution sol = new Solution();
+                System.out.println(sol.decodeWithCap(s, cap));
+            }
+        }
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+import sys
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if len(input_data) < 2:
+        return
+    s = input_data[0]
+    cap = int(input_data[1])
+    solution = Solution()
+    print(solution.decode_with_cap(s, cap))
+
+class Solution:
+    def decode_with_cap(self, s: str, cap: int) -> str:
+        # Implement here
+        return ""
+
+if __name__ == "__main__":
+    solve()
+```
+
+### C++
+
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string decodeWithCap(string s, int cap) {
+        // Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string s;
+    int cap;
+    if (cin >> s >> cap) {
+        Solution sol;
+        cout << sol.decodeWithCap(s, cap) << endl;
+    }
+
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  decodeWithCap(s, cap) {
+    // Implement here
+    return "";
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let input = [];
+rl.on("line", (line) => {
+  input.push(...line.trim().split(/\s+/));
+}).on("close", () => {
+  if (input.length >= 2) {
+    const s = input[0];
+    const cap = parseInt(input[1]);
+    const sol = new Solution();
+    console.log(sol.decodeWithCap(s, cap));
+  }
+});
+```

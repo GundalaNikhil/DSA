@@ -32,7 +32,7 @@ Your task is to maximize the total value under these constraints.
 
 If it is impossible to reach total weight ≥ `R` without exceeding `W`, print `-1`.
 
-![Problem Illustration](../images/DP-003/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767513326/dsa/dp/pi8avepmznqnbxzcmeou.jpg)
 
 ## Input Format
 
@@ -57,6 +57,7 @@ Print a single integer:
 ## Example
 
 **Input:**
+
 ```
 3 6 5
 2 4
@@ -65,6 +66,7 @@ Print a single integer:
 ```
 
 **Output:**
+
 ```
 10
 ```
@@ -96,13 +98,136 @@ Dynamic Programming, 0/1 Knapsack, Optimization
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long maximizeValue(int n, int W, int R, long[][] items) {
+        // Implement here
+        return -1;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String firstLine = br.readLine();
+        if (firstLine == null) return;
+        String[] parts = firstLine.trim().split("\\s+");
+        int n = Integer.parseInt(parts[0]);
+        int W = Integer.parseInt(parts[1]);
+        int R = Integer.parseInt(parts[2]);
+
+        long[][] items = new long[n][2];
+        for (int i = 0; i < n; i++) {
+            String[] itemParts = br.readLine().trim().split("\\s+");
+            items[i][0] = Long.parseLong(itemParts[0]); // weight
+            items[i][1] = Long.parseLong(itemParts[1]); // value
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.maximizeValue(n, W, R, items));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def maximize_value(self, n, W, R, items):
+        # Implement here
+        return -1
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n, W, R = map(int, input_data[:3])
+    idx = 3
+    items = []
+    for _ in range(n):
+        items.append([int(input_data[idx]), int(input_data[idx+1])])
+        idx += 2
+
+    sol = Solution()
+    print(sol.maximize_value(n, W, R, items))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long long maximizeValue(int n, int W, int R, const vector<pair<long long, long long>>& items) {
+        // Implement here
+        return -1;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, W, R;
+    if (!(cin >> n >> W >> R)) return 0;
+
+    vector<pair<long long, long long>> items(n);
+    for (int i = 0; i < n; i++) {
+        cin >> items[i].first >> items[i].second;
+    }
+
+    Solution sol;
+    cout << sol.maximizeValue(n, W, R, items) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
 
+const fs = require("fs");
+
+class Solution {
+  maximizeValue(n, W, R, items) {
+    // Implement here
+    return -1;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 3) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const W = parseInt(input[idx++]);
+  const R = parseInt(input[idx++]);
+  const items = [];
+  for (let i = 0; i < n; i++) {
+    items.push([BigInt(input[idx++]), BigInt(input[idx++])]);
+  }
+
+  const sol = new Solution();
+  const res = sol.maximizeValue(n, W, R, items);
+  console.log(res === null || res === undefined ? -1 : res.toString());
+}
+
+solve();
+```

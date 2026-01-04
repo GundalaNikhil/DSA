@@ -84,3 +84,109 @@ false
 - Use frequency analysis: a string can form a palindrome if at most one character has an odd count
 - This applies to any rotation since character frequencies don't change
 - O(n) time complexity using frequency counting
+
+---
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public boolean canRotateToPalindrome(String s) {
+        // Implement here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String s = sc.next();
+            Solution sol = new Solution();
+            System.out.println(sol.canRotateToPalindrome(s));
+        }
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+import sys
+
+def solve():
+    s = sys.stdin.read().strip()
+    if not s:
+        return
+    solution = Solution()
+    print(str(solution.can_rotate_to_palindrome(s)).lower())
+
+class Solution:
+    def can_rotate_to_palindrome(self, s: str) -> bool:
+        # Implement here
+        return False
+
+if __name__ == "__main__":
+    solve()
+```
+
+### C++
+
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    bool canRotateToPalindrome(string s) {
+        // Implement here
+        return false;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string s;
+    if (cin >> s) {
+        Solution sol;
+        cout << (sol.canRotateToPalindrome(s) ? "true" : "false") << endl;
+    }
+
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  canRotateToPalindrome(s) {
+    // Implement here
+    return false;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+rl.on("line", (line) => {
+  const s = line.trim();
+  if (s) {
+    const sol = new Solution();
+    console.log(sol.canRotateToPalindrome(s));
+  }
+});
+```

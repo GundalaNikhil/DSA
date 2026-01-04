@@ -86,12 +86,143 @@ Heaps, Sliding Window, Order Statistics, Median Maintenance
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public List<Integer> slidingWindowKthSmallest(int n, int w, int k, int[] arr) {
+        // Implement here
+        return new ArrayList<>();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String firstLine = br.readLine();
+        if (firstLine == null) return;
+        String[] parts = firstLine.trim().split("\\s+");
+        int n = Integer.parseInt(parts[0]);
+        int w = Integer.parseInt(parts[1]);
+        int k = Integer.parseInt(parts[2]);
+
+        int[] arr = new int[n];
+        String[] vals = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < n; i++) {
+            arr[i] = Integer.parseInt(vals[i]);
+        }
+
+        Solution sol = new Solution();
+        List<Integer> result = sol.slidingWindowKthSmallest(n, w, k, arr);
+
+        PrintWriter out = new PrintWriter(System.out);
+        for (int i = 0; i < result.size(); i++) {
+            out.print(result.get(i) + (i == result.size() - 1 ? "" : " "));
+        }
+        out.println();
+        out.flush();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def sliding_window_kth_smallest(self, n, w, k, arr):
+        # Implement here
+        return []
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    w = int(input_data[1])
+    k = int(input_data[2])
+    arr = list(map(int, input_data[3:3+n]))
+
+    sol = Solution()
+    result = sol.sliding_window_kth_smallest(n, w, k, arr)
+    print(*(result))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> slidingWindowKthSmallest(int n, int w, int k, vector<int>& arr) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, w, k;
+    if (!(cin >> n >> w >> k)) return 0;
+
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) cin >> arr[i];
+
+    Solution sol;
+    vector<int> result = sol.slidingWindowKthSmallest(n, w, k, arr);
+
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i] << (i == result.size() - 1 ? "" : " ");
+    }
+    cout << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  slidingWindowKthSmallest(n, w, k, arr) {
+    // Implement here
+    return [];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 3) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const w = parseInt(input[idx++]);
+  const k = parseInt(input[idx++]);
+  const arr = [];
+  for (let i = 0; i < n; i++) {
+    arr.push(parseInt(input[idx++]));
+  }
+
+  const sol = new Solution();
+  const result = sol.slidingWindowKthSmallest(n, w, k, arr);
+  console.log(result.join(" "));
+}
+
+solve();
+```

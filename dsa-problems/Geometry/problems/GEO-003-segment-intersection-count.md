@@ -56,6 +56,7 @@ S1 and S2 intersect (X) once; S3 does not touch others.
 ## Example
 
 **Input:**
+
 ```
 2
 0 0 2 2
@@ -63,6 +64,7 @@ S1 and S2 intersect (X) once; S3 does not touch others.
 ```
 
 **Output:**
+
 ```
 1
 ```
@@ -87,12 +89,136 @@ Computational Geometry, Sweep Line, Balanced BST
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long countIntersections(int m, long[][] segments) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String mLine = br.readLine();
+        if (mLine == null) return;
+        int m = Integer.parseInt(mLine.trim());
+
+        long[][] segments = new long[m][4];
+        for (int i = 0; i < m; i++) {
+            String[] s = br.readLine().trim().split("\\s+");
+            segments[i][0] = Long.parseLong(s[0]);
+            segments[i][1] = Long.parseLong(s[1]);
+            segments[i][2] = Long.parseLong(s[2]);
+            segments[i][3] = Long.parseLong(s[3]);
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.countIntersections(m, segments));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def count_intersections(self, m, segments):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    m = int(input_data[0])
+    idx = 1
+    segments = []
+    for _ in range(m):
+        segments.append(list(map(int, input_data[idx:idx+4])))
+        idx += 4
+
+    sol = Solution()
+    print(sol.count_intersections(m, segments))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long countIntersections(int m, vector<vector<long long>>& segments) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int m;
+    if (!(cin >> m)) return 0;
+
+    vector<vector<long long>> segments(m, vector<long long>(4));
+    for (int i = 0; i < m; i++) {
+        cin >> segments[i][0] >> segments[i][1] >> segments[i][2] >> segments[i][3];
+    }
+
+    Solution sol;
+    cout << sol.countIntersections(m, segments) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  countIntersections(m, segments) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+
+  let idx = 0;
+  const m = parseInt(input[idx++]);
+  const segments = [];
+  for (let i = 0; i < m; i++) {
+    segments.push([
+      parseInt(input[idx++]),
+      parseInt(input[idx++]),
+      parseInt(input[idx++]),
+      parseInt(input[idx++]),
+    ]);
+  }
+
+  const sol = new Solution();
+  console.log(sol.countIntersections(m, segments));
+}
+
+solve();
+```

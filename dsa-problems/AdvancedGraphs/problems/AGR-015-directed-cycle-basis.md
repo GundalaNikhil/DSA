@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # AGR-015: Directed Cycle Basis
 
 ## Problem Statement
@@ -88,12 +89,179 @@ Cycle Basis, Spanning Forest, Graph Theory
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public List<List<Integer>> findCycleBasis(int n, int m, int[][] edges) {
+        // Implement here
+        return new ArrayList<>();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
+        String[] parts = line.trim().split("\\s+");
+        int n = Integer.parseInt(parts[0]);
+        int m = Integer.parseInt(parts[1]);
+
+        int[][] edges = new int[m][2];
+        for (int i = 0; i < m; i++) {
+            line = br.readLine();
+            if (line == null) break;
+            parts = line.trim().split("\\s+");
+            edges[i][0] = Integer.parseInt(parts[0]);
+            edges[i][1] = Integer.parseInt(parts[1]);
+        }
+
+        Solution sol = new Solution();
+        List<List<Integer>> result = sol.findCycleBasis(n, m, edges);
+
+        System.out.println(result.size());
+        for (List<Integer> cycle : result) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(cycle.size());
+            for (int u : cycle) {
+                sb.append(" ").append(u);
+            }
+            System.out.println(sb);
+        }
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+# Increase recursion depth for DFS
+sys.setrecursionlimit(200005)
+
+class Solution:
+    def find_cycle_basis(self, n, m, edges):
+        # Implement here
+        return []
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        m = int(next(iterator))
+        edges = []
+        for _ in range(m):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            edges.append([u, v])
+
+    except StopIteration:
+        pass
+
+    sol = Solution()
+    result = sol.find_cycle_basis(n, m, edges)
+
+    print(len(result))
+    for cycle in result:
+        print(len(cycle), end=" ")
+        print(*(cycle))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> findCycleBasis(int n, int m, vector<vector<int>>& edges) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+
+    vector<vector<int>> edges(m, vector<int>(2));
+    for (int i = 0; i < m; i++) {
+        cin >> edges[i][0] >> edges[i][1];
+    }
+
+    Solution sol;
+    vector<vector<int>> result = sol.findCycleBasis(n, m, edges);
+
+    cout << result.size() << endl;
+    for (const auto& cycle : result) {
+        cout << cycle.size();
+        for (int u : cycle) {
+            cout << " " << u;
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  findCycleBasis(n, m, edges) {
+    // Implement here
+    return [];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  function readInt() {
+    return parseInt(input[idx++]);
+  }
+
+  const n = readInt();
+  const m = readInt();
+  const edges = [];
+  for (let i = 0; i < m; i++) {
+    const u = readInt();
+    const v = readInt();
+    edges.push([u, v]);
+  }
+
+  const sol = new Solution();
+  const result = sol.findCycleBasis(n, m, edges);
+
+  console.log(result.length);
+  result.forEach((cycle) => {
+    console.log(cycle.length + " " + cycle.join(" "));
+  });
+}
+
+solve();
+```

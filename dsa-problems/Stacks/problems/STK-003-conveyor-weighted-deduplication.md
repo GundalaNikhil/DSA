@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # STK-003: Conveyor Weighted Deduplication
 
 ## Problem Statement
@@ -80,14 +81,140 @@ Stack, Simulation, String Processing
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public static class Result {
+        public String reducedString;
+        public long totalWeight;
+        public Result(String s, long w) {
+            this.reducedString = s;
+            this.totalWeight = w;
+        }
+    }
+
+    public Result deduplicate(String s, int[] weights) {
+        // Implement here
+        return new Result("", 0);
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String s = sc.next();
+            int n = s.length();
+            int[] weights = new int[n];
+            for (int i = 0; i < n; i++) {
+                if (sc.hasNextInt()) weights[i] = sc.nextInt();
+            }
+            Solution sol = new Solution();
+            Solution.Result res = sol.deduplicate(s, weights);
+            System.out.println(res.reducedString);
+            System.out.println(res.totalWeight);
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def deduplicate(self, s: str, weights: list) -> tuple:
+        # Implement here
+        return ("", 0)
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    s = input_data[0]
+    weights = [int(x) for x in input_data[1:]]
+    sol = Solution()
+    res_s, res_w = sol.deduplicate(s, weights)
+    print(res_s)
+    print(res_w)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+#include <stack>
+
+using namespace std;
+
+class Solution {
+public:
+    pair<string, long long> deduplicate(string s, const vector<int>& weights) {
+        // Implement here
+        return {"", 0};
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string s;
+    if (cin >> s) {
+        int n = s.length();
+        vector<int> weights(n);
+        for (int i = 0; i < n; i++) {
+            cin >> weights[i];
+        }
+        Solution sol;
+        auto res = sol.deduplicate(s, weights);
+        cout << res.first << "\n";
+        cout << res.second << endl;
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  deduplicate(s, weights) {
+    // Implement here
+    return { reducedString: "", totalWeight: 0 };
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false,
+});
+
+let input = [];
+rl.on("line", (line) => {
+  if (line.trim()) input.push(line.trim());
+}).on("close", () => {
+  if (input.length < 2) return;
+  const s = input[0];
+  const weights = input[1].split(/\s+/).map(Number);
+  const sol = new Solution();
+  const res = sol.deduplicate(s, weights);
+  console.log(res.reducedString);
+  console.log(res.totalWeight);
+});
+```

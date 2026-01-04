@@ -87,12 +87,105 @@ Sliding Window, Multiset, Ordered Map
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void findSecondMinimum(int n, int k, int[] values) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        int[] values = new int[n];
+        for (int i = 0; i < n; i++) values[i] = sc.nextInt();
+        Solution sol = new Solution();
+        sol.findSecondMinimum(n, k, values);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def find_second_minimum(self, n, k, values):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    k = int(input_data[1])
+    values = [int(x) for x in input_data[2:2+n]]
+    sol = Solution()
+    sol.find_second_minimum(n, k, values)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void findSecondMinimum(int n, int k, const vector<int>& values) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, k;
+    if (!(cin >> n >> k)) return 0;
+    vector<int> values(n);
+    for (int i = 0; i < n; i++) cin >> values[i];
+    Solution sol;
+    sol.findSecondMinimum(n, k, values);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  findSecondMinimum(n, k, values) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+  const n = parseInt(input[0]);
+  const k = parseInt(input[1]);
+  const values = [];
+  for (let i = 0; i < n; i++) values.push(parseInt(input[2 + i]));
+  const sol = new Solution();
+  sol.findSecondMinimum(n, k, values);
+}
+
+solve();
+```

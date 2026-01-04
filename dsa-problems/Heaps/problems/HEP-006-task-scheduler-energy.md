@@ -93,12 +93,139 @@ Heaps, Greedy Scheduling, Resource Management
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int maxTasksCompleted(int n, long e, long[][] tasks) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String firstLine = br.readLine();
+        if (firstLine == null) return;
+        String[] parts = firstLine.trim().split("\\s+");
+        int n = Integer.parseInt(parts[0]);
+        long e = Long.parseLong(parts[1]);
+
+        long[][] tasks = new long[n][2];
+        for (int i = 0; i < n; i++) {
+            String[] tParts = br.readLine().trim().split("\\s+");
+            tasks[i][0] = Long.parseLong(tParts[0]);
+            tasks[i][1] = Long.parseLong(tParts[1]);
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.maxTasksCompleted(n, e, tasks));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def max_tasks_completed(self, n, e, tasks):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    idx = 0
+    n = int(input_data[idx++])
+    e = int(input_data[idx++])
+
+    tasks = []
+    for _ in range(n):
+        d = int(input_data[idx++])
+        g = int(input_data[idx++])
+        tasks.append([d, g])
+
+    sol = Solution()
+    print(sol.max_tasks_completed(n, e, tasks))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxTasksCompleted(int n, long long e, vector<pair<long long, long long>>& tasks) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    long long e;
+    if (!(cin >> n >> e)) return 0;
+
+    vector<pair<long long, long long>> tasks(n);
+    for (int i = 0; i < n; i++) {
+        cin >> tasks[i].first >> tasks[i].second;
+    }
+
+    Solution sol;
+    cout << sol.maxTasksCompleted(n, e, tasks) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  maxTasksCompleted(n, e, tasks) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const e = BigInt(input[idx++]);
+
+  const tasks = [];
+  for (let i = 0; i < n; i++) {
+    const d = BigInt(input[idx++]);
+    const g = BigInt(input[idx++]);
+    tasks.push([d, g]);
+  }
+
+  const sol = new Solution();
+  console.log(sol.maxTasksCompleted(n, e, tasks));
+}
+
+solve();
+```

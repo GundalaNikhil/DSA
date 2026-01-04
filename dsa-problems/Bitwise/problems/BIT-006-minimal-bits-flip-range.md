@@ -75,12 +75,102 @@ Bitwise Operations, Math
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int minimalBitsToFlip(long x, long y) {
+        // Implement here
+        return -1;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextLong()) return;
+        long x = sc.nextLong();
+        long y = sc.nextLong();
+
+        Solution sol = new Solution();
+        System.out.println(sol.minimalBitsToFlip(x, y));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def minimal_bits_to_flip(self, x, y):
+        # Implement here
+        return -1
+
+def solve():
+    line = sys.stdin.readline().split()
+    if not line:
+        return
+    x, y = map(int, line)
+
+    sol = Solution()
+    print(sol.minimal_bits_to_flip(x, y))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    int minimalBitsToFlip(long long x, long long y) {
+        // Implement here
+        return -1;
+    }
+};
+
+int main() {
+    long long x, y;
+    if (!(cin >> x >> y)) return 0;
+
+    Solution sol;
+    cout << sol.minimalBitsToFlip(x, y) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  minimalBitsToFlip(x, y) {
+    // Implement here
+    return -1;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+  if (input.length < 2) return;
+
+  const x = BigInt(input[0]);
+  const y = BigInt(input[1]);
+
+  const sol = new Solution();
+  console.log(sol.minimalBitsToFlip(x, y));
+}
+
+solve();
+```

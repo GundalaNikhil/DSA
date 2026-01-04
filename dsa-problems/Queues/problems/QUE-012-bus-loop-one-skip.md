@@ -90,12 +90,111 @@ Greedy, Circular Array, Simulation
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int canCompleteLoop(int n, int[] gain, int[] cost) {
+        // Implement here
+        return -1;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] gain = new int[n];
+        for (int i = 0; i < n; i++) gain[i] = sc.nextInt();
+        int[] cost = new int[n];
+        for (int i = 0; i < n; i++) cost[i] = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.canCompleteLoop(n, gain, cost));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def can_complete_loop(self, n, gain, cost):
+        # Implement here
+        return -1
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    gain = [int(x) for x in input_data[1:1+n]]
+    cost = [int(x) for x in input_data[1+n:1+2*n]]
+    sol = Solution()
+    print(sol.can_complete_loop(n, gain, cost))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int canCompleteLoop(int n, const vector<int>& gain, const vector<int>& cost) {
+        // Implement here
+        return -1;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<int> gain(n), cost(n);
+    for (int i = 0; i < n; i++) cin >> gain[i];
+    for (int i = 0; i < n; i++) cin >> cost[i];
+    Solution sol;
+    cout << sol.canCompleteLoop(n, gain, cost) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  canCompleteLoop(n, gain, cost) {
+    // Implement here
+    return -1;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+  const n = parseInt(input[0]);
+  const gain = [];
+  for (let i = 0; i < n; i++) gain.push(parseInt(input[1 + i]));
+  const cost = [];
+  for (let i = 0; i < n; i++) cost.push(parseInt(input[1 + n + i]));
+  const sol = new Solution();
+  console.log(sol.canCompleteLoop(n, gain, cost));
+}
+
+solve();
+```

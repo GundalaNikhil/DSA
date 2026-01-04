@@ -81,12 +81,98 @@ Random Permutations, Cycle Decomposition, Expectations
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void cycleStructure(int n, int k) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        Solution sol = new Solution();
+        sol.cycleStructure(n, k);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def cycle_structure(self, n, k):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    k = int(input_data[1])
+    sol = Solution()
+    sol.cycle_structure(n, k)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+class Solution {
+public:
+    void cycleStructure(int n, int k) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, k;
+    if (!(cin >> n >> k)) return 0;
+    Solution sol;
+    sol.cycleStructure(n, k);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  cycleStructure(n, k) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+  const n = parseInt(input[0]);
+  const k = parseInt(input[1]);
+  const sol = new Solution();
+  sol.cycleStructure(n, k);
+}
+
+solve();
+```

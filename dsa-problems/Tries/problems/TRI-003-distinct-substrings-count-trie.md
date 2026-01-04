@@ -109,12 +109,102 @@ Trie, String, Suffix Trie, Substring Analysis
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int countDistinctSubstrings(String s) {
+        // Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextLine()) return;
+        String s = sc.nextLine();
+
+        Solution solution = new Solution();
+        int result = solution.countDistinctSubstrings(s);
+        System.out.println(result);
+    }
+}
+```
 
 ### Python
 
+```python
+class Solution:
+    def count_distinct_substrings(self, s: str) -> int:
+        # Implement here
+        return 0
+
+def main():
+    import sys
+    s = sys.stdin.read().strip()
+    if not s:
+        print(0)
+        return
+
+    solution = Solution()
+    result = solution.count_distinct_substrings(s)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution {
+public:
+    int countDistinctSubstrings(const string& s) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    string s;
+    if (!getline(cin, s)) return 0;
+
+    Solution solution;
+    int result = solution.countDistinctSubstrings(s);
+
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  countDistinctSubstrings(s) {
+    // Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+rl.on("line", (line) => {
+  const solution = new Solution();
+  const result = solution.countDistinctSubstrings(line.trim());
+  console.log(result);
+});
+```

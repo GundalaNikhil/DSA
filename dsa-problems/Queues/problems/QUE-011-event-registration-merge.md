@@ -92,12 +92,118 @@ Queue, Merge, Two Pointers
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void mergeQueues(int n, int[] q1, int m, int[] q2) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] q1 = new int[n];
+        for (int i = 0; i < n; i++) q1[i] = sc.nextInt();
+        int m = sc.nextInt();
+        int[] q2 = new int[m];
+        for (int i = 0; i < m; i++) q2[i] = sc.nextInt();
+        Solution sol = new Solution();
+        sol.mergeQueues(n, q1, m, q2);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def merge_queues(self, n, q1, m, q2):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    idx = 0
+    n = int(input_data[idx])
+    idx += 1
+    q1 = [int(x) for x in input_data[idx:idx+n]]
+    idx += n
+    m = int(input_data[idx])
+    idx += 1
+    q2 = [int(x) for x in input_data[idx:idx+m]]
+    sol = Solution()
+    sol.merge_queues(n, q1, m, q2)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void mergeQueues(int n, vector<int>& q1, int m, vector<int>& q2) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, m;
+    if (!(cin >> n)) return 0;
+    vector<int> q1(n);
+    for (int i = 0; i < n; i++) cin >> q1[i];
+    cin >> m;
+    vector<int> q2(m);
+    for (int i = 0; i < m; i++) cin >> q2[i];
+    Solution sol;
+    sol.mergeQueues(n, q1, m, q2);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  mergeQueues(n, q1, m, q2) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const q1 = [];
+  for (let i = 0; i < n; i++) q1.push(parseInt(input[idx++]));
+  const m = parseInt(input[idx++]);
+  const q2 = [];
+  for (let i = 0; i < m; i++) q2.push(parseInt(input[idx++]));
+  const sol = new Solution();
+  sol.mergeQueues(n, q1, m, q2);
+}
+
+solve();
+```

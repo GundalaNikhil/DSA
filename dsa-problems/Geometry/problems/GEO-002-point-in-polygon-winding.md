@@ -28,7 +28,6 @@ Given a simple polygon with `n` vertices in 2D and a query point `Q`, determine 
 
 Print one word: `inside`, `outside`, or `boundary`.
 
-
 ```
          P3(4,4)
           ●
@@ -63,6 +62,7 @@ Print one word: `inside`, `outside`, or `boundary`.
 ## Example
 
 **Input:**
+
 ```
 4
 0 0
@@ -73,6 +73,7 @@ Print one word: `inside`, `outside`, or `boundary`.
 ```
 
 **Output:**
+
 ```
 inside
 ```
@@ -80,7 +81,6 @@ inside
 **Explanation:**
 
 Point `(2,2)` lies strictly inside the axis-aligned square.
-
 
 ```
 P4 ●-------● P3
@@ -106,12 +106,143 @@ Computational Geometry, Polygon Containment, Cross Product
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public String checkPointInPolygon(int n, long[][] vertices, long qx, long qy) {
+        // Implement here
+        return "";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        long[][] vertices = new long[n][2];
+        for (int i = 0; i < n; i++) {
+            String[] v = br.readLine().trim().split("\\s+");
+            vertices[i][0] = Long.parseLong(v[0]);
+            vertices[i][1] = Long.parseLong(v[1]);
+        }
+
+        String[] q = br.readLine().trim().split("\\s+");
+        long qx = Long.parseLong(q[0]);
+        long qy = Long.parseLong(q[1]);
+
+        Solution sol = new Solution();
+        System.out.println(sol.checkPointInPolygon(n, vertices, qx, qy));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def check_point_in_polygon(self, n, vertices, qx, qy):
+        # Implement here
+        return ""
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    idx = 1
+    vertices = []
+    for _ in range(n):
+        vertices.append((int(input_data[idx]), int(input_data[idx+1])))
+        idx += 2
+
+    qx = int(input_data[idx])
+    qy = int(input_data[idx+1])
+
+    sol = Solution()
+    print(sol.check_point_in_polygon(n, vertices, qx, qy))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string checkPointInPolygon(int n, vector<pair<long long, long long>>& vertices, long long qx, long long qy) {
+        // Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<pair<long long, long long>> vertices(n);
+    for (int i = 0; i < n; i++) {
+        cin >> vertices[i].first >> vertices[i].second;
+    }
+
+    long long qx, qy;
+    cin >> qx >> qy;
+
+    Solution sol;
+    cout << sol.checkPointInPolygon(n, vertices, qx, qy) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  checkPointInPolygon(n, vertices, qx, qy) {
+    // Implement here
+    return "";
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const vertices = [];
+  for (let i = 0; i < n; i++) {
+    vertices.push([BigInt(input[idx++]), BigInt(input[idx++])]);
+  }
+
+  const qx = BigInt(input[idx++]);
+  const qy = BigInt(input[idx++]);
+
+  const sol = new Solution();
+  console.log(sol.checkPointInPolygon(n, vertices, qx, qy));
+}
+
+solve();
+```

@@ -97,12 +97,203 @@ Linked List Implementation, Tail Pointer, Array Conversion
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class ListNode {
+    int val;
+    ListNode next;
+    ListNode(int x) { val = x; }
+}
+
+class Solution {
+    private ListNode head, tail;
+
+    public void pushBack(int value) {
+        // Implement here
+    }
+
+    public List<Integer> toArray() {
+        // Implement here
+        return new ArrayList<>();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
+        int n = Integer.parseInt(line.trim());
+
+        Solution sol = new Solution();
+        PrintWriter out = new PrintWriter(System.out);
+
+        for (int i = 0; i < n; i++) {
+            String[] parts = br.readLine().trim().split("\\s+");
+            if (parts[0].equals("push_back")) {
+                sol.pushBack(Integer.parseInt(parts[1]));
+            } else if (parts[0].equals("to_array")) {
+                List<Integer> res = sol.toArray();
+                for (int j = 0; j < res.size(); j++) {
+                    out.print(res.get(j) + (j == res.size() - 1 ? "" : " "));
+                }
+                out.println();
+            }
+        }
+        out.flush();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+
+class Solution:
+    def __init__(self):
+        self.head = None
+        self.tail = None
+
+    def push_back(self, value):
+        # Implement here
+        pass
+
+    def to_array(self):
+        # Implement here
+        return []
+
+def solve():
+    input_data = sys.stdin.read().splitlines()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    sol = Solution()
+
+    for i in range(1, n + 1):
+        parts = input_data[i].split()
+        if parts[0] == "push_back":
+            sol.push_back(int(parts[1]))
+        elif parts[0] == "to_array":
+            print(*(sol.to_array()))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode(int x) : val(x), next(NULL) {}
+};
+
+class Solution {
+private:
+    ListNode *head, *tail;
+public:
+    Solution() : head(NULL), tail(NULL) {}
+
+    void pushBack(int value) {
+        // Implement here
+    }
+
+    vector<int> toArray() {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    Solution sol;
+    string op;
+    while (n--) {
+        cin >> op;
+        if (op == "push_back") {
+            int val;
+            cin >> val;
+            sol.pushBack(val);
+        } else if (op == "to_array") {
+            vector<int> res = sol.toArray();
+            for (int i = 0; i < res.size(); i++) {
+                cout << res[i] << (i == res.size() - 1 ? "" : " ");
+            }
+            cout << "\n";
+        }
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class ListNode {
+  constructor(x) {
+    this.val = x;
+    this.next = null;
+  }
+}
+
+class Solution {
+  constructor() {
+    this.head = null;
+    this.tail = null;
+  }
+
+  pushBack(value) {
+    // Implement here
+  }
+
+  toArray() {
+    // Implement here
+    return [];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\r?\n/);
+  if (input.length === 0) return;
+
+  let n = parseInt(input[0]);
+  const sol = new Solution();
+
+  for (let i = 1; i <= n; i++) {
+    const parts = input[i].trim().split(/\s+/);
+    if (parts[0] === "push_back") {
+      sol.pushBack(parseInt(parts[1]));
+    } else if (parts[0] === "to_array") {
+      console.log(sol.toArray().join(" "));
+    }
+  }
+}
+
+solve();
+```

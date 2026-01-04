@@ -47,12 +47,14 @@ Print the total count of set bits in b.
 ## Example
 
 **Input:**
+
 ```
 2
 0 2
 ```
 
 **Output:**
+
 ```
 2
 ```
@@ -78,16 +80,127 @@ Bitwise Operations, Counting Bits
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
 
+class Solution {
+    public long countTotalSetBits(int n, int[] a) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        int[] a = new int[n];
+        String aLine = br.readLine();
+        if (aLine != null) {
+            String[] parts = aLine.trim().split("\\s+");
+            for (int i = 0; i < n; i++) {
+                a[i] = Integer.parseInt(parts[i]);
+            }
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.countTotalSetBits(n, a));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
 
+class Solution:
+    def count_total_set_bits(self, n, a):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    a = list(map(int, input_data[1:n+1]))
+
+    sol = Solution()
+    print(sol.count_total_set_bits(n, a))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
 
+using namespace std;
+
+class Solution {
+public:
+    long long countTotalSetBits(int n, const vector<int>& a) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+    Solution sol;
+    cout << sol.countTotalSetBits(n, a) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
 
+const fs = require("fs");
+
+class Solution {
+  countTotalSetBits(n, a) {
+    // Implement here
+    return BigInt(0);
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const a = [];
+  for (let i = 0; i < n; i++) {
+    a.push(parseInt(input[idx++]));
+  }
+
+  const sol = new Solution();
+  console.log(sol.countTotalSetBits(n, a).toString());
+}
+
+solve();
+```

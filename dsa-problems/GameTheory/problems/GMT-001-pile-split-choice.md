@@ -31,7 +31,7 @@ The player who cannot make a valid move loses the game.
 
 Determine if the first player has a winning strategy assuming both players play optimally.
 
-![Problem Illustration](../images/GMT-001/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767513717/dsa/gametheory/sio6wgljc77dkuz0k9r1.jpg)
 
 ## Input Format
 
@@ -48,16 +48,19 @@ Determine if the first player has a winning strategy assuming both players play 
 ## Example
 
 **Input:**
+
 ```
 3
 ```
 
 **Output:**
+
 ```
 First
 ```
 
 **Explanation:**
+
 - Initial pile: 3.
 - Player 1 splits 3 into (1, 2).
 - Player 2 receives piles {1, 2}.
@@ -83,12 +86,105 @@ Game Theory, Sprague-Grundy Theorem, Dynamic Programming
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public String determineWinner(int n) {
+        // Implement here
+        return "";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+
+        Solution sol = new Solution();
+        System.out.println(sol.determineWinner(n));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def determine_winner(self, n):
+        # Implement here
+        return ""
+
+def solve():
+    line = sys.stdin.readline().strip()
+    if not line:
+        return
+    n = int(line)
+
+    sol = Solution()
+    print(sol.determine_winner(n))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string determineWinner(int n) {
+        // Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    Solution sol;
+    cout << sol.determineWinner(n) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  determineWinner(n) {
+    // Implement here
+    return "";
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").trim();
+  if (!input) return;
+  const n = parseInt(input);
+
+  const sol = new Solution();
+  console.log(sol.determineWinner(n));
+}
+
+solve();
+```

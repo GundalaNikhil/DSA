@@ -97,15 +97,147 @@ Alternatively: {1, 3} or {2, 4} also work.
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int minVertexCover(int n, int[][] edges) {
+        // Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+
+        int[][] edges = new int[n - 1][2];
+        for (int i = 0; i < n - 1; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.minVertexCover(n, edges));
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+import sys
+
+sys.setrecursionlimit(200000)
+
+class Solution:
+    def min_vertex_cover(self, n: int, edges: List[List[int]]) -> int:
+        # Implement here
+        return 0
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+
+        edges = []
+        for _ in range(n - 1):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            edges.append([u, v])
+
+        solution = Solution()
+        print(solution.min_vertex_cover(n, edges))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int minVertexCover(int n, const vector<vector<int>>& edges) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<vector<int>> edges(n - 1, vector<int>(2));
+    for (int i = 0; i < n - 1; i++) {
+        cin >> edges[i][0] >> edges[i][1];
+    }
+
+    Solution solution;
+    cout << solution.minVertexCover(n, edges) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  minVertexCover(n, edges) {
+    // Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const tokens = lines
+    .join(" ")
+    .split(/\s+/)
+    .filter((t) => t !== "");
+  if (tokens.length === 0) return;
+
+  let idx = 0;
+  const n = parseInt(tokens[idx++]);
+
+  const edges = [];
+  for (let i = 0; i < n - 1; i++) {
+    const u = parseInt(tokens[idx++]);
+    const v = parseInt(tokens[idx++]);
+    edges.push([u, v]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.minVertexCover(n, edges));
+});
+```
 
 ## Notes
 

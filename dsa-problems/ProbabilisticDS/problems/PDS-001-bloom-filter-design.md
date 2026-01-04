@@ -90,12 +90,101 @@ Bloom Filters, Parameter Optimization, False Positives
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void computeParams(long n, double f) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextLong()) return;
+        long n = sc.nextLong();
+        double f = sc.nextDouble();
+        Solution sol = new Solution();
+        sol.computeParams(n, f);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import math
+
+class Solution:
+    def compute_params(self, n, f):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    f = float(input_data[1])
+    sol = Solution()
+    sol.compute_params(n, f)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <cmath>
+#include <iomanip>
+
+using namespace std;
+
+class Solution {
+public:
+    void computeParams(long long n, double f) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    long long n;
+    double f;
+    if (!(cin >> n >> f)) return 0;
+    Solution sol;
+    sol.computeParams(n, f);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  computeParams(n, f) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+  const n = BigInt(input[0]);
+  const f = parseFloat(input[1]);
+  const sol = new Solution();
+  sol.computeParams(n, f);
+}
+
+solve();
+```

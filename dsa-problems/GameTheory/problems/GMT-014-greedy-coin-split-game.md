@@ -25,6 +25,7 @@ memory_limit: 256
 You are given `N` coins arranged in a row, each with a value `A[i]`.
 Two players take turns playing a game.
 In each turn, the current player (Splitter) must:
+
 1.  Split the current row of coins into two non-empty contiguous segments (Left and Right).
 2.  The other player (Chooser) then chooses one segment to **keep** (adds the sum of values in that segment to their score).
 3.  The remaining segment stays on the table for the next turn.
@@ -35,7 +36,7 @@ Both players play optimally to maximize their own score minus the opponent's sco
 
 Determine the final score difference (Player 1 Score - Player 2 Score).
 
-![Problem Illustration](../images/GMT-014/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767539111/dsa/gametheory_simple/kaf4twytfugccy9uoxyu.jpg)
 
 ## Input Format
 
@@ -54,17 +55,20 @@ Determine the final score difference (Player 1 Score - Player 2 Score).
 ## Example
 
 **Input:**
+
 ```
 3
 10 20 30
 ```
 
 **Output:**
+
 ```
 -30
 ```
 
 **Explanation:**
+
 - If P1 splits `10 | 20,30`, P2 keeps `20,30` for 50 and the game ends. Diff = -50.
 - If P1 splits `10,20 | 30`, P2 keeps `10,20` for 30 and the game ends. Diff = -30.
 - P1 chooses the better outcome, so the final score difference is `-30`.
@@ -87,12 +91,126 @@ Game Theory, Interval DP, Prefix Sums
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long determineScoreDifference(int n, int[] a) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+
+        int[] a = new int[n];
+        for (int i = 0; i < n; i++) {
+            a[i] = sc.nextInt();
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.determineScoreDifference(n, a));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+# Increase recursion depth for minimax/DP
+sys.setrecursionlimit(5000)
+
+class Solution:
+    def determine_score_difference(self, n, a):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    a = list(map(int, input_data[1:1+n]))
+
+    sol = Solution()
+    print(sol.determine_score_difference(n, a))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long long determineScoreDifference(int n, const vector<int>& a) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+    Solution sol;
+    cout << sol.determineScoreDifference(n, a) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  determineScoreDifference(n, a) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const a = [];
+  for (let i = 0; i < n; i++) {
+    a.push(parseInt(input[idx++]));
+  }
+
+  const sol = new Solution();
+  const res = sol.determineScoreDifference(n, a);
+  console.log(res === null || res === undefined ? 0 : res.toString());
+}
+
+solve();
+```

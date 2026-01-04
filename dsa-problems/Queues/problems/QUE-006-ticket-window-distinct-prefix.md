@@ -86,12 +86,94 @@ Queue, Hashing, Streaming
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void firstNonRepeating(String s) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        String s = sc.next();
+        Solution sol = new Solution();
+        sol.firstNonRepeating(s);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def first_non_repeating(self, s):
+        # Implement here
+        pass
+
+def solve():
+    s = sys.stdin.read().strip()
+    if not s:
+        return
+    sol = Solution()
+    sol.first_non_repeating(s)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void firstNonRepeating(string s) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    string s;
+    if (!(cin >> s)) return 0;
+    Solution sol;
+    sol.firstNonRepeating(s);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  firstNonRepeating(s) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").trim();
+  if (!input) return;
+  const sol = new Solution();
+  sol.firstNonRepeating(input);
+}
+
+solve();
+```

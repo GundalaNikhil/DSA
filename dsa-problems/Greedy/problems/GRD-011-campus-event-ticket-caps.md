@@ -106,12 +106,129 @@ Greedy Algorithms, Heap, Priority Queue, Scheduling, Optimization
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long maxTicketsSold(int n, int[][] requests) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        int[][] requests = new int[n][2];
+        for (int i = 0; i < n; i++) {
+            String[] req = br.readLine().trim().split("\\s+");
+            requests[i][0] = Integer.parseInt(req[0]);
+            requests[i][1] = Integer.parseInt(req[1]);
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.maxTicketsSold(n, requests));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def max_tickets_sold(self, n, requests):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    idx = 1
+    requests = []
+    for _ in range(n):
+        requests.append([int(input_data[idx]), int(input_data[idx+1])])
+        idx += 2
+
+    sol = Solution()
+    print(sol.max_tickets_sold(n, requests))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long maxTicketsSold(int n, vector<vector<int>>& requests) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<vector<int>> requests(n, vector<int>(2));
+    for (int i = 0; i < n; i++) {
+        cin >> requests[i][0] >> requests[i][1];
+    }
+
+    Solution sol;
+    cout << sol.maxTicketsSold(n, requests) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  maxTicketsSold(n, requests) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const requests = [];
+  for (let i = 0; i < n; i++) {
+    requests.push([parseInt(input[idx++]), parseInt(input[idx++])]);
+  }
+
+  const sol = new Solution();
+  console.log(sol.maxTicketsSold(n, requests).toString());
+}
+
+solve();
+```

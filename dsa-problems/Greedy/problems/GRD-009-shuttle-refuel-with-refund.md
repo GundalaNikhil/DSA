@@ -108,12 +108,128 @@ Greedy Algorithms, Circular Array, Prefix Sum, Kadane's Algorithm, Optimization
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int findStartingStop(int n, long[] gain, long[] cost) {
+        // Implement here
+        return -1;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        long[] gain = new long[n];
+        String[] gainLine = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < n; i++) gain[i] = Long.parseLong(gainLine[i]);
+
+        long[] cost = new long[n];
+        String[] costLine = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < n; i++) cost[i] = Long.parseLong(costLine[i]);
+
+        Solution sol = new Solution();
+        System.out.println(sol.findStartingStop(n, gain, cost));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def find_starting_stop(self, n, gain, cost):
+        # Implement here
+        return -1
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    gain = list(map(int, input_data[1:1+n]))
+    cost = list(map(int, input_data[1+n:1+2*n]))
+
+    sol = Solution()
+    print(sol.find_starting_stop(n, gain, cost))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int findStartingStop(int n, vector<long long>& gain, vector<long long>& cost) {
+        // Implement here
+        return -1;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<long long> gain(n);
+    for (int i = 0; i < n; i++) cin >> gain[i];
+
+    vector<long long> cost(n);
+    for (int i = 0; i < n; i++) cin >> cost[i];
+
+    Solution sol;
+    cout << sol.findStartingStop(n, gain, cost) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  findStartingStop(n, gain, cost) {
+    // Implement here
+    return -1;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const gain = [];
+  for (let i = 0; i < n; i++) gain.push(BigInt(input[idx++]));
+  const cost = [];
+  for (let i = 0; i < n; i++) cost.push(BigInt(input[idx++]));
+
+  const sol = new Solution();
+  console.log(sol.findStartingStop(n, gain, cost));
+}
+
+solve();
+```

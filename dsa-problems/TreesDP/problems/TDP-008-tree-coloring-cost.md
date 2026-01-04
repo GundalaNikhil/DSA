@@ -103,15 +103,180 @@ Print a single integer — the minimum total cost to color all nodes.
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long minColoringCost(int n, int k, int[][] costs, int[][] edges) {
+        // Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+
+        int[][] costs = new int[n][k];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < k; j++) {
+                costs[i][j] = sc.nextInt();
+            }
+        }
+
+        int[][] edges = new int[n - 1][2];
+        for (int i = 0; i < n - 1; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.minColoringCost(n, k, costs, edges));
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+import sys
+
+sys.setrecursionlimit(200000)
+
+class Solution:
+    def min_coloring_cost(self, n: int, k: int, costs: List[List[int]], edges: List[List[int]]) -> int:
+        # Implement here
+        return 0
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        k = int(next(iterator))
+
+        costs = []
+        for _ in range(n):
+            row = []
+            for _ in range(k):
+                row.append(int(next(iterator)))
+            costs.append(row)
+
+        edges = []
+        for _ in range(n - 1):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            edges.append([u, v])
+
+        solution = Solution()
+        print(solution.min_coloring_cost(n, k, costs, edges))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minColoringCost(int n, int k, const vector<vector<int>>& costs, const vector<vector<int>>& edges) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n, k;
+    if (!(cin >> n >> k)) return 0;
+
+    vector<vector<int>> costs(n, vector<int>(k));
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < k; j++) {
+            cin >> costs[i][j];
+        }
+    }
+
+    vector<vector<int>> edges(n - 1, vector<int>(2));
+    for (int i = 0; i < n - 1; i++) {
+        cin >> edges[i][0] >> edges[i][1];
+    }
+
+    Solution solution;
+    cout << solution.minColoringCost(n, k, costs, edges) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  minColoringCost(n, k, costs, edges) {
+    // Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const tokens = lines
+    .join(" ")
+    .split(/\s+/)
+    .filter((t) => t !== "");
+  if (tokens.length === 0) return;
+
+  let idx = 0;
+  const n = parseInt(tokens[idx++]);
+  const k = parseInt(tokens[idx++]);
+
+  const costs = [];
+  for (let i = 0; i < n; i++) {
+    const row = [];
+    for (let j = 0; j < k; j++) {
+      row.push(parseInt(tokens[idx++]));
+    }
+    costs.push(row);
+  }
+
+  const edges = [];
+  for (let i = 0; i < n - 1; i++) {
+    const u = parseInt(tokens[idx++]);
+    const v = parseInt(tokens[idx++]);
+    edges.push([u, v]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.minColoringCost(n, k, costs, edges));
+});
+```
 
 ---
 

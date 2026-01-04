@@ -19,26 +19,38 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # REC-015: Campus Seating KenKen Mini
+
 ## Problem Statement
+
 Solve a 4x4 KenKen-like puzzle. Fill digits 1 to 4 so that each row and column contains no repeated digits. Cages are provided with a target value and operation that must be satisfied by the digits in that cage.
 Return any valid solution grid, or `NONE` if impossible.
 ![Problem Illustration](../images/REC-015/problem-illustration.png)
+
 ## Input Format
+
 - First line: integer `c` (number of cages)
 - Next `c` lines: `target op len r1 c1 r2 c2 ...`
   - `op` is one of `+`, `-`, `*`, `/`, or `=`
   - `len` is the number of cells in the cage
   - coordinates are zero-based
+
 ## Output Format
+
 - If solvable, output 4 lines each with 4 integers
 - Otherwise output `NONE`
+
 ## Constraints
+
 - Grid size is fixed at 4x4
 - `1 <= c <= 16`
 - All cage cells are within the grid
+
 ## Example
+
 **Input:**
+
 ```
 16
 1 = 1 0 0
@@ -58,26 +70,138 @@ Return any valid solution grid, or `NONE` if impossible.
 2 = 1 3 2
 1 = 1 3 3
 ```
+
 **Output:**
+
 ```
 1 2 3 4
 3 4 1 2
 2 1 4 3
 4 3 2 1
 ```
+
 **Explanation:**
 Each row and column is a permutation of 1..4, and every single-cell cage matches its target.
 ![Example Visualization](../images/REC-015/example-1.png)
+
 ## Notes
+
 - For `+` and `*`, order does not matter
 - For `-` and `/`, use absolute difference or quotient between two values
 - Use backtracking with row/column constraints
 - Any valid solution is acceptable
+
 ## Related Topics
-Backtracking, Constraint Satisfaction, Recursion
----
+
+## Backtracking, Constraint Satisfaction, Recursion
+
 ## Solution Template
+
 ### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public void solveKenKen(int c, List<String> cages) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int c = sc.nextInt();
+        sc.nextLine();
+        List<String> cages = new ArrayList<>();
+        for (int i = 0; i < c; i++) {
+            cages.add(sc.nextLine());
+        }
+        Solution sol = new Solution();
+        sol.solveKenKen(c, cages);
+        sc.close();
+    }
+}
+```
+
 ### Python
+
+```python
+import sys
+
+class Solution:
+    def solve_kenken(self, c, cages):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().splitlines()
+    if not input_data:
+        return
+    c = int(input_data[0])
+    cages = input_data[1:1+c]
+    sol = Solution()
+    sol.solve_kenken(c, cages)
+
+if __name__ == "__main__":
+    solve()
+```
+
 ### C++
+
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    void solveKenKen(int c, const vector<string>& cages) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int c;
+    if (!(cin >> c)) return 0;
+    string dummy;
+    getline(cin, dummy);
+    vector<string> cages(c);
+    for (int i = 0; i < c; i++) {
+        getline(cin, cages[i]);
+    }
+    Solution sol;
+    sol.solveKenKen(c, cages);
+    return 0;
+}
+```
+
 ### JavaScript
+
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  solveKenKen(c, cages) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\r?\n/);
+  if (!input[0]) return;
+  const c = parseInt(input[0]);
+  const cages = input.slice(1, 1 + c);
+  const sol = new Solution();
+  sol.solveKenKen(c, cages);
+}
+
+solve();
+```

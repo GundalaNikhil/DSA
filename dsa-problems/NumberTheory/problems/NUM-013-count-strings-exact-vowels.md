@@ -61,13 +61,13 @@ Vowels are `a, e, i, o, u`.
 
 Choose 1 position for the vowel (C(2,1)=2), pick vowel (5 choices), pick consonant (21 choices):
 
-2 * 5 * 21 = 210.
+2 _ 5 _ 21 = 210.
 
 ![Example Visualization](../images/NUM-013/example-1.png)
 
 ## Notes
 
-- Count = C(n,k) * 5^k * 21^(n-k) mod M
+- Count = C(n,k) _ 5^k _ 21^(n-k) mod M
 - Precompute factorials and inverse factorials
 - Time complexity: O(n)
 - Space complexity: O(n)
@@ -82,12 +82,101 @@ Combinatorics, Binomial Coefficients, Modular Arithmetic
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int countStrings(int n, int k) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.countStrings(n, k));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def count_strings(self, n, k):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    k = int(input_data[1])
+    sol = Solution()
+    print(sol.count_strings(n, k))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int countStrings(int n, int k) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, k;
+    if (!(cin >> n >> k)) return 0;
+    Solution sol;
+    cout << sol.countStrings(n, k) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  countStrings(n, k) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+  const n = parseInt(input[0]);
+  const k = parseInt(input[1]);
+  const sol = new Solution();
+  console.log(sol.countStrings(n, k).toString());
+}
+
+solve();
+```

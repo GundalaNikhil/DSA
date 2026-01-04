@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # STK-009: Lab Sliding-Min Stack
 
 ## Problem Statement
@@ -90,14 +91,204 @@ Stack, Min Stack, Range Queries
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    private List<Long> stack = new ArrayList<>();
+    // Prefix minimums or min stack logic here
+
+    public void push(long x) {
+        // Implement
+    }
+
+    public String pop() {
+        // Implement
+        return "";
+    }
+
+    public String min(int k) {
+        // Implement
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int m = sc.nextInt();
+            Solution sol = new Solution();
+            for (int i = 0; i < m; i++) {
+                String cmd = sc.next();
+                if (cmd.equals("PUSH")) {
+                    sol.push(sc.nextLong());
+                } else if (cmd.equals("POP")) {
+                    System.out.println(sol.pop());
+                } else if (cmd.equals("MIN")) {
+                    System.out.println(sol.min(sc.nextInt()));
+                }
+            }
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def __init__(self):
+        self.stack = []
+        # Min stack structures
+
+    def push(self, x: int):
+        # Implement
+        pass
+
+    def pop(self) -> str:
+        # Implement
+        return ""
+
+    def min(self, k: int) -> str:
+        # Implement
+        return ""
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    m = int(input_data[0])
+    sol = Solution()
+    idx = 1
+    for _ in range(m):
+        cmd = input_data[idx]
+        idx += 1
+        if cmd == "PUSH":
+            sol.push(int(input_data[idx]))
+            idx += 1
+        elif cmd == "POP":
+            print(sol.pop())
+        elif cmd == "MIN":
+            print(sol.min(int(input_data[idx])))
+            idx += 1
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    void push(long long x) {
+        // Implement
+    }
+
+    string pop() {
+        // Implement
+        return "";
+    }
+
+    string min_k(int k) {
+        // Implement
+        return "";
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int m;
+    if (cin >> m) {
+        Solution sol;
+        for (int i = 0; i < m; i++) {
+            string cmd;
+            cin >> cmd;
+            if (cmd == "PUSH") {
+                long long x;
+                cin >> x;
+                sol.push(x);
+            } else if (cmd == "POP") {
+                cout << sol.pop() << "\n";
+            } else if (cmd == "MIN") {
+                int k;
+                cin >> k;
+                cout << sol.min_k(k) << "\n";
+            }
+        }
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  constructor() {
+    this.stack = [];
+  }
+
+  push(x) {
+    // Implement
+  }
+
+  pop() {
+    // Implement
+    return "";
+  }
+
+  min(k) {
+    // Implement
+    return "";
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false,
+});
+
+let sol = new Solution();
+let m = -1;
+let count = 0;
+
+rl.on("line", (line) => {
+  if (m === -1) {
+    m = parseInt(line.trim());
+    return;
+  }
+  if (count < m) {
+    const parts = line.trim().split(/\s+/);
+    const cmd = parts[0];
+    if (cmd === "PUSH") {
+      sol.push(BigInt(parts[1]));
+    } else if (cmd === "POP") {
+      process.stdout.write(sol.pop() + "\n");
+    } else if (cmd === "MIN") {
+      process.stdout.write(sol.min(parseInt(parts[1])) + "\n");
+    }
+    count++;
+  }
+});
+```

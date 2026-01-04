@@ -45,11 +45,13 @@ Print the bitwise AND of all numbers in [L, R] not divisible by m, or -1.
 ## Example
 
 **Input:**
+
 ```
 10 15 3
 ```
 
 **Output:**
+
 ```
 8
 ```
@@ -75,16 +77,104 @@ Bitwise Operations, Math
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
 
+class Solution {
+    public long bitwiseAndSkipMultiples(long l, long r, long m) {
+        // Implement here
+        return -1;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextLong()) return;
+        long l = sc.nextLong();
+        long r = sc.nextLong();
+        long m = sc.nextLong();
+
+        Solution sol = new Solution();
+        System.out.println(sol.bitwiseAndSkipMultiples(l, r, m));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
 
+class Solution:
+    def bitwise_and_skip_multiples(self, l, r, m):
+        # Implement here
+        return -1
+
+def solve():
+    line = sys.stdin.readline().split()
+    if not line:
+        return
+    l, r, m = map(int, line)
+
+    sol = Solution()
+    print(sol.bitwise_and_skip_multiples(l, r, m))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
 
+using namespace std;
+
+class Solution {
+public:
+    long long bitwiseAndSkipMultiples(long long l, long long r, long long m) {
+        // Implement here
+        return -1;
+    }
+};
+
+int main() {
+    long long l, r, m;
+    if (!(cin >> l >> r >> m)) return 0;
+
+    Solution sol;
+    cout << sol.bitwiseAndSkipMultiples(l, r, m) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
 
+const fs = require("fs");
+
+class Solution {
+  bitwiseAndSkipMultiples(l, r, m) {
+    // Implement here
+    return BigInt(-1);
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+  if (input.length < 3) return;
+
+  const l = BigInt(input[0]);
+  const r = BigInt(input[1]);
+  const m = BigInt(input[2]);
+
+  const sol = new Solution();
+  console.log(sol.bitwiseAndSkipMultiples(l, r, m).toString());
+}
+
+solve();
+```

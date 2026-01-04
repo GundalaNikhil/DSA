@@ -68,7 +68,7 @@ Ways: 1+1+1+1, 1+3, 3+1.
 
 - DP: dp[i] = sum(dp[i-j]) for j in J and i >= j
 - Base: dp[0] = 1
-- Time complexity: O(n * m)
+- Time complexity: O(n \* m)
 - Space complexity: O(n)
 
 ## Related Topics
@@ -81,12 +81,108 @@ Dynamic Programming, Modular Counting
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int countWays(int n, int m, int[] j) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        int[] j = new int[m];
+        for (int i = 0; i < m; i++) j[i] = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.countWays(n, m, j));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def count_ways(self, n, m, j):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    m = int(input_data[1])
+    j = [int(x) for x in input_data[2:2+m]]
+    sol = Solution()
+    print(sol.count_ways(n, m, j))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int countWays(int n, int m, const vector<int>& j) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    vector<int> j(m);
+    for (int i = 0; i < m; i++) cin >> j[i];
+    Solution sol;
+    cout << sol.countWays(n, m, j) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  countWays(n, m, j) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+  const n = parseInt(input[0]);
+  const m = parseInt(input[1]);
+  const j = [];
+  for (let i = 0; i < m; i++) j.push(parseInt(input[2 + i]));
+  const sol = new Solution();
+  console.log(sol.countWays(n, m, j).toString());
+}
+
+solve();
+```

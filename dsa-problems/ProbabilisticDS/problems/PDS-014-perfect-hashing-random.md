@@ -85,12 +85,105 @@ Perfect Hashing, FKS, Randomization
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void computeTotalTableSize(int n, int t, int[] s) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int t = sc.nextInt();
+        int[] s = new int[t];
+        for (int i = 0; i < t; i++) s[i] = sc.nextInt();
+        Solution sol = new Solution();
+        sol.computeTotalTableSize(n, t, s);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def compute_total_table_size(self, n, t, s):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    t = int(input_data[1])
+    s = [int(x) for x in input_data[2:2+t]]
+    sol = Solution()
+    sol.compute_total_table_size(n, t, s)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void computeTotalTableSize(int n, int t, const vector<int>& s) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, t;
+    if (!(cin >> n >> t)) return 0;
+    vector<int> s(t);
+    for (int i = 0; i < t; i++) cin >> s[i];
+    Solution sol;
+    sol.computeTotalTableSize(n, t, s);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  computeTotalTableSize(n, t, s) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+  const n = parseInt(input[0]);
+  const t = parseInt(input[1]);
+  const s = [];
+  for (let i = 0; i < t; i++) s.push(parseInt(input[2 + i]));
+  const sol = new Solution();
+  sol.computeTotalTableSize(n, t, s);
+}
+
+solve();
+```

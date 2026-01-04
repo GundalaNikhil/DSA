@@ -94,12 +94,169 @@ Heaps, K-Way Merge, Streaming, Rate Limiting
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public List<Integer> mergeStreams(int k, int r, List<List<Integer>> streams) {
+        // Implement here
+        return new ArrayList<>();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String firstLine = br.readLine();
+        if (firstLine == null) return;
+        String[] parts = firstLine.trim().split("\\s+");
+        int k = Integer.parseInt(parts[0]);
+        int r = Integer.parseInt(parts[1]);
+
+        List<List<Integer>> streams = new ArrayList<>();
+        for (int i = 0; i < k; i++) {
+            int m = Integer.parseInt(br.readLine().trim());
+            List<Integer> stream = new ArrayList<>();
+            String[] vals = br.readLine().trim().split("\\s+");
+            for (int j = 0; j < m; j++) {
+                stream.add(Integer.parseInt(vals[j]));
+            }
+            streams.add(stream);
+        }
+
+        Solution sol = new Solution();
+        List<Integer> result = sol.mergeStreams(k, r, streams);
+
+        PrintWriter out = new PrintWriter(System.out);
+        for (int i = 0; i < result.size(); i++) {
+            out.print(result.get(i) + (i == result.size() - 1 ? "" : " "));
+        }
+        out.println();
+        out.flush();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def merge_streams(self, k, r, streams):
+        # Implement here
+        return []
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    idx = 0
+    k = int(input_data[idx])
+    r = int(input_data[idx + 1])
+    idx += 2
+
+    streams = []
+    for _ in range(k):
+        m = int(input_data[idx])
+        idx += 1
+        stream = []
+        for _ in range(m):
+            stream.append(int(input_data[idx]))
+            idx += 1
+        streams.append(stream)
+
+    sol = Solution()
+    result = sol.merge_streams(k, r, streams)
+    print(*(result))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> mergeStreams(int k, int r, vector<vector<int>>& streams) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int k, r;
+    if (!(cin >> k >> r)) return 0;
+
+    vector<vector<int>> streams(k);
+    for (int i = 0; i < k; i++) {
+        int m;
+        cin >> m;
+        streams[i].resize(m);
+        for (int j = 0; j < m; j++) {
+            cin >> streams[i][j];
+        }
+    }
+
+    Solution sol;
+    vector<int> result = sol.mergeStreams(k, r, streams);
+
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i] << (i == result.size() - 1 ? "" : " ");
+    }
+    cout << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  mergeStreams(k, r, streams) {
+    // Implement here
+    return [];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const k = parseInt(input[idx++]);
+  const r = parseInt(input[idx++]);
+
+  const streams = [];
+  for (let i = 0; i < k; i++) {
+    const m = parseInt(input[idx++]);
+    const stream = [];
+    for (let j = 0; j < m; j++) {
+      stream.push(parseInt(input[idx++]));
+    }
+    streams.push(stream);
+  }
+
+  const sol = new Solution();
+  const result = sol.mergeStreams(k, r, streams);
+  console.log(result.join(" "));
+}
+
+solve();
+```

@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # SRT-012: Count Within Threshold After Self
 
 ## Problem Statement
@@ -79,14 +80,132 @@ Merge Sort, Counting, Divide and Conquer
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] countWithinThreshold(int n, int t, int[] a) {
+        // Implement here
+        return new int[n];
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int t = sc.nextInt();
+            int[] a = new int[n];
+            for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+
+            Solution sol = new Solution();
+            int[] result = sol.countWithinThreshold(n, t, a);
+            for (int i = 0; i < n; i++) {
+                System.out.print(result[i] + (i == n - 1 ? "" : " "));
+            }
+            System.out.println();
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def count_within_threshold(self, n: int, t: int, a: list) -> list:
+        # Implement here
+        return [0] * n
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    t = int(input_data[1])
+    a = [int(x) for x in input_data[2:]]
+
+    sol = Solution()
+    result = sol.count_within_threshold(n, t, a)
+    print(*(result))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> countWithinThreshold(int n, int t, vector<int>& a) {
+        // Implement here
+        return vector<int>(n, 0);
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, t;
+    if (cin >> n >> t) {
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+
+        Solution sol;
+        vector<int> result = sol.countWithinThreshold(n, t, a);
+        for (int i = 0; i < n; i++) {
+            cout << result[i] << (i == n - 1 ? "" : " ");
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  countWithinThreshold(n, t, a) {
+    // Implement here
+    return new Array(n).fill(0);
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false,
+});
+
+let input = [];
+rl.on("line", (line) => {
+  if (line.trim()) input.push(...line.trim().split(/\s+/));
+}).on("close", () => {
+  if (input.length < 2) return;
+  const n = parseInt(input[0]);
+  const t = parseInt(input[1]);
+  const a = input.slice(2).map(Number);
+
+  const sol = new Solution();
+  const result = sol.countWithinThreshold(n, t, a);
+  console.log(result.join(" "));
+});
+```

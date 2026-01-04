@@ -24,6 +24,8 @@ memory_limit: 256
 
 ## Problem Statement
 
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767539584/dsa/geometry/onjqdalu1umoo97cxonu.jpg)
+
 Given `n` points in 2D and an angle threshold `theta` (degrees, `0 < theta < 180`):
 
 1. Build the convex hull of the points (include collinear boundary points as needed for a standard hull).
@@ -70,6 +72,7 @@ Print the vertex count, followed by the remaining vertices.
 ## Example 1
 
 **Input:**
+
 ```
 5
 0 0
@@ -81,6 +84,7 @@ Print the vertex count, followed by the remaining vertices.
 ```
 
 **Output:**
+
 ```
 4
 0 0
@@ -94,6 +98,7 @@ Print the vertex count, followed by the remaining vertices.
 ## Example 2
 
 **Input:**
+
 ```
 4
 0 0
@@ -104,6 +109,7 @@ Print the vertex count, followed by the remaining vertices.
 ```
 
 **Output:**
+
 ```
 0
 ```
@@ -126,12 +132,174 @@ Convex Hull, Geometry Filtering, Cross Product
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public List<long[]> findCappedHull(int n, long[][] points, int theta) {
+        // Implement here
+        return new ArrayList<>();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        long[][] points = new long[n][2];
+        for (int i = 0; i < n; i++) {
+            String[] p = br.readLine().trim().split("\\s+");
+            points[i][0] = Long.parseLong(p[0]);
+            points[i][1] = Long.parseLong(p[1]);
+        }
+
+        String thetaLine = br.readLine();
+        if (thetaLine == null) return;
+        int theta = Integer.parseInt(thetaLine.trim());
+
+        Solution sol = new Solution();
+        List<long[]> result = sol.findCappedHull(n, points, theta);
+
+        if (result == null || result.isEmpty()) {
+            System.out.println("0");
+        } else {
+            PrintWriter out = new PrintWriter(System.out);
+            out.println(result.size());
+            for (long[] p : result) {
+                out.println(p[0] + " " + p[1]);
+            }
+            out.flush();
+        }
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def find_capped_hull(self, n, points, theta):
+        # Implement here
+        return []
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    idx = 1
+    points = []
+    for _ in range(n):
+        points.append((int(input_data[idx]), int(input_data[idx+1])))
+        idx += 2
+
+    theta = int(input_data[idx])
+
+    sol = Solution()
+    result = sol.find_capped_hull(n, points, theta)
+    if not result:
+        print("0")
+    else:
+        print(len(result))
+        for p in result:
+            print(f"{p[0]} {p[1]}")
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<pair<long long, long long>> findCappedHull(int n, vector<pair<long long, long long>>& points, int theta) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<pair<long long, long long>> points(n);
+    for (int i = 0; i < n; i++) {
+        cin >> points[i].first >> points[i].second;
+    }
+
+    int theta;
+    cin >> theta;
+
+    Solution sol;
+    vector<pair<long long, long long>> result = sol.findCappedHull(n, points, theta);
+
+    if (result.empty()) {
+        cout << "0" << endl;
+    } else {
+        cout << result.size() << endl;
+        for (const auto& p : result) {
+            cout << p.first << " " << p.second << endl;
+        }
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  findCappedHull(n, points, theta) {
+    // Implement here
+    return [];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const points = [];
+  for (let i = 0; i < n; i++) {
+    points.push([BigInt(input[idx++]), BigInt(input[idx++])]);
+  }
+
+  const theta = parseInt(input[idx++]);
+
+  const sol = new Solution();
+  const result = sol.findCappedHull(n, points, theta);
+
+  if (result.length === 0) {
+    console.log("0");
+  } else {
+    console.log(result.length);
+    result.forEach((p) => console.log(`${p[0]} ${p[1]}`));
+  }
+}
+
+solve();
+```

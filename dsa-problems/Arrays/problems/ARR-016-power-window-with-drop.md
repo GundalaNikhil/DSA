@@ -47,6 +47,7 @@ Print the maximum adjusted window sum.
 ## Example
 
 **Input:**
+
 ```
 5
 2 1 5 3 2
@@ -54,6 +55,7 @@ Print the maximum adjusted window sum.
 ```
 
 **Output:**
+
 ```
 10
 ```
@@ -79,16 +81,142 @@ Sliding Window, Greedy, Arrays
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
 
+class Solution {
+    public long maxPowerWindow(int n, int[] arr, int k) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        int[] arr = new int[n];
+        String arrLine = br.readLine();
+        if (arrLine != null) {
+            String[] parts = arrLine.trim().split("\\s+");
+            for (int i = 0; i < n; i++) {
+                arr[i] = Integer.parseInt(parts[i]);
+            }
+        }
+
+        String kLine = br.readLine();
+        if (kLine == null) return;
+        int k = Integer.parseInt(kLine.trim());
+
+        Solution sol = new Solution();
+        System.out.println(sol.maxPowerWindow(n, arr, k));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
 
+class Solution:
+    def max_power_window(self, n, arr, k):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    arr = list(map(int, input_data[1:n+1]))
+    if len(input_data) > n+1:
+        k = int(input_data[n+1])
+    else:
+        k = 0 # fall back
+
+    sol = Solution()
+    print(sol.max_power_window(n, arr, k))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    long long maxPowerWindow(int n, vector<int>& arr, int k) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    int k;
+    cin >> k;
+
+    Solution sol;
+    cout << sol.maxPowerWindow(n, arr, k) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
 
+const fs = require("fs");
+
+class Solution {
+  maxPowerWindow(n, arr, k) {
+    // Implement here
+    return BigInt(0);
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  function readInt() {
+    return parseInt(input[idx++]);
+  }
+
+  const n = readInt();
+  const arr = [];
+  for (let i = 0; i < n; i++) arr.push(readInt());
+  const k = readInt();
+
+  const sol = new Solution();
+  console.log(sol.maxPowerWindow(n, arr, k).toString());
+}
+
+solve();
+```

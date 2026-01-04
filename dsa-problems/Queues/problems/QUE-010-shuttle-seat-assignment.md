@@ -91,12 +91,111 @@ Scheduling, Priority Queue, Interval Overlap
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int minSeats(int n, int[] arrivals, int[] departures) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] arrivals = new int[n];
+        for (int i = 0; i < n; i++) arrivals[i] = sc.nextInt();
+        int[] departures = new int[n];
+        for (int i = 0; i < n; i++) departures[i] = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.minSeats(n, arrivals, departures));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def min_seats(self, n, arrivals, departures):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    arrivals = [int(x) for x in input_data[1:1+n]]
+    departures = [int(x) for x in input_data[1+n:1+2*n]]
+    sol = Solution()
+    print(sol.min_seats(n, arrivals, departures))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int minSeats(int n, const vector<int>& arrivals, const vector<int>& departures) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<int> arrivals(n), departures(n);
+    for (int i = 0; i < n; i++) cin >> arrivals[i];
+    for (int i = 0; i < n; i++) cin >> departures[i];
+    Solution sol;
+    cout << sol.minSeats(n, arrivals, departures) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  minSeats(n, arrivals, departures) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+  const n = parseInt(input[0]);
+  const arrivals = [];
+  for (let i = 0; i < n; i++) arrivals.push(parseInt(input[1 + i]));
+  const departures = [];
+  for (let i = 0; i < n; i++) departures.push(parseInt(input[1 + n + i]));
+  const sol = new Solution();
+  console.log(sol.minSeats(n, arrivals, departures));
+}
+
+solve();
+```

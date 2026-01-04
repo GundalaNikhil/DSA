@@ -122,12 +122,153 @@ Trie, String, Recursion, Backtracking, Pattern Matching
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void insertWord(String word) {
+        // Implement here
+    }
+
+    public boolean search(String pattern) {
+        // Implement here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        sc.nextLine(); // consume newline
+
+        Solution solution = new Solution();
+        for (int i = 0; i < n; i++) {
+            if (sc.hasNextLine()) {
+                solution.insertWord(sc.nextLine().trim());
+            }
+        }
+
+        if (sc.hasNextLine()) {
+            String pattern = sc.nextLine().trim();
+            boolean result = solution.search(pattern);
+            System.out.println(result);
+        }
+    }
+}
+```
 
 ### Python
 
+```python
+class Solution:
+    def insert_word(self, word: str):
+        # Implement here
+        pass
+
+    def search(self, pattern: str) -> bool:
+        # Implement here
+        return False
+
+def main():
+    import sys
+    input_data = sys.stdin.read().splitlines()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    solution = Solution()
+    for i in range(1, n + 1):
+        solution.insert_word(input_data[i].strip())
+
+    pattern = input_data[n + 1].strip() if len(input_data) > n + 1 else ""
+    result = solution.search(pattern)
+    print("true" if result else "false")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    void insertWord(const string& word) {
+        // Implement here
+    }
+
+    bool search(const string& pattern) {
+        // Implement here
+        return false;
+    }
+};
+
+int main() {
+    int n;
+    if (!(cin >> n)) return 0;
+    cin.ignore();
+
+    Solution solution;
+    for (int i = 0; i < n; i++) {
+        string word;
+        getline(cin, word);
+        solution.insertWord(word);
+    }
+
+    string pattern;
+    getline(cin, pattern);
+
+    bool result = solution.search(pattern);
+    cout << (result ? "true" : "false") << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  insertWord(word) {
+    // Implement here
+  }
+
+  search(pattern) {
+    // Implement here
+    return false;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  if (lines.length === 0) return;
+  const n = parseInt(lines[0]);
+
+  const solution = new Solution();
+  for (let i = 1; i <= n; i++) {
+    solution.insertWord(lines[i].trim());
+  }
+
+  const pattern = lines[n + 1] ? lines[n + 1].trim() : "";
+  const result = solution.search(pattern);
+
+  console.log(result ? "true" : "false");
+});
+```

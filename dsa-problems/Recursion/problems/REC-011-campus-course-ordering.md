@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # REC-011: Campus Course Ordering
 
 ## Problem Statement
@@ -82,14 +83,117 @@ Topological Sort, Backtracking, Graphs
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void findOrderings(int n, int m, List<int[]> prerequisites) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int m = sc.nextInt();
+        List<int[]> prerequisites = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            prerequisites.add(new int[]{sc.nextInt(), sc.nextInt()});
+        }
+        Solution sol = new Solution();
+        sol.findOrderings(n, m, prerequisites);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def find_orderings(self, n, m, prerequisites):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    m = int(input_data[1])
+    prerequisites = []
+    idx = 2
+    for i in range(m):
+        prerequisites.append((int(input_data[idx]), int(input_data[idx+1])))
+        idx += 2
+    sol = Solution()
+    sol.find_orderings(n, m, prerequisites)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void findOrderings(int n, int m, const vector<pair<int, int>>& prerequisites) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+    vector<pair<int, int>> prerequisites(m);
+    for (int i = 0; i < m; i++) cin >> prerequisites[i].first >> prerequisites[i].second;
+    Solution sol;
+    sol.findOrderings(n, m, prerequisites);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  findOrderings(n, m, prerequisites) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+  const n = parseInt(input[0]);
+  const m = parseInt(input[1]);
+  const prerequisites = [];
+  let idx = 2;
+  for (let i = 0; i < m; i++) {
+    prerequisites.push([parseInt(input[idx++]), parseInt(input[idx++])]);
+  }
+  const sol = new Solution();
+  sol.findOrderings(n, m, prerequisites);
+}
+
+solve();
+```

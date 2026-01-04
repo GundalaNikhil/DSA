@@ -34,7 +34,7 @@ If the game goes on forever (cycle), it is considered a Draw.
 
 Determine the winner given the initial configuration. Output "First", "Second", or "Draw".
 
-![Problem Illustration](../images/GMT-004/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767513719/dsa/gametheory/nlr5mjnlgaavickudnnp.jpg)
 
 ## Input Format
 
@@ -54,17 +54,20 @@ Determine the winner given the initial configuration. Output "First", "Second", 
 ## Example
 
 **Input:**
+
 ```
 3
 1 0 1
 ```
 
 **Output:**
+
 ```
 First
 ```
 
 **Explanation:**
+
 - Piles: `[1, 0, 1]` (indices 0, 1, 2).
 - Player 1 chooses index 0. Removes 1. Adds to 2 and 1.
   - New state: `[0, 1, 2]`.
@@ -92,12 +95,123 @@ Game Theory, Memoization, Graph Cycle Detection
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public String determineWinner(int n, int[] piles) {
+        // Implement here
+        return "";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+
+        int[] piles = new int[n];
+        for (int i = 0; i < n; i++) {
+            piles[i] = sc.nextInt();
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.determineWinner(n, piles));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def determine_winner(self, n, piles):
+        # Implement here
+        return ""
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    piles = list(map(int, input_data[1:1+n]))
+
+    sol = Solution()
+    print(sol.determine_winner(n, piles))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    string determineWinner(int n, vector<int>& piles) {
+        // Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> piles(n);
+    for (int i = 0; i < n; i++) {
+        cin >> piles[i];
+    }
+
+    Solution sol;
+    cout << sol.determineWinner(n, piles) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  determineWinner(n, piles) {
+    // Implement here
+    return "";
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const piles = [];
+  for (let i = 0; i < n; i++) {
+    piles.push(parseInt(input[idx++]));
+  }
+
+  const sol = new Solution();
+  console.log(sol.determineWinner(n, piles));
+}
+
+solve();
+```

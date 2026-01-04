@@ -93,12 +93,118 @@ Heaps, Priority Queue, Decrease-Key, Data Structures
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public void processPriorityQueue(int q, List<String> ops) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String firstLine = br.readLine();
+        if (firstLine == null) return;
+        int q = Integer.parseInt(firstLine.trim());
+
+        List<String> ops = new ArrayList<>();
+        for (int i = 0; i < q; i++) {
+            ops.add(br.readLine());
+        }
+
+        Solution sol = new Solution();
+        sol.processPriorityQueue(q, ops);
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def process_priority_queue(self, q, ops):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().splitlines()
+    if not input_data:
+        return
+
+    q = int(input_data[0].strip())
+    ops = input_data[1:q+1]
+
+    sol = Solution()
+    sol.process_priority_queue(q, ops)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    void processPriorityQueue(int q, const vector<string>& ops) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int q;
+    if (!(cin >> q)) return 0;
+    cin.ignore();
+
+    vector<string> ops(q);
+    for (int i = 0; i < q; i++) {
+        getline(cin, ops[i]);
+    }
+
+    Solution sol;
+    sol.processPriorityQueue(q, ops);
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  processPriorityQueue(q, ops) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\r?\n/);
+  if (input.length < 1) return;
+
+  const q = parseInt(input[0].trim());
+  const ops = input.slice(1, q + 1);
+
+  const sol = new Solution();
+  sol.processPriorityQueue(q, ops);
+}
+
+solve();
+```

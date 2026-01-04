@@ -87,3 +87,119 @@ abacaba
 - Greedy two-pointer matching
 - Match smallest valid chunks first
 - O(n × L) time complexity
+
+---
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public int maxChunks(String s, int L) {
+        // Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String s = sc.next();
+            if (sc.hasNextInt()) {
+                int L = sc.nextInt();
+                Solution sol = new Solution();
+                System.out.println(sol.maxChunks(s, L));
+            }
+        }
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+import sys
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if len(input_data) < 2:
+        return
+    s = input_data[0]
+    L = int(input_data[1])
+    solution = Solution()
+    print(solution.max_chunks(s, L))
+
+class Solution:
+    def max_chunks(self, s: str, L: int) -> int:
+        # Implement here
+        return 0
+
+if __name__ == "__main__":
+    solve()
+```
+
+### C++
+
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxChunks(string s, int L) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string s;
+    int L;
+    if (cin >> s >> L) {
+        Solution sol;
+        cout << sol.maxChunks(s, L) << endl;
+    }
+
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  maxChunks(s, L) {
+    // Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let input = [];
+rl.on("line", (line) => {
+  input.push(...line.trim().split(/\s+/));
+}).on("close", () => {
+  if (input.length >= 2) {
+    const s = input[0];
+    const L = parseInt(input[1]);
+    const sol = new Solution();
+    console.log(sol.maxChunks(s, L));
+  }
+});
+```

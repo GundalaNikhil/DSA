@@ -104,12 +104,130 @@ Trie, String, Prefix Matching, Lexicographic Order
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public String longestWordWithKPrefixes(String[] words, int k) {
+        // Implement here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+
+        String[] words = new String[n];
+        for (int i = 0; i < n; i++) {
+            words[i] = sc.next();
+        }
+
+        Solution solution = new Solution();
+        String result = solution.longestWordWithKPrefixes(words, k);
+        System.out.println(result);
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+class Solution:
+    def longest_word_with_k_prefixes(self, words: List[str], k: int) -> str:
+        # Implement here
+        return ""
+
+def main():
+    import sys
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    k = int(input_data[1])
+    words = input_data[2:n+2]
+
+    solution = Solution()
+    result = solution.longest_word_with_k_prefixes(words, k)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string longestWordWithKPrefixes(const vector<string>& words, int k) {
+        // Implement here
+        return "";
+    }
+};
+
+int main() {
+    int n, k;
+    if (!(cin >> n >> k)) return 0;
+
+    vector<string> words(n);
+    for (int i = 0; i < n; i++) {
+        cin >> words[i];
+    }
+
+    Solution solution;
+    string result = solution.longestWordWithKPrefixes(words, k);
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  longestWordWithKPrefixes(words, k) {
+    // Implement here
+    return "";
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const tokens = lines
+    .join(" ")
+    .split(/\s+/)
+    .filter((t) => t !== "");
+  if (tokens.length === 0) return;
+
+  const n = parseInt(tokens[0]);
+  const k = parseInt(tokens[1]);
+  const words = tokens.slice(2, n + 2);
+
+  const solution = new Solution();
+  const result = solution.longestWordWithKPrefixes(words, k);
+  process.stdout.write(result + "\n");
+});
+```

@@ -43,11 +43,13 @@ Print the integer after swapping adjacent 2-bit blocks.
 ## Example
 
 **Input:**
+
 ```
 6
 ```
 
 **Output:**
+
 ```
 9
 ```
@@ -73,16 +75,100 @@ Bitwise Operations
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
 
+class Solution {
+    public int swapAdjacent2BitBlocks(int x) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int x = sc.nextInt();
+
+        Solution sol = new Solution();
+        System.out.println(sol.swapAdjacent2BitBlocks(x));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
 
+class Solution:
+    def swap_adjacent_2bit_blocks(self, x):
+        # Implement here
+        return 0
+
+def solve():
+    line = sys.stdin.readline().strip()
+    if not line:
+        return
+    x = int(line)
+
+    sol = Solution()
+    print(sol.swap_adjacent_2bit_blocks(x))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
 
+using namespace std;
+
+class Solution {
+public:
+    int swapAdjacent2BitBlocks(int x) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    int x;
+    if (!(cin >> x)) return 0;
+
+    Solution sol;
+    cout << sol.swapAdjacent2BitBlocks(x) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
 
+const fs = require("fs");
+
+class Solution {
+  swapAdjacent2BitBlocks(x) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").trim().split(/\s+/);
+  if (input.length < 1) return;
+
+  const x = parseInt(input[0]);
+
+  const sol = new Solution();
+  console.log(sol.swapAdjacent2BitBlocks(x));
+}
+
+solve();
+```

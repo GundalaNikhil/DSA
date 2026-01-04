@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # REC-014: Target Sum With Limited Negations
 
 ## Problem Statement
@@ -80,14 +81,115 @@ Backtracking, Target Sum, Recursion
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long countAssignments(int n, int k, long target, int[] nums) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int k = sc.nextInt();
+        long target = sc.nextLong();
+        int[] nums = new int[n];
+        for (int i = 0; i < n; i++) nums[i] = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(sol.countAssignments(n, k, target, nums));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def count_assignments(self, n, k, target, nums):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    k = int(input_data[1])
+    target = int(input_data[2])
+    nums = [int(x) for x in input_data[3:3+n]]
+    sol = Solution()
+    print(sol.count_assignments(n, k, target, nums))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long countAssignments(int n, int k, long long target, const vector<int>& nums) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, k;
+    long long target;
+    if (!(cin >> n >> k >> target)) return 0;
+    vector<int> nums(n);
+    for (int i = 0; i < n; i++) cin >> nums[i];
+    Solution sol;
+    cout << sol.countAssignments(n, k, target, nums) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  countAssignments(n, k, target, nums) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 3) return;
+  const n = parseInt(input[0]);
+  const k = parseInt(input[1]);
+  const target = BigInt(input[2]);
+  const nums = [];
+  for (let i = 0; i < n; i++) nums.push(parseInt(input[3 + i]));
+  const sol = new Solution();
+  console.log(sol.countAssignments(n, k, target, nums).toString());
+}
+
+solve();
+```

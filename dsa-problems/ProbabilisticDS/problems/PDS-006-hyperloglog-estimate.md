@@ -98,12 +98,108 @@ HyperLogLog, Cardinality Estimation
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public double estimateCardinality(int m, int[] registers) {
+        // Implement here
+        return 0.0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int m = sc.nextInt();
+        int[] registers = new int[m];
+        for (int i = 0; i < m; i++) registers[i] = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(String.format("%.6f", sol.estimateCardinality(m, registers)));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import math
+
+class Solution:
+    def estimate_cardinality(self, m, registers):
+        # Implement here
+        return 0.0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    m = int(input_data[0])
+    registers = [int(x) for x in input_data[1:1+m]]
+    sol = Solution()
+    print(format(sol.estimate_cardinality(m, registers), ".6f"))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    double estimateCardinality(int m, const vector<int>& registers) {
+        // Implement here
+        return 0.0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int m;
+    if (!(cin >> m)) return 0;
+    vector<int> registers(m);
+    for (int i = 0; i < m; i++) cin >> registers[i];
+    Solution sol;
+    cout << fixed << setprecision(6) << sol.estimateCardinality(m, registers) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  estimateCardinality(m, registers) {
+    // Implement here
+    return 0.0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+  const m = parseInt(input[0]);
+  const registers = [];
+  for (let i = 0; i < m; i++) registers.push(parseInt(input[1 + i]));
+  const sol = new Solution();
+  console.log(sol.estimateCardinality(m, registers).toFixed(6));
+}
+
+solve();
+```

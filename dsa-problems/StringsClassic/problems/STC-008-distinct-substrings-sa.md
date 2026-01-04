@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # STC-008: Distinct Substrings Count via SA/LCP
 
 ## Problem Statement
@@ -80,14 +81,107 @@ Suffix Array, LCP, Counting
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long countDistinct(String s) {
+        // Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String s = sc.next();
+            Solution solution = new Solution();
+            System.out.println(solution.countDistinct(s));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+def solve():
+    s = sys.stdin.read().strip()
+    if not s:
+        return
+
+    solution = Solution()
+    print(solution.count_distinct(s))
+
+class Solution:
+    def count_distinct(self, s: str) -> int:
+        # Implement here
+        return 0
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    long long countDistinct(string s) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string s;
+    if (cin >> s) {
+        Solution sol;
+        cout << sol.countDistinct(s) << endl;
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  countDistinct(s) {
+    // Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+rl.on("line", (line) => {
+  const s = line.trim();
+  if (!s) return;
+
+  const sol = new Solution();
+  console.log(sol.countDistinct(s));
+});
+```

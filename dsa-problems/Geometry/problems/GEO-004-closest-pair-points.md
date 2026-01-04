@@ -56,6 +56,7 @@ Closest pair: (0,0) and (1,1) with dist^2 = 1^2 + 1^2 = 2
 ## Example
 
 **Input:**
+
 ```
 3
 0 0
@@ -64,6 +65,7 @@ Closest pair: (0,0) and (1,1) with dist^2 = 1^2 + 1^2 = 2
 ```
 
 **Output:**
+
 ```
 2
 ```
@@ -88,12 +90,130 @@ Computational Geometry, Sorting, Divide and Conquer
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long findClosestPairSquaredDistance(int n, long[][] points) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        long[][] points = new long[n][2];
+        for (int i = 0; i < n; i++) {
+            String[] p = br.readLine().trim().split("\\s+");
+            points[i][0] = Long.parseLong(p[0]);
+            points[i][1] = Long.parseLong(p[1]);
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.findClosestPairSquaredDistance(n, points));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def find_closest_pair_squared_distance(self, n, points):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    idx = 1
+    points = []
+    for _ in range(n):
+        points.append((int(input_data[idx]), int(input_data[idx+1])))
+        idx += 2
+
+    sol = Solution()
+    print(sol.find_closest_pair_squared_distance(n, points))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long long findClosestPairSquaredDistance(int n, vector<pair<long long, long long>>& points) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<pair<long long, long long>> points(n);
+    for (int i = 0; i < n; i++) {
+        cin >> points[i].first >> points[i].second;
+    }
+
+    Solution sol;
+    cout << sol.findClosestPairSquaredDistance(n, points) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  findClosestPairSquaredDistance(n, points) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const points = [];
+  for (let i = 0; i < n; i++) {
+    points.push([BigInt(input[idx++]), BigInt(input[idx++])]);
+  }
+
+  const sol = new Solution();
+  console.log(sol.findClosestPairSquaredDistance(n, points).toString());
+}
+
+solve();
+```

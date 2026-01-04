@@ -116,12 +116,195 @@ Trie, Priority Queue, Hash Table, Sorting, Autocomplete Systems
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void insertWord(String word, int frequency, int timestamp) {
+        // Implement here
+    }
+
+    public List<String> autocomplete(String prefix, int currentTime, int D, int k) {
+        // Implement here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        Solution solution = new Solution();
+
+        for (int i = 0; i < n; i++) {
+            String word = sc.next();
+            int freq = sc.nextInt();
+            int time = sc.nextInt();
+            solution.insertWord(word, freq, time);
+        }
+
+        if (!sc.hasNext()) return;
+        String prefix = sc.next();
+        int currentTime = sc.nextInt();
+        int D = sc.nextInt();
+        int k = sc.nextInt();
+
+        List<String> result = solution.autocomplete(prefix, currentTime, D, k);
+        System.out.print("[");
+        for (int i = 0; i < result.size(); i++) {
+            System.out.print("'" + result.get(i) + "'");
+            if (i < result.size() - 1) System.out.print(", ");
+        }
+        System.out.println("]");
+    }
+}
+```
 
 ### Python
 
+```python
+import math
+from typing import List
+
+class Solution:
+    def insert_word(self, word: str, frequency: int, timestamp: int):
+        # Implement here
+        pass
+
+    def autocomplete(self, prefix: str, current_time: int, D: int, k: int) -> List[str]:
+        # Implement here
+        return []
+
+def main():
+    import sys
+    input_data = sys.stdin.read().strip().split()
+    if not input_data:
+        return
+    idx = 0
+
+    n = int(input_data[idx])
+    idx += 1
+
+    solution = Solution()
+    for _ in range(n):
+        word = input_data[idx]
+        freq = int(input_data[idx + 1])
+        time = int(input_data[idx + 2])
+        idx += 3
+        solution.insert_word(word, freq, time)
+
+    prefix = input_data[idx]
+    current_time = int(input_data[idx + 1])
+    D = int(input_data[idx + 2])
+    k = int(input_data[idx + 3])
+
+    result = solution.autocomplete(prefix, current_time, D, k)
+    print("[" + ", ".join(f"'{s}'" for s in result) + "]")
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+#include <cmath>
+#include <queue>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution {
+public:
+    void insertWord(string word, int frequency, int timestamp) {
+        // Implement here
+    }
+
+    vector<string> autocomplete(string prefix, int currentTime, int D, int k) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    int n;
+    if (!(cin >> n)) return 0;
+
+    Solution solution;
+    for (int i = 0; i < n; i++) {
+        string word;
+        int freq, time;
+        cin >> word >> freq >> time;
+        solution.insertWord(word, freq, time);
+    }
+
+    string prefix;
+    int currentTime, D, k;
+    cin >> prefix >> currentTime >> D >> k;
+
+    vector<string> result = solution.autocomplete(prefix, currentTime, D, k);
+
+    cout << "[";
+    for (int i = 0; i < result.size(); i++) {
+        cout << "'" << result[i] << "'";
+        if (i < result.size() - 1) cout << ", ";
+    }
+    cout << "]" << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  insertWord(word, frequency, timestamp) {
+    // Implement here
+  }
+
+  autocomplete(prefix, currentTime, D, k) {
+    // Implement here
+    return [];
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const tokens = lines.join(" ").split(/\s+/);
+  if (tokens.length === 0 || tokens[0] === "") return;
+  let idx = 0;
+
+  const n = parseInt(tokens[idx++]);
+  const solution = new Solution();
+
+  for (let i = 0; i < n; i++) {
+    const word = tokens[idx++];
+    const freq = parseInt(tokens[idx++]);
+    const time = parseInt(tokens[idx++]);
+    solution.insertWord(word, freq, time);
+  }
+
+  const prefix = tokens[idx++];
+  const currentTime = parseInt(tokens[idx++]);
+  const D = parseInt(tokens[idx++]);
+  const k = parseInt(tokens[idx++]);
+
+  const result = solution.autocomplete(prefix, currentTime, D, k);
+  console.log("[" + result.map((s) => "'" + s + "'").join(", ") + "]");
+});
+```

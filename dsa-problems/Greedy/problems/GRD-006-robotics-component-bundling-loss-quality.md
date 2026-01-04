@@ -121,12 +121,140 @@ Greedy Algorithms, Heap, Priority Queue, Simulation, Constraint Satisfaction
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long maxWeight(int n, int t, long[] w, int[] q) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String ntLine = br.readLine();
+        if (ntLine == null) return;
+        String[] nt = ntLine.trim().split("\\s+");
+        int n = Integer.parseInt(nt[0]);
+        int t = Integer.parseInt(nt[1]);
+
+        long[] w = new long[n];
+        String[] wLine = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < n; i++) w[i] = Long.parseLong(wLine[i]);
+
+        int[] q = new int[n];
+        String[] qLine = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < n; i++) q[i] = Integer.parseInt(qLine[i]);
+
+        Solution sol = new Solution();
+        System.out.println(sol.maxWeight(n, t, w, q));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def max_weight(self, n, t, w, q):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    t = int(input_data[1])
+    idx = 2
+    w = list(map(int, input_data[idx:idx+n]))
+    idx += n
+    q = list(map(int, input_data[idx:idx+n]))
+
+    sol = Solution()
+    print(sol.max_weight(n, t, w, q))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long maxWeight(int n, int t, vector<long long>& w, vector<int>& q) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, t;
+    if (!(cin >> n >> t)) return 0;
+
+    vector<long long> w(n);
+    for (int i = 0; i < n; i++) cin >> w[i];
+
+    vector<int> q(n);
+    for (int i = 0; i < n; i++) cin >> q[i];
+
+    Solution sol;
+    cout << sol.maxWeight(n, t, w, q) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  maxWeight(n, t, w, q) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const t = parseInt(input[idx++]);
+
+  const w = [];
+  for (let i = 0; i < n; i++) {
+    w.push(BigInt(input[idx++]));
+  }
+
+  const q = [];
+  for (let i = 0; i < n; i++) {
+    q.push(parseInt(input[idx++]));
+  }
+
+  const sol = new Solution();
+  console.log(sol.maxWeight(n, t, w, q).toString());
+}
+
+solve();
+```

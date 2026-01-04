@@ -94,12 +94,137 @@ Trie, Binary Trie, Bit Manipulation, XOR Properties
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int minXORPairUnderLimit(int[] arr, int L) {
+        // Implement here
+        return -1;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int L = sc.nextInt();
+
+        int[] arr = new int[n];
+        for (int i = 0; i < n; i++) {
+            arr[i] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        int result = solution.minXORPairUnderLimit(arr, L);
+        System.out.println(result);
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+class Solution:
+    def min_xor_under_limit(self, arr: List[int], L: int) -> int:
+        # Implement here
+        return -1
+
+def main():
+    import sys
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    L = int(input_data[1])
+    arr = list(map(int, input_data[2:n+2]))
+
+    solution = Solution()
+    result = solution.min_xor_under_limit(arr, L)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <climits>
+
+using namespace std;
+
+class Solution {
+public:
+    int minXORPairUnderLimit(const vector<int>& arr, int L) {
+        // Implement here
+        return -1;
+    }
+};
+
+int main() {
+    int n, L;
+    if (!(cin >> n >> L)) return 0;
+
+    vector<int> arr(n);
+    for (int i = 0; i < n; i++) {
+        cin >> arr[i];
+    }
+
+    Solution solution;
+    int result = solution.minXORPairUnderLimit(arr, L);
+
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  minXORPairUnderLimit(arr, L) {
+    // Implement here
+    return -1;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const tokens = lines
+    .join(" ")
+    .split(/\s+/)
+    .filter((t) => t !== "");
+  if (tokens.length === 0) return;
+
+  let idx = 0;
+  const n = parseInt(tokens[idx++]);
+  const L = parseInt(tokens[idx++]);
+  const arr = [];
+  for (let i = 0; i < n; i++) {
+    arr.push(parseInt(tokens[idx++]));
+  }
+
+  const solution = new Solution();
+  const result = solution.minXORPairUnderLimit(arr, L);
+
+  console.log(result);
+});
+```

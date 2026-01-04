@@ -79,12 +79,129 @@ Modular Arithmetic, GCD, Euclid Algorithm
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public boolean hasModularInverse(long a, long m) {
+        // Implement here
+        return false;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
+        int q = Integer.parseInt(line.trim());
+        Solution sol = new Solution();
+        StringBuilder sb = new StringBuilder();
+        while (q-- > 0) {
+            String qLine = br.readLine();
+            if (qLine == null) break;
+            String[] parts = qLine.trim().split("\\s+");
+            long a = Long.parseLong(parts[0]);
+            long m = Long.parseLong(parts[1]);
+            sb.append(sol.hasModularInverse(a, m)).append("\n");
+        }
+        System.out.print(sb);
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def has_modular_inverse(self, a, m):
+        # Implement here
+        return False
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    q = int(input_data[0])
+    queries = []
+    idx = 1
+    for _ in range(q):
+        a = int(input_data[idx])
+        m = int(input_data[idx+1])
+        queries.append((a, m))
+        idx += 2
+
+    sol = Solution()
+    output = []
+    for a, m in queries:
+        output.append(str(sol.has_modular_inverse(a, m)).lower())
+    sys.stdout.write("\n".join(output) + "\n")
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+
+using namespace std;
+
+class Solution {
+public:
+    bool hasModularInverse(long long a, long long m) {
+        // Implement here
+        return false;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int q;
+    if (!(cin >> q)) return 0;
+    Solution sol;
+    while (q--) {
+        long long a, m;
+        cin >> a >> m;
+        cout << (sol.hasModularInverse(a, m) ? "true" : "false") << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  hasModularInverse(a, m) {
+    // Implement here
+    return false;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+  const q = parseInt(input[0]);
+  let idx = 1;
+  const sol = new Solution();
+  let result = "";
+  for (let i = 0; i < q; i++) {
+    const a = BigInt(input[idx++]);
+    const m = BigInt(input[idx++]);
+    result += sol.hasModularInverse(a, m) + "\n";
+  }
+  process.stdout.write(result);
+}
+
+solve();
+```

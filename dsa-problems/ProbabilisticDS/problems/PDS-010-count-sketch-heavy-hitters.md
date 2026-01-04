@@ -89,12 +89,120 @@ Count Sketch, Heavy Hitters, Streaming
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int estimateFrequency(int d, int[] counts, int[] signs) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int d = sc.nextInt();
+        int[] counts = new int[d];
+        int[] signs = new int[d];
+        for (int i = 0; i < d; i++) {
+            counts[i] = sc.nextInt();
+            signs[i] = sc.nextInt();
+        }
+        Solution sol = new Solution();
+        System.out.println(sol.estimateFrequency(d, counts, signs));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def estimate_frequency(self, d, counts, signs):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    d = int(input_data[0])
+    counts = []
+    signs = []
+    for i in range(d):
+        counts.append(int(input_data[1 + 2 * i]))
+        signs.append(int(input_data[2 + 2 * i]))
+    sol = Solution()
+    print(sol.estimate_frequency(d, counts, signs))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    int estimateFrequency(int d, const vector<int>& counts, const vector<int>& signs) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int d;
+    if (!(cin >> d)) return 0;
+    vector<int> counts(d), signs(d);
+    for (int i = 0; i < d; i++) {
+        cin >> counts[i] >> signs[i];
+    }
+    Solution sol;
+    cout << sol.estimateFrequency(d, counts, signs) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  estimateFrequency(d, counts, signs) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+  const d = parseInt(input[0]);
+  const counts = [];
+  const signs = [];
+  for (let i = 0; i < d; i++) {
+    counts.push(parseInt(input[1 + 2 * i]));
+    signs.push(parseInt(input[2 + 2 * i]));
+  }
+  const sol = new Solution();
+  console.log(sol.estimateFrequency(d, counts, signs));
+}
+
+solve();
+```

@@ -121,12 +121,149 @@ Trie, String, Greedy, Dictionary Lookup
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public String replaceWords(Map<String, Integer> dictionary, String sentence) {
+        // Implement here
+        return sentence;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        Map<String, Integer> dictionary = new HashMap<>();
+        for (int i = 0; i < n; i++) {
+            String root = sc.next();
+            int rarity = sc.nextInt();
+            dictionary.put(root, rarity);
+        }
+        sc.nextLine(); // consume newline
+        if (!sc.hasNextLine()) return;
+        String sentence = sc.nextLine();
+
+        Solution solution = new Solution();
+        String result = solution.replaceWords(dictionary, sentence);
+        System.out.println(result);
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import Dict
+
+class Solution:
+    def replace_words(self, dictionary: Dict[str, int], sentence: str) -> str:
+        # Implement here
+        return sentence
+
+def main():
+    import sys
+    input_data = sys.stdin.read().splitlines()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    dictionary = {}
+    for i in range(1, n + 1):
+        parts = input_data[i].split()
+        if len(parts) == 2:
+            dictionary[parts[0]] = int(parts[1])
+
+    sentence = input_data[n + 1] if len(input_data) > n + 1 else ""
+
+    solution = Solution()
+    result = solution.replace_words(dictionary, sentence)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <unordered_map>
+#include <sstream>
+#include <limits>
+
+using namespace std;
+
+class Solution {
+public:
+    string replaceWords(unordered_map<string, int>& dictionary, const string& sentence) {
+        // Implement here
+        return sentence;
+    }
+};
+
+int main() {
+    int n;
+    if (!(cin >> n)) return 0;
+
+    unordered_map<string, int> dictionary;
+    for (int i = 0; i < n; i++) {
+        string root;
+        int rarity;
+        cin >> root >> rarity;
+        dictionary[root] = rarity;
+    }
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    string sentence;
+    getline(cin, sentence);
+
+    Solution solution;
+    string result = solution.replaceWords(dictionary, sentence);
+
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  replaceWords(dictionary, sentence) {
+    // Implement here
+    return sentence;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  if (lines.length === 0) return;
+  const n = parseInt(lines[0]);
+  const dictionary = new Map();
+  for (let i = 1; i <= n; i++) {
+    const [root, rarity] = lines[i].split(/\s+/);
+    dictionary.set(root, parseInt(rarity));
+  }
+  const sentence = lines[n + 1] || "";
+
+  const solution = new Solution();
+  const result = solution.replaceWords(dictionary, sentence);
+
+  console.log(result);
+});
+```

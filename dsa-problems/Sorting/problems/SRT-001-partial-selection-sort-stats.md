@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # SRT-001: Partial Selection Sort Stats
 
 ## Problem Statement
@@ -79,14 +80,132 @@ Selection Sort, Simulation, Arrays
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public int[] partialSelectionSort(int n, int k, int[] a) {
+        // Implement here
+        return a;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNextInt()) {
+            int n = sc.nextInt();
+            int k = sc.nextInt();
+            int[] a = new int[n];
+            for (int i = 0; i < n; i++) a[i] = sc.nextInt();
+
+            Solution sol = new Solution();
+            int[] result = sol.partialSelectionSort(n, k, a);
+            for (int i = 0; i < n; i++) {
+                System.out.print(result[i] + (i == n - 1 ? "" : " "));
+            }
+            System.out.println();
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def partial_selection_sort(self, n: int, k: int, a: list) -> list:
+        # Implement here
+        return a
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    k = int(input_data[1])
+    a = [int(x) for x in input_data[2:]]
+
+    sol = Solution()
+    result = sol.partial_selection_sort(n, k, a)
+    print(*(result))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> partialSelectionSort(int n, int k, vector<int>& a) {
+        // Implement here
+        return a;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, k;
+    if (cin >> n >> k) {
+        vector<int> a(n);
+        for (int i = 0; i < n; i++) cin >> a[i];
+
+        Solution sol;
+        vector<int> result = sol.partialSelectionSort(n, k, a);
+        for (int i = 0; i < n; i++) {
+            cout << result[i] << (i == n - 1 ? "" : " ");
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  partialSelectionSort(n, k, a) {
+    // Implement here
+    return a;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false,
+});
+
+let input = [];
+rl.on("line", (line) => {
+  if (line.trim()) input.push(...line.trim().split(/\s+/));
+}).on("close", () => {
+  if (input.length < 2) return;
+  const n = parseInt(input[0]);
+  const k = parseInt(input[1]);
+  const a = input.slice(2).map(Number);
+
+  const sol = new Solution();
+  const result = sol.partialSelectionSort(n, k, a);
+  console.log(result.join(" "));
+});
+```

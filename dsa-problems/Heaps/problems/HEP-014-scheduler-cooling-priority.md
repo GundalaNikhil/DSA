@@ -93,12 +93,136 @@ Heaps, Scheduling, Cooldown Queues, Greedy
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long maxPriorityScore(int m, int k, int t, List<String[]> tasks) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String firstLine = br.readLine();
+        if (firstLine == null) return;
+        String[] parts = firstLine.trim().split("\\s+");
+        int m = Integer.parseInt(parts[0]);
+        int k = Integer.parseInt(parts[1]);
+        int t = Integer.parseInt(parts[2]);
+
+        List<String[]> tasks = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            tasks.add(br.readLine().trim().split("\\s+"));
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.maxPriorityScore(m, k, t, tasks));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def max_priority_score(self, m, k, t, tasks):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().splitlines()
+    if not input_data:
+        return
+
+    first_line = input_data[0].split()
+    m = int(first_line[0])
+    k = int(first_line[1])
+    t = int(first_line[2])
+
+    tasks = []
+    for i in range(1, m + 1):
+        tasks.append(input_data[i].split())
+
+    sol = Solution()
+    print(sol.max_priority_score(m, k, t, tasks))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    long long maxPriorityScore(int m, int k, int t, vector<vector<string>>& tasks) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int m, k, t;
+    if (!(cin >> m >> k >> t)) return 0;
+
+    vector<vector<string>> tasks(m, vector<string>(3));
+    for (int i = 0; i < m; i++) {
+        cin >> tasks[i][0] >> tasks[i][1] >> tasks[i][2];
+    }
+
+    Solution sol;
+    cout << sol.maxPriorityScore(m, k, t, tasks) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  maxPriorityScore(m, k, t, tasks) {
+    // Implement here
+    return 0n;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\r?\n/);
+  if (input.length < 1) return;
+
+  const firstLine = input[0].trim().split(/\s+/);
+  const m = parseInt(firstLine[0]);
+  const k = parseInt(firstLine[1]);
+  const t = parseInt(firstLine[2]);
+
+  const tasks = [];
+  for (let i = 1; i <= m; i++) {
+    tasks.push(input[i].trim().split(/\s+/));
+  }
+
+  const sol = new Solution();
+  console.log(sol.maxPriorityScore(m, k, t, tasks).toString());
+}
+
+solve();
+```

@@ -47,6 +47,7 @@ A single line containing n+m-1 space-separated integers representing the convolu
 ## Example
 
 **Input:**
+
 ```
 2 2
 1 2
@@ -55,6 +56,7 @@ A single line containing n+m-1 space-separated integers representing the convolu
 ```
 
 **Output:**
+
 ```
 3 10 8
 ```
@@ -88,12 +90,151 @@ crt, chinese-remainder-theorem, multi-modular
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long[] convolutionCRT(int n, int m, long[] a, long[] b, long mod) {
+        // Implement here
+        return new long[0];
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
+        String[] firstLine = line.trim().split("\\s+");
+        int n = Integer.parseInt(firstLine[0]);
+        int m = Integer.parseInt(firstLine[1]);
+
+        long[] a = new long[n];
+        String[] aLine = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < n; i++) a[i] = Long.parseLong(aLine[i]);
+
+        long[] b = new long[m];
+        String[] bLine = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < m; i++) b[i] = Long.parseLong(bLine[i]);
+
+        long mod = Long.parseLong(br.readLine().trim());
+
+        Solution sol = new Solution();
+        long[] result = sol.convolutionCRT(n, m, a, b, mod);
+
+        PrintWriter out = new PrintWriter(System.out);
+        for (int i = 0; i < result.length; i++) {
+            out.print(result[i] + (i == result.length - 1 ? "" : " "));
+        }
+        out.println();
+        out.flush();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def convolution_crt(self, n, m, a, b, mod):
+        # Implement here
+        return []
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    m = int(input_data[1])
+    a = [int(val) for val in input_data[2:2+n]]
+    b = [int(val) for val in input_data[2+n:2+n+m]]
+    mod = int(input_data[2+n+m])
+
+    sol = Solution()
+    result = sol.convolution_crt(n, m, a, b, mod)
+    sys.stdout.write(" ".join(map(str, result)) + "\n")
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> convolutionCRT(int n, int m, vector<long long>& a, vector<long long>& b, long long mod) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+
+    vector<long long> a(n), b(m);
+    for (int i = 0; i < n; i++) cin >> a[i];
+    for (int i = 0; i < m; i++) cin >> b[i];
+
+    long long mod;
+    cin >> mod;
+
+    Solution sol;
+    vector<long long> result = sol.convolutionCRT(n, m, a, b, mod);
+
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i] << (i == result.size() - 1 ? "" : " ");
+    }
+    cout << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  convolutionCRT(n, m, a, b, mod) {
+    // Implement here
+    return [];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 3) return;
+
+  const n = parseInt(input[0]);
+  const m = parseInt(input[1]);
+  const a = [];
+  const b = [];
+  for (let i = 0; i < n; i++) a.push(BigInt(input[2 + i]));
+  for (let i = 0; i < m; i++) b.push(BigInt(input[2 + n + i]));
+  const mod = BigInt(input[2 + n + m]);
+
+  const sol = new Solution();
+  const result = sol.convolutionCRT(n, m, a, b, mod);
+  process.stdout.write(result.join(" ") + "\n");
+}
+
+solve();
+```

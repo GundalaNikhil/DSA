@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # TRE-004: Seminar Level Order Odd-Depth Only
 
 ## Problem Statement
@@ -86,12 +87,166 @@ Level Order Traversal, BFS, Binary Trees
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public List<List<Integer>> oddDepthLevels(int n, int[] values, int[] left, int[] right) {
+        // Implement here
+        return new ArrayList<>();
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] values = new int[n];
+        int[] left = new int[n];
+        int[] right = new int[n];
+        for (int i = 0; i < n; i++) {
+            values[i] = sc.nextInt();
+            left[i] = sc.nextInt();
+            right[i] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        List<List<Integer>> result = solution.oddDepthLevels(n, values, left, right);
+
+        for (int i = 0; i < result.size(); i++) {
+            List<Integer> level = result.get(i);
+            for (int j = 0; j < level.size(); j++) {
+                System.out.print(level.get(j) + (j == level.size() - 1 ? "" : " "));
+            }
+            System.out.println();
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from typing import List
+
+sys.setrecursionlimit(200000)
+
+class Solution:
+    def odd_depth_levels(self, n: int, values: List[int], left: List[int], right: List[int]) -> List[List[int]]:
+        # Implement here
+        return []
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        values = [0] * n
+        left = [-1] * n
+        right = [-1] * n
+        for i in range(n):
+            values[i] = int(next(iterator))
+            left[i] = int(next(iterator))
+            right[i] = int(next(iterator))
+
+        solution = Solution()
+        levels = solution.odd_depth_levels(n, values, left, right)
+        for level in levels:
+            print(*(level))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> oddDepthLevels(int n, const vector<int>& values, const vector<int>& left, const vector<int>& right) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<int> values(n), left(n), right(n);
+    for (int i = 0; i < n; i++) {
+        cin >> values[i] >> left[i] >> right[i];
+    }
+
+    Solution solution;
+    vector<vector<int>> result = solution.oddDepthLevels(n, values, left, right);
+    for (const auto& level : result) {
+        for (int i = 0; i < level.size(); i++) {
+            cout << level[i] << (i == level.size() - 1 ? "" : " ");
+        }
+        cout << "\n";
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  oddDepthLevels(n, values, left, right) {
+    // Implement here
+    return [];
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const tokens = lines
+    .join(" ")
+    .split(/\s+/)
+    .filter((t) => t !== "");
+  if (tokens.length === 0) return;
+
+  let idx = 0;
+  const n = parseInt(tokens[idx++]);
+  const values = Array(n).fill(0);
+  const left = Array(n).fill(-1);
+  const right = Array(n).fill(-1);
+  for (let i = 0; i < n; i++) {
+    values[i] = parseInt(tokens[idx++]);
+    left[i] = parseInt(tokens[idx++]);
+    right[i] = parseInt(tokens[idx++]);
+  }
+
+  const solution = new Solution();
+  const levels = solution.oddDepthLevels(n, values, left, right);
+  levels.forEach((level) => console.log(level.join(" ")));
+});
+```

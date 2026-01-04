@@ -27,6 +27,7 @@ memory_limit: 256
 Given a lowercase string `s`, compute the polynomial rolling hash for all prefixes using base `B` and modulus `M`.
 
 The polynomial hash for a string is computed as:
+
 - `hash("") = 0`
 - `hash(s[0..i]) = (hash(s[0..i-1]) * B + s[i]) mod M`
 
@@ -55,12 +56,14 @@ Return an array containing the hash values for all prefixes: `hash(s[0..0]), has
 ## Example
 
 **Input:**
+
 ```
 abc
 911382323 1000000007
 ```
 
 **Output:**
+
 ```
 97 374134515 549818522
 ```
@@ -68,6 +71,7 @@ abc
 **Explanation:**
 
 String: "abc"
+
 - Prefix "a": hash = 97 (ASCII of 'a')
 - Prefix "ab": hash = (97 * 911382323 + 98) mod 1000000007 = 374134515
 - Prefix "abc": hash = (374134515 * 911382323 + 99) mod 1000000007 = 549818522
@@ -92,11 +96,131 @@ Polynomial Hash, Rolling Hash, String Hashing, Rabin-Karp
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long[] computePrefixHashes(String s, long b, long m) {
+        // Implement here
+        return new long[0];
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String s = br.readLine();
+        if (s == null) return;
+        String line2 = br.readLine();
+        if (line2 == null) return;
+        String[] parts = line2.trim().split("\\s+");
+        long b = Long.parseLong(parts[0]);
+        long m = Long.parseLong(parts[1]);
+
+        Solution sol = new Solution();
+        long[] result = sol.computePrefixHashes(s, b, m);
+
+        PrintWriter out = new PrintWriter(System.out);
+        for (int i = 0; i < result.length; i++) {
+            out.print(result[i] + (i == result.length - 1 ? "" : " "));
+        }
+        out.println();
+        out.flush();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def compute_prefix_hashes(self, s, b, m):
+        # Implement here
+        return []
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    s = input_data[0]
+    b = int(input_data[1])
+    m = int(input_data[2])
+
+    sol = Solution()
+    result = sol.compute_prefix_hashes(s, b, m)
+    print(*(result))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> computePrefixHashes(string s, long long b, long long m) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string s;
+    long long b, m;
+    if (!(cin >> s >> b >> m)) return 0;
+
+    Solution sol;
+    vector<long long> result = sol.computePrefixHashes(s, b, m);
+
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i] << (i == result.size() - 1 ? "" : " ");
+    }
+    cout << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  computePrefixHashes(s, b, m) {
+    // Implement here
+    return [];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 3) return;
+
+  const s = input[0];
+  const b = BigInt(input[1]);
+  const m = BigInt(input[2]);
+
+  const sol = new Solution();
+  const result = sol.computePrefixHashes(s, b, m);
+  console.log(result.join(" "));
+}
+
+solve();
+```

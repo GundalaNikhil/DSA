@@ -55,6 +55,7 @@ Return `true` if the graph is a forest (has no cycles), `false` otherwise.
 ## Example
 
 **Input:**
+
 ```
 3
 2
@@ -63,6 +64,7 @@ Return `true` if the graph is a forest (has no cycles), `false` otherwise.
 ```
 
 **Output:**
+
 ```
 true
 ```
@@ -70,6 +72,7 @@ true
 **Explanation:**
 
 Graph structure:
+
 ```
 0 --- 1 --- 2
 ```
@@ -102,11 +105,158 @@ Forest, Trees, Cycle Detection, Union-Find, DFS, Acyclic Graph
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public boolean isForest(int n, List<List<Integer>> adj) {
+        // Implement here
+        return false;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        String mLine = br.readLine();
+        if (mLine == null) return;
+        int m = Integer.parseInt(mLine.trim());
+
+        List<List<Integer>> adj = new ArrayList<>(n);
+        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
+
+        for (int i = 0; i < m; i++) {
+            String[] edge = br.readLine().trim().split("\\s+");
+            int u = Integer.parseInt(edge[0]);
+            int v = Integer.parseInt(edge[1]);
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+
+        Solution sol = new Solution();
+        System.out.println(sol.isForest(n, adj));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+# Increase recursion depth for deep graphs
+sys.setrecursionlimit(200000)
+
+class Solution:
+    def is_forest(self, n, adj):
+        # Implement here
+        return False
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    m = int(input_data[1])
+
+    adj = [[] for _ in range(n)]
+    idx = 2
+    for _ in range(m):
+        u = int(input_data[idx])
+        v = int(input_data[idx+1])
+        adj[u].append(v)
+        adj[v].append(u)
+        idx += 2
+
+    sol = Solution()
+    print("true" if sol.is_forest(n, adj) else "false")
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    bool isForest(int n, vector<vector<int>>& adj) {
+        // Implement here
+        return false;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+
+    vector<vector<int>> adj(n);
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    Solution sol;
+    if (sol.isForest(n, adj)) {
+        cout << "true" << endl;
+    } else {
+        cout << "false" << endl;
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  isForest(n, adj) {
+    // Implement here
+    return false;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const m = parseInt(input[idx++]);
+
+  const adj = Array.from({ length: n }, () => []);
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(input[idx++]);
+    const v = parseInt(input[idx++]);
+    adj[u].push(v);
+    adj[v].push(u);
+  }
+
+  const sol = new Solution();
+  console.log(sol.isForest(n, adj).toString());
+}
+
+solve();
+```

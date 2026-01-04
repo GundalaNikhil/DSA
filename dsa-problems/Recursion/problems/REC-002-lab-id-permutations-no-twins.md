@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # REC-002: Lab ID Permutations With No Adjacent Twins
 
 ## Problem Statement
@@ -75,14 +76,98 @@ Backtracking, Permutations, Pruning
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void generatePermutations(String s) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        String s = sc.next();
+        Solution sol = new Solution();
+        sol.generatePermutations(s);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def generate_permutations(self, s):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().strip()
+    if not input_data:
+        return
+    sol = Solution()
+    sol.generate_permutations(input_data)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    void generatePermutations(string s) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    string s;
+    if (!(cin >> s)) return 0;
+    Solution sol;
+    sol.generatePermutations(s);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  generatePermutations(s) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").trim();
+  if (!input) return;
+  const sol = new Solution();
+  sol.generatePermutations(input);
+}
+
+solve();
+```

@@ -77,12 +77,103 @@ Randomized Verification, MST, Probability
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long minTrials(long n, double c) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextLong()) return;
+        long n = sc.nextLong();
+        double c = sc.nextDouble();
+        Solution sol = new Solution();
+        System.out.println(sol.minTrials(n, c));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import math
+
+class Solution:
+    def min_trials(self, n, c):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    c = float(input_data[1])
+    sol = Solution()
+    print(sol.min_trials(n, c))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minTrials(long long n, double c) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    long long n;
+    double c;
+    if (!(cin >> n >> c)) return 0;
+    Solution sol;
+    cout << sol.minTrials(n, c) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  minTrials(n, c) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+  const n = parseInt(input[0]);
+  const c = parseFloat(input[1]);
+  const sol = new Solution();
+  console.log(sol.minTrials(n, c));
+}
+
+solve();
+```

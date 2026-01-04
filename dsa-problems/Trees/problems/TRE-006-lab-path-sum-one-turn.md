@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # TRE-006: Lab Path Sum with Exactly One Turn
 
 ## Problem Statement
@@ -89,12 +90,162 @@ Tree Paths, DFS, Prefix Sums
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public boolean hasOneTurnPath(int n, long[] values, int[] left, int[] right, long target) {
+        // Implement here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        long[] values = new long[n];
+        int[] left = new int[n];
+        int[] right = new int[n];
+        for (int i = 0; i < n; i++) {
+            values[i] = sc.nextLong();
+            left[i] = sc.nextInt();
+            right[i] = sc.nextInt();
+        }
+        long target = 0;
+        if (sc.hasNextLong()) target = sc.nextLong();
+
+        Solution solution = new Solution();
+        System.out.println(solution.hasOneTurnPath(n, values, left, right, target));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from typing import List
+
+sys.setrecursionlimit(200000)
+
+class Solution:
+    def has_one_turn_path(self, n: int, values: List[int], left: List[int], right: List[int], target: int) -> bool:
+        # Implement here
+        return False
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        values = [0] * n
+        left = [-1] * n
+        right = [-1] * n
+        for i in range(n):
+            values[i] = int(next(iterator))
+            left[i] = int(next(iterator))
+            right[i] = int(next(iterator))
+
+        target = 0
+        try:
+            target = int(next(iterator))
+        except StopIteration:
+            pass
+
+        solution = Solution()
+        print(str(solution.has_one_turn_path(n, values, left, right, target)).lower())
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    bool hasOneTurnPath(int n, const vector<long long>& values, const vector<int>& left, const vector<int>& right, long long target) {
+        // Implement here
+        return false;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<long long> values(n);
+    vector<int> left(n), right(n);
+    for (int i = 0; i < n; i++) {
+        cin >> values[i] >> left[i] >> right[i];
+    }
+    long long target = 0;
+    cin >> target;
+
+    Solution solution;
+    cout << (solution.hasOneTurnPath(n, values, left, right, target) ? "true" : "false") << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  hasOneTurnPath(n, values, left, right, target) {
+    // Implement here
+    return false;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const tokens = lines
+    .join(" ")
+    .split(/\s+/)
+    .filter((t) => t !== "");
+  if (tokens.length === 0) return;
+
+  let idx = 0;
+  const n = parseInt(tokens[idx++]);
+  const values = [];
+  const left = [];
+  const right = [];
+  for (let i = 0; i < n; i++) {
+    values.push(BigInt(tokens[idx++]));
+    left.push(parseInt(tokens[idx++]));
+    right.push(parseInt(tokens[idx++]));
+  }
+  let target = 0n;
+  if (idx < tokens.length) target = BigInt(tokens[idx++]);
+
+  const solution = new Solution();
+  console.log(solution.hasOneTurnPath(n, values, left, right, target));
+});
+```

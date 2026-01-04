@@ -92,14 +92,112 @@ Queue, Simulation, FIFO
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void processCommands(int m, List<String> commands) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int m = sc.nextInt();
+        sc.nextLine();
+        List<String> commands = new ArrayList<>();
+        for (int i = 0; i < m; i++) {
+            commands.add(sc.nextLine());
+        }
+        Solution sol = new Solution();
+        sol.processCommands(m, commands);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def process_commands(self, m, commands):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().splitlines()
+    if not input_data:
+        return
+    m = int(input_data[0])
+    commands = input_data[1:m+1]
+    sol = Solution()
+    sol.process_commands(m, commands)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    void processCommands(int m, const vector<string>& commands) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int m;
+    if (!(cin >> m)) return 0;
+    string dummy;
+    getline(cin, dummy);
+    vector<string> commands(m);
+    for (int i = 0; i < m; i++) {
+        getline(cin, commands[i]);
+    }
+    Solution sol;
+    sol.processCommands(m, commands);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  processCommands(m, commands) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\r?\n/);
+  if (!input[0]) return;
+  const m = parseInt(input[0]);
+  const commands = input.slice(1, m + 1);
+  const sol = new Solution();
+  sol.processCommands(m, commands);
+}
+
+solve();
+```

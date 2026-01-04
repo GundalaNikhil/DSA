@@ -87,3 +87,119 @@ false
 - Greedy balance tracking with O(n) time
 - Skip ')' immediately when balance goes negative
 - Final balance indicates unmatched '(' needing skips
+
+---
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public boolean canBalance(String s, int k) {
+        // Implement here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String s = sc.next();
+            if (sc.hasNextInt()) {
+                int k = sc.nextInt();
+                Solution sol = new Solution();
+                System.out.println(sol.canBalance(s, k));
+            }
+        }
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+import sys
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if len(input_data) < 2:
+        return
+    s = input_data[0]
+    k = int(input_data[1])
+    solution = Solution()
+    print(str(solution.can_balance(s, k)).lower())
+
+class Solution:
+    def can_balance(self, s: str, k: int) -> bool:
+        # Implement here
+        return False
+
+if __name__ == "__main__":
+    solve()
+```
+
+### C++
+
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    bool canBalance(string s, int k) {
+        // Implement here
+        return false;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string s;
+    int k;
+    if (cin >> s >> k) {
+        Solution sol;
+        cout << (sol.canBalance(s, k) ? "true" : "false") << endl;
+    }
+
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  canBalance(s, k) {
+    // Implement here
+    return false;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+let input = [];
+rl.on("line", (line) => {
+  input.push(...line.trim().split(/\s+/));
+}).on("close", () => {
+  if (input.length >= 2) {
+    const s = input[0];
+    const k = parseInt(input[1]);
+    const sol = new Solution();
+    console.log(sol.canBalance(s, k));
+  }
+});
+```

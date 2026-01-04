@@ -34,7 +34,7 @@ Rules:
 
 Find the maximum achievable profit.
 
-![Problem Illustration](../images/DP-015/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767513334/dsa/dp/tegcspu3uyw2gpcnlcu6.jpg)
 
 ## Input Format
 

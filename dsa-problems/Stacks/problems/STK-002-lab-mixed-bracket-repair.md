@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # STK-002: Lab Mixed Bracket Repair
 
 ## Problem Statement
@@ -76,14 +77,107 @@ Stack, Bracket Matching, Greedy
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public boolean canBeBalanced(String s) {
+        // Implement here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String s = sc.next();
+            Solution sol = new Solution();
+            System.out.println(sol.canBeBalanced(s));
+        }
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def can_be_balanced(self, s: str) -> bool:
+        # Implement here
+        return False
+
+def solve():
+    s = sys.stdin.read().strip()
+    if not s:
+        return
+    sol = Solution()
+    print(str(sol.can_be_balanced(s)).lower())
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <stack>
+
+using namespace std;
+
+class Solution {
+public:
+    bool canBeBalanced(string s) {
+        // Implement here
+        return false;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string s;
+    if (cin >> s) {
+        Solution sol;
+        cout << (sol.canBeBalanced(s) ? "true" : "false") << endl;
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  canBeBalanced(s) {
+    // Implement here
+    return false;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+  terminal: false,
+});
+
+rl.on("line", (line) => {
+  const s = line.trim();
+  if (s) {
+    const sol = new Solution();
+    console.log(sol.canBeBalanced(s));
+  }
+});
+```

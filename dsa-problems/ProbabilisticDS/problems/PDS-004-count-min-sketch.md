@@ -83,12 +83,99 @@ Count-Min Sketch, Approximate Counting
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void computeParameters(double epsilon, double delta) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextDouble()) return;
+        double epsilon = sc.nextDouble();
+        double delta = sc.nextDouble();
+        Solution sol = new Solution();
+        sol.computeParameters(epsilon, delta);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+import math
+
+class Solution:
+    def compute_parameters(self, epsilon, delta):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    epsilon = float(input_data[0])
+    delta = float(input_data[1])
+    sol = Solution()
+    sol.compute_parameters(epsilon, delta)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
+class Solution {
+public:
+    void computeParameters(double epsilon, double delta) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    double epsilon, delta;
+    if (!(cin >> epsilon >> delta)) return 0;
+    Solution sol;
+    sol.computeParameters(epsilon, delta);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  computeParameters(epsilon, delta) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+  const epsilon = parseFloat(input[0]);
+  const delta = parseFloat(input[1]);
+  const sol = new Solution();
+  sol.computeParameters(epsilon, delta);
+}
+
+solve();
+```

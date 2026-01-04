@@ -90,12 +90,128 @@ Hash Collision, Birthday Paradox, Brute Force Search, Cryptography
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public String[] findCollision(long b, long m, int l) {
+        // Implement here
+        return new String[0];
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
+        String[] parts = line.trim().split("\\s+");
+        long b = Long.parseLong(parts[0]);
+        long m = Long.parseLong(parts[1]);
+        int l = Integer.parseInt(parts[2]);
+
+        Solution sol = new Solution();
+        String[] result = sol.findCollision(b, m, l);
+
+        if (result.length >= 2) {
+            System.out.println(result[0]);
+            System.out.println(result[1]);
+        }
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def find_collision(self, b, m, l):
+        # Implement here
+        return []
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if len(input_data) < 3:
+        return
+
+    b = int(input_data[0])
+    m = int(input_data[1])
+    l = int(input_data[2])
+
+    sol = Solution()
+    result = sol.find_collision(b, m, l)
+    for res in result:
+        print(res)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> findCollision(long long b, long long m, int l) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    long long b, m;
+    int l;
+    if (!(cin >> b >> m >> l)) return 0;
+
+    Solution sol;
+    vector<string> result = sol.findCollision(b, m, l);
+
+    for (const string& res : result) {
+        cout << res << "\n";
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  findCollision(b, m, l) {
+    // Implement here
+    return [];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 3) return;
+
+  const b = BigInt(input[0]);
+  const m = BigInt(input[1]);
+  const l = parseInt(input[2]);
+
+  const sol = new Solution();
+  const result = sol.findCollision(b, m, l);
+  result.forEach((res) => console.log(res));
+}
+
+solve();
+```

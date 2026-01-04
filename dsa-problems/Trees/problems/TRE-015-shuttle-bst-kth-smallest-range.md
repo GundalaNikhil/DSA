@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # TRE-015: Shuttle BST Kth Smallest in Range
 
 ## Problem Statement
@@ -87,12 +88,153 @@ BST, Inorder Traversal, Range Queries
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long kthInRange(long[] values, long L, long R, int k) {
+        // Implement here
+        return -1;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        long[] values = new long[n];
+        for (int i = 0; i < n; i++) {
+            values[i] = sc.nextLong();
+        }
+        long L = sc.hasNextLong() ? sc.nextLong() : 0;
+        long R = sc.hasNextLong() ? sc.nextLong() : 0;
+        int k = sc.hasNextInt() ? sc.nextInt() : 0;
+
+        Solution solution = new Solution();
+        System.out.println(solution.kthInRange(values, L, R, k));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from typing import List
+
+sys.setrecursionlimit(200000)
+
+class Solution:
+    def kth_in_range(self, values: List[int], L: int, R: int, k: int) -> int:
+        # Implement here
+        return -1
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        values = []
+        for _ in range(n):
+            values.append(int(next(iterator)))
+
+        L = int(next(iterator))
+        R = int(next(iterator))
+        k = int(next(iterator))
+
+        solution = Solution()
+        print(solution.kth_in_range(values, L, R, k))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long long kthInRange(const vector<long long>& values, long long L, long long R, int k) {
+        // Implement here
+        return -1;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<long long> values(n);
+    for (int i = 0; i < n; i++) {
+        cin >> values[i];
+    }
+    long long L, R;
+    int k;
+    cin >> L >> R >> k;
+
+    Solution solution;
+    cout << solution.kthInRange(values, L, R, k) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  kthInRange(values, L, R, k) {
+    // Implement here
+    return -1;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const tokens = lines
+    .join(" ")
+    .split(/\s+/)
+    .filter((t) => t !== "");
+  if (tokens.length === 0) return;
+
+  let idx = 0;
+  const n = parseInt(tokens[idx++]);
+  const values = [];
+  for (let i = 0; i < n; i++) {
+    values.push(BigInt(tokens[idx++]));
+  }
+  let L = 0n,
+    R = 0n,
+    k = 0;
+  if (idx < tokens.length) L = BigInt(tokens[idx++]);
+  if (idx < tokens.length) R = BigInt(tokens[idx++]);
+  if (idx < tokens.length) k = parseInt(tokens[idx++]);
+
+  const solution = new Solution();
+  console.log(solution.kthInRange(values, L, R, k).toString());
+});
+```

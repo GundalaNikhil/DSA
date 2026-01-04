@@ -84,12 +84,95 @@ CLT, Order Statistics, Probability
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void medianStats(int n) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        Solution sol = new Solution();
+        sol.medianStats(n);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def median_stats(self, n):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    sol = Solution()
+    sol.median_stats(n)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+class Solution {
+public:
+    void medianStats(int n) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n;
+    if (!(cin >> n)) return 0;
+    Solution sol;
+    sol.medianStats(n);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  medianStats(n) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").trim();
+  if (!input) return;
+  const n = parseInt(input);
+  const sol = new Solution();
+  sol.medianStats(n);
+}
+
+solve();
+```

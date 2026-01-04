@@ -85,12 +85,136 @@ Bitwise Operations, XOR, Arrays
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long findOddOccurring(int n, long[] a, long salt) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        long[] a = new long[n];
+        String aLine = br.readLine();
+        if (aLine != null) {
+            String[] parts = aLine.trim().split("\\s+");
+            for (int i = 0; i < n; i++) {
+                a[i] = Long.parseLong(parts[i]);
+            }
+        }
+
+        String saltLine = br.readLine();
+        if (saltLine == null) return;
+        long salt = Long.parseLong(saltLine.trim());
+
+        Solution sol = new Solution();
+        System.out.println(sol.findOddOccurring(n, a, salt));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def find_odd_occurring(self, n, a, salt):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    a = list(map(int, input_data[1:n+1]))
+    salt = int(input_data[n+1])
+
+    sol = Solution()
+    print(sol.find_odd_occurring(n, a, salt))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long findOddOccurring(int n, vector<long long>& a, long long salt) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<long long> a(n);
+    for (int i = 0; i < n; i++) {
+        cin >> a[i];
+    }
+
+    long long salt;
+    cin >> salt;
+
+    Solution sol;
+    cout << sol.findOddOccurring(n, a, salt) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  findOddOccurring(n, a, salt) {
+    // Implement here
+    return BigInt(0);
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const a = [];
+  for (let i = 0; i < n; i++) {
+    a.push(BigInt(input[idx++]));
+  }
+  const salt = BigInt(input[idx++]);
+
+  const sol = new Solution();
+  console.log(sol.findOddOccurring(n, a, salt).toString());
+}
+
+solve();
+```

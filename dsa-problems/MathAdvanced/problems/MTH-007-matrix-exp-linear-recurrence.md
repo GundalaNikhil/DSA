@@ -29,8 +29,8 @@ Given a linear recurrence relation of order k with coefficients and initial term
 ## Input Format
 
 - Line 1: Three integers `k` (recurrence order), `n` (target term), and `MOD` (modulus)
-- Line 2: k space-separated integers representing recurrence coefficients c_0 to c_{k-1}
-- Line 3: k space-separated integers representing initial terms a_0 to a_{k-1}
+- Line 2: k space-separated integers representing recurrence coefficients c*0 to c*{k-1}
+- Line 3: k space-separated integers representing initial terms a*0 to a*{k-1}
 
 ## Output Format
 
@@ -46,6 +46,7 @@ A single integer representing the nth term of the sequence modulo MOD.
 ## Example
 
 **Input:**
+
 ```
 2 5 1000000007
 1 1
@@ -53,13 +54,14 @@ A single integer representing the nth term of the sequence modulo MOD.
 ```
 
 **Output:**
+
 ```
 5
 ```
 
 **Explanation:**
 
-Fibonacci sequence: a_n = a_{n-1} + a_{n-2}
+Fibonacci sequence: a*n = a*{n-1} + a\_{n-2}
 Coefficients: [1, 1]
 Initial: [0, 1]
 
@@ -86,12 +88,136 @@ matrix-exponentiation, linear-recurrence, fast-exponentiation
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public long solveRecurrence(int k, long n, long mod, long[] c, long[] a) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
+        String[] firstLine = line.trim().split("\\s+");
+        int k = Integer.parseInt(firstLine[0]);
+        long nTerm = Long.parseLong(firstLine[1]);
+        long mod = Long.parseLong(firstLine[2]);
+
+        long[] c = new long[k];
+        String[] cLine = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < k; i++) c[i] = Long.parseLong(cLine[i]);
+
+        long[] a = new long[k];
+        String[] aLine = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < k; i++) a[i] = Long.parseLong(aLine[i]);
+
+        Solution sol = new Solution();
+        System.out.println(sol.solveRecurrence(k, nTerm, mod, c, a));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def solve_recurrence(self, k, n, mod, c, a):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    k = int(input_data[0])
+    n = int(input_data[1])
+    mod = int(input_data[2])
+
+    c = [int(val) for val in input_data[3:3+k]]
+    a = [int(val) for val in input_data[3+k:3+2*k]]
+
+    sol = Solution()
+    print(sol.solve_recurrence(k, n, mod, c, a))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long solveRecurrence(int k, long long n, long long mod, const vector<long long>& c, const vector<long long>& a) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
+    int k;
+    long long n, mod;
+    if (!(cin >> k >> n >> mod)) return 0;
+
+    vector<long long> c(k), a(k);
+    for (int i = 0; i < k; i++) cin >> c[i];
+    for (int i = 0; i < k; i++) cin >> a[i];
+
+    Solution sol;
+    cout << sol.solveRecurrence(k, n, mod, c, a) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  solveRecurrence(k, n, mod, c, a) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 3) return;
+
+  const k = parseInt(input[0]);
+  const n = BigInt(input[1]);
+  const mod = BigInt(input[2]);
+
+  const c = [];
+  const a = [];
+  let idx = 3;
+  for (let i = 0; i < k; i++) c.push(BigInt(input[idx++]));
+  for (let i = 0; i < k; i++) a.push(BigInt(input[idx++]));
+
+  const sol = new Solution();
+  console.log(sol.solveRecurrence(k, n, mod, c, a).toString());
+}
+
+solve();
+```

@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # TRE-005: Robotics Mirror Check with Colors
 
 ## Problem Statement
@@ -89,12 +90,155 @@ Binary Trees, Symmetry, BFS
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public boolean mirrorCheck(int n, int[] values, int[] colors, int[] left, int[] right) {
+        // Implement here
+        return false;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        int[] values = new int[n];
+        int[] colors = new int[n];
+        int[] left = new int[n];
+        int[] right = new int[n];
+        for (int i = 0; i < n; i++) {
+            values[i] = sc.nextInt();
+            colors[i] = sc.nextInt();
+            left[i] = sc.nextInt();
+            right[i] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.mirrorCheck(n, values, colors, left, right));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+from typing import List
+
+sys.setrecursionlimit(200000)
+
+class Solution:
+    def mirror_check(self, n: int, values: List[int], colors: List[int], left: List[int], right: List[int]) -> bool:
+        # Implement here
+        return False
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+        values = [0] * n
+        colors = [0] * n
+        left = [-1] * n
+        right = [-1] * n
+        for i in range(n):
+            values[i] = int(next(iterator))
+            colors[i] = int(next(iterator))
+            left[i] = int(next(iterator))
+            right[i] = int(next(iterator))
+
+        solution = Solution()
+        print(str(solution.mirror_check(n, values, colors, left, right)).lower())
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    bool mirrorCheck(int n, const vector<int>& values, const vector<int>& colors, const vector<int>& left, const vector<int>& right) {
+        // Implement here
+        return false;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+    vector<int> values(n), colors(n), left(n), right(n);
+    for (int i = 0; i < n; i++) {
+        cin >> values[i] >> colors[i] >> left[i] >> right[i];
+    }
+
+    Solution solution;
+    cout << (solution.mirrorCheck(n, values, colors, left, right) ? "true" : "false") << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  mirrorCheck(n, values, colors, left, right) {
+    // Implement here
+    return false;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const tokens = lines
+    .join(" ")
+    .split(/\s+/)
+    .filter((t) => t !== "");
+  if (tokens.length === 0) return;
+
+  let idx = 0;
+  const n = parseInt(tokens[idx++]);
+  const values = Array(n).fill(0);
+  const colors = Array(n).fill(0);
+  const left = Array(n).fill(-1);
+  const right = Array(n).fill(-1);
+  for (let i = 0; i < n; i++) {
+    values[i] = parseInt(tokens[idx++]);
+    colors[i] = parseInt(tokens[idx++]);
+    left[i] = parseInt(tokens[idx++]);
+    right[i] = parseInt(tokens[idx++]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.mirrorCheck(n, values, colors, left, right));
+});
+```

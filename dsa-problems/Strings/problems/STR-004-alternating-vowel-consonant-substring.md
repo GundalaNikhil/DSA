@@ -86,3 +86,117 @@ a
 - Use sliding window with reset on pattern break
 - O(n) time complexity with single pass
 - Track current alternation status with boolean flag
+
+---
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public String longestAlternativing(String s) {
+        // Implement here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String s = sc.next();
+            Solution sol = new Solution();
+            String res = sol.longestAlternativing(s);
+            System.out.println(res.length());
+            System.out.println(res);
+        }
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+import sys
+
+def solve():
+    s = sys.stdin.read().strip()
+    if not s:
+        return
+    solution = Solution()
+    res = solution.longest_alternating(s)
+    print(len(res))
+    print(res)
+
+class Solution:
+    def longest_alternating(self, s: str) -> str:
+        # Implement here
+        return ""
+
+if __name__ == "__main__":
+    solve()
+```
+
+### C++
+
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string longestAlternating(string s) {
+        // Implement here
+        return "";
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string s;
+    if (cin >> s) {
+        Solution sol;
+        string res = sol.longestAlternating(s);
+        cout << res.length() << endl;
+        cout << res << endl;
+    }
+
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  longestAlternating(s) {
+    // Implement here
+    return "";
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+rl.on("line", (line) => {
+  const s = line.trim();
+  if (s) {
+    const sol = new Solution();
+    const res = sol.longestAlternating(s);
+    console.log(res.length);
+    console.log(res);
+  }
+});
+```

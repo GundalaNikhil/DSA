@@ -19,6 +19,7 @@ subscription_tier: basic
 time_limit: 2000
 memory_limit: 256
 ---
+
 # REC-005: Robot Route With Turns
 
 ## Problem Statement
@@ -82,14 +83,130 @@ Backtracking, Grid Search, Pruning
 ---
 
 ## Solution Template
+
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void findPath(int r, int c, int t, int[][] grid) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int r = sc.nextInt();
+        int c = sc.nextInt();
+        int t = sc.nextInt();
+        int[][] grid = new int[r][c];
+        for (int i = 0; i < r; i++) {
+            for (int j = 0; j < c; j++) {
+                grid[i][j] = sc.nextInt();
+            }
+        }
+        Solution sol = new Solution();
+        sol.findPath(r, c, t, grid);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def find_path(self, r, c, t, grid):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    r = int(input_data[0])
+    c = int(input_data[1])
+    t = int(input_data[2])
+    grid = []
+    idx = 3
+    for i in range(r):
+        grid.append([int(x) for x in input_data[idx:idx+c]])
+        idx += c
+    sol = Solution()
+    sol.find_path(r, c, t, grid)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    void findPath(int r, int c, int t, vector<vector<int>>& grid) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int r, c, t;
+    if (!(cin >> r >> c >> t)) return 0;
+    vector<vector<int>> grid(r, vector<int>(c));
+    for (int i = 0; i < r; i++) {
+        for (int j = 0; j < c; j++) {
+            cin >> grid[i][j];
+        }
+    }
+    Solution sol;
+    sol.findPath(r, c, t, grid);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  findPath(r, c, t, grid) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 3) return;
+  let idx = 0;
+  const r = parseInt(input[idx++]);
+  const c = parseInt(input[idx++]);
+  const t = parseInt(input[idx++]);
+  const grid = [];
+  for (let i = 0; i < r; i++) {
+    const row = [];
+    for (let j = 0; j < c; j++) {
+      row.push(parseInt(input[idx++]));
+    }
+    grid.push(row);
+  }
+  const sol = new Solution();
+  sol.findPath(r, c, t, grid);
+}
+
+solve();
+```

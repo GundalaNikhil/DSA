@@ -92,12 +92,145 @@ GCD, Prefix Arrays, Number Theory
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int[] getPrefixGCDs(int n, int[] a) {
+        // Implement here
+        return new int[0];
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String line = br.readLine();
+        if (line == null) return;
+        String[] firstLine = line.trim().split("\\s+");
+        int n = Integer.parseInt(firstLine[0]);
+        int q = Integer.parseInt(firstLine[1]);
+
+        int[] a = new int[n];
+        String[] arrayLine = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < n; i++) {
+            a[i] = Integer.parseInt(arrayLine[i]);
+        }
+
+        Solution sol = new Solution();
+        int[] prefixGCD = sol.getPrefixGCDs(n, a);
+
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < q; i++) {
+            int r = Integer.parseInt(br.readLine().trim());
+            sb.append(prefixGCD[r]).append("\n");
+        }
+        System.out.print(sb);
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def get_prefix_gcds(self, n, a):
+        # Implement here
+        return []
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    q = int(input_data[1])
+    a = [int(x) for x in input_data[2:2+n]]
+    queries = [int(x) for x in input_data[2+n:2+n+q]]
+
+    sol = Solution()
+    prefix_gcds = sol.get_prefix_gcds(n, a)
+
+    output = []
+    for r in queries:
+        output.append(str(prefix_gcds[r]))
+    sys.stdout.write("\n".join(output) + "\n")
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> getPrefixGCDs(int n, const vector<int>& a) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, q;
+    if (!(cin >> n >> q)) return 0;
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+
+    Solution sol;
+    vector<int> prefixGCD = sol.getPrefixGCDs(n, a);
+
+    for (int i = 0; i < q; i++) {
+        int r;
+        cin >> r;
+        cout << prefixGCD[r] << "\n";
+    }
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  getPrefixGCDs(n, a) {
+    // Implement here
+    return [];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const q = parseInt(input[idx++]);
+  const a = [];
+  for (let i = 0; i < n; i++) a.push(parseInt(input[idx++]));
+
+  const sol = new Solution();
+  const prefixGCD = sol.getPrefixGCDs(n, a);
+
+  let result = "";
+  for (let i = 0; i < q; i++) {
+    const r = parseInt(input[idx++]);
+    result += prefixGCD[r] + "\n";
+  }
+  process.stdout.write(result);
+}
+
+solve();
+```

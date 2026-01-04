@@ -82,15 +82,166 @@ Two nodes are at distance at least 3 if they are not adjacent AND do not share a
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long maxIndependentSet(int n, long[] weights, int[][] edges) {
+        // Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+
+        long[] weights = new long[n];
+        for (int i = 0; i < n; i++) {
+            weights[i] = sc.nextLong();
+        }
+
+        int[][] edges = new int[n - 1][2];
+        for (int i = 0; i < n - 1; i++) {
+            edges[i][0] = sc.nextInt();
+            edges[i][1] = sc.nextInt();
+        }
+
+        Solution solution = new Solution();
+        System.out.println(solution.maxIndependentSet(n, weights, edges));
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+import sys
+
+sys.setrecursionlimit(200000)
+
+class Solution:
+    def max_independent_set(self, n: int, weights: List[int], edges: List[List[int]]) -> int:
+        # Implement here
+        return 0
+
+def main():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    iterator = iter(input_data)
+    try:
+        n = int(next(iterator))
+
+        weights = []
+        for _ in range(n):
+            weights.append(int(next(iterator)))
+
+        edges = []
+        for _ in range(n - 1):
+            u = int(next(iterator))
+            v = int(next(iterator))
+            edges.append([u, v])
+
+        solution = Solution()
+        print(solution.max_independent_set(n, weights, edges))
+    except StopIteration:
+        pass
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long long maxIndependentSet(int n, const vector<long long>& weights, const vector<vector<int>>& edges) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<long long> weights(n);
+    for (int i = 0; i < n; i++) {
+        cin >> weights[i];
+    }
+
+    vector<vector<int>> edges(n - 1, vector<int>(2));
+    for (int i = 0; i < n - 1; i++) {
+        cin >> edges[i][0] >> edges[i][1];
+    }
+
+    Solution solution;
+    cout << solution.maxIndependentSet(n, weights, edges) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  maxIndependentSet(n, weights, edges) {
+    // Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const tokens = lines
+    .join(" ")
+    .split(/\s+/)
+    .filter((t) => t !== "");
+  if (tokens.length === 0) return;
+
+  let idx = 0;
+  const n = parseInt(tokens[idx++]);
+
+  const weights = [];
+  for (let i = 0; i < n; i++) {
+    weights.push(parseInt(tokens[idx++]));
+  }
+
+  const edges = [];
+  for (let i = 0; i < n - 1; i++) {
+    const u = parseInt(tokens[idx++]);
+    const v = parseInt(tokens[idx++]);
+    edges.push([u, v]);
+  }
+
+  const solution = new Solution();
+  console.log(solution.maxIndependentSet(n, weights, edges));
+});
+```
 
 ## Notes
 

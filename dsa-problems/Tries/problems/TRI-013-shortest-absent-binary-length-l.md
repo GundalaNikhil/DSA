@@ -90,12 +90,130 @@ Trie, Binary String, Lexicographic Order, DFS, Coding Theory
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public String findShortestAbsent(String[] binaryStrings, int L) {
+        // Implement here
+        return "";
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int L = sc.nextInt();
+        int n = sc.nextInt();
+
+        String[] binaryStrings = new String[n];
+        for (int i = 0; i < n; i++) {
+            binaryStrings[i] = sc.next();
+        }
+
+        Solution solution = new Solution();
+        String result = solution.findShortestAbsent(binaryStrings, L);
+        System.out.println(result);
+    }
+}
+```
 
 ### Python
 
+```python
+from typing import List
+
+class Solution:
+    def find_shortest_absent(self, binary_strings: List[str], L: int) -> str:
+        # Implement here
+        return ""
+
+def main():
+    import sys
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    L = int(input_data[0])
+    n = int(input_data[1])
+    binary_strings = input_data[2:n+2]
+
+    solution = Solution()
+    result = solution.find_shortest_absent(binary_strings, L)
+    print(result)
+
+if __name__ == "__main__":
+    main()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string findShortestAbsent(const vector<string>& binaryStrings, int L) {
+        // Implement here
+        return "";
+    }
+};
+
+int main() {
+    int L, n;
+    if (!(cin >> L >> n)) return 0;
+
+    vector<string> binaryStrings(n);
+    for (int i = 0; i < n; i++) {
+        cin >> binaryStrings[i];
+    }
+
+    Solution solution;
+    string result = solution.findShortestAbsent(binaryStrings, L);
+    cout << result << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+const readline = require("readline");
+
+class Solution {
+  findShortestAbsent(binaryStrings, L) {
+    // Implement here
+    return "";
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const lines = [];
+rl.on("line", (line) => {
+  lines.push(line);
+}).on("close", () => {
+  const tokens = lines
+    .join(" ")
+    .split(/\s+/)
+    .filter((t) => t !== "");
+  if (tokens.length === 0) return;
+
+  const L = parseInt(tokens[0]);
+  const n = parseInt(tokens[1]);
+  const binaryStrings = tokens.slice(2, n + 2);
+
+  const solution = new Solution();
+  const result = solution.findShortestAbsent(binaryStrings, L);
+  process.stdout.write(result + "\n");
+});
+```

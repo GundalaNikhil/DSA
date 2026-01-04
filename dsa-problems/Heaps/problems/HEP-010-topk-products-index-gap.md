@@ -71,9 +71,9 @@ Indices are 0-based. If fewer than `k` valid pairs exist, return all of them. Ou
 
 Valid pairs with |i - j| >= 1 include:
 
-- (1,0): 7 * 8 = 56
-- (2,0): 5 * 8 = 40
-- (0,1): 9 * 3 = 27
+- (1,0): 7 \* 8 = 56
+- (2,0): 5 \* 8 = 40
+- (0,1): 9 \* 3 = 27
 
 Top 3 products are 56, 40, 27.
 
@@ -97,12 +97,154 @@ Heaps, K Largest Pairs, Search, Two Arrays
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public List<Long> getTopKProducts(int n, int m, int k, int d, long[] a, long[] b) {
+        // Implement here
+        return new ArrayList<>();
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String firstLine = br.readLine();
+        if (firstLine == null) return;
+        String[] parts = firstLine.trim().split("\\s+");
+        int n = Integer.parseInt(parts[0]);
+        int m = Integer.parseInt(parts[1]);
+        int k = Integer.parseInt(parts[2]);
+        int d = Integer.parseInt(parts[3]);
+
+        long[] a = new long[n];
+        String[] aVals = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < n; i++) a[i] = Long.parseLong(aVals[i]);
+
+        long[] b = new long[m];
+        String[] bVals = br.readLine().trim().split("\\s+");
+        for (int i = 0; i < m; i++) b[i] = Long.parseLong(bVals[i]);
+
+        Solution sol = new Solution();
+        List<Long> result = sol.getTopKProducts(n, m, k, d, a, b);
+
+        PrintWriter out = new PrintWriter(System.out);
+        for (int i = 0; i < result.size(); i++) {
+            out.print(result.get(i) + (i == result.size() - 1 ? "" : " "));
+        }
+        out.println();
+        out.flush();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def get_top_k_products(self, n, m, k, d, a, b):
+        # Implement here
+        return []
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    idx = 0
+    n = int(input_data[idx++])
+    m = int(input_data[idx++])
+    k = int(input_data[idx++])
+    d = int(input_data[idx++])
+
+    a = list(map(int, input_data[idx:idx+n]))
+    idx += n
+    b = list(map(int, input_data[idx:idx+m]))
+
+    sol = Solution()
+    result = sol.get_top_k_products(n, m, k, d, a, b)
+    print(*(result))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> getTopKProducts(int n, int m, int k, int d, vector<long long>& a, vector<long long>& b) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, m, k, d;
+    if (!(cin >> n >> m >> k >> d)) return 0;
+
+    vector<long long> a(n), b(m);
+    for (int i = 0; i < n; i++) cin >> a[i];
+    for (int i = 0; i < m; i++) cin >> b[i];
+
+    Solution sol;
+    vector<long long> result = sol.getTopKProducts(n, m, k, d, a, b);
+
+    for (int i = 0; i < result.size(); i++) {
+        cout << result[i] << (i == result.size() - 1 ? "" : " ");
+    }
+    cout << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  getTopKProducts(n, m, k, d, a, b) {
+    // Implement here
+    return [];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 4) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const m = parseInt(input[idx++]);
+  const k = parseInt(input[idx++]);
+  const d = parseInt(input[idx++]);
+
+  const a = [];
+  for (let i = 0; i < n; i++) a.push(BigInt(input[idx++]));
+  const b = [];
+  for (let i = 0; i < m; i++) b.push(BigInt(input[idx++]));
+
+  const sol = new Solution();
+  const result = sol.getTopKProducts(n, m, k, d, a, b);
+  console.log(result.join(" "));
+}
+
+solve();
+```

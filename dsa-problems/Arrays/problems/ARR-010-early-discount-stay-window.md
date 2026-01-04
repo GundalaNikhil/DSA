@@ -48,6 +48,7 @@ Print the maximum achievable profit (0 if none).
 ## Example
 
 **Input:**
+
 ```
 5
 7 2 5 1 9
@@ -55,6 +56,7 @@ Print the maximum achievable profit (0 if none).
 ```
 
 **Output:**
+
 ```
 5
 ```
@@ -80,16 +82,146 @@ Sliding Window, Greedy, Arrays
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
 
+class Solution {
+    public int maxProfitDiscount(int n, int[] prices, int dMin, int dMax, int C) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        int[] prices = new int[n];
+        String pLine = br.readLine();
+        if (pLine != null) {
+            String[] parts = pLine.trim().split("\\s+");
+            for (int i = 0; i < n; i++) {
+                prices[i] = Integer.parseInt(parts[i]);
+            }
+        }
+
+        String constraintsLine = br.readLine();
+        if (constraintsLine == null) return;
+        String[] cParts = constraintsLine.trim().split("\\s+");
+        int dMin = Integer.parseInt(cParts[0]);
+        int dMax = Integer.parseInt(cParts[1]);
+        int C = Integer.parseInt(cParts[2]);
+
+        Solution sol = new Solution();
+        System.out.println(sol.maxProfitDiscount(n, prices, dMin, dMax, C));
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
 
+class Solution:
+    def max_profit_discount(self, n, prices, d_min, d_max, C):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    prices = list(map(int, input_data[1:n+1]))
+    d_min = int(input_data[n+1])
+    d_max = int(input_data[n+2])
+    C = int(input_data[n+3])
+
+    sol = Solution()
+    print(sol.max_profit_discount(n, prices, d_min, d_max, C))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
 
+using namespace std;
+
+class Solution {
+public:
+    int maxProfitDiscount(int n, vector<int>& prices, int dMin, int dMax, int C) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n;
+    if (!(cin >> n)) return 0;
+
+    vector<int> prices(n);
+    for (int i = 0; i < n; i++) {
+        cin >> prices[i];
+    }
+
+    int dMin, dMax, C;
+    cin >> dMin >> dMax >> C;
+
+    Solution sol;
+    cout << sol.maxProfitDiscount(n, prices, dMin, dMax, C) << endl;
+
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
 
+const fs = require("fs");
+
+class Solution {
+  maxProfitDiscount(n, prices, dMin, dMax, C) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 1) return;
+
+  let idx = 0;
+  function readInt() {
+    return parseInt(input[idx++]);
+  }
+
+  const n = readInt();
+  const prices = [];
+  for (let i = 0; i < n; i++) prices.push(readInt());
+  const dMin = readInt();
+  const dMax = readInt();
+  const C = readInt();
+
+  const sol = new Solution();
+  console.log(sol.maxProfitDiscount(n, prices, dMin, dMax, C));
+}
+
+solve();
+```

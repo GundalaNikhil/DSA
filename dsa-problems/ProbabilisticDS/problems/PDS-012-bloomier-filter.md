@@ -86,12 +86,99 @@ Bloomier Filter, Key-Value Sketches
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public void computeMetrics(int m, int r) {
+        // Implement here
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int m = sc.nextInt();
+        int r = sc.nextInt();
+        Solution sol = new Solution();
+        sol.computeMetrics(m, r);
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def compute_metrics(self, m, r):
+        # Implement here
+        pass
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    m = int(input_data[0])
+    r = int(input_data[1])
+    sol = Solution()
+    sol.compute_metrics(m, r)
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <iomanip>
+#include <cmath>
+
+using namespace std;
+
+class Solution {
+public:
+    void computeMetrics(int m, int r) {
+        // Implement here
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int m, r;
+    if (!(cin >> m >> r)) return 0;
+    Solution sol;
+    sol.computeMetrics(m, r);
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  computeMetrics(m, r) {
+    // Implement here
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+  const m = parseInt(input[0]);
+  const r = parseInt(input[1]);
+  const sol = new Solution();
+  sol.computeMetrics(m, r);
+}
+
+solve();
+```

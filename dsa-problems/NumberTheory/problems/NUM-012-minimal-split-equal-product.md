@@ -59,9 +59,9 @@ Given an integer `x`, split its decimal digits into two non-empty parts (preserv
 
 Splits:
 
-- 1 | 234 -> 1 * 234 = 234
-- 12 | 34 -> 12 * 34 = 408
-- 123 | 4 -> 123 * 4 = 492
+- 1 | 234 -> 1 \* 234 = 234
+- 12 | 34 -> 12 \* 34 = 408
+- 123 | 4 -> 123 \* 4 = 492
 
 Minimum non-zero product is 234.
 
@@ -84,12 +84,98 @@ Digit Parsing, Brute Force Optimization
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public long minimalSplitProduct(String x) {
+        // Implement here
+        return 0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNext()) return;
+        String x = sc.next();
+        Solution sol = new Solution();
+        System.out.println(sol.minimalSplitProduct(x));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def minimal_split_product(self, x_str):
+        # Implement here
+        return 0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    x_str = input_data[0]
+    sol = Solution()
+    print(sol.minimal_split_product(x_str))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minimalSplitProduct(string x) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    string x;
+    if (!(cin >> x)) return 0;
+    Solution sol;
+    cout << sol.minimalSplitProduct(x) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  minimalSplitProduct(x) {
+    // Implement here
+    return 0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").trim();
+  if (!input) return;
+  const sol = new Solution();
+  console.log(sol.minimalSplitProduct(input).toString());
+}
+
+solve();
+```

@@ -66,7 +66,7 @@ H_4 = 1 + 1/2 + 1/3 + 1/4 = 2.083333
 
 ## Notes
 
-- Compute H_n as sum_{i=1..n} 1/i
+- Compute H*n as sum*{i=1..n} 1/i
 - Accept answers with absolute error <= 1e-6
 - Time complexity: O(n)
 
@@ -80,12 +80,98 @@ Treaps, Random BST, Harmonic Numbers
 
 ### Java
 
+```java
+import java.util.*;
+
+class Solution {
+    public double harmonicSum(int n) {
+        // Implement here
+        return 0.0;
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (!sc.hasNextInt()) return;
+        int n = sc.nextInt();
+        Solution sol = new Solution();
+        System.out.println(String.format("%.6f", sol.harmonicSum(n)));
+        sc.close();
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def harmonic_sum(self, n):
+        # Implement here
+        return 0.0
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+    n = int(input_data[0])
+    sol = Solution()
+    print(format(sol.harmonic_sum(n), ".6f"))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+class Solution {
+public:
+    double harmonicSum(int n) {
+        // Implement here
+        return 0.0;
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n;
+    if (!(cin >> n)) return 0;
+    Solution sol;
+    cout << fixed << setprecision(6) << sol.harmonicSum(n) << endl;
+    return 0;
+}
+```
 
 ### JavaScript
 
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  harmonicSum(n) {
+    // Implement here
+    return 0.0;
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").trim();
+  if (!input) return;
+  const n = parseInt(input);
+  const sol = new Solution();
+  console.log(sol.harmonicSum(n).toFixed(6));
+}
+
+solve();
+```

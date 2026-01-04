@@ -88,3 +88,109 @@ abc
 - Precompute suffix distinct counts in O(n)
 - Scan left-to-right maintaining prefix distinct count
 - O(n) time and O(n) space solution
+
+---
+
+## Solution Template
+
+### Java
+
+```java
+import java.util.*;
+
+class Solution {
+    public int countEqualDistinctSplits(String s) {
+        // Implement here
+        return 0;
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        if (sc.hasNext()) {
+            String s = sc.next();
+            Solution sol = new Solution();
+            System.out.println(sol.countEqualDistinctSplits(s));
+        }
+        sc.close();
+    }
+}
+```
+
+### Python
+
+```python
+import sys
+
+def solve():
+    s = sys.stdin.read().strip()
+    if not s:
+        return
+    solution = Solution()
+    print(solution.count_equal_distinct_splits(s))
+
+class Solution:
+    def count_equal_distinct_splits(self, s: str) -> int:
+        # Implement here
+        return 0
+
+if __name__ == "__main__":
+    solve()
+```
+
+### C++
+
+```cpp
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int countEqualDistinctSplits(string s) {
+        // Implement here
+        return 0;
+    }
+};
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    string s;
+    if (cin >> s) {
+        Solution sol;
+        cout << sol.countEqualDistinctSplits(s) << endl;
+    }
+
+    return 0;
+}
+```
+
+### JavaScript
+
+```javascript
+const readline = require("readline");
+
+class Solution {
+  countEqualDistinctSplits(s) {
+    // Implement here
+    return 0;
+  }
+}
+
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+rl.on("line", (line) => {
+  const s = line.trim();
+  if (s) {
+    const sol = new Solution();
+    console.log(sol.countEqualDistinctSplits(s));
+  }
+});
+```

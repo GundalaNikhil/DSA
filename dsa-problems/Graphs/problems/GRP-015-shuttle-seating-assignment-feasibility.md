@@ -27,6 +27,7 @@ memory_limit: 256
 ## Problem Statement
 
 Given `n` tasks (numbered 0 to n-1) with directed dependencies (represented as edges where `u → v` means task `u` must be completed before task `v`), determine:
+
 1. Whether a valid ordering of tasks exists (i.e., the graph is a DAG with no cycles)
 2. How many nodes had zero in-degree initially (i.e., could be started first)
 
@@ -56,6 +57,7 @@ Return these two pieces of information.
 ## Example
 
 **Input:**
+
 ```
 4
 3
@@ -65,6 +67,7 @@ Return these two pieces of information.
 ```
 
 **Output:**
+
 ```
 1 2
 ```
@@ -72,11 +75,13 @@ Return these two pieces of information.
 **Explanation:**
 
 Task dependencies:
+
 - Task 0 must be done before task 2
 - Task 1 must be done before task 2
 - Task 2 must be done before task 3
 
 In-degrees:
+
 - Task 0: in-degree 0 (can start immediately)
 - Task 1: in-degree 0 (can start immediately)
 - Task 2: in-degree 2 (depends on tasks 0 and 1)
@@ -110,11 +115,168 @@ Topological Sort, Kahn's Algorithm, DAG, In-Degree, Cycle Detection, Task Schedu
 
 ### Java
 
+```java
+import java.util.*;
+import java.io.*;
+
+class Solution {
+    public int[] checkFeasibility(int n, int m, List<List<Integer>> adj) {
+        // Implement here
+        return new int[0];
+    }
+}
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String nLine = br.readLine();
+        if (nLine == null) return;
+        int n = Integer.parseInt(nLine.trim());
+
+        String mLine = br.readLine();
+        if (mLine == null) return;
+        int m = Integer.parseInt(mLine.trim());
+
+        List<List<Integer>> adj = new ArrayList<>(n);
+        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());
+
+        for (int i = 0; i < m; i++) {
+            String[] edge = br.readLine().trim().split("\\s+");
+            int u = Integer.parseInt(edge[0]);
+            int v = Integer.parseInt(edge[1]);
+            adj.get(u).add(v);
+        }
+
+        Solution sol = new Solution();
+        int[] result = sol.checkFeasibility(n, m, adj);
+
+        if (result == null || result.length == 0) {
+            System.out.println("-1");
+        } else {
+            System.out.println(result[0] + " " + result[1]);
+        }
+    }
+}
+```
 
 ### Python
 
+```python
+import sys
+
+class Solution:
+    def check_feasibility(self, n, m, adj):
+        # Implement here
+        return []
+
+def solve():
+    input_data = sys.stdin.read().split()
+    if not input_data:
+        return
+
+    n = int(input_data[0])
+    m = int(input_data[1])
+
+    adj = [[] for _ in range(n)]
+    idx = 2
+    for _ in range(m):
+        u = int(input_data[idx])
+        v = int(input_data[idx+1])
+        adj[u].append(v)
+        idx += 2
+
+    sol = Solution()
+    result = sol.check_feasibility(n, m, adj)
+    if not result:
+        print("-1")
+    else:
+        print(*(result))
+
+if __name__ == "__main__":
+    solve()
+```
 
 ### C++
 
+```cpp
+#include <iostream>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> checkFeasibility(int n, int m, vector<vector<int>>& adj) {
+        // Implement here
+        return {};
+    }
+};
+
+int main() {
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    int n, m;
+    if (!(cin >> n >> m)) return 0;
+
+    vector<vector<int>> adj(n);
+    for (int i = 0; i < m; i++) {
+        int u, v;
+        cin >> u >> v;
+        adj[u].push_back(v);
+    }
+
+    Solution sol;
+    vector<int> result = sol.checkFeasibility(n, m, adj);
+
+    if (result.empty()) {
+        cout << "-1" << endl;
+    } else {
+        cout << result[0] << " " << result[1] << endl;
+    }
+
+    return 0;
+}
+```
 
 ### JavaScript
+
+```javascript
+"use strict";
+
+const fs = require("fs");
+
+class Solution {
+  checkFeasibility(n, m, adj) {
+    // Implement here
+    return [];
+  }
+}
+
+function solve() {
+  const input = fs.readFileSync(0, "utf8").split(/\s+/);
+  if (input.length < 2) return;
+
+  let idx = 0;
+  const n = parseInt(input[idx++]);
+  const m = parseInt(input[idx++]);
+
+  const adj = Array.from({ length: n }, () => []);
+  for (let i = 0; i < m; i++) {
+    const u = parseInt(input[idx++]);
+    const v = parseInt(input[idx++]);
+    adj[u].push(v);
+  }
+
+  const sol = new Solution();
+  const result = sol.checkFeasibility(n, m, adj);
+  if (result.length === 0) {
+    console.log("-1");
+  } else {
+    console.log(result.join(" "));
+  }
+}
+
+solve();
+```
