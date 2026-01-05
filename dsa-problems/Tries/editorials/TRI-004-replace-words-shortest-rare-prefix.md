@@ -27,7 +27,7 @@ subscription_tier: basic
 
 Given a dictionary of root words with rarity scores and a sentence, replace each word with the prefix from the dictionary that is both a prefix of the word and has the smallest rarity score. If multiple prefixes have the same rarity, choose the shortest one.
 
-![Problem Concept](../images/TRI-004/problem-illustration.png)
+![Medical Record Compression Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767610195/Tries/TRI-004/bynji4ciz6fawfpolocv.png)
 
 ### 🌍 Real-World Scenario
 
@@ -113,6 +113,8 @@ Where:
 
 **Trie with Rarity Tracking:**
 
+![Trie with Rarity Tracking](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767610208/Tries/TRI-004/xu7y0ufvo94m0z69eeqi.png)
+
 ```
 Dictionary: {"cat": 1, "car": 2, "cattle": 5}
 
@@ -143,6 +145,8 @@ Query "carried":
   c → a → r (found "car", rarity=2) ✓
   Continue: r → ? (no 'r' child)
   Best: "car"
+
+![Trie Construction Process](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767610221/Tries/TRI-004/pnhizmrqiwndjy1bs0uw.png)
 
 Result: "the cat car"
 ```
@@ -268,6 +272,8 @@ Sentence: "the cattle carried"
 
 **Step-by-Step**:
 
+![Dry Run Part 1](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767610236/Tries/TRI-004/coruuzq1vztn0duad4hs.png)
+
 ```
 Build Trie:
     root
@@ -301,6 +307,8 @@ Process Words:
    - Output: "car"
 
 Result: ["the", "cat", "car"]
+![Dry Run Part 2](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767610249/Tries/TRI-004/m2qoabmcnjo5ohypspna.png)
+
 Final Output: "the cat car"
 ```
 

@@ -27,7 +27,7 @@ subscription_tier: basic
 
 Given a string, count all distinct substrings using a suffix trie data structure.
 
-![Problem Concept](../images/TRI-003/problem-illustration.png)
+![DNA Sequence Analysis Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767609418/Tries/TRI-003/abednxy3bucq8mdgoasl.png)
 
 ### 🌍 Real-World Scenario
 
@@ -67,6 +67,8 @@ A suffix trie automatically:
 - Each suffix contains all substrings starting from that position
 - Nodes in the trie represent unique substrings
 - Counting nodes = counting distinct substrings
+
+![Suffix Trie Concept](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767609431/Tries/TRI-003/htvyqvvuo7dkoyvec9if.png)
 
 **Example: "aaa"**
 
@@ -167,6 +169,8 @@ flowchart TD
 - As we traverse down the trie, each new node = one new unique substring
 - Shared prefixes = shared nodes (counted once)
 
+![Suffix Trie Concept](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767609431/Tries/TRI-003/htvyqvvuo7dkoyvec9if.png)
+
 **Example: "aaa"**
 
 ```
@@ -212,6 +216,8 @@ Distinct substrings: 3 ✓
 
 **Example: "aba"**
 
+![Dry Run Part 1: Inserting aba](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767609455/Tries/TRI-003/bydok63vmanir2fsz3ag.png)
+
 ```
 Suffixes to insert:
 1. "aba"
@@ -250,7 +256,9 @@ After inserting "a":
       a
 
 Total nodes: 6
-Distinct substrings: "a", "ab", "aba", "b", "ba" (5 distinct strings represented by 6 nodes including duplicates)
+Distinct substrings: "a", "ab", "aba", "b", "ba" (5 distinct strings
+
+![Dry Run Part 2: Complete Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767609469/Tries/TRI-003/zryo33qatpcqcqntj3nb.png) represented by 6 nodes including duplicates)
 
 For accurate counting, we count NODES created during insertion,
 not unique strings. Each new node represents a unique path/substring.

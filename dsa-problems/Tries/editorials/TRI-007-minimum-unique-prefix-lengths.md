@@ -81,17 +81,12 @@ Words: `["zebra", "dog", "duck", "dove"]`
 
 Calculating minimum unique prefix lengths:
 
-- "zebra" → 'z' is unique at position 0 → length 1
-- "dog" → 'd' shared with duck/dove; "do" distinguishes from "du" (duck) at position 2 → length 2
-- "duck" → 'd' shared; "du" unique from "do" (dog/dove) → length 2
-- "dove" → 'd' shared; "do" shared with "dog"; "dov" unique → length 3
+- "zebra" → 'z' has count=1 at depth 1 → length 1
+- "dog" → 'd' count=3, 'o' count=2, 'g' count=1 at depth 3 → length 3
+- "duck" → 'd' count=3, 'u' count=1 at depth 2 → length 2
+- "dove" → 'd' count=3, 'o' count=2, 'v' count=1 at depth 3 → length 3
 
-Expected output: `[1,2,2,2]` means:
-
-- "zebra": "z" (length 1)
-- "dog": "do" (length 2, differentiates at position 2 from "duck")
-- "duck": "du" (length 2)
-- "dove": "do" (length 2, though needs clarification based on implementation)
+Expected output: `[1,3,2,3]`
 
 The algorithm checks at each position if the count of words passing through that node is 1. The first such position determines the minimum prefix length.
 
@@ -207,6 +202,7 @@ Output: [1, 3, 3, 3]
    ```
 
 <!-- mermaid -->
+
 ```mermaid
 flowchart TD
     A[Start] --> B[Insert words into trie]
@@ -273,6 +269,7 @@ The standard trie approach tracks the depth where count becomes 1 for each word'
 ## Implementations
 
 ### Java
+
 ```java
 import java.util.*;
 
@@ -350,6 +347,7 @@ class Main {
 ```
 
 ### Python
+
 ```python
 from typing import List
 
@@ -409,6 +407,7 @@ if __name__ == "__main__":
 ```
 
 ### C++
+
 ```cpp
 #include <iostream>
 #include <vector>
@@ -495,6 +494,7 @@ int main() {
 ```
 
 ### JavaScript
+
 ```javascript
 const readline = require("readline");
 
@@ -611,7 +611,6 @@ rl.on("line", (line) => {
 - **Autocomplete Systems**: Building intelligent suggestions
 - **Compression Algorithms**: Prefix-based compression techniques
 - **Command-Line Interfaces**: Minimal unique abbreviations for commands
-
 
 ## Constraints
 

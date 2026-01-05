@@ -28,7 +28,7 @@ subscription_tier: basic
 
 Find the minimum XOR value among all pairs in an array where the XOR is at most a given limit L.
 
-![Problem Concept](../images/TRI-005/problem-illustration.png)
+![Network Routing Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767610688/Tries/TRI-005/mk1ovvd5jbqenp94q3ee.png)
 
 ### 🌍 Real-World Scenario
 
@@ -103,6 +103,8 @@ Answer: 6
 
 ** Binary Trie for [3, 5, 10]:**
 
+![Binary Trie Structure](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767610701/Tries/TRI-005/ctyzavelemm2hlcl2kqn.png)
+
 ```
 Numbers in binary (4 bits for clarity):
 3  = 0011
@@ -170,6 +172,8 @@ Bit 2: Want 1, but only 0 available under 3
 Bit 1: Want 0, available
 Bit 0: Want 1, but only 1 available
 
+![Greedy Query Strategy](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767610716/Tries/TRI-005/irh4tph1nvstvd0lamtj.png)
+
 Result: 3, XOR = 5^3 = 6
 ```
 
@@ -209,6 +213,8 @@ Numbers stored:
 
 **Input**: arr = [3, 10, 5, 25], L = 8
 
+![Dry Run Part 1](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767610730/Tries/TRI-005/zcdz3r3px7byoolsx7jh.png)
+
 **Step 1: Build Trie**
 Insert 3, 10, 5, 25 into binary trie (30-bit representation)
 
@@ -235,6 +241,8 @@ Query 25:
 - All XORs > 8 ❌
 
 **Step 3: Result**
+![Dry Run Part 2](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767610757/Tries/TRI-005/viiktopmbt6yyftqvjmf.png)
+
 Minimum XOR ≤ 8: 6
 
 ### ⚠️ Common Mistakes & Pitfalls

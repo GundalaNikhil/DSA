@@ -59,13 +59,13 @@ Your goal is to minimize the total overtime cost while covering all `H` hours.
 ```
 2 8
 4 3
-2 1
+6 5
 ```
 
 **Output:**
 
 ```
-4
+0
 ```
 
 **Explanation:**
@@ -73,30 +73,25 @@ Your goal is to minimize the total overtime cost while covering all `H` hours.
 Shifts:
 
 - Shift 1: 4 standard hours, overtime costs 3 per hour
-- Shift 2: 2 standard hours, overtime costs 1 per hour
+- Shift 2: 6 standard hours, overtime costs 5 per hour
 
 Total hours needed: 8
 
 Strategy:
 
-Strategy to minimize cost:
-
-1. Use all standard hours first: 4 + 2 = 6 hours (no overtime cost)
-2. Need 2 more hours (8 - 6 = 2)
-3. For overtime, choose the cheaper rate (shift 2 at cost 1 per hour)
-4. Overtime cost: 2 × 1 = 2
-
-Total minimum cost: 2
+1. Use standard hours from Shift 1: 4 hours (remaining 4)
+2. Use standard hours from Shift 2: 4 hours (remaining 0)
+3. Total standard hours used: 8
+4. Overtime cost: 0
 
 ![Example Visualization](../images/GRD-005/example-1.png)
 
 ## Notes
 
 - First use all standard hours from all shifts (these are free)
-- For remaining hours, use overtime from shifts with lowest overtime costs
-- Use a min-heap to track available overtime costs
+- For remaining hours, use overtime from the shift with the lowest overtime cost
 - If total standard hours >= H, answer is 0
-- Time complexity: O(n log n) for sorting by overtime cost
+- Time complexity: O(n) to find the total standard hours and minimum overtime rate
 
 ## Related Topics
 

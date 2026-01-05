@@ -52,7 +52,7 @@ Your algorithm should detect that removing one character from each makes them sh
 - **Data Deduplication**: Find near-identical record prefixes in databases
 - **API Versioning**: Detect common API endpoint patterns despite typos
 
-![Real-World Application](../images/TRI-002/real-world-scenario.png)
+![Real-World Application](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767609047/Tries/TRI-002/mwpwwdlard0avrsostz2.png)
 
 ## Detailed Explanation
 
@@ -144,6 +144,7 @@ Root
 Result: "inter" (depth 5, all word IDs present)
 ```
 
+![Trie Variants and Word Tracking](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767609059/Tries/TRI-002/tbhaaa5ruzqzrgdqgqb0.png)
 **Algorithm:**
 
 1. **Generate Variants**:
@@ -165,6 +166,7 @@ Result: "inter" (depth 5, all word IDs present)
 3. **Optimization**: Use bit-masking or hash sets to track which words are represented at each node
 
 <!-- mermaid -->
+
 ```mermaid
 flowchart TD
     A[Start] --> B[Generate variants for each word]
@@ -189,11 +191,12 @@ flowchart TD
 - **Single pass**: DFS checks all words simultaneously
 - **Practical**: Handles realistic word lengths (L ≤ 100) efficiently
 
-![Algorithm Visualization](../images/TRI-002/algorithm-visualization.png)
+![Algorithm Flow](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767608827/Tries/TRI-002/xiuenimrbxlro2mhg1ih.png)
 
 ## Implementations
 
 ### Java
+
 ```java
 import java.util.*;
 
@@ -273,6 +276,7 @@ class Main {
 ```
 
 ### Python
+
 ```python
 from typing import List
 
@@ -339,6 +343,7 @@ if __name__ == "__main__":
 ```
 
 ### C++
+
 ```cpp
 #include <iostream>
 #include <vector>
@@ -431,6 +436,7 @@ int main() {
 ```
 
 ### JavaScript
+
 ```javascript
 const readline = require("readline");
 
@@ -517,6 +523,8 @@ rl.on("line", (line) => {
 });
 ```
 
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767609088/Tries/TRI-002/rm1hay7pwi67jpqzcawu.png)
+
 ### Common Mistakes to Avoid
 
 1. **Forgetting Edge Cases**
@@ -543,7 +551,6 @@ rl.on("line", (line) => {
 - **Edit Distance**: Generalized version allowing insertions, deletions, substitutions
 - **Trie Data Structure**: Efficient prefix storage and retrieval
 - **String Matching with Errors**: Approximate string matching algorithms
-
 
 ## Constraints
 

@@ -48,7 +48,7 @@ The freshness decay formula `score = frequency × exp(-(currentTime - lastUsed)/
 - **User Retention**: Fast, relevant suggestions keep users engaged and reduce bounce rate
 - **Scalability**: Must handle millions of words and thousands of queries per second efficiently
 
-![Real-World Application](../images/TRI-001/real-world-scenario.png)
+![Real-World Application](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767608234/Tries/TRI-001/wc66wdg1nuby3qvzty6n.png)
 
 ## Detailed Explanation
 
@@ -184,7 +184,10 @@ Word Metadata (separate hash map):
 
 3. **Optimization**: Maintain max-heap if multiple queries, or cache results per prefix
 
+![Decay Score Calculation](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767608257/Tries/TRI-001/lb1ntzepqiuphrmp1hg6.png)
+
 <!-- mermaid -->
+
 ```mermaid
 flowchart TD
     A[Start] --> B[Build trie and metadata map]
@@ -209,11 +212,12 @@ flowchart TD
 - **Scalable**: With smart trie pruning, can handle millions of words
 - **Extensible**: Easy to add features like typo tolerance, synonym expansion
 
-![Algorithm Visualization](../images/TRI-001/algorithm-visualization.png)
+![Algorithm Visualization](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767608246/Tries/TRI-001/wrecu6svqj4dzq0gudzr.png)
 
 ## Implementations
 
 ### Java
+
 ```java
 import java.util.*;
 
@@ -338,6 +342,7 @@ class Main {
 ```
 
 ### Python
+
 ```python
 import math
 from typing import List, Tuple
@@ -425,6 +430,7 @@ if __name__ == "__main__":
 ```
 
 ### C++
+
 ```cpp
 #include <iostream>
 #include <vector>
@@ -551,6 +557,7 @@ int main() {
 ```
 
 ### JavaScript
+
 ```javascript
 const readline = require("readline");
 
@@ -659,6 +666,7 @@ rl.on("line", (line) => {
 ## 🧪 Test Case Walkthrough (Dry Run)
 
 **Input:**
+
 ```
 3
 hello 5 0
@@ -668,28 +676,34 @@ he 10 10 2
 ```
 
 1.  **Insert Words**:
-    -   `hello`: freq=5, time=0.
-    -   `helium`: freq=3, time=5.
-    -   `he`: freq=4, time=9.
+
+    - `hello`: freq=5, time=0.
+    - `helium`: freq=3, time=5.
+    - `he`: freq=4, time=9.
 
 2.  **Query**:
-    -   Prefix: "he"
-    -   Current Time: 10
-    -   D: 10
-    -   k: 2
+
+    - Prefix: "he"
+    - Current Time: 10
+    - D: 10
+    - k: 2
 
 3.  **Trie Traversal**:
-    -   Search "he". Node found.
-    -   Collect matches: `["he", "hello", "helium"]`.
+
+    - Search "he". Node found.
+    - Collect matches: `["he", "hello", "helium"]`.
 
 4.  **Score Calculation**:
-    -   **"he"**: `4 * exp(-(10-9)/10) = 4 * exp(-0.1) ≈ 3.619`
-    -   **"hello"**: `5 * exp(-(10-0)/10) = 5 * exp(-1.0) ≈ 1.839`
-    -   **"helium"**: `3 * exp(-(10-5)/10) = 3 * exp(-0.5) ≈ 1.820`
+
+    - **"he"**: `4 * exp(-(10-9)/10) = 4 * exp(-0.1) ≈ 3.619`
+    - **"hello"**: `5 * exp(-(10-0)/10) = 5 * exp(-1.0) ≈ 1.839`
+    - **"helium"**: `3 * exp(-(10-5)/10) = 3 * exp(-0.5) ≈ 1.820`
 
 5.  **Ranking (Top 2)**:
-    -   Sort: `he (3.62)`, `hello (1.84)`, `helium (1.82)`
-    -   Top 2: `["he", "hello"]`
+    - Sort: `he (3.62)`, `hello (1.84)`, `helium (1.82)`
+    - Top 2: `["he", "hello"]`
+
+![Test Case Walkthrough](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767608266/Tries/TRI-001/gq50rstlg5khlnpzblyh.png)
 
 **Output**: `["he", "hello"]`
 
@@ -719,7 +733,6 @@ he 10 10 2
 - **Exponential Decay**: Widely used in recommendation systems, caching, and time-series analysis
 - **Top-K Selection**: Heap-based optimization for ranking problems
 - **Autocomplete Systems**: Real-world applications in search engines, IDEs, mobile keyboards
-
 
 ## Constraints
 

@@ -28,7 +28,7 @@ subscription_tier: basic
 
 Given a trie with inserted strings, find the k-th lexicographically smallest string of length ≤ L that is NOT in the trie.
 
-![Problem Concept](../images/TRI-006/problem-illustration.png)
+![Username Generation Scenario](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767610893/Tries/TRI-006/npqw818zz0cbbtttwzv4.png)
 
 ### 🌍 Real-World Scenario
 
@@ -49,6 +49,8 @@ This helps in:
 - Session token generation
 
 ### 📚 Detailed Explanation
+
+![Lexicographical Search Space](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767610906/Tries/TRI-006/r60hpzuxnpr0hbwse6pq.png)
 
 **Total Possible Strings of Length ≤ L**:
 
@@ -89,6 +91,8 @@ a, aa, ab, ac, ..., az, b, ba, bb, ..., zz
 **📦 Space Complexity: O(26^L)**
 
 ### ✅ Optimal Approach
+
+![DFS Counting Logic](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767610917/Tries/TRI-006/cmcxxgr64vmzuufpd5ku.png)
 
 **💡 Key Insight**: Use DFS on trie to count and find missing strings without generating all possibilities.
 
@@ -227,6 +231,8 @@ Answer: "aa"
 
 ### 🧪 Test Case Walkthrough
 
+![Dry Run Part 1](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767610932/Tries/TRI-006/yhxqaeyccwxm6vjrvnf4.png)
+
 **Input**: inserted=["a","b"], L=2, k=3
 
 **Step-by-Step**:
@@ -264,7 +270,9 @@ At root:
       - "ac" missing, count=1
       - 1 >= 1, found!
 
-Answer: "ac"
+Answer: "ad"
+
+![Dry Run Part 2](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767610958/Tries/TRI-006/tppxz7xnhp7cxafuw2vu.png)
 ```
 
 ### ⚠️ Common Mistakes & Pitfalls

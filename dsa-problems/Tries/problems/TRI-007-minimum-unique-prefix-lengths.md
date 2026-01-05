@@ -60,17 +60,15 @@ dove
 **Output:**
 
 ```
-[1,2,2,2]
+[1,3,2,3]
 ```
 
 **Explanation:**
 
-- "zebra": First character 'z' is unique among all first characters → prefix length = 1
-- "dog": Shares 'd' with duck/dove, shares "do" with dove → at position 2, differs from "duck" → prefix length = 2
-- "duck": Shares 'd' with dog/dove, but "du" is unique → prefix length = 2
-- "dove": Shares 'd' with dog/duck, shares "do" with dog, but at position 2 has 'v' vs 'g'/'u' → prefix length = 2
-
-Note: The minimum prefix is the earliest position where the count of words sharing that prefix becomes 1 for this word's path.
+- "zebra": First character 'z' is unique (count=1) → prefix length = 1
+- "dog": 'd' shared (count=3), 'o' shared with dove (count=2), 'g' unique (count=1) → prefix length = 3
+- "duck": 'd' shared (count=3), 'u' unique (count=1) → prefix length = 2
+- "dove": 'd' shared (count=3), 'o' shared with dog (count=2), 'v' unique (count=1) → prefix length = 3
 
 ![Example Visualization](../images/TRI-007/example-1.png)
 
