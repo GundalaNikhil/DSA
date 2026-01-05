@@ -29,7 +29,7 @@ Given an unweighted undirected graph with `n` nodes (numbered 0 to n-1) and a so
 
 For each node, output its shortest distance from the source. If a node is unreachable from the source, output `-1` for that node.
 
-![Problem Illustration](../images/GRP-008/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graphs/grp_008.jpg)
 
 ## Input Format
 

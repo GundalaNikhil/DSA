@@ -31,7 +31,7 @@ Maintain a set of `n` nodes under two operations:
 
 Answer all queries in order.
 
-![Problem Illustration](../images/GRB-012/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graph_basics/GRB-012.jpg)
 
 ## Input Format
 

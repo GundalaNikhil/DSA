@@ -28,7 +28,7 @@ Given a directed weighted graph with up to 500 nodes, compute the shortest path 
 
 If a negative cycle exists, output `NEGATIVE CYCLE`.
 
-![Problem Illustration](../images/GRB-015/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graph_basics/GRB-015.jpg)
 
 ## Input Format
 

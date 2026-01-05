@@ -31,7 +31,7 @@ For buildings that aren't connected, laying a new cable between buildings `i` an
 
 Your goal is to find the minimum total cost to ensure all buildings are connected (directly or indirectly) to the same network.
 
-![Problem Illustration](../images/GRD-007/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/greedy/GRD-007.jpg)
 
 ## Input Format
 

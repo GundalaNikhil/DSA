@@ -32,7 +32,7 @@ Your goal is to minimize the number of battery swaps (the number of times you ch
 
 Return the minimum number of swaps, or `-1` if it's impossible to power the server for `T` hours.
 
-![Problem Illustration](../images/GRD-004/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/greedy/GRD-004.jpg)
 
 ## Input Format
 

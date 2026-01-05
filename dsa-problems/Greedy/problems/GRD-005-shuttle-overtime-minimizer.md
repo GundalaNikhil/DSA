@@ -34,7 +34,7 @@ You must cover a total of `H` hours using these shifts. Shifts can be partially 
 
 Your goal is to minimize the total overtime cost while covering all `H` hours.
 
-![Problem Illustration](../images/GRD-005/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/greedy/GRD-005.jpg)
 
 ## Input Format
 

@@ -33,7 +33,7 @@ Given `n` tasks (numbered 0 to n-1) with directed dependencies (represented as e
 
 Return these two pieces of information.
 
-![Problem Illustration](../images/GRP-015/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graphs/grp_015.jpg)
 
 ## Input Format
 

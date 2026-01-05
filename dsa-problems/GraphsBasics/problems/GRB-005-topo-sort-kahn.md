@@ -26,7 +26,7 @@ memory_limit: 256
 
 Given a directed acyclic graph (DAG), output any valid topological ordering of its nodes.
 
-![Problem Illustration](../images/GRB-005/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graph_basics/GRB-005.jpg)
 
 ## Input Format
 

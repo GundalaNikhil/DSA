@@ -22,6 +22,9 @@ memory_limit: 256
 
 ## Problem Statement
 
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767567845/dsa/geometry/eaj3ma21xfnycuyeckab.jpg)
+
+
 Given a line segment `AB` with endpoints `A(x1, y1)` and `B(x2, y2)` and a point `P(px, py)`, compute the shortest distance from `P` to the segment.
 
 Print the distance as a floating-point number rounded to 6 decimals.

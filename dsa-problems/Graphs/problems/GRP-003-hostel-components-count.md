@@ -30,7 +30,7 @@ Given an undirected graph with `n` nodes (numbered from 0 to n-1) and an adjacen
 
 A connected component is a maximal set of nodes where every pair of nodes is connected by a path. Two nodes are in the same component if and only if there exists a path between them.
 
-![Problem Illustration](../images/GRP-003/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graphs/grp_003.jpg)
 
 ## Input Format
 

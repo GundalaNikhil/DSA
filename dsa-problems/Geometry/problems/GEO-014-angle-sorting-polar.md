@@ -23,6 +23,9 @@ memory_limit: 256
 
 ## Problem Statement
 
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767567846/dsa/geometry/ghjvqqh3novgxar9fbmu.jpg)
+
+
 Given `n` points (distinct, no point at the origin), sort them by polar angle around the origin (0,0), in counterclockwise order. If two points have the same angle, the closer one (smaller distance to origin) should come first.
 
 Output the points in the required order.

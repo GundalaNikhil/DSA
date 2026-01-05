@@ -33,7 +33,7 @@ Each trip must be assigned to exactly one driver who is available during that en
 
 Return the minimum number of switches needed, or `-1` if it's impossible to cover all trips.
 
-![Problem Illustration](../images/GRD-001/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/greedy/GRD-001.jpg)
 
 ## Input Format
 

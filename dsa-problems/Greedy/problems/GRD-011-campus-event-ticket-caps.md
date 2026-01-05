@@ -34,7 +34,7 @@ You can process at most **one request per day** (day 1, day 2, ...). Partial ful
 
 Your goal is to maximize the total number of tickets sold.
 
-![Problem Illustration](../images/GRD-011/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/greedy/GRD-011.jpg)
 
 ## Input Format
 

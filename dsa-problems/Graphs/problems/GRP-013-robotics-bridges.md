@@ -33,7 +33,7 @@ A **bridge** (or cut edge) is an edge whose removal increases the number of conn
 
 Return a list of all bridges as pairs of nodes.
 
-![Problem Illustration](../images/GRP-013/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graphs/grp_013.jpg)
 
 ## Input Format
 

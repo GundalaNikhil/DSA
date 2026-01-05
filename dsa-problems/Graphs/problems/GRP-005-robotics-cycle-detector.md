@@ -31,7 +31,7 @@ A cycle is a path of edges and vertices where a vertex is reachable from itself 
 
 Return `true` if the graph contains at least one cycle, `false` otherwise.
 
-![Problem Illustration](../images/GRP-005/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graphs/grp_005.jpg)
 
 ## Input Format
 

@@ -38,7 +38,7 @@ Your goal is to choose an execution order that minimizes the total accumulated d
 
 Return the minimum total delay.
 
-![Problem Illustration](../images/GRD-016/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/greedy/GRD-016.jpg)
 
 ## Input Format
 

@@ -24,6 +24,9 @@ memory_limit: 256
 
 ## Problem Statement
 
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767567842/dsa/geometry/iibv3m6llhysqwvhhqcr.jpg)
+
+
 Given a simple polygon with `n` vertices in 2D and a query point `Q`, determine whether `Q` is **inside**, **outside**, or on the **boundary** of the polygon using a winding-number style test.
 
 Print one word: `inside`, `outside`, or `boundary`.

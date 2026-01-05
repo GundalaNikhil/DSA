@@ -33,7 +33,7 @@ An **articulation point** is a node whose removal increases the number of connec
 
 Return a list of all articulation points in sorted order.
 
-![Problem Illustration](../images/GRP-014/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graphs/grp_014.jpg)
 
 ## Input Format
 

@@ -24,6 +24,9 @@ memory_limit: 256
 
 ## Problem Statement
 
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767567843/dsa/geometry/xphpdpbt1dlue9karhgo.jpg)
+
+
 You are given `m` line segments in 2D. Count how many **distinct pairs** of segments intersect (including touching at endpoints or overlapping).
 
 Return the total number of intersecting pairs.

@@ -37,7 +37,7 @@ Return two integers: `(fulfilled, zeroedTypes)` where:
 - `fulfilled` = number of students who received kits
 - `zeroedTypes` = number of kit types that ended with zero quantity
 
-![Problem Illustration](../images/GRD-002/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/greedy/GRD-002.jpg)
 
 ## Input Format
 

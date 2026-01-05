@@ -29,7 +29,7 @@ Given an undirected graph represented by `n` nodes (numbered from 0 to n-1) and 
 
 DFS explores as far as possible along each branch before backtracking. The preorder means we record a node when we first visit it, not when we backtrack from it.
 
-![Problem Illustration](../images/GRP-002/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graphs/grp_002.jpg)
 
 ## Input Format
 

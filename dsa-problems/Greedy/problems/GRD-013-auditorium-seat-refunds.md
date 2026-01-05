@@ -31,7 +31,7 @@ You receive `n` refund requests, where each request specifies a seat ID that inc
 
 Return the highest occupied row number after processing all refund requests.
 
-![Problem Illustration](../images/GRD-013/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/greedy/GRD-013.jpg)
 
 ## Input Format
 

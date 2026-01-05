@@ -35,7 +35,7 @@ After processing each batch, report the median of all **non-stale** values seen 
 - If count is odd: middle element
 - If count is even: average of two middle elements (round down)
 
-![Problem Illustration](../images/GRD-015/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/greedy/GRD-015.jpg)
 
 ## Input Format
 

@@ -31,7 +31,7 @@ You are given an undirected graph where each edge has a capacity `c`. An edge is
 
 Find all such edges.
 
-![Problem Illustration](../images/GRB-011/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graph_basics/GRB-011.jpg)
 
 ## Input Format
 

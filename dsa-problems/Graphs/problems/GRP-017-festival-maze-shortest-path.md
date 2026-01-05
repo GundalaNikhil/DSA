@@ -41,7 +41,7 @@ You can move 4-directionally (up, down, left, right) through non-wall cells.
 
 Find the minimum number of steps from `S` to `E` while satisfying the food stall visit rule, or return `-1` if impossible.
 
-![Problem Illustration](../images/GRP-017/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graphs/grp_017.jpg)
 
 ## Input Format
 

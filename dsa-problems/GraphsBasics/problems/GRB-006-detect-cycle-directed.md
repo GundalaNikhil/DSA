@@ -26,7 +26,7 @@ memory_limit: 256
 
 Given a directed graph, determine whether it contains a cycle.
 
-![Problem Illustration](../images/GRB-006/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graph_basics/GRB-006.jpg)
 
 ## Input Format
 

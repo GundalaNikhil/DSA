@@ -42,7 +42,7 @@ You can bundle two parts together using the following rules:
 
 Your goal is to bundle all parts into a single component while maximizing the final weight. Return the maximum achievable weight, or `-1` if no valid bundling sequence exists.
 
-![Problem Illustration](../images/GRD-006/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/greedy/GRD-006.jpg)
 
 ## Input Format
 

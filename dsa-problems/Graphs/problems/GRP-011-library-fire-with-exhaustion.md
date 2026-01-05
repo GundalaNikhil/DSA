@@ -43,7 +43,7 @@ Fire spreads as follows:
 
 Your task: Compute the number of minutes until no new cells ignite. If any empty cell never catches fire, return `-1`.
 
-![Problem Illustration](../images/GRP-011/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graphs/grp_011.jpg)
 
 ## Input Format
 

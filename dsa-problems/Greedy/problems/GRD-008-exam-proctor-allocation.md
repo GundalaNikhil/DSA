@@ -29,7 +29,7 @@ You have `n` exam sessions, where each session `i` occurs during time interval `
 
 Your task is to find the minimum number of proctors needed to cover all exam sessions.
 
-![Problem Illustration](../images/GRD-008/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/greedy/GRD-008.jpg)
 
 ## Input Format
 

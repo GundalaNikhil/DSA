@@ -24,6 +24,9 @@ memory_limit: 256
 
 ## Problem Statement
 
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767567844/dsa/geometry/iq9utkicxlwfoqlhyp2d.jpg)
+
+
 Given `n` points in 2D, find the **minimum squared Euclidean distance** between any pair of distinct points.
 
 Return that squared distance as an integer.

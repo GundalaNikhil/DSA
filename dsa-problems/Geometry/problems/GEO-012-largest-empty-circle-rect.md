@@ -24,6 +24,9 @@ memory_limit: 256
 
 ## Problem Statement
 
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767567845/dsa/geometry/cfjqty1oj7yjm7jjjgey.jpg)
+
+
 You are managing a rectangular development zone defined by its corners `[xL, yB]` and `[xR, yT]`. There are `n` noise sources located at points `(xi, yi)`, each having an inherent noise radius `ri`.
 
 Your task is to find the **center and radius of the largest possible "Quiet Circle"** that:

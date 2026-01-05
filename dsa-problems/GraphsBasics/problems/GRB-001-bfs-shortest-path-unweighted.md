@@ -30,7 +30,7 @@ In an unweighted graph, each edge has the same weight (you can think of it as we
 
 If a node is not reachable from the source, its distance should be `-1`.
 
-![Problem Illustration](../images/GRB-001/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graph_basics/GRB-001.jpg)
 
 ## Input Format
 

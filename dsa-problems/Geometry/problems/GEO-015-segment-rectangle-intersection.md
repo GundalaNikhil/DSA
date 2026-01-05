@@ -24,6 +24,9 @@ memory_limit: 256
 
 ## Problem Statement
 
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767567847/dsa/geometry/kqux9fnrbi2ubw0d90uj.jpg)
+
+
 Given an axis-aligned rectangle with corners `(xL, yB)` (bottom-left) and `(xR, yT)` (top-right), and a line segment with endpoints `P1(x1, y1)` and `P2(x2, y2)`, determine whether the segment intersects or lies within the rectangle.
 
 Intersection counts if the segment touches or crosses the rectangle boundary.

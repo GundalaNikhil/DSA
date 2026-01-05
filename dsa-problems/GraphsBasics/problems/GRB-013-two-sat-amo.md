@@ -26,7 +26,7 @@ memory_limit: 256
 
 You are given a 2-SAT formula with `n` boolean variables `x1..xn`. Each clause is of the form `(a OR b)` where `a` and `b` are literals. Additionally, you are given several **at-most-one** constraints: within each subset, at most one variable can be true.
 Determine whether the formula is satisfiable and, if it is, output one valid assignment.
-![Problem Illustration](../images/GRB-013/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graph_basics/GRB-013.jpg)
 
 ## Input Format
 

@@ -31,7 +31,7 @@ Given a directed graph with `n` nodes (numbered from 0 to n-1) and an adjacency 
 
 A cycle in a directed graph is a path that starts and ends at the same vertex, following the direction of edges. Return `true` if the graph contains at least one cycle, `false` otherwise.
 
-![Problem Illustration](../images/GRP-006/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graphs/grp_006.jpg)
 
 ## Input Format
 

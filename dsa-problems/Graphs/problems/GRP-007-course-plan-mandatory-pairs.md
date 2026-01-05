@@ -34,7 +34,7 @@ Produce a topological ordering of courses that:
 
 Return the valid schedule as a list of course numbers. If no valid schedule exists, return an empty list.
 
-![Problem Illustration](../images/GRP-007/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graphs/grp_007.jpg)
 
 ## Input Format
 

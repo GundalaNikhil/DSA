@@ -33,7 +33,7 @@ Some nodes are pre-colored either group A (locked value 1) or group B (locked va
 
 Return `true` if a valid coloring exists, `false` otherwise.
 
-![Problem Illustration](../images/GRP-004/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graphs/grp_004.jpg)
 
 ## Input Format
 

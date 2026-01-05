@@ -24,6 +24,9 @@ memory_limit: 256
 
 ## Problem Statement
 
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/v1767567848/dsa/geometry/tndkgsc7pmlwjvpvtbya.jpg)
+
+
 You are given `n` points in 2D. The complete graph has an edge between every pair of points with weight equal to their **Manhattan distance** (`|x1 - x2| + |y1 - y2|`).
 
 Compute the total weight of a Minimum Spanning Tree (MST) of this graph.

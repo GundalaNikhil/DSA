@@ -26,7 +26,7 @@ memory_limit: 256
 
 Given an undirected graph, determine whether it is bipartite. If it is bipartite, output a valid 2-coloring. Otherwise, output `false`.
 
-![Problem Illustration](../images/GRB-009/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graph_basics/GRB-009.jpg)
 
 ## Input Format
 

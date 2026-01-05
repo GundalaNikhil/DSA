@@ -35,7 +35,7 @@ Your goal is to:
 
 Return the maximum number of stages you can run.
 
-![Problem Illustration](../images/GRD-014/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/greedy/GRD-014.jpg)
 
 ## Input Format
 

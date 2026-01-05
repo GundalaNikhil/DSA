@@ -31,7 +31,7 @@ Each edge has a weight representing the energy/distance required. You can only t
 
 Return the minimum total cost, or `-1` if no valid path exists.
 
-![Problem Illustration](../images/GRP-010/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graphs/grp_010.jpg)
 
 ## Input Format
 

@@ -31,7 +31,7 @@ You are given an undirected graph where nodes represent students who prefer to s
 
 Your task is to remove the minimum number of edges such that no component contains more than one VIP, then return the size of the largest remaining connected component.
 
-![Problem Illustration](../images/GRP-012/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graphs/grp_012.jpg)
 
 ## Input Format
 

@@ -32,7 +32,7 @@ Given a weighted undirected graph with `n` nodes (numbered 0 to n-1), edges with
 
 An edge (u, v, w) can be traversed if and only if `w <= T`. Count all nodes that can be reached from node 0 through such valid edges.
 
-![Problem Illustration](../images/GRP-018/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graphs/grp_018.jpg)
 
 ## Input Format
 

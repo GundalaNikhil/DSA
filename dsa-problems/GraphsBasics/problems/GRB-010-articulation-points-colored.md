@@ -28,7 +28,7 @@ You are given an undirected graph where each edge is colored `R` (red) or `B` (b
 
 Return all critical nodes in increasing order.
 
-![Problem Illustration](../images/GRB-010/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graph_basics/GRB-010.jpg)
 
 ## Input Format
 

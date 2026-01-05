@@ -31,7 +31,7 @@ If a book ID would appear for the third time in a row, skip it and move to the n
 
 Return the merged stream as a list.
 
-![Problem Illustration](../images/GRD-010/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/greedy/GRD-010.jpg)
 
 ## Input Format
 

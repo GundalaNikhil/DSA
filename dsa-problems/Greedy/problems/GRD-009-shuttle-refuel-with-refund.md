@@ -33,7 +33,7 @@ You have a special coupon that can refund the fuel cost for exactly one segment 
 
 Find a starting stop index where you can complete the entire loop using the coupon optimally, or return `-1` if it's impossible even with the coupon.
 
-![Problem Illustration](../images/GRD-009/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/greedy/GRD-009.jpg)
 
 ## Input Format
 

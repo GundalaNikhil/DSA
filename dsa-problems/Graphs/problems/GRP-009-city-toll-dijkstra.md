@@ -30,7 +30,7 @@ Given a weighted directed graph with `n` nodes (numbered 0 to n-1), find the sho
 
 Each edge has a non-negative weight representing the toll/cost. Output the minimum cost to reach each node from the source. If a node is unreachable, output `-1`.
 
-![Problem Illustration](../images/GRP-009/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graphs/grp_009.jpg)
 
 ## Input Format
 

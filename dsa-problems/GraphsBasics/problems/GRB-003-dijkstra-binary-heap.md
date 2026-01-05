@@ -28,7 +28,7 @@ You are given a directed graph with non-negative edge weights. Compute the short
 
 If a node is unreachable, its distance should be `-1`.
 
-![Problem Illustration](../images/GRB-003/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graph_basics/GRB-003.jpg)
 
 ## Input Format
 

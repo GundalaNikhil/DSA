@@ -31,7 +31,7 @@ However, there's a safety regulation: no two stalls can be placed within distanc
 
 Your goal is to approve the maximum number of stall requests while respecting the distance constraint.
 
-![Problem Illustration](../images/GRD-003/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/greedy/GRD-003.jpg)
 
 ## Input Format
 

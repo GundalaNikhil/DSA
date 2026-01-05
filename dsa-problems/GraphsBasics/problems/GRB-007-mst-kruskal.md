@@ -26,7 +26,7 @@ memory_limit: 256
 
 Given a connected, undirected weighted graph, compute the total weight of its minimum spanning tree (MST) using Kruskal's algorithm.
 
-![Problem Illustration](../images/GRB-007/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graph_basics/GRB-007.jpg)
 
 ## Input Format
 

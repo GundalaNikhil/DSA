@@ -28,7 +28,7 @@ You are given a directed graph that may contain negative edge weights. Compute s
 
 If a negative cycle is reachable from `s`, output `NEGATIVE CYCLE`.
 
-![Problem Illustration](../images/GRB-004/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graph_basics/GRB-004.jpg)
 
 ## Input Format
 

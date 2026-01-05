@@ -28,7 +28,7 @@ Given an undirected unweighted graph represented by `n` nodes (numbered from 0 t
 
 The graph is represented as an adjacency list where each node may have zero or more neighbors. You must traverse the graph level by level, visiting all nodes at distance `k` before visiting any nodes at distance `k+1`.
 
-![Problem Illustration](../images/GRP-001/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graphs/grp_001.jpg)
 
 ## Input Format
 

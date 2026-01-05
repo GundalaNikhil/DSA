@@ -33,7 +33,7 @@ A **forest** is a graph with no cycles. Equivalently, it's a collection of trees
 
 Return `true` if the graph is a forest (has no cycles), `false` otherwise.
 
-![Problem Illustration](../images/GRP-016/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graphs/grp_016.jpg)
 
 ## Input Format
 

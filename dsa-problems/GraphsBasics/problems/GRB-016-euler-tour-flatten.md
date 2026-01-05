@@ -27,7 +27,7 @@ memory_limit: 256
 
 You are given a rooted tree with `n` nodes. Produce the entry time `tin[u]` and exit time `tout[u]` for each node using a DFS Euler tour. The subtree of `u` corresponds to the contiguous range `[tin[u], tout[u]]` in the Euler order.
 
-![Problem Illustration](../images/GRB-016/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graph_basics/GRB-016.jpg)
 
 ## Input Format
 

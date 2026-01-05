@@ -28,7 +28,7 @@ You are given an undirected graph with `n` nodes (0 to `n-1`) and `m` edges. Cou
 
 Use depth-first search (DFS) to explore the graph.
 
-![Problem Illustration](../images/GRB-002/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graph_basics/GRB-002.jpg)
 
 ## Input Format
 

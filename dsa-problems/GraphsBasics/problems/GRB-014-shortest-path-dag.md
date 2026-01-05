@@ -28,7 +28,7 @@ Given a weighted directed acyclic graph (DAG), compute shortest distances from a
 
 If a node is unreachable, its distance should be `-1`.
 
-![Problem Illustration](../images/GRB-014/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/graph_basics/GRB-014.jpg)
 
 ## Input Format
 

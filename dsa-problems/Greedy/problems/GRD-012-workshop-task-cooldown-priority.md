@@ -36,7 +36,7 @@ You have tasks labeled A-Z with counts `c[i]` and priority levels `p[i]` in {1, 
 
 Your goal is to minimize the total time slots (including idle slots) needed to complete all tasks.
 
-![Problem Illustration](../images/GRD-012/problem-illustration.png)
+![Problem Illustration](https://res.cloudinary.com/dy4dvna3t/image/upload/dsa/greedy/GRD-012.jpg)
 
 ## Input Format
 
