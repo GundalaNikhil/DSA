@@ -3,11 +3,11 @@
   "parameters": [
     {
       "name": "N",
-      "type": "integer"
+      "type": "int"
     },
     {
       "name": "Q",
-      "type": "integer"
+      "type": "int"
     },
     {
       "name": "queries",
