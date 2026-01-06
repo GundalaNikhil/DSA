@@ -1,4 +1,28 @@
-# DP-031: DP with Hidden State Reveal
+---
+problem_id: DP_HIDDEN_STATE_REVEAL__5958
+display_id: NTB-DP-5958
+slug: hidden-state-reveal
+title: "DP with Hidden State Reveal"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - hidden-state-reveal
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Hidden State Reveal
 
 ## Problem Statement
 

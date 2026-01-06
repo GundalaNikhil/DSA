@@ -1,4 +1,28 @@
-# STR-021: Compression with Undo
+---
+problem_id: STR_COMPRESSION_WITH_UNDO__3581
+display_id: NTB-STR-3581
+slug: compression-with-undo
+title: "Compression with Undo"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - compression-with-undo
+  - data-structures
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Compression with Undo
 
 ## Problem Statement
 

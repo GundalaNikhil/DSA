@@ -1,4 +1,28 @@
-# DP-021: DP with Conditional Unlocks
+---
+problem_id: DP_CONDITIONAL_UNLOCKS__1809
+display_id: NTB-DP-1809
+slug: conditional-unlocks
+title: "DP with Conditional Unlocks"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - conditional-unlocks
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Conditional Unlocks
 
 ## Problem Statement
 

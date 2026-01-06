@@ -1,4 +1,28 @@
-# LNK-038: Linked List with Copy-on-Write
+---
+problem_id: LNK_LINKED_LIST_COPY_ON_WRITE__7880
+display_id: NTB-LNK-7880
+slug: linked-list-copy-on-write
+title: "Linked List with Copy-on-Write"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-copy-on-write
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Copy-on-Write
 
 ## Problem Statement
 

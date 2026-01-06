@@ -1,4 +1,28 @@
-# DP-046: DP over Evolving State Space
+---
+problem_id: DP_EVOLVING_STATE_SPACE__3887
+display_id: NTB-DP-3887
+slug: evolving-state-space
+title: "DP over Evolving State Space"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - evolving-state-space
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP over Evolving State Space
 
 ## Problem Statement
 

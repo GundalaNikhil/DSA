@@ -1,4 +1,28 @@
-# LNK-014: Linked List Conflict Resolver
+---
+problem_id: LNK_LINKED_LIST_CONFLICT_RESOLVER__4646
+display_id: NTB-LNK-4646
+slug: linked-list-conflict-resolver
+title: "Linked List Conflict Resolver"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-conflict-resolver
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List Conflict Resolver
 
 ## Problem Statement
 

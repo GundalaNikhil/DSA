@@ -1,4 +1,28 @@
-# DP-004: DP with Oscillating Costs
+---
+problem_id: DP_OSCILLATING_COSTS__2069
+display_id: NTB-DP-2069
+slug: oscillating-costs
+title: "DP with Oscillating Costs"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - oscillating-costs
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Oscillating Costs
 
 ## Problem Statement
 

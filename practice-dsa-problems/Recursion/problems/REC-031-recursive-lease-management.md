@@ -1,4 +1,27 @@
-# REC-031: Recursive Lease Management
+---
+problem_id: REC_RECURSIVE_LEASE_MANAGEMENT__1587
+display_id: NTB-REC-1587
+slug: recursive-lease-management
+title: "Recursive Lease Management"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-lease-management
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Lease Management
 
 ## Problem Statement
 

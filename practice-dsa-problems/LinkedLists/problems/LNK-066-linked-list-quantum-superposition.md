@@ -1,4 +1,28 @@
-# LNK-066: Linked List with Quantum Superposition
+---
+problem_id: LNK_LINKED_LIST_QUANTUM_SUPERPOSITION__9126
+display_id: NTB-LNK-9126
+slug: linked-list-quantum-superposition
+title: "Linked List with Quantum Superposition"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-quantum-superposition
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Quantum Superposition
 
 ## Problem Statement
 

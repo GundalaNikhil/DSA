@@ -1,4 +1,28 @@
-# LNK-039: Linked List with Backpressure
+---
+problem_id: LNK_LINKED_LIST_BACKPRESSURE__2215
+display_id: NTB-LNK-2215
+slug: linked-list-backpressure
+title: "Linked List with Backpressure"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-backpressure
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Backpressure
 
 ## Problem Statement
 

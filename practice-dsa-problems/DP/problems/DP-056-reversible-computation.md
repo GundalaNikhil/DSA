@@ -1,4 +1,28 @@
-# DP-056: DP on Reversible Computation
+---
+problem_id: DP_REVERSIBLE_COMPUTATION__9348
+display_id: NTB-DP-9348
+slug: reversible-computation
+title: "DP on Reversible Computation"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - reversible-computation
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP on Reversible Computation
 
 ## Problem Statement
 

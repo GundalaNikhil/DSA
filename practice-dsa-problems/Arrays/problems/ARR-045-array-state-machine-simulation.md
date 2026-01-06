@@ -1,4 +1,29 @@
-# ARR-045: Array State Machine Simulation
+---
+problem_id: ARR_ARRAY_STATE_MACHINE_SIMULATION__7643
+display_id: NTB-ARR-7643
+slug: array-state-machine-simulation
+title: "Array State Machine Simulation"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - array-state-machine-simulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Array State Machine Simulation
 
 ## Problem Statement
 

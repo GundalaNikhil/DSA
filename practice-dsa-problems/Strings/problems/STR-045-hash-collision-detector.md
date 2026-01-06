@@ -1,4 +1,28 @@
-# STR-045: Hash Collision Detector
+---
+problem_id: STR_HASH_COLLISION_DETECTOR__4214
+display_id: NTB-STR-4214
+slug: hash-collision-detector
+title: "Hash Collision Detector"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - hash-collision-detector
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Hash Collision Detector
 
 ## Problem Statement
 

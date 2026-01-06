@@ -1,4 +1,27 @@
-# REC-030: Recursive Drift Correction
+---
+problem_id: REC_RECURSIVE_DRIFT_CORRECTION__9520
+display_id: NTB-REC-9520
+slug: recursive-drift-correction
+title: "Recursive Drift Correction"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-drift-correction
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Drift Correction
 
 ## Problem Statement
 

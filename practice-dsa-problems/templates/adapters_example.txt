@@ -1,0 +1,86 @@
+// ============================================================
+// ADAPTER EXAMPLES FOR SAMPLE PROBLEM: Segmented Linked List
+// ============================================================
+// Problem args: [n, values, segments, operations]
+// User function: processSegmentedList(int n, int[] values, int[] segments, String[] operations)
+// Returns: List<String>
+
+// ============================================================
+// JAVA ADAPTER
+// ============================================================
+class Adapter {
+    public static Object run(JSONArray args) throws JSONException {
+        int n = args.getInt(0);
+        
+        JSONArray valuesJson = args.getJSONArray(1);
+        int[] values = new int[valuesJson.length()];
+        for (int i = 0; i < valuesJson.length(); i++) {
+            values[i] = valuesJson.getInt(i);
+        }
+        
+        JSONArray segmentsJson = args.getJSONArray(2);
+        int[] segments = new int[segmentsJson.length()];
+        for (int i = 0; i < segmentsJson.length(); i++) {
+            segments[i] = segmentsJson.getInt(i);
+        }
+        
+        JSONArray opsJson = args.getJSONArray(3);
+        String[] operations = new String[opsJson.length()];
+        for (int i = 0; i < opsJson.length(); i++) {
+            operations[i] = opsJson.getString(i);
+        }
+        
+        Solution sol = new Solution();
+        return sol.processSegmentedList(n, values, segments, operations);
+    }
+}
+
+
+// ============================================================
+// PYTHON ADAPTER
+// ============================================================
+def adapter(args):
+    n = args[0]
+    values = args[1]
+    segments = args[2]
+    operations = args[3]
+    return solve(n, values, segments, operations)
+
+
+// ============================================================
+// C++ ADAPTER
+// ============================================================
+json adapter(const json& args) {
+    int n = args[0].get<int>();
+    
+    vector<int> values;
+    for (const auto& v : args[1]) {
+        values.push_back(v.get<int>());
+    }
+    
+    vector<int> segments;
+    for (const auto& s : args[2]) {
+        segments.push_back(s.get<int>());
+    }
+    
+    vector<string> operations;
+    for (const auto& op : args[3]) {
+        operations.push_back(op.get<string>());
+    }
+    
+    Solution sol;
+    vector<string> result = sol.processSegmentedList(n, values, segments, operations);
+    return json(result);
+}
+
+
+// ============================================================
+// JAVASCRIPT ADAPTER
+// ============================================================
+function adapter(args) {
+    const n = args[0];
+    const values = args[1];
+    const segments = args[2];
+    const operations = args[3];
+    return solve(n, values, segments, operations);
+}

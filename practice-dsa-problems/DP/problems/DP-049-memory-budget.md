@@ -1,4 +1,28 @@
-# DP-049: DP with Memory Budget
+---
+problem_id: DP_MEMORY_BUDGET__7443
+display_id: NTB-DP-7443
+slug: memory-budget
+title: "DP with Memory Budget"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - memory-budget
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Memory Budget
 
 ## Problem Statement
 

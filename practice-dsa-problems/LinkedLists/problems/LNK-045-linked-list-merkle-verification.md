@@ -1,4 +1,28 @@
-# LNK-045: Linked List with Merkle Verification
+---
+problem_id: LNK_LINKED_LIST_MERKLE_VERIFICATION__9668
+display_id: NTB-LNK-9668
+slug: linked-list-merkle-verification
+title: "Linked List with Merkle Verification"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-merkle-verification
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Merkle Verification
 
 ## Problem Statement
 

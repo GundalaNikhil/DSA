@@ -1,4 +1,28 @@
-# STR-036: Exact K-Distinct Window
+---
+problem_id: STR_EXACT_K_DISTINCT_WINDOW__2213
+display_id: NTB-STR-2213
+slug: exact-k-distinct-window
+title: "Exact K-Distinct Window"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - exact-k-distinct-window
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Exact K-Distinct Window
 
 ## Problem Statement
 

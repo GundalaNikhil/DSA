@@ -1,4 +1,28 @@
-# STR-009: Circular Text Match
+---
+problem_id: STR_CIRCULAR_TEXT_MATCH__7892
+display_id: NTB-STR-7892
+slug: circular-text-match
+title: "Circular Text Match"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - circular-text-match
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Circular Text Match
 
 ## Problem Statement
 

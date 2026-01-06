@@ -1,4 +1,29 @@
-# ARR-025: Duplicate Distance Minimization
+---
+problem_id: ARR_DUPLICATE_DISTANCE_MINIMIZATION__3331
+display_id: NTB-ARR-3331
+slug: duplicate-distance-minimization
+title: "Duplicate Distance Minimization"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - duplicate-distance-minimization
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Duplicate Distance Minimization
 
 ## Problem Statement
 

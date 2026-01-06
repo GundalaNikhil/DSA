@@ -1,4 +1,29 @@
-# ARR-040: Array Validity Under Multiple Rulesets
+---
+problem_id: ARR_ARRAY_VALIDITY_MULTIPLE_RULESETS__9217
+display_id: NTB-ARR-9217
+slug: array-validity-multiple-rulesets
+title: "Array Validity Under Multiple Rulesets"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - array-validity-multiple-rulesets
+  - arrays
+  - coding-interviews
+  - data-structures
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Array Validity Under Multiple Rulesets
 
 ## Problem Statement
 

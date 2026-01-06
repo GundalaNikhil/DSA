@@ -1,4 +1,29 @@
-# ARR-012: Kth Largest with Time Window
+---
+problem_id: ARR_KTH_LARGEST_TIME_WINDOW__2292
+display_id: NTB-ARR-2292
+slug: kth-largest-time-window
+title: "Kth Largest with Time Window"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - kth-largest-time-window
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Kth Largest with Time Window
 
 ## Problem Statement
 

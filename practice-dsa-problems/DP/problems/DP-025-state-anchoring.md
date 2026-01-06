@@ -1,4 +1,28 @@
-# DP-025: DP with State Anchoring
+---
+problem_id: DP_STATE_ANCHORING__4387
+display_id: NTB-DP-4387
+slug: state-anchoring
+title: "DP with State Anchoring"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - state-anchoring
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with State Anchoring
 
 ## Problem Statement
 

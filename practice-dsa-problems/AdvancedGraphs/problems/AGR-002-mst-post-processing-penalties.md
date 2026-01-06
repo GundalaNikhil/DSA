@@ -1,4 +1,29 @@
-# AGR-002: Minimum Spanning Tree with Post-Processing Penalties
+---
+problem_id: AGR_MST_POST_PROCESSING_PENALTIES__2495
+display_id: NTB-AGR-2495
+slug: mst-post-processing-penalties
+title: "Minimum Spanning Tree with Post-Processing Penalties"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Advanced Graphs
+tags:
+  - advanced-algorithms
+  - advancedgraphs
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - graph-theory
+  - mst-post-processing-penalties
+  - network-flow
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Minimum Spanning Tree with Post-Processing Penalties
 
 ## Problem Statement
 
@@ -31,7 +56,7 @@ If the graph is not connected, output `-1`.
 ## Clarifying Notes
 
 - Edge selection is based **only** on base weight `w` (penalties do not affect the choice).
-- If multiple edges have the same base weight, any tie-breaking order consistent with Kruskal is valid.
+- Among edges with the same base weight, the algorithm must prioritize edges with a **smaller penalty** to ensure a unique answer.
 
 ## Example Input
 

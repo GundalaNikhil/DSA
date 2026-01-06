@@ -1,4 +1,28 @@
-# STR-005: Sentence Reordering
+---
+problem_id: STR_SENTENCE_REORDERING__9520
+display_id: NTB-STR-9520
+slug: sentence-reordering
+title: "Sentence Reordering"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - sentence-reordering
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Sentence Reordering
 
 ## Problem Statement
 

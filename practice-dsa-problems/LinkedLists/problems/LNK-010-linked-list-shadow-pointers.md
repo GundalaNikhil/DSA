@@ -1,4 +1,28 @@
-# LNK-010: Linked List with Shadow Pointers
+---
+problem_id: LNK_LINKED_LIST_SHADOW_POINTERS__7157
+display_id: NTB-LNK-7157
+slug: linked-list-shadow-pointers
+title: "Linked List with Shadow Pointers"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-shadow-pointers
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Shadow Pointers
 
 ## Problem Statement
 

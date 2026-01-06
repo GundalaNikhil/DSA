@@ -1,4 +1,28 @@
-# LNK-016: Linked List Garbage Collection
+---
+problem_id: LNK_LINKED_LIST_GARBAGE_COLLECTION__6932
+display_id: NTB-LNK-6932
+slug: linked-list-garbage-collection
+title: "Linked List Garbage Collection"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-garbage-collection
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List Garbage Collection
 
 ## Problem Statement
 

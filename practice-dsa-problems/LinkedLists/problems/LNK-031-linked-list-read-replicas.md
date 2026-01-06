@@ -1,4 +1,28 @@
-# LNK-031: Linked List with Read Replicas
+---
+problem_id: LNK_LINKED_LIST_READ_REPLICAS__3497
+display_id: NTB-LNK-3497
+slug: linked-list-read-replicas
+title: "Linked List with Read Replicas"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-read-replicas
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Read Replicas
 
 ## Problem Statement
 

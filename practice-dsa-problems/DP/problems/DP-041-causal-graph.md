@@ -1,4 +1,28 @@
-# DP-041: DP on Causal Graph
+---
+problem_id: DP_CAUSAL_GRAPH__2395
+display_id: NTB-DP-2395
+slug: causal-graph
+title: "DP on Causal Graph"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - causal-graph
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP on Causal Graph
 
 ## Problem Statement
 

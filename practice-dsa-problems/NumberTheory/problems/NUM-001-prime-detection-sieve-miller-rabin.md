@@ -1,4 +1,28 @@
-# NUM-001: Prime Detection with Sieve and Deterministic Miller-Rabin
+---
+problem_id: NUM_PRIME_DETECTION_SIEVE_MILLER_RABIN__7179
+display_id: NTB-NUM-7179
+slug: prime-detection-sieve-miller-rabin
+title: "Prime Detection with Sieve and Deterministic Miller-Rabin"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Number Theory
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - modular-arithmetic
+  - numbertheory
+  - prime-detection-sieve-miller-rabin
+  - primes
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Prime Detection with Sieve and Deterministic Miller-Rabin
 
 ## Problem Statement
 

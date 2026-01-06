@@ -1,4 +1,28 @@
-# LNK-019: Concurrent Modification Audit
+---
+problem_id: LNK_CONCURRENT_MODIFICATION_AUDIT__5859
+display_id: NTB-LNK-5859
+slug: concurrent-modification-audit
+title: "Concurrent Modification Audit"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - concurrent-modification-audit
+  - data-structures
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Concurrent Modification Audit
 
 ## Problem Statement
 

@@ -1,4 +1,28 @@
-# STR-018: Lexical Minimizer with Swaps
+---
+problem_id: STR_LEXICAL_MINIMIZER_ADJACENT_SWAPS__1606
+display_id: NTB-STR-1606
+slug: lexical-minimizer-adjacent-swaps
+title: "Lexical Minimizer with Swaps"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - lexical-minimizer-adjacent-swaps
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Lexical Minimizer with Swaps
 
 ## Problem Statement
 

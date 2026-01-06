@@ -1,4 +1,29 @@
-# ARR-024: Array Game with Penalties
+---
+problem_id: ARR_ARRAY_GAME_WITH_PENALTIES__9080
+display_id: NTB-ARR-9080
+slug: array-game-with-penalties
+title: "Array Game with Penalties"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-game-with-penalties
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Array Game with Penalties
 
 ## Problem Statement
 

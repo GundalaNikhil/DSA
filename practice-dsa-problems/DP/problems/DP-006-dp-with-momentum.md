@@ -1,4 +1,28 @@
-# DP-006: DP with Momentum
+---
+problem_id: DP_DP_WITH_MOMENTUM__4950
+display_id: NTB-DP-4950
+slug: dp-with-momentum
+title: "DP with Momentum"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - dp-with-momentum
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Momentum
 
 ## Problem Statement
 

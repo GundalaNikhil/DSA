@@ -1,4 +1,28 @@
-# DP-068: Storage Tiering DP
+---
+problem_id: DP_STORAGE_TIERING__3040
+display_id: NTB-DP-3040
+slug: storage-tiering
+title: "Storage Tiering DP"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - storage-tiering
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Storage Tiering DP
 
 ## Problem Statement
 

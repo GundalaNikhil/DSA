@@ -1,4 +1,28 @@
-# LNK-028: Deferred Operations List
+---
+problem_id: LNK_DEFERRED_OPERATIONS_LIST__2124
+display_id: NTB-LNK-2124
+slug: deferred-operations-list
+title: "Deferred Operations List"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - deferred-operations-list
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Deferred Operations List
 
 ## Problem Statement
 

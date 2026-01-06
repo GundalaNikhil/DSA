@@ -1,4 +1,28 @@
-# STR-044: Persistent String Editor
+---
+problem_id: STR_PERSISTENT_STRING_EDITOR__2047
+display_id: NTB-STR-2047
+slug: persistent-string-editor
+title: "Persistent String Editor"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - persistent-string-editor
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Persistent String Editor
 
 ## Problem Statement
 

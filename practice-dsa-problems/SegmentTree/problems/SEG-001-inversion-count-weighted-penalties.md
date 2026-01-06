@@ -1,4 +1,27 @@
-# SEG-001: Inversion Count with Weighted Penalties
+---
+problem_id: SEG_INVERSION_COUNT_WEIGHTED_PENALTIES__1757
+display_id: NTB-SEG-1757
+slug: inversion-count-weighted-penalties
+title: "Inversion Count with Weighted Penalties"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Segment Tree
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - inversion-count-weighted-penalties
+  - range-queries
+  - segmenttree
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Inversion Count with Weighted Penalties
 
 ## Problem Statement
 

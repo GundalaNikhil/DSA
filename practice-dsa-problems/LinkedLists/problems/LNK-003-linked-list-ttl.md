@@ -1,4 +1,28 @@
-# LNK-003: Linked List with Time-to-Live
+---
+problem_id: LNK_LINKED_LIST_TTL__6640
+display_id: NTB-LNK-6640
+slug: linked-list-ttl
+title: "Linked List with Time-to-Live"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-ttl
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Time-to-Live
 
 ## Problem Statement
 

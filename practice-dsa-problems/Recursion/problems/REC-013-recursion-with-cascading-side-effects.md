@@ -1,4 +1,27 @@
-# REC-013: Recursion with Cascading Side Effects
+---
+problem_id: REC_RECURSION_WITH_CASCADING_SIDE_EFFECTS__2487
+display_id: NTB-REC-2487
+slug: recursion-with-cascading-side-effects
+title: "Recursion with Cascading Side Effects"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursion-with-cascading-side-effects
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursion with Cascading Side Effects
 
 ## Problem Statement
 

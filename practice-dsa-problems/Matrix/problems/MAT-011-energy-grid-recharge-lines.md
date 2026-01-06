@@ -1,4 +1,28 @@
-# MAT-011: Energy Grid with Recharge Lines
+---
+problem_id: MAT_ENERGY_GRID_RECHARGE_LINES__6236
+display_id: NTB-MAT-6236
+slug: energy-grid-recharge-lines
+title: "Energy Grid with Recharge Lines"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Matrix
+tags:
+  - 2d-arrays
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - energy-grid-recharge-lines
+  - grids
+  - matrix
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Energy Grid with Recharge Lines
 
 ## Problem Statement
 

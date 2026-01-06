@@ -1,4 +1,28 @@
-# DP-001: Accumulation Threshold DP
+---
+problem_id: DP_ACCUMULATION_THRESHOLD_DP__1841
+display_id: NTB-DP-1841
+slug: accumulation-threshold-dp
+title: "Accumulation Threshold DP"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - accumulation-threshold-dp
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Accumulation Threshold DP
 
 ## Problem Statement
 
@@ -50,4 +74,46 @@ Each unlocked action is tied to exactly one meter and becomes available only aft
 
 ```
 16
+```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxReward(int n, int m, int[] thresholds, int[][] baseActions, int[][] unlockedActions) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+def solve(n, m, thresholds, base_actions, unlocked_actions):
+    # Implement here
+    return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxReward(int n, int m, vector<int>& thresholds, vector<vector<int>>& baseActions, vector<vector<int>>& unlockedActions) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+function solve(n, m, thresholds, baseActions, unlockedActions) {
+  // Implement here
+  return 0;
+}
 ```

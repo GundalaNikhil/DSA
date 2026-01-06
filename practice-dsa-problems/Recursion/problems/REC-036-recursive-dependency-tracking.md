@@ -1,4 +1,27 @@
-# REC-036: Recursive Dependency Tracking
+---
+problem_id: REC_RECURSIVE_DEPENDENCY_TRACKING__1455
+display_id: NTB-REC-1455
+slug: recursive-dependency-tracking
+title: "Recursive Dependency Tracking"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-dependency-tracking
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Dependency Tracking
 
 ## Problem Statement
 

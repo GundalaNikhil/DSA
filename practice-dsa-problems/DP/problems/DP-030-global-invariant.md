@@ -1,4 +1,28 @@
-# DP-030: DP with Global Invariant
+---
+problem_id: DP_GLOBAL_INVARIANT__1732
+display_id: NTB-DP-1732
+slug: global-invariant
+title: "DP with Global Invariant"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - global-invariant
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Global Invariant
 
 ## Problem Statement
 

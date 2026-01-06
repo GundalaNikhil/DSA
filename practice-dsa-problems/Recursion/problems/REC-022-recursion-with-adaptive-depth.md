@@ -1,4 +1,27 @@
-# REC-022: Recursion with Adaptive Depth
+---
+problem_id: REC_RECURSION_WITH_ADAPTIVE_DEPTH__6121
+display_id: NTB-REC-6121
+slug: recursion-with-adaptive-depth
+title: "Recursion with Adaptive Depth"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursion-with-adaptive-depth
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursion with Adaptive Depth
 
 ## Problem Statement
 

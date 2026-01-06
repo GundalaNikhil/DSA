@@ -1,4 +1,28 @@
-# STR-032: Pattern with Reversal
+---
+problem_id: STR_PATTERN_WITH_REVERSAL__6674
+display_id: NTB-STR-6674
+slug: pattern-with-reversal
+title: "Pattern with Reversal"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - pattern-with-reversal
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Pattern with Reversal
 
 ## Problem Statement
 

@@ -1,4 +1,29 @@
-# ARR-009: Minimum Effort Jump
+---
+problem_id: ARR_MINIMUM_EFFORT_JUMP__5611
+display_id: NTB-ARR-5611
+slug: minimum-effort-jump
+title: "Minimum Effort Jump"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - minimum-effort-jump
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Minimum Effort Jump
 
 ## Problem Statement
 

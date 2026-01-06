@@ -1,4 +1,27 @@
-# REC-055: Recursive Call Stack Analyzer
+---
+problem_id: REC_RECURSIVE_CALL_STACK_ANALYZER__3244
+display_id: NTB-REC-3244
+slug: recursive-call-stack-analyzer
+title: "Recursive Call Stack Analyzer"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-call-stack-analyzer
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Call Stack Analyzer
 
 ## Problem Statement
 

@@ -1,4 +1,27 @@
-# REC-053: Recursive Garbage Collector
+---
+problem_id: REC_RECURSIVE_GARBAGE_COLLECTOR__9837
+display_id: NTB-REC-9837
+slug: recursive-garbage-collector
+title: "Recursive Garbage Collector"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-garbage-collector
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Garbage Collector
 
 ## Problem Statement
 

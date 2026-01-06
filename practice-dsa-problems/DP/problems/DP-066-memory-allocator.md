@@ -1,4 +1,28 @@
-# DP-066: Memory Allocator DP
+---
+problem_id: DP_MEMORY_ALLOCATOR__9258
+display_id: NTB-DP-9258
+slug: memory-allocator
+title: "Memory Allocator DP"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - memory-allocator
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Memory Allocator DP
 
 ## Problem Statement
 

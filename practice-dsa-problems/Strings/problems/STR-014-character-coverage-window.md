@@ -1,4 +1,28 @@
-# STR-014: Character Coverage Window
+---
+problem_id: STR_CHARACTER_COVERAGE_WINDOW__7899
+display_id: NTB-STR-7899
+slug: character-coverage-window
+title: "Character Coverage Window"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - character-coverage-window
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Character Coverage Window
 
 ## Problem Statement
 

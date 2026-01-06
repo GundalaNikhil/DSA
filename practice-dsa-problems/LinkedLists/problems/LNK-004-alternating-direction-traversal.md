@@ -1,4 +1,28 @@
-# LNK-004: Alternating Direction Traversal
+---
+problem_id: LNK_ALTERNATING_DIRECTION_TRAVERSAL__9754
+display_id: NTB-LNK-9754
+slug: alternating-direction-traversal
+title: "Alternating Direction Traversal"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - alternating-direction-traversal
+  - coding-interviews
+  - data-structures
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Alternating Direction Traversal
 
 ## Problem Statement
 

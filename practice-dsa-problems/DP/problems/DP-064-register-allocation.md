@@ -1,4 +1,28 @@
-# DP-064: Compiler Register Allocation DP
+---
+problem_id: DP_REGISTER_ALLOCATION__3510
+display_id: NTB-DP-3510
+slug: register-allocation
+title: "Compiler Register Allocation DP"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - register-allocation
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Compiler Register Allocation DP
 
 ## Problem Statement
 

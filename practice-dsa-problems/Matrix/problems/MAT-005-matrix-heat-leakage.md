@@ -1,4 +1,28 @@
-# MAT-005: Matrix Heat Leakage
+---
+problem_id: MAT_MATRIX_HEAT_LEAKAGE__3460
+display_id: NTB-MAT-3460
+slug: matrix-heat-leakage
+title: "Matrix Heat Leakage"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Matrix
+tags:
+  - 2d-arrays
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - grids
+  - matrix
+  - matrix-heat-leakage
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Matrix Heat Leakage
 
 ## Problem Statement
 

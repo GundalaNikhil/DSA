@@ -1,4 +1,28 @@
-# MAT-022: Matrix Diff Engine
+---
+problem_id: MAT_MATRIX_DIFF_ENGINE__2592
+display_id: NTB-MAT-2592
+slug: matrix-diff-engine
+title: "Matrix Diff Engine"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Matrix
+tags:
+  - 2d-arrays
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - grids
+  - matrix
+  - matrix-diff-engine
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Matrix Diff Engine
 
 ## Problem Statement
 

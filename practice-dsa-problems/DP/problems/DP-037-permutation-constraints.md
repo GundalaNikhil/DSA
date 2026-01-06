@@ -1,4 +1,28 @@
-# DP-037: DP on Permutation with Constraints
+---
+problem_id: DP_PERMUTATION_CONSTRAINTS__6396
+display_id: NTB-DP-6396
+slug: permutation-constraints
+title: "DP on Permutation with Constraints"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - permutation-constraints
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP on Permutation with Constraints
 
 ## Problem Statement
 

@@ -1,4 +1,28 @@
-# STR-026: Maximum Unique Partitioning
+---
+problem_id: STR_MAXIMUM_UNIQUE_PARTITIONING__4090
+display_id: NTB-STR-4090
+slug: maximum-unique-partitioning
+title: "Maximum Unique Partitioning"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - maximum-unique-partitioning
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Maximum Unique Partitioning
 
 ## Problem Statement
 

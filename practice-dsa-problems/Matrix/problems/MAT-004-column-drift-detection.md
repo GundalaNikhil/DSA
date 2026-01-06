@@ -1,4 +1,28 @@
-# MAT-004: Column Drift Detection
+---
+problem_id: MAT_COLUMN_DRIFT_DETECTION__4167
+display_id: NTB-MAT-4167
+slug: column-drift-detection
+title: "Column Drift Detection"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Matrix
+tags:
+  - 2d-arrays
+  - algorithms
+  - coding-interviews
+  - column-drift-detection
+  - data-structures
+  - grids
+  - matrix
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Column Drift Detection
 
 ## Problem Statement
 

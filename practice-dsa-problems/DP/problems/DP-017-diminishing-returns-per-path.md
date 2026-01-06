@@ -1,4 +1,28 @@
-# DP-017: DP with Diminishing Returns per Path
+---
+problem_id: DP_DIMINISHING_RETURNS_PER_PATH__5314
+display_id: NTB-DP-5314
+slug: diminishing-returns-per-path
+title: "DP with Diminishing Returns per Path"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - diminishing-returns-per-path
+  - dp
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Diminishing Returns per Path
 
 ## Problem Statement
 

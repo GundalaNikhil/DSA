@@ -1,4 +1,28 @@
-# MAT-007: Row-Column Negotiation Matrix
+---
+problem_id: MAT_ROW_COLUMN_NEGOTIATION_MATRIX__2559
+display_id: NTB-MAT-2559
+slug: row-column-negotiation-matrix
+title: "Row-Column Negotiation Matrix"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Matrix
+tags:
+  - 2d-arrays
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - grids
+  - matrix
+  - row-column-negotiation-matrix
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Row-Column Negotiation Matrix
 
 ## Problem Statement
 

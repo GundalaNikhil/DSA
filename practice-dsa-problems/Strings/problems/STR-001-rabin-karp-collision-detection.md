@@ -1,4 +1,28 @@
-# STR-001: Rabin-Karp with Collision Detection
+---
+problem_id: STR_RABIN_KARP_COLLISION_DETECTION__2313
+display_id: NTB-STR-2313
+slug: rabin-karp-collision-detection
+title: "Rabin-Karp with Collision Detection"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - rabin-karp-collision-detection
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Rabin-Karp with Collision Detection
 
 ## Problem Statement
 

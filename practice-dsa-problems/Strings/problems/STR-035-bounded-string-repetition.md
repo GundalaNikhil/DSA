@@ -1,4 +1,28 @@
-# STR-035: Bounded String Repetition
+---
+problem_id: STR_BOUNDED_STRING_REPETITION__9233
+display_id: NTB-STR-9233
+slug: bounded-string-repetition
+title: "Bounded String Repetition"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - bounded-string-repetition
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Bounded String Repetition
 
 ## Problem Statement
 

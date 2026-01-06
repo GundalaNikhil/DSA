@@ -1,4 +1,28 @@
-# DP-038: DP with Soft Constraints
+---
+problem_id: DP_SOFT_CONSTRAINTS__9598
+display_id: NTB-DP-9598
+slug: soft-constraints
+title: "DP with Soft Constraints"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - soft-constraints
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Soft Constraints
 
 ## Problem Statement
 

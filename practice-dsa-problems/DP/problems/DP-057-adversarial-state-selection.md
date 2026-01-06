@@ -1,4 +1,28 @@
-# DP-057: DP with Adversarial State Selection
+---
+problem_id: DP_ADVERSARIAL_STATE_SELECTION__1766
+display_id: NTB-DP-1766
+slug: adversarial-state-selection
+title: "DP with Adversarial State Selection"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - adversarial-state-selection
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Adversarial State Selection
 
 ## Problem Statement
 

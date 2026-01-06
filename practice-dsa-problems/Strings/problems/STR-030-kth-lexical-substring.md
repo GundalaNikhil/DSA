@@ -1,4 +1,28 @@
-# STR-030: Kth Lexical Substring
+---
+problem_id: STR_KTH_LEXICAL_SUBSTRING__3764
+display_id: NTB-STR-3764
+slug: kth-lexical-substring
+title: "Kth Lexical Substring"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - kth-lexical-substring
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Kth Lexical Substring
 
 ## Problem Statement
 

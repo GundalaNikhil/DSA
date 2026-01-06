@@ -1,4 +1,28 @@
-# DP-010: DP with Depreciation
+---
+problem_id: DP_DP_WITH_DEPRECIATION__6366
+display_id: NTB-DP-6366
+slug: dp-with-depreciation
+title: "DP with Depreciation"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - dp-with-depreciation
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Depreciation
 
 ## Problem Statement
 

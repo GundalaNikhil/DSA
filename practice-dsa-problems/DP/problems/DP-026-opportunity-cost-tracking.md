@@ -1,4 +1,28 @@
-# DP-026: DP with Opportunity Cost Tracking
+---
+problem_id: DP_OPPORTUNITY_COST_TRACKING__1624
+display_id: NTB-DP-1624
+slug: opportunity-cost-tracking
+title: "DP with Opportunity Cost Tracking"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - opportunity-cost-tracking
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Opportunity Cost Tracking
 
 ## Problem Statement
 

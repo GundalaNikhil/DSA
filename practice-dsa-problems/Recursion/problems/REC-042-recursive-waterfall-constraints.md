@@ -1,4 +1,27 @@
-# REC-042: Recursive Waterfall Constraints
+---
+problem_id: REC_RECURSIVE_WATERFALL_CONSTRAINTS__3539
+display_id: NTB-REC-3539
+slug: recursive-waterfall-constraints
+title: "Recursive Waterfall Constraints"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-waterfall-constraints
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Waterfall Constraints
 
 ## Problem Statement
 

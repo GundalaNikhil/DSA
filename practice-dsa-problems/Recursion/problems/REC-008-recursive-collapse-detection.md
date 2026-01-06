@@ -1,4 +1,27 @@
-# REC-008: Recursive Collapse Detection
+---
+problem_id: REC_RECURSIVE_COLLAPSE_DETECTION__6832
+display_id: NTB-REC-6832
+slug: recursive-collapse-detection
+title: "Recursive Collapse Detection"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-collapse-detection
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Collapse Detection
 
 ## Problem Statement
 

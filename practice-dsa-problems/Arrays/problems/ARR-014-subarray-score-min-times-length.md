@@ -1,4 +1,29 @@
-# ARR-014: Subarray Score = min x length
+---
+problem_id: ARR_SUBARRAY_SCORE_MIN_TIMES_LENGTH__4027
+display_id: NTB-ARR-4027
+slug: subarray-score-min-times-length
+title: "Subarray Score = min x length"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - searching
+  - subarray-score-min-times-length
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Subarray Score = min x length
 
 ## Problem Statement
 

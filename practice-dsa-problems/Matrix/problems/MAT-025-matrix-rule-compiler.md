@@ -1,4 +1,28 @@
-# MAT-025: Matrix Rule Compiler
+---
+problem_id: MAT_MATRIX_RULE_COMPILER__5117
+display_id: NTB-MAT-5117
+slug: matrix-rule-compiler
+title: "Matrix Rule Compiler"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Matrix
+tags:
+  - 2d-arrays
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - grids
+  - matrix
+  - matrix-rule-compiler
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Matrix Rule Compiler
 
 ## Problem Statement
 

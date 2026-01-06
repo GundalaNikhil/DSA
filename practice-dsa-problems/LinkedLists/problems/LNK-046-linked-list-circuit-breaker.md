@@ -1,4 +1,28 @@
-# LNK-046: Linked List with Circuit Breaker
+---
+problem_id: LNK_LINKED_LIST_CIRCUIT_BREAKER__5514
+display_id: NTB-LNK-5514
+slug: linked-list-circuit-breaker
+title: "Linked List with Circuit Breaker"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-circuit-breaker
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Circuit Breaker
 
 ## Problem Statement
 

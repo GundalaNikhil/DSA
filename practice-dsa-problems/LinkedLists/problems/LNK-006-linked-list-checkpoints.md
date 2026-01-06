@@ -1,4 +1,28 @@
-# LNK-006: Linked List with Checkpoints
+---
+problem_id: LNK_LINKED_LIST_CHECKPOINTS__2112
+display_id: NTB-LNK-2112
+slug: linked-list-checkpoints
+title: "Linked List with Checkpoints"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-checkpoints
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Checkpoints
 
 ## Problem Statement
 

@@ -1,4 +1,27 @@
-# REC-050: Recursive Proof Search
+---
+problem_id: REC_RECURSIVE_PROOF_SEARCH__4753
+display_id: NTB-REC-4753
+slug: recursive-proof-search
+title: "Recursive Proof Search"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-proof-search
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Proof Search
 
 ## Problem Statement
 

@@ -1,4 +1,28 @@
-# LNK-048: Linked List with Sagas
+---
+problem_id: LNK_LINKED_LIST_WITH_SAGAS__7503
+display_id: NTB-LNK-7503
+slug: linked-list-with-sagas
+title: "Linked List with Sagas"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-with-sagas
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Sagas
 
 ## Problem Statement
 

@@ -1,4 +1,29 @@
-# AGR-001: Offline Dynamic Connectivity with Rollback DSU
+---
+problem_id: AGR_OFFLINE_DYNAMIC_CONNECTIVITY_ROLLBACK_DSU__4349
+display_id: NTB-AGR-4349
+slug: offline-dynamic-connectivity-rollback-dsu
+title: "Offline Dynamic Connectivity with Rollback DSU"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Advanced Graphs
+tags:
+  - advanced-algorithms
+  - advancedgraphs
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - graph-theory
+  - network-flow
+  - offline-dynamic-connectivity-rollback-dsu
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Offline Dynamic Connectivity with Rollback DSU
 
 ## Problem Statement
 

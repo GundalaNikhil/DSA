@@ -1,4 +1,28 @@
-# MAT-024: Matrix Consistency Under Concurrent Updates
+---
+problem_id: MAT_MATRIX_CONSISTENCY_CONCURRENT_UPDATES__2568
+display_id: NTB-MAT-2568
+slug: matrix-consistency-concurrent-updates
+title: "Matrix Consistency Under Concurrent Updates"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Matrix
+tags:
+  - 2d-arrays
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - grids
+  - matrix
+  - matrix-consistency-concurrent-updates
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Matrix Consistency Under Concurrent Updates
 
 ## Problem Statement
 

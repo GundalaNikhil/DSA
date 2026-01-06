@@ -1,4 +1,29 @@
-# ARR-020: Sliding Window Dominance
+---
+problem_id: ARR_SLIDING_WINDOW_DOMINANCE__7376
+display_id: NTB-ARR-7376
+slug: sliding-window-dominance
+title: "Sliding Window Dominance"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - searching
+  - sliding-window-dominance
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Sliding Window Dominance
 
 ## Problem Statement
 

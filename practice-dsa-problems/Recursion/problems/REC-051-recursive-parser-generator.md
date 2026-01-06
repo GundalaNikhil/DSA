@@ -1,4 +1,27 @@
-# REC-051: Recursive Parser Generator
+---
+problem_id: REC_RECURSIVE_PARSER_GENERATOR__4266
+display_id: NTB-REC-4266
+slug: recursive-parser-generator
+title: "Recursive Parser Generator"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-parser-generator
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Parser Generator
 
 ## Problem Statement
 

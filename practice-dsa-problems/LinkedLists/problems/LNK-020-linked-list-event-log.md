@@ -1,4 +1,28 @@
-# LNK-020: Linked List as Event Log
+---
+problem_id: LNK_LINKED_LIST_EVENT_LOG__4115
+display_id: NTB-LNK-4115
+slug: linked-list-event-log
+title: "Linked List as Event Log"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-event-log
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List as Event Log
 
 ## Problem Statement
 

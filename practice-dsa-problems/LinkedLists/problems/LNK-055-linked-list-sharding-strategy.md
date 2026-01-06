@@ -1,4 +1,28 @@
-# LNK-055: Linked List with Sharding Strategy
+---
+problem_id: LNK_LINKED_LIST_SHARDING_STRATEGY__3755
+display_id: NTB-LNK-3755
+slug: linked-list-sharding-strategy
+title: "Linked List with Sharding Strategy"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-sharding-strategy
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Sharding Strategy
 
 ## Problem Statement
 

@@ -1,4 +1,28 @@
-# TRI-002: Longest Dictionary Chain with Suffix Validation
+---
+problem_id: TRI_LONGEST_DICTIONARY_CHAIN_SUFFIX_VALIDATED__2116
+display_id: NTB-TRI-2116
+slug: longest-dictionary-chain-suffix-validated
+title: "Longest Dictionary Chain with Suffix Validation"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Tries
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - efficient-search
+  - longest-dictionary-chain-suffix-validated
+  - prefix-trees
+  - technical-interview-prep
+  - tries
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Longest Dictionary Chain with Suffix Validation
 
 ## Problem Statement
 

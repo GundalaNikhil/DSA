@@ -1,4 +1,28 @@
-# DP-018: DP with Write-Ahead Commitment
+---
+problem_id: DP_WRITE_AHEAD_COMMITMENT__8617
+display_id: NTB-DP-8617
+slug: write-ahead-commitment
+title: "DP with Write-Ahead Commitment"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - technical-interview-prep
+  - write-ahead-commitment
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Write-Ahead Commitment
 
 ## Problem Statement
 

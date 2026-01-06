@@ -1,4 +1,28 @@
-# DP-015: DP with Asymmetric Transitions
+---
+problem_id: DP_ASYMMETRIC_TRANSITIONS__9521
+display_id: NTB-DP-9521
+slug: asymmetric-transitions
+title: "DP with Asymmetric Transitions"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - asymmetric-transitions
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Asymmetric Transitions
 
 ## Problem Statement
 

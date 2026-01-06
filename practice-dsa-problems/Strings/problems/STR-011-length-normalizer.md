@@ -1,4 +1,28 @@
-# STR-011: Length Normalizer
+---
+problem_id: STR_LENGTH_NORMALIZER__6268
+display_id: NTB-STR-6268
+slug: length-normalizer
+title: "Length Normalizer"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - length-normalizer
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Length Normalizer
 
 ## Problem Statement
 

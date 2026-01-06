@@ -1,4 +1,29 @@
-# ARR-023: Longest Zigzag Subarray
+---
+problem_id: ARR_LONGEST_ZIGZAG_SUBARRAY__6131
+display_id: NTB-ARR-6131
+slug: longest-zigzag-subarray
+title: "Longest Zigzag Subarray"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - longest-zigzag-subarray
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Longest Zigzag Subarray
 
 ## Problem Statement
 

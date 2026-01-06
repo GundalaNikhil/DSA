@@ -1,4 +1,28 @@
-# LNK-067: Linked List with Genetic Algorithm
+---
+problem_id: LNK_LINKED_LIST_GENETIC_ALGORITHM__7791
+display_id: NTB-LNK-7791
+slug: linked-list-genetic-algorithm
+title: "Linked List with Genetic Algorithm"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-genetic-algorithm
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Genetic Algorithm
 
 ## Problem Statement
 

@@ -1,4 +1,28 @@
-# STR-017: Fuzzy Subsequence Match
+---
+problem_id: STR_FUZZY_SUBSEQUENCE_MATCH__6771
+display_id: NTB-STR-6771
+slug: fuzzy-subsequence-match
+title: "Fuzzy Subsequence Match"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - fuzzy-subsequence-match
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Fuzzy Subsequence Match
 
 ## Problem Statement
 

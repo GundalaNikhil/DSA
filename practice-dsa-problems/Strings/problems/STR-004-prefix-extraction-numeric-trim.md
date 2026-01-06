@@ -1,4 +1,28 @@
-# STR-004: Prefix Extraction (Numeric Trim)
+---
+problem_id: STR_PREFIX_EXTRACTION_NUMERIC_TRIM__7647
+display_id: NTB-STR-7647
+slug: prefix-extraction-numeric-trim
+title: "Prefix Extraction (Numeric Trim)"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - prefix-extraction-numeric-trim
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Prefix Extraction (Numeric Trim)
 
 ## Problem Statement
 

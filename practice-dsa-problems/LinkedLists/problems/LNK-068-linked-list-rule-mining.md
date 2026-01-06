@@ -1,4 +1,28 @@
-# LNK-068: Linked List with Rule Mining
+---
+problem_id: LNK_LINKED_LIST_RULE_MINING__6681
+display_id: NTB-LNK-6681
+slug: linked-list-rule-mining
+title: "Linked List with Rule Mining"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-rule-mining
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Rule Mining
 
 ## Problem Statement
 

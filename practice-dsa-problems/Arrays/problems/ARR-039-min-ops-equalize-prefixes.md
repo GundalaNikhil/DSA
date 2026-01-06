@@ -1,4 +1,29 @@
-# ARR-039: Minimum Operations to Equalize Prefixes
+---
+problem_id: ARR_MIN_OPS_EQUALIZE_PREFIXES__7666
+display_id: NTB-ARR-7666
+slug: min-ops-equalize-prefixes
+title: "Minimum Operations to Equalize Prefixes"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - min-ops-equalize-prefixes
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Minimum Operations to Equalize Prefixes
 
 ## Problem Statement
 

@@ -1,4 +1,29 @@
-# ARR-018: Circular Peak Detection
+---
+problem_id: ARR_CIRCULAR_PEAK_DETECTION__8985
+display_id: NTB-ARR-8985
+slug: circular-peak-detection
+title: "Circular Peak Detection"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - circular-peak-detection
+  - coding-interviews
+  - data-structures
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Circular Peak Detection
 
 ## Problem Statement
 

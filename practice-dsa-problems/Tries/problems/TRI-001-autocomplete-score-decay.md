@@ -1,4 +1,28 @@
-# TRI-001: Autocomplete System with Score Decay
+---
+problem_id: TRI_AUTOCOMPLETE_SCORE_DECAY__4055
+display_id: NTB-TRI-4055
+slug: autocomplete-score-decay
+title: "Autocomplete System with Score Decay"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Tries
+tags:
+  - algorithms
+  - autocomplete-score-decay
+  - coding-interviews
+  - data-structures
+  - efficient-search
+  - prefix-trees
+  - technical-interview-prep
+  - tries
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Autocomplete System with Score Decay
 
 ## Problem Statement
 

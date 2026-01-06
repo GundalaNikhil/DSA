@@ -1,4 +1,29 @@
-# ARR-034: Array Compression with Error Tolerance
+---
+problem_id: ARR_ARRAY_COMPRESSION_ERROR_TOLERANCE__4723
+display_id: NTB-ARR-4723
+slug: array-compression-error-tolerance
+title: "Array Compression with Error Tolerance"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-compression-error-tolerance
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Array Compression with Error Tolerance
 
 ## Problem Statement
 

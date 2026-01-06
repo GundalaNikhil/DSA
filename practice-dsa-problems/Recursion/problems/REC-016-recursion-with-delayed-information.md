@@ -1,4 +1,27 @@
-# REC-016: Recursion with Delayed Information
+---
+problem_id: REC_RECURSION_WITH_DELAYED_INFORMATION__3358
+display_id: NTB-REC-3358
+slug: recursion-with-delayed-information
+title: "Recursion with Delayed Information"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursion-with-delayed-information
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursion with Delayed Information
 
 ## Problem Statement
 

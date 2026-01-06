@@ -1,4 +1,28 @@
-# DP-005: DP with Reactive Environment
+---
+problem_id: DP_REACTIVE_ENVIRONMENT__5020
+display_id: NTB-DP-5020
+slug: reactive-environment
+title: "DP with Reactive Environment"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - reactive-environment
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Reactive Environment
 
 ## Problem Statement
 

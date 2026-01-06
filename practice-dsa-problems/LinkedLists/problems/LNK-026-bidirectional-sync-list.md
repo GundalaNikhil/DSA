@@ -1,4 +1,28 @@
-# LNK-026: Bidirectional Sync List
+---
+problem_id: LNK_BIDIRECTIONAL_SYNC_LIST__4877
+display_id: NTB-LNK-4877
+slug: bidirectional-sync-list
+title: "Bidirectional Sync List"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - bidirectional-sync-list
+  - coding-interviews
+  - data-structures
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Bidirectional Sync List
 
 ## Problem Statement
 

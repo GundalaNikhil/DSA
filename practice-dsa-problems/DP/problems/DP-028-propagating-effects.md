@@ -1,4 +1,28 @@
-# DP-028: DP with Propagating Effects
+---
+problem_id: DP_PROPAGATING_EFFECTS__5041
+display_id: NTB-DP-5041
+slug: propagating-effects
+title: "DP with Propagating Effects"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - propagating-effects
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Propagating Effects
 
 ## Problem Statement
 

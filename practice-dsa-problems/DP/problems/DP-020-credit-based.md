@@ -1,4 +1,28 @@
-# DP-020: Credit-Based DP
+---
+problem_id: DP_CREDIT_BASED__7513
+display_id: NTB-DP-7513
+slug: credit-based
+title: "Credit-Based DP"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - credit-based
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Credit-Based DP
 
 ## Problem Statement
 

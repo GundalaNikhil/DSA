@@ -1,4 +1,28 @@
-# LNK-034: Access-Pattern Optimized List
+---
+problem_id: LNK_ACCESS_PATTERN_OPTIMIZED_LIST__5388
+display_id: NTB-LNK-5388
+slug: access-pattern-optimized-list
+title: "Access-Pattern Optimized List"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - access-pattern-optimized-list
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Access-Pattern Optimized List
 
 ## Problem Statement
 

@@ -1,4 +1,28 @@
-# DP-034: DP on Compressed History
+---
+problem_id: DP_COMPRESSED_HISTORY__2785
+display_id: NTB-DP-2785
+slug: compressed-history
+title: "DP on Compressed History"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - compressed-history
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP on Compressed History
 
 ## Problem Statement
 

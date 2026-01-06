@@ -1,4 +1,28 @@
-# STR-028: Block Edit Distance
+---
+problem_id: STR_BLOCK_EDIT_DISTANCE__8104
+display_id: NTB-STR-8104
+slug: block-edit-distance
+title: "Block Edit Distance"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - block-edit-distance
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Block Edit Distance
 
 ## Problem Statement
 

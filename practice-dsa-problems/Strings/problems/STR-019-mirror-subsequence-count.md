@@ -1,4 +1,28 @@
-# STR-019: Mirror Subsequence Count
+---
+problem_id: STR_MIRROR_SUBSEQUENCE_COUNT__5368
+display_id: NTB-STR-5368
+slug: mirror-subsequence-count
+title: "Mirror Subsequence Count"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - mirror-subsequence-count
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Mirror Subsequence Count
 
 ## Problem Statement
 

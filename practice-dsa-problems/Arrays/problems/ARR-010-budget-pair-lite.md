@@ -1,4 +1,29 @@
-# ARR-010: Budget Pair Lite
+---
+problem_id: ARR_BUDGET_PAIR_LITE__4682
+display_id: NTB-ARR-4682
+slug: budget-pair-lite
+title: "Budget Pair Lite"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - budget-pair-lite
+  - coding-interviews
+  - data-structures
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Budget Pair Lite
 
 ## Problem Statement
 

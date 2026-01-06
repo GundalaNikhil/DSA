@@ -1,4 +1,28 @@
-# DP-045: DP with Hysteresis
+---
+problem_id: DP_HYSTERESIS__9709
+display_id: NTB-DP-9709
+slug: hysteresis
+title: "DP with Hysteresis"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - hysteresis
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Hysteresis
 
 ## Problem Statement
 

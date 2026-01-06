@@ -1,4 +1,28 @@
-# LNK-047: Linked List Event Sourcing
+---
+problem_id: LNK_LINKED_LIST_EVENT_SOURCING__1389
+display_id: NTB-LNK-1389
+slug: linked-list-event-sourcing
+title: "Linked List Event Sourcing"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-event-sourcing
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List Event Sourcing
 
 ## Problem Statement
 

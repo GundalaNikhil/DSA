@@ -1,4 +1,28 @@
-# DP-055: DP with Partial Observability
+---
+problem_id: DP_PARTIAL_OBSERVABILITY__2803
+display_id: NTB-DP-2803
+slug: partial-observability
+title: "DP with Partial Observability"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - partial-observability
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Partial Observability
 
 ## Problem Statement
 

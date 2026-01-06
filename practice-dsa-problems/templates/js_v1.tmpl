@@ -1,0 +1,22 @@
+"use strict";
+
+const fs = require("fs");
+
+// ========== USER CODE ==========
+${USER_CODE}
+
+// ========== ADAPTER ==========
+${ADAPTER}
+
+try {
+    const input = fs.readFileSync(0, "utf8");
+    const data = JSON.parse(input);
+    const args = data.args;
+
+    const result = adapter(args);
+
+    console.log(JSON.stringify(result));
+} catch (e) {
+    console.error("Runtime Error:", e.message);
+    process.exit(1);
+}

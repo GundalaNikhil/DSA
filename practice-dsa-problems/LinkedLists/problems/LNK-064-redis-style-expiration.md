@@ -1,4 +1,28 @@
-# LNK-064: Redis-Style Expiration
+---
+problem_id: LNK_REDIS_STYLE_EXPIRATION__7079
+display_id: NTB-LNK-7079
+slug: redis-style-expiration
+title: "Redis-Style Expiration"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linkedlists
+  - memory-management
+  - pointers
+  - redis-style-expiration
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Redis-Style Expiration
 
 ## Problem Statement
 

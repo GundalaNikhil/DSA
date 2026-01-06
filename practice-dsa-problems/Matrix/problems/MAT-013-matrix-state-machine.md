@@ -1,4 +1,28 @@
-# MAT-013: Matrix State Machine
+---
+problem_id: MAT_MATRIX_STATE_MACHINE__8579
+display_id: NTB-MAT-8579
+slug: matrix-state-machine
+title: "Matrix State Machine"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Matrix
+tags:
+  - 2d-arrays
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - grids
+  - matrix
+  - matrix-state-machine
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Matrix State Machine
 
 ## Problem Statement
 

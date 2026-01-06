@@ -1,4 +1,28 @@
-# LNK-042: Linked List with Causal Ordering
+---
+problem_id: LNK_LINKED_LIST_CAUSAL_ORDERING__6144
+display_id: NTB-LNK-6144
+slug: linked-list-causal-ordering
+title: "Linked List with Causal Ordering"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-causal-ordering
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Causal Ordering
 
 ## Problem Statement
 

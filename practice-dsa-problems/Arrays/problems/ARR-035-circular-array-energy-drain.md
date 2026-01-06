@@ -1,4 +1,29 @@
-# ARR-035: Circular Array Energy Drain
+---
+problem_id: ARR_CIRCULAR_ARRAY_ENERGY_DRAIN__7366
+display_id: NTB-ARR-7366
+slug: circular-array-energy-drain
+title: "Circular Array Energy Drain"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - circular-array-energy-drain
+  - coding-interviews
+  - data-structures
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Circular Array Energy Drain
 
 ## Problem Statement
 

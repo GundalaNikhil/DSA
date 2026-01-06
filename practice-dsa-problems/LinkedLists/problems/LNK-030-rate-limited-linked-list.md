@@ -1,4 +1,28 @@
-# LNK-030: Rate-Limited Linked List
+---
+problem_id: LNK_RATE_LIMITED_LINKED_LIST__7810
+display_id: NTB-LNK-7810
+slug: rate-limited-linked-list
+title: "Rate-Limited Linked List"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linkedlists
+  - memory-management
+  - pointers
+  - rate-limited-linked-list
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Rate-Limited Linked List
 
 ## Problem Statement
 

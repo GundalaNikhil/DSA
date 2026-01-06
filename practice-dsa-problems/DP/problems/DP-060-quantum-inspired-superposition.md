@@ -1,4 +1,28 @@
-# DP-060: DP with Quantum-Inspired Superposition
+---
+problem_id: DP_QUANTUM_INSPIRED_SUPERPOSITION__3908
+display_id: NTB-DP-3908
+slug: quantum-inspired-superposition
+title: "DP with Quantum-Inspired Superposition"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - quantum-inspired-superposition
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Quantum-Inspired Superposition
 
 ## Problem Statement
 

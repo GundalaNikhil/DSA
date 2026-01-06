@@ -1,4 +1,28 @@
-# STR-022: Weighted Character Mapping
+---
+problem_id: STR_WEIGHTED_CHARACTER_MAPPING__1527
+display_id: NTB-STR-1527
+slug: weighted-character-mapping
+title: "Weighted Character Mapping"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+  - weighted-character-mapping
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Weighted Character Mapping
 
 ## Problem Statement
 

@@ -1,4 +1,29 @@
-# ARR-013: Two Sum with Cost Optimization
+---
+problem_id: ARR_TWO_SUM_COST_OPTIMIZATION__8919
+display_id: NTB-ARR-8919
+slug: two-sum-cost-optimization
+title: "Two Sum with Cost Optimization"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - searching
+  - technical-interview-prep
+  - two-pointers
+  - two-sum-cost-optimization
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Two Sum with Cost Optimization
 
 ## Problem Statement
 

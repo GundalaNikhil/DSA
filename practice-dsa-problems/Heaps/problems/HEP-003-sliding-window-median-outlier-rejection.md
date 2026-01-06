@@ -1,4 +1,28 @@
-# HEP-003: Sliding Window Median with Deterministic Outlier Rejection
+---
+problem_id: HEP_SLIDING_WINDOW_MEDIAN_OUTLIER_REJECTION__5592
+display_id: NTB-HEP-5592
+slug: sliding-window-median-outlier-rejection
+title: "Sliding Window Median with Deterministic Outlier Rejection"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Heaps
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - heaps
+  - priority-queues
+  - sliding-window-median-outlier-rejection
+  - sorting
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Sliding Window Median with Deterministic Outlier Rejection
 
 ## Problem Statement
 

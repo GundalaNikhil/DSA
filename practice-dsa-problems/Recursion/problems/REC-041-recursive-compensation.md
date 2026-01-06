@@ -1,4 +1,27 @@
-# REC-041: Recursive Compensation
+---
+problem_id: REC_RECURSIVE_COMPENSATION__7674
+display_id: NTB-REC-7674
+slug: recursive-compensation
+title: "Recursive Compensation"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-compensation
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Compensation
 
 ## Problem Statement
 

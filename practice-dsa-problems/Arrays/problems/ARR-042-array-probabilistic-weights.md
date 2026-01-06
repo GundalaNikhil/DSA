@@ -1,4 +1,29 @@
-# ARR-042: Array with Probabilistic Weights (Deterministic Input)
+---
+problem_id: ARR_ARRAY_PROBABILISTIC_WEIGHTS__8756
+display_id: NTB-ARR-8756
+slug: array-probabilistic-weights
+title: "Array with Probabilistic Weights (Deterministic Input)"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - array-probabilistic-weights
+  - arrays
+  - coding-interviews
+  - data-structures
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Array with Probabilistic Weights (Deterministic Input)
 
 ## Problem Statement
 

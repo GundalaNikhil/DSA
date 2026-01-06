@@ -1,4 +1,28 @@
-# STR-025: Maximum Common Span
+---
+problem_id: STR_MAXIMUM_COMMON_SPAN__8165
+display_id: NTB-STR-8165
+slug: maximum-common-span
+title: "Maximum Common Span"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - maximum-common-span
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Maximum Common Span
 
 ## Problem Statement
 

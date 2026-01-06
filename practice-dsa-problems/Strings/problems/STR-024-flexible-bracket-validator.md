@@ -1,4 +1,28 @@
-# STR-024: Flexible Bracket Validator
+---
+problem_id: STR_FLEXIBLE_BRACKET_VALIDATOR__7588
+display_id: NTB-STR-7588
+slug: flexible-bracket-validator
+title: "Flexible Bracket Validator"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - flexible-bracket-validator
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Flexible Bracket Validator
 
 ## Problem Statement
 

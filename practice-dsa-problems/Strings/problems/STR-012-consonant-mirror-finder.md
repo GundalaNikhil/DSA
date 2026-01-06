@@ -1,4 +1,28 @@
-# STR-012: Consonant Mirror Finder
+---
+problem_id: STR_CONSONANT_MIRROR_FINDER__4872
+display_id: NTB-STR-4872
+slug: consonant-mirror-finder
+title: "Consonant Mirror Finder"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - consonant-mirror-finder
+  - data-structures
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Consonant Mirror Finder
 
 ## Problem Statement
 

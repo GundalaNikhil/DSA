@@ -1,4 +1,29 @@
-# ARR-011: Maximum Subarray with Cooldown
+---
+problem_id: ARR_MAXIMUM_SUBARRAY_WITH_COOLDOWN__9389
+display_id: NTB-ARR-9389
+slug: maximum-subarray-with-cooldown
+title: "Maximum Subarray with Cooldown"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - maximum-subarray-with-cooldown
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Maximum Subarray with Cooldown
 
 ## Problem Statement
 

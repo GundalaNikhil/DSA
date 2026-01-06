@@ -1,4 +1,27 @@
-# REC-025: Recursive Code Generation
+---
+problem_id: REC_RECURSIVE_CODE_GENERATION__7635
+display_id: NTB-REC-7635
+slug: recursive-code-generation
+title: "Recursive Code Generation"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-code-generation
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Code Generation
 
 ## Problem Statement
 

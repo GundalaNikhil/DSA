@@ -1,4 +1,28 @@
-# DP-070: Branch Prediction DP
+---
+problem_id: DP_BRANCH_PREDICTION__3670
+display_id: NTB-DP-3670
+slug: branch-prediction
+title: "Branch Prediction DP"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - branch-prediction
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Branch Prediction DP
 
 ## Problem Statement
 

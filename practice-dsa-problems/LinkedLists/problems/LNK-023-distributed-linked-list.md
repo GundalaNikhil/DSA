@@ -1,4 +1,28 @@
-# LNK-023: Distributed Linked List
+---
+problem_id: LNK_DISTRIBUTED_LINKED_LIST__8146
+display_id: NTB-LNK-8146
+slug: distributed-linked-list
+title: "Distributed Linked List"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - distributed-linked-list
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Distributed Linked List
 
 ## Problem Statement
 

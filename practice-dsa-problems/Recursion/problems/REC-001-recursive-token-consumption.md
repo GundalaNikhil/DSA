@@ -1,4 +1,27 @@
-# REC-001: Recursive Token Consumption
+---
+problem_id: REC_RECURSIVE_TOKEN_CONSUMPTION__3166
+display_id: NTB-REC-3166
+slug: recursive-token-consumption
+title: "Recursive Token Consumption"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-token-consumption
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Token Consumption
 
 ## Problem Statement
 

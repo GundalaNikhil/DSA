@@ -1,4 +1,28 @@
-# LNK-037: Linked List with Audit Trail
+---
+problem_id: LNK_LINKED_LIST_AUDIT_TRAIL__5755
+display_id: NTB-LNK-5755
+slug: linked-list-audit-trail
+title: "Linked List with Audit Trail"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-audit-trail
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Audit Trail
 
 ## Problem Statement
 

@@ -1,4 +1,28 @@
-# STR-040: Block Compression Encoding
+---
+problem_id: STR_BLOCK_COMPRESSION_ENCODING__1411
+display_id: NTB-STR-1411
+slug: block-compression-encoding
+title: "Block Compression Encoding"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - block-compression-encoding
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Block Compression Encoding
 
 ## Problem Statement
 

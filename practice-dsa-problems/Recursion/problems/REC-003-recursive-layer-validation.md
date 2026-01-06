@@ -1,4 +1,27 @@
-# REC-003: Recursive Layer Validation
+---
+problem_id: REC_RECURSIVE_LAYER_VALIDATION__7230
+display_id: NTB-REC-7230
+slug: recursive-layer-validation
+title: "Recursive Layer Validation"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-layer-validation
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Layer Validation
 
 ## Problem Statement
 

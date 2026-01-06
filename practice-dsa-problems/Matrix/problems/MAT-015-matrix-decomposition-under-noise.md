@@ -1,4 +1,28 @@
-# MAT-015: Matrix Decomposition Under Noise
+---
+problem_id: MAT_MATRIX_DECOMPOSITION_UNDER_NOISE__4177
+display_id: NTB-MAT-4177
+slug: matrix-decomposition-under-noise
+title: "Matrix Decomposition Under Noise"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Matrix
+tags:
+  - 2d-arrays
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - grids
+  - matrix
+  - matrix-decomposition-under-noise
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Matrix Decomposition Under Noise
 
 ## Problem Statement
 

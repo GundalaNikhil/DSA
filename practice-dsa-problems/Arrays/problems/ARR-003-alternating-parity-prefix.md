@@ -1,4 +1,29 @@
-# ARR-003: Alternating Parity Prefix
+---
+problem_id: ARR_ALTERNATING_PARITY_PREFIX__5892
+display_id: NTB-ARR-5892
+slug: alternating-parity-prefix
+title: "Alternating Parity Prefix"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - alternating-parity-prefix
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Alternating Parity Prefix
 
 ## Problem Statement
 

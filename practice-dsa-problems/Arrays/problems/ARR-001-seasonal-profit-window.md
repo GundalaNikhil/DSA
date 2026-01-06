@@ -1,4 +1,29 @@
-# ARR-001: Seasonal Profit Window
+---
+problem_id: ARR_SEASONAL_PROFIT_WINDOW__7267
+display_id: NTB-ARR-7267
+slug: seasonal-profit-window
+title: "Seasonal Profit Window"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - searching
+  - seasonal-profit-window
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Seasonal Profit Window
 
 ## Problem Statement
 
@@ -40,4 +65,46 @@ Your task is to find the maximum adjusted sum over all subarrays of length **at 
 
 ```
 7
+```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxAdjustedSum(int n, int k, int[] a) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+def solve(n, k, a):
+    # Implement here
+    return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxAdjustedSum(int n, int k, vector<int>& a) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+function solve(n, k, a) {
+  // Implement here
+  return 0;
+}
 ```

@@ -1,4 +1,29 @@
-# GRP-001: Cheapest Flight Within K Stops with Fuel State
+---
+problem_id: GRP_CHEAPEST_FLIGHT_K_STOPS_FUEL__4796
+display_id: NTB-GRP-4796
+slug: cheapest-flight-k-stops-fuel
+title: "Cheapest Flight Within K Stops with Fuel State"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Graphs
+tags:
+  - algorithms
+  - cheapest-flight-k-stops-fuel
+  - coding-interviews
+  - data-structures
+  - graphs
+  - search
+  - shortest-paths
+  - technical-interview-prep
+  - traversal
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Cheapest Flight Within K Stops with Fuel State
 
 ## Problem Statement
 
@@ -19,10 +44,10 @@ Your task is to compute the minimum total fuel cost to reach `t`. If it is impos
 
 ## Constraints
 
-- `1 <= n, m <= 200000`
+- `1 <= n, m <= 1000`
 - `1 <= s, t <= n`
-- `0 <= K <= 200000`
-- `1 <= C <= 200000`
+- `0 <= K <= 100`
+- `1 <= C <= 100`
 - `0 <= cost_i <= 10^9`
 - `1 <= fuel <= C`
 

@@ -1,4 +1,28 @@
-# MAT-017: Matrix with Flow Conservation
+---
+problem_id: MAT_MATRIX_FLOW_CONSERVATION__5034
+display_id: NTB-MAT-5034
+slug: matrix-flow-conservation
+title: "Matrix with Flow Conservation"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Matrix
+tags:
+  - 2d-arrays
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - grids
+  - matrix
+  - matrix-flow-conservation
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Matrix with Flow Conservation
 
 ## Problem Statement
 

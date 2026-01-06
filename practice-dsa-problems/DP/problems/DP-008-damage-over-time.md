@@ -1,4 +1,28 @@
-# DP-008: DP with Damage Over Time
+---
+problem_id: DP_DAMAGE_OVER_TIME__3651
+display_id: NTB-DP-3651
+slug: damage-over-time
+title: "DP with Damage Over Time"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - damage-over-time
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Damage Over Time
 
 ## Problem Statement
 

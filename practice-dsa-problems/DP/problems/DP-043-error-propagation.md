@@ -1,4 +1,28 @@
-# DP-043: DP with Error Propagation
+---
+problem_id: DP_ERROR_PROPAGATION__5688
+display_id: NTB-DP-5688
+slug: error-propagation
+title: "DP with Error Propagation"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - error-propagation
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Error Propagation
 
 ## Problem Statement
 

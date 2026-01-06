@@ -1,4 +1,28 @@
-# LNK-063: Kafka-Style Log
+---
+problem_id: LNK_KAFKA_STYLE_LOG__6088
+display_id: NTB-LNK-6088
+slug: kafka-style-log
+title: "Kafka-Style Log"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - kafka-style-log
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Kafka-Style Log
 
 ## Problem Statement
 

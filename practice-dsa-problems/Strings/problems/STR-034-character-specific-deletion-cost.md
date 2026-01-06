@@ -1,4 +1,28 @@
-# STR-034: Character-Specific Deletion Cost
+---
+problem_id: STR_CHARACTER_SPECIFIC_DELETION_COST__8218
+display_id: NTB-STR-8218
+slug: character-specific-deletion-cost
+title: "Character-Specific Deletion Cost"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - character-specific-deletion-cost
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Character-Specific Deletion Cost
 
 ## Problem Statement
 

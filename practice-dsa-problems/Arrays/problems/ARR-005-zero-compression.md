@@ -1,4 +1,29 @@
-# ARR-005: Zero Compression
+---
+problem_id: ARR_ZERO_COMPRESSION__2654
+display_id: NTB-ARR-2654
+slug: zero-compression
+title: "Zero Compression"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - searching
+  - technical-interview-prep
+  - two-pointers
+  - zero-compression
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Zero Compression
 
 ## Problem Statement
 

@@ -1,4 +1,28 @@
-# STR-037: Binary Substring XOR
+---
+problem_id: STR_BINARY_SUBSTRING_XOR__6488
+display_id: NTB-STR-6488
+slug: binary-substring-xor
+title: "Binary Substring XOR"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - binary-substring-xor
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Binary Substring XOR
 
 ## Problem Statement
 

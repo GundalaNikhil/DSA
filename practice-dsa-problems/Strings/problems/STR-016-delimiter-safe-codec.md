@@ -1,4 +1,28 @@
-# STR-016: Delimiter-Safe Codec
+---
+problem_id: STR_DELIMITER_SAFE_CODEC__5400
+display_id: NTB-STR-5400
+slug: delimiter-safe-codec
+title: "Delimiter-Safe Codec"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - delimiter-safe-codec
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Delimiter-Safe Codec
 
 ## Problem Statement
 

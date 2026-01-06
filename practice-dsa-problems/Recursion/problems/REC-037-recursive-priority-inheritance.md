@@ -1,4 +1,27 @@
-# REC-037: Recursive Priority Inheritance
+---
+problem_id: REC_RECURSIVE_PRIORITY_INHERITANCE__6133
+display_id: NTB-REC-6133
+slug: recursive-priority-inheritance
+title: "Recursive Priority Inheritance"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-priority-inheritance
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Priority Inheritance
 
 ## Problem Statement
 

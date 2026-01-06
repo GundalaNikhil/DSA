@@ -1,4 +1,28 @@
-# DP-011: DP with Irreversible Decisions
+---
+problem_id: DP_IRREVERSIBLE_DECISIONS__9474
+display_id: NTB-DP-9474
+slug: irreversible-decisions
+title: "DP with Irreversible Decisions"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - irreversible-decisions
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Irreversible Decisions
 
 ## Problem Statement
 

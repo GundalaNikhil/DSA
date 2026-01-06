@@ -1,4 +1,28 @@
-# DP-012: DP with Leased Resources
+---
+problem_id: DP_LEASED_RESOURCES__7345
+display_id: NTB-DP-7345
+slug: leased-resources
+title: "DP with Leased Resources"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - leased-resources
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Leased Resources
 
 ## Problem Statement
 

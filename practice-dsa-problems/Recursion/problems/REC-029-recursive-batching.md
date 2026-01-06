@@ -1,4 +1,27 @@
-# REC-029: Recursive Batching
+---
+problem_id: REC_RECURSIVE_BATCHING__7216
+display_id: NTB-REC-7216
+slug: recursive-batching
+title: "Recursive Batching"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-batching
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Batching
 
 ## Problem Statement
 

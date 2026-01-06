@@ -1,4 +1,28 @@
-# STR-013: Word Family Clustering with Overflow
+---
+problem_id: STR_WORD_FAMILY_CLUSTERING_OVERFLOW__8241
+display_id: NTB-STR-8241
+slug: word-family-clustering-overflow
+title: "Word Family Clustering with Overflow"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+  - word-family-clustering-overflow
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Word Family Clustering with Overflow
 
 ## Problem Statement
 

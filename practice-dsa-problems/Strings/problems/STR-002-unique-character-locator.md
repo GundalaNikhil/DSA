@@ -1,4 +1,28 @@
-# STR-002: Unique Character Locator
+---
+problem_id: STR_UNIQUE_CHARACTER_LOCATOR__7709
+display_id: NTB-STR-7709
+slug: unique-character-locator
+title: "Unique Character Locator"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+  - unique-character-locator
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Unique Character Locator
 
 ## Problem Statement
 

@@ -1,4 +1,29 @@
-# ARR-044: Max Sum Rectangle Reduced to 1D Arrays
+---
+problem_id: ARR_MAX_SUM_RECTANGLE_1D_REDUCTION__4054
+display_id: NTB-ARR-4054
+slug: max-sum-rectangle-1d-reduction
+title: "Max Sum Rectangle Reduced to 1D Arrays"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - max-sum-rectangle-1d-reduction
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Max Sum Rectangle Reduced to 1D Arrays
 
 ## Problem Statement
 

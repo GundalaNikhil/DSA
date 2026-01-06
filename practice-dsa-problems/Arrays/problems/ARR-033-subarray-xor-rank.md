@@ -1,4 +1,29 @@
-# ARR-033: Subarray XOR Rank Queries
+---
+problem_id: ARR_SUBARRAY_XOR_RANK__3329
+display_id: NTB-ARR-3329
+slug: subarray-xor-rank
+title: "Subarray XOR Rank Queries"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - searching
+  - subarray-xor-rank
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Subarray XOR Rank Queries
 
 ## Problem Statement
 

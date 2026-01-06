@@ -1,4 +1,29 @@
-# ARR-030: Array Transformation with Limited Swaps
+---
+problem_id: ARR_ARRAY_TRANSFORMATION_LIMITED_SWAPS__6072
+display_id: NTB-ARR-6072
+slug: array-transformation-limited-swaps
+title: "Array Transformation with Limited Swaps"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - array-transformation-limited-swaps
+  - arrays
+  - coding-interviews
+  - data-structures
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Array Transformation with Limited Swaps
 
 ## Problem Statement
 

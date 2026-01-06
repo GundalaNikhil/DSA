@@ -1,4 +1,27 @@
-# REC-045: Recursive Bidirectional Search
+---
+problem_id: REC_RECURSIVE_BIDIRECTIONAL_SEARCH__7585
+display_id: NTB-REC-7585
+slug: recursive-bidirectional-search
+title: "Recursive Bidirectional Search"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-bidirectional-search
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Bidirectional Search
 
 ## Problem Statement
 

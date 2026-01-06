@@ -1,4 +1,27 @@
-# REC-028: Recursive Alternating Goals
+---
+problem_id: REC_RECURSIVE_ALTERNATING_GOALS__7710
+display_id: NTB-REC-7710
+slug: recursive-alternating-goals
+title: "Recursive Alternating Goals"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-alternating-goals
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Alternating Goals
 
 ## Problem Statement
 

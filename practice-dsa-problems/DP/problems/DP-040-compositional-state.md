@@ -1,4 +1,28 @@
-# DP-040: DP with Compositional State
+---
+problem_id: DP_COMPOSITIONAL_STATE__5091
+display_id: NTB-DP-5091
+slug: compositional-state
+title: "DP with Compositional State"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - compositional-state
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Compositional State
 
 ## Problem Statement
 

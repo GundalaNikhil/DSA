@@ -1,4 +1,28 @@
-# STR-033: Weighted Bracket Optimization
+---
+problem_id: STR_WEIGHTED_BRACKET_OPTIMIZATION__1916
+display_id: NTB-STR-1916
+slug: weighted-bracket-optimization
+title: "Weighted Bracket Optimization"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+  - weighted-bracket-optimization
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Weighted Bracket Optimization
 
 ## Problem Statement
 

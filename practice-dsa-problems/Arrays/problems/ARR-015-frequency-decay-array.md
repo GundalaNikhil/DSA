@@ -1,4 +1,29 @@
-# ARR-015: Frequency Decay Array
+---
+problem_id: ARR_FREQUENCY_DECAY_ARRAY__7031
+display_id: NTB-ARR-7031
+slug: frequency-decay-array
+title: "Frequency Decay Array"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - frequency-decay-array
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Frequency Decay Array
 
 ## Problem Statement
 

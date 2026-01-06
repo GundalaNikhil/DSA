@@ -1,4 +1,28 @@
-# HEP-002: Task Scheduler with Priority Aging (Capped)
+---
+problem_id: HEP_TASK_SCHEDULER_PRIORITY_AGING__2672
+display_id: NTB-HEP-2672
+slug: task-scheduler-priority-aging
+title: "Task Scheduler with Priority Aging (Capped)"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Heaps
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - heaps
+  - priority-queues
+  - sorting
+  - task-scheduler-priority-aging
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Task Scheduler with Priority Aging (Capped)
 
 ## Problem Statement
 

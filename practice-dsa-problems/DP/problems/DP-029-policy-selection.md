@@ -1,4 +1,28 @@
-# DP-029: DP on Policy Selection
+---
+problem_id: DP_POLICY_SELECTION__4090
+display_id: NTB-DP-4090
+slug: policy-selection
+title: "DP on Policy Selection"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - policy-selection
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP on Policy Selection
 
 ## Problem Statement
 

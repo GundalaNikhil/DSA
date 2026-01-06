@@ -1,4 +1,28 @@
-# DP-016: DP on Temporal Constraints
+---
+problem_id: DP_TEMPORAL_CONSTRAINTS__9592
+display_id: NTB-DP-9592
+slug: temporal-constraints
+title: "DP on Temporal Constraints"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - technical-interview-prep
+  - temporal-constraints
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP on Temporal Constraints
 
 ## Problem Statement
 

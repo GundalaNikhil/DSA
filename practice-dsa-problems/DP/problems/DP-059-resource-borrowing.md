@@ -1,4 +1,28 @@
-# DP-059: DP on Resource Allocation with Borrowing
+---
+problem_id: DP_RESOURCE_BORROWING__4551
+display_id: NTB-DP-4551
+slug: resource-borrowing
+title: "DP on Resource Allocation with Borrowing"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - resource-borrowing
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP on Resource Allocation with Borrowing
 
 ## Problem Statement
 

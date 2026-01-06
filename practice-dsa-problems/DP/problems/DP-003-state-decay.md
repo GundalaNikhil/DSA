@@ -1,4 +1,28 @@
-# DP-003: DP with State Decay
+---
+problem_id: DP_STATE_DECAY__2495
+display_id: NTB-DP-2495
+slug: state-decay
+title: "DP with State Decay"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - state-decay
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with State Decay
 
 ## Problem Statement
 

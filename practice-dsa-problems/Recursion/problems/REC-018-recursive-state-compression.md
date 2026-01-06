@@ -1,4 +1,27 @@
-# REC-018: Recursive State Compression
+---
+problem_id: REC_RECURSIVE_STATE_COMPRESSION__9481
+display_id: NTB-REC-9481
+slug: recursive-state-compression
+title: "Recursive State Compression"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-state-compression
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive State Compression
 
 ## Problem Statement
 

@@ -1,4 +1,28 @@
-# LNK-005: Weighted Linked List
+---
+problem_id: LNK_WEIGHTED_LINKED_LIST__5454
+display_id: NTB-LNK-5454
+slug: weighted-linked-list
+title: "Weighted Linked List"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+  - weighted-linked-list
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Weighted Linked List
 
 ## Problem Statement
 

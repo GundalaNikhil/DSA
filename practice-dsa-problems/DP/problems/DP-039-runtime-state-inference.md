@@ -1,4 +1,28 @@
-# DP-039: DP with Runtime State Inference
+---
+problem_id: DP_RUNTIME_STATE_INFERENCE__8408
+display_id: NTB-DP-8408
+slug: runtime-state-inference
+title: "DP with Runtime State Inference"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - runtime-state-inference
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Runtime State Inference
 
 ## Problem Statement
 

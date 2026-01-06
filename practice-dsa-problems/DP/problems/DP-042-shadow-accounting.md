@@ -1,4 +1,28 @@
-# DP-042: DP with Shadow Accounting
+---
+problem_id: DP_SHADOW_ACCOUNTING__4305
+display_id: NTB-DP-4305
+slug: shadow-accounting
+title: "DP with Shadow Accounting"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - shadow-accounting
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Shadow Accounting
 
 ## Problem Statement
 

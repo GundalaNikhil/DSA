@@ -1,4 +1,28 @@
-# DP-009: Chunked DP with Boundary Conditions
+---
+problem_id: DP_CHUNKED_DP_BOUNDARY__6929
+display_id: NTB-DP-6929
+slug: chunked-dp-boundary
+title: "Chunked DP with Boundary Conditions"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - chunked-dp-boundary
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Chunked DP with Boundary Conditions
 
 ## Problem Statement
 

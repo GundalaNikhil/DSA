@@ -1,4 +1,27 @@
-# REC-014: Recursion over Evolving Grammar
+---
+problem_id: REC_RECURSION_OVER_EVOLVING_GRAMMAR__9167
+display_id: NTB-REC-9167
+slug: recursion-over-evolving-grammar
+title: "Recursion over Evolving Grammar"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursion-over-evolving-grammar
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursion over Evolving Grammar
 
 ## Problem Statement
 

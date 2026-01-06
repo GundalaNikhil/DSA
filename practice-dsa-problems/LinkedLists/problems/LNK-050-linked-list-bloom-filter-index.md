@@ -1,4 +1,28 @@
-# LNK-050: Linked List with Bloom Filter Index
+---
+problem_id: LNK_LINKED_LIST_BLOOM_FILTER_INDEX__6425
+display_id: NTB-LNK-6425
+slug: linked-list-bloom-filter-index
+title: "Linked List with Bloom Filter Index"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-bloom-filter-index
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Bloom Filter Index
 
 ## Problem Statement
 

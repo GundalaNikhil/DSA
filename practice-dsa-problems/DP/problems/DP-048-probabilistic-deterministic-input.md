@@ -1,4 +1,28 @@
-# DP-048: DP with Probabilistic but Deterministic Input
+---
+problem_id: DP_PROBABILISTIC_DETERMINISTIC_INPUT__5797
+display_id: NTB-DP-5797
+slug: probabilistic-deterministic-input
+title: "DP with Probabilistic but Deterministic Input"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - probabilistic-deterministic-input
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Probabilistic but Deterministic Input
 
 ## Problem Statement
 

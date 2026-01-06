@@ -1,4 +1,28 @@
-# DP-062: Load Balancer DP
+---
+problem_id: DP_LOAD_BALANCER__8619
+display_id: NTB-DP-8619
+slug: load-balancer
+title: "Load Balancer DP"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - load-balancer
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Load Balancer DP
 
 ## Problem Statement
 

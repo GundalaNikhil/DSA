@@ -1,4 +1,28 @@
-# LNK-035: Linked List with Lease Expiration
+---
+problem_id: LNK_LINKED_LIST_LEASE_EXPIRATION__3161
+display_id: NTB-LNK-3161
+slug: linked-list-lease-expiration
+title: "Linked List with Lease Expiration"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-lease-expiration
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Lease Expiration
 
 ## Problem Statement
 

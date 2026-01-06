@@ -1,4 +1,28 @@
-# DP-061: Cache Replacement Policy DP
+---
+problem_id: DP_CACHE_REPLACEMENT__3086
+display_id: NTB-DP-3086
+slug: cache-replacement
+title: "Cache Replacement Policy DP"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - cache-replacement
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Cache Replacement Policy DP
 
 ## Problem Statement
 

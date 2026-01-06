@@ -1,4 +1,29 @@
-# ARR-016: Product Except Self with Zero Tax
+---
+problem_id: ARR_PRODUCT_EXCEPT_SELF_ZERO_TAX__9971
+display_id: NTB-ARR-9971
+slug: product-except-self-zero-tax
+title: "Product Except Self with Zero Tax"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - product-except-self-zero-tax
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Product Except Self with Zero Tax
 
 ## Problem Statement
 

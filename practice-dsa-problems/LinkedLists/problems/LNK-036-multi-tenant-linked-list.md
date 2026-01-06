@@ -1,4 +1,28 @@
-# LNK-036: Multi-Tenant Linked List
+---
+problem_id: LNK_MULTI_TENANT_LINKED_LIST__1472
+display_id: NTB-LNK-1472
+slug: multi-tenant-linked-list
+title: "Multi-Tenant Linked List"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linkedlists
+  - memory-management
+  - multi-tenant-linked-list
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Multi-Tenant Linked List
 
 ## Problem Statement
 

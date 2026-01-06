@@ -1,4 +1,28 @@
-# LNK-032: Linked List Compaction Engine
+---
+problem_id: LNK_LINKED_LIST_COMPACTION_ENGINE__1513
+display_id: NTB-LNK-1513
+slug: linked-list-compaction-engine
+title: "Linked List Compaction Engine"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-compaction-engine
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List Compaction Engine
 
 ## Problem Statement
 

@@ -1,4 +1,28 @@
-# DP-051: DP with Hierarchical State Aggregation
+---
+problem_id: DP_HIERARCHICAL_STATE_AGGREGATION__6904
+display_id: NTB-DP-6904
+slug: hierarchical-state-aggregation
+title: "DP with Hierarchical State Aggregation"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - hierarchical-state-aggregation
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Hierarchical State Aggregation
 
 ## Problem Statement
 

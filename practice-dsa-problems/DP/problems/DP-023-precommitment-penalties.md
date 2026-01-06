@@ -1,4 +1,28 @@
-# DP-023: DP with Pre-Commitment Penalties
+---
+problem_id: DP_PRECOMMITMENT_PENALTIES__5004
+display_id: NTB-DP-5004
+slug: precommitment-penalties
+title: "DP with Pre-Commitment Penalties"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - precommitment-penalties
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Pre-Commitment Penalties
 
 ## Problem Statement
 

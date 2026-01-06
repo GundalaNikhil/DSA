@@ -1,4 +1,29 @@
-# ARR-022: Subarray Sum Modulo M (Strict)
+---
+problem_id: ARR_SUBARRAY_SUM_MODULO_STRICT__6301
+display_id: NTB-ARR-6301
+slug: subarray-sum-modulo-strict
+title: "Subarray Sum Modulo M (Strict)"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - searching
+  - subarray-sum-modulo-strict
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Subarray Sum Modulo M (Strict)
 
 ## Problem Statement
 

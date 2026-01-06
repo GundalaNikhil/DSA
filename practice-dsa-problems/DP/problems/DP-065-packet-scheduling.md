@@ -1,4 +1,28 @@
-# DP-065: Network Packet Scheduling DP
+---
+problem_id: DP_PACKET_SCHEDULING__6866
+display_id: NTB-DP-6866
+slug: packet-scheduling
+title: "Network Packet Scheduling DP"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - packet-scheduling
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Network Packet Scheduling DP
 
 ## Problem Statement
 

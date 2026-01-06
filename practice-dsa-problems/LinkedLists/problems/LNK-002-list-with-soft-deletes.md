@@ -1,4 +1,28 @@
-# LNK-002: List with Soft Deletes
+---
+problem_id: LNK_LIST_WITH_SOFT_DELETES__6416
+display_id: NTB-LNK-6416
+slug: list-with-soft-deletes
+title: "List with Soft Deletes"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linkedlists
+  - list-with-soft-deletes
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# List with Soft Deletes
 
 ## Problem Statement
 

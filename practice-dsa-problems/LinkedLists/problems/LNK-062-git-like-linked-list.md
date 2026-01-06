@@ -1,4 +1,28 @@
-# LNK-062: Git-Like Linked List
+---
+problem_id: LNK_GIT_LIKE_LINKED_LIST__5204
+display_id: NTB-LNK-5204
+slug: git-like-linked-list
+title: "Git-Like Linked List"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - git-like-linked-list
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Git-Like Linked List
 
 ## Problem Statement
 

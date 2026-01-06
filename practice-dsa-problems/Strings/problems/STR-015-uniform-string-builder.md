@@ -1,4 +1,28 @@
-# STR-015: Uniform String Builder
+---
+problem_id: STR_UNIFORM_STRING_BUILDER__2349
+display_id: NTB-STR-2349
+slug: uniform-string-builder
+title: "Uniform String Builder"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+  - uniform-string-builder
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Uniform String Builder
 
 ## Problem Statement
 

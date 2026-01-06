@@ -1,4 +1,27 @@
-# REC-052: Recursive Build System
+---
+problem_id: REC_RECURSIVE_BUILD_SYSTEM__4761
+display_id: NTB-REC-4761
+slug: recursive-build-system
+title: "Recursive Build System"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-build-system
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Build System
 
 ## Problem Statement
 

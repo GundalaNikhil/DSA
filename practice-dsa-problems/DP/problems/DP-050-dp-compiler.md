@@ -1,4 +1,28 @@
-# DP-050: DP Compiler Problem
+---
+problem_id: DP_DP_COMPILER__8904
+display_id: NTB-DP-8904
+slug: dp-compiler
+title: "DP Compiler Problem"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - dp-compiler
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP Compiler Problem
 
 ## Problem Statement
 

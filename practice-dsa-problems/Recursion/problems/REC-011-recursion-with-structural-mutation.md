@@ -1,4 +1,27 @@
-# REC-011: Recursion with Structural Mutation
+---
+problem_id: REC_RECURSION_WITH_STRUCTURAL_MUTATION__1777
+display_id: NTB-REC-1777
+slug: recursion-with-structural-mutation
+title: "Recursion with Structural Mutation"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursion-with-structural-mutation
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursion with Structural Mutation
 
 ## Problem Statement
 

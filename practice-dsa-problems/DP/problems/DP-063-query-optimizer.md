@@ -1,4 +1,28 @@
-# DP-063: Database Query Optimizer DP
+---
+problem_id: DP_QUERY_OPTIMIZER__6132
+display_id: NTB-DP-6132
+slug: query-optimizer
+title: "Database Query Optimizer DP"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - query-optimizer
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Database Query Optimizer DP
 
 ## Problem Statement
 

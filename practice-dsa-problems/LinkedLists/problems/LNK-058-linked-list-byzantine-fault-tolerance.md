@@ -1,4 +1,28 @@
-# LNK-058: Linked List with Byzantine Fault Tolerance
+---
+problem_id: LNK_LINKED_LIST_BYZANTINE_FAULT_TOLERANCE__3994
+display_id: NTB-LNK-3994
+slug: linked-list-byzantine-fault-tolerance
+title: "Linked List with Byzantine Fault Tolerance"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-byzantine-fault-tolerance
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Byzantine Fault Tolerance
 
 ## Problem Statement
 

@@ -1,4 +1,28 @@
-# STR-038: Adversarial String Game
+---
+problem_id: STR_ADVERSARIAL_STRING_GAME__2054
+display_id: NTB-STR-2054
+slug: adversarial-string-game
+title: "Adversarial String Game"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - adversarial-string-game
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Adversarial String Game
 
 ## Problem Statement
 

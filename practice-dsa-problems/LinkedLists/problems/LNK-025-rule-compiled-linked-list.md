@@ -1,4 +1,28 @@
-# LNK-025: Rule-Compiled Linked List
+---
+problem_id: LNK_RULE_COMPILED_LINKED_LIST__1956
+display_id: NTB-LNK-1956
+slug: rule-compiled-linked-list
+title: "Rule-Compiled Linked List"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linkedlists
+  - memory-management
+  - pointers
+  - rule-compiled-linked-list
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Rule-Compiled Linked List
 
 ## Problem Statement
 

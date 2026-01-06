@@ -1,4 +1,28 @@
-# LNK-001: Segmented Linked List
+---
+problem_id: LNK_SEGMENTED_LINKED_LIST__8030
+display_id: NTB-LNK-8030
+slug: segmented-linked-list
+title: "Segmented Linked List"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linkedlists
+  - memory-management
+  - pointers
+  - segmented-linked-list
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Segmented Linked List
 
 ## Problem Statement
 
@@ -57,4 +81,46 @@ PRINT 2
 ```
 1 2 9
 3 4 5
+```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public List<String> processSegmentedList(int n, int[] values, int[] segments, String[] operations) {
+        // Implement here
+        return new ArrayList<>();
+    }
+}
+```
+
+### Python
+
+```python
+def solve(n, values, segments, operations):
+    # Implement here
+    return []
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    vector<string> processSegmentedList(int n, vector<int>& values, vector<int>& segments, vector<string>& operations) {
+        // Implement here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+function solve(n, values, segments, operations) {
+  // Implement here
+  return [];
+}
 ```

@@ -1,4 +1,29 @@
-# ARR-026: Maximum Subarray with Mandatory Inclusion Set
+---
+problem_id: ARR_MAXIMUM_SUBARRAY_MANDATORY_SET__8984
+display_id: NTB-ARR-8984
+slug: maximum-subarray-mandatory-set
+title: "Maximum Subarray with Mandatory Inclusion Set"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - maximum-subarray-mandatory-set
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Maximum Subarray with Mandatory Inclusion Set
 
 ## Problem Statement
 

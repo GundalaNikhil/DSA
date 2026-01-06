@@ -1,4 +1,27 @@
-# REC-009: Recursive Cost Propagation
+---
+problem_id: REC_RECURSIVE_COST_PROPAGATION__4810
+display_id: NTB-REC-4810
+slug: recursive-cost-propagation
+title: "Recursive Cost Propagation"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-cost-propagation
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Cost Propagation
 
 ## Problem Statement
 

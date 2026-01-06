@@ -1,4 +1,28 @@
-# LNK-008: Linked List with Ownership Locks
+---
+problem_id: LNK_LINKED_LIST_OWNERSHIP_LOCKS__1380
+display_id: NTB-LNK-1380
+slug: linked-list-ownership-locks
+title: "Linked List with Ownership Locks"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-ownership-locks
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Ownership Locks
 
 ## Problem Statement
 

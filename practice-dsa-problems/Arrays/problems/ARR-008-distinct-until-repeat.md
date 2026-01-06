@@ -1,4 +1,29 @@
-# ARR-008: Distinct Until Repeat
+---
+problem_id: ARR_DISTINCT_UNTIL_REPEAT__4461
+display_id: NTB-ARR-4461
+slug: distinct-until-repeat
+title: "Distinct Until Repeat"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - distinct-until-repeat
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Distinct Until Repeat
 
 ## Problem Statement
 

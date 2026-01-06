@@ -1,0 +1,39 @@
+import java.util.*;
+import java.io.*;
+import org.json.*;
+
+// ========== USER CODE ==========
+${USER_CODE}
+
+// ========== ADAPTER ==========
+${ADAPTER}
+
+public class Main {
+    public static void main(String[] args) {
+        try {
+            BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line);
+            }
+
+            JSONObject input = new JSONObject(sb.toString());
+            JSONArray argsArray = input.getJSONArray("args");
+
+            Object result = Adapter.run(argsArray);
+
+            if (result instanceof Collection) {
+                System.out.println(new JSONArray(result).toString());
+            } else if (result != null && result.getClass().isArray()) {
+                System.out.println(new JSONArray(result).toString());
+            } else {
+                System.out.println(String.valueOf(result));
+            }
+
+        } catch (Exception e) {
+            System.err.println("Runtime Error: " + e.getMessage());
+            System.exit(1);
+        }
+    }
+}

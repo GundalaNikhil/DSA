@@ -1,4 +1,29 @@
-# GRP-002: Articulation Points with Redundancy Threshold
+---
+problem_id: GRP_ARTICULATION_POINTS_REDUNDANCY_THRESHOLD__5926
+display_id: NTB-GRP-5926
+slug: articulation-points-redundancy-threshold
+title: "Articulation Points with Redundancy Threshold"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Graphs
+tags:
+  - algorithms
+  - articulation-points-redundancy-threshold
+  - coding-interviews
+  - data-structures
+  - graphs
+  - search
+  - shortest-paths
+  - technical-interview-prep
+  - traversal
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Articulation Points with Redundancy Threshold
 
 ## Problem Statement
 

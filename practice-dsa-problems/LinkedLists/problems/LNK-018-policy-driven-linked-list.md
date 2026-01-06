@@ -1,4 +1,28 @@
-# LNK-018: Policy-Driven Linked List
+---
+problem_id: LNK_POLICY_DRIVEN_LINKED_LIST__3698
+display_id: NTB-LNK-3698
+slug: policy-driven-linked-list
+title: "Policy-Driven Linked List"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linkedlists
+  - memory-management
+  - pointers
+  - policy-driven-linked-list
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Policy-Driven Linked List
 
 ## Problem Statement
 

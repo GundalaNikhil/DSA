@@ -1,4 +1,28 @@
-# LNK-021: Transactional Linked List
+---
+problem_id: LNK_TRANSACTIONAL_LINKED_LIST__3107
+display_id: NTB-LNK-3107
+slug: transactional-linked-list
+title: "Transactional Linked List"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+  - transactional-linked-list
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Transactional Linked List
 
 ## Problem Statement
 

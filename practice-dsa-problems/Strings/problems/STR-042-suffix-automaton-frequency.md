@@ -1,4 +1,28 @@
-# STR-042: Suffix Automaton with Frequency
+---
+problem_id: STR_SUFFIX_AUTOMATON_FREQUENCY__3193
+display_id: NTB-STR-3193
+slug: suffix-automaton-frequency
+title: "Suffix Automaton with Frequency"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - suffix-automaton-frequency
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Suffix Automaton with Frequency
 
 ## Problem Statement
 

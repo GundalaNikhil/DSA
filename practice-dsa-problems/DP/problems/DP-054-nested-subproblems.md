@@ -1,4 +1,28 @@
-# DP-054: DP with Nested Subproblems
+---
+problem_id: DP_NESTED_SUBPROBLEMS__5619
+display_id: NTB-DP-5619
+slug: nested-subproblems
+title: "DP with Nested Subproblems"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - nested-subproblems
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Nested Subproblems
 
 ## Problem Statement
 

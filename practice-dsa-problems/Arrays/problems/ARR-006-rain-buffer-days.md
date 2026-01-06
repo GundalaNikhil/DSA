@@ -1,4 +1,29 @@
-# ARR-006: Rain Buffer Days
+---
+problem_id: ARR_RAIN_BUFFER_DAYS__9135
+display_id: NTB-ARR-9135
+slug: rain-buffer-days
+title: "Rain Buffer Days"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - rain-buffer-days
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Rain Buffer Days
 
 ## Problem Statement
 

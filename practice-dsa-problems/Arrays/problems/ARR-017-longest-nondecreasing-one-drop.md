@@ -1,4 +1,29 @@
-# ARR-017: Longest Non-Decreasing with One Drop
+---
+problem_id: ARR_LONGEST_NONDECREASING_ONE_DROP__9964
+display_id: NTB-ARR-9964
+slug: longest-nondecreasing-one-drop
+title: "Longest Non-Decreasing with One Drop"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - longest-nondecreasing-one-drop
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Longest Non-Decreasing with One Drop
 
 ## Problem Statement
 

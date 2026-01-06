@@ -1,4 +1,28 @@
-# STR-043: Online Mirror Query System
+---
+problem_id: STR_ONLINE_MIRROR_QUERY_SYSTEM__5996
+display_id: NTB-STR-5996
+slug: online-mirror-query-system
+title: "Online Mirror Query System"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - online-mirror-query-system
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Online Mirror Query System
 
 ## Problem Statement
 

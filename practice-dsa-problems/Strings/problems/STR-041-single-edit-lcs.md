@@ -1,4 +1,28 @@
-# STR-041: Single-Edit Longest Common Subsequence
+---
+problem_id: STR_SINGLE_EDIT_LCS__7729
+display_id: NTB-STR-7729
+slug: single-edit-lcs
+title: "Single-Edit Longest Common Subsequence"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - single-edit-lcs
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Single-Edit Longest Common Subsequence
 
 ## Problem Statement
 

@@ -1,4 +1,28 @@
-# GEO-001: Convex Hull with Verified Outliers
+---
+problem_id: GEO_CONVEX_HULL_VERIFIED_OUTLIERS__9231
+display_id: NTB-GEO-9231
+slug: convex-hull-verified-outliers
+title: "Convex Hull with Verified Outliers"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Geometry
+tags:
+  - algorithms
+  - coding-interviews
+  - computational-geometry
+  - convex-hull-verified-outliers
+  - data-structures
+  - geometry
+  - spatial-reasoning
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Convex Hull with Verified Outliers
 
 ## Problem Statement
 

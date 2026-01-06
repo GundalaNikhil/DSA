@@ -1,4 +1,28 @@
-# STR-029: Dynamic Substring Count Queries
+---
+problem_id: STR_DYNAMIC_SUBSTRING_COUNT_QUERIES__4248
+display_id: NTB-STR-4248
+slug: dynamic-substring-count-queries
+title: "Dynamic Substring Count Queries"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dynamic-substring-count-queries
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Dynamic Substring Count Queries
 
 ## Problem Statement
 

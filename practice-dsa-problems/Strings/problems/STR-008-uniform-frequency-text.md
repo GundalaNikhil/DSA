@@ -1,4 +1,28 @@
-# STR-008: Uniform Frequency Text
+---
+problem_id: STR_UNIFORM_FREQUENCY_TEXT__7803
+display_id: NTB-STR-7803
+slug: uniform-frequency-text
+title: "Uniform Frequency Text"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+  - uniform-frequency-text
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Uniform Frequency Text
 
 ## Problem Statement
 

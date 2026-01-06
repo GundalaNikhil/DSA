@@ -1,4 +1,28 @@
-# LNK-069: Linked List as Turing Machine
+---
+problem_id: LNK_LINKED_LIST_TURING_MACHINE__9481
+display_id: NTB-LNK-9481
+slug: linked-list-turing-machine
+title: "Linked List as Turing Machine"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-turing-machine
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List as Turing Machine
 
 ## Problem Statement
 

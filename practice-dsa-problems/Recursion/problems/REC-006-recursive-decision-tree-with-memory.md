@@ -1,4 +1,27 @@
-# REC-006: Recursive Decision Tree with Memory
+---
+problem_id: REC_RECURSIVE_DECISION_TREE_WITH_MEMORY__5756
+display_id: NTB-REC-5756
+slug: recursive-decision-tree-with-memory
+title: "Recursive Decision Tree with Memory"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-decision-tree-with-memory
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Decision Tree with Memory
 
 ## Problem Statement
 

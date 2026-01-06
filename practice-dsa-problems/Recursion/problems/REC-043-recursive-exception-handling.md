@@ -1,4 +1,27 @@
-# REC-043: Recursive Exception Handling
+---
+problem_id: REC_RECURSIVE_EXCEPTION_HANDLING__5988
+display_id: NTB-REC-5988
+slug: recursive-exception-handling
+title: "Recursive Exception Handling"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-exception-handling
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Exception Handling
 
 ## Problem Statement
 

@@ -1,4 +1,28 @@
-# STR-006: Single-Edit Symmetry
+---
+problem_id: STR_SINGLE_EDIT_SYMMETRY__4328
+display_id: NTB-STR-4328
+slug: single-edit-symmetry
+title: "Single-Edit Symmetry"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - single-edit-symmetry
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Single-Edit Symmetry
 
 ## Problem Statement
 

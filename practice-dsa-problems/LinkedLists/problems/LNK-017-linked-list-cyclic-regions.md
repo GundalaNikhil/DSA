@@ -1,4 +1,28 @@
-# LNK-017: Linked List with Cyclic Regions
+---
+problem_id: LNK_LINKED_LIST_CYCLIC_REGIONS__9233
+display_id: NTB-LNK-9233
+slug: linked-list-cyclic-regions
+title: "Linked List with Cyclic Regions"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-cyclic-regions
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Cyclic Regions
 
 ## Problem Statement
 

@@ -1,4 +1,28 @@
-# LNK-059: Linked List with Self-Healing
+---
+problem_id: LNK_LINKED_LIST_SELF_HEALING__8089
+display_id: NTB-LNK-8089
+slug: linked-list-self-healing
+title: "Linked List with Self-Healing"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-self-healing
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Self-Healing
 
 ## Problem Statement
 

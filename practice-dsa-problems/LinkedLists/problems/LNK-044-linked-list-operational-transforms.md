@@ -1,4 +1,28 @@
-# LNK-044: Linked List with Operational Transforms
+---
+problem_id: LNK_LINKED_LIST_OPERATIONAL_TRANSFORMS__5120
+display_id: NTB-LNK-5120
+slug: linked-list-operational-transforms
+title: "Linked List with Operational Transforms"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-operational-transforms
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Operational Transforms
 
 ## Problem Statement
 

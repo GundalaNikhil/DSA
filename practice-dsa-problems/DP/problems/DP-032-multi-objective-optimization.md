@@ -1,4 +1,28 @@
-# DP-032: DP with Multi-Objective Optimization
+---
+problem_id: DP_MULTI_OBJECTIVE_OPTIMIZATION__7521
+display_id: NTB-DP-7521
+slug: multi-objective-optimization
+title: "DP with Multi-Objective Optimization"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - multi-objective-optimization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Multi-Objective Optimization
 
 ## Problem Statement
 

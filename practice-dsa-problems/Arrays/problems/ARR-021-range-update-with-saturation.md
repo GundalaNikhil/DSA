@@ -1,4 +1,29 @@
-# ARR-021: Range Update with Saturation
+---
+problem_id: ARR_RANGE_UPDATE_WITH_SATURATION__9156
+display_id: NTB-ARR-9156
+slug: range-update-with-saturation
+title: "Range Update with Saturation"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - range-update-with-saturation
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Range Update with Saturation
 
 ## Problem Statement
 

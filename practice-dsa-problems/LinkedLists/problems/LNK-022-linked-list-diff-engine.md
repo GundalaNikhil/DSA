@@ -1,4 +1,28 @@
-# LNK-022: Linked List Diff Engine
+---
+problem_id: LNK_LINKED_LIST_DIFF_ENGINE__9673
+display_id: NTB-LNK-9673
+slug: linked-list-diff-engine
+title: "Linked List Diff Engine"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-diff-engine
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List Diff Engine
 
 ## Problem Statement
 

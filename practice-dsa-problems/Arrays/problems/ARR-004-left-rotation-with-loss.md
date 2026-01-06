@@ -1,4 +1,29 @@
-# ARR-004: Left Rotation with Loss
+---
+problem_id: ARR_LEFT_ROTATION_WITH_LOSS__9418
+display_id: NTB-ARR-9418
+slug: left-rotation-with-loss
+title: "Left Rotation with Loss"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - left-rotation-with-loss
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Left Rotation with Loss
 
 ## Problem Statement
 

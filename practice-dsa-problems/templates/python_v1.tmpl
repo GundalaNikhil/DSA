@@ -1,0 +1,18 @@
+import sys
+import json
+
+# ========== USER CODE ==========
+${USER_CODE}
+
+# ========== ADAPTER ==========
+${ADAPTER}
+
+if __name__ == "__main__":
+    try:
+        data = json.loads(sys.stdin.read())
+        args = data["args"]
+        result = adapter(args)
+        print(json.dumps(result))
+    except Exception as e:
+        print(f"Runtime Error: {e}", file=sys.stderr)
+        sys.exit(1)

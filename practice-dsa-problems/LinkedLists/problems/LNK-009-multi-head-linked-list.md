@@ -1,4 +1,28 @@
-# LNK-009: Multi-Head Linked List
+---
+problem_id: LNK_MULTI_HEAD_LINKED_LIST__8801
+display_id: NTB-LNK-8801
+slug: multi-head-linked-list
+title: "Multi-Head Linked List"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linkedlists
+  - memory-management
+  - multi-head-linked-list
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Multi-Head Linked List
 
 ## Problem Statement
 

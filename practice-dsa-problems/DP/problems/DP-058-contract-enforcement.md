@@ -1,4 +1,28 @@
-# DP-058: DP with Contract Enforcement
+---
+problem_id: DP_CONTRACT_ENFORCEMENT__4266
+display_id: NTB-DP-4266
+slug: contract-enforcement
+title: "DP with Contract Enforcement"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - contract-enforcement
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Contract Enforcement
 
 ## Problem Statement
 

@@ -1,4 +1,27 @@
-# REC-047: Recursive Fault Injection
+---
+problem_id: REC_RECURSIVE_FAULT_INJECTION__1411
+display_id: NTB-REC-1411
+slug: recursive-fault-injection
+title: "Recursive Fault Injection"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-fault-injection
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Fault Injection
 
 ## Problem Statement
 

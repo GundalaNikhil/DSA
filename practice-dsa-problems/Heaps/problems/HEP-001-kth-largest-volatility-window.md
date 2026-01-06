@@ -1,4 +1,28 @@
-# HEP-001: Kth Largest Element with Volatility Window
+---
+problem_id: HEP_KTH_LARGEST_VOLATILITY_WINDOW__7214
+display_id: NTB-HEP-7214
+slug: kth-largest-volatility-window
+title: "Kth Largest Element with Volatility Window"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Heaps
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - heaps
+  - kth-largest-volatility-window
+  - priority-queues
+  - sorting
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Kth Largest Element with Volatility Window
 
 ## Problem Statement
 

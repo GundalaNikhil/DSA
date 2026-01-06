@@ -1,4 +1,29 @@
-# ARR-019: Split Array into Balanced Energy Segments
+---
+problem_id: ARR_SPLIT_ARRAY_BALANCED_ENERGY__4665
+display_id: NTB-ARR-4665
+slug: split-array-balanced-energy
+title: "Split Array into Balanced Energy Segments"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - searching
+  - split-array-balanced-energy
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Split Array into Balanced Energy Segments
 
 ## Problem Statement
 

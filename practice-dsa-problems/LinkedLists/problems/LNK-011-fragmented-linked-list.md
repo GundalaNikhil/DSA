@@ -1,4 +1,28 @@
-# LNK-011: Fragmented Linked List
+---
+problem_id: LNK_FRAGMENTED_LINKED_LIST__1828
+display_id: NTB-LNK-1828
+slug: fragmented-linked-list
+title: "Fragmented Linked List"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - fragmented-linked-list
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Fragmented Linked List
 
 ## Problem Statement
 

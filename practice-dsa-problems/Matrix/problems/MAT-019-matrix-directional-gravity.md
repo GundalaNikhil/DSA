@@ -1,4 +1,28 @@
-# MAT-019: Matrix with Directional Gravity
+---
+problem_id: MAT_MATRIX_DIRECTIONAL_GRAVITY__6139
+display_id: NTB-MAT-6139
+slug: matrix-directional-gravity
+title: "Matrix with Directional Gravity"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Matrix
+tags:
+  - 2d-arrays
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - grids
+  - matrix
+  - matrix-directional-gravity
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Matrix with Directional Gravity
 
 ## Problem Statement
 

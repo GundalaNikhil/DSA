@@ -1,4 +1,28 @@
-# STR-031: Multi-Operation String Transform
+---
+problem_id: STR_MULTI_OPERATION_STRING_TRANSFORM__8837
+display_id: NTB-STR-8837
+slug: multi-operation-string-transform
+title: "Multi-Operation String Transform"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - multi-operation-string-transform
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Multi-Operation String Transform
 
 ## Problem Statement
 

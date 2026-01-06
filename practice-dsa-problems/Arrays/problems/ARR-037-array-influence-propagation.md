@@ -1,4 +1,29 @@
-# ARR-037: Array Influence Propagation
+---
+problem_id: ARR_ARRAY_INFLUENCE_PROPAGATION__2081
+display_id: NTB-ARR-2081
+slug: array-influence-propagation
+title: "Array Influence Propagation"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-influence-propagation
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Array Influence Propagation
 
 ## Problem Statement
 

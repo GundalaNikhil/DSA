@@ -1,4 +1,28 @@
-# DP-035: DP with Structural Mutation
+---
+problem_id: DP_STRUCTURAL_MUTATION__3777
+display_id: NTB-DP-3777
+slug: structural-mutation
+title: "DP with Structural Mutation"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - structural-mutation
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Structural Mutation
 
 ## Problem Statement
 

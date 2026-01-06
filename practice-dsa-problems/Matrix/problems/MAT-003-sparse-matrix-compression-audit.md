@@ -1,4 +1,28 @@
-# MAT-003: Sparse Matrix Compression Audit
+---
+problem_id: MAT_SPARSE_MATRIX_COMPRESSION_AUDIT__2770
+display_id: NTB-MAT-2770
+slug: sparse-matrix-compression-audit
+title: "Sparse Matrix Compression Audit"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Matrix
+tags:
+  - 2d-arrays
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - grids
+  - matrix
+  - sparse-matrix-compression-audit
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Sparse Matrix Compression Audit
 
 ## Problem Statement
 

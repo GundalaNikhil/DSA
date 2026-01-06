@@ -1,4 +1,29 @@
-# ARR-002: First Stable Increase
+---
+problem_id: ARR_FIRST_STABLE_INCREASE__8152
+display_id: NTB-ARR-8152
+slug: first-stable-increase
+title: "First Stable Increase"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - first-stable-increase
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# First Stable Increase
 
 ## Problem Statement
 

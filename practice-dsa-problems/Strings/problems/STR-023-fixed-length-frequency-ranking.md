@@ -1,4 +1,28 @@
-# STR-023: Fixed-Length Frequency Ranking
+---
+problem_id: STR_FIXED_LENGTH_FREQUENCY_RANKING__2012
+display_id: NTB-STR-2012
+slug: fixed-length-frequency-ranking
+title: "Fixed-Length Frequency Ranking"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - fixed-length-frequency-ranking
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Fixed-Length Frequency Ranking
 
 ## Problem Statement
 

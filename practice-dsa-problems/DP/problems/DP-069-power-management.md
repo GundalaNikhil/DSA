@@ -1,4 +1,28 @@
-# DP-069: Power Management DP
+---
+problem_id: DP_POWER_MANAGEMENT__9221
+display_id: NTB-DP-9221
+slug: power-management
+title: "Power Management DP"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - power-management
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Power Management DP
 
 ## Problem Statement
 

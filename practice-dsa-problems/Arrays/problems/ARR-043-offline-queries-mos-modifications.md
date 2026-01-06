@@ -1,4 +1,29 @@
-# ARR-043: Offline Queries with Mo's and Modifications
+---
+problem_id: ARR_OFFLINE_QUERIES_MOS_MODIFICATIONS__8242
+display_id: NTB-ARR-8242
+slug: offline-queries-mos-modifications
+title: "Offline Queries with Mo's and Modifications"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - offline-queries-mos-modifications
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Offline Queries with Mo's and Modifications
 
 ## Problem Statement
 

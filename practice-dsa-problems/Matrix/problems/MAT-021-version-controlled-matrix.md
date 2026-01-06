@@ -1,4 +1,28 @@
-# MAT-021: Version-Controlled Matrix
+---
+problem_id: MAT_VERSION_CONTROLLED_MATRIX__7399
+display_id: NTB-MAT-7399
+slug: version-controlled-matrix
+title: "Version-Controlled Matrix"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Matrix
+tags:
+  - 2d-arrays
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - grids
+  - matrix
+  - technical-interview-prep
+  - version-controlled-matrix
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Version-Controlled Matrix
 
 ## Problem Statement
 

@@ -1,4 +1,28 @@
-# DP-044: DP on Multi-Scale Time
+---
+problem_id: DP_MULTI_SCALE_TIME__6209
+display_id: NTB-DP-6209
+slug: multi-scale-time
+title: "DP on Multi-Scale Time"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - multi-scale-time
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP on Multi-Scale Time
 
 ## Problem Statement
 

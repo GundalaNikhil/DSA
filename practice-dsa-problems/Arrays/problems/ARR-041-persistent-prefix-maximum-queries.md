@@ -1,4 +1,29 @@
-# ARR-041: Persistent Prefix Maximum Queries
+---
+problem_id: ARR_PERSISTENT_PREFIX_MAXIMUM_QUERIES__9735
+display_id: NTB-ARR-9735
+slug: persistent-prefix-maximum-queries
+title: "Persistent Prefix Maximum Queries"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - persistent-prefix-maximum-queries
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Persistent Prefix Maximum Queries
 
 ## Problem Statement
 

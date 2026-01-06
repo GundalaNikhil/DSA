@@ -1,4 +1,27 @@
-# REC-054: Recursive Type Checker
+---
+problem_id: REC_RECURSIVE_TYPE_CHECKER__7512
+display_id: NTB-REC-7512
+slug: recursive-type-checker
+title: "Recursive Type Checker"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-type-checker
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Type Checker
 
 ## Problem Statement
 

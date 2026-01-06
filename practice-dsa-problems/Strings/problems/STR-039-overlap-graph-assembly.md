@@ -1,4 +1,28 @@
-# STR-039: Overlap Graph Assembly
+---
+problem_id: STR_OVERLAP_GRAPH_ASSEMBLY__6006
+display_id: NTB-STR-6006
+slug: overlap-graph-assembly
+title: "Overlap Graph Assembly"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - overlap-graph-assembly
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Overlap Graph Assembly
 
 ## Problem Statement
 

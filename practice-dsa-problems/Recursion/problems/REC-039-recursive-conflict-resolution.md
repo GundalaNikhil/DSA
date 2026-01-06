@@ -1,4 +1,27 @@
-# REC-039: Recursive Conflict Resolution
+---
+problem_id: REC_RECURSIVE_CONFLICT_RESOLUTION__8644
+display_id: NTB-REC-8644
+slug: recursive-conflict-resolution
+title: "Recursive Conflict Resolution"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-conflict-resolution
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Conflict Resolution
 
 ## Problem Statement
 

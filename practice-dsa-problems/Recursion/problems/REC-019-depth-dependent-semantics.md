@@ -1,4 +1,27 @@
-# REC-019: Recursion with Depth-Dependent Semantics
+---
+problem_id: REC_DEPTH_DEPENDENT_SEMANTICS__7310
+display_id: NTB-REC-7310
+slug: depth-dependent-semantics
+title: "Recursion with Depth-Dependent Semantics"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - depth-dependent-semantics
+  - recursion
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursion with Depth-Dependent Semantics
 
 ## Problem Statement
 

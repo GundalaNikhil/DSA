@@ -1,4 +1,28 @@
-# MAT-006: Matrix with Time Layers
+---
+problem_id: MAT_MATRIX_WITH_TIME_LAYERS__4094
+display_id: NTB-MAT-4094
+slug: matrix-with-time-layers
+title: "Matrix with Time Layers"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Matrix
+tags:
+  - 2d-arrays
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - grids
+  - matrix
+  - matrix-with-time-layers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Matrix with Time Layers
 
 ## Problem Statement
 

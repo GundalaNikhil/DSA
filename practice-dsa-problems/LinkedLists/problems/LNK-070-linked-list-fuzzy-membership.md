@@ -1,4 +1,28 @@
-# LNK-070: Linked List with Fuzzy Membership
+---
+problem_id: LNK_LINKED_LIST_FUZZY_MEMBERSHIP__3175
+display_id: NTB-LNK-3175
+slug: linked-list-fuzzy-membership
+title: "Linked List with Fuzzy Membership"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-fuzzy-membership
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Fuzzy Membership
 
 ## Problem Statement
 

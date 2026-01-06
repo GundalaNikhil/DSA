@@ -1,4 +1,28 @@
-# LNK-056: Linked List with Probabilistic Routing
+---
+problem_id: LNK_LINKED_LIST_PROBABILISTIC_ROUTING__5860
+display_id: NTB-LNK-5860
+slug: linked-list-probabilistic-routing
+title: "Linked List with Probabilistic Routing"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-probabilistic-routing
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Probabilistic Routing
 
 ## Problem Statement
 

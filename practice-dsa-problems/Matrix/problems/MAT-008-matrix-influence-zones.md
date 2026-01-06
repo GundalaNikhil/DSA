@@ -1,4 +1,28 @@
-# MAT-008: Matrix Influence Zones
+---
+problem_id: MAT_MATRIX_INFLUENCE_ZONES__2847
+display_id: NTB-MAT-2847
+slug: matrix-influence-zones
+title: "Matrix Influence Zones"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Matrix
+tags:
+  - 2d-arrays
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - grids
+  - matrix
+  - matrix-influence-zones
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Matrix Influence Zones
 
 ## Problem Statement
 

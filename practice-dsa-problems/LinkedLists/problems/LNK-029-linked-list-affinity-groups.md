@@ -1,4 +1,28 @@
-# LNK-029: Linked List with Affinity Groups
+---
+problem_id: LNK_LINKED_LIST_AFFINITY_GROUPS__9842
+display_id: NTB-LNK-9842
+slug: linked-list-affinity-groups
+title: "Linked List with Affinity Groups"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-affinity-groups
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Affinity Groups
 
 ## Problem Statement
 

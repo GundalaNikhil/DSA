@@ -1,4 +1,28 @@
-# LNK-052: Linked List with Smart Pointers
+---
+problem_id: LNK_LINKED_LIST_SMART_POINTERS__2863
+display_id: NTB-LNK-2863
+slug: linked-list-smart-pointers
+title: "Linked List with Smart Pointers"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-smart-pointers
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Smart Pointers
 
 ## Problem Statement
 

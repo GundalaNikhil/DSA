@@ -1,4 +1,29 @@
-# ARR-029: K Non-Overlapping Max Subarrays
+---
+problem_id: ARR_K_NONOVERLAPPING_MAX_SUBARRAYS__6606
+display_id: NTB-ARR-6606
+slug: k-nonoverlapping-max-subarrays
+title: "K Non-Overlapping Max Subarrays"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - k-nonoverlapping-max-subarrays
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# K Non-Overlapping Max Subarrays
 
 ## Problem Statement
 

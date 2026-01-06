@@ -1,4 +1,28 @@
-# LNK-007: Priority-Aware Linked List
+---
+problem_id: LNK_PRIORITY_AWARE_LINKED_LIST__2144
+display_id: NTB-LNK-2144
+slug: priority-aware-linked-list
+title: "Priority-Aware Linked List"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linkedlists
+  - memory-management
+  - pointers
+  - priority-aware-linked-list
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Priority-Aware Linked List
 
 ## Problem Statement
 

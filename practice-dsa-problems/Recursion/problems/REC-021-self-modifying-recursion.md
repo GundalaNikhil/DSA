@@ -1,4 +1,27 @@
-# REC-021: Self-Modifying Recursion
+---
+problem_id: REC_SELF_MODIFYING_RECURSION__6313
+display_id: NTB-REC-6313
+slug: self-modifying-recursion
+title: "Self-Modifying Recursion"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - self-modifying-recursion
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Self-Modifying Recursion
 
 ## Problem Statement
 

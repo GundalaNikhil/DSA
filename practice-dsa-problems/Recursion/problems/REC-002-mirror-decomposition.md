@@ -1,4 +1,27 @@
-# REC-002: Mirror Decomposition
+---
+problem_id: REC_MIRROR_DECOMPOSITION__1410
+display_id: NTB-REC-1410
+slug: mirror-decomposition
+title: "Mirror Decomposition"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - mirror-decomposition
+  - recursion
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Mirror Decomposition
 
 ## Problem Statement
 

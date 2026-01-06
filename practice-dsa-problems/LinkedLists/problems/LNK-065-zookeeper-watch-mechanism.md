@@ -1,4 +1,28 @@
-# LNK-065: ZooKeeper Watch Mechanism
+---
+problem_id: LNK_ZOOKEEPER_WATCH_MECHANISM__8910
+display_id: NTB-LNK-8910
+slug: zookeeper-watch-mechanism
+title: "ZooKeeper Watch Mechanism"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+  - zookeeper-watch-mechanism
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# ZooKeeper Watch Mechanism
 
 ## Problem Statement
 

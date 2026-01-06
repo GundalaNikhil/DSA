@@ -1,4 +1,28 @@
-# DP-027: DP with Staged Rollback
+---
+problem_id: DP_STAGED_ROLLBACK__4334
+display_id: NTB-DP-4334
+slug: staged-rollback
+title: "DP with Staged Rollback"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - staged-rollback
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Staged Rollback
 
 ## Problem Statement
 

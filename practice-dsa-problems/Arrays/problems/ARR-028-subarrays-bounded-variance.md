@@ -1,4 +1,29 @@
-# ARR-028: Subarrays with Bounded Variance
+---
+problem_id: ARR_SUBARRAYS_BOUNDED_VARIANCE__3408
+display_id: NTB-ARR-3408
+slug: subarrays-bounded-variance
+title: "Subarrays with Bounded Variance"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - searching
+  - subarrays-bounded-variance
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Subarrays with Bounded Variance
 
 ## Problem Statement
 

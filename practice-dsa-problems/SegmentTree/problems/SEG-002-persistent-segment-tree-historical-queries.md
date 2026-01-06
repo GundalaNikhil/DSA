@@ -1,4 +1,27 @@
-# SEG-002: Persistent Segment Tree for Historical Queries
+---
+problem_id: SEG_PERSISTENT_SEGMENT_TREE_HISTORICAL_QUERIES__8670
+display_id: NTB-SEG-8670
+slug: persistent-segment-tree-historical-queries
+title: "Persistent Segment Tree for Historical Queries"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Segment Tree
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - persistent-segment-tree-historical-queries
+  - range-queries
+  - segmenttree
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Persistent Segment Tree for Historical Queries
 
 ## Problem Statement
 

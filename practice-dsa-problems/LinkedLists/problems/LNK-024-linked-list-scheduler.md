@@ -1,4 +1,28 @@
-# LNK-024: Linked List Scheduler
+---
+problem_id: LNK_LINKED_LIST_SCHEDULER__5156
+display_id: NTB-LNK-5156
+slug: linked-list-scheduler
+title: "Linked List Scheduler"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-scheduler
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List Scheduler
 
 ## Problem Statement
 

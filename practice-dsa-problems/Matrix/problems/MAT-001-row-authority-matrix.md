@@ -1,4 +1,28 @@
-# MAT-001: Row Authority Matrix
+---
+problem_id: MAT_ROW_AUTHORITY_MATRIX__8808
+display_id: NTB-MAT-8808
+slug: row-authority-matrix
+title: "Row Authority Matrix"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Matrix
+tags:
+  - 2d-arrays
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - grids
+  - matrix
+  - row-authority-matrix
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Row Authority Matrix
 
 ## Problem Statement
 
@@ -46,4 +70,46 @@ Compute the final matrix after all rules are applied.
 10 10 10
 20 15 20
 30 15 30
+```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int[][] computeAuthorityMatrix(int n, int m, int[] rowAuthorities, int[][] columnRules) {
+        // Implement here
+        return new int[n][m];
+    }
+}
+```
+
+### Python
+
+```python
+def solve(n, m, row_authorities, column_rules):
+    # Implement here
+    return [[]]
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> computeAuthorityMatrix(int n, int m, vector<int>& rowAuthorities, vector<pair<int,int>>& columnRules) {
+        // Implement here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+function solve(n, m, rowAuthorities, columnRules) {
+  // Implement here
+  return [[]];
+}
 ```

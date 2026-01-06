@@ -1,4 +1,28 @@
-# STR-007: Bounded Run Encoding
+---
+problem_id: STR_BOUNDED_RUN_ENCODING__1535
+display_id: NTB-STR-1535
+slug: bounded-run-encoding
+title: "Bounded Run Encoding"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - bounded-run-encoding
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Bounded Run Encoding
 
 ## Problem Statement
 

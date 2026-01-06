@@ -1,4 +1,28 @@
-# MAT-020: Matrix Policy Enforcement
+---
+problem_id: MAT_MATRIX_POLICY_ENFORCEMENT__9206
+display_id: NTB-MAT-9206
+slug: matrix-policy-enforcement
+title: "Matrix Policy Enforcement"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Matrix
+tags:
+  - 2d-arrays
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - grids
+  - matrix
+  - matrix-policy-enforcement
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Matrix Policy Enforcement
 
 ## Problem Statement
 

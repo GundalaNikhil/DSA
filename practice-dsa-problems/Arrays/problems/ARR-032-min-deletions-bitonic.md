@@ -1,4 +1,29 @@
-# ARR-032: Minimum Deletions to Make Bitonic
+---
+problem_id: ARR_MIN_DELETIONS_BITONIC__8377
+display_id: NTB-ARR-8377
+slug: min-deletions-bitonic
+title: "Minimum Deletions to Make Bitonic"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - min-deletions-bitonic
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Minimum Deletions to Make Bitonic
 
 ## Problem Statement
 

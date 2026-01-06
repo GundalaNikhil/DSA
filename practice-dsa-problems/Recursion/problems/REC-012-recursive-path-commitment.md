@@ -1,4 +1,27 @@
-# REC-012: Recursive Path Commitment
+---
+problem_id: REC_RECURSIVE_PATH_COMMITMENT__9550
+display_id: NTB-REC-9550
+slug: recursive-path-commitment
+title: "Recursive Path Commitment"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-path-commitment
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Path Commitment
 
 ## Problem Statement
 

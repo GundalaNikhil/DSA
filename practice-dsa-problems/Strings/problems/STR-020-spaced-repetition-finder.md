@@ -1,4 +1,28 @@
-# STR-020: Spaced Repetition Finder
+---
+problem_id: STR_SPACED_REPETITION_FINDER__4697
+display_id: NTB-STR-4697
+slug: spaced-repetition-finder
+title: "Spaced Repetition Finder"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - spaced-repetition-finder
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Spaced Repetition Finder
 
 ## Problem Statement
 

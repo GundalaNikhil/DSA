@@ -1,4 +1,27 @@
-# REC-034: Recursive Staging
+---
+problem_id: REC_RECURSIVE_STAGING__9301
+display_id: NTB-REC-9301
+slug: recursive-staging
+title: "Recursive Staging"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursive-staging
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursive Staging
 
 ## Problem Statement
 

@@ -1,4 +1,28 @@
-# LNK-012: Energy-Based Traversal List
+---
+problem_id: LNK_ENERGY_BASED_TRAVERSAL_LIST__6536
+display_id: NTB-LNK-6536
+slug: energy-based-traversal-list
+title: "Energy-Based Traversal List"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - energy-based-traversal-list
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Energy-Based Traversal List
 
 ## Problem Statement
 

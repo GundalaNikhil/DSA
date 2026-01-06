@@ -1,4 +1,28 @@
-# DP-007: Resource Conversion DP
+---
+problem_id: DP_RESOURCE_CONVERSION__3837
+display_id: NTB-DP-3837
+slug: resource-conversion
+title: "Resource Conversion DP"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - resource-conversion
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Resource Conversion DP
 
 ## Problem Statement
 

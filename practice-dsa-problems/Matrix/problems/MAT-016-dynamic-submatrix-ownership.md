@@ -1,4 +1,28 @@
-# MAT-016: Dynamic Submatrix Ownership
+---
+problem_id: MAT_DYNAMIC_SUBMATRIX_OWNERSHIP__3333
+display_id: NTB-MAT-3333
+slug: dynamic-submatrix-ownership
+title: "Dynamic Submatrix Ownership"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Matrix
+tags:
+  - 2d-arrays
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dynamic-submatrix-ownership
+  - grids
+  - matrix
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Dynamic Submatrix Ownership
 
 ## Problem Statement
 

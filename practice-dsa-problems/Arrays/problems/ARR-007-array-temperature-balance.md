@@ -1,4 +1,29 @@
-# ARR-007: Array Temperature Balance
+---
+problem_id: ARR_ARRAY_TEMPERATURE_BALANCE__2156
+display_id: NTB-ARR-2156
+slug: array-temperature-balance
+title: "Array Temperature Balance"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - array-temperature-balance
+  - arrays
+  - coding-interviews
+  - data-structures
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Array Temperature Balance
 
 ## Problem Statement
 

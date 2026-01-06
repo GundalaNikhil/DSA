@@ -1,4 +1,28 @@
-# LNK-061: LRU Cache with Time-Decay
+---
+problem_id: LNK_LRU_CACHE_TIME_DECAY__2159
+display_id: NTB-LNK-2159
+slug: lru-cache-time-decay
+title: "LRU Cache with Time-Decay"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linkedlists
+  - lru-cache-time-decay
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# LRU Cache with Time-Decay
 
 ## Problem Statement
 

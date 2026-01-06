@@ -1,4 +1,28 @@
-# LNK-051: Linked List as Process Scheduler
+---
+problem_id: LNK_LINKED_LIST_PROCESS_SCHEDULER__3498
+display_id: NTB-LNK-3498
+slug: linked-list-process-scheduler
+title: "Linked List as Process Scheduler"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-process-scheduler
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List as Process Scheduler
 
 ## Problem Statement
 

@@ -1,4 +1,28 @@
-# DP-033: DP with Limited Rewrites
+---
+problem_id: DP_LIMITED_REWRITES__6142
+display_id: NTB-DP-6142
+slug: limited-rewrites
+title: "DP with Limited Rewrites"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - limited-rewrites
+  - memoization
+  - optimization
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Limited Rewrites
 
 ## Problem Statement
 

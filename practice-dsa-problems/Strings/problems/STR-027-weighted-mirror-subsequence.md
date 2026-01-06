@@ -1,4 +1,28 @@
-# STR-027: Weighted Mirror Subsequence
+---
+problem_id: STR_WEIGHTED_MIRROR_SUBSEQUENCE__2515
+display_id: NTB-STR-2515
+slug: weighted-mirror-subsequence
+title: "Weighted Mirror Subsequence"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+  - weighted-mirror-subsequence
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Weighted Mirror Subsequence
 
 ## Problem Statement
 

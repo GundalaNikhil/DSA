@@ -1,4 +1,27 @@
-# REC-007: Recursion with One-Time Override
+---
+problem_id: REC_RECURSION_WITH_ONE_TIME_OVERRIDE__8693
+display_id: NTB-REC-8693
+slug: recursion-with-one-time-override
+title: "Recursion with One-Time Override"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Recursion
+tags:
+  - algorithms
+  - backtracking
+  - coding-interviews
+  - data-structures
+  - recursion
+  - recursion-with-one-time-override
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Recursion with One-Time Override
 
 ## Problem Statement
 

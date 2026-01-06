@@ -1,4 +1,28 @@
-# LNK-015: Linked List with Reversible Sections
+---
+problem_id: LNK_LINKED_LIST_REVERSIBLE_SECTIONS__8058
+display_id: NTB-LNK-8058
+slug: linked-list-reversible-sections
+title: "Linked List with Reversible Sections"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Linked Lists
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - linked-list-reversible-sections
+  - linkedlists
+  - memory-management
+  - pointers
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Linked List with Reversible Sections
 
 ## Problem Statement
 

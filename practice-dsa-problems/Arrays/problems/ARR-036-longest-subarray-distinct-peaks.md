@@ -1,4 +1,29 @@
-# ARR-036: Longest Subarray with <= K Distinct Peaks
+---
+problem_id: ARR_LONGEST_SUBARRAY_DISTINCT_PEAKS__7875
+display_id: NTB-ARR-7875
+slug: longest-subarray-distinct-peaks
+title: "Longest Subarray with <= K Distinct Peaks"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - longest-subarray-distinct-peaks
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Longest Subarray with <= K Distinct Peaks
 
 ## Problem Statement
 

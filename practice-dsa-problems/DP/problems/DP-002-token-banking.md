@@ -1,4 +1,28 @@
-# DP-002: DP with Token Banking
+---
+problem_id: DP_TOKEN_BANKING__7563
+display_id: NTB-DP-7563
+slug: token-banking
+title: "DP with Token Banking"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Dynamic Programming
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - dp
+  - memoization
+  - optimization
+  - technical-interview-prep
+  - token-banking
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# DP with Token Banking
 
 ## Problem Statement
 

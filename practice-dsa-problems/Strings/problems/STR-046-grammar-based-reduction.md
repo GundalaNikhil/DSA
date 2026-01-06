@@ -1,4 +1,28 @@
-# STR-046: Grammar-Based Reduction
+---
+problem_id: STR_GRAMMAR_BASED_REDUCTION__5482
+display_id: NTB-STR-5482
+slug: grammar-based-reduction
+title: "Grammar-Based Reduction"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Strings
+tags:
+  - algorithms
+  - coding-interviews
+  - data-structures
+  - grammar-based-reduction
+  - pattern-matching
+  - string-manipulation
+  - strings
+  - technical-interview-prep
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Grammar-Based Reduction
 
 ## Problem Statement
 

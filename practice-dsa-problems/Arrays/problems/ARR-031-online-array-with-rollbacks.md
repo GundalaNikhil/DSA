@@ -1,4 +1,29 @@
-# ARR-031: Online Array with Rollbacks
+---
+problem_id: ARR_ONLINE_ARRAY_WITH_ROLLBACKS__5614
+display_id: NTB-ARR-5614
+slug: online-array-with-rollbacks
+title: "Online Array with Rollbacks"
+difficulty: Medium
+difficulty_score: 50
+topics:
+  - Arrays
+tags:
+  - algorithms
+  - array-manipulation
+  - arrays
+  - coding-interviews
+  - data-structures
+  - online-array-with-rollbacks
+  - searching
+  - technical-interview-prep
+  - two-pointers
+premium: false
+subscription_tier: basic
+time_limit: 2000
+memory_limit: 256
+---
+
+# Online Array with Rollbacks
 
 ## Problem Statement
 
