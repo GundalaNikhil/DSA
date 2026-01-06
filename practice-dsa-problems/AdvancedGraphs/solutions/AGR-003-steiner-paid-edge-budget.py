@@ -1,108 +1,97 @@
-import sys
+from typing import List
 import heapq
 
 
-def solve():
-    input_data = sys.stdin.read().split()
-    if not input_data:
-        return
-    ptr = 0
-    n = int(input_data[ptr])
-    ptr += 1
-    m = int(input_data[ptr])
-    ptr += 1
-    k = int(input_data[ptr])
-    ptr += 1
-    budget = int(input_data[ptr])
-    ptr += 1
-    terminals = []
-    for _ in range(k):
-        terminals.append(int(input_data[ptr]) - 1)
-        ptr += 1
+class Edge:
+    def __init__(self, u: int, v: int, paid: int, a: int):
+        self.u = u
+        self.v = v
+        self.paid = paid
+        self.a = a
+
+
+class Solution:
+    def minSteinerActivationCost(self, n: int, m: int, k: int, b: int, terminals: List[int], edges: List[Edge]) -> int:
+        """
+        Solve Steiner tree problem with budget constraint on paid edges.
+        
+        Algorithm: Bitmask DP with Dijkstra
+        - dp[mask][node][budget] = min activation cost to connect terminals 
+          in mask, currently at node, using budget paid edges
+        - For each mask:
+            1. Merge submasks at each node
+            2. Run weighted shortest path to extend connections
+        """
+        INF = float('inf')
+        
+        # Convert terminals to 0-indexed
+        terminals = [t - 1 for t in terminals]
+        
+        # Build adjacency list
         adj = [[] for _ in range(n)]
-        for _ in range(m):
-            u = int(input_data[ptr]) - 1
-            ptr += 1
-            v = int(input_data[ptr]) - 1
-            ptr += 1
-            p = int(input_data[ptr])
-            ptr += 1
-            a = int(input_data[ptr])
-            ptr += 1
-            adj[u].append((v, p, a))
-            adj[v].append((u, p, a))
-            INF = float("inf")
-            dp = [[[INF] * (budget + 1) for _ in range(n)] for _ in range(1 << k)]
-            for i in range(k):
-                dp[1 << i][terminals[i]][0] = 0
-                for mask in range(1, 1 << k):
-                    for sub in range((mask - 1) & mask, 0, (mask - 1) & mask):
-                        if sub < (mask ^ sub):
-                            continue
-                        comp = mask ^ sub
-                        for u in range(n):
-                            for b1 in range(budget + 1):
-                                if dp[sub][u][b1] == INF:
+        for edge in edges:
+            u, v = edge.u - 1, edge.v - 1
+            adj[u].append((v, edge.paid, edge.a))
+            adj[v].append((u, edge.paid, edge.a))
+        
+        # DP: dp[mask][node][budget_used] = min activation cost
+        dp = [[[INF] * (b + 1) for _ in range(n)] for _ in range(1 << k)]
+        
+        # Base case: each terminal starts at itself with 0 cost and 0 budget
+        for i in range(k):
+            dp[1 << i][terminals[i]][0] = 0
+        
+        # Iterate through all masks
+        for mask in range(1, 1 << k):
+            # First, try to merge two submasks at each node
+            # Enumerate all submasks properly
+            sub = mask
+            while sub > 0:
+                comp = mask ^ sub
+                # Process each partition only once (sub should be >= comp to avoid duplicates)
+                if comp > 0 and sub >= comp:  # Changed from > to >=
+                    for node in range(n):
+                        for b1 in range(b + 1):
+                            if dp[sub][node][b1] >= INF:
+                                continue
+                            for b2 in range(b - b1 + 1):
+                                if dp[comp][node][b2] >= INF:
                                     continue
-                                for b2 in range(budget - b1 + 1):
-                                    if dp[comp][u][b2] == INF:
-                                        continue
-                                    dp[mask][u][b1 + b2] = min(
-                                        dp[mask][u][b1 + b2],
-                                        dp[sub][u][b1] + dp[comp][u][b2],
-                                    )
-                                    pq = []
-                                    for u in range(n):
-                                        for b in range(budget + 1):
-                                            if dp[mask][u][b] != INF:
-                                                heapq.heappush(
-                                                    pq, (dp[mask][u][b], u, b)
-                                                )
-                                                while pq:
-                                                    d, u, b = heapq.heappop(pq)
-                                                    if d > dp[mask][u][b]:
-                                                        continue
-                                                    for v, p, a in adj[u]:
-                                                        new_b = b + p
-                                                        if new_b <= budget:
-                                                            if (
-                                                                dp[mask][v][new_b]
-                                                                > d + a
-                                                            ):
-                                                                dp[mask][v][new_b] = (
-                                                                    d + a
-                                                                )
-                                                                heapq.heappush(
-                                                                    pq,
-                                                                    (
-                                                                        dp[mask][v][
-                                                                            new_b
-                                                                        ],
-                                                                        v,
-                                                                        new_b,
-                                                                    ),
-                                                                )
-                                                                ans = INF
-                                                                final_mask = (
-                                                                    1 << k
-                                                                ) - 1
-                                                                for u in range(n):
-                                                                    for b in range(
-                                                                        budget + 1
-                                                                    ):
-                                                                        ans = min(
-                                                                            ans,
-                                                                            dp[
-                                                                                final_mask
-                                                                            ][u][b],
-                                                                        )
-                                                                        print(
-                                                                            ans
-                                                                            if ans
-                                                                            != INF
-                                                                            else -1
-                                                                        )
-
-
-if __name__ == "__main__":
-    solve()
+                                total_b = b1 + b2
+                                total_cost = dp[sub][node][b1] + dp[comp][node][b2]
+                                dp[mask][node][total_b] = min(dp[mask][node][total_b], total_cost)
+                
+                sub = (sub - 1) & mask
+            
+            # Then, run Dijkstra to propagate connections within this mask
+            pq = []
+            for node in range(n):
+                for budget in range(b + 1):
+                    if dp[mask][node][budget] < INF:
+                        heapq.heappush(pq, (dp[mask][node][budget], node, budget))
+            
+            while pq:
+                cost, u, used_budget = heapq.heappop(pq)
+                
+                # Skip if we've found a better path
+                if cost > dp[mask][u][used_budget]:
+                    continue
+                
+                # Relax edges
+                for v, paid, activation in adj[u]:
+                    new_budget = used_budget + paid
+                    if new_budget <= b:
+                        new_cost = cost + activation
+                        if new_cost < dp[mask][v][new_budget]:
+                            dp[mask][v][new_budget] = new_cost
+                            heapq.heappush(pq, (new_cost, v, new_budget))
+        
+        # Find minimum cost to connect all terminals
+        final_mask = (1 << k) - 1
+        ans = INF
+        
+        for node in range(n):
+            for budget in range(b + 1):
+                ans = min(ans, dp[final_mask][node][budget])
+        
+        return ans if ans < INF else -1

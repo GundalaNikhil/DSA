@@ -1,121 +1,137 @@
-import sys
+from typing import List
+
+
+class GraphOp:
+    def __init__(self, type: str, u: int, v: int):
+        self.type = type
+        self.u = u
+        self.v = v
 
 
 class RollbackDSU:
+    """Union-Find with rollback capability using stack-based history"""
+    
     def __init__(self, n):
         self.parent = list(range(n + 1))
         self.size = [1] * (n + 1)
         self.history = []
-
+    
     def find(self, i):
+        """Find root without path compression (needed for rollback)"""
         while self.parent[i] != i:
             i = self.parent[i]
-            return i
-
+        return i
+    
     def union(self, i, j):
+        """Union by size with history tracking"""
         root_i = self.find(i)
         root_j = self.find(j)
-        if root_i != root_j:
-            if self.size[root_i] < self.size[root_j]:
-                root_i, root_j = root_j, root_i
-                self.history.append((root_j, root_i))
-                self.parent[root_j] = root_i
-                self.size[root_i] += self.size[root_j]
-                return True
+        
+        if root_i == root_j:
             return False
-
+        
+        # Always attach smaller tree to larger tree
+        if self.size[root_i] < self.size[root_j]:
+            root_i, root_j = root_j, root_i
+        
+        # Record the change for rollback
+        self.history.append((root_j, root_i))
+        self.parent[root_j] = root_i
+        self.size[root_i] += self.size[root_j]
+        return True
+    
     def rollback(self, target_len):
+        """Rollback to a previous state"""
         while len(self.history) > target_len:
-            curr, par = self.history.pop()
-            self.size[par] -= self.size[curr]
-            self.parent[curr] = curr
+            child, parent = self.history.pop()
+            self.size[parent] -= self.size[child]
+            self.parent[child] = child
 
 
-def solve():
-    input_data = sys.stdin.read().split()
-    if not input_data:
-        return
-    ptr = 0
-    n = int(input_data[ptr])
-    ptr += 1
-    q = int(input_data[ptr])
-    ptr += 1
-    edge_intervals = {}
-    queries = []
-    tree_edges = [[] for _ in range(4 * q + 1)]
-    for t in range(q):
-        op = input_data[ptr]
-        ptr += 1
-        u = int(input_data[ptr])
-        ptr += 1
-        v = int(input_data[ptr])
-        ptr += 1
-        if u > v:
-            u, v = v, u
-            if op == "ADD":
-                edge_intervals[(u, v)] = t
-                queries.append(("ADD", u, v))
-            elif op == "REM":
-                start = edge_intervals.pop((u, v))
-
-
-def add_to_tree(node, l, r, ql, qr, edge):
-    if ql <= l and r <= qr:
-        tree_edges[node].append(edge)
-        return
-    mid = (l + r) // 2
-    if ql <= mid:
-        add_to_tree(2 * node, l, mid, ql, qr, edge)
-        if qr > mid:
+class Solution:
+    def solveDynamicConnectivity(self, n: int, q: int, ops: List[GraphOp]) -> List[str]:
+        """
+        Solve offline dynamic connectivity using segment tree over time with rollback DSU.
+        
+        Algorithm:
+        1. Build edge intervals: track when each edge exists
+        2. Build segment tree over time and assign edges to nodes
+        3. DFS through segment tree, maintaining DSU state with rollback
+        4. Answer queries at leaf nodes
+        """
+        # Build edge intervals
+        edge_intervals = {}  # (u, v) -> start_time
+        edge_spans = []  # (start, end, u, v)
+        
+        for t, op in enumerate(ops):
+            u, v = op.u, op.v
+            if u > v:
+                u, v = v, u
+            edge = (u, v)
+            
+            if op.type == "ADD":
+                edge_intervals[edge] = t
+            elif op.type == "REM":
+                start = edge_intervals.pop(edge)
+                edge_spans.append((start, t - 1, u, v))
+        
+        # Edges that remain active till the end
+        for edge, start in edge_intervals.items():
+            u, v = edge
+            edge_spans.append((start, q - 1, u, v))
+        
+        # Build segment tree
+        tree_edges = [[] for _ in range(4 * q)]
+        
+        def add_to_tree(node, l, r, ql, qr, edge):
+            """Add edge to segment tree nodes covering [ql, qr]"""
+            if qr < l or ql > r:
+                return
+            if ql <= l and r <= qr:
+                tree_edges[node].append(edge)
+                return
+            
+            mid = (l + r) // 2
+            add_to_tree(2 * node, l, mid, ql, qr, edge)
             add_to_tree(2 * node + 1, mid + 1, r, ql, qr, edge)
-            stack = [(1, 0, q - 1)]
-            while stack:
-                node, l, r = stack.pop()
-                if start <= l and r <= t:
-                    tree_edges[node].append((u, v))
-                else:
-                    mid = (l + r) // 2
-                    if start <= mid:
-                        stack.append((2 * node, l, mid))
-                        if t > mid:
-                            stack.append((2 * node + 1, mid + 1, r))
-                            queries.append(("REM", u, v))
-                        else:
-                            queries.append(("ASK", u, v))
-                            for (u, v), start in edge_intervals.items():
-                                stack = [(1, 0, q - 1)]
-                                while stack:
-                                    node, l, r = stack.pop()
-                                    if start <= l and r <= q - 1:
-                                        tree_edges[node].append((u, v))
-                                    else:
-                                        mid = (l + r) // 2
-                                        if start <= mid:
-                                            stack.append((2 * node, l, mid))
-                                            if q - 1 > mid:
-                                                stack.append((2 * node + 1, mid + 1, r))
-                                                dsu = RollbackDSU(n)
-                                                ans = [None] * q
-
-
-def traverse(node, l, r):
-    prev_len = len(dsu.history)
-    for u, v in tree_edges[node]:
-        dsu.union(u, v)
-        if l == r:
-            if queries[l][0] == "ASK":
-                u, v = queries[l][1], queries[l][2]
-                ans[l] = "YES" if dsu.find(u) == dsu.find(v) else "NO"
+        
+        # Add each edge span to the segment tree
+        for start, end, u, v in edge_spans:
+            add_to_tree(1, 0, q - 1, start, end, (u, v))
+        
+        # Initialize DSU and answer array
+        dsu = RollbackDSU(n)
+        ans = [None] * q
+        
+        def traverse(node, l, r):
+            """DFS through segment tree, maintaining DSU state"""
+            # Remember current history length for rollback
+            prev_len = len(dsu.history)
+            
+            # Add all edges for this segment tree node
+            for u, v in tree_edges[node]:
+                dsu.union(u, v)
+            
+            if l == r:
+                # Leaf node - process query at time l
+                if ops[l].type == "ASK":
+                    u, v = ops[l].u, ops[l].v
+                    if dsu.find(u) == dsu.find(v):
+                        ans[l] = "YES"
+                    else:
+                        ans[l] = "NO"
             else:
+                # Internal node - recurse to children
                 mid = (l + r) // 2
                 traverse(2 * node, l, mid)
                 traverse(2 * node + 1, mid + 1, r)
-                dsu.rollback(prev_len)
-                traverse(1, 0, q - 1)
-                for x in ans:
-                    if x:
-                        print(x)
-
-
-if __name__ == "__main__":
-    solve()
+            
+            # Rollback all unions made at this level
+            dsu.rollback(prev_len)
+        
+        # Start DFS from root
+        if q > 0:
+            traverse(1, 0, q - 1)
+        
+        # Return only the answers to ASK queries
+        return [a for a in ans if a is not None]
