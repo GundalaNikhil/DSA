@@ -1,0 +1,11 @@
+{
+  "functionName": "minCompletionTime",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "durations", "type": "long[]" },
+    { "name": "dependencies", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

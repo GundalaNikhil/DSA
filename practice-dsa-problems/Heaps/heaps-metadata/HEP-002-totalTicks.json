@@ -1,0 +1,20 @@
+{
+  "functionName": "totalTicks",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "cap", "type": "int" },
+    { "name": "tasks", "type": "TaskType[]" }
+  ],
+  "returnType": "long",
+  "structs": {
+    "TaskType": {
+      "name": "TaskType",
+      "fields": [
+        { "name": "cnt", "type": "int" },
+        { "name": "cool", "type": "long" },
+        { "name": "deadline", "type": "long" },
+        { "name": "base", "type": "long" }
+      ]
+    }
+  }
+}

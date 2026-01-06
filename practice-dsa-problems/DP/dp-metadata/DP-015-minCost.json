@@ -1,0 +1,11 @@
+{
+  "functionName": "minCost",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "forwardCosts", "type": "int[]" },
+    { "name": "backwardPenalties", "type": "int[]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

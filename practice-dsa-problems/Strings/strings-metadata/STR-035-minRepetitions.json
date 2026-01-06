@@ -1,0 +1,10 @@
+{
+  "functionName": "minRepetitions",
+  "parameters": [
+    { "name": "a", "type": "string" },
+    { "name": "b", "type": "string" },
+    { "name": "r", "type": "int" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

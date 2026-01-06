@@ -1,0 +1,10 @@
+{
+  "functionName": "evaluatePartialRecursion",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "D", "type": "int" },
+    { "name": "nodes", "type": "long[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

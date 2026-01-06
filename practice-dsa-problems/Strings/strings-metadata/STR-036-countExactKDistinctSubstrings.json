@@ -1,0 +1,9 @@
+{
+  "functionName": "countExactKDistinctSubstrings",
+  "parameters": [
+    { "name": "s", "type": "string" },
+    { "name": "k", "type": "int" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

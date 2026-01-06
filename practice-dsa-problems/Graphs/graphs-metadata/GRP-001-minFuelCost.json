@@ -1,0 +1,15 @@
+{
+  "functionName": "minFuelCost",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "s", "type": "int" },
+    { "name": "t", "type": "int" },
+    { "name": "K", "type": "int" },
+    { "name": "C", "type": "int" },
+    { "name": "nodeCosts", "type": "int[]" },
+    { "name": "flights", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

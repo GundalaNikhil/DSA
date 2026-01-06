@@ -1,0 +1,9 @@
+{
+  "functionName": "longestZigzagSubarray",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "a", "type": "int[]" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

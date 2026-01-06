@@ -1,0 +1,11 @@
+{
+  "functionName": "canBeValidWithOverride",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "L", "type": "long" },
+    { "name": "R", "type": "long" },
+    { "name": "nodes", "type": "long[][]" }
+  ],
+  "returnType": "string",
+  "structs": {}
+}

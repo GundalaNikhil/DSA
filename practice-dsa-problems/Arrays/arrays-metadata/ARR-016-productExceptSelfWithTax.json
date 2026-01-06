@@ -1,0 +1,10 @@
+{
+  "functionName": "productExceptSelfWithTax",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "t", "type": "long" },
+    { "name": "a", "type": "int[]" }
+  ],
+  "returnType": "long[]",
+  "structs": {}
+}

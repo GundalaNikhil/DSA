@@ -1,0 +1,12 @@
+{
+  "functionName": "findKthLargest",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "K", "type": "int" },
+    { "name": "W", "type": "int" },
+    { "name": "T", "type": "int" },
+    { "name": "a", "type": "int[]" }
+  ],
+  "returnType": "long[]",
+  "structs": {}
+}

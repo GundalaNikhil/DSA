@@ -1,0 +1,9 @@
+{
+  "functionName": "minCostBracketOptimization",
+  "parameters": [
+    { "name": "s", "type": "string" },
+    { "name": "weights", "type": "int[]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

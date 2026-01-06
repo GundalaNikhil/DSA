@@ -1,0 +1,11 @@
+{
+  "functionName": "processLeaseExpiration",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "values", "type": "int[]" },
+    { "name": "initialLeases", "type": "long[]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

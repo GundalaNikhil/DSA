@@ -1,0 +1,12 @@
+{
+  "functionName": "processStateMachine",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "S", "type": "int" },
+    { "name": "initialStates", "type": "int[]" },
+    { "name": "transitions", "type": "int[][]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "string[]",
+  "structs": {}
+}

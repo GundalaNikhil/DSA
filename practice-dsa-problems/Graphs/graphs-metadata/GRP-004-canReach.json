@@ -1,0 +1,14 @@
+{
+  "functionName": "canReach",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "F", "type": "long" },
+    { "name": "fatigue", "type": "long[]" },
+    { "name": "edges", "type": "int[][]" },
+    { "name": "S", "type": "int" },
+    { "name": "T", "type": "int" }
+  ],
+  "returnType": "boolean",
+  "structs": {}
+}

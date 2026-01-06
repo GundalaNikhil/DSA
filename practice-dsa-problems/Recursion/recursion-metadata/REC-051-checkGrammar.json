@@ -1,0 +1,12 @@
+{
+  "functionName": "checkGrammar",
+  "parameters": [
+    { "name": "N", "type": "int" },
+    { "name": "R", "type": "int" },
+    { "name": "S", "type": "int" },
+    { "name": "rules", "type": "string[][]" },
+    { "name": "input", "type": "string" }
+  ],
+  "returnType": "string",
+  "structs": {}
+}

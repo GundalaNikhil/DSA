@@ -1,0 +1,21 @@
+{
+  "functionName": "processSharding",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "L", "type": "int" },
+    { "name": "U", "type": "int" },
+    { "name": "initialList", "type": "int[]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "ShardResult",
+  "structs": {
+    "ShardResult": {
+      "name": "ShardResult",
+      "fields": [
+        { "name": "splits", "type": "int" },
+        { "name": "merges", "type": "int" },
+        { "name": "shardSizes", "type": "int[]" }
+      ]
+    }
+  }
+}

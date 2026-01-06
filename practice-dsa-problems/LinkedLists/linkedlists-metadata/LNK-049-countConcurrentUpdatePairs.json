@@ -1,0 +1,10 @@
+{
+  "functionName": "countConcurrentUpdatePairs",
+  "parameters": [
+    { "name": "q", "type": "int" },
+    { "name": "d", "type": "int" },
+    { "name": "updates", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

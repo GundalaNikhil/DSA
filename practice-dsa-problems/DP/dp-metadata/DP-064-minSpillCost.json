@@ -1,0 +1,10 @@
+{
+  "functionName": "minSpillCost",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "R", "type": "int" },
+    { "name": "intervals", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

@@ -1,0 +1,11 @@
+{
+  "functionName": "calculateFaultTolerantValue",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "F", "type": "int" },
+    { "name": "faultNodes", "type": "int[]" },
+    { "name": "nodes", "type": "long[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

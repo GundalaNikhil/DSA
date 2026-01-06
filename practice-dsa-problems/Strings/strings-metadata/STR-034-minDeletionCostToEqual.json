@@ -1,0 +1,10 @@
+{
+  "functionName": "minDeletionCostToEqual",
+  "parameters": [
+    { "name": "a", "type": "string" },
+    { "name": "b", "type": "string" },
+    { "name": "weights", "type": "int[]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

@@ -1,0 +1,12 @@
+{
+  "functionName": "calculateMakespan",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "k", "type": "int" },
+    { "name": "durations", "type": "int[][]" },
+    { "name": "dependencies", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

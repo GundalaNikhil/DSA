@@ -1,0 +1,18 @@
+{
+  "functionName": "solveDynamicConnectivity",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "q", "type": "int" },
+    { "name": "ops", "type": "GraphOp[]" }
+  ],
+  "returnType": "string[]",
+  "structs": {
+    "GraphOp": {
+      "fields": [
+        { "name": "type", "type": "string" },
+        { "name": "u", "type": "int" },
+        { "name": "v", "type": "int" }
+      ]
+    }
+  }
+}

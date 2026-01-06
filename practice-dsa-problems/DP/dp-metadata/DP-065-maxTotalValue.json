@@ -1,0 +1,9 @@
+{
+  "functionName": "maxTotalValue",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "packets", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

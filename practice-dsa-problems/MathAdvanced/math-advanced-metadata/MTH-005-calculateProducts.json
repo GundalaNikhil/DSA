@@ -1,0 +1,10 @@
+{
+  "functionName": "calculateProducts",
+  "parameters": [
+    { "name": "P", "type": "int" },
+    { "name": "q", "type": "int" },
+    { "name": "queries", "type": "int[][]" }
+  ],
+  "returnType": "long[]",
+  "structs": {}
+}

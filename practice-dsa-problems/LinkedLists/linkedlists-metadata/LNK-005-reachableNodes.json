@@ -1,0 +1,11 @@
+{
+  "functionName": "reachableNodes",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "values", "type": "int[]" },
+    { "name": "weights", "type": "long[]" },
+    { "name": "budgets", "type": "long[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

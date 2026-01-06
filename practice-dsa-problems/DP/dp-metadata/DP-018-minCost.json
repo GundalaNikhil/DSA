@@ -1,0 +1,13 @@
+{
+  "functionName": "minCost",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "k", "type": "int" },
+    { "name": "a", "type": "int" },
+    { "name": "costs", "type": "int[]" },
+    { "name": "b", "type": "int" },
+    { "name": "sequences", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

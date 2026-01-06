@@ -1,0 +1,9 @@
+{
+  "functionName": "solveRabinKarp",
+  "parameters": [
+    { "name": "t", "type": "string" },
+    { "name": "p", "type": "string" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

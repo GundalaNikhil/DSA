@@ -1,0 +1,20 @@
+{
+  "functionName": "processVersionOperations",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "q", "type": "int" },
+    { "name": "initialMatrix", "type": "int[][]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "VersionResult",
+  "structs": {
+    "VersionResult": {
+      "name": "VersionResult",
+      "fields": [
+        { "name": "mergeConflicts", "type": "int[]" },
+        { "name": "getResults", "type": "int[]" }
+      ]
+    }
+  }
+}

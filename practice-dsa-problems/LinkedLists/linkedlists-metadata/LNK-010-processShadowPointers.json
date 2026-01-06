@@ -1,0 +1,10 @@
+{
+  "functionName": "processShadowPointers",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "values", "type": "int[]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

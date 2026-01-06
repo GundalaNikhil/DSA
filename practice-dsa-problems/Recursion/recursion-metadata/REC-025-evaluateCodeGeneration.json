@@ -1,0 +1,11 @@
+{
+  "functionName": "evaluateCodeGeneration",
+  "parameters": [
+    { "name": "m", "type": "int" },
+    { "name": "D", "type": "int" },
+    { "name": "A0", "type": "int" },
+    { "name": "macros", "type": "string[]" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

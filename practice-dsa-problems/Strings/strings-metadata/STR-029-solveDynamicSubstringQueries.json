@@ -1,0 +1,21 @@
+{
+  "functionName": "solveDynamicSubstringQueries",
+  "parameters": [
+    { "name": "s", "type": "string" },
+    { "name": "q", "type": "int" },
+    { "name": "queries", "type": "Query[]" }
+  ],
+  "returnType": "long[]",
+  "structs": {
+    "Query": {
+      "name": "Query",
+      "fields": [
+        { "name": "type", "type": "string" },
+        { "name": "i", "type": "int" },
+        { "name": "l", "type": "int" },
+        { "name": "r", "type": "int" },
+        { "name": "c", "type": "char" }
+      ]
+    }
+  }
+}

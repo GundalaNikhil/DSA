@@ -1,0 +1,11 @@
+{
+  "functionName": "processSegmentedList",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "values", "type": "int[]" },
+    { "name": "segments", "type": "int[]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "string[]",
+  "structs": {}
+}

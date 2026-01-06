@@ -1,0 +1,17 @@
+{
+  "functionName": "findWinningStrategy",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "nodeInfo", "type": "string[][]" }
+  ],
+  "returnType": "Result",
+  "structs": {
+    "Result": {
+      "name": "Result",
+      "fields": [
+        { "name": "status", "type": "string" },
+        { "name": "strategy", "type": "int[]" }
+      ]
+    }
+  }
+}

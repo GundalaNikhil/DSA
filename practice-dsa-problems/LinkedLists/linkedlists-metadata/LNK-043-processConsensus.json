@@ -1,0 +1,11 @@
+{
+  "functionName": "processConsensus",
+  "parameters": [
+    { "name": "R", "type": "int" },
+    { "name": "M", "type": "int" },
+    { "name": "t", "type": "int" },
+    { "name": "rounds", "type": "int[][][]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

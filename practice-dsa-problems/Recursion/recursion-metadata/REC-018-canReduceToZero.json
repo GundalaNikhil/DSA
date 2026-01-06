@@ -1,0 +1,10 @@
+{
+  "functionName": "canReduceToZero",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "M", "type": "int" },
+    { "name": "a", "type": "int[]" }
+  ],
+  "returnType": "string",
+  "structs": {}
+}

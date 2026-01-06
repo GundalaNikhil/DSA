@@ -1,0 +1,9 @@
+{
+  "functionName": "solveMinimumX",
+  "parameters": [
+    { "name": "q", "type": "int" },
+    { "name": "queries", "type": "long[][]" }
+  ],
+  "returnType": "string[]",
+  "structs": {}
+}

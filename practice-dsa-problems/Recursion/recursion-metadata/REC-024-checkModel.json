@@ -1,0 +1,13 @@
+{
+  "functionName": "checkModel",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "K", "type": "int" },
+    { "name": "S", "type": "int" },
+    { "name": "nodeInfo", "type": "string[][]" },
+    { "name": "edges", "type": "int[][]" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

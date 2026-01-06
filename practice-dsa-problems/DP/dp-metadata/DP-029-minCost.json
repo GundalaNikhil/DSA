@@ -1,0 +1,12 @@
+{
+  "functionName": "minCost",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "p", "type": "int" },
+    { "name": "s", "type": "int" },
+    { "name": "policyCosts", "type": "int[][][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

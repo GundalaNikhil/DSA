@@ -1,0 +1,21 @@
+{
+  "functionName": "minPredictionCost",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "k", "type": "int" },
+    { "name": "C", "type": "int" },
+    { "name": "outcomes", "type": "string" },
+    { "name": "strategies", "type": "Strategy[]" }
+  ],
+  "returnType": "long",
+  "structs": {
+    "Strategy": {
+      "name": "Strategy",
+      "fields": [
+        { "name": "s", "type": "int" },
+        { "name": "predictions", "type": "int[]" },
+        { "name": "transitions", "type": "int[][]" }
+      ]
+    }
+  }
+}

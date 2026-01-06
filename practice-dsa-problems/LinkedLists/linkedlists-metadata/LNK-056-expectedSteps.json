@@ -1,0 +1,10 @@
+{
+  "functionName": "expectedSteps",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "jumpIndices", "type": "int[]" },
+    { "name": "probabilities", "type": "int[]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

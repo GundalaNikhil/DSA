@@ -1,0 +1,10 @@
+{
+  "functionName": "maxTotalScore",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "k", "type": "int" },
+    { "name": "values", "type": "int[]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

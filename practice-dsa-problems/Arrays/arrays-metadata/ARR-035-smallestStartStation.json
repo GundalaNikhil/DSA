@@ -1,0 +1,11 @@
+{
+  "functionName": "smallestStartStation",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "b", "type": "int" },
+    { "name": "fuel", "type": "int[]" },
+    { "name": "drain", "type": "int[]" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

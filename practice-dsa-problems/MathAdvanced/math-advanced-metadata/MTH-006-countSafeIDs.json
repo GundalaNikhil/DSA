@@ -1,0 +1,18 @@
+{
+  "functionName": "countSafeIDs",
+  "parameters": [
+    { "name": "q", "type": "int" },
+    { "name": "queries", "type": "Query[]" }
+  ],
+  "returnType": "long[]",
+  "structs": {
+    "Query": {
+      "name": "Query",
+      "fields": [
+        { "name": "N", "type": "long" },
+        { "name": "k", "type": "int" },
+        { "name": "primes", "type": "long[]" }
+      ]
+    }
+  }
+}

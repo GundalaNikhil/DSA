@@ -1,0 +1,19 @@
+{
+  "functionName": "compactList",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "S", "type": "long" },
+    { "name": "labels", "type": "string[]" },
+    { "name": "sizes", "type": "long[]" }
+  ],
+  "returnType": "NodeInfo[]",
+  "structs": {
+    "NodeInfo": {
+      "name": "NodeInfo",
+      "fields": [
+        { "name": "label", "type": "string" },
+        { "name": "size", "type": "long" }
+      ]
+    }
+  }
+}

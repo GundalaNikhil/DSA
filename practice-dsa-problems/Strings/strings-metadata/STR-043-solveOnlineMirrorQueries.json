@@ -1,0 +1,19 @@
+{
+  "functionName": "solveOnlineMirrorQueries",
+  "parameters": [
+    { "name": "q", "type": "int" },
+    { "name": "ops", "type": "MirrorOp[]" }
+  ],
+  "returnType": "boolean[]",
+  "structs": {
+    "MirrorOp": {
+      "name": "MirrorOp",
+      "fields": [
+        { "name": "type", "type": "string" },
+        { "name": "c", "type": "char" },
+        { "name": "l", "type": "int" },
+        { "name": "r", "type": "int" }
+      ]
+    }
+  }
+}

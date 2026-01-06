@@ -1,0 +1,13 @@
+{
+  "functionName": "maxBottleneck",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "capacities", "type": "int[]" },
+    { "name": "edges", "type": "int[][]" },
+    { "name": "S", "type": "int" },
+    { "name": "T", "type": "int" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

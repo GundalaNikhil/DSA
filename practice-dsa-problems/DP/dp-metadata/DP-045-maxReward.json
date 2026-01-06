@@ -1,0 +1,12 @@
+{
+  "functionName": "maxReward",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "aThreshold", "type": "int" },
+    { "name": "bThreshold", "type": "int" },
+    { "name": "numActions", "type": "int" },
+    { "name": "actions", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

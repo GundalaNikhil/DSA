@@ -1,0 +1,9 @@
+{
+  "functionName": "findKthLexicalSubstring",
+  "parameters": [
+    { "name": "s", "type": "string" },
+    { "name": "k", "type": "long" }
+  ],
+  "returnType": "string",
+  "structs": {}
+}

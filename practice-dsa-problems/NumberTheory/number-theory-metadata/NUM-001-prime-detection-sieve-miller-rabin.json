@@ -1,0 +1,19 @@
+{
+  "functionName": "detectPrimes",
+  "parameters": [
+    {
+      "name": "N",
+      "type": "integer"
+    },
+    {
+      "name": "Q",
+      "type": "integer"
+    },
+    {
+      "name": "queries",
+      "type": "long[]"
+    }
+  ],
+  "returnType": "List<String>",
+  "structs": []
+}

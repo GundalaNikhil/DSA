@@ -1,0 +1,12 @@
+{
+  "functionName": "applyRules",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "q", "type": "int" },
+    { "name": "initialMatrix", "type": "int[][]" },
+    { "name": "rules", "type": "string[]" }
+  ],
+  "returnType": "long[][]",
+  "structs": {}
+}

@@ -1,0 +1,10 @@
+{
+  "functionName": "processVersionedList",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "initialList", "type": "int[]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

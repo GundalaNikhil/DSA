@@ -1,0 +1,11 @@
+{
+  "functionName": "kthLargestInWindow",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "k", "type": "int" },
+    { "name": "w", "type": "int" },
+    { "name": "a", "type": "int[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

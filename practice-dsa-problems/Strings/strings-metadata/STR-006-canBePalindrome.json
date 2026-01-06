@@ -1,0 +1,6 @@
+{
+  "functionName": "canBePalindrome",
+  "parameters": [{ "name": "s", "type": "string" }],
+  "returnType": "boolean",
+  "structs": {}
+}

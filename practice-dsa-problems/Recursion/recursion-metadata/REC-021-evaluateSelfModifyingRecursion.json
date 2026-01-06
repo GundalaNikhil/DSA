@@ -1,0 +1,21 @@
+{
+  "functionName": "evaluateSelfModifyingRecursion",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "D", "type": "int" },
+    { "name": "S", "type": "int" },
+    { "name": "symbols", "type": "SymbolInfo[]" }
+  ],
+  "returnType": "int",
+  "structs": {
+    "SymbolInfo": {
+      "name": "SymbolInfo",
+      "fields": [
+        { "name": "weight", "type": "long" },
+        { "name": "toggle", "type": "int" },
+        { "name": "list0", "type": "int[]" },
+        { "name": "list1", "type": "int[]" }
+      ]
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "functionName": "isMirrorSymmetric",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "nodes", "type": "int[][]" }
+  ],
+  "returnType": "string",
+  "structs": {}
+}

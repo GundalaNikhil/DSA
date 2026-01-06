@@ -1,0 +1,21 @@
+{
+  "functionName": "countMarkedObjects",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "r", "type": "int" },
+    { "name": "L", "type": "int" },
+    { "name": "roots", "type": "int[]" },
+    { "name": "edges", "type": "int[][]" }
+  ],
+  "returnType": "MarkResult",
+  "structs": {
+    "MarkResult": {
+      "name": "MarkResult",
+      "fields": [
+        { "name": "recursiveMarked", "type": "long" },
+        { "name": "iterativeMarked", "type": "long" }
+      ]
+    }
+  }
+}

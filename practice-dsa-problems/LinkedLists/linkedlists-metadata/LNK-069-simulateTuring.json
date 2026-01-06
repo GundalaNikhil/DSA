@@ -1,0 +1,21 @@
+{
+  "functionName": "simulateTuring",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "S", "type": "int" },
+    { "name": "T", "type": "int" },
+    { "name": "initialTape", "type": "string" },
+    { "name": "h", "type": "int" },
+    { "name": "transitions", "type": "string[]" }
+  ],
+  "returnType": "TuringResult",
+  "structs": {
+    "TuringResult": {
+      "name": "TuringResult",
+      "fields": [
+        { "name": "headPos", "type": "int" },
+        { "name": "tape", "type": "string" }
+      ]
+    }
+  }
+}

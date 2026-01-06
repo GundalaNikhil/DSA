@@ -1,0 +1,11 @@
+{
+  "functionName": "minRenewalCost",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "R", "type": "int" },
+    { "name": "L", "type": "int[]" },
+    { "name": "nodes", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

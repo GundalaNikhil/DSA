@@ -1,0 +1,11 @@
+{
+  "functionName": "getAliveNodes",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "strongCounts", "type": "int[]" },
+    { "name": "links", "type": "int[][]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

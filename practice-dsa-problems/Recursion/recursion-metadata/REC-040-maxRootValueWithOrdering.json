@@ -1,0 +1,11 @@
+{
+  "functionName": "maxRootValueWithOrdering",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "nodes", "type": "long[][]" },
+    { "name": "c", "type": "int" },
+    { "name": "constraints", "type": "int[][]" }
+  ],
+  "returnType": "string",
+  "structs": {}
+}

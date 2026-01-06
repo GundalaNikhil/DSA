@@ -1,0 +1,19 @@
+{
+  "functionName": "negotiateMatrix",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "rowProposals", "type": "int[]" },
+    { "name": "columnCriteria", "type": "int[][]" }
+  ],
+  "returnType": "NegotiationResult",
+  "structs": {
+    "NegotiationResult": {
+      "name": "NegotiationResult",
+      "fields": [
+        { "name": "failures", "type": "int" },
+        { "name": "finalMatrix", "type": "int[][]" }
+      ]
+    }
+  }
+}

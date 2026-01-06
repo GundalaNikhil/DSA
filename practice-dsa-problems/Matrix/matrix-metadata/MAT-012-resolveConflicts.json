@@ -1,0 +1,24 @@
+{
+  "functionName": "resolveConflicts",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "p", "type": "int" },
+    { "name": "S", "type": "int" },
+    { "name": "proposals", "type": "Proposal[]" }
+  ],
+  "returnType": "int[][]",
+  "structs": {
+    "Proposal": {
+      "name": "Proposal",
+      "fields": [
+        { "name": "r", "type": "int" },
+        { "name": "c", "type": "int" },
+        { "name": "value", "type": "int" },
+        { "name": "priority", "type": "int" },
+        { "name": "time", "type": "int" },
+        { "name": "source_id", "type": "int" }
+      ]
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "functionName": "maxStagePassed",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "S", "type": "int" },
+    { "name": "T", "type": "long[]" },
+    { "name": "nodes", "type": "long[][]" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

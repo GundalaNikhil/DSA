@@ -1,0 +1,10 @@
+{
+  "functionName": "minTotalEffort",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "k", "type": "int" },
+    { "name": "e", "type": "int[]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

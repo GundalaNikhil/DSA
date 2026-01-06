@@ -1,0 +1,9 @@
+{
+  "functionName": "maxLcsWithOneEdit",
+  "parameters": [
+    { "name": "a", "type": "string" },
+    { "name": "b", "type": "string" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

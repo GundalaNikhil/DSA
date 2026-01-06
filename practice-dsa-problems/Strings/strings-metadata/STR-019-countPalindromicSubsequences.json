@@ -1,0 +1,9 @@
+{
+  "functionName": "countPalindromicSubsequences",
+  "parameters": [
+    { "name": "s", "type": "string" },
+    { "name": "m", "type": "int" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

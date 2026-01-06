@@ -1,0 +1,11 @@
+{
+  "functionName": "computeDP",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "rules", "type": "string[]" },
+    { "name": "baseDP1", "type": "long" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

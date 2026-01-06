@@ -1,0 +1,13 @@
+{
+  "functionName": "checkValidity",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "r", "type": "int" },
+    { "name": "q", "type": "int" },
+    { "name": "a", "type": "int[]" },
+    { "name": "rules", "type": "string[][]" },
+    { "name": "toggles", "type": "int[]" }
+  ],
+  "returnType": "string[]",
+  "structs": {}
+}

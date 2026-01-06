@@ -1,0 +1,21 @@
+{
+  "functionName": "processCapabilityTokens",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "initialList", "type": "int[]" },
+    { "name": "tokens", "type": "Token[]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {
+    "Token": {
+      "name": "Token",
+      "fields": [
+        { "name": "id", "type": "int" },
+        { "name": "l", "type": "int" },
+        { "name": "r", "type": "int" },
+        { "name": "tExpire", "type": "long" }
+      ]
+    }
+  }
+}

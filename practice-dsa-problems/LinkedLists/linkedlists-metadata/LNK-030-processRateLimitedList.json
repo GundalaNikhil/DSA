@@ -1,0 +1,11 @@
+{
+  "functionName": "processRateLimitedList",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "C", "type": "int" },
+    { "name": "values", "type": "int[]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

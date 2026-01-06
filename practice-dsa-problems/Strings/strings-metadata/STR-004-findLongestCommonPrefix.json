@@ -1,0 +1,9 @@
+{
+  "functionName": "findLongestCommonPrefix",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "strings", "type": "string[]" }
+  ],
+  "returnType": "string",
+  "structs": {}
+}

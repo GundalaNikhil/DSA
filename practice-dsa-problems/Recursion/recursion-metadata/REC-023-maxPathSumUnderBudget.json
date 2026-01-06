@@ -1,0 +1,10 @@
+{
+  "functionName": "maxPathSumUnderBudget",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "B", "type": "long" },
+    { "name": "nodes", "type": "long[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

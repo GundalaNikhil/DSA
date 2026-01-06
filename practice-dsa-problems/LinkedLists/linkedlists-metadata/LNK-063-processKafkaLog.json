@@ -1,0 +1,6 @@
+{
+  "functionName": "processKafkaLog",
+  "parameters": [{ "name": "operations", "type": "string[]" }],
+  "returnType": "string[]",
+  "structs": {}
+}

@@ -1,0 +1,13 @@
+{
+  "functionName": "verifyReplay",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "q", "type": "int" },
+    { "name": "initial", "type": "int[][]" },
+    { "name": "target", "type": "int[][]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

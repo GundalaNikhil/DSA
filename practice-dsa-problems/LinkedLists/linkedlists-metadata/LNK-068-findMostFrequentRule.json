@@ -1,0 +1,11 @@
+{
+  "functionName": "findMostFrequentRule",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "W", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "log", "type": "int[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

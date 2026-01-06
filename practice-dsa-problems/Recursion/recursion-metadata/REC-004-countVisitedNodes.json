@@ -1,0 +1,10 @@
+{
+  "functionName": "countVisitedNodes",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "K", "type": "int" },
+    { "name": "nodes", "type": "int[][]" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

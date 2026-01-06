@@ -1,0 +1,14 @@
+{
+  "functionName": "minTotalCost",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "k", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "l", "type": "int" },
+    { "name": "r", "type": "int" },
+    { "name": "d", "type": "int" },
+    { "name": "costTable", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

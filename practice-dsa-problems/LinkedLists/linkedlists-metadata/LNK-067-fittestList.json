@@ -1,0 +1,11 @@
+{
+  "functionName": "fittestList",
+  "parameters": [
+    { "name": "p", "type": "int" },
+    { "name": "n", "type": "int" },
+    { "name": "population", "type": "int[][]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

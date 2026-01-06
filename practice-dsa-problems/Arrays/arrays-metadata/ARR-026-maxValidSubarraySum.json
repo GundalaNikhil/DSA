@@ -1,0 +1,11 @@
+{
+  "functionName": "maxValidSubarraySum",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "a", "type": "int[]" },
+    { "name": "s", "type": "int[]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

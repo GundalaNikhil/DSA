@@ -1,0 +1,22 @@
+{
+  "functionName": "minSteinerActivationCost",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "k", "type": "int" },
+    { "name": "b", "type": "int" },
+    { "name": "terminals", "type": "int[]" },
+    { "name": "edges", "type": "Edge[]" }
+  ],
+  "returnType": "long",
+  "structs": {
+    "Edge": {
+      "fields": [
+        { "name": "u", "type": "int" },
+        { "name": "v", "type": "int" },
+        { "name": "paid", "type": "int" },
+        { "name": "a", "type": "int" }
+      ]
+    }
+  }
+}

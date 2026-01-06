@@ -1,0 +1,11 @@
+{
+  "functionName": "processQuorumReads",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "R", "type": "int" },
+    { "name": "initialValues", "type": "int[]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "string[]",
+  "structs": {}
+}

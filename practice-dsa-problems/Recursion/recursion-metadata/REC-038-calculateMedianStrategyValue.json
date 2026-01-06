@@ -1,0 +1,11 @@
+{
+  "functionName": "calculateMedianStrategyValue",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "S", "type": "int" },
+    { "name": "strategies", "type": "string[]" },
+    { "name": "nodes", "type": "long[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

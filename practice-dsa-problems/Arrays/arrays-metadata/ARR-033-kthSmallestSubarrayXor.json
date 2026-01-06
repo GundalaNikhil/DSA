@@ -1,0 +1,10 @@
+{
+  "functionName": "kthSmallestSubarrayXor",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "k", "type": "long" },
+    { "name": "a", "type": "int[]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

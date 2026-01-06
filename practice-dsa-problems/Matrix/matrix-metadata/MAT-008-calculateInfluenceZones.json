@@ -1,0 +1,11 @@
+{
+  "functionName": "calculateInfluenceZones",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "D", "type": "int" },
+    { "name": "sourceValues", "type": "int[][]" }
+  ],
+  "returnType": "long[][]",
+  "structs": {}
+}

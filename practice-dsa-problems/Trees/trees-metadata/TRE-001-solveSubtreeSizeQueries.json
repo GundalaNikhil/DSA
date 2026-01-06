@@ -1,0 +1,12 @@
+{
+  "functionName": "solveSubtreeSizeQueries",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "q", "type": "int" },
+    { "name": "c", "type": "int" },
+    { "name": "edges", "type": "int[][]" },
+    { "name": "queries", "type": "int[][]" }
+  ],
+  "returnType": "long[]",
+  "structs": {}
+}

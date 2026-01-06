@@ -1,0 +1,20 @@
+{
+  "functionName": "minOperationsForReduction",
+  "parameters": [
+    { "name": "s", "type": "string" },
+    { "name": "m", "type": "int" },
+    { "name": "rules", "type": "Rule[]" },
+    { "name": "t", "type": "char" }
+  ],
+  "returnType": "long",
+  "structs": {
+    "Rule": {
+      "name": "Rule",
+      "fields": [
+        { "name": "x", "type": "char" },
+        { "name": "y", "type": "char" },
+        { "name": "z", "type": "char" }
+      ]
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "functionName": "persistentPrefixMax",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "q", "type": "int" },
+    { "name": "a", "type": "int[]" },
+    { "name": "operations", "type": "string[][]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

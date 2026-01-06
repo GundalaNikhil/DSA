@@ -1,0 +1,10 @@
+{
+  "functionName": "minWorstCaseCost",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "a", "type": "int" },
+    { "name": "actionCosts", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

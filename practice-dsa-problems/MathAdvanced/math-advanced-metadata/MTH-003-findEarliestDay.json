@@ -1,0 +1,9 @@
+{
+  "functionName": "findEarliestDay",
+  "parameters": [
+    { "name": "q", "type": "int" },
+    { "name": "n_values", "type": "long[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

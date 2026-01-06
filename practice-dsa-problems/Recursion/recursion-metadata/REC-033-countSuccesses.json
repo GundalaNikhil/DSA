@@ -1,0 +1,10 @@
+{
+  "functionName": "countSuccesses",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "F", "type": "int" },
+    { "name": "nodes", "type": "int[][]" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

@@ -1,0 +1,19 @@
+{
+  "functionName": "processClaims",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "q", "type": "int" },
+    { "name": "claims", "type": "int[][]" }
+  ],
+  "returnType": "ClaimResult",
+  "structs": {
+    "ClaimResult": {
+      "name": "ClaimResult",
+      "fields": [
+        { "name": "newlyOwnedCounts", "type": "int[]" },
+        { "name": "finalGrid", "type": "int[][]" }
+      ]
+    }
+  }
+}

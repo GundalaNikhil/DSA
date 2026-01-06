@@ -1,0 +1,9 @@
+{
+  "functionName": "maxWeightedPalindromicSubsequence",
+  "parameters": [
+    { "name": "s", "type": "string" },
+    { "name": "weights", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

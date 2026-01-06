@@ -1,0 +1,11 @@
+{
+  "functionName": "minStorageCost",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "t", "type": "int" },
+    { "name": "M", "type": "int" },
+    { "name": "accessCosts", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

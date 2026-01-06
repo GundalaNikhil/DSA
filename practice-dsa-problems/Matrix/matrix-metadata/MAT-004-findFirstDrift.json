@@ -1,0 +1,10 @@
+{
+  "functionName": "findFirstDrift",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "a", "type": "int[][]" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

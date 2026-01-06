@@ -1,0 +1,11 @@
+{
+  "functionName": "countSubarraysModuloM",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "l", "type": "int" },
+    { "name": "a", "type": "int[]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

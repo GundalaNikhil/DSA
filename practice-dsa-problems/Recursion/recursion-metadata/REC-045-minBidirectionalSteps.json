@@ -1,0 +1,14 @@
+{
+  "functionName": "minBidirectionalSteps",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "S", "type": "int" },
+    { "name": "T", "type": "int" },
+    { "name": "L1", "type": "int" },
+    { "name": "L2", "type": "int" },
+    { "name": "edges", "type": "int[][]" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

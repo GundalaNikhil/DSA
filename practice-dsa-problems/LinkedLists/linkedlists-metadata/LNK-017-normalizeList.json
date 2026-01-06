@@ -1,0 +1,19 @@
+{
+  "functionName": "normalizeList",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "head", "type": "int" },
+    { "name": "values", "type": "long[]" },
+    { "name": "nextIds", "type": "int[]" }
+  ],
+  "returnType": "Result",
+  "structs": {
+    "Result": {
+      "name": "Result",
+      "fields": [
+        { "name": "removed", "type": "int" },
+        { "name": "values", "type": "long[]" }
+      ]
+    }
+  }
+}

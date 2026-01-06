@@ -1,0 +1,10 @@
+{
+  "functionName": "hasWeightedMapping",
+  "parameters": [
+    { "name": "s", "type": "string" },
+    { "name": "t", "type": "string" },
+    { "name": "weights", "type": "int[]" }
+  ],
+  "returnType": "boolean",
+  "structs": {}
+}

@@ -1,0 +1,9 @@
+{
+  "functionName": "decideRoot",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "nodes", "type": "int[][]" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

@@ -1,0 +1,19 @@
+{
+  "functionName": "solveSuffixAutomatonQueries",
+  "parameters": [
+    { "name": "s", "type": "string" },
+    { "name": "q", "type": "int" },
+    { "name": "queries", "type": "Query[]" }
+  ],
+  "returnType": "string[]",
+  "structs": {
+    "Query": {
+      "name": "Query",
+      "fields": [
+        { "name": "type", "type": "string" },
+        { "name": "p", "type": "string" },
+        { "name": "k", "type": "int" }
+      ]
+    }
+  }
+}

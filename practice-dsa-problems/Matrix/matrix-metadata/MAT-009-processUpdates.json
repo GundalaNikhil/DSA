@@ -1,0 +1,22 @@
+{
+  "functionName": "processUpdates",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "L", "type": "int" },
+    { "name": "q", "type": "int" },
+    { "name": "initialMatrix", "type": "int[][]" },
+    { "name": "locks", "type": "int[][]" },
+    { "name": "updates", "type": "int[][]" }
+  ],
+  "returnType": "UpdateResult",
+  "structs": {
+    "UpdateResult": {
+      "name": "UpdateResult",
+      "fields": [
+        { "name": "skippedCells", "type": "int[]" },
+        { "name": "finalMatrix", "type": "long[][]" }
+      ]
+    }
+  }
+}

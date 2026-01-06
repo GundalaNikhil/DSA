@@ -1,0 +1,9 @@
+{
+  "functionName": "processBackpressure",
+  "parameters": [
+    { "name": "C", "type": "int" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "string[]",
+  "structs": {}
+}

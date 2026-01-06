@@ -1,0 +1,13 @@
+{
+  "functionName": "minEnergyCost",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "s", "type": "int" },
+    { "name": "power", "type": "int[]" },
+    { "name": "performance", "type": "int[]" },
+    { "name": "transitionCosts", "type": "int[][]" },
+    { "name": "requirements", "type": "int[]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

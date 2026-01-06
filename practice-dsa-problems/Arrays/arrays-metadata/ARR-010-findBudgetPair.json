@@ -1,0 +1,11 @@
+{
+  "functionName": "findBudgetPair",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "t", "type": "long" },
+    { "name": "d", "type": "long" },
+    { "name": "a", "type": "int[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

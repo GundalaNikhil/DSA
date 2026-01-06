@@ -1,0 +1,6 @@
+{
+  "functionName": "isUniformFrequency",
+  "parameters": [{ "name": "s", "type": "string" }],
+  "returnType": "boolean",
+  "structs": {}
+}

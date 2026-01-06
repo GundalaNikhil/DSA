@@ -1,0 +1,10 @@
+{
+  "functionName": "minRuleApplications",
+  "parameters": [
+    { "name": "R", "type": "int" },
+    { "name": "S", "type": "int" },
+    { "name": "rules", "type": "int[][]" }
+  ],
+  "returnType": "string",
+  "structs": {}
+}

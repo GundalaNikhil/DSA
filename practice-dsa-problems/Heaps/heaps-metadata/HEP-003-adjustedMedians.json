@@ -1,0 +1,10 @@
+{
+  "functionName": "adjustedMedians",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "W", "type": "int" },
+    { "name": "a", "type": "int[]" }
+  ],
+  "returnType": "long[]",
+  "structs": {}
+}

@@ -1,0 +1,11 @@
+{
+  "functionName": "processMultiHead",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "h", "type": "int" },
+    { "name": "values", "type": "int[]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "int[][]",
+  "structs": {}
+}

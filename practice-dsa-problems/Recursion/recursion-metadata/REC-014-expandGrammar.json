@@ -1,0 +1,10 @@
+{
+  "functionName": "expandGrammar",
+  "parameters": [
+    { "name": "S", "type": "string" },
+    { "name": "rules", "type": "string[]" },
+    { "name": "Lmax", "type": "int" }
+  ],
+  "returnType": "string",
+  "structs": {}
+}

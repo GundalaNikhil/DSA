@@ -1,0 +1,11 @@
+{
+  "functionName": "onlineArraySum",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "q", "type": "int" },
+    { "name": "a", "type": "int[]" },
+    { "name": "queries", "type": "string[][]" }
+  ],
+  "returnType": "long[]",
+  "structs": {}
+}

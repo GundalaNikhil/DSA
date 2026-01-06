@@ -1,0 +1,26 @@
+{
+  "functionName": "solveAutocompleteWithDecay",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "d", "type": "int" },
+    { "name": "initialWords", "type": "WordScore[]" },
+    { "name": "q", "type": "int" },
+    { "name": "ops", "type": "Op[]" }
+  ],
+  "returnType": "string[][]",
+  "structs": {
+    "WordScore": {
+      "fields": [
+        { "name": "word", "type": "string" },
+        { "name": "score", "type": "int" }
+      ]
+    },
+    "Op": {
+      "fields": [
+        { "name": "type", "type": "string" },
+        { "name": "word", "type": "string" },
+        { "name": "score", "type": "int" }
+      ]
+    }
+  }
+}

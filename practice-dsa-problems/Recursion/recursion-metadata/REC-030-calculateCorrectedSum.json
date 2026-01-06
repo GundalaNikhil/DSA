@@ -1,0 +1,11 @@
+{
+  "functionName": "calculateCorrectedSum",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "P", "type": "int" },
+    { "name": "K", "type": "long" },
+    { "name": "nodes", "type": "long[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

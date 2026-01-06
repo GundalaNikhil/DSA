@@ -1,0 +1,22 @@
+{
+  "functionName": "findOptimalPath",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "resources", "type": "int[]" },
+    { "name": "edges", "type": "int[][]" },
+    { "name": "S", "type": "int" },
+    { "name": "T", "type": "int" }
+  ],
+  "returnType": "Result",
+  "structs": {
+    "Result": {
+      "name": "Result",
+      "fields": [
+        { "name": "minCost", "type": "long" },
+        { "name": "maxResource", "type": "long" },
+        { "name": "pathLength", "type": "int" }
+      ]
+    }
+  }
+}

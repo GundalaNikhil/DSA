@@ -1,0 +1,10 @@
+{
+  "functionName": "confidenceScores",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "probabilities", "type": "int[]" },
+    { "name": "queries", "type": "int[]" }
+  ],
+  "returnType": "long[]",
+  "structs": {}
+}

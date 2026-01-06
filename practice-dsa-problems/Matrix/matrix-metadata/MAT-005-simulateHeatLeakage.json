@@ -1,0 +1,20 @@
+{
+  "functionName": "simulateHeatLeakage",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "T", "type": "int" },
+    { "name": "P", "type": "int" },
+    { "name": "initialHeat", "type": "int[][]" }
+  ],
+  "returnType": "HeatResult",
+  "structs": {
+    "HeatResult": {
+      "name": "HeatResult",
+      "fields": [
+        { "name": "totalHeat", "type": "long" },
+        { "name": "finalMatrix", "type": "int[][]" }
+      ]
+    }
+  }
+}

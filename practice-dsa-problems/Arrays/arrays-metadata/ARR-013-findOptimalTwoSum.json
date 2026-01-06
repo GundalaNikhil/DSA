@@ -1,0 +1,11 @@
+{
+  "functionName": "findOptimalTwoSum",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "t", "type": "long" },
+    { "name": "a", "type": "int[]" },
+    { "name": "c", "type": "int[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

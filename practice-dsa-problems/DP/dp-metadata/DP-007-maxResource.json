@@ -1,0 +1,12 @@
+{
+  "functionName": "maxResource",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "r", "type": "int" },
+    { "name": "initialQuantities", "type": "int[]" },
+    { "name": "c", "type": "int" },
+    { "name": "conversions", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

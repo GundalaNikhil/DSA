@@ -1,0 +1,28 @@
+{
+  "functionName": "auditCompression",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "k", "type": "int" },
+    { "name": "A", "type": "int[][]" },
+    { "name": "steps", "type": "CompressionStep[]" }
+  ],
+  "returnType": "string",
+  "structs": {
+    "SparseEntry": {
+      "name": "SparseEntry",
+      "fields": [
+        { "name": "r", "type": "int" },
+        { "name": "c", "type": "int" },
+        { "name": "val", "type": "int" }
+      ]
+    },
+    "CompressionStep": {
+      "name": "CompressionStep",
+      "fields": [
+        { "name": "sparseList", "type": "SparseEntry[]" },
+        { "name": "decompressedMatrix", "type": "int[][]" }
+      ]
+    }
+  }
+}

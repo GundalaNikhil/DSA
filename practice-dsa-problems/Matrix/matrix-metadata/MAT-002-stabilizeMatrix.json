@@ -1,0 +1,19 @@
+{
+  "functionName": "stabilizeMatrix",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "initialMatrix", "type": "int[][]" }
+  ],
+  "returnType": "StabilizationResult",
+  "structs": {
+    "StabilizationResult": {
+      "name": "StabilizationResult",
+      "fields": [
+        { "name": "type", "type": "string" },
+        { "name": "value", "type": "int" },
+        { "name": "matrix", "type": "int[][]" }
+      ]
+    }
+  }
+}

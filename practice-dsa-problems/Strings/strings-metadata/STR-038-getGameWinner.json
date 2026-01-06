@@ -1,0 +1,10 @@
+{
+  "functionName": "getGameWinner",
+  "parameters": [
+    { "name": "s", "type": "string" },
+    { "name": "l", "type": "int" },
+    { "name": "r", "type": "int" }
+  ],
+  "returnType": "string",
+  "structs": {}
+}

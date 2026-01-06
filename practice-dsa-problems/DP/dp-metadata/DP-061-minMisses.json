@@ -1,0 +1,10 @@
+{
+  "functionName": "minMisses",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "C", "type": "int" },
+    { "name": "sequence", "type": "int[]" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

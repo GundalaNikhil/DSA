@@ -1,0 +1,9 @@
+{
+  "functionName": "maxUniformLengthAfterReplacements",
+  "parameters": [
+    { "name": "s", "type": "string" },
+    { "name": "k", "type": "int" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

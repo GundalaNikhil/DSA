@@ -1,0 +1,10 @@
+{
+  "functionName": "processLRUTimeDecay",
+  "parameters": [
+    { "name": "C", "type": "int" },
+    { "name": "decay", "type": "int" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

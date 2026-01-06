@@ -1,0 +1,23 @@
+{
+  "functionName": "solvePersistentQueries",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "q", "type": "int" },
+    { "name": "a", "type": "int[]" },
+    { "name": "queries", "type": "Query[]" }
+  ],
+  "returnType": "long[]",
+  "structs": {
+    "Query": {
+      "name": "Query",
+      "fields": [
+        { "name": "type", "type": "string" },
+        { "name": "v", "type": "int" },
+        { "name": "idx", "type": "int" },
+        { "name": "val", "type": "int" },
+        { "name": "l", "type": "int" },
+        { "name": "r", "type": "int" }
+      ]
+    }
+  }
+}

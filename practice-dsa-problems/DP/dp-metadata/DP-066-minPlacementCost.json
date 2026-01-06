@@ -1,0 +1,10 @@
+{
+  "functionName": "minPlacementCost",
+  "parameters": [
+    { "name": "M", "type": "int" },
+    { "name": "n", "type": "int" },
+    { "name": "requestSizes", "type": "int[]" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

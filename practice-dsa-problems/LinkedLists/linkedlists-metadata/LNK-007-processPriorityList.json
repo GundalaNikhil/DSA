@@ -1,0 +1,11 @@
+{
+  "functionName": "processPriorityList",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "values", "type": "int[]" },
+    { "name": "priorities", "type": "int[]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

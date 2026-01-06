@@ -1,0 +1,9 @@
+{
+  "functionName": "processTTL",
+  "parameters": [
+    { "name": "q", "type": "int" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

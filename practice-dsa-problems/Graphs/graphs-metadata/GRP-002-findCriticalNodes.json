@@ -1,0 +1,11 @@
+{
+  "functionName": "findCriticalNodes",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "X", "type": "int" },
+    { "name": "edges", "type": "int[][]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

@@ -1,0 +1,10 @@
+{
+  "functionName": "minOperationsBlockEditDistance",
+  "parameters": [
+    { "name": "a", "type": "string" },
+    { "name": "b", "type": "string" },
+    { "name": "l", "type": "int" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

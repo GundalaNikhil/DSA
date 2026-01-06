@@ -1,0 +1,12 @@
+{
+  "functionName": "computeNeuralOutput",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "weights", "type": "long[]" },
+    { "name": "biases", "type": "long[]" },
+    { "name": "x", "type": "long" },
+    { "name": "y", "type": "long" }
+  ],
+  "returnType": "long[]",
+  "structs": {}
+}

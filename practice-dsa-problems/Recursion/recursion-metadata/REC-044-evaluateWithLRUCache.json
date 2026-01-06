@@ -1,0 +1,22 @@
+{
+  "functionName": "evaluateWithLRUCache",
+  "parameters": [
+    { "name": "Q", "type": "int" },
+    { "name": "M", "type": "int" },
+    { "name": "A0", "type": "long" },
+    { "name": "A1", "type": "long" },
+    { "name": "N", "type": "int" },
+    { "name": "C", "type": "long[]" },
+    { "name": "x", "type": "int[]" }
+  ],
+  "returnType": "Result",
+  "structs": {
+    "Result": {
+      "name": "Result",
+      "fields": [
+        { "name": "cacheMisses", "type": "long" },
+        { "name": "queryAnswers", "type": "long[]" }
+      ]
+    }
+  }
+}

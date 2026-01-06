@@ -1,0 +1,10 @@
+{
+  "functionName": "countLeafRegions",
+  "parameters": [
+    { "name": "N", "type": "int" },
+    { "name": "T", "type": "long" },
+    { "name": "grid", "type": "long[][]" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

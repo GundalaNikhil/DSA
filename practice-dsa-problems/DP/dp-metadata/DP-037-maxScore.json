@@ -1,0 +1,10 @@
+{
+  "functionName": "maxScore",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "weights", "type": "int[][]" },
+    { "name": "forbid", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

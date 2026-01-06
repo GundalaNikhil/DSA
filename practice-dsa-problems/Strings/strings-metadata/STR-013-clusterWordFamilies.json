@@ -1,0 +1,10 @@
+{
+  "functionName": "clusterWordFamilies",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "k", "type": "int" },
+    { "name": "words", "type": "string[]" }
+  ],
+  "returnType": "string[]",
+  "structs": {}
+}

@@ -1,0 +1,9 @@
+{
+  "functionName": "checkType",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "nodeDescriptions", "type": "string[][]" }
+  ],
+  "returnType": "string",
+  "structs": {}
+}

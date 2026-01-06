@@ -1,0 +1,9 @@
+{
+  "functionName": "findLongestSpacedRepetition",
+  "parameters": [
+    { "name": "s", "type": "string" },
+    { "name": "d", "type": "int" }
+  ],
+  "returnType": "string",
+  "structs": {}
+}

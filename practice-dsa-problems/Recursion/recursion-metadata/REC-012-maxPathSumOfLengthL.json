@@ -1,0 +1,10 @@
+{
+  "functionName": "maxPathSumOfLengthL",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "L", "type": "int" },
+    { "name": "nodes", "type": "long[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

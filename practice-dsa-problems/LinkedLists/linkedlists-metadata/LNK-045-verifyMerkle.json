@@ -1,0 +1,11 @@
+{
+  "functionName": "verifyMerkle",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "K", "type": "int" },
+    { "name": "values", "type": "int[]" },
+    { "name": "claimedHashes", "type": "long[]" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

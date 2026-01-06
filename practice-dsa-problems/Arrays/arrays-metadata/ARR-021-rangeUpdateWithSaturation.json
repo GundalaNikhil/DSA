@@ -1,0 +1,12 @@
+{
+  "functionName": "rangeUpdateWithSaturation",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "q", "type": "int" },
+    { "name": "c", "type": "int" },
+    { "name": "a", "type": "int[]" },
+    { "name": "queries", "type": "int[][]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

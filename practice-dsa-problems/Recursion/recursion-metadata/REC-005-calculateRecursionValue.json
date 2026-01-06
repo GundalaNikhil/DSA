@@ -1,0 +1,10 @@
+{
+  "functionName": "calculateRecursionValue",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "D", "type": "int" },
+    { "name": "a", "type": "int[]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

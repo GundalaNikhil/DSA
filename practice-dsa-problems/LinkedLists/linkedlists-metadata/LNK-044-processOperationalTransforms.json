@@ -1,0 +1,11 @@
+{
+  "functionName": "processOperationalTransforms",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "baseList", "type": "int[]" },
+    { "name": "opsA", "type": "string[]" },
+    { "name": "opsB", "type": "string[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

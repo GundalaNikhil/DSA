@@ -1,0 +1,11 @@
+{
+  "functionName": "computeAuthorityMatrix",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "rowAuthorities", "type": "int[]" },
+    { "name": "columnRules", "type": "int[][]" }
+  ],
+  "returnType": "int[][]",
+  "structs": {}
+}

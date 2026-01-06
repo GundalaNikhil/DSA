@@ -1,0 +1,11 @@
+{
+  "functionName": "maxReachableNode",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "weights", "type": "int[]" },
+    { "name": "jumps", "type": "int[]" },
+    { "name": "budgets", "type": "long[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

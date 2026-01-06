@@ -1,0 +1,11 @@
+{
+  "functionName": "maxDecisionValue",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "L", "type": "int" },
+    { "name": "forbidden", "type": "string[]" },
+    { "name": "values", "type": "string[]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

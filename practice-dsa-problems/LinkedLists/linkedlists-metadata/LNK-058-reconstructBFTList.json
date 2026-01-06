@@ -1,0 +1,11 @@
+{
+  "functionName": "reconstructBFTList",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "R", "type": "int" },
+    { "name": "B", "type": "int" },
+    { "name": "replicas", "type": "int[][]" }
+  ],
+  "returnType": "string[]",
+  "structs": {}
+}

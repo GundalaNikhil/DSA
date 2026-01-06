@@ -1,0 +1,10 @@
+{
+  "functionName": "solveBinaryXorQueries",
+  "parameters": [
+    { "name": "s", "type": "string" },
+    { "name": "q", "type": "int" },
+    { "name": "queries", "type": "int[][]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

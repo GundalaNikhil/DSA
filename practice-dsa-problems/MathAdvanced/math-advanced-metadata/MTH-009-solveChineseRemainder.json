@@ -1,0 +1,9 @@
+{
+  "functionName": "solveChineseRemainder",
+  "parameters": [
+    { "name": "q", "type": "int" },
+    { "name": "queries", "type": "long[][][]" }
+  ],
+  "returnType": "string[]",
+  "structs": {}
+}

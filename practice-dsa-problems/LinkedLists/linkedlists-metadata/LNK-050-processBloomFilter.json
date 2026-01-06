@@ -1,0 +1,22 @@
+{
+  "functionName": "processBloomFilter",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "k", "type": "int" },
+    { "name": "M", "type": "int" },
+    { "name": "values", "type": "int[]" },
+    { "name": "bitset", "type": "string" },
+    { "name": "hashes", "type": "int[][]" },
+    { "name": "queries", "type": "int[]" }
+  ],
+  "returnType": "Result",
+  "structs": {
+    "Result": {
+      "name": "Result",
+      "fields": [
+        { "name": "presence", "type": "int[]" },
+        { "name": "falsePositives", "type": "int" }
+      ]
+    }
+  }
+}

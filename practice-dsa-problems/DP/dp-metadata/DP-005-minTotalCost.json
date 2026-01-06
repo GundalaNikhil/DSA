@@ -1,0 +1,11 @@
+{
+  "functionName": "minTotalCost",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "a", "type": "int" },
+    { "name": "p", "type": "int" },
+    { "name": "actions", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

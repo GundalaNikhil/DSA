@@ -1,0 +1,9 @@
+{
+  "functionName": "processEventLog",
+  "parameters": [
+    { "name": "q", "type": "int" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "long[]",
+  "structs": {}
+}

@@ -1,0 +1,11 @@
+{
+  "functionName": "maxScore",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "a", "type": "int" },
+    { "name": "p", "type": "int" },
+    { "name": "rewards", "type": "int[]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

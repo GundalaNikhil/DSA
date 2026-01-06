@@ -1,0 +1,20 @@
+{
+  "functionName": "processMoves",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "q", "type": "int" },
+    { "name": "initialMatrix", "type": "long[][]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "FlowResult",
+  "structs": {
+    "FlowResult": {
+      "name": "FlowResult",
+      "fields": [
+        { "name": "firstInvalid", "type": "int" },
+        { "name": "finalMatrix", "type": "long[][]" }
+      ]
+    }
+  }
+}

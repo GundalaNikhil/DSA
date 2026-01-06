@@ -1,0 +1,9 @@
+{
+  "functionName": "sumEulerTotient",
+  "parameters": [
+    { "name": "q", "type": "int" },
+    { "name": "N_values", "type": "long[]" }
+  ],
+  "returnType": "long[]",
+  "structs": {}
+}

@@ -1,0 +1,10 @@
+{
+  "functionName": "calculateCompletionTimes",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "Q", "type": "int" },
+    { "name": "processes", "type": "int[][]" }
+  ],
+  "returnType": "long[][]",
+  "structs": {}
+}

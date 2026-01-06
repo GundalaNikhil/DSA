@@ -1,0 +1,19 @@
+{
+  "functionName": "processReversibleSections",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "values", "type": "int[]" },
+    { "name": "flags", "type": "int[]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "Result",
+  "structs": {
+    "Result": {
+      "name": "Result",
+      "fields": [
+        { "name": "invalidCount", "type": "int" },
+        { "name": "finalValues", "type": "int[]" }
+      ]
+    }
+  }
+}

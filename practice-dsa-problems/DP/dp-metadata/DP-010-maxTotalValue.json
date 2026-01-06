@@ -1,0 +1,11 @@
+{
+  "functionName": "maxTotalValue",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "b", "type": "int" },
+    { "name": "d", "type": "int" },
+    { "name": "assets", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

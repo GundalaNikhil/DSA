@@ -1,0 +1,11 @@
+{
+  "functionName": "maxChainLength",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "dictionary", "type": "string[]" },
+    { "name": "suffixRoots", "type": "string[]" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

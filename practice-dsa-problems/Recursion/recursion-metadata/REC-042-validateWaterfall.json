@@ -1,0 +1,11 @@
+{
+  "functionName": "validateWaterfall",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "L0", "type": "long" },
+    { "name": "R0", "type": "long" },
+    { "name": "nodes", "type": "long[][]" }
+  ],
+  "returnType": "string",
+  "structs": {}
+}

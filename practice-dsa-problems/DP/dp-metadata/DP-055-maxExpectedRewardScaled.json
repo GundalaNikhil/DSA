@@ -1,0 +1,14 @@
+{
+  "functionName": "maxExpectedRewardScaled",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "s", "type": "int" },
+    { "name": "a", "type": "int" },
+    { "name": "o", "type": "int" },
+    { "name": "initialProbs", "type": "int[]" },
+    { "name": "actions", "type": "int[][][]" },
+    { "name": "transitions", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

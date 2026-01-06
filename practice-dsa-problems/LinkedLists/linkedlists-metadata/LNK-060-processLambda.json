@@ -1,0 +1,9 @@
+{
+  "functionName": "processLambda",
+  "parameters": [
+    { "name": "K", "type": "int" },
+    { "name": "tokens", "type": "string[]" }
+  ],
+  "returnType": "string[]",
+  "structs": {}
+}

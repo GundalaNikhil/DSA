@@ -1,0 +1,14 @@
+{
+  "functionName": "minTransformCost",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "A", "type": "int[]" },
+    { "name": "B", "type": "int[]" },
+    { "name": "ci", "type": "int" },
+    { "name": "cd", "type": "int" },
+    { "name": "cr", "type": "int" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

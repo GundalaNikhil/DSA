@@ -1,0 +1,17 @@
+{
+  "functionName": "decomposeMatrix",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "A", "type": "int[][]" }
+  ],
+  "returnType": "DecompositionResult",
+  "structs": {
+    "DecompositionResult": {
+      "name": "DecompositionResult",
+      "fields": [
+        { "name": "error", "type": "long" },
+        { "name": "B", "type": "long[][]" }
+      ]
+    }
+  }
+}

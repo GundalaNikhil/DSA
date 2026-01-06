@@ -1,0 +1,14 @@
+{
+  "functionName": "minPathCost",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "L", "type": "int" },
+    { "name": "layers", "type": "int[]" },
+    { "name": "edges", "type": "int[][]" },
+    { "name": "S", "type": "int" },
+    { "name": "T", "type": "int" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

@@ -1,0 +1,11 @@
+{
+  "functionName": "processSagas",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "initialList", "type": "int[]" },
+    { "name": "q", "type": "int" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

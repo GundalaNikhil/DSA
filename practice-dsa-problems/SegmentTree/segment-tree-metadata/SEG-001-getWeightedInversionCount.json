@@ -1,0 +1,10 @@
+{
+  "functionName": "getWeightedInversionCount",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "p", "type": "int" },
+    { "name": "a", "type": "int[]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

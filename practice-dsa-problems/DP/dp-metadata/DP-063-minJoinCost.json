@@ -1,0 +1,10 @@
+{
+  "functionName": "minJoinCost",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "tableSizes", "type": "int[]" },
+    { "name": "joinCostMatrix", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

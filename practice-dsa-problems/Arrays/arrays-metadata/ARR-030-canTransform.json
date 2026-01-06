@@ -1,0 +1,11 @@
+{
+  "functionName": "canTransform",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "k", "type": "long" },
+    { "name": "a", "type": "int[]" },
+    { "name": "b", "type": "int[]" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

@@ -1,0 +1,20 @@
+{
+  "functionName": "simulateStateMachine",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "S", "type": "int" },
+    { "name": "initialStates", "type": "int[][]" }
+  ],
+  "returnType": "Result",
+  "structs": {
+    "Result": {
+      "name": "Result",
+      "fields": [
+        { "name": "type", "type": "string" },
+        { "name": "value", "type": "int" },
+        { "name": "matrix", "type": "int[][]" }
+      ]
+    }
+  }
+}

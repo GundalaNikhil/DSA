@@ -1,0 +1,14 @@
+{
+  "functionName": "calculateMinDiffCost",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "cr", "type": "long" },
+    { "name": "cc", "type": "long" },
+    { "name": "cs", "type": "long" },
+    { "name": "A", "type": "int[][]" },
+    { "name": "B", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

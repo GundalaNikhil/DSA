@@ -1,0 +1,14 @@
+{
+  "functionName": "processCircuitBreaker",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "F", "type": "int" },
+    { "name": "T", "type": "int" },
+    { "name": "L", "type": "int" },
+    { "name": "U", "type": "int" },
+    { "name": "initialList", "type": "int[]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

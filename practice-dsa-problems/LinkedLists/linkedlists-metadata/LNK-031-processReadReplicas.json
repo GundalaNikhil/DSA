@@ -1,0 +1,12 @@
+{
+  "functionName": "processReadReplicas",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "R", "type": "int" },
+    { "name": "D", "type": "int" },
+    { "name": "initialValues", "type": "int[]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

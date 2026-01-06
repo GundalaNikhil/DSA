@@ -1,0 +1,12 @@
+{
+  "functionName": "processRedisExpiration",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "S", "type": "int" },
+    { "name": "initialValues", "type": "int[]" },
+    { "name": "initialTTLs", "type": "int[]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

@@ -1,0 +1,11 @@
+{
+  "functionName": "validateChecksum",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "M", "type": "long" },
+    { "name": "T", "type": "long" },
+    { "name": "nodes", "type": "long[][]" }
+  ],
+  "returnType": "string",
+  "structs": {}
+}

@@ -1,0 +1,20 @@
+{
+  "functionName": "solvePersistentStringEditor",
+  "parameters": [
+    { "name": "s", "type": "string" },
+    { "name": "q", "type": "int" },
+    { "name": "ops", "type": "EditorOp[]" }
+  ],
+  "returnType": "string[]",
+  "structs": {
+    "EditorOp": {
+      "name": "EditorOp",
+      "fields": [
+        { "name": "type", "type": "string" },
+        { "name": "v", "type": "int" },
+        { "name": "pos", "type": "int" },
+        { "name": "c", "type": "char" }
+      ]
+    }
+  }
+}

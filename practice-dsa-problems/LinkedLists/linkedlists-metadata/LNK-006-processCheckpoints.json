@@ -1,0 +1,10 @@
+{
+  "functionName": "processCheckpoints",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "initialValues", "type": "int[]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

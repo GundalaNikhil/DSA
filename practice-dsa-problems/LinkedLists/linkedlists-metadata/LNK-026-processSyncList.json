@@ -1,0 +1,11 @@
+{
+  "functionName": "processSyncList",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "D", "type": "int" },
+    { "name": "initialA", "type": "int[]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

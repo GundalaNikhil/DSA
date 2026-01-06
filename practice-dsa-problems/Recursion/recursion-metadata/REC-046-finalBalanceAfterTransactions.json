@@ -1,0 +1,9 @@
+{
+  "functionName": "finalBalanceAfterTransactions",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "nodes", "type": "long[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

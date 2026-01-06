@@ -1,0 +1,11 @@
+{
+  "functionName": "validateLayers",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "H", "type": "int" },
+    { "name": "nodes", "type": "int[][]" },
+    { "name": "K", "type": "long[]" }
+  ],
+  "returnType": "string",
+  "structs": {}
+}

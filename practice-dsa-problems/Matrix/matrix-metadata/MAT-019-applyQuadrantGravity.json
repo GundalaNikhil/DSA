@@ -1,0 +1,10 @@
+{
+  "functionName": "applyQuadrantGravity",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "initialGrid", "type": "string[]" }
+  ],
+  "returnType": "string[]",
+  "structs": {}
+}

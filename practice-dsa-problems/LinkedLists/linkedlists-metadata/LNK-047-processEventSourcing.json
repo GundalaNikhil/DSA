@@ -1,0 +1,11 @@
+{
+  "functionName": "processEventSourcing",
+  "parameters": [
+    { "name": "e", "type": "int" },
+    { "name": "events", "type": "string[]" },
+    { "name": "q", "type": "int" },
+    { "name": "queries", "type": "int[][]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

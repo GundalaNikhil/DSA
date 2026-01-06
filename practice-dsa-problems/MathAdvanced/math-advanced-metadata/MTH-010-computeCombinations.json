@@ -1,0 +1,9 @@
+{
+  "functionName": "computeCombinations",
+  "parameters": [
+    { "name": "q", "type": "int" },
+    { "name": "queries", "type": "long[][]" }
+  ],
+  "returnType": "long[]",
+  "structs": {}
+}

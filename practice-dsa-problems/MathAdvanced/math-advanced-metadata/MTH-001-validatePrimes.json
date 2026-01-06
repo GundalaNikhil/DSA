@@ -1,0 +1,17 @@
+{
+  "functionName": "validatePrimes",
+  "parameters": [
+    { "name": "q", "type": "int" },
+    { "name": "requests", "type": "long[]" }
+  ],
+  "returnType": "ValidationResult[]",
+  "structs": {
+    "ValidationResult": {
+      "name": "ValidationResult",
+      "fields": [
+        { "name": "status", "type": "string" },
+        { "name": "witnesses", "type": "int" }
+      ]
+    }
+  }
+}

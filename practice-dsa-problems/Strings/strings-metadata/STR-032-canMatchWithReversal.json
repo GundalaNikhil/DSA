@@ -1,0 +1,9 @@
+{
+  "functionName": "canMatchWithReversal",
+  "parameters": [
+    { "name": "t", "type": "string" },
+    { "name": "p", "type": "string" }
+  ],
+  "returnType": "boolean",
+  "structs": {}
+}

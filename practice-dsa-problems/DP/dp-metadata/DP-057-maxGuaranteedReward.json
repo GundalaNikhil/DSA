@@ -1,0 +1,11 @@
+{
+  "functionName": "maxGuaranteedReward",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "s", "type": "int" },
+    { "name": "a", "type": "int" },
+    { "name": "actionOutcomes", "type": "int[][][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

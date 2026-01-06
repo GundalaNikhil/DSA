@@ -1,0 +1,9 @@
+{
+  "functionName": "evaluateExpressionTree",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "nodes", "type": "string[]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

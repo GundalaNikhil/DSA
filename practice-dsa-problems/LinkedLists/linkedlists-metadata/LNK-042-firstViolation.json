@@ -1,0 +1,9 @@
+{
+  "functionName": "firstViolation",
+  "parameters": [
+    { "name": "q", "type": "int" },
+    { "name": "dependencies", "type": "int[][]" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

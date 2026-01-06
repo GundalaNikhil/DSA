@@ -1,0 +1,12 @@
+{
+  "functionName": "maxGain",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "d", "type": "int" },
+    { "name": "D", "type": "int" },
+    { "name": "v", "type": "int[]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

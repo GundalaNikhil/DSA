@@ -1,0 +1,6 @@
+{
+  "functionName": "isNormalizedPalindrome",
+  "parameters": [{ "name": "s", "type": "string" }],
+  "returnType": "boolean",
+  "structs": {}
+}

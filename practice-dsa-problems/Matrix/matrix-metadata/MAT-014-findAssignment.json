@@ -1,0 +1,36 @@
+{
+  "functionName": "findAssignment",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "k", "type": "int" },
+    { "name": "ranges", "type": "Range[][]" },
+    { "name": "constraints", "type": "Constraint[]" }
+  ],
+  "returnType": "AssignmentResult",
+  "structs": {
+    "Range": {
+      "name": "Range",
+      "fields": [
+        { "name": "L", "type": "long" },
+        { "name": "U", "type": "long" }
+      ]
+    },
+    "Constraint": {
+      "name": "Constraint",
+      "fields": [
+        { "name": "r1", "type": "int" },
+        { "name": "c1", "type": "int" },
+        { "name": "r2", "type": "int" },
+        { "name": "c2", "type": "int" }
+      ]
+    },
+    "AssignmentResult": {
+      "name": "AssignmentResult",
+      "fields": [
+        { "name": "possible", "type": "boolean" },
+        { "name": "matrix", "type": "long[][]" }
+      ]
+    }
+  }
+}

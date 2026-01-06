@@ -1,0 +1,10 @@
+{
+  "functionName": "maxReward",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "t", "type": "int" },
+    { "name": "tasks", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

@@ -1,0 +1,10 @@
+{
+  "functionName": "alternatingTraversal",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "K", "type": "int" },
+    { "name": "values", "type": "int[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

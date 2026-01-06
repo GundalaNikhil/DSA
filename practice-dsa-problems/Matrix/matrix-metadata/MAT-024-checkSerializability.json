@@ -1,0 +1,11 @@
+{
+  "functionName": "checkSerializability",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "q", "type": "int" },
+    { "name": "schedule", "type": "string[]" }
+  ],
+  "returnType": "string",
+  "structs": {}
+}

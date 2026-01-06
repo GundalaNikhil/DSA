@@ -1,0 +1,20 @@
+{
+  "functionName": "calculateActiveCells",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "rowRecharge", "type": "int[]" },
+    { "name": "colDrain", "type": "int[]" },
+    { "name": "baseEnergy", "type": "int[][]" }
+  ],
+  "returnType": "EnergyResult",
+  "structs": {
+    "EnergyResult": {
+      "name": "EnergyResult",
+      "fields": [
+        { "name": "activeCount", "type": "int" },
+        { "name": "activeGrid", "type": "int[][]" }
+      ]
+    }
+  }
+}

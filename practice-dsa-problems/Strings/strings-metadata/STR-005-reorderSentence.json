@@ -1,0 +1,6 @@
+{
+  "functionName": "reorderSentence",
+  "parameters": [{ "name": "s", "type": "string" }],
+  "returnType": "string",
+  "structs": {}
+}

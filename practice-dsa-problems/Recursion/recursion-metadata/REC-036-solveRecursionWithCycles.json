@@ -1,0 +1,12 @@
+{
+  "functionName": "solveRecursionWithCycles",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "S", "type": "int" },
+    { "name": "base", "type": "long[]" },
+    { "name": "edges", "type": "int[][]" }
+  ],
+  "returnType": "string",
+  "structs": {}
+}

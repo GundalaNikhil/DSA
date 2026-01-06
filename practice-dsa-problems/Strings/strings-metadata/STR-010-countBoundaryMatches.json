@@ -1,0 +1,6 @@
+{
+  "functionName": "countBoundaryMatches",
+  "parameters": [{ "name": "s", "type": "string" }],
+  "returnType": "long",
+  "structs": {}
+}

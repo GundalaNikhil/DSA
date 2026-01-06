@@ -1,0 +1,9 @@
+{
+  "functionName": "findSmallestT",
+  "parameters": [
+    { "name": "q", "type": "int" },
+    { "name": "N_values", "type": "long[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}

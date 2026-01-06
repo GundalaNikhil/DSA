@@ -1,0 +1,46 @@
+{
+  "functionName": "getHullAndOutliers",
+  "parameters": [
+    {
+      "name": "n",
+      "type": "integer"
+    },
+    {
+      "name": "points",
+      "type": "long[][]"
+    }
+  ],
+  "returnType": "Result",
+  "structs": [
+    {
+      "name": "Point",
+      "fields": [
+        {
+          "name": "x",
+          "type": "long"
+        },
+        {
+          "name": "y",
+          "type": "long"
+        },
+        {
+          "name": "index",
+          "type": "integer"
+        }
+      ]
+    },
+    {
+      "name": "Result",
+      "fields": [
+        {
+          "name": "hull",
+          "type": "List<Point>"
+        },
+        {
+          "name": "outliers",
+          "type": "List<Point>"
+        }
+      ]
+    }
+  ]
+}

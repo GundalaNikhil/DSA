@@ -1,0 +1,18 @@
+{
+  "functionName": "solveCompressionWithUndo",
+  "parameters": [
+    { "name": "s", "type": "string" },
+    { "name": "q", "type": "int" },
+    { "name": "ops", "type": "UndoOp[]" }
+  ],
+  "returnType": "string[]",
+  "structs": {
+    "UndoOp": {
+      "name": "UndoOp",
+      "fields": [
+        { "name": "type", "type": "string" },
+        { "name": "k", "type": "int" }
+      ]
+    }
+  }
+}

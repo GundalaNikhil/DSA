@@ -1,0 +1,12 @@
+{
+  "functionName": "maxVisitedNodes",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "initialA", "type": "int" },
+    { "name": "initialB", "type": "int" },
+    { "name": "nodeCosts", "type": "int[][]" },
+    { "name": "edges", "type": "int[][]" }
+  ],
+  "returnType": "int",
+  "structs": {}
+}

@@ -1,0 +1,9 @@
+{
+  "functionName": "doesRootSucceed",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "nodes", "type": "int[][]" }
+  ],
+  "returnType": "string",
+  "structs": {}
+}

@@ -1,0 +1,14 @@
+{
+  "functionName": "maxReward",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "b", "type": "int" },
+    { "name": "s", "type": "int" },
+    { "name": "t", "type": "int" },
+    { "name": "targetMask", "type": "int" },
+    { "name": "edges", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

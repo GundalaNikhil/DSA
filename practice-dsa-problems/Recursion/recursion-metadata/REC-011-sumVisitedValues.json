@@ -1,0 +1,9 @@
+{
+  "functionName": "sumVisitedValues",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "nodes", "type": "int[][]" }
+  ],
+  "returnType": "long",
+  "structs": {}
+}

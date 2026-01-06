@@ -1,0 +1,21 @@
+{
+  "functionName": "findViolations",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "p", "type": "int" },
+    { "name": "matrix", "type": "int[][]" },
+    { "name": "policies", "type": "string[]" }
+  ],
+  "returnType": "Violation[]",
+  "structs": {
+    "Violation": {
+      "name": "Violation",
+      "fields": [
+        { "name": "policyId", "type": "int" },
+        { "name": "r", "type": "int" },
+        { "name": "c", "type": "int" }
+      ]
+    }
+  }
+}

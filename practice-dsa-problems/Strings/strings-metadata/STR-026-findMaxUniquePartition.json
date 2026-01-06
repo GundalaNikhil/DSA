@@ -1,0 +1,6 @@
+{
+  "functionName": "findMaxUniquePartition",
+  "parameters": [{ "name": "s", "type": "string" }],
+  "returnType": "string[]",
+  "structs": {}
+}

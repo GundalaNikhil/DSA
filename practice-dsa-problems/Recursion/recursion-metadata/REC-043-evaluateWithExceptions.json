@@ -1,0 +1,9 @@
+{
+  "functionName": "evaluateWithExceptions",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "nodes", "type": "long[][]" }
+  ],
+  "returnType": "string",
+  "structs": {}
+}

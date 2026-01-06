@@ -1,0 +1,20 @@
+{
+  "functionName": "computeBuildTime",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "m", "type": "int" },
+    { "name": "S", "type": "int" },
+    { "name": "targetInfo", "type": "long[][]" },
+    { "name": "edges", "type": "int[][]" }
+  ],
+  "returnType": "BuildResult",
+  "structs": {
+    "BuildResult": {
+      "name": "BuildResult",
+      "fields": [
+        { "name": "totalCost", "type": "long" },
+        { "name": "finalTimestamp", "type": "long" }
+      ]
+    }
+  }
+}

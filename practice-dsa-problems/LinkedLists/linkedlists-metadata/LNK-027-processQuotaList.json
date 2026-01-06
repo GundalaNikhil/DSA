@@ -1,0 +1,13 @@
+{
+  "functionName": "processQuotaList",
+  "parameters": [
+    { "name": "n", "type": "int" },
+    { "name": "S", "type": "int" },
+    { "name": "values", "type": "int[]" },
+    { "name": "segmentIds", "type": "int[]" },
+    { "name": "quotas", "type": "int[][]" },
+    { "name": "operations", "type": "string[]" }
+  ],
+  "returnType": "int[]",
+  "structs": {}
+}
