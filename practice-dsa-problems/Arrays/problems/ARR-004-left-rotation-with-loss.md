@@ -63,3 +63,54 @@ Formally, let `K = K mod n`. After left rotation, any element originally in posi
 ```
 2 5 1 2 0
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int[] leftRotationWithLoss(int n, long k, int[] a) {
+        // Implement here
+        return new int[0];
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def leftRotationWithLoss(self, n: int, k: int, a: list[int]) -> list[int]:
+        # Implement here
+        return []
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    vector<int> leftRotationWithLoss(int n, long long k, vector<int>& a) {
+        // Implement here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} k
+   * @param {number[]} a
+   * @return {number[]}
+   */
+  leftRotationWithLoss(n, k, a) {
+    // Implement here
+    return [];
+  }
+}
+```

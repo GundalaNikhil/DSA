@@ -63,3 +63,52 @@ Find the maximum sum of values along a root-to-leaf path of **exact length** `L`
 ```
 12
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long maxPathSumOfLengthL(int n, int L, long[][] nodes) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def maxPathSumOfLengthL(self, n: int, L: int, nodes: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long maxPathSumOfLengthL(int n, int L, vector<vector<long long>>& nodes) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} L
+   * @param {number[][]} nodes
+   * @returns {number}
+   */
+  maxPathSumOfLengthL(n, L, nodes) {
+    // Your code here
+    return 0;
+  }
+}
+```

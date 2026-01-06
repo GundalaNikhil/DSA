@@ -64,3 +64,40 @@ Minimize total spill cost.
 ```
 7
 ```
+
+## Solution Stub
+
+```java
+public class Solution {
+    public long minSpillCost(int n, int R, int[][] intervals) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def minSpillCost(self, n: int, R: int, intervals: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+class Solution {
+public:
+    long long minSpillCost(int n, int R, vector<vector<int>>& intervals) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  minSpillCost(n, R, intervals) {
+    // Your code here
+    return 0;
+  }
+}
+```

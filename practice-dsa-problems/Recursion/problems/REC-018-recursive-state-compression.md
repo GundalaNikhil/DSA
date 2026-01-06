@@ -60,3 +60,53 @@ You are only allowed to pass down the **segment sum modulo `M`** and the segment
 ```
 YES
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String canReduceToZero(int n, int M, int[] a) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+```python
+class Solution:
+    def canReduceToZero(self, n: int, M: int, a: list[int]) -> str:
+        # Your code here
+        return ""
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string canReduceToZero(int n, int M, vector<int>& a) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} M
+   * @param {number[]} a
+   * @returns {string}
+   */
+  canReduceToZero(n, M, a) {
+    // Your code here
+    return "";
+  }
+}
+```

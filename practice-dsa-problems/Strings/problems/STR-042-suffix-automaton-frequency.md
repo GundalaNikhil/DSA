@@ -72,3 +72,74 @@ true
 2
 8
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Object> solveSuffixAutomatonQueries(String s, int q, List<Query> queries) {
+        // Your code here
+        return new ArrayList<>();
+    }
+
+    public static class Query {
+        String type;
+        String p;
+        int k;
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List, Union
+
+class Query:
+    def __init__(self, type: str, p: str, k: int = 0):
+        self.type = type
+        self.p = p
+        self.k = k
+
+class Solution:
+    def solveSuffixAutomatonQueries(self, s: str, q: int, queries: List[Query]) -> List[Union[bool, int]]:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+#include <vector>
+#include <variant>
+
+struct Query {
+    std::string type;
+    std::string p;
+    int k;
+};
+
+class Solution {
+public:
+    std::vector<std::variant<bool, int>> solveSuffixAutomatonQueries(std::string s, int q, std::vector<Query>& queries) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  solveSuffixAutomatonQueries(s, q, queries) {
+    // Your code here
+    return [];
+  }
+}
+```

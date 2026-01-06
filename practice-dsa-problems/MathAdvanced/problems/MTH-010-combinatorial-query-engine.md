@@ -62,3 +62,51 @@ Compute `C(n, k) mod M`, where `M` can be any composite number.
 10
 120
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Long> computeCombinations(int q, long[][] queries) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def computeCombinations(self, q: int, queries: list[list[int]]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> computeCombinations(int q, vector<vector<long long>>& queries) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} q
+   * @param {number[][]} queries
+   * @returns {number[]}
+   */
+  computeCombinations(q, queries) {
+    // Your code here
+    return [];
+  }
+}
+```

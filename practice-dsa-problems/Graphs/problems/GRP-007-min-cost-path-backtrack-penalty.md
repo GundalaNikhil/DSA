@@ -71,3 +71,58 @@ Find the minimum cost from `S` to `T`.
 ```
 15
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long minPathCost(int n, int m, int[][] edges, int S, int T) {
+        // Your code here
+        return -1;
+    }
+}
+```
+
+```python
+import heapq
+
+class Solution:
+    def minPathCost(self, n: int, m: int, edges: list[list[int]], S: int, T: int) -> int:
+        # Your code here
+        return -1
+```
+
+```cpp
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minPathCost(int n, int m, vector<vector<int>>& edges, int S, int T) {
+        // Your code here
+        return -1;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number[][]} edges
+   * @param {number} S
+   * @param {number} T
+   * @returns {number}
+   */
+  minPathCost(n, m, edges, S, T) {
+    // Your code here
+    return -1;
+  }
+}
+```

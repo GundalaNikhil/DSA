@@ -73,3 +73,55 @@ SET 3 1
 VALID
 INVALID
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<String> processStateMachine(int n, int S, int[] initialStates, int[][] transitions, String[] operations) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def processStateMachine(self, n: int, S: int, initial_states: list[int], transitions: list[list[int]], operations: list[str]) -> list[str]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> processStateMachine(int n, int S, vector<int>& initialStates, vector<vector<int>>& transitions, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} S
+   * @param {number[]} initialStates
+   * @param {number[][]} transitions
+   * @param {string[]} operations
+   * @returns {string[]}
+   */
+  processStateMachine(n, S, initialStates, transitions, operations) {
+    // Your code here
+    return [];
+  }
+}
+```

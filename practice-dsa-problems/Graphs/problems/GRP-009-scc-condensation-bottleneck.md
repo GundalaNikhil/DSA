@@ -71,3 +71,56 @@ A path's bottleneck is the minimum SCC-capacity along the path. Find the maximum
 ```
 10
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long maxBottleneck(int n, int m, int[] capacities, int[][] edges, int S, int T) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def maxBottleneck(self, n: int, m: int, capacities: list[int], edges: list[list[int]], S: int, T: int) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long long maxBottleneck(int n, int m, vector<int>& capacities, vector<vector<int>>& edges, int S, int T) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number[]} capacities
+   * @param {number[][]} edges
+   * @param {number} S
+   * @param {number} T
+   * @returns {number}
+   */
+  maxBottleneck(n, m, capacities, edges, S, T) {
+    // Your code here
+    return 0;
+  }
+}
+```

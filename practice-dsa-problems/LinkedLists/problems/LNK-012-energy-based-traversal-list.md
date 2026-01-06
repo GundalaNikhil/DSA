@@ -72,3 +72,53 @@ Given an energy budget `E`, determine the maximum node index reachable without e
 2
 5
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> maxReachableNode(int n, int[] weights, int[] jumps, long[] budgets) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def maxReachableNode(self, n: int, weights: list[int], jumps: list[int], budgets: list[int]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> maxReachableNode(int n, vector<int>& weights, vector<int>& jumps, vector<long long>& budgets) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} weights
+   * @param {number[]} jumps
+   * @param {number[]} budgets
+   * @returns {number[]}
+   */
+  maxReachableNode(n, weights, jumps, budgets) {
+    // Your code here
+    return [];
+  }
+}
+```

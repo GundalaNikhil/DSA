@@ -62,3 +62,53 @@ Your task is to minimize this duplicate distance by removing at most one element
 ```
 1
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int minDuplicateDistance(int n, int[] a) {
+        // Implement here
+        return -1;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def minDuplicateDistance(self, n: int, a: list[int]) -> int:
+        # Implement here
+        return -1
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    int minDuplicateDistance(int n, vector<int>& a) {
+        // Implement here
+        return -1;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} a
+   * @return {number}
+   */
+  minDuplicateDistance(n, a) {
+    // Implement here
+    return -1;
+  }
+}
+```

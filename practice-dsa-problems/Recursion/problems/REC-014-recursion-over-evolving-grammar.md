@@ -70,3 +70,54 @@ A
 ```
 abab
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String expandGrammar(char S, Map<Character, List<String>> rules, int Lmax) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+```python
+class Solution:
+    def expandGrammar(self, S: str, rules: dict[str, list[str]], Lmax: int) -> str:
+        # Your code here
+        return ""
+```
+
+```cpp
+#include <vector>
+#include <string>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution {
+public:
+    string expandGrammar(char S, unordered_map<char, vector<string>>& rules, int Lmax) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {string} S
+   * @param {Map<string, string[]>} rules
+   * @param {number} Lmax
+   * @returns {string}
+   */
+  expandGrammar(S, rules, Lmax) {
+    // Your code here
+    return "";
+  }
+}
+```

@@ -74,3 +74,60 @@ Determine whether there exists a path from `S` to `T` with total fatigue cost â‰
 ```
 YES
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public boolean canReach(int n, int m, long F, long[] fatigue, int[][] edges, int S, int T) {
+        // Your code here
+        return false;
+    }
+}
+```
+
+```python
+import heapq
+
+class Solution:
+    def canReach(self, n: int, m: int, F: int, fatigue: list[int], edges: list[list[int]], S: int, T: int) -> bool:
+        # Your code here
+        return False
+```
+
+```cpp
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    bool canReach(int n, int m, long long F, vector<long long>& fatigue, vector<vector<int>>& edges, int S, int T) {
+        // Your code here
+        return false;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} F
+   * @param {number[]} fatigue
+   * @param {number[][]} edges
+   * @param {number} S
+   * @param {number} T
+   * @returns {boolean}
+   */
+  canReach(n, m, F, fatigue, edges, S, T) {
+    // Your code here
+    return false;
+  }
+}
+```

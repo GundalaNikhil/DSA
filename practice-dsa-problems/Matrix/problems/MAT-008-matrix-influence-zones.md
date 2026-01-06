@@ -68,3 +68,53 @@ Compute the total influence at every cell.
 5 5 0
 5 0 0
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long[][] calculateInfluenceZones(int n, int m, int D, int[][] sourceValues) {
+        // Your code here
+        return new long[n][m];
+    }
+}
+```
+
+```python
+class Solution:
+    def calculateInfluenceZones(self, n: int, m: int, D: int, source_values: list[list[int]]) -> list[list[int]]:
+        # Your code here
+        return [[]]
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<long long>> calculateInfluenceZones(int n, int m, int D, vector<vector<int>>& sourceValues) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} D
+   * @param {number[][]} sourceValues
+   * @returns {number[][]}
+   */
+  calculateInfluenceZones(n, m, D, sourceValues) {
+    // Your code here
+    return [[]];
+  }
+}
+```

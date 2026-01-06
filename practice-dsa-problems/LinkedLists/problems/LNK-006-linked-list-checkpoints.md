@@ -78,3 +78,53 @@ GET 2
 9
 2
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> processCheckpoints(int n, int[] initialValues, String[] operations) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def processCheckpoints(self, n: int, initial_values: list[int], operations: list[str]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> processCheckpoints(int n, vector<int>& initialValues, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} initialValues
+   * @param {string[]} operations
+   * @returns {number[]}
+   */
+  processCheckpoints(n, initialValues, operations) {
+    // Your code here
+    return [];
+  }
+}
+```

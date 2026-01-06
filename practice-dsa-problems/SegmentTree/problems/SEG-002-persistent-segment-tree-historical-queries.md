@@ -77,3 +77,89 @@ Q 2 4 5
 16
 2
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Long> solvePersistentQueries(int n, int q, int[] a, List<Query> queries) {
+        // Your code here
+        return new ArrayList<>();
+    }
+
+    public static class Query {
+        char type;
+        int v, idx, val, l, r;
+
+        public Query(char type, int v, int idx, int val) {
+            this.type = type;
+            this.v = v;
+            this.idx = idx;
+            this.val = val;
+        }
+
+        public Query(char type, int v, int l, int r) {
+            this.type = type;
+            this.v = v;
+            this.l = l;
+            this.r = r;
+        }
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List, Union
+
+class Query:
+    def __init__(self, type: str, v: int, arg1: int, arg2: int):
+        self.type = type
+        self.v = v
+        if type == 'U':
+            self.idx = arg1
+            self.val = arg2
+        else:
+            self.l = arg1
+            self.r = arg2
+
+class Solution:
+    def solvePersistentQueries(self, n: int, q: int, a: List[int], queries: List[Query]) -> List[int]:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <vector>
+
+struct Query {
+    char type;
+    int v, idx, val, l, r;
+};
+
+class Solution {
+public:
+    std::vector<long long> solvePersistentQueries(int n, int q, std::vector<int>& a, std::vector<Query>& queries) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  solvePersistentQueries(n, q, a, queries) {
+    // Your code here
+    return [];
+  }
+}
+```

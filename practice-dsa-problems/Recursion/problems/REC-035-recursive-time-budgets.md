@@ -80,3 +80,51 @@ Compute the root `value`.
 ```
 12
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long calculateTimeBudgetedValue(int n, long[][] nodes) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def calculateTimeBudgetedValue(self, n: int, nodes: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long calculateTimeBudgetedValue(int n, vector<vector<long long>>& nodes) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[][]} nodes
+   * @returns {number}
+   */
+  calculateTimeBudgetedValue(n, nodes) {
+    // Your code here
+    return 0;
+  }
+}
+```

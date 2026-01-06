@@ -68,3 +68,55 @@ Among all valid pairs, choose the one with the smallest `i`, and if tied, the sm
 ```
 4 5
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int[] findBudgetPair(int n, long t, long d, int[] a) {
+        // Implement here
+        return new int[]{-1};
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def findBudgetPair(self, n: int, t: int, d: int, a: list[int]) -> list[int]:
+        # Implement here
+        return [-1]
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    vector<int> findBudgetPair(int n, long long t, long long d, vector<int>& a) {
+        // Implement here
+        return {-1};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} t
+   * @param {number} d
+   * @param {number[]} a
+   * @return {number[]}
+   */
+  findBudgetPair(n, t, d, a) {
+    // Implement here
+    return [-1];
+  }
+}
+```

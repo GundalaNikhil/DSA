@@ -62,3 +62,55 @@ Output the minimum total deletion cost.
 ```
 3
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long minCostBracketOptimization(String s, int[] weights) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class Solution:
+    def minCostBracketOptimization(self, s: str, weights: List[int]) -> int:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+#include <vector>
+
+class Solution {
+public:
+    long long minCostBracketOptimization(std::string s, std::vector<int>& weights) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  minCostBracketOptimization(s, weights) {
+    // Your code here
+    return 0;
+  }
+}
+```

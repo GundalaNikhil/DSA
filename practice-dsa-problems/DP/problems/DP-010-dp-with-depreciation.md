@@ -67,3 +67,55 @@ You may buy at most one asset per day and hold all purchases. Maximize total val
 ```
 6
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxTotalValue(int n, int b, int d, int[][] assets) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxTotalValue(self, n: int, b: int, d: int, assets: list[list[int]]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxTotalValue(int n, int b, int d, vector<vector<int>>& assets) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} b
+   * @param {number} d
+   * @param {number[][]} assets
+   * @return {number}
+   */
+  maxTotalValue(n, b, d, assets) {
+    // Implement here
+    return 0;
+  }
+}
+```

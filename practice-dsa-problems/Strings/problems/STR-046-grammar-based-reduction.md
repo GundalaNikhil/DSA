@@ -72,3 +72,69 @@ Z
 ```
 3
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long minOperationsForReduction(String s, int m, List<Rule> rules, char t) {
+        // Your code here
+        return -1;
+    }
+
+    public static class Rule {
+        char x, y, z;
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class Rule:
+    def __init__(self, x: str, y: str, z: str):
+        self.x = x
+        self.y = y
+        self.z = z
+
+class Solution:
+    def minOperationsForReduction(self, s: str, m: int, rules: List[Rule], t: str) -> int:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+#include <vector>
+
+struct Rule {
+    char x, y, z;
+};
+
+class Solution {
+public:
+    long long minOperationsForReduction(std::string s, int m, std::vector<Rule>& rules, char t) {
+        // Your code here
+        return -1;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  minOperationsForReduction(s, m, rules, t) {
+    // Your code here
+    return -1;
+  }
+}
+```

@@ -65,3 +65,79 @@ Output the number of links removed and the resulting list from the head.
 1
 5 6 7
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    static class Result {
+        int removed;
+        List<Long> values;
+        Result(int removed, List<Long> values) {
+            this.removed = removed;
+            this.values = values;
+        }
+    }
+
+    public Result normalizeList(int n, int head, long[] values, int[] nextIds) {
+        // Your code here
+        return null;
+    }
+}
+```
+
+```python
+class Result:
+    def __init__(self, removed, values):
+        self.removed = removed
+        self.values = values
+
+class Solution:
+    def normalizeList(self, n: int, head: int, values: list[int], next_ids: list[int]) -> Result:
+        # Your code here
+        return None
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+struct Result {
+    int removed;
+    vector<long long> values;
+};
+
+class Solution {
+public:
+    Result normalizeList(int n, int head, vector<long long>& values, vector<int>& nextIds) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Result {
+  constructor(removed, values) {
+    this.removed = removed;
+    this.values = values;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} head
+   * @param {number[]} values
+   * @param {number[]} nextIds
+   * @returns {Result}
+   */
+  normalizeList(n, head, values, nextIds) {
+    // Your code here
+    return null;
+  }
+}
+```

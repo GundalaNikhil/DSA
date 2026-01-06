@@ -80,3 +80,55 @@ Q 3 5
 9
 9
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long[] offlineMoQueries(int n, int q, int[] a, String[][] operations) {
+        // Implement here
+        return new long[0];
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def offlineMoQueries(self, n: int, q: int, a: list[int], operations: list[list[str]]) -> list[int]:
+        # Implement here
+        return []
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    vector<long long> offlineMoQueries(int n, int q, vector<int>& a, vector<vector<string>>& operations) {
+        // Implement here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} q
+   * @param {number[]} a
+   * @param {string[][]} operations
+   * @return {number[]}
+   */
+  offlineMoQueries(n, q, a, operations) {
+    // Implement here
+    return [];
+  }
+}
+```

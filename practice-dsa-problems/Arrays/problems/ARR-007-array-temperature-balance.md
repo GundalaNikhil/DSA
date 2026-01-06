@@ -66,3 +66,53 @@ If no such index exists, output `-1`.
 ```
 3
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int pivotIndex(int n, int[] a) {
+        // Implement here
+        return -1;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def pivotIndex(self, n: int, a: list[int]) -> int:
+        # Implement here
+        return -1
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    int pivotIndex(int n, vector<int>& a) {
+        // Implement here
+        return -1;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} a
+   * @return {number}
+   */
+  pivotIndex(n, a) {
+    // Implement here
+    return -1;
+  }
+}
+```

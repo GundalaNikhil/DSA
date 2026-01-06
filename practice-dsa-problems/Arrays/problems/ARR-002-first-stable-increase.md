@@ -66,3 +66,53 @@ This represents three consecutive day-to-day increases. If no such index exists,
 ```
 4
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int firstStableIncrease(int n, int[] a) {
+        // Implement here
+        return -1;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def firstStableIncrease(self, n: int, a: list[int]) -> int:
+        # Implement here
+        return -1
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    int firstStableIncrease(int n, vector<int>& a) {
+        // Implement here
+        return -1;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} a
+   * @return {number}
+   */
+  firstStableIncrease(n, a) {
+    // Implement here
+    return -1;
+  }
+}
+```

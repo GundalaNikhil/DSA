@@ -69,3 +69,58 @@ The cost of the sequence is `sum cost_i[x_i]`. Find the minimum total cost.
 ```
 4
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long minTotalCost(int n, int k, int m, int l, int r, int d, int[][] costTable) {
+        // Implement here
+        return -1;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def minTotalCost(self, n: int, k: int, m: int, l: int, r: int, d: int, costTable: list[list[int]]) -> int:
+        # Implement here
+        return -1
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long minTotalCost(int n, int k, int m, int l, int r, int d, vector<vector<int>>& costTable) {
+        // Implement here
+        return -1;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} k
+   * @param {number} m
+   * @param {number} l
+   * @param {number} r
+   * @param {number} d
+   * @param {number[][]} costTable
+   * @return {number}
+   */
+  minTotalCost(n, k, m, l, r, d, costTable) {
+    // Implement here
+    return -1;
+  }
+}
+```

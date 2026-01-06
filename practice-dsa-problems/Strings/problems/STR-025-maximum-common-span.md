@@ -58,3 +58,52 @@ xbcdy
 ```
 bcd
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String findLongestCommonContiguousSubstring(String s1, String s2) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def findLongestCommonContiguousSubstring(self, s1: str, s2: str) -> str:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    std::string findLongestCommonContiguousSubstring(std::string s1, std::string s2) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  findLongestCommonContiguousSubstring(s1, s2) {
+    // Your code here
+    return "";
+  }
+}
+```

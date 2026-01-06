@@ -67,3 +67,52 @@ Calculate: `n! / k! (mod P)` for each query.
 3628800
 1
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Long> solve(int P, int q, int[][] queries) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def solve(self, P: int, q: int, queries: list[list[int]]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> solve(int P, int q, vector<vector<int>>& queries) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} P
+   * @param {number} q
+   * @param {number[][]} queries
+   * @returns {number[]}
+   */
+  solve(P, q, queries) {
+    // Your code here
+    return [];
+  }
+}
+```

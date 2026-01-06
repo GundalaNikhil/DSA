@@ -72,3 +72,53 @@ Compute the maximum stage that the root can pass.
 ```
 2
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int maxStagePassed(int n, int S, long[] T, long[][] nodes) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def maxStagePassed(self, n: int, S: int, T: list[int], nodes: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxStagePassed(int n, int S, vector<long long>& T, vector<vector<long long>>& nodes) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} S
+   * @param {number[]} T
+   * @param {number[][]} nodes
+   * @returns {number}
+   */
+  maxStagePassed(n, S, T, nodes) {
+    // Your code here
+    return 0;
+  }
+}
+```

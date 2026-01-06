@@ -65,3 +65,52 @@ Determine if the invariant holds for all nodes.
 ```
 YES
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String validateInvariant(int n, long[][] nodes) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+```python
+class Solution:
+    def validateInvariant(self, n: int, nodes: list[list[int]]) -> str:
+        # Your code here
+        return ""
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string validateInvariant(int n, vector<vector<long long>>& nodes) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[][]} nodes
+   * @returns {string}
+   */
+  validateInvariant(n, nodes) {
+    // Your code here
+    return "";
+  }
+}
+```

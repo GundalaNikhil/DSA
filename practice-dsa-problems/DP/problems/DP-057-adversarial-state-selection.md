@@ -65,3 +65,55 @@ Compute the maximum reward you can guarantee after `n` steps starting from state
 ```
 2
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxGuaranteedReward(int n, int s, int a, int[][][] actionOutcomes) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxGuaranteedReward(self, n: int, s: int, a: int, actionOutcomes: list[list[list[int]]]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxGuaranteedReward(int n, int s, int a, vector<vector<vector<int>>>& actionOutcomes) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} s
+   * @param {number} a
+   * @param {number[][][]} actionOutcomes
+   * @return {number}
+   */
+  maxGuaranteedReward(n, s, a, actionOutcomes) {
+    // Implement here
+    return 0;
+  }
+}
+```

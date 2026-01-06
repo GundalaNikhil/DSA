@@ -61,3 +61,52 @@ aaaab
 ```
 FIRST
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String getGameWinner(String s, int l, int r) {
+        // Your code here
+        return "SECOND";
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def getGameWinner(self, s: str, l: int, r: int) -> str:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    std::string getGameWinner(std::string s, int l, int r) {
+        // Your code here
+        return "SECOND";
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  getGameWinner(s, l, r) {
+    // Your code here
+    return "SECOND";
+  }
+}
+```

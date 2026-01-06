@@ -70,3 +70,54 @@ MUTATE 2 3 5
 ```
 2
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int fittestList(int p, int n, int[][] population, String[] operations) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def fittestList(self, p: int, n: int, population: list[list[int]], operations: list[str]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int fittestList(int p, int n, vector<vector<int>>& population, vector<string>& operations) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} p
+   * @param {number} n
+   * @param {number[][]} population
+   * @param {string[]} operations
+   * @returns {number}
+   */
+  fittestList(p, n, population, operations) {
+    // Your code here
+    return 0;
+  }
+}
+```

@@ -81,3 +81,56 @@ SWAPCOL 1 2
 ```
 0
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int verifyReplay(int n, int m, int q, int[][] initial, int[][] target, List<String> operations) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def verifyReplay(self, n: int, m: int, q: int, initial: list[list[int]], target: list[list[int]], operations: list[str]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int verifyReplay(int n, int m, int q, vector<vector<int>>& initial, vector<vector<int>>& target, vector<string>& operations) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} q
+   * @param {number[][]} initial
+   * @param {number[][]} target
+   * @param {string[]} operations
+   * @returns {number}
+   */
+  verifyReplay(n, m, q, initial, target, operations) {
+    // Your code here
+    return 0;
+  }
+}
+```

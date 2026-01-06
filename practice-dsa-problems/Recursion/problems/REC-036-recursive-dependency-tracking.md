@@ -71,3 +71,55 @@ Compute `Solve(S)` or report `CYCLE`.
 ```
 11
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String solveRecursionWithCycles(int n, int m, int S, long[] base, int[][] edges) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+```python
+class Solution:
+    def solveRecursionWithCycles(self, n: int, m: int, S: int, base: list[int], edges: list[list[int]]) -> str:
+        # Your code here
+        return ""
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string solveRecursionWithCycles(int n, int m, int S, vector<long long>& base, vector<vector<int>>& edges) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} S
+   * @param {number[]} base
+   * @param {number[][]} edges
+   * @returns {string}
+   */
+  solveRecursionWithCycles(n, m, S, base, edges) {
+    // Your code here
+    return "";
+  }
+}
+```

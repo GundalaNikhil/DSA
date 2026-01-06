@@ -72,3 +72,54 @@ Output all `P_i` modulo `1,000,000,007`.
 ```
 15 6 10
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long[] productExceptSelfWithTax(int n, long t, int[] a) {
+        // Implement here
+        return new long[0];
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def productExceptSelfWithTax(self, n: int, t: int, a: list[int]) -> list[int]:
+        # Implement here
+        return []
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    vector<long long> productExceptSelfWithTax(int n, long long t, vector<int>& a) {
+        // Implement here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} t
+   * @param {number[]} a
+   * @return {number[]}
+   */
+  productExceptSelfWithTax(n, t, a) {
+    // Implement here
+    return [];
+  }
+}
+```

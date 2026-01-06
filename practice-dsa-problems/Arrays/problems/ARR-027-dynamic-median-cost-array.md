@@ -67,3 +67,54 @@ The median is the lower middle element when the window is sorted (for even `W`).
 ```
 2 4 4
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long[] dynamicMedianCost(int n, int w, int[] a) {
+        // Implement here
+        return new long[0];
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def dynamicMedianCost(self, n: int, w: int, a: list[int]) -> list[int]:
+        # Implement here
+        return []
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    vector<long long> dynamicMedianCost(int n, int w, vector<int>& a) {
+        // Implement here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} w
+   * @param {number[]} a
+   * @return {number[]}
+   */
+  dynamicMedianCost(n, w, a) {
+    // Implement here
+    return [];
+  }
+}
+```

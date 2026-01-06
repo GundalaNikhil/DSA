@@ -67,3 +67,52 @@ Output each process's completion time.
 2 4
 3 6
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<long[]> calculateCompletionTimes(int n, int Q, int[][] processes) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def calculateCompletionTimes(self, n: int, Q: int, processes: list[list[int]]) -> list[list[int]]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<pair<int, long long>> calculateCompletionTimes(int n, int Q, vector<vector<int>>& processes) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} Q
+   * @param {number[][]} processes
+   * @returns {number[][]}
+   */
+  calculateCompletionTimes(n, Q, processes) {
+    // Your code here
+    return [];
+  }
+}
+```

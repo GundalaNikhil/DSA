@@ -74,3 +74,70 @@ If the graph is not connected, output `-1`.
 ```
 10
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long minSpanningTreeCostWithPenalties(int n, int m, List<Edge> edges) {
+        // Your code here
+        return -1;
+    }
+
+    public static class Edge {
+        int u, v, w, p;
+        public Edge(int u, int v, int w, int p) { this.u = u; this.v = v; this.w = w; this.p = p; }
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class Edge:
+    def __init__(self, u: int, v: int, w: int, p: int):
+        self.u = u
+        self.v = v
+        self.w = w
+        self.p = p
+
+class Solution:
+    def minSpanningTreeCostWithPenalties(self, n: int, m: int, edges: List[Edge]) -> int:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <vector>
+
+struct Edge {
+    int u, v, w, p;
+};
+
+class Solution {
+public:
+    long long minSpanningTreeCostWithPenalties(int n, int m, std::vector<Edge>& edges) {
+        // Your code here
+        return -1;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  minSpanningTreeCostWithPenalties(n, m, edges) {
+    // Your code here
+    return -1;
+  }
+}
+```

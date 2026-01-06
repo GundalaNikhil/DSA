@@ -63,3 +63,55 @@ function789
 ```
 function
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String findLongestCommonPrefix(int n, String[] strings) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class Solution:
+    def findLongestCommonPrefix(self, n: int, strings: List[str]) -> str:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+#include <vector>
+
+class Solution {
+public:
+    std::string findLongestCommonPrefix(int n, std::vector<std::string>& strings) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  findLongestCommonPrefix(n, strings) {
+    // Your code here
+    return "";
+  }
+}
+```

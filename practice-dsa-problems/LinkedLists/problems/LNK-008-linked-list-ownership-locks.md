@@ -79,3 +79,80 @@ INS 5 9
 1
 1 2 3 4 5 9
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    static class Result {
+        int invalidCount;
+        List<Integer> finalValues;
+        Result(int invalidCount, List<Integer> finalValues) {
+            this.invalidCount = invalidCount;
+            this.finalValues = finalValues;
+        }
+    }
+
+    public Result processOwnershipLocks(int n, int[] values, int[] lockedIndices, String[] operations) {
+        // Your code here
+        return null;
+    }
+}
+```
+
+```python
+class Result:
+    def __init__(self, invalid_count, final_values):
+        self.invalid_count = invalid_count
+        self.final_values = final_values
+
+class Solution:
+    def processOwnershipLocks(self, n: int, values: list[int], locked_indices: list[int], operations: list[str]) -> Result:
+        # Your code here
+        return None
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+struct Result {
+    int invalidCount;
+    vector<int> finalValues;
+};
+
+class Solution {
+public:
+    Result processOwnershipLocks(int n, vector<int>& values, vector<int>& lockedIndices, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Result {
+  constructor(invalidCount, finalValues) {
+    this.invalidCount = invalidCount;
+    this.finalValues = finalValues;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} values
+   * @param {number[]} lockedIndices
+   * @param {string[]} operations
+   * @returns {Result}
+   */
+  processOwnershipLocks(n, values, lockedIndices, operations) {
+    // Your code here
+    return null;
+  }
+}
+```

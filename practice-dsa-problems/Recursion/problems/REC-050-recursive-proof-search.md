@@ -64,3 +64,53 @@ Given a start symbol `S`, compute the minimum number of rule applications needed
 ```
 3
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String minRuleApplications(int R, int S, int[][] rules) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+```python
+class Solution:
+    def minRuleApplications(self, R: int, S: int, rules: list[list[int]]) -> str:
+        # Your code here
+        return ""
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string minRuleApplications(int R, int S, vector<vector<int>>& rules) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} R
+   * @param {number} S
+   * @param {number[][]} rules
+   * @returns {string}
+   */
+  minRuleApplications(R, S, rules) {
+    // Your code here
+    return "";
+  }
+}
+```

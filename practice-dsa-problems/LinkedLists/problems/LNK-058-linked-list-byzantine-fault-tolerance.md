@@ -63,3 +63,54 @@ Output the reconstructed list with corrupted positions as `*`.
 ```
 1 2 *
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<String> reconstructBFTList(int n, int R, int B, int[][] replicas) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def reconstructBFTList(self, n: int, R: int, B: int, replicas: list[list[int]]) -> list[str]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> reconstructBFTList(int n, int R, int B, vector<vector<int>>& replicas) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} R
+   * @param {number} B
+   * @param {number[][]} replicas
+   * @returns {string[]}
+   */
+  reconstructBFTList(n, R, B, replicas) {
+    // Your code here
+    return [];
+  }
+}
+```

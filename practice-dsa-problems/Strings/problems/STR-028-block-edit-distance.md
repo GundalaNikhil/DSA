@@ -67,3 +67,52 @@ azef
 ```
 1
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int minOperationsBlockEditDistance(String a, String b, int l) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def minOperationsBlockEditDistance(self, a: str, b: str, l: int) -> int:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    int minOperationsBlockEditDistance(std::string a, std::string b, int l) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  minOperationsBlockEditDistance(a, b, l) {
+    // Your code here
+    return 0;
+  }
+}
+```

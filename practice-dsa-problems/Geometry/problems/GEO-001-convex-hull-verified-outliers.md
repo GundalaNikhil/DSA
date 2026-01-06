@@ -85,3 +85,110 @@ You must report:
 1
 5 50 50
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    static class Point {
+        long x, y;
+        int index;
+        Point(long x, long y, int index) {
+            this.x = x;
+            this.y = y;
+            this.index = index;
+        }
+    }
+
+    static class Result {
+        List<Point> hull;
+        List<Point> outliers;
+        Result(List<Point> hull, List<Point> outliers) {
+            this.hull = hull;
+            this.outliers = outliers;
+        }
+    }
+
+    public Result getHullAndOutliers(int n, long[][] points) {
+        // Your code here
+        return null;
+    }
+}
+```
+
+```python
+import math
+
+class Point:
+    def __init__(self, x, y, index):
+        self.x = x
+        self.y = y
+        self.index = index
+
+class Result:
+    def __init__(self, hull, outliers):
+        self.hull = hull
+        self.outliers = outliers
+
+class Solution:
+    def getHullAndOutliers(self, n: int, points: list[list[int]]) -> Result:
+        # Your code here
+        pass
+```
+
+```cpp
+#include <vector>
+#include <cmath>
+#include <algorithm>
+
+using namespace std;
+
+struct Point {
+    long long x, y;
+    int index;
+};
+
+struct Result {
+    vector<Point> hull;
+    vector<Point> outliers;
+};
+
+class Solution {
+public:
+    Result getHullAndOutliers(int n, vector<vector<long long>>& points) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Point {
+  constructor(x, y, index) {
+    this.x = x;
+    this.y = y;
+    this.index = index;
+  }
+}
+
+class Result {
+  constructor(hull, outliers) {
+    this.hull = hull;
+    this.outliers = outliers;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[][]} points
+   * @returns {Result}
+   */
+  getHullAndOutliers(n, points) {
+    // Your code here
+    return null;
+  }
+}
+```

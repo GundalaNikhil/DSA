@@ -65,3 +65,54 @@ Compute the total sum returned by this traversal.
 ```
 7
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long calculateTraversalSum(int n, int m, int S, int[] values, int[][] edges) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def calculateTraversalSum(self, n: int, m: int, S: int, values: list[int], edges: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long calculateTraversalSum(int n, int m, int S, vector<int>& values, vector<vector<int>>& edges) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} S
+   * @param {number[]} values
+   * @param {number[][]} edges
+   * @returns {number}
+   */
+  calculateTraversalSum(n, m, S, values, edges) {
+    // Your code here
+    return 0;
+  }
+}
+```

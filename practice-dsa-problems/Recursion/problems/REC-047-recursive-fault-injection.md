@@ -69,3 +69,53 @@ Compute the final value of the root.
 ```
 7
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long calculateFaultTolerantValue(int n, int F, int[] faultNodes, long[][] nodes) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def calculateFaultTolerantValue(self, n: int, F: int, fault_nodes: list[int], nodes: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long calculateFaultTolerantValue(int n, int F, vector<int>& faultNodes, vector<vector<long long>>& nodes) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} F
+   * @param {number[]} faultNodes
+   * @param {number[][]} nodes
+   * @returns {number}
+   */
+  calculateFaultTolerantValue(n, F, faultNodes, nodes) {
+    // Your code here
+    return 0;
+  }
+}
+```

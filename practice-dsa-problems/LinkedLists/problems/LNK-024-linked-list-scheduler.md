@@ -68,3 +68,81 @@ Process queries to count active tasks in a sublist.
 3
 1
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    static class Task {
+        int value;
+        long start, duration;
+        Task(int value, long start, long duration) {
+            this.value = value;
+            this.start = start;
+            this.duration = duration;
+        }
+    }
+
+    public List<Integer> countActiveTasks(int n, Task[] tasks, int[][] queries) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Task:
+    def __init__(self, value, start, duration):
+        self.value = value
+        self.start = start
+        self.duration = duration
+
+class Solution:
+    def countActiveTasks(self, n: int, tasks: list[Task], queries: list[list[int]]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+struct Task {
+    int value;
+    long long start, duration;
+};
+
+class Solution {
+public:
+    vector<int> countActiveTasks(int n, vector<Task>& tasks, vector<vector<long long>>& queries) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Task {
+  constructor(value, start, duration) {
+    this.value = value;
+    this.start = start;
+    this.duration = duration;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {Task[]} tasks
+   * @param {number[][]} queries
+   * @returns {number[]}
+   */
+  countActiveTasks(n, tasks, queries) {
+    // Your code here
+    return [];
+  }
+}
+```

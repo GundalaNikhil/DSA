@@ -70,3 +70,58 @@ Compute the maximum expected reward over `n` steps.
 ```
 5000
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxExpectedRewardScaled(int n, int s, int a, int o, int[] initialProbs, int[][][] actions, int[][] transitions) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxExpectedRewardScaled(self, n: int, s: int, a: int, o: int, initialProbs: list[int], actions: list[list[list[int]]], transitions: list[list[int]]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxExpectedRewardScaled(int n, int s, int a, int o, vector<int>& initialProbs, vector<vector<vector<int>>>& actions, vector<vector<int>>& transitions) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} s
+   * @param {number} a
+   * @param {number} o
+   * @param {number[]} initialProbs
+   * @param {number[][][]} actions
+   * @param {number[][]} transitions
+   * @return {number}
+   */
+  maxExpectedRewardScaled(n, s, a, o, initialProbs, actions, transitions) {
+    // Implement here
+    return 0;
+  }
+}
+```

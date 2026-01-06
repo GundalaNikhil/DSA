@@ -74,3 +74,69 @@ Compute how many objects are marked by the recursive phase and how many by the i
 ```
 2 3
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public static class MarkResult {
+        public long recursiveMarked;
+        public long iterativeMarked;
+        public MarkResult(long recursiveMarked, long iterativeMarked) {
+            this.recursiveMarked = recursiveMarked;
+            this.iterativeMarked = iterativeMarked;
+        }
+    }
+
+    public MarkResult countMarkedObjects(int n, int m, int r, int L, int[] roots, int[][] edges) {
+        // Your code here
+        return null;
+    }
+}
+```
+
+```python
+class Solution:
+    def countMarkedObjects(self, n: int, m: int, r: int, L: int, roots: list[int], edges: list[list[int]]) -> tuple[int, int]:
+        # Your code here
+        return 0, 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+struct MarkResult {
+    long long recursiveMarked;
+    long long iterativeMarked;
+};
+
+class Solution {
+public:
+    MarkResult countMarkedObjects(int n, int m, int r, int L, vector<int>& roots, vector<vector<int>>& edges) {
+        // Your code here
+        return {0, 0};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} r
+   * @param {number} L
+   * @param {number[]} roots
+   * @param {number[][]} edges
+   * @returns {{recursiveMarked: number, iterativeMarked: number}}
+   */
+  countMarkedObjects(n, m, r, L, roots, edges) {
+    // Your code here
+    return { recursiveMarked: 0, iterativeMarked: 0 };
+  }
+}
+```

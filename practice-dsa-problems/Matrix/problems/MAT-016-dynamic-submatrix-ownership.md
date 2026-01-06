@@ -75,3 +75,79 @@ For each claim, report how many cells become owned by this claim after resolutio
 1 2
 1 2
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public static class ClaimResult {
+        public List<Integer> newlyOwnedCounts;
+        public int[][] finalGrid;
+        public ClaimResult(List<Integer> newlyOwnedCounts, int[][] finalGrid) {
+            this.newlyOwnedCounts = newlyOwnedCounts;
+            this.finalGrid = finalGrid;
+        }
+    }
+
+    public ClaimResult processClaims(int n, int m, int q, int[][] claims) {
+        // Your code here
+        return null;
+    }
+}
+```
+
+```python
+class ClaimResult:
+    def __init__(self, newly_owned_counts: list[int], final_grid: list[list[int]]):
+        self.newly_owned_counts = newly_owned_counts
+        self.final_grid = final_grid
+
+class Solution:
+    def processClaims(self, n: int, m: int, q: int, claims: list[list[int]]) -> ClaimResult:
+        # Your code here
+        return None
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+struct ClaimResult {
+    vector<int> newlyOwnedCounts;
+    vector<vector<int>> finalGrid;
+};
+
+class Solution {
+public:
+    ClaimResult processClaims(int n, int m, int q, vector<vector<int>>& claims) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class ClaimResult {
+  constructor(newlyOwnedCounts, finalGrid) {
+    this.newlyOwnedCounts = newlyOwnedCounts;
+    this.finalGrid = finalGrid;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} q
+   * @param {number[][]} claims
+   * @returns {ClaimResult}
+   */
+  processClaims(n, m, q, claims) {
+    // Your code here
+    return null;
+  }
+}
+```

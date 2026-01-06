@@ -67,3 +67,54 @@ a_i > a_{i-1} and a_i > a_{i+1}
 ```
 5
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int longestSubarrayWithKPeaks(int n, int k, int[] a) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def longestSubarrayWithKPeaks(self, n: int, k: int, a: list[int]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    int longestSubarrayWithKPeaks(int n, int k, vector<int>& a) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} k
+   * @param {number[]} a
+   * @return {number}
+   */
+  longestSubarrayWithKPeaks(n, k, a) {
+    // Implement here
+    return 0;
+  }
+}
+```

@@ -69,3 +69,57 @@ Find the maximum total reward.
 ```
 9
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxReward(int n, int r, int l, int[] renewalCosts, int t, int[][] taskTypes) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxReward(self, n: int, r: int, l: int, renewalCosts: list[int], t: int, taskTypes: list[list[int]]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxReward(int n, int r, int l, vector<int>& renewalCosts, int t, vector<vector<int>>& taskTypes) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} r
+   * @param {number} l
+   * @param {number[]} renewalCosts
+   * @param {number} t
+   * @param {number[][]} taskTypes
+   * @return {number}
+   */
+  maxReward(n, r, l, renewalCosts, t, taskTypes) {
+    // Implement here
+    return 0;
+  }
+}
+```

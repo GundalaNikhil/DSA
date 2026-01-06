@@ -59,3 +59,53 @@ Given an array `a1..an`, find the length of the longest prefix that contains no 
 ```
 3
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int longestDistinctPrefix(int n, int[] a) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def longestDistinctPrefix(self, n: int, a: list[int]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    int longestDistinctPrefix(int n, vector<int>& a) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} a
+   * @return {number}
+   */
+  longestDistinctPrefix(n, a) {
+    // Implement here
+    return 0;
+  }
+}
+```

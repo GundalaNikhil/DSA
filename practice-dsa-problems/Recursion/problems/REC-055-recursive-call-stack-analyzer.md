@@ -66,3 +66,55 @@ Starting from entry function `S`, compute the maximum stack usage possible along
 ```
 12
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long maxStackUsage(int n, int m, int S, long[] frameSizes, List<Object[]> calls) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def maxStackUsage(self, n: int, m: int, S: int, frame_sizes: list[int], calls: list[list[str]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    long long maxStackUsage(int n, int m, int S, vector<long long>& frameSizes, vector<pair<int, pair<int, char>>>& calls) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} S
+   * @param {number[]} frameSizes
+   * @param {Array<[number, number, string]>} calls
+   * @returns {number}
+   */
+  maxStackUsage(n, m, S, frameSizes, calls) {
+    // Your code here
+    return 0;
+  }
+}
+```

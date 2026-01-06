@@ -73,3 +73,55 @@ ate
 tan nat
 bat
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<String> clusterWordFamilies(int n, int k, String[] words) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class Solution:
+    def clusterWordFamilies(self, n: int, k: int, words: List[str]) -> List[str]:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+#include <vector>
+
+class Solution {
+public:
+    std::vector<std::string> clusterWordFamilies(int n, int k, std::vector<std::string>& words) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  clusterWordFamilies(n, k, words) {
+    // Your code here
+    return [];
+  }
+}
+```

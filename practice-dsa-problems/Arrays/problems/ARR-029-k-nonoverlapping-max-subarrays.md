@@ -61,3 +61,54 @@ Given an array `a1..an` and an integer `K`, choose exactly `K` non-overlapping, 
 ```
 8
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long kMaxNonOverlappingSubarrays(int n, int k, int[] a) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def kMaxNonOverlappingSubarrays(self, n: int, k: int, a: list[int]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long kMaxNonOverlappingSubarrays(int n, int k, vector<int>& a) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} k
+   * @param {number[]} a
+   * @return {number}
+   */
+  kMaxNonOverlappingSubarrays(n, k, a) {
+    // Implement here
+    return 0;
+  }
+}
+```

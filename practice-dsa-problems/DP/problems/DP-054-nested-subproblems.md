@@ -59,3 +59,54 @@ You must split an array into `k` segments. The score of a segment is the maximum
 ```
 5
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxTotalScore(int n, int k, int[] values) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxTotalScore(self, n: int, k: int, values: list[int]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxTotalScore(int n, int k, vector<int>& values) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} k
+   * @param {number[]} values
+   * @return {number}
+   */
+  maxTotalScore(n, k, values) {
+    // Implement here
+    return 0;
+  }
+}
+```

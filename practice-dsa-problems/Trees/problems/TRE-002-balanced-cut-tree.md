@@ -77,3 +77,54 @@ Among all valid splits, minimize the weight of the removed edge.
 ```
 7
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long minCutEdgeWeight(int n, int threshold, int[][] edges, int[] x, int[] y) {
+        // Your code here
+        return -1;
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class Solution:
+    def minCutEdgeWeight(self, n: int, threshold: int, edges: List[List[int]], x: List[int], y: List[int]) -> int:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <vector>
+
+class Solution {
+public:
+    long long minCutEdgeWeight(int n, int threshold, std::vector<std::vector<int>>& edges, std::vector<int>& x, std::vector<int>& y) {
+        // Your code here
+        return -1;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  minCutEdgeWeight(n, threshold, edges, x, y) {
+    // Your code here
+    return -1;
+  }
+}
+```

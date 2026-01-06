@@ -70,3 +70,51 @@ If no such `t` exists within the bound `t <= 10^7`, output `-1`.
 8
 -1
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> findEarliestDay(int q, long[] N_values) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def findEarliestDay(self, q: int, n_values: list[int]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> findEarliestDay(int q, vector<long long>& n_values) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} q
+   * @param {number[]} n_values
+   * @returns {number[]}
+   */
+  findEarliestDay(q, n_values) {
+    // Your code here
+    return [];
+  }
+}
+```

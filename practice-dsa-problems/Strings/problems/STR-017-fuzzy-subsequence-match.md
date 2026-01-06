@@ -65,3 +65,52 @@ ace
 ```
 true
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public boolean isFuzzySubsequence(String t, String p, int x) {
+        // Your code here
+        return false;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def isFuzzySubsequence(self, t: str, p: str, x: int) -> bool:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    bool isFuzzySubsequence(std::string t, std::string p, int x) {
+        // Your code here
+        return false;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  isFuzzySubsequence(t, p, x) {
+    // Your code here
+    return false;
+  }
+}
+```

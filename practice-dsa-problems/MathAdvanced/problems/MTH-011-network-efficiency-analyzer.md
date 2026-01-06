@@ -65,3 +65,51 @@ F(N) = Σ (i=1 to N) φ(i)
 10
 32
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Long> sumEulerTotient(int q, long[] N_values) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def sumEulerTotient(self, q: int, n_values: list[int]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> sumEulerTotient(int q, vector<long long>& n_values) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} q
+   * @param {number[]} n_values
+   * @returns {number[]}
+   */
+  sumEulerTotient(q, n_values) {
+    // Your code here
+    return [];
+  }
+}
+```

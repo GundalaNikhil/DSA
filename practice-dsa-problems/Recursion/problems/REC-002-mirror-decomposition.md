@@ -62,3 +62,52 @@ Root is node `1`.
 ```
 YES
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String isMirrorSymmetric(int n, int[][] nodes) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+```python
+class Solution:
+    def isMirrorSymmetric(self, n: int, nodes: list[list[int]]) -> str:
+        # Your code here
+        return ""
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string isMirrorSymmetric(int n, vector<vector<int>>& nodes) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[][]} nodes
+   * @returns {string}
+   */
+  isMirrorSymmetric(n, nodes) {
+    // Your code here
+    return "";
+  }
+}
+```

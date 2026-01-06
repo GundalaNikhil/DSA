@@ -68,3 +68,80 @@ B 1
 A 5
 B 1
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    static class NodeInfo {
+        String label;
+        long size;
+        NodeInfo(String label, long size) {
+            this.label = label;
+            this.size = size;
+        }
+    }
+
+    public List<NodeInfo> compactList(int n, long S, String[] labels, long[] sizes) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class NodeInfo:
+    def __init__(self, label, size):
+        self.label = label
+        self.size = size
+
+class Solution:
+    def compactList(self, n: int, S: int, labels: list[str], sizes: list[int]) -> list[NodeInfo]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+struct NodeInfo {
+    string label;
+    long long size;
+};
+
+class Solution {
+public:
+    vector<NodeInfo> compactList(int n, long long S, vector<string>& labels, vector<long long>& sizes) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class NodeInfo {
+  constructor(label, size) {
+    this.label = label;
+    this.size = size;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} S
+   * @param {string[]} labels
+   * @param {number[]} sizes
+   * @returns {NodeInfo[]}
+   */
+  compactList(n, S, labels, sizes) {
+    // Your code here
+    return [];
+  }
+}
+```

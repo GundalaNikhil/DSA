@@ -39,7 +39,7 @@ For each query `k`, output the confidence score multiplied by 1000.
 
 ## Output Format
 
-- For each query, output the expected count * 1000
+- For each query, output the expected count \* 1000
 
 ## Constraints
 
@@ -65,4 +65,53 @@ For each query `k`, output the confidence score multiplied by 1000.
 ```
 500
 1500
+```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Long> confidenceScores(int n, int[] probabilities, int[] queries) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def confidenceScores(self, n: int, probabilities: list[int], queries: list[int]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> confidenceScores(int n, vector<int>& probabilities, vector<int>& queries) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} probabilities
+   * @param {number[]} queries
+   * @returns {number[]}
+   */
+  confidenceScores(n, probabilities, queries) {
+    // Your code here
+    return [];
+  }
+}
 ```

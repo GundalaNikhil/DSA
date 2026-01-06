@@ -72,3 +72,61 @@ Your task is to compute the minimum total fuel cost to reach `t`. If it is impos
 ```
 21
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long minFuelCost(int n, int m, int s, int t, int K, int C, int[] nodeCosts, int[][] flights) {
+        // Your code here
+        return -1;
+    }
+}
+```
+
+```python
+import heapq
+
+class Solution:
+    def minFuelCost(self, n: int, m: int, s: int, t: int, K: int, C: int, nodeCosts: list[int], flights: list[list[int]]) -> int:
+        # Your code here
+        return -1
+```
+
+```cpp
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minFuelCost(int n, int m, int s, int t, int K, int C, vector<int>& nodeCosts, vector<vector<int>>& flights) {
+        // Your code here
+        return -1;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} s
+   * @param {number} t
+   * @param {number} K
+   * @param {number} C
+   * @param {number[]} nodeCosts
+   * @param {number[][]} flights
+   * @returns {number}
+   */
+  minFuelCost(n, m, s, t, K, C, nodeCosts, flights) {
+    // Your code here
+    return -1;
+  }
+}
+```

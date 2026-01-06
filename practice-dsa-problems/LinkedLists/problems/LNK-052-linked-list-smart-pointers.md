@@ -78,3 +78,54 @@ INC 3
 1
 3
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> getAliveNodes(int n, int[] strongCounts, int[][] links, String[] operations) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def getAliveNodes(self, n: int, strong_counts: list[int], links: list[list[int]], operations: list[str]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> getAliveNodes(int n, vector<int>& strongCounts, vector<vector<int>>& links, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} strongCounts
+   * @param {number[][]} links
+   * @param {string[]} operations
+   * @returns {number[]}
+   */
+  getAliveNodes(n, strongCounts, links, operations) {
+    // Your code here
+    return [];
+  }
+}
+```

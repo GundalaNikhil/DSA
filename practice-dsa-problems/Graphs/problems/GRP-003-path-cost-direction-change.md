@@ -80,3 +80,60 @@ You start at node `S`, initially facing direction `D₀`, and must reach node `T
 ```
 35
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long minPathCost(int n, int m, int penalty, int S, int T, int D0, int[][] edges) {
+        // Your code here
+        return -1;
+    }
+}
+```
+
+```python
+import heapq
+
+class Solution:
+    def minPathCost(self, n: int, m: int, penalty: int, S: int, T: int, D0: int, edges: list[list[int]]) -> int:
+        # Your code here
+        return -1
+```
+
+```cpp
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minPathCost(int n, int m, int penalty, int S, int T, int D0, vector<vector<int>>& edges) {
+        // Your code here
+        return -1;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} penalty
+   * @param {number} S
+   * @param {number} T
+   * @param {number} D0
+   * @param {number[][]} edges
+   * @returns {number}
+   */
+  minPathCost(n, m, penalty, S, T, D0, edges) {
+    // Your code here
+    return -1;
+  }
+}
+```

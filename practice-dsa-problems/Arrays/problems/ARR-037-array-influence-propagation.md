@@ -67,3 +67,54 @@ Compute and output the final array `b`.
 ```
 3 6 9 12 9
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long[] propagateInfluence(int n, int d, int[] a) {
+        // Implement here
+        return new long[0];
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def propagateInfluence(self, n: int, d: int, a: list[int]) -> list[int]:
+        # Implement here
+        return []
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    vector<long long> propagateInfluence(int n, int d, vector<int>& a) {
+        // Implement here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} d
+   * @param {number[]} a
+   * @return {number[]}
+   */
+  propagateInfluence(n, d, a) {
+    // Implement here
+    return [];
+  }
+}
+```

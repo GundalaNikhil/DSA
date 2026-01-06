@@ -70,3 +70,52 @@ Compute the value returned at the root.
 ```
 10
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long evaluateAdaptiveDepth(int n, int L, long[][] nodes) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def evaluateAdaptiveDepth(self, n: int, L: int, nodes: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long evaluateAdaptiveDepth(int n, int L, vector<vector<long long>>& nodes) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} L
+   * @param {number[][]} nodes
+   * @returns {number}
+   */
+  evaluateAdaptiveDepth(n, L, nodes) {
+    // Your code here
+    return 0;
+  }
+}
+```

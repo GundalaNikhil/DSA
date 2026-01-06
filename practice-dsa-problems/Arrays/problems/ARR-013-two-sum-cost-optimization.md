@@ -68,3 +68,55 @@ If no valid pair exists, output `-1`.
 ```
 1 4
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int[] findOptimalTwoSum(int n, long t, int[] a, int[] c) {
+        // Implement here
+        return new int[]{-1};
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def findOptimalTwoSum(self, n: int, t: int, a: list[int], c: list[int]) -> list[int]:
+        # Implement here
+        return [-1]
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    vector<int> findOptimalTwoSum(int n, long long t, vector<int>& a, vector<int>& c) {
+        // Implement here
+        return {-1};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} t
+   * @param {number[]} a
+   * @param {number[]} c
+   * @return {number[]}
+   */
+  findOptimalTwoSum(n, t, a, c) {
+    // Implement here
+    return [-1];
+  }
+}
+```

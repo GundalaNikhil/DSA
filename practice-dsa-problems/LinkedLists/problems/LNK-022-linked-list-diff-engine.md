@@ -68,3 +68,57 @@ Order must be preserved.
 ```
 1
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long minTransformCost(int n, int m, int[] A, int[] B, int ci, int cd, int cr) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def minTransformCost(self, n: int, m: int, A: list[int], B: list[int], ci: int, cd: int, cr: int) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minTransformCost(int n, int m, vector<int>& A, vector<int>& B, int ci, int cd, int cr) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number[]} A
+   * @param {number[]} B
+   * @param {number} ci
+   * @param {number} cd
+   * @param {number} cr
+   * @returns {number}
+   */
+  minTransformCost(n, m, A, B, ci, cd, cr) {
+    // Your code here
+    return 0;
+  }
+}
+```

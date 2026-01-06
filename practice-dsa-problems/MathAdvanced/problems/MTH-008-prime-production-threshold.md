@@ -61,3 +61,51 @@ If `t` exceeds `10^7`, output `-1`.
 8
 99991
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> findSmallestT(int q, long[] N_values) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def findSmallestT(self, q: int, n_values: list[int]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> findSmallestT(int q, vector<long long>& n_values) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} q
+   * @param {number[]} n_values
+   * @returns {number[]}
+   */
+  findSmallestT(q, n_values) {
+    // Your code here
+    return [];
+  }
+}
+```

@@ -57,3 +57,52 @@ message
 ```
 m
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String findFirstUnique(String s) {
+        // Your code here
+        return "-1";
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def findFirstUnique(self, s: str) -> str:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    std::string findFirstUnique(std::string s) {
+        // Your code here
+        return "-1";
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  findFirstUnique(s) {
+    // Your code here
+    return "-1";
+  }
+}
+```

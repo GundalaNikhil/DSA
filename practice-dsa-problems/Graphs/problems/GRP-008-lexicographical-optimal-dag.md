@@ -75,3 +75,87 @@ Resource for a node is collected once when the node is visited. Since the graph 
 ```
 15 45 2
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    static class Result {
+        long minCost;
+        long maxResource;
+        int pathLength;
+        Result(long minCost, long maxResource, int pathLength) {
+            this.minCost = minCost;
+            this.maxResource = maxResource;
+            this.pathLength = pathLength;
+        }
+    }
+
+    public Result findOptimalPath(int n, int m, int[] resources, int[][] edges, int S, int T) {
+        // Your code here
+        return null;
+    }
+}
+```
+
+```python
+class Result:
+    def __init__(self, min_cost, max_resource, path_length):
+        self.min_cost = min_cost
+        self.max_resource = max_resource
+        self.path_length = path_length
+
+class Solution:
+    def findOptimalPath(self, n: int, m: int, resources: list[int], edges: list[list[int]], S: int, T: int) -> Result:
+        # Your code here
+        return None
+```
+
+```cpp
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+struct Result {
+    long long minCost;
+    long long maxResource;
+    int pathLength;
+};
+
+class Solution {
+public:
+    Result findOptimalPath(int n, int m, vector<int>& resources, vector<vector<int>>& edges, int S, int T) {
+        // Your code here
+        return {-1, 0, 0};
+    }
+};
+```
+
+```javascript
+class Result {
+  constructor(minCost, maxResource, pathLength) {
+    this.minCost = minCost;
+    this.maxResource = maxResource;
+    this.pathLength = pathLength;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number[]} resources
+   * @param {number[][]} edges
+   * @param {number} S
+   * @param {number} T
+   * @returns {Result}
+   */
+  findOptimalPath(n, m, resources, edges, S, T) {
+    // Your code here
+    return null;
+  }
+}
+```

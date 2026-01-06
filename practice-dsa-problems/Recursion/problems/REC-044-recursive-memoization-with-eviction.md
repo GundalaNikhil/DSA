@@ -77,3 +77,70 @@ Count how many times `F(x)` is computed on a cache miss (including base cases). 
 5
 8 13 8
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public static class Result {
+        public long cacheMisses;
+        public long[] queryAnswers;
+        public Result(long cacheMisses, long[] queryAnswers) {
+            this.cacheMisses = cacheMisses;
+            this.queryAnswers = queryAnswers;
+        }
+    }
+
+    public Result evaluateWithLRUCache(int Q, int M, long A0, long A1, int N, long[] C, int[] x) {
+        // Your code here
+        return null;
+    }
+}
+```
+
+```python
+class Solution:
+    def evaluateWithLRUCache(self, Q: int, M: int, A0: int, A1: int, N: int, C: list[int], x: list[int]) -> tuple[int, list[int]]:
+        # Your code here
+        return 0, []
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+struct Result {
+    long long cacheMisses;
+    vector<int> queryAnswers;
+};
+
+class Solution {
+public:
+    Result evaluateWithLRUCache(int Q, int M, long long A0, long long A1, int N, vector<long long>& C, vector<int>& x) {
+        // Your code here
+        return {0, {}};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} Q
+   * @param {number} M
+   * @param {number} A0
+   * @param {number} A1
+   * @param {number} N
+   * @param {number[]} C
+   * @param {number[]} x
+   * @returns {{cacheMisses: number, queryAnswers: number[]}}
+   */
+  evaluateWithLRUCache(Q, M, A0, A1, N, C, x) {
+    // Your code here
+    return { cacheMisses: 0, queryAnswers: [] };
+  }
+}
+```

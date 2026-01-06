@@ -58,3 +58,52 @@ cdeab
 ```
 true
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public boolean isCircularShift(String s1, String s2) {
+        // Your code here
+        return false;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def isCircularShift(self, s1: str, s2: str) -> bool:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    bool isCircularShift(std::string s1, std::string s2) {
+        // Your code here
+        return false;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  isCircularShift(s1, s2) {
+    // Your code here
+    return false;
+  }
+}
+```

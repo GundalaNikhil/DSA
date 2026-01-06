@@ -64,3 +64,40 @@ Find the minimum total cost.
 ```
 5
 ```
+
+## Solution Stub
+
+```java
+public class Solution {
+    public long minStorageCost(int n, int t, int M, int[][] accessCosts) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def minStorageCost(self, n: int, t: int, M: int, accessCosts: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+class Solution {
+public:
+    long long minStorageCost(int n, int t, int M, vector<vector<int>>& accessCosts) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  minStorageCost(n, t, M, accessCosts) {
+    // Your code here
+    return 0;
+  }
+}
+```

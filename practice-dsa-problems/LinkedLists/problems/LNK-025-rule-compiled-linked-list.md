@@ -72,3 +72,53 @@ INSERT_AFTER 2 9
 ```
 2 9 2 9
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> processRuleCompiledList(int n, int[] values, String[] rules) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def processRuleCompiledList(self, n: int, values: list[int], rules: list[str]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> processRuleCompiledList(int n, vector<int>& values, vector<string>& rules) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} values
+   * @param {string[]} rules
+   * @returns {number[]}
+   */
+  processRuleCompiledList(n, values, rules) {
+    // Your code here
+    return [];
+  }
+}
+```

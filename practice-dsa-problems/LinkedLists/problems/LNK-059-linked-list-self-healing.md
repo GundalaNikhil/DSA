@@ -63,3 +63,52 @@ Repair the list by recomputing any node whose checksum does not match, setting i
 ```
 5 5 5
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> repairList(int n, int[] values, int[] checksums) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def repairList(self, n: int, values: list[int], checksums: list[int]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> repairList(int n, vector<int>& values, vector<int>& checksums) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} values
+   * @param {number[]} checksums
+   * @returns {number[]}
+   */
+  repairList(n, values, checksums) {
+    // Your code here
+    return [];
+  }
+}
+```

@@ -77,3 +77,55 @@ GET 2 2
 -1
 6
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> processRedisExpiration(int n, int S, int[] initialValues, int[] initialTTLs, String[] operations) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def processRedisExpiration(self, n: int, S: int, initial_values: list[int], initial_ttls: list[int], operations: list[str]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> processRedisExpiration(int n, int S, vector<int>& initialValues, vector<int>& initialTTLs, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} S
+   * @param {number[]} initialValues
+   * @param {number[]} initialTTLs
+   * @param {string[]} operations
+   * @returns {number[]}
+   */
+  processRedisExpiration(n, S, initialValues, initialTTLs, operations) {
+    // Your code here
+    return [];
+  }
+}
+```

@@ -72,3 +72,79 @@ Compute the final matrix and the number of failed cells.
 15 20 20
 15 25 30
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public static class NegotiationResult {
+        public int failures;
+        public int[][] finalMatrix;
+        public NegotiationResult(int failures, int[][] finalMatrix) {
+            this.failures = failures;
+            this.finalMatrix = finalMatrix;
+        }
+    }
+
+    public NegotiationResult negotiateMatrix(int n, int m, int[] rowProposals, int[][] columnCriteria) {
+        // Your code here
+        return null;
+    }
+}
+```
+
+```python
+class NegotiationResult:
+    def __init__(self, failures: int, final_matrix: list[list[int]]):
+        self.failures = failures
+        self.final_matrix = final_matrix
+
+class Solution:
+    def negotiateMatrix(self, n: int, m: int, row_proposals: list[int], column_criteria: list[list[int]]) -> NegotiationResult:
+        # Your code here
+        return None
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+struct NegotiationResult {
+    int failures;
+    vector<vector<int>> finalMatrix;
+};
+
+class Solution {
+public:
+    NegotiationResult negotiateMatrix(int n, int m, vector<int>& rowProposals, vector<pair<int, int>>& columnCriteria) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class NegotiationResult {
+  constructor(failures, finalMatrix) {
+    this.failures = failures;
+    this.finalMatrix = finalMatrix;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number[]} rowProposals
+   * @param {number[][]} columnCriteria
+   * @returns {NegotiationResult}
+   */
+  negotiateMatrix(n, m, rowProposals, columnCriteria) {
+    // Your code here
+    return null;
+  }
+}
+```

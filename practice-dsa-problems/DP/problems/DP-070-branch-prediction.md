@@ -72,3 +72,65 @@ Minimize total cost (mispredictions + switch costs).
 ```
 1
 ```
+
+## Solution Stub
+
+```java
+public class Solution {
+    static class Strategy {
+        int s;
+        int[] predictions;
+        int[][] transitions;
+    }
+
+    public long minPredictionCost(int n, int k, int C, String outcomes, Strategy[] strategies) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Strategy:
+    def __init__(self, s, predictions, transitions):
+        self.s = s
+        self.predictions = predictions
+        self.transitions = transitions
+
+class Solution:
+    def minPredictionCost(self, n: int, k: int, C: int, outcomes: str, strategies: list[Strategy]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+struct Strategy {
+    int s;
+    vector<int> predictions;
+    vector<vector<int>> transitions;
+};
+
+class Solution {
+public:
+    long long minPredictionCost(int n, int k, int C, string outcomes, vector<Strategy>& strategies) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} k
+   * @param {number} C
+   * @param {string} outcomes
+   * @param {Array<{s: number, predictions: number[], transitions: number[][]}>} strategies
+   */
+  minPredictionCost(n, k, C, outcomes, strategies) {
+    // Your code here
+    return 0;
+  }
+}
+```

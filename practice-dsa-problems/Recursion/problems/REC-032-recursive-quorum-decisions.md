@@ -71,3 +71,51 @@ Compute the root decision.
 ```
 1
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int decideRoot(int n, int[][] nodes) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def decideRoot(self, n: int, nodes: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int decideRoot(int n, vector<vector<int>>& nodes) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[][]} nodes
+   * @returns {number}
+   */
+  decideRoot(n, nodes) {
+    // Your code here
+    return 0;
+  }
+}
+```

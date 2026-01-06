@@ -59,3 +59,52 @@ raceacar
 ```
 raceacar
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String findLongestConsonantMirror(String s) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def findLongestConsonantMirror(self, s: str) -> str:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    std::string findLongestConsonantMirror(std::string s) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  findLongestConsonantMirror(s) {
+    // Your code here
+    return "";
+  }
+}
+```

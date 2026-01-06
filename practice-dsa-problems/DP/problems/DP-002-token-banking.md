@@ -69,3 +69,57 @@ Maximize total reward after exactly `n` steps.
 ```
 16
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxReward(int n, int b, int a, int p, int[][] normalActions, int[][] powerActions) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxReward(self, n: int, b: int, a: int, p: int, normalActions: list[list[int]], powerActions: list[list[int]]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxReward(int n, int b, int a, int p, vector<vector<int>>& normalActions, vector<vector<int>>& powerActions) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} b
+   * @param {number} a
+   * @param {number} p
+   * @param {number[][]} normalActions
+   * @param {number[][]} powerActions
+   * @return {number}
+   */
+  maxReward(n, b, a, p, normalActions, powerActions) {
+    // Implement here
+    return 0;
+  }
+}
+```

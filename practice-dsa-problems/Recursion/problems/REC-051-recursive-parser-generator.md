@@ -73,3 +73,55 @@ ba
 ```
 LEFT_RECURSION
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String checkGrammar(int N, int R, int S, List<String[]> rules, String input) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+```python
+class Solution:
+    def checkGrammar(self, N: int, R: int, S: int, rules: list[list[str]], input_str: str) -> str:
+        # Your code here
+        return ""
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string checkGrammar(int N, int R, int S, vector<vector<string>>& rules, string inputStr) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} N
+   * @param {number} R
+   * @param {number} S
+   * @param {string[][]} rules
+   * @param {string} inputStr
+   * @returns {string}
+   */
+  checkGrammar(N, R, S, rules, inputStr) {
+    // Your code here
+    return "";
+  }
+}
+```

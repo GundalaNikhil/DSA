@@ -78,3 +78,70 @@ You may choose a connected subgraph that connects all terminals using at most `B
 ```
 14
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long minSteinerActivationCost(int n, int m, int k, int b, int[] terminals, List<Edge> edges) {
+        // Your code here
+        return -1;
+    }
+
+    public static class Edge {
+        int u, v, paid, a;
+        public Edge(int u, int v, int paid, int a) { this.u = u; this.v = v; this.paid = paid; this.a = a; }
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class Edge:
+    def __init__(self, u: int, v: int, paid: int, a: int):
+        self.u = u
+        self.v = v
+        self.paid = paid
+        self.a = a
+
+class Solution:
+    def minSteinerActivationCost(self, n: int, m: int, k: int, b: int, terminals: List[int], edges: List[Edge]) -> int:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <vector>
+
+struct Edge {
+    int u, v, paid, a;
+};
+
+class Solution {
+public:
+    long long minSteinerActivationCost(int n, int m, int k, int b, std::vector<int>& terminals, std::vector<Edge>& edges) {
+        // Your code here
+        return -1;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  minSteinerActivationCost(n, m, k, b, terminals, edges) {
+    // Your code here
+    return -1;
+  }
+}
+```

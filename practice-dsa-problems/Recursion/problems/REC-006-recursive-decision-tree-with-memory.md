@@ -72,3 +72,55 @@ Unlisted strings have value 0.
 ```
 7
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long maxDecisionValue(int n, int L, List<String> forbidden, Map<String, Long> values) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def maxDecisionValue(self, n: int, L: int, forbidden: list[str], values: dict[str, int]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+#include <string>
+#include <unordered_map>
+
+using namespace std;
+
+class Solution {
+public:
+    long long maxDecisionValue(int n, int L, vector<string>& forbidden, unordered_map<string, long long>& values) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} L
+   * @param {string[]} forbidden
+   * @param {Map<string, number>} values
+   * @returns {number}
+   */
+  maxDecisionValue(n, L, forbidden, values) {
+    // Your code here
+    return 0;
+  }
+}
+```

@@ -75,3 +75,52 @@ FRONT
 1
 -1
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> processTTL(int q, String[] operations) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def processTTL(self, q: int, operations: list[str]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> processTTL(int q, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} q
+   * @param {string[]} operations
+   * @returns {number[]}
+   */
+  processTTL(q, operations) {
+    // Your code here
+    return [];
+  }
+}
+```

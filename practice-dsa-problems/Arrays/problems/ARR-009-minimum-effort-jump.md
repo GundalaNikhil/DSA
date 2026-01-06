@@ -63,3 +63,54 @@ The total effort is the sum of `e` values at all visited indices, including the 
 ```
 4
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long minTotalEffort(int n, int k, int[] e) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def minTotalEffort(self, n: int, k: int, e: list[int]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long minTotalEffort(int n, int k, vector<int>& e) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} k
+   * @param {number[]} e
+   * @return {number}
+   */
+  minTotalEffort(n, k, e) {
+    // Implement here
+    return 0;
+  }
+}
+```

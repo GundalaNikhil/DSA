@@ -68,3 +68,54 @@ You must choose actions over `n` steps, and you may measure at any step. Reward 
 ```
 2
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int maxReward(int n, int a, int[][] transforms) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxReward(self, n: int, a: int, transforms: list[list[int]]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    int maxReward(int n, int a, vector<vector<int>>& transforms) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} a
+   * @param {number[][]} transforms
+   * @return {number}
+   */
+  maxReward(n, a, transforms) {
+    // Implement here
+    return 0;
+  }
+}
+```

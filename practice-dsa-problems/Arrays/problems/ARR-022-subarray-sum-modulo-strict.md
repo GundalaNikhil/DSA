@@ -65,3 +65,55 @@ Given an array `a1..an`, an integer `M`, and a minimum length `L`, count how man
 ```
 3
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long countSubarraysModuloM(int n, int m, int l, int[] a) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def countSubarraysModuloM(self, n: int, m: int, l: int, a: list[int]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long countSubarraysModuloM(int n, int m, int l, vector<int>& a) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} l
+   * @param {number[]} a
+   * @return {number}
+   */
+  countSubarraysModuloM(n, m, l, a) {
+    // Implement here
+    return 0;
+  }
+}
+```

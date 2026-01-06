@@ -73,3 +73,53 @@ aba
 ```
 2 0
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int[] solveRabinKarp(String t, String p) {
+        // Your code here
+        return new int[]{0, 0};
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def solveRabinKarp(self, t: str, p: str) -> list[int]:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+#include <vector>
+
+class Solution {
+public:
+    std::pair<int, int> solveRabinKarp(std::string t, std::string p) {
+        // Your code here
+        return {0, 0};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  solveRabinKarp(t, p) {
+    // Your code here
+    return [0, 0];
+  }
+}
+```

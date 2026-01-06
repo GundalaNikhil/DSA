@@ -75,3 +75,56 @@ The median is defined as the middle element after sorting; when `W` is even, use
 ```
 3 3 4
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long[] adjustedMedians(int n, int W, int[] a) {
+        // Your code here
+        return new long[0];
+    }
+}
+```
+
+```python
+import heapq
+
+class Solution:
+    def adjustedMedians(self, n: int, W: int, a: list[int]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> adjustedMedians(int n, int W, vector<int>& a) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} W
+   * @param {number[]} a
+   * @returns {number[]}
+   */
+  adjustedMedians(n, W, a) {
+    // Your code here
+    return [];
+  }
+}
+```

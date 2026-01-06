@@ -60,3 +60,52 @@ abcabc
 ```
 8
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long countExactKDistinctSubstrings(String s, int k) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def countExactKDistinctSubstrings(self, s: str, k: int) -> int:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    long long countExactKDistinctSubstrings(std::string s, int k) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  countExactKDistinctSubstrings(s, k) {
+    // Your code here
+    return 0;
+  }
+}
+```

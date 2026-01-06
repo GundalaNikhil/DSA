@@ -67,3 +67,55 @@ Find the smallest starting index (1-based) from which you can complete exactly o
 ```
 1
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int smallestStartStation(int n, int b, int[] fuel, int[] drain) {
+        // Implement here
+        return -1;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def smallestStartStation(self, n: int, b: int, fuel: list[int], drain: list[int]) -> int:
+        # Implement here
+        return -1
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    int smallestStartStation(int n, int b, vector<int>& fuel, vector<int>& drain) {
+        // Implement here
+        return -1;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} b
+   * @param {number[]} fuel
+   * @param {number[]} drain
+   * @return {number}
+   */
+  smallestStartStation(n, b, fuel, drain) {
+    // Implement here
+    return -1;
+  }
+}
+```

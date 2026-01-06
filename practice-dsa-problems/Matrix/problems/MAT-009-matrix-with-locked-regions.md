@@ -69,3 +69,82 @@ For each update, report how many locked cells were skipped. After all updates, o
 1 7
 8 9
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public static class UpdateResult {
+        public List<Integer> skippedCells;
+        public long[][] finalMatrix;
+        public UpdateResult(List<Integer> skippedCells, long[][] finalMatrix) {
+            this.skippedCells = skippedCells;
+            this.finalMatrix = finalMatrix;
+        }
+    }
+
+    public UpdateResult processUpdates(int n, int m, int L, int q, int[][] initialMatrix, int[][] locks, int[][] updates) {
+        // Your code here
+        return null;
+    }
+}
+```
+
+```python
+class UpdateResult:
+    def __init__(self, skipped_cells: list[int], final_matrix: list[list[int]]):
+        self.skipped_cells = skipped_cells
+        self.final_matrix = final_matrix
+
+class Solution:
+    def processUpdates(self, n: int, m: int, L: int, q: int, initial_matrix: list[list[int]], locks: list[list[int]], updates: list[list[int]]) -> UpdateResult:
+        # Your code here
+        return None
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+struct UpdateResult {
+    vector<int> skippedCells;
+    vector<vector<long long>> finalMatrix;
+};
+
+class Solution {
+public:
+    UpdateResult processUpdates(int n, int m, int L, int q, vector<vector<int>>& initialMatrix, vector<vector<int>>& locks, vector<vector<long long>>& updates) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class UpdateResult {
+  constructor(skippedCells, finalMatrix) {
+    this.skippedCells = skippedCells;
+    this.finalMatrix = finalMatrix;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} L
+   * @param {number} q
+   * @param {number[][]} initialMatrix
+   * @param {number[][]} locks
+   * @param {number[][]} updates
+   * @returns {UpdateResult}
+   */
+  processUpdates(n, m, L, q, initialMatrix, locks, updates) {
+    // Your code here
+    return null;
+  }
+}
+```

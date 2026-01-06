@@ -66,3 +66,51 @@ where `0 <= x < p^e`.
 2
 0
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> countSolutions(int q, long[][] queries) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def countSolutions(self, q: int, queries: list[list[int]]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> countSolutions(int q, vector<vector<long long>>& queries) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} q
+   * @param {number[][]} queries
+   * @returns {number[]}
+   */
+  countSolutions(q, queries) {
+    // Your code here
+    return [];
+  }
+}
+```

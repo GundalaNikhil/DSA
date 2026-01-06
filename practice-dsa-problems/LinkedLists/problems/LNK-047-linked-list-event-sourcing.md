@@ -72,3 +72,54 @@ For each query time `t`, reconstruct the list after applying all events with tim
 5
 7
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> processEventSourcing(int e, String[] events, int q, int[][] queries) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def processEventSourcing(self, e: int, events: list[str], q: int, queries: list[list[int]]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> processEventSourcing(int e, vector<string>& events, int q, vector<vector<int>>& queries) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} e
+   * @param {string[]} events
+   * @param {number} q
+   * @param {number[][]} queries
+   * @returns {number[]}
+   */
+  processEventSourcing(e, events, q, queries) {
+    // Your code here
+    return [];
+  }
+}
+```

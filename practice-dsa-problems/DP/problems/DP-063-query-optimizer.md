@@ -68,3 +68,40 @@ Sizes for single tables are given, and `join_cost` is provided for any pair of t
 ```
 27
 ```
+
+## Solution Stub
+
+```java
+public class Solution {
+    public long minJoinCost(int n, int[] tableSizes, int[][] joinCostMatrix) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def minJoinCost(self, n: int, tableSizes: list[int], joinCostMatrix: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+class Solution {
+public:
+    long long minJoinCost(int n, vector<int>& tableSizes, vector<vector<int>>& joinCostMatrix) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  minJoinCost(n, tableSizes, joinCostMatrix) {
+    // Your code here
+    return 0;
+  }
+}
+```

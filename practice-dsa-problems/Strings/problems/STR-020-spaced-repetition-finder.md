@@ -61,3 +61,52 @@ abcabc
 ```
 abc
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String findLongestSpacedRepetition(String s, int d) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def findLongestSpacedRepetition(self, s: str, d: int) -> str:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    std::string findLongestSpacedRepetition(std::string s, int d) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  findLongestSpacedRepetition(s, d) {
+    // Your code here
+    return "";
+  }
+}
+```

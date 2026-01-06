@@ -68,3 +68,52 @@ ros
 ```
 3
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long minCostTransform(String a, String b, int cs, int cr, int ci, int cd) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def minCostTransform(self, a: str, b: str, cs: int, cr: int, ci: int, cd: int) -> int:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    long long minCostTransform(std::string a, std::string b, int cs, int cr, int ci, int cd) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  minCostTransform(a, b, cs, cr, ci, cd) {
+    // Your code here
+    return 0;
+  }
+}
+```

@@ -92,9 +92,10 @@ class Solution {
 ### Python
 
 ```python
-def solve(n, m, thresholds, base_actions, unlocked_actions):
-    # Implement here
-    return 0
+class Solution:
+    def maxReward(self, n: int, m: int, thresholds: list[int], baseActions: list[list[int]], unlockedActions: list[list[int]]) -> int:
+        # Implement here
+        return 0
 ```
 
 ### C++
@@ -112,8 +113,18 @@ public:
 ### JavaScript
 
 ```javascript
-function solve(n, m, thresholds, baseActions, unlockedActions) {
-  // Implement here
-  return 0;
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number[]} thresholds
+   * @param {number[][]} baseActions
+   * @param {number[][]} unlockedActions
+   * @return {number}
+   */
+  solve(n, m, thresholds, baseActions, unlockedActions) {
+    // Implement here
+    return 0;
+  }
 }
 ```

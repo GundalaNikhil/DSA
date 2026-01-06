@@ -77,3 +77,56 @@ Output the final array.
 ```
 4 5 4
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int[] rangeUpdateWithSaturation(int n, int q, int c, int[] a, int[][] queries) {
+        // Implement here
+        return new int[0];
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def rangeUpdateWithSaturation(self, n: int, q: int, c: int, a: list[int], queries: list[list[int]]) -> list[int]:
+        # Implement here
+        return []
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    vector<int> rangeUpdateWithSaturation(int n, int q, int c, vector<int>& a, vector<vector<int>>& queries) {
+        // Implement here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} q
+   * @param {number} c
+   * @param {number[]} a
+   * @param {number[][]} queries
+   * @return {number[]}
+   */
+  rangeUpdateWithSaturation(n, q, c, a, queries) {
+    // Implement here
+    return [];
+  }
+}
+```

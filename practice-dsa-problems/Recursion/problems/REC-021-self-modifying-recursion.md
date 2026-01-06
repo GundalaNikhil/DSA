@@ -80,3 +80,89 @@ Compute `Eval(S, D, 0)` modulo `1,000,000,007`.
 ```
 10
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public static class SymbolInfo {
+        public long weight;
+        public int toggle;
+        public List<Integer> list0;
+        public List<Integer> list1;
+        public SymbolInfo(long weight, int toggle, List<Integer> list0, List<Integer> list1) {
+            this.weight = weight;
+            this.toggle = toggle;
+            this.list0 = list0;
+            this.list1 = list1;
+        }
+    }
+
+    public long evaluateSelfModifyingRecursion(int n, int D, int S, List<SymbolInfo> symbols) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class SymbolInfo:
+    def __init__(self, weight: int, toggle: int, list0: list[int], list1: list[int]):
+        self.weight = weight
+        self.toggle = toggle
+        self.list0 = list0
+        self.list1 = list1
+
+class Solution:
+    def evaluateSelfModifyingRecursion(self, n: int, D: int, S: int, symbols: list[SymbolInfo]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+struct SymbolInfo {
+    long long weight;
+    int toggle;
+    vector<int> list0;
+    vector<int> list1;
+};
+
+class Solution {
+public:
+    int evaluateSelfModifyingRecursion(int n, int D, int S, vector<SymbolInfo>& symbols) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class SymbolInfo {
+  constructor(weight, toggle, list0, list1) {
+    this.weight = weight;
+    this.toggle = toggle;
+    this.list0 = list0;
+    this.list1 = list1;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} D
+   * @param {number} S
+   * @param {SymbolInfo[]} symbols
+   * @returns {number}
+   */
+  evaluateSelfModifyingRecursion(n, D, S, symbols) {
+    // Your code here
+    return 0;
+  }
+}
+```

@@ -64,3 +64,57 @@ Maximize total reward.
 ```
 8
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxReward(int n, int k, int s, int f, int[] multipliers, int[] fastRewards) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxReward(self, n: int, k: int, s: int, f: int, multipliers: list[int], fastRewards: list[int]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxReward(int n, int k, int s, int f, vector<int>& multipliers, vector<int>& fastRewards) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} k
+   * @param {number} s
+   * @param {number} f
+   * @param {number[]} multipliers
+   * @param {number[]} fastRewards
+   * @return {number}
+   */
+  maxReward(n, k, s, f, multipliers, fastRewards) {
+    // Implement here
+    return 0;
+  }
+}
+```

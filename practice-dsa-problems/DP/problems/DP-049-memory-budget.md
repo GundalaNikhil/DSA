@@ -60,3 +60,55 @@ You have `n` steps and `a` actions. Each action adds a value `v_i`. The DP state
 ```
 15
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxFinalSum(int n, int a, int k, int[] values) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxFinalSum(self, n: int, a: int, k: int, values: list[int]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxFinalSum(int n, int a, int k, vector<int>& values) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} a
+   * @param {number} k
+   * @param {number[]} values
+   * @return {number}
+   */
+  maxFinalSum(n, a, k, values) {
+    // Implement here
+    return 0;
+  }
+}
+```

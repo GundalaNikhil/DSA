@@ -71,3 +71,82 @@ HAS_ZERO
 1
 1 1 2
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public static class Violation {
+        public int policyId, r, c;
+        public Violation(int policyId, int r, int c) {
+            this.policyId = policyId;
+            this.r = r;
+            this.c = c;
+        }
+    }
+
+    public List<Violation> findViolations(int n, int m, int p, int[][] matrix, List<String> policies) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Violation:
+    def __init__(self, policy_id: int, r: int, c: int):
+        self.policy_id = policy_id
+        self.r = r
+        self.c = c
+
+class Solution:
+    def findViolations(self, n: int, m: int, p: int, matrix: list[list[int]], policies: list[str]) -> list[Violation]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+struct Violation {
+    int policyId, r, c;
+};
+
+class Solution {
+public:
+    vector<Violation> findViolations(int n, int m, int p, vector<vector<int>>& matrix, vector<string>& policies) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Violation {
+  constructor(policyId, r, c) {
+    this.policyId = policyId;
+    this.r = r;
+    this.c = c;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} p
+   * @param {number[][]} matrix
+   * @param {string[]} policies
+   * @returns {Violation[]}
+   */
+  findViolations(n, m, p, matrix, policies) {
+    // Your code here
+    return [];
+  }
+}
+```

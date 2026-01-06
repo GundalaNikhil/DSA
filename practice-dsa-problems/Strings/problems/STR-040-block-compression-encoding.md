@@ -59,3 +59,52 @@ ababababcdcd
 ```
 4(ab)2(cd)
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String getShortestEncoding(String s) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def getShortestEncoding(self, s: str) -> str:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    std::string getShortestEncoding(std::string s) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  getShortestEncoding(s) {
+    // Your code here
+    return "";
+  }
+}
+```

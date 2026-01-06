@@ -80,3 +80,54 @@ Compute the final accumulator value modulo `1,000,000,007`.
 ```
 17
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long evaluateCodeGeneration(int m, int D, int A0, List<String> macros) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def evaluateCodeGeneration(self, m: int, D: int, A0: int, macros: list[str]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int evaluateCodeGeneration(int m, int D, int A0, vector<string>& macros) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} m
+   * @param {number} D
+   * @param {number} A0
+   * @param {string[]} macros
+   * @returns {number}
+   */
+  evaluateCodeGeneration(m, D, A0, macros) {
+    // Your code here
+    return 0;
+  }
+}
+```

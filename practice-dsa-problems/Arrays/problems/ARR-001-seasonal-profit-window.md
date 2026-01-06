@@ -83,9 +83,10 @@ class Solution {
 ### Python
 
 ```python
-def solve(n, k, a):
-    # Implement here
-    return 0
+class Solution:
+    def maxAdjustedSum(self, n: int, k: int, a: list[int]) -> int:
+        # Implement here
+        return 0
 ```
 
 ### C++
@@ -103,8 +104,16 @@ public:
 ### JavaScript
 
 ```javascript
-function solve(n, k, a) {
-  // Implement here
-  return 0;
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} k
+   * @param {number[]} a
+   * @return {number}
+   */
+  maxAdjustedSum(n, k, a) {
+    // Implement here
+    return 0;
+  }
 }
 ```

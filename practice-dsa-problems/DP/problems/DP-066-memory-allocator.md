@@ -62,3 +62,40 @@ Minimize total cost over all requests.
 ```
 1
 ```
+
+## Solution Stub
+
+```java
+public class Solution {
+    public int minPlacementCost(int M, int n, int[] requestSizes) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def minPlacementCost(self, M: int, n: int, requestSizes: list[int]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+class Solution {
+public:
+    int minPlacementCost(int M, int n, vector<int>& requestSizes) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  minPlacementCost(M, n, requestSizes) {
+    // Your code here
+    return 0;
+  }
+}
+```

@@ -72,3 +72,54 @@ Output the final list.
 ```
 1 2 3
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> processSagas(int n, int[] initialList, int q, String[] operations) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def processSagas(self, n: int, initial_list: list[int], q: int, operations: list[str]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> processSagas(int n, vector<int>& initialList, int q, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} initialList
+   * @param {number} q
+   * @param {string[]} operations
+   * @returns {number[]}
+   */
+  processSagas(n, initialList, q, operations) {
+    // Your code here
+    return [];
+  }
+}
+```

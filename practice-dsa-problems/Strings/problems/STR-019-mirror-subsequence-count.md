@@ -62,3 +62,52 @@ aba
 ```
 5
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int countPalindromicSubsequences(String s, int m) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def countPalindromicSubsequences(self, s: str, m: int) -> int:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    int countPalindromicSubsequences(std::string s, int m) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  countPalindromicSubsequences(s, m) {
+    // Your code here
+    return 0;
+  }
+}
+```

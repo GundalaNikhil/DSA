@@ -65,3 +65,52 @@ Compute how many successes are counted before the circuit breaker stops the trav
 ```
 2
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int countSuccesses(int n, int F, int[][] nodes) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def countSuccesses(self, n: int, F: int, nodes: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int countSuccesses(int n, int F, vector<vector<int>>& nodes) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} F
+   * @param {number[][]} nodes
+   * @returns {number}
+   */
+  countSuccesses(n, F, nodes) {
+    // Your code here
+    return 0;
+  }
+}
+```

@@ -74,3 +74,55 @@ GET 4 1 1
 5
 10
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> processMatrixOperations(int n, int m, int q, int[] initialMatrix, List<String> operations) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def processMatrixOperations(self, n: int, m: int, q: int, initial_matrix: list[int], operations: list[str]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> processMatrixOperations(int n, int m, int q, vector<int>& initialMatrix, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} q
+   * @param {number[]} initialMatrix
+   * @param {string[]} operations
+   * @returns {number[]}
+   */
+  processMatrixOperations(n, m, q, initialMatrix, operations) {
+    // Your code here
+    return [];
+  }
+}
+```

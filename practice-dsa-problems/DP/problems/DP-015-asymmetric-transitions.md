@@ -66,3 +66,55 @@ Forward costs and backward penalties are different. Minimize total cost to end a
 ```
 4
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long minCost(int n, int m, int[] forwardCosts, int[] backwardPenalties) {
+        // Implement here
+        return -1;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def minCost(self, n: int, m: int, forwardCosts: list[int], backwardPenalties: list[int]) -> int:
+        # Implement here
+        return -1
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long minCost(int n, int m, vector<int>& forwardCosts, vector<int>& backwardPenalties) {
+        // Implement here
+        return -1;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number[]} forwardCosts
+   * @param {number[]} backwardPenalties
+   * @return {number}
+   */
+  minCost(n, m, forwardCosts, backwardPenalties) {
+    // Implement here
+    return -1;
+  }
+}
+```

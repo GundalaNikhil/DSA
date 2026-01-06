@@ -71,3 +71,53 @@ Compute the corrected sum at the root.
 ```
 10
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long calculateCorrectedSum(int n, int P, long K, long[][] nodes) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def calculateCorrectedSum(self, n: int, P: int, K: int, nodes: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long calculateCorrectedSum(int n, int P, long long K, vector<vector<long long>>& nodes) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} P
+   * @param {number} K
+   * @param {number[][]} nodes
+   * @returns {number}
+   */
+  calculateCorrectedSum(n, P, K, nodes) {
+    // Your code here
+    return 0;
+  }
+}
+```

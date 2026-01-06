@@ -55,3 +55,52 @@ Given a string containing `(`, `)`, and `*`, determine if it can be interpreted 
 ```
 true
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public boolean isValidParentheses(String s) {
+        // Your code here
+        return false;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def isValidParentheses(self, s: str) -> bool:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    bool isValidParentheses(std::string s) {
+        // Your code here
+        return false;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  isValidParentheses(s) {
+    // Your code here
+    return false;
+  }
+}
+```

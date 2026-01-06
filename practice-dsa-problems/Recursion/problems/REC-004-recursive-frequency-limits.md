@@ -65,3 +65,52 @@ Compute the total number of visited nodes.
 ```
 4
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int countVisitedNodes(int n, int K, int[][] nodes) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def countVisitedNodes(self, n: int, K: int, nodes: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int countVisitedNodes(int n, int K, vector<vector<int>>& nodes) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} K
+   * @param {number[][]} nodes
+   * @returns {number}
+   */
+  countVisitedNodes(n, K, nodes) {
+    // Your code here
+    return 0;
+  }
+}
+```

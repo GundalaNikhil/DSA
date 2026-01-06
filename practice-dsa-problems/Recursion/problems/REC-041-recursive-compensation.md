@@ -67,3 +67,52 @@ Compute the total compensation cost needed for the root to be successful. If the
 ```
 4
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String minCompensationCost(int n, long[][] nodes) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+```python
+class Solution:
+    def minCompensationCost(self, n: int, nodes: list[list[int]]) -> str:
+        # Your code here
+        return ""
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string minCompensationCost(int n, vector<vector<long long>>& nodes) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[][]} nodes
+   * @returns {string}
+   */
+  minCompensationCost(n, nodes) {
+    // Your code here
+    return "";
+  }
+}
+```

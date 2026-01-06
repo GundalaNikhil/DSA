@@ -75,3 +75,54 @@ GET 1 3
 -1
 -1
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> processLeaseExpiration(int n, int[] values, long[] initialLeases, String[] operations) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def processLeaseExpiration(self, n: int, values: list[int], initial_leases: list[int], operations: list[str]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> processLeaseExpiration(int n, vector<int>& values, vector<long long>& initialLeases, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} values
+   * @param {number[]} initialLeases
+   * @param {string[]} operations
+   * @returns {number[]}
+   */
+  processLeaseExpiration(n, values, initialLeases, operations) {
+    // Your code here
+    return [];
+  }
+}
+```

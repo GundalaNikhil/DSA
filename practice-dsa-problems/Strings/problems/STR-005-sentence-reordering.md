@@ -56,3 +56,52 @@ the quick brown fox
 ```
 fox brown quick the
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String reorderSentence(String s) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def reorderSentence(self, s: str) -> str:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    std::string reorderSentence(std::string s) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  reorderSentence(s) {
+    // Your code here
+    return "";
+  }
+}
+```

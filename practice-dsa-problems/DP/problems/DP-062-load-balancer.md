@@ -67,3 +67,40 @@ Minimize total latency plus overload penalties.
 ```
 9
 ```
+
+## Solution Stub
+
+```java
+public class Solution {
+    public int minTotalCost(int n, int s, int P, int[] sizes, int[] capacities, int[] latencies) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def minTotalCost(self, n: int, s: int, P: int, sizes: list[int], capacities: list[int], latencies: list[int]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+class Solution {
+public:
+    int minTotalCost(int n, int s, int P, vector<int>& sizes, vector<int>& capacities, vector<int>& latencies) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  minTotalCost(n, s, P, sizes, capacities, latencies) {
+    // Your code here
+    return 0;
+  }
+}
+```

@@ -74,3 +74,55 @@ SET 2 1 0
 2 9
 0 9
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long[][] applyRules(int n, int m, int q, int[][] initialMatrix, List<String> rules) {
+        // Your code here
+        return new long[n][m];
+    }
+}
+```
+
+```python
+class Solution:
+    def applyRules(self, n: int, m: int, q: int, initial_matrix: list[list[int]], rules: list[str]) -> list[list[int]]:
+        # Your code here
+        return [[]]
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<long long>> applyRules(int n, int m, int q, vector<vector<int>>& initialMatrix, vector<string>& rules) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} q
+   * @param {number[][]} initialMatrix
+   * @param {string[]} rules
+   * @returns {number[][]}
+   */
+  applyRules(n, m, q, initialMatrix, rules) {
+    // Your code here
+    return [[]];
+  }
+}
+```

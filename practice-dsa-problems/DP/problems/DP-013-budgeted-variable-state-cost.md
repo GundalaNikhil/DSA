@@ -66,3 +66,57 @@ You have a total budget `B`. Find the maximum number of steps you can complete w
 ```
 5
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int maxSteps(int n, int s, int b, int uMax, int dec, int[][] states) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxSteps(self, n: int, s: int, b: int, uMax: int, dec: int, states: list[list[int]]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    int maxSteps(int n, int s, int b, int uMax, int dec, vector<vector<int>>& states) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} s
+   * @param {number} b
+   * @param {number} uMax
+   * @param {number} dec
+   * @param {number[][]} states
+   * @return {number}
+   */
+  maxSteps(n, s, b, uMax, dec, states) {
+    // Implement here
+    return 0;
+  }
+}
+```

@@ -61,3 +61,52 @@ cabcabca
 ```
 3
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int minRepetitions(String a, String b, int r) {
+        // Your code here
+        return -1;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def minRepetitions(self, a: str, b: str, r: int) -> int:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    int minRepetitions(std::string a, std::string b, int r) {
+        // Your code here
+        return -1;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  minRepetitions(a, b, r) {
+    // Your code here
+    return -1;
+  }
+}
+```

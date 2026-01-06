@@ -64,3 +64,40 @@ Minimize total completion time.
 ```
 9
 ```
+
+## Solution Stub
+
+```java
+public class Solution {
+    public long minCompletionTime(int n, int m, long[] durations, int[][] dependencies) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def minCompletionTime(self, n: int, m: int, durations: list[int], dependencies: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+class Solution {
+public:
+    long long minCompletionTime(int n, int m, vector<long long>& durations, vector<vector<int>>& dependencies) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  minCompletionTime(n, m, durations, dependencies) {
+    // Your code here
+    return 0;
+  }
+}
+```

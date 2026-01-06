@@ -68,3 +68,53 @@ Output the resulting array.
 7
 1 2 3 4 0 0 0
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int[] zeroCompression(int n, int[] a) {
+        // Implement here
+        return new int[0];
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def zeroCompression(self, n: int, a: list[int]) -> list[int]:
+        # Implement here
+        return []
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    vector<int> zeroCompression(int n, vector<int>& a) {
+        // Implement here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} a
+   * @return {number[]}
+   */
+  zeroCompression(n, a) {
+    // Implement here
+    return [];
+  }
+}
+```

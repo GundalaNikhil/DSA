@@ -75,3 +75,54 @@ For each query, output: `subtree_r(x) + (root_changed ? C : 0)`
 4
 12
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Long> solveSubtreeSizeQueries(int n, int q, int c, int[][] edges, int[][] queries) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class Solution:
+    def solveSubtreeSizeQueries(self, n: int, q: int, c: int, edges: List[List[int]], queries: List[List[int]]) -> List[int]:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <vector>
+
+class Solution {
+public:
+    std::vector<long long> solveSubtreeSizeQueries(int n, int q, int c, std::vector<std::vector<int>>& edges, std::vector<std::vector<int>>& queries) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  solveSubtreeSizeQueries(n, q, c, edges, queries) {
+    // Your code here
+    return [];
+  }
+}
+```

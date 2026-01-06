@@ -68,3 +68,57 @@ Each action `i` has cost `c_i`. You must perform exactly `n` actions (n is divis
 ```
 6
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long minCost(int n, int k, int a, int[] costs, int b, int[][] sequences) {
+        // Implement here
+        return -1;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def minCost(self, n: int, k: int, a: int, costs: list[int], b: int, sequences: list[list[int]]) -> int:
+        # Implement here
+        return -1
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long minCost(int n, int k, int a, vector<int>& costs, int b, vector<vector<int>>& sequences) {
+        // Implement here
+        return -1;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} k
+   * @param {number} a
+   * @param {number[]} costs
+   * @param {number} b
+   * @param {number[][]} sequences
+   * @return {number}
+   */
+  minCost(n, k, a, costs, b, sequences) {
+    // Implement here
+    return -1;
+  }
+}
+```

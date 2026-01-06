@@ -75,3 +75,52 @@ Apply all winning insertions simultaneously, keeping original order of unaffecte
 ```
 1 8 2 3 7
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> resolveConflicts(int n, int[] initialList, int[][] proposals) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def resolveConflicts(self, n: int, initial_list: list[int], proposals: list[list[int]]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> resolveConflicts(int n, vector<int>& initialList, vector<vector<int>>& proposals) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} initialList
+   * @param {number[][]} proposals
+   * @returns {number[]}
+   */
+  resolveConflicts(n, initialList, proposals) {
+    // Your code here
+    return [];
+  }
+}
+```

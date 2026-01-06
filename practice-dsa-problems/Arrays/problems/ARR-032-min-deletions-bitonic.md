@@ -62,3 +62,53 @@ If it is impossible to form such a sequence, output `-1`.
 ```
 0
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int minDeletionsToBitonic(int n, int[] a) {
+        // Implement here
+        return -1;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def minDeletionsToBitonic(self, n: int, a: list[int]) -> int:
+        # Implement here
+        return -1
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    int minDeletionsToBitonic(int n, vector<int>& a) {
+        // Implement here
+        return -1;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} a
+   * @return {number}
+   */
+  minDeletionsToBitonic(n, a) {
+    // Implement here
+    return -1;
+  }
+}
+```

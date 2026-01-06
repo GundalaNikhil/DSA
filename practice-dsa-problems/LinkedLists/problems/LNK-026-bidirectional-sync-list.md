@@ -83,3 +83,54 @@ DEL B 3
 7
 15
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> processSyncList(int n, int D, int[] initialA, String[] operations) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def processSyncList(self, n: int, D: int, initial_a: list[int], operations: list[str]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> processSyncList(int n, int D, vector<int>& initialA, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} D
+   * @param {number[]} initialA
+   * @param {string[]} operations
+   * @returns {number[]}
+   */
+  processSyncList(n, D, initialA, operations) {
+    // Your code here
+    return [];
+  }
+}
+```

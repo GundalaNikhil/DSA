@@ -68,3 +68,54 @@ You are given a target checksum `T`. Determine if the root checksum equals `T`.
 ```
 YES
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String validateChecksum(int n, long M, long T, long[][] nodes) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+```python
+class Solution:
+    def validateChecksum(self, n: int, M: int, T: int, nodes: list[list[int]]) -> str:
+        # Your code here
+        return ""
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string validateChecksum(int n, long long M, long long T, vector<vector<long long>>& nodes) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} M
+   * @param {number} T
+   * @param {number[][]} nodes
+   * @returns {string}
+   */
+  validateChecksum(n, M, T, nodes) {
+    // Your code here
+    return "";
+  }
+}
+```

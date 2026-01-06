@@ -62,3 +62,53 @@ Formally, for a subarray `a_l..a_r`, the differences `(a_{i+1} - a_i)` for `i = 
 ```
 6
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int longestZigzagSubarray(int n, int[] a) {
+        // Implement here
+        return 1;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def longestZigzagSubarray(self, n: int, a: list[int]) -> int:
+        # Implement here
+        return 1
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    int longestZigzagSubarray(int n, vector<int>& a) {
+        // Implement here
+        return 1;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} a
+   * @return {number}
+   */
+  longestZigzagSubarray(n, a) {
+    // Implement here
+    return 1;
+  }
+}
+```

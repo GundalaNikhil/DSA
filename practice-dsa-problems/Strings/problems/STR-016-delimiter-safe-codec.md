@@ -80,3 +80,75 @@ hello\|world|x\\y
 2 hello|world x\y
 plain
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<String> solveCodec(int q, List<CodecOp> ops) {
+        // Your code here
+        return new ArrayList<>();
+    }
+
+    public static class CodecOp {
+        String type;
+        List<String> strings; // For ENCODE
+        String encoded; // For DECODE
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List, Union
+
+class CodecOp:
+    def __init__(self, type: str, data: Union[List[str], str]):
+        self.type = type
+        if type == 'ENCODE':
+            self.strings = data
+        else:
+            self.encoded = data
+
+class Solution:
+    def solveCodec(self, q: int, ops: List[CodecOp]) -> List[str]:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+#include <vector>
+
+struct CodecOp {
+    std::string type;
+    std::vector<std::string> strings;
+    std::string encoded;
+};
+
+class Solution {
+public:
+    std::vector<std::string> solveCodec(int q, std::vector<CodecOp>& ops) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  solveCodec(q, ops) {
+    // Your code here
+    return [];
+  }
+}
+```

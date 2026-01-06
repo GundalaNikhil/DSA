@@ -70,3 +70,77 @@ QUERY 1 3
 5
 6
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Long> solveDynamicSubstringQueries(String s, int q, List<Query> queries) {
+        // Your code here
+        return new ArrayList<>();
+    }
+
+    public static class Query {
+        String type;
+        int i, l, r;
+        char c;
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class Query:
+    def __init__(self, type: str, arg1: int, arg2: str):
+        self.type = type
+        if type == 'UPDATE':
+            self.i = arg1
+            self.c = arg2
+        else:
+            self.l = arg1
+            self.r = int(arg2)
+
+class Solution:
+    def solveDynamicSubstringQueries(self, s: str, q: int, queries: List[Query]) -> List[int]:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+#include <vector>
+
+struct Query {
+    std::string type;
+    int i, l, r;
+    char c;
+};
+
+class Solution {
+public:
+    std::vector<long long> solveDynamicSubstringQueries(std::string s, int q, std::vector<Query>& queries) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  solveDynamicSubstringQueries(s, q, queries) {
+    // Your code here
+    return [];
+  }
+}
+```

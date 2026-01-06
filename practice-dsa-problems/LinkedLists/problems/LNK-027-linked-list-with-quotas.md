@@ -75,3 +75,56 @@ COUNT 1
 ```
 4
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> processQuotaList(int n, int S, int[] values, int[] segmentIds, int[][] quotas, String[] operations) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def processQuotaList(self, n: int, S: int, values: list[int], segment_ids: list[int], quotas: list[list[int]], operations: list[str]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> processQuotaList(int n, int S, vector<int>& values, vector<int>& segmentIds, vector<vector<int>>& quotas, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} S
+   * @param {number[]} values
+   * @param {number[]} segmentIds
+   * @param {number[][]} quotas
+   * @param {string[]} operations
+   * @returns {number[]}
+   */
+  processQuotaList(n, S, values, segmentIds, quotas, operations) {
+    // Your code here
+    return [];
+  }
+}
+```

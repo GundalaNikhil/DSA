@@ -62,3 +62,53 @@ Count the number of peaks.
 ```
 2
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int countCircularPeaks(int n, int[] a) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def countCircularPeaks(self, n: int, a: list[int]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    int countCircularPeaks(int n, vector<int>& a) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} a
+   * @return {number}
+   */
+  countCircularPeaks(n, a) {
+    // Implement here
+    return 0;
+  }
+}
+```

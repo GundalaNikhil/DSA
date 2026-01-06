@@ -70,3 +70,84 @@ DEL 1
 1 0
 2 2 2
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    static class ShardResult {
+        int splits, merges;
+        List<Integer> shardSizes;
+        ShardResult(int splits, int merges, List<Integer> shardSizes) {
+            this.splits = splits;
+            this.merges = merges;
+            this.shardSizes = shardSizes;
+        }
+    }
+
+    public ShardResult processSharding(int n, int L, int U, int[] initialList, String[] operations) {
+        // Your code here
+        return null;
+    }
+}
+```
+
+```python
+class ShardResult:
+    def __init__(self, splits, merges, shard_sizes):
+        self.splits = splits
+        self.merges = merges
+        self.shard_sizes = shard_sizes
+
+class Solution:
+    def processSharding(self, n: int, L: int, U: int, initial_list: list[int], operations: list[str]) -> ShardResult:
+        # Your code here
+        return None
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+struct ShardResult {
+    int splits, merges;
+    vector<int> shardSizes;
+};
+
+class Solution {
+public:
+    ShardResult processSharding(int n, int L, int U, vector<int>& initialList, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class ShardResult {
+  constructor(splits, merges, shardSizes) {
+    this.splits = splits;
+    this.merges = merges;
+    this.shardSizes = shardSizes;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} L
+   * @param {number} U
+   * @param {number[]} initialList
+   * @param {string[]} operations
+   * @returns {ShardResult}
+   */
+  processSharding(n, L, U, initialList, operations) {
+    // Your code here
+    return null;
+  }
+}
+```

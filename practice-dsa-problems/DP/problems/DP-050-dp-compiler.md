@@ -76,3 +76,55 @@ MAX 3 1 2 2
 ```
 7
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long computeDP(int n, int m, String[] rules, long baseDP1) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def computeDP(self, n: int, m: int, rules: list[str], baseDP1: int) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long computeDP(int n, int m, vector<string>& rules, long long baseDP1) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {string[]} rules
+   * @param {number} baseDP1
+   * @return {number}
+   */
+  computeDP(n, m, rules, baseDP1) {
+    // Implement here
+    return 0;
+  }
+}
+```

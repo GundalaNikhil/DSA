@@ -59,3 +59,52 @@ AABABBA
 ```
 4
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int maxUniformLengthAfterReplacements(String s, int k) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxUniformLengthAfterReplacements(self, s: str, k: int) -> int:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    int maxUniformLengthAfterReplacements(std::string s, int k) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  maxUniformLengthAfterReplacements(s, k) {
+    // Your code here
+    return 0;
+  }
+}
+```

@@ -70,3 +70,55 @@ If the window length is less than `K`, output `-1` for that index.
 ```
 -1 1 4 2 3
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int[] kthLargestInWindow(int n, int k, int w, int[] a) {
+        // Implement here
+        return new int[0];
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def kthLargestInWindow(self, n: int, k: int, w: int, a: list[int]) -> list[int]:
+        # Implement here
+        return []
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    vector<int> kthLargestInWindow(int n, int k, int w, vector<int>& a) {
+        // Implement here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} k
+   * @param {number} w
+   * @param {number[]} a
+   * @return {number[]}
+   */
+  kthLargestInWindow(n, k, w, a) {
+    // Implement here
+    return [];
+  }
+}
+```

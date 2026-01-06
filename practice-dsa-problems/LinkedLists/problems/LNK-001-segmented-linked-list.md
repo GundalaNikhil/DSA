@@ -85,42 +85,51 @@ PRINT 2
 
 ## Solution Stub
 
-### Java
-
 ```java
-class Solution {
+import java.util.*;
+
+public class Solution {
     public List<String> processSegmentedList(int n, int[] values, int[] segments, String[] operations) {
-        // Implement here
+        // Your code here
         return new ArrayList<>();
     }
 }
 ```
 
-### Python
-
 ```python
-def solve(n, values, segments, operations):
-    # Implement here
-    return []
+class Solution:
+    def processSegmentedList(self, n: int, values: list[int], segments: list[int], operations: list[str]) -> list[str]:
+        # Your code here
+        return []
 ```
 
-### C++
-
 ```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
 class Solution {
 public:
     vector<string> processSegmentedList(int n, vector<int>& values, vector<int>& segments, vector<string>& operations) {
-        // Implement here
+        // Your code here
         return {};
     }
 };
 ```
 
-### JavaScript
-
 ```javascript
-function solve(n, values, segments, operations) {
-  // Implement here
-  return [];
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} values
+   * @param {number[]} segments
+   * @param {string[]} operations
+   * @returns {string[]}
+   */
+  processSegmentedList(n, values, segments, operations) {
+    // Your code here
+    return [];
+  }
 }
 ```

@@ -72,3 +72,56 @@ You are given `alpha` as a fraction `p/q`. Maximize total reward.
 ```
 12
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxRewardScaled(int n, int a, int p, int q, int[][] actions) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxRewardScaled(self, n: int, a: int, p: int, q: int, actions: list[list[int]]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxRewardScaled(int n, int a, int p, int q, vector<vector<int>>& actions) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} a
+   * @param {number} p
+   * @param {number} q
+   * @param {number[][]} actions
+   * @return {number}
+   */
+  maxRewardScaled(n, a, p, q, actions) {
+    // Implement here
+    return 0;
+  }
+}
+```

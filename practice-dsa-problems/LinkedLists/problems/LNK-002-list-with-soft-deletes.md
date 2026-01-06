@@ -79,3 +79,53 @@ KTH 2 0
 20
 20
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> processSoftDeletes(int n, int[] values, String[] operations) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def processSoftDeletes(self, n: int, values: list[int], operations: list[str]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> processSoftDeletes(int n, vector<int>& values, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} values
+   * @param {string[]} operations
+   * @returns {number[]}
+   */
+  processSoftDeletes(n, values, operations) {
+    // Your code here
+    return [];
+  }
+}
+```

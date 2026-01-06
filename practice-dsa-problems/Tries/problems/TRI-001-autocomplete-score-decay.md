@@ -89,3 +89,91 @@ car cat
 dog
 car cat
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<List<String>> solveAutocompleteWithDecay(int n, int d, WordScore[] initialWords, int q, Op[] ops) {
+        // Your code here
+        return new ArrayList<>();
+    }
+
+    public static class WordScore {
+        String word;
+        int score;
+        public WordScore(String word, int score) { this.word = word; this.score = score; }
+    }
+
+    public static class Op {
+        char type;
+        String word;
+        int score;
+        public Op(char type, String word) { this.type = type; this.word = word; }
+        public Op(char type, String word, int score) { this.type = type; this.word = word; this.score = score; }
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class WordScore:
+    def __init__(self, word: str, score: int):
+        self.word = word
+        self.score = score
+
+class Op:
+    def __init__(self, type: str, word: str, score: int = 0):
+        self.type = type
+        self.word = word
+        self.score = score
+
+class Solution:
+    def solveAutocompleteWithDecay(self, n: int, d: int, initialWords: List[WordScore], q: int, ops: List[Op]) -> List[List[str]]:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+#include <vector>
+
+struct WordScore {
+    std::string word;
+    int score;
+};
+
+struct Op {
+    char type;
+    std::string word;
+    int score;
+};
+
+class Solution {
+public:
+    std::vector<std::vector<std::string>> solveAutocompleteWithDecay(int n, int d, std::vector<WordScore>& initialWords, int q, std::vector<Op>& ops) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  solveAutocompleteWithDecay(n, d, initialWords, q, ops) {
+    // Your code here
+    return [];
+  }
+}
+```

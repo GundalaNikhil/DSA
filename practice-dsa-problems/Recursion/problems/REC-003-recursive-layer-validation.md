@@ -71,3 +71,54 @@ All depth rules must hold. Determine if the tree is valid.
 ```
 YES
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String validateLayers(int n, int H, int[][] nodes, long[] K) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+```python
+class Solution:
+    def validateLayers(self, n: int, H: int, nodes: list[list[int]], K: list[int]) -> str:
+        # Your code here
+        return ""
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string validateLayers(int n, int H, vector<vector<int>>& nodes, vector<long long>& K) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} H
+   * @param {number[][]} nodes
+   * @param {number[]} K
+   * @returns {string}
+   */
+  validateLayers(n, H, nodes, K) {
+    // Your code here
+    return "";
+  }
+}
+```

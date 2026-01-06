@@ -67,3 +67,53 @@ Verify each segment and report the first invalid segment index, or `0` if all ar
 ```
 0
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int verifyMerkle(int n, int K, int[] values, long[] claimedHashes) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def verifyMerkle(self, n: int, K: int, values: list[int], claimed_hashes: list[int]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int verifyMerkle(int n, int K, vector<int>& values, vector<long long>& claimedHashes) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} K
+   * @param {number[]} values
+   * @param {number[]} claimedHashes
+   * @returns {number}
+   */
+  verifyMerkle(n, K, values, claimedHashes) {
+    // Your code here
+    return 0;
+  }
+}
+```

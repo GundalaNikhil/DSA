@@ -75,3 +75,54 @@ PRINT 1
 1 2 3 4
 1 2 4
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<List<Integer>> processMultiHead(int n, int h, int[] values, String[] operations) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def processMultiHead(self, n: int, h: int, values: list[int], operations: list[str]) -> list[list[int]]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<vector<int>> processMultiHead(int n, int h, vector<int>& values, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} h
+   * @param {number[]} values
+   * @param {string[]} operations
+   * @returns {number[][]}
+   */
+  processMultiHead(n, h, values, operations) {
+    // Your code here
+    return [];
+  }
+}
+```

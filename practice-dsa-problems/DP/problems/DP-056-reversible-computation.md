@@ -61,3 +61,55 @@ Find the minimum total cost to start at state 0 and return to state 0 after exac
 ```
 4
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long minCost(int n, int s, int a, int[][] actions) {
+        // Implement here
+        return -1;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def minCost(self, n: int, s: int, a: int, actions: list[list[int]]) -> int:
+        # Implement here
+        return -1
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long minCost(int n, int s, int a, vector<vector<int>>& actions) {
+        // Implement here
+        return -1;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} s
+   * @param {number} a
+   * @param {number[][]} actions
+   * @return {number}
+   */
+  minCost(n, s, a, actions) {
+    // Implement here
+    return -1;
+  }
+}
+```

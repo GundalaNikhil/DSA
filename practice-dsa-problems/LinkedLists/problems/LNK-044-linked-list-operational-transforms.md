@@ -76,3 +76,54 @@ DEL 2
 ```
 1 9 3
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> processOperationalTransforms(int n, int[] baseList, String[] opsA, String[] opsB) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def processOperationalTransforms(self, n: int, base_list: list[int], ops_a: list[str], ops_b: list[str]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> processOperationalTransforms(int n, vector<int>& baseList, vector<string>& opsA, vector<string>& opsB) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} baseList
+   * @param {string[]} opsA
+   * @param {string[]} opsB
+   * @returns {number[]}
+   */
+  processOperationalTransforms(n, baseList, opsA, opsB) {
+    // Your code here
+    return [];
+  }
+}
+```

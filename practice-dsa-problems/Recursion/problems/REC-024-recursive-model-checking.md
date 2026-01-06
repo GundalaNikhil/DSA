@@ -82,3 +82,56 @@ T 0
 ```
 1
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int checkModel(int n, int m, int K, int S, String[][] nodeInfo, int[][] edges) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def checkModel(self, n: int, m: int, K: int, S: int, node_info: list[list[str]], edges: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int checkModel(int n, int m, int K, int S, vector<vector<string>>& nodeInfo, vector<vector<int>>& edges) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} K
+   * @param {number} S
+   * @param {string[][]} nodeInfo
+   * @param {number[][]} edges
+   * @returns {number}
+   */
+  checkModel(n, m, K, S, nodeInfo, edges) {
+    // Your code here
+    return 0;
+  }
+}
+```

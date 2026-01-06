@@ -70,3 +70,53 @@ For every root-to-leaf path, you must ensure that the resource at each node is v
 ```
 7
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long minRenewalCost(int n, int R, int[] L, int[][] nodes) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def minRenewalCost(self, n: int, R: int, L: list[int], nodes: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minRenewalCost(int n, int R, vector<int>& L, vector<vector<int>>& nodes) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} R
+   * @param {number[]} L
+   * @param {number[][]} nodes
+   * @returns {number}
+   */
+  minRenewalCost(n, R, L, nodes) {
+    // Your code here
+    return 0;
+  }
+}
+```

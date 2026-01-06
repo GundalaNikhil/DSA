@@ -72,3 +72,56 @@ You may apply operations in any order. Compute the minimum total cost.
 ```
 2
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long calculateMinDiffCost(int n, int m, long cr, long cc, long cs, int[][] A, int[][] B) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def calculateMinDiffCost(self, n: int, m: int, cr: int, cc: int, cs: int, A: list[list[int]], B: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long calculateMinDiffCost(int n, int m, long long cr, long long cc, long long cs, vector<vector<int>>& A, vector<vector<int>>& B) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} cr
+   * @param {number} cc
+   * @param {number} cs
+   * @param {number[][]} A
+   * @param {number[][]} B
+   * @returns {number}
+   */
+  calculateMinDiffCost(n, m, cr, cc, cs, A, B) {
+    // Your code here
+    return 0;
+  }
+}
+```

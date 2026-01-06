@@ -66,3 +66,56 @@ Start in OFF with `L = 0`. Maximize total reward in `n` steps.
 ```
 10
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxReward(int n, int aThreshold, int bThreshold, int numActions, int[][] actions) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxReward(self, n: int, aThreshold: int, bThreshold: int, numActions: int, actions: list[list[int]]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxReward(int n, int aThreshold, int bThreshold, int numActions, vector<vector<int>>& actions) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} aThreshold
+   * @param {number} bThreshold
+   * @param {number} numActions
+   * @param {number[][]} actions
+   * @return {number}
+   */
+  maxReward(n, aThreshold, bThreshold, numActions, actions) {
+    // Implement here
+    return 0;
+  }
+}
+```

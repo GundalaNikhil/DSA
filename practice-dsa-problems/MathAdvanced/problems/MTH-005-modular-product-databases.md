@@ -68,3 +68,52 @@ Product = L * (L+1) * ... * R (mod P)
 0
 10
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Long> calculateProducts(int P, int q, int[][] queries) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def calculateProducts(self, P: int, q: int, queries: list[list[int]]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> calculateProducts(int P, int q, vector<vector<int>>& queries) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} P
+   * @param {number} q
+   * @param {number[][]} queries
+   * @returns {number[]}
+   */
+  calculateProducts(P, q, queries) {
+    // Your code here
+    return [];
+  }
+}
+```

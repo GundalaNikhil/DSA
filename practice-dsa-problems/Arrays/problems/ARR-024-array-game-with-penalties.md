@@ -63,3 +63,54 @@ Your score is the sum of values at all visited indices. Negative values reduce t
 ```
 8
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxScoreInGame(int n, int k, int[] a) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxScoreInGame(self, n: int, k: int, a: list[int]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxScoreInGame(int n, int k, vector<int>& a) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} k
+   * @param {number[]} a
+   * @return {number}
+   */
+  maxScoreInGame(n, k, a) {
+    // Implement here
+    return 0;
+  }
+}
+```

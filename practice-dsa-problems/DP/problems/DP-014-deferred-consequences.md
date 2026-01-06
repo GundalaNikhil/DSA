@@ -64,3 +64,54 @@ Penalties from multiple actions add up on their scheduled steps. Maximize total 
 ```
 9
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxScore(int n, int a, int[][] actions) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxScore(self, n: int, a: int, actions: list[list[int]]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxScore(int n, int a, vector<vector<int>>& actions) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} a
+   * @param {number[][]} actions
+   * @return {number}
+   */
+  maxScore(n, a, actions) {
+    // Implement here
+    return 0;
+  }
+}
+```

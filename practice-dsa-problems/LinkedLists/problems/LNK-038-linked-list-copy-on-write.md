@@ -72,3 +72,53 @@ GET 0 2
 9
 2
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> processCopyOnWrite(int n, int[] initialList, String[] operations) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def processCopyOnWrite(self, n: int, initial_list: list[int], operations: list[str]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> processCopyOnWrite(int n, vector<int>& initialList, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} initialList
+   * @param {string[]} operations
+   * @returns {number[]}
+   */
+  processCopyOnWrite(n, initialList, operations) {
+    // Your code here
+    return [];
+  }
+}
+```

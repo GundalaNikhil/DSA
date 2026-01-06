@@ -84,3 +84,79 @@ Aging only happens on idle ticks. Your task is to compute the total number of ti
 ```
 7
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    static class TaskType {
+        int cnt;
+        long cool, deadline, base;
+        TaskType(int cnt, long cool, long deadline, long base) {
+            this.cnt = cnt;
+            this.cool = cool;
+            this.deadline = deadline;
+            this.base = base;
+        }
+    }
+
+    public long totalTicks(int n, int cap, TaskType[] tasks) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+import heapq
+
+class TaskType:
+    def __init__(self, cnt, cool, deadline, base):
+        self.cnt = cnt
+        self.cool = cool
+        self.deadline = deadline
+        self.base = base
+
+class Solution:
+    def totalTicks(self, n: int, cap: int, tasks: list[TaskType]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+struct TaskType {
+    int cnt;
+    long long cool, deadline, base;
+};
+
+class Solution {
+public:
+    long long totalTicks(int n, int cap, vector<TaskType>& tasks) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} cap
+   * @param {Array<{cnt: number, cool: number, deadline: number, base: number}>} tasks
+   * @returns {number}
+   */
+  totalTicks(n, cap, tasks) {
+    // Your code here
+    return 0;
+  }
+}
+```

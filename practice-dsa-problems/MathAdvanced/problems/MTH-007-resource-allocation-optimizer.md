@@ -69,3 +69,53 @@ Find the minimum `x >= 0` such that:
 1
 6
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+import java.math.BigInteger;
+
+public class Solution {
+    public List<BigInteger> solveMinimumX(int q, long[][] queries) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def solveMinimumX(self, q: int, queries: list[list[int]]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    typedef __int128_t int128;
+    vector<long long> solveMinimumX(int q, vector<vector<long long>>& queries) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} q
+   * @param {number[][]} queries
+   * @returns {bigint[]}
+   */
+  solveMinimumX(q, queries) {
+    // Your code here
+    return [];
+  }
+}
+```

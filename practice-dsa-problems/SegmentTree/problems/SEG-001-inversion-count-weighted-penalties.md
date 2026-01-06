@@ -69,3 +69,54 @@ Compute the total penalty-adjusted inversion count.
 ```
 7
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long getWeightedInversionCount(int n, int p, int[] a) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class Solution:
+    def getWeightedInversionCount(self, n: int, p: int, a: List[int]) -> int:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <vector>
+
+class Solution {
+public:
+    long long getWeightedInversionCount(int n, int p, std::vector<int>& a) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  getWeightedInversionCount(n, p, a) {
+    // Your code here
+    return 0;
+  }
+}
+```

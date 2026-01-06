@@ -65,3 +65,54 @@ Two operations conflict if they access the same cell and at least one is a write
 ```
 NOT_SERIALIZABLE
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String checkSerializability(int n, int m, int q, List<String> schedule) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+```python
+class Solution:
+    def checkSerializability(self, n: int, m: int, q: int, schedule: list[str]) -> str:
+        # Your code here
+        return ""
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string checkSerializability(int n, int m, int q, vector<string>& schedule) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} q
+   * @param {string[]} schedule
+   * @returns {string}
+   */
+  checkSerializability(n, m, q, schedule) {
+    // Your code here
+    return "";
+  }
+}
+```

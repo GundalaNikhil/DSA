@@ -81,3 +81,54 @@ PRIME
 PRIME
 COMPOSITE
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+import java.math.BigInteger;
+
+public class Solution {
+    public List<String> detectPrimes(int N, int Q, List<Long> queries) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def detectPrimes(self, N: int, Q: int, queries: list[int]) -> list[str]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> detectPrimes(int N, int Q, vector<long long>& queries) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} N
+   * @param {number} Q
+   * @param {bigint[]} queries
+   * @returns {string[]}
+   */
+  detectPrimes(N, Q, queries) {
+    // Your code here
+    return [];
+  }
+}
+```

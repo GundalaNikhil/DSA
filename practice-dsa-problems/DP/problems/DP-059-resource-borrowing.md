@@ -66,3 +66,56 @@ Maximize total reward.
 ```
 7
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxReward(int n, int a, int b, int interest, int[][] actions) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxReward(self, n: int, a: int, b: int, interest: int, actions: list[list[int]]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxReward(int n, int a, int b, int interest, vector<vector<int>>& actions) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} a
+   * @param {number} b
+   * @param {number} interest
+   * @param {number[][]} actions
+   * @return {number}
+   */
+  maxReward(n, a, b, interest, actions) {
+    // Implement here
+    return 0;
+  }
+}
+```

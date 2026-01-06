@@ -59,3 +59,52 @@ abc
 ```
 b
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String findKthLexicalSubstring(String s, long k) {
+        // Your code here
+        return "-1";
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def findKthLexicalSubstring(self, s: str, k: int) -> str:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    std::string findKthLexicalSubstring(std::string s, long long k) {
+        // Your code here
+        return "-1";
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  findKthLexicalSubstring(s, k) {
+    // Your code here
+    return "-1";
+  }
+}
+```

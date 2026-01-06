@@ -74,42 +74,50 @@ Compute the final matrix after all rules are applied.
 
 ## Solution Stub
 
-### Java
-
 ```java
-class Solution {
+import java.util.*;
+
+public class Solution {
     public int[][] computeAuthorityMatrix(int n, int m, int[] rowAuthorities, int[][] columnRules) {
-        // Implement here
+        // Your code here
         return new int[n][m];
     }
 }
 ```
 
-### Python
-
 ```python
-def solve(n, m, row_authorities, column_rules):
-    # Implement here
-    return [[]]
+class Solution:
+    def computeAuthorityMatrix(self, n: int, m: int, row_authorities: list[int], column_rules: list[list[int]]) -> list[list[int]]:
+        # Your code here
+        return [[]]
 ```
 
-### C++
-
 ```cpp
+#include <vector>
+
+using namespace std;
+
 class Solution {
 public:
-    vector<vector<int>> computeAuthorityMatrix(int n, int m, vector<int>& rowAuthorities, vector<pair<int,int>>& columnRules) {
-        // Implement here
+    vector<vector<int>> computeAuthorityMatrix(int n, int m, vector<int>& rowAuthorities, vector<vector<int>>& columnRules) {
+        // Your code here
         return {};
     }
 };
 ```
 
-### JavaScript
-
 ```javascript
-function solve(n, m, rowAuthorities, columnRules) {
-  // Implement here
-  return [[]];
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number[]} rowAuthorities
+   * @param {number[][]} columnRules
+   * @returns {number[][]}
+   */
+  computeAuthorityMatrix(n, m, rowAuthorities, columnRules) {
+    // Your code here
+    return [[]];
+  }
 }
 ```

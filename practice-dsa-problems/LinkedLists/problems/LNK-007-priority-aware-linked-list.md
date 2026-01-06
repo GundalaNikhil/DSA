@@ -73,3 +73,54 @@ SWAP 2 4
 ```
 10 30 40 20
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int[] processPriorityList(int n, int[] values, int[] priorities, String[] operations) {
+        // Your code here
+        return new int[0];
+    }
+}
+```
+
+```python
+class Solution:
+    def processPriorityList(self, n: int, values: list[int], priorities: list[int], operations: list[str]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> processPriorityList(int n, vector<int>& values, vector<int>& priorities, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} values
+   * @param {number[]} priorities
+   * @param {string[]} operations
+   * @returns {number[]}
+   */
+  processPriorityList(n, values, priorities, operations) {
+    // Your code here
+    return [];
+  }
+}
+```

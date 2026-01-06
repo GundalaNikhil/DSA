@@ -83,3 +83,78 @@ COMPOSITE 0
 PRIME 2
 COMPOSITE 1
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public static class ValidationResult {
+        public String status;
+        public int witnesses;
+        public ValidationResult(String status, int witnesses) {
+            this.status = status;
+            this.witnesses = witnesses;
+        }
+    }
+
+    public List<ValidationResult> validatePrimes(int q, long[] requests) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class ValidationResult:
+    def __init__(self, status: str, witnesses: int):
+        self.status = status
+        self.witnesses = witnesses
+
+class Solution:
+    def validatePrimes(self, q: int, requests: list[int]) -> list[ValidationResult]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+struct ValidationResult {
+    string status;
+    int witnesses;
+};
+
+class Solution {
+public:
+    vector<ValidationResult> validatePrimes(int q, vector<long long>& requests) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class ValidationResult {
+  constructor(status, witnesses) {
+    this.status = status;
+    this.witnesses = witnesses;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} q
+   * @param {number[]} requests
+   * @returns {ValidationResult[]}
+   */
+  validatePrimes(q, requests) {
+    // Your code here
+    return [];
+  }
+}
+```

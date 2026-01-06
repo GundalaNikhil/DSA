@@ -63,3 +63,54 @@ Find the maximum total sum of selected subarrays. You must select at least one s
 ```
 11
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxSubarrayWithCooldown(int n, int x, int[] a) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxSubarrayWithCooldown(self, n: int, x: int, a: list[int]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxSubarrayWithCooldown(int n, int x, vector<int>& a) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} x
+   * @param {number[]} a
+   * @return {number}
+   */
+  maxSubarrayWithCooldown(n, x, a) {
+    // Implement here
+    return 0;
+  }
+}
+```

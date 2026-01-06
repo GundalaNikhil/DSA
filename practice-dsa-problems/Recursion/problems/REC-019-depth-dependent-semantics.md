@@ -68,3 +68,52 @@ Root is node `1`.
 ```
 5
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long evaluateExpressionTree(int n, List<String> nodes) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def evaluateExpressionTree(self, n: int, nodes: list[str]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    long long evaluateExpressionTree(int n, vector<string>& nodes) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {string[]} nodes
+   * @returns {number}
+   */
+  evaluateExpressionTree(n, nodes) {
+    // Your code here
+    return 0;
+  }
+}
+```

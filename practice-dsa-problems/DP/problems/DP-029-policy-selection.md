@@ -67,3 +67,56 @@ Minimize total cost.
 ```
 3
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long minCost(int n, int m, int p, int s, int[][][] policyCosts) {
+        // Implement here
+        return -1;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def minCost(self, n: int, m: int, p: int, s: int, policyCosts: list[list[list[int]]]) -> int:
+        # Implement here
+        return -1
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long minCost(int n, int m, int p, int s, vector<vector<vector<int>>>& policyCosts) {
+        // Implement here
+        return -1;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} p
+   * @param {number} s
+   * @param {number[][][]} policyCosts
+   * @return {number}
+   */
+  minCost(n, m, p, s, policyCosts) {
+    // Implement here
+    return -1;
+  }
+}
+```

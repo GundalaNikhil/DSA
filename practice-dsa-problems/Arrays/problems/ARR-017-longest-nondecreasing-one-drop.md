@@ -60,3 +60,53 @@ Given an array `a1..an`, find the length of the longest contiguous subarray wher
 ```
 6
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int longestWithOneDrop(int n, int[] a) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def longestWithOneDrop(self, n: int, a: list[int]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    int longestWithOneDrop(int n, vector<int>& a) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} a
+   * @return {number}
+   */
+  longestWithOneDrop(n, a) {
+    // Implement here
+    return 0;
+  }
+}
+```

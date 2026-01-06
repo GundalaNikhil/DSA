@@ -71,3 +71,52 @@ EQ 1 2
 ```
 BOOL
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String checkType(int n, List<String[]> nodeDescriptions) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+```python
+class Solution:
+    def checkType(self, n: int, node_descriptions: list[list[str]]) -> str:
+        # Your code here
+        return ""
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string checkType(int n, vector<vector<string>>& nodeDescriptions) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {string[][]} nodeDescriptions
+   * @returns {string}
+   */
+  checkType(n, nodeDescriptions) {
+    // Your code here
+    return "";
+  }
+}
+```

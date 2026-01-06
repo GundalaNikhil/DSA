@@ -72,3 +72,53 @@ Output the committed value for each round, or `-1` if no value reaches threshold
 5
 -1
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> processConsensus(int R, int M, int t, List<List<int[]>> rounds) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def processConsensus(self, R: int, M: int, t: int, rounds: list[list[list[int]]]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> processConsensus(int R, int M, int t, vector<vector<vector<int>>>& rounds) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} R
+   * @param {number} M
+   * @param {number} t
+   * @param {number[][][]} rounds
+   * @returns {number[]}
+   */
+  processConsensus(R, M, t, rounds) {
+    // Your code here
+    return [];
+  }
+}
+```

@@ -71,3 +71,54 @@ Compute the maximum expected sum over all non-empty subarrays. Output the maximu
 ```
 7750
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxExpectedSum(int n, int[] a, int[] p) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxExpectedSum(self, n: int, a: list[int], p: list[int]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxExpectedSum(int n, vector<int>& a, vector<int>& p) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} a
+   * @param {number[]} p
+   * @return {number}
+   */
+  maxExpectedSum(n, a, p) {
+    // Implement here
+    return 0;
+  }
+}
+```

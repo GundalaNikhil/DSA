@@ -61,3 +61,52 @@ Each update to a node carries a vector clock. Two updates are concurrent if neit
 ```
 1
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long countConcurrentUpdatePairs(int q, int d, int[][] updates) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def countConcurrentUpdatePairs(self, q: int, d: int, updates: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long countConcurrentUpdatePairs(int q, int d, vector<vector<int>>& updates) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} q
+   * @param {number} d
+   * @param {number[][]} updates
+   * @returns {number}
+   */
+  countConcurrentUpdatePairs(q, d, updates) {
+    // Your code here
+    return 0;
+  }
+}
+```

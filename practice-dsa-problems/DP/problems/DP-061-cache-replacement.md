@@ -60,3 +60,40 @@ You are given an access sequence of `n` keys and a cache of capacity `C`. On eac
 ```
 4
 ```
+
+## Solution Stub
+
+```java
+public class Solution {
+    public int minMisses(int n, int C, int[] sequence) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def minMisses(self, n: int, C: int, sequence: list[int]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+class Solution {
+public:
+    int minMisses(int n, int C, vector<int>& sequence) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  minMisses(n, C, sequence) {
+    // Your code here
+    return 0;
+  }
+}
+```

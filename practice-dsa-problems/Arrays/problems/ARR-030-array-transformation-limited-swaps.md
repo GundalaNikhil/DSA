@@ -65,3 +65,55 @@ If the transformation is possible within `K` swaps, output `YES`. Otherwise, out
 ```
 YES
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public boolean canTransform(int n, long k, int[] a, int[] b) {
+        // Implement here
+        return false;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def canTransform(self, n: int, k: int, a: list[int], b: list[int]) -> bool:
+        # Implement here
+        return False
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    bool canTransform(int n, long long k, vector<int>& a, vector<int>& b) {
+        // Implement here
+        return false;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} k
+   * @param {number[]} a
+   * @param {number[]} b
+   * @return {boolean}
+   */
+  canTransform(n, k, a, b) {
+    // Implement here
+    return false;
+  }
+}
+```

@@ -61,3 +61,52 @@ Output the sequence of visited values.
 ```
 1 2 2 1 1 2
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> alternatingTraversal(int n, int K, int[] values) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def alternatingTraversal(self, n: int, K: int, values: list[int]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> alternatingTraversal(int n, int K, vector<int>& values) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} K
+   * @param {number[]} values
+   * @returns {number[]}
+   */
+  alternatingTraversal(n, K, values) {
+    // Your code here
+    return [];
+  }
+}
+```

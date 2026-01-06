@@ -75,3 +75,73 @@ a3
 a13
 a3
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<String> solveCompressionWithUndo(String s, int q, List<UndoOp> ops) {
+        // Your code here
+        return new ArrayList<>();
+    }
+
+    public static class UndoOp {
+        char type;
+        int k;
+
+        public UndoOp(char type) { this.type = type; }
+        public UndoOp(char type, int k) { this.type = type; this.k = k; }
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class UndoOp:
+    def __init__(self, type: str, k: int = 0):
+        self.type = type
+        self.k = k
+
+class Solution:
+    def solveCompressionWithUndo(self, s: str, q: int, ops: List[UndoOp]) -> List[str]:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+#include <vector>
+
+struct UndoOp {
+    char type;
+    int k;
+};
+
+class Solution {
+public:
+    std::vector<std::string> solveCompressionWithUndo(std::string s, int q, std::vector<UndoOp>& ops) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  solveCompressionWithUndo(s, q, ops) {
+    // Your code here
+    return [];
+  }
+}
+```

@@ -61,3 +61,55 @@ eat
 ```
 5
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long minDeletionCostToEqual(String a, String b, int[] weights) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class Solution:
+    def minDeletionCostToEqual(self, a: str, b: str, weights: List[int]) -> int:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+#include <vector>
+
+class Solution {
+public:
+    long long minDeletionCostToEqual(std::string a, std::string b, std::vector<int>& weights) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  minDeletionCostToEqual(a, b, weights) {
+    // Your code here
+    return 0;
+  }
+}
+```

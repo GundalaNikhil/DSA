@@ -64,3 +64,56 @@ Compute the maximum expected total reward starting from state 1.
 ```
 12
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxExpectedRewardScaled(int n, int s, int a, int q, int[][] transitions) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxExpectedRewardScaled(self, n: int, s: int, a: int, q: int, transitions: list[list[int]]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxExpectedRewardScaled(int n, int s, int a, int q, vector<vector<int>>& transitions) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} s
+   * @param {number} a
+   * @param {number} q
+   * @param {number[][]} transitions
+   * @return {number}
+   */
+  maxExpectedRewardScaled(n, s, a, q, transitions) {
+    // Implement here
+    return 0;
+  }
+}
+```

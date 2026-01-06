@@ -63,3 +63,40 @@ Maximize total value.
 ```
 11
 ```
+
+## Solution Stub
+
+```java
+public class Solution {
+    public long maxTotalValue(int n, int[][] packets) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def maxTotalValue(self, n: int, packets: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+class Solution {
+public:
+    long long maxTotalValue(int n, vector<vector<int>>& packets) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  maxTotalValue(n, packets) {
+    // Your code here
+    return 0;
+  }
+}
+```

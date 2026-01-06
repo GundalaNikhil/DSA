@@ -70,3 +70,57 @@ You must perform exactly `n` actions. Maximize total reward.
 ```
 12
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxReward(int n, int x, int y, int[] phase1, int[] phase2, int[] phase3) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxReward(self, n: int, x: int, y: int, phase1: list[int], phase2: list[int], phase3: list[int]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxReward(int n, int x, int y, vector<int>& phase1, vector<int>& phase2, vector<int>& phase3) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} x
+   * @param {number} y
+   * @param {number[]} phase1
+   * @param {number[]} phase2
+   * @param {number[]} phase3
+   * @return {number}
+   */
+  maxReward(n, x, y, phase1, phase2, phase3) {
+    // Implement here
+    return 0;
+  }
+}
+```

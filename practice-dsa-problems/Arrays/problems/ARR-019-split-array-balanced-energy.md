@@ -63,3 +63,54 @@ Output the minimum possible value of the maximum segment energy.
 ```
 18
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long minimizeMaxSegmentEnergy(int n, int k, int[] a) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def minimizeMaxSegmentEnergy(self, n: int, k: int, a: list[int]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long minimizeMaxSegmentEnergy(int n, int k, vector<int>& a) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} k
+   * @param {number[]} a
+   * @return {number}
+   */
+  minimizeMaxSegmentEnergy(n, k, a) {
+    // Implement here
+    return 0;
+  }
+}
+```

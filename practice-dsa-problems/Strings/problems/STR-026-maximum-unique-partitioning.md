@@ -58,3 +58,55 @@ ababccc
 5
 a b ab c cc
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<String> findMaxUniquePartition(String s) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class Solution:
+    def findMaxUniquePartition(self, s: str) -> List[str]:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+#include <vector>
+
+class Solution {
+public:
+    std::vector<std::string> findMaxUniquePartition(std::string s) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  findMaxUniquePartition(s) {
+    // Your code here
+    return [];
+  }
+}
+```

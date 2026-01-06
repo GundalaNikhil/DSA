@@ -70,3 +70,76 @@ ASK 1 3
 false
 true
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Boolean> solveOnlineMirrorQueries(int q, List<MirrorOp> ops) {
+        // Your code here
+        return new ArrayList<>();
+    }
+
+    public static class MirrorOp {
+        String type;
+        char c;
+        int l, r;
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class MirrorOp:
+    def __init__(self, type: str, arg1: str, arg2: int = 0):
+        self.type = type
+        if type == 'ADD':
+            self.c = arg1
+        else:
+            self.l = int(arg1)
+            self.r = arg2
+
+class Solution:
+    def solveOnlineMirrorQueries(self, q: int, ops: List[MirrorOp]) -> List[bool]:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+#include <vector>
+
+struct MirrorOp {
+    std::string type;
+    char c;
+    int l, r;
+};
+
+class Solution {
+public:
+    std::vector<bool> solveOnlineMirrorQueries(int q, std::vector<MirrorOp>& ops) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  solveOnlineMirrorQueries(q, ops) {
+    // Your code here
+    return [];
+  }
+}
+```

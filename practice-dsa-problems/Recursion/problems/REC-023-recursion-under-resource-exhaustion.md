@@ -66,3 +66,52 @@ Find the maximum possible sum of `val` along any root-to-leaf path that never ex
 ```
 15
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long maxPathSumUnderBudget(int n, long B, long[][] nodes) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def maxPathSumUnderBudget(self, n: int, B: int, nodes: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long maxPathSumUnderBudget(int n, long long B, vector<vector<long long>>& nodes) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} B
+   * @param {number[][]} nodes
+   * @returns {number}
+   */
+  maxPathSumUnderBudget(n, B, nodes) {
+    // Your code here
+    return 0;
+  }
+}
+```

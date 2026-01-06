@@ -85,3 +85,83 @@ false
 true
 1
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    static class Result {
+        List<Boolean> presence;
+        int falsePositives;
+        Result(List<Boolean> presence, int falsePositives) {
+            this.presence = presence;
+            this.falsePositives = falsePositives;
+        }
+    }
+
+    public Result processBloomFilter(int n, int k, int M, int[] values, String bitset, int[][] hashes, int[] queries) {
+        // Your code here
+        return null;
+    }
+}
+```
+
+```python
+class Result:
+    def __init__(self, presence, false_positives):
+        self.presence = presence
+        self.false_positives = false_positives
+
+class Solution:
+    def processBloomFilter(self, n: int, k: int, M: int, values: list[int], bitset: str, hashes: list[list[int]], queries: list[int]) -> Result:
+        # Your code here
+        return None
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+struct Result {
+    vector<bool> presence;
+    int falsePositives;
+};
+
+class Solution {
+public:
+    Result processBloomFilter(int n, int k, int M, vector<int>& values, string bitset, vector<vector<int>>& hashes, vector<int>& queries) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Result {
+  constructor(presence, falsePositives) {
+    this.presence = presence;
+    this.falsePositives = falsePositives;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} k
+   * @param {number} M
+   * @param {number[]} values
+   * @param {string} bitset
+   * @param {number[][]} hashes
+   * @param {number[]} queries
+   * @returns {Result}
+   */
+  processBloomFilter(n, k, M, values, bitset, hashes, queries) {
+    // Your code here
+    return null;
+  }
+}
+```

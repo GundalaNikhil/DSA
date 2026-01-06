@@ -68,3 +68,53 @@ S = Σ (i=0 to n-1) floor((a * i + b) / m)
 7
 5
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+import java.math.BigInteger;
+
+public class Solution {
+    public List<BigInteger> calculateTotalCosts(int q, long[][] queries) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def calculateTotalCosts(self, q: int, queries: list[list[int]]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    typedef __int128_t int128; // Result can exceed 2^63-1
+    vector<unsigned long long> calculateTotalCosts(int q, vector<vector<long long>>& queries) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} q
+   * @param {number[][]} queries
+   * @returns {bigint[]}
+   */
+  calculateTotalCosts(q, queries) {
+    // Your code here
+    return [];
+  }
+}
+```

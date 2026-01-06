@@ -74,3 +74,82 @@ where `move` is `L` or `R`. Simulate exactly `T` steps or stop early if no trans
 2
 110
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    static class TuringResult {
+        int headPos;
+        String tape;
+        TuringResult(int headPos, String tape) {
+            this.headPos = headPos;
+            this.tape = tape;
+        }
+    }
+
+    public TuringResult simulateTuring(int n, int S, int T, String initialTape, int h, String[] transitions) {
+        // Your code here
+        return null;
+    }
+}
+```
+
+```python
+class TuringResult:
+    def __init__(self, head_pos, tape):
+        self.head_pos = head_pos
+        self.tape = tape
+
+class Solution:
+    def simulateTuring(self, n: int, S: int, T: int, initial_tape: str, h: int, transitions: list[str]) -> TuringResult:
+        # Your code here
+        return None
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+struct TuringResult {
+    int headPos;
+    string tape;
+};
+
+class Solution {
+public:
+    TuringResult simulateTuring(int n, int S, int T, string initialTape, int h, vector<string>& transitions) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class TuringResult {
+  constructor(headPos, tape) {
+    this.headPos = headPos;
+    this.tape = tape;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} S
+   * @param {number} T
+   * @param {string} initialTape
+   * @param {number} h
+   * @param {string[]} transitions
+   * @returns {TuringResult}
+   */
+  simulateTuring(n, S, T, initialTape, h, transitions) {
+    // Your code here
+    return null;
+  }
+}
+```

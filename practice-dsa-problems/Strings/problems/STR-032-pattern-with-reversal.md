@@ -62,3 +62,52 @@ fed
 ```
 true
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public boolean canMatchWithReversal(String t, String p) {
+        // Your code here
+        return false;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def canMatchWithReversal(self, t: str, p: str) -> bool:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    bool canMatchWithReversal(std::string t, std::string p) {
+        // Your code here
+        return false;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  canMatchWithReversal(t, p) {
+    // Your code here
+    return false;
+  }
+}
+```

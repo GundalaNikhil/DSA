@@ -71,3 +71,80 @@ All updates occur simultaneously. After `T` steps, output the final matrix and t
 2 1
 1 0
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public static class HeatResult {
+        public long totalHeat;
+        public int[][] finalMatrix;
+        public HeatResult(long totalHeat, int[][] finalMatrix) {
+            this.totalHeat = totalHeat;
+            this.finalMatrix = finalMatrix;
+        }
+    }
+
+    public HeatResult simulateHeatLeakage(int n, int m, int T, int P, int[][] initialHeat) {
+        // Your code here
+        return null;
+    }
+}
+```
+
+```python
+class HeatResult:
+    def __init__(self, total_heat: int, final_matrix: list[list[int]]):
+        self.total_heat = total_heat
+        self.final_matrix = final_matrix
+
+class Solution:
+    def simulateHeatLeakage(self, n: int, m: int, T: int, P: int, initial_heat: list[list[int]]) -> HeatResult:
+        # Your code here
+        return None
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+struct HeatResult {
+    long long totalHeat;
+    vector<vector<int>> finalMatrix;
+};
+
+class Solution {
+public:
+    HeatResult simulateHeatLeakage(int n, int m, int T, int P, vector<vector<int>>& initialHeat) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class HeatResult {
+  constructor(totalHeat, finalMatrix) {
+    this.totalHeat = totalHeat;
+    this.finalMatrix = finalMatrix;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} T
+   * @param {number} P
+   * @param {number[][]} initialHeat
+   * @returns {HeatResult}
+   */
+  simulateHeatLeakage(n, m, T, P, initialHeat) {
+    // Your code here
+    return null;
+  }
+}
+```

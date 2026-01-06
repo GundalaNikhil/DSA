@@ -63,3 +63,55 @@ Choose both the targets and the action sequence to maximize total reward minus p
 ```
 13
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxScore(int n, int a, int p, int[] rewards) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxScore(self, n: int, a: int, p: int, rewards: list[int]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxScore(int n, int a, int p, vector<int>& rewards) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} a
+   * @param {number} p
+   * @param {number[]} rewards
+   * @return {number}
+   */
+  maxScore(n, a, p, rewards) {
+    // Implement here
+    return 0;
+  }
+}
+```

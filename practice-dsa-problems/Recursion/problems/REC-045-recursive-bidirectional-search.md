@@ -71,3 +71,56 @@ If no such node exists, output `-1`.
 ```
 2
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int minBidirectionalSteps(int n, int m, int S, int T, int L1, int L2, int[][] edges) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def minBidirectionalSteps(self, n: int, m: int, S: int, T: int, L1: int, L2: int, edges: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int minBidirectionalSteps(int n, int m, int S, int T, int L1, int L2, vector<vector<int>>& edges) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} S
+   * @param {number} T
+   * @param {number} L1
+   * @param {number} L2
+   * @param {number[][]} edges
+   * @returns {number}
+   */
+  minBidirectionalSteps(n, m, S, T, L1, L2, edges) {
+    // Your code here
+    return 0;
+  }
+}
+```

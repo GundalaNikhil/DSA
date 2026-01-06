@@ -77,3 +77,54 @@ Compute the maximum possible value for the root, or report `IMPOSSIBLE` if any n
 ```
 29
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String maxRootValueWithOrdering(int n, long[][] nodes, int c, int[][] constraints) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+```python
+class Solution:
+    def maxRootValueWithOrdering(self, n: int, nodes: list[list[int]], c: int, constraints: list[list[int]]) -> str:
+        # Your code here
+        return ""
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string maxRootValueWithOrdering(int n, vector<vector<long long>>& nodes, int c, vector<vector<int>>& constraints) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[][]} nodes
+   * @param {number} c
+   * @param {number[][]} constraints
+   * @returns {string}
+   */
+  maxRootValueWithOrdering(n, nodes, c, constraints) {
+    // Your code here
+    return "";
+  }
+}
+```

@@ -76,3 +76,55 @@ SUM 2 3
 8
 5
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long[] onlineArraySum(int n, int q, int[] a, String[][] queries) {
+        // Implement here
+        return new long[0];
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def onlineArraySum(self, n: int, q: int, a: list[int], queries: list[list[str]]) -> list[int]:
+        # Implement here
+        return []
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    vector<long long> onlineArraySum(int n, int q, vector<int>& a, vector<vector<string>>& queries) {
+        // Implement here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} q
+   * @param {number[]} a
+   * @param {string[][]} queries
+   * @return {number[]}
+   */
+  onlineArraySum(n, q, a, queries) {
+    // Implement here
+    return [];
+  }
+}
+```

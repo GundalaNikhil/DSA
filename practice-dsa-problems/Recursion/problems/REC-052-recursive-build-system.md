@@ -69,3 +69,68 @@ Compute the total build time required to update the target `S` and return its fi
 ```
 5 13
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public static class BuildResult {
+        public long totalCost;
+        public long finalTimestamp;
+        public BuildResult(long totalCost, long finalTimestamp) {
+            this.totalCost = totalCost;
+            this.finalTimestamp = finalTimestamp;
+        }
+    }
+
+    public BuildResult computeBuildTime(int n, int m, int S, long[][] targetInfo, int[][] edges) {
+        // Your code here
+        return null;
+    }
+}
+```
+
+```python
+class Solution:
+    def computeBuildTime(self, n: int, m: int, S: int, target_info: list[list[int]], edges: list[list[int]]) -> tuple[int, int]:
+        # Your code here
+        return 0, 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+struct BuildResult {
+    long long totalCost;
+    long long finalTimestamp;
+};
+
+class Solution {
+public:
+    BuildResult computeBuildTime(int n, int m, int S, vector<vector<long long>>& targetInfo, vector<vector<int>>& edges) {
+        // Your code here
+        return {0, 0};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} S
+   * @param {number[][]} targetInfo
+   * @param {number[][]} edges
+   * @returns {{totalCost: number, finalTimestamp: number}}
+   */
+  computeBuildTime(n, m, S, targetInfo, edges) {
+    // Your code here
+    return { totalCost: 0, finalTimestamp: 0 };
+  }
+}
+```

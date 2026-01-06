@@ -74,3 +74,56 @@ DEL 1 1 1
 ```
 2
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int firstInvalidOperation(int n, int S, int q, int[] initialValues, int[] shards, String[] operations) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def firstInvalidOperation(self, n: int, S: int, q: int, initial_values: list[int], shards: list[int], operations: list[str]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int firstInvalidOperation(int n, int S, int q, vector<int>& initialValues, vector<int>& shards, vector<string>& operations) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} S
+   * @param {number} q
+   * @param {number[]} initialValues
+   * @param {number[]} shards
+   * @param {string[]} operations
+   * @returns {number}
+   */
+  firstInvalidOperation(n, S, q, initialValues, shards, operations) {
+    // Your code here
+    return 0;
+  }
+}
+```

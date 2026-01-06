@@ -65,3 +65,54 @@ Determine whether all nodes in the tree are valid.
 ```
 YES
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String validateWaterfall(int n, long L0, long R0, long[][] nodes) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+```python
+class Solution:
+    def validateWaterfall(self, n: int, L0: int, R0: int, nodes: list[list[int]]) -> str:
+        # Your code here
+        return ""
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string validateWaterfall(int n, long long L0, long long R0, vector<vector<long long>>& nodes) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} L0
+   * @param {number} R0
+   * @param {number[][]} nodes
+   * @returns {string}
+   */
+  validateWaterfall(n, L0, R0, nodes) {
+    // Your code here
+    return "";
+  }
+}
+```

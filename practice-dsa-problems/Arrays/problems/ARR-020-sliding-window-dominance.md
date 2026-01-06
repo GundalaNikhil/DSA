@@ -61,3 +61,54 @@ Given an array `a1..an` and a window size `W`, for each window of length `W` out
 ```
 2 2 2
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int[] findWindowDominance(int n, int w, int[] a) {
+        // Implement here
+        return new int[0];
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def findWindowDominance(self, n: int, w: int, a: list[int]) -> list[int]:
+        # Implement here
+        return []
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    vector<int> findWindowDominance(int n, int w, vector<int>& a) {
+        // Implement here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} w
+   * @param {number[]} a
+   * @return {number[]}
+   */
+  findWindowDominance(n, w, a) {
+    // Implement here
+    return [];
+  }
+}
+```

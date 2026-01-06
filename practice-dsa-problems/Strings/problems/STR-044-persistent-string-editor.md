@@ -75,3 +75,74 @@ GET 2 3
 x
 c
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<String> solvePersistentStringEditor(String s, int q, List<EditorOp> ops) {
+        // Your code here
+        return new ArrayList<>();
+    }
+
+    public static class EditorOp {
+        String type;
+        int v, pos;
+        char c;
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class EditorOp:
+    def __init__(self, type: str, v: int, pos: int, c: str = ''):
+        self.type = type
+        self.v = v
+        self.pos = pos
+        self.c = c
+
+class Solution:
+    def solvePersistentStringEditor(self, s: str, q: int, ops: List[EditorOp]) -> List[str]:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+#include <vector>
+
+struct EditorOp {
+    std::string type;
+    int v, pos;
+    char c;
+};
+
+class Solution {
+public:
+    std::vector<std::string> solvePersistentStringEditor(std::string s, int q, std::vector<EditorOp>& ops) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  solvePersistentStringEditor(s, q, ops) {
+    // Your code here
+    return [];
+  }
+}
+```

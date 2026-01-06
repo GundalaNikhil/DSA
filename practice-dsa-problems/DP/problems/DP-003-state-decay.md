@@ -66,3 +66,56 @@ Maximize total gained value.
 ```
 13
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxGain(int n, int m, int d, int D, int[] v) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxGain(self, n: int, m: int, d: int, D: int, v: list[int]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxGain(int n, int m, int d, int D, vector<int>& v) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} d
+   * @param {number} D
+   * @param {number[]} v
+   * @return {number}
+   */
+  maxGain(n, m, d, D, v) {
+    // Implement here
+    return 0;
+  }
+}
+```

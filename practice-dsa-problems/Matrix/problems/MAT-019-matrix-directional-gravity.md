@@ -78,3 +78,53 @@ Output the final matrix.
 0100
 1000
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public char[][] applyQuadrantGravity(int n, int m, char[][] initialGrid) {
+        // Your code here
+        return new char[n][m];
+    }
+}
+```
+
+```python
+class Solution:
+    def applyQuadrantGravity(self, n: int, m: int, initial_grid: list[str]) -> list[str]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> applyQuadrantGravity(int n, int m, vector<string>& initialGrid) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {string[]} initialGrid
+   * @returns {string[]}
+   */
+  applyQuadrantGravity(n, m, initialGrid) {
+    // Your code here
+    return [];
+  }
+}
+```

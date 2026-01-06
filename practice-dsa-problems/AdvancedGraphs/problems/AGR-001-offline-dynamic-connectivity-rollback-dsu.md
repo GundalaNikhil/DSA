@@ -79,3 +79,72 @@ YES
 NO
 NO
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<String> solveDynamicConnectivity(int n, int q, List<GraphOp> ops) {
+        // Your code here
+        return new ArrayList<>();
+    }
+
+    public static class GraphOp {
+        String type;
+        int u, v;
+        public GraphOp(String type, int u, int v) { this.type = type; this.u = u; this.v = v; }
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class GraphOp:
+    def __init__(self, type: str, u: int, v: int):
+        self.type = type
+        self.u = u
+        self.v = v
+
+class Solution:
+    def solveDynamicConnectivity(self, n: int, q: int, ops: List[GraphOp]) -> List[str]:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+#include <vector>
+
+struct GraphOp {
+    std::string type;
+    int u, v;
+};
+
+class Solution {
+public:
+    std::vector<std::string> solveDynamicConnectivity(int n, int q, std::vector<GraphOp>& ops) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  solveDynamicConnectivity(n, q, ops) {
+    // Your code here
+    return [];
+  }
+}
+```

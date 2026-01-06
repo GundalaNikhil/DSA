@@ -76,3 +76,53 @@ SET 1 3
 9
 0
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<String> processZookeeperWatch(int n, int[] initialList, String[] operations) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def processZookeeperWatch(self, n: int, initial_list: list[int], operations: list[str]) -> list[str]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> processZookeeperWatch(int n, vector<int>& initialList, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} initialList
+   * @param {string[]} operations
+   * @returns {string[]}
+   */
+  processZookeeperWatch(n, initialList, operations) {
+    // Your code here
+    return [];
+  }
+}
+```

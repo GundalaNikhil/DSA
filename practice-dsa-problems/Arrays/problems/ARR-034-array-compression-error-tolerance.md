@@ -71,3 +71,54 @@ Your task is to minimize the number of segments. Output the minimum number of se
 2
 3 2
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int[] minSegments(int n, int e, int[] a) {
+        // Implement here
+        return new int[0];
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def minSegments(self, n: int, e: int, a: list[int]) -> list[int]:
+        # Implement here
+        return []
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    vector<int> minSegments(int n, int e, vector<int>& a) {
+        // Implement here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} e
+   * @param {number[]} a
+   * @return {number[]}
+   */
+  minSegments(n, e, a) {
+    // Implement here
+    return [];
+  }
+}
+```

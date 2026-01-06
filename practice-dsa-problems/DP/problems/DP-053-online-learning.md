@@ -62,3 +62,54 @@ Minimize total cost.
 ```
 5
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long minCost(int n, int a, int[][] actions) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def minCost(self, n: int, a: int, actions: list[list[int]]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long minCost(int n, int a, vector<vector<int>>& actions) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} a
+   * @param {number[][]} actions
+   * @return {number}
+   */
+  minCost(n, a, actions) {
+    // Implement here
+    return 0;
+  }
+}
+```

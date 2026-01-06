@@ -61,3 +61,54 @@ You are allowed to override validity **once**: you may treat one invalid node as
 ```
 YES
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String canBeValidWithOverride(int n, long L, long R, long[][] nodes) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+```python
+class Solution:
+    def canBeValidWithOverride(self, n: int, L: int, R: int, nodes: list[list[int]]) -> str:
+        # Your code here
+        return ""
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string canBeValidWithOverride(int n, long long L, long long R, vector<vector<long long>>& nodes) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} L
+   * @param {number} R
+   * @param {number[][]} nodes
+   * @returns {string}
+   */
+  canBeValidWithOverride(n, L, R, nodes) {
+    // Your code here
+    return "";
+  }
+}
+```

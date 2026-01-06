@@ -66,3 +66,53 @@ Let the transformed array be `b1..bn`, where `b_i` is the contribution of `a_i`.
 ```
 28
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxDecayedSubarraySum(int n, int[] a) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxDecayedSubarraySum(self, n: int, a: list[int]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxDecayedSubarraySum(int n, vector<int>& a) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} a
+   * @return {number}
+   */
+  maxDecayedSubarraySum(n, a) {
+    // Implement here
+    return 0;
+  }
+}
+```

@@ -63,3 +63,54 @@ Find the `K`-th smallest XOR value among all subarrays (1-based). If `K` is outs
 ```
 2
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long kthSmallestSubarrayXor(int n, long k, int[] a) {
+        // Implement here
+        return -1;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def kthSmallestSubarrayXor(self, n: int, k: int, a: list[int]) -> int:
+        # Implement here
+        return -1
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long kthSmallestSubarrayXor(int n, long long k, vector<int>& a) {
+        // Implement here
+        return -1;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} k
+   * @param {number[]} a
+   * @return {number}
+   */
+  kthSmallestSubarrayXor(n, k, a) {
+    // Implement here
+    return -1;
+  }
+}
+```

@@ -72,3 +72,85 @@ CYCLE 2
 0 1
 2 0
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public static class Result {
+        public String type; // "FIXED" or "CYCLE"
+        public int value; // step count or cycle length
+        public int[][] matrix;
+        public Result(String type, int value, int[][] matrix) {
+            this.type = type;
+            this.value = value;
+            this.matrix = matrix;
+        }
+    }
+
+    public Result simulateStateMachine(int n, int m, int S, int[][] initialStates) {
+        // Your code here
+        return null;
+    }
+}
+```
+
+```python
+class Result:
+    def __init__(self, type_str: str, value: int, matrix: list[list[int]]):
+        self.type = type_str
+        self.value = value
+        self.matrix = matrix
+
+class Solution:
+    def simulateStateMachine(self, n: int, m: int, S: int, initial_states: list[list[int]]) -> Result:
+        # Your code here
+        return None
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+struct Result {
+    string type;
+    int value;
+    vector<vector<int>> matrix;
+};
+
+class Solution {
+public:
+    Result simulateStateMachine(int n, int m, int S, vector<vector<int>>& initialStates) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Result {
+  constructor(type, value, matrix) {
+    this.type = type;
+    this.value = value;
+    this.matrix = matrix;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} S
+   * @param {number[][]} initialStates
+   * @returns {Result}
+   */
+  simulateStateMachine(n, m, S, initialStates) {
+    // Your code here
+    return null;
+  }
+}
+```

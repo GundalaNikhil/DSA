@@ -75,3 +75,66 @@ L 1 1
 WIN
 2
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public static class Result {
+        public String status;
+        public List<Integer> strategy;
+        public Result(String status, List<Integer> strategy) {
+            this.status = status;
+            this.strategy = strategy;
+        }
+    }
+
+    public Result findWinningStrategy(int n, List<String[]> nodeInfo) {
+        // Your code here
+        return null;
+    }
+}
+```
+
+```python
+class Solution:
+    def findWinningStrategy(self, n: int, node_info: list[list[str]]) -> tuple[str, list[int]]:
+        # Your code here
+        return "", []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+struct Result {
+    string status;
+    vector<int> strategy;
+};
+
+class Solution {
+public:
+    Result findWinningStrategy(int n, vector<vector<string>>& nodeInfo) {
+        // Your code here
+        return {"", {}};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {string[][]} nodeInfo
+   * @returns {{status: string, strategy: number[]}}
+   */
+  findWinningStrategy(n, nodeInfo) {
+    // Your code here
+    return { status: "", strategy: [] };
+  }
+}
+```

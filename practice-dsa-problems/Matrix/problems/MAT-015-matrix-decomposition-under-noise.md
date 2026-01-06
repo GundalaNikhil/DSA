@@ -74,3 +74,77 @@ Output the matrix `B` and the minimum error.
 1 2
 2 4
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public static class DecompositionResult {
+        public long error;
+        public long[][] B;
+        public DecompositionResult(long error, long[][] B) {
+            this.error = error;
+            this.B = B;
+        }
+    }
+
+    public DecompositionResult decomposeMatrix(int n, int[][] A) {
+        // Your code here
+        return null;
+    }
+}
+```
+
+```python
+class DecompositionResult:
+    def __init__(self, error: int, B: list[list[int]]):
+        self.error = error
+        self.B = B
+
+class Solution:
+    def decomposeMatrix(self, n: int, A: list[list[int]]) -> DecompositionResult:
+        # Your code here
+        return None
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+struct DecompositionResult {
+    long long error;
+    vector<vector<long long>> B;
+};
+
+class Solution {
+public:
+    DecompositionResult decomposeMatrix(int n, vector<vector<int>>& A) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class DecompositionResult {
+  constructor(error, B) {
+    this.error = error;
+    this.B = B;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[][]} A
+   * @returns {DecompositionResult}
+   */
+  decomposeMatrix(n, A) {
+    // Your code here
+    return null;
+  }
+}
+```

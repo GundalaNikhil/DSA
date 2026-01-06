@@ -73,3 +73,53 @@ The moduli $m_i$ are **not** guaranteed to be pairwise coprime.
 14
 -1
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+import java.math.BigInteger;
+
+public class Solution {
+    public List<BigInteger> solveChineseRemainder(int q, List<List<long[]>> queries) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def solveChineseRemainder(self, q: int, queries: list[list[list[int]]]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    typedef __int128_t int128;
+    vector<long long> solveChineseRemainder(int q, vector<vector<pair<long long, long long>>>& queries) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} q
+   * @param {number[][][]} queries
+   * @returns {bigint[]}
+   */
+  solveChineseRemainder(q, queries) {
+    // Your code here
+    return [];
+  }
+}
+```

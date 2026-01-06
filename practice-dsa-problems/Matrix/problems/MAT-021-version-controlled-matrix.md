@@ -83,3 +83,81 @@ GET 3 1 1
 1
 5
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public static class VersionResult {
+        public List<Integer> mergeConflicts;
+        public List<Integer> getResults;
+        public VersionResult(List<Integer> mergeConflicts, List<Integer> getResults) {
+            this.mergeConflicts = mergeConflicts;
+            this.getResults = getResults;
+        }
+    }
+
+    public VersionResult processVersionOperations(int n, int m, int q, int[][] initialMatrix, List<String> operations) {
+        // Your code here
+        return null;
+    }
+}
+```
+
+```python
+class VersionResult:
+    def __init__(self, merge_conflicts: list[int], get_results: list[int]):
+        self.merge_conflicts = merge_conflicts
+        self.get_results = get_results
+
+class Solution:
+    def processVersionOperations(self, n: int, m: int, q: int, initial_matrix: list[list[int]], operations: list[str]) -> VersionResult:
+        # Your code here
+        return None
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+struct VersionResult {
+    vector<int> mergeConflicts;
+    vector<int> getResults;
+};
+
+class Solution {
+public:
+    VersionResult processVersionOperations(int n, int m, int q, vector<vector<int>>& initialMatrix, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class VersionResult {
+  constructor(mergeConflicts, getResults) {
+    this.mergeConflicts = mergeConflicts;
+    this.getResults = getResults;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} q
+   * @param {number[][]} initialMatrix
+   * @param {string[]} operations
+   * @returns {VersionResult}
+   */
+  processVersionOperations(n, m, q, initialMatrix, operations) {
+    // Your code here
+    return null;
+  }
+}
+```

@@ -59,3 +59,52 @@ dcba
 ```
 bdca
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String getLexicallySmallest(String s, long k) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def getLexicallySmallest(self, s: str, k: int) -> str:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    std::string getLexicallySmallest(std::string s, long long k) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  getLexicallySmallest(s, k) {
+    // Your code here
+    return "";
+  }
+}
+```

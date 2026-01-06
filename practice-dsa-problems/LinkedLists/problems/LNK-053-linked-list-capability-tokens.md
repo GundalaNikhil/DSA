@@ -77,3 +77,86 @@ DEL 5 3 2
 ```
 9
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    static class Token {
+        int id, l, r;
+        long tExpire;
+        Token(int id, int l, int r, long tExpire) {
+            this.id = id;
+            this.l = l;
+            this.r = r;
+            this.tExpire = tExpire;
+        }
+    }
+
+    public List<Integer> processCapabilityTokens(int n, int[] initialList, List<Token> tokens, String[] operations) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Token:
+    def __init__(self, id, l, r, t_expire):
+        self.id = id
+        self.l = l
+        self.r = r
+        self.t_expire = t_expire
+
+class Solution:
+    def processCapabilityTokens(self, n: int, initial_list: list[int], tokens: list[Token], operations: list[str]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+struct Token {
+    int id, l, r;
+    long long tExpire;
+};
+
+class Solution {
+public:
+    vector<int> processCapabilityTokens(int n, vector<int>& initialList, vector<Token>& tokens, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Token {
+  constructor(id, l, r, tExpire) {
+    this.id = id;
+    this.l = l;
+    this.r = r;
+    this.tExpire = tExpire;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} initialList
+   * @param {Token[]} tokens
+   * @param {string[]} operations
+   * @returns {number[]}
+   */
+  processCapabilityTokens(n, initialList, tokens, operations) {
+    // Your code here
+    return [];
+  }
+}
+```

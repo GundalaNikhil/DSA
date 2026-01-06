@@ -62,3 +62,55 @@ ababcabc
 ab 2
 bc 2
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<String> findTopKSubstrings(String s, int l, int k) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class Solution:
+    def findTopKSubstrings(self, s: str, l: int, k: int) -> List[str]:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+#include <vector>
+
+class Solution {
+public:
+    std::vector<std::string> findTopKSubstrings(std::string s, int l, int k) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  findTopKSubstrings(s, l, k) {
+    // Your code here
+    return [];
+  }
+}
+```

@@ -32,3 +32,11 @@ if __name__ == "__main__":
     folder = sys.argv[5] if len(sys.argv) > 5 else None
 
     upload_image(image_path, cloud_name, api_key, api_secret, folder)
+
+
+#dbname: dy4dvna3t
+#api_key: 422129878775651
+#api_secret: sBGz50Rxzzwk9pFAMFxyjvQN5uk
+
+#google ai studio 
+# API_KEY: AIzaSyArgfdzbWUOpaoYqg9_DnAcNeUt7j6Zg9k

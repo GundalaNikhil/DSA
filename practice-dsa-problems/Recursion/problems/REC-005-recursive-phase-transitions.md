@@ -68,3 +68,52 @@ Compute the recursion value.
 ```
 20
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long calculateRecursionValue(int n, int D, int[] a) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def calculateRecursionValue(self, n: int, D: int, a: list[int]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long calculateRecursionValue(int n, int D, vector<int>& a) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} D
+   * @param {number[]} a
+   * @returns {number}
+   */
+  calculateRecursionValue(n, D, a) {
+    // Your code here
+    return 0;
+  }
+}
+```

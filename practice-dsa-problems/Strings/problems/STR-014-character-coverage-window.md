@@ -65,3 +65,52 @@ ABC
 ```
 BANC
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String findMinCoverageWindow(String s, String r, int f) {
+        // Your code here
+        return "-1";
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def findMinCoverageWindow(self, s: str, r: str, f: int) -> str:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    std::string findMinCoverageWindow(std::string s, std::string r, int f) {
+        // Your code here
+        return "-1";
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  findMinCoverageWindow(s, r, f) {
+    // Your code here
+    return "-1";
+  }
+}
+```

@@ -68,3 +68,55 @@ Maximize total reward after `n` steps.
 ```
 15
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxReward(int n, int g, int[][] states, int[][] multipliers) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxReward(self, n: int, g: int, states: list[list[int]], multipliers: list[list[int]]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxReward(int n, int g, vector<vector<int>>& states, vector<vector<int>>& multipliers) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} g
+   * @param {number[][]} states
+   * @param {number[][]} multipliers
+   * @return {number}
+   */
+  maxReward(n, g, states, multipliers) {
+    // Implement here
+    return 0;
+  }
+}
+```

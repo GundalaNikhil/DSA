@@ -67,3 +67,57 @@ Maximize total reward along the path.
 ```
 8
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxReward(int n, int m, int s, int t, int[] values, int[][] edges) {
+        // Implement here
+        return -1;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxReward(self, n: int, m: int, s: int, t: int, values: list[int], edges: list[list[int]]) -> int:
+        # Implement here
+        return -1
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxReward(int n, int m, int s, int t, vector<int>& values, vector<vector<int>>& edges) {
+        // Implement here
+        return -1;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} s
+   * @param {number} t
+   * @param {number[]} values
+   * @param {number[][]} edges
+   * @return {number}
+   */
+  maxReward(n, m, s, t, values, edges) {
+    // Implement here
+    return -1;
+  }
+}
+```

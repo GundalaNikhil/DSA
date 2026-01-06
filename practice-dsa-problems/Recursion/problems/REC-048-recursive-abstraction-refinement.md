@@ -68,3 +68,52 @@ Compute the number of final regions (leaf regions) after full refinement.
 ```
 4
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int countLeafRegions(int N, long T, long[][] grid) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def countLeafRegions(self, N: int, T: int, grid: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int countLeafRegions(int N, long long T, vector<vector<long long>>& grid) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} N
+   * @param {number} T
+   * @param {number[][]} grid
+   * @returns {number}
+   */
+  countLeafRegions(N, T, grid) {
+    // Your code here
+    return 0;
+  }
+}
+```

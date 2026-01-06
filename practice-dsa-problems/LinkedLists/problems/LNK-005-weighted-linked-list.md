@@ -69,3 +69,53 @@ Each node has a value and a weight. Starting from the head, the traversal cost i
 6
 8
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> reachableNodes(int n, int[] values, long[] weights, long[] budgets) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def reachableNodes(self, n: int, values: list[int], weights: list[int], budgets: list[int]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> reachableNodes(int n, vector<int>& values, vector<long long>& weights, vector<long long>& budgets) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} values
+   * @param {number[]} weights
+   * @param {number[]} budgets
+   * @returns {number[]}
+   */
+  reachableNodes(n, values, weights, budgets) {
+    // Your code here
+    return [];
+  }
+}
+```

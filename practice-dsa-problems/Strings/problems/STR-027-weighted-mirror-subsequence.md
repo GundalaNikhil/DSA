@@ -87,3 +87,55 @@ abcba
 ```
 14
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long maxWeightedPalindromicSubsequence(String s, int[][] weights) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class Solution:
+    def maxWeightedPalindromicSubsequence(self, s: str, weights: List[List[int]]) -> int:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+#include <vector>
+
+class Solution {
+public:
+    long long maxWeightedPalindromicSubsequence(std::string s, std::vector<std::vector<int>>& weights) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  maxWeightedPalindromicSubsequence(s, weights) {
+    // Your code here
+    return 0;
+  }
+}
+```

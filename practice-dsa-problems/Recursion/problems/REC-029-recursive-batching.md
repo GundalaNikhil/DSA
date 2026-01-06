@@ -64,3 +64,52 @@ Compute `Batch(1, n)`.
 ```
 8
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long evaluateBatching(int n, int B, long[] A) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def evaluateBatching(self, n: int, B: int, A: list[int]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long evaluateBatching(int n, int B, vector<long long>& A) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} B
+   * @param {number[]} A
+   * @returns {number}
+   */
+  evaluateBatching(n, B, A) {
+    // Your code here
+    return 0;
+  }
+}
+```

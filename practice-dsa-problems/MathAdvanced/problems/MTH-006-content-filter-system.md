@@ -67,3 +67,82 @@ A content moderation system filters out content IDs that are divisible by any of
 4
 6
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Long> countSafeIDs(int q, List<Query> queries) {
+        // Your code here
+        return new ArrayList<>();
+    }
+
+    public static class Query {
+        public long N;
+        public int k;
+        public long[] primes;
+        public Query(long N, int k, long[] primes) {
+            this.N = N;
+            this.k = k;
+            this.primes = primes;
+        }
+    }
+}
+```
+
+```python
+class Query:
+    def __init__(self, N: int, k: int, primes: list[int]):
+        self.N = N
+        self.k = k
+        self.primes = primes
+
+class Solution:
+    def countSafeIDs(self, q: int, queries: list[Query]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+struct Query {
+    long long N;
+    int k;
+    vector<long long> primes;
+};
+
+class Solution {
+public:
+    vector<long long> countSafeIDs(int q, vector<Query>& queries) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Query {
+  constructor(N, k, primes) {
+    this.N = N;
+    this.k = k;
+    this.primes = primes;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} q
+   * @param {Query[]} queries
+   * @returns {number[]}
+   */
+  countSafeIDs(q, queries) {
+    // Your code here
+    return [];
+  }
+}
+```

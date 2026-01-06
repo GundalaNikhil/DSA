@@ -76,3 +76,57 @@ VALID
 INVALID
 VALID
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public String[] checkValidity(int n, int r, int q, int[] a, String[][] rules, int[] toggles) {
+        // Implement here
+        return new String[0];
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def checkValidity(self, n: int, r: int, q: int, a: list[int], rules: list[list[str]], toggles: list[int]) -> list[str]:
+        # Implement here
+        return []
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    vector<string> checkValidity(int n, int r, int q, vector<int>& a, vector<vector<string>>& rules, vector<int>& toggles) {
+        // Implement here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} r
+   * @param {number} q
+   * @param {number[]} a
+   * @param {string[][]} rules
+   * @param {number[]} toggles
+   * @return {string[]}
+   */
+  checkValidity(n, r, q, a, rules, toggles) {
+    // Implement here
+    return [];
+  }
+}
+```

@@ -68,3 +68,52 @@ Find the smallest column index (1-based) that violates monotonicity. If all colu
 ```
 2
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int findFirstDrift(int n, int m, int[][] a) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def findFirstDrift(self, n: int, m: int, a: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int findFirstDrift(int n, int m, vector<vector<int>>& a) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number[][]} a
+   * @returns {number}
+   */
+  findFirstDrift(n, m, a) {
+    // Your code here
+    return 0;
+  }
+}
+```

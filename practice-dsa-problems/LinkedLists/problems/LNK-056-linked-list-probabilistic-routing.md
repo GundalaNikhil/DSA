@@ -38,7 +38,7 @@ Compute the expected number of steps to reach null from the head.
 
 ## Output Format
 
-- Single integer: expected steps multiplied by 1000 (i.e., expected value * 1000)
+- Single integer: expected steps multiplied by 1000 (i.e., expected value \* 1000)
 
 ## Constraints
 
@@ -62,4 +62,53 @@ Compute the expected number of steps to reach null from the head.
 
 ```
 1500
+```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long expectedSteps(int n, int[] jumpIndices, int[] probabilities) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def expectedSteps(self, n: int, jump_indices: list[int], probabilities: list[int]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long expectedSteps(int n, vector<int>& jumpIndices, vector<int>& probabilities) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} jumpIndices
+   * @param {number[]} probabilities
+   * @returns {number}
+   */
+  expectedSteps(n, jumpIndices, probabilities) {
+    // Your code here
+    return 0;
+  }
+}
 ```

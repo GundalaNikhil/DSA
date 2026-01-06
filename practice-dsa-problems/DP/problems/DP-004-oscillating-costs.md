@@ -66,3 +66,55 @@ Find the minimum total cost over `n` steps.
 ```
 6
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long minTotalCost(int n, int a, int U, int[][] actions) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def minTotalCost(self, n: int, a: int, U: int, actions: list[list[int]]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long minTotalCost(int n, int a, int U, vector<vector<int>>& actions) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} a
+   * @param {number} U
+   * @param {number[][]} actions
+   * @return {number}
+   */
+  minTotalCost(n, a, U, actions) {
+    // Implement here
+    return 0;
+  }
+}
+```

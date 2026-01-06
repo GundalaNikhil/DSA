@@ -66,3 +66,55 @@ Find the maximum sum among all valid subarrays. If no valid subarray exists, out
 ```
 6
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxValidSubarraySum(int n, int m, int[] a, int[] s) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxValidSubarraySum(self, n: int, m: int, a: list[int], s: list[int]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxValidSubarraySum(int n, int m, vector<int>& a, vector<int>& s) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number[]} a
+   * @param {number[]} s
+   * @return {number}
+   */
+  maxValidSubarraySum(n, m, a, s) {
+    // Implement here
+    return 0;
+  }
+}
+```

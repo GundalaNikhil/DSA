@@ -66,3 +66,55 @@ add
 ```
 true
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public boolean hasWeightedMapping(String s, String t, int[] weights) {
+        // Your code here
+        return false;
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class Solution:
+    def hasWeightedMapping(self, s: str, t: str, weights: List[int]) -> bool:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+#include <vector>
+
+class Solution {
+public:
+    bool hasWeightedMapping(std::string s, std::string t, std::vector<int>& weights) {
+        // Your code here
+        return false;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  hasWeightedMapping(s, t, weights) {
+    // Your code here
+    return false;
+  }
+}
+```

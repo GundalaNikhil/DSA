@@ -71,3 +71,54 @@ Node `1` is the root.
 ```
 3
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int maxVisitedNodes(int n, int initialA, int initialB, int[][] nodeCosts, int[][] edges) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def maxVisitedNodes(self, n: int, initial_a: int, initial_b: int, node_costs: list[list[int]], edges: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int maxVisitedNodes(int n, int initialA, int initialB, vector<vector<int>>& nodeCosts, vector<vector<int>>& edges) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} initialA
+   * @param {number} initialB
+   * @param {number[][]} nodeCosts
+   * @param {number[][]} edges
+   * @returns {number}
+   */
+  maxVisitedNodes(n, initialA, initialB, nodeCosts, edges) {
+    // Your code here
+    return 0;
+  }
+}
+```

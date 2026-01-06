@@ -64,3 +64,52 @@ Determine if the root succeeds when always choosing the **leftmost** child first
 ```
 NO
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String doesRootSucceed(int n, int[][] nodes) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+```python
+class Solution:
+    def doesRootSucceed(self, n: int, nodes: list[list[int]]) -> str:
+        # Your code here
+        return ""
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    string doesRootSucceed(int n, vector<vector<int>>& nodes) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[][]} nodes
+   * @returns {string}
+   */
+  doesRootSucceed(n, nodes) {
+    // Your code here
+    return "";
+  }
+}
+```

@@ -73,3 +73,55 @@ GET 1 2 7
 2
 9
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> processReadReplicas(int n, int R, int D, int[] initialValues, String[] operations) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def processReadReplicas(self, n: int, R: int, D: int, initial_values: list[int], operations: list[str]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> processReadReplicas(int n, int R, int D, vector<int>& initialValues, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} R
+   * @param {number} D
+   * @param {number[]} initialValues
+   * @param {string[]} operations
+   * @returns {number[]}
+   */
+  processReadReplicas(n, R, D, initialValues, operations) {
+    // Your code here
+    return [];
+  }
+}
+```

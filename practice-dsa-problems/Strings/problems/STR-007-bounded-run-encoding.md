@@ -56,3 +56,52 @@ aaaaaaaaaaaabbb
 ```
 a9a3b3
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public String encodeBoundedRun(String s) {
+        // Your code here
+        return "";
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def encodeBoundedRun(self, s: str) -> str:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    std::string encodeBoundedRun(std::string s) {
+        // Your code here
+        return "";
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  encodeBoundedRun(s) {
+    // Your code here
+    return "";
+  }
+}
+```

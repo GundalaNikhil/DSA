@@ -60,3 +60,51 @@ You are given a log of operations with dependency ids. Each operation `i` may li
 ```
 3
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int firstViolation(int q, int[][] dependencies) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def firstViolation(self, q: int, dependencies: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    int firstViolation(int q, vector<vector<int>>& dependencies) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} q
+   * @param {number[][]} dependencies
+   * @returns {number}
+   */
+  firstViolation(q, dependencies) {
+    // Your code here
+    return 0;
+  }
+}
+```

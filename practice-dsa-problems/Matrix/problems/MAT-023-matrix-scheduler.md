@@ -66,3 +66,54 @@ Compute the minimum total completion time (makespan).
 ```
 7
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long calculateMakespan(int n, int m, int k, int[][] durations, int[][] dependencies) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def calculateMakespan(self, n: int, m: int, k: int, durations: list[list[int]], dependencies: list[list[int]]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    long long calculateMakespan(int n, int m, int k, vector<vector<int>>& durations, vector<vector<int>>& dependencies) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} k
+   * @param {number[][]} durations
+   * @param {number[][]} dependencies
+   * @returns {number}
+   */
+  calculateMakespan(n, m, k, durations, dependencies) {
+    // Your code here
+    return 0;
+  }
+}
+```

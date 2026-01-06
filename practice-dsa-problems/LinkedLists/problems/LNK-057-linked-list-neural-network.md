@@ -69,3 +69,54 @@ with `val_0 = x`. You are given a target `y`. Compute the output `val_n` and the
 5
 0
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long[] computeNeuralOutput(int n, long[] weights, long[] biases, long x, long y) {
+        // Your code here
+        return new long[2];
+    }
+}
+```
+
+```python
+class Solution:
+    def computeNeuralOutput(self, n: int, weights: list[int], biases: list[int], x: int, y: int) -> list[int]:
+        # Your code here
+        return [0, 0]
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> computeNeuralOutput(int n, vector<long long>& weights, vector<long long>& biases, long long x, long long y) {
+        // Your code here
+        return {0, 0};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} weights
+   * @param {number[]} biases
+   * @param {number} x
+   * @param {number} y
+   * @returns {number[]}
+   */
+  computeNeuralOutput(n, weights, biases, x, y) {
+    // Your code here
+    return [0, 0];
+  }
+}
+```

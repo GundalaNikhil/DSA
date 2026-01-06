@@ -65,3 +65,55 @@ Maximize total reward.
 ```
 11
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxReward(int n, int m, int e, int[][] edges) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxReward(self, n: int, m: int, e: int, edges: list[list[int]]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxReward(int n, int m, int e, vector<vector<int>>& edges) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} e
+   * @param {number[][]} edges
+   * @return {number}
+   */
+  maxReward(n, m, e, edges) {
+    // Implement here
+    return 0;
+  }
+}
+```

@@ -78,3 +78,53 @@ PUT c 3 3
 ```
 1
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> processLRUTimeDecay(int C, int decay, String[] operations) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def processLRUTimeDecay(self, C: int, decay: int, operations: list[str]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> processLRUTimeDecay(int C, int decay, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} C
+   * @param {number} decay
+   * @param {string[]} operations
+   * @returns {number[]}
+   */
+  processLRUTimeDecay(C, decay, operations) {
+    // Your code here
+    return [];
+  }
+}
+```

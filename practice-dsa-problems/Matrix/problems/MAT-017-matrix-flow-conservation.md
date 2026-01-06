@@ -75,3 +75,81 @@ MOVE 1 1 2 1 3
 ```
 2
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public static class FlowResult {
+        public int firstInvalid; // 0 if all valid
+        public long[][] finalMatrix; // only if all valid
+        public FlowResult(int firstInvalid, long[][] finalMatrix) {
+            this.firstInvalid = firstInvalid;
+            this.finalMatrix = finalMatrix;
+        }
+    }
+
+    public FlowResult processMoves(int n, int m, int q, long[][] initialMatrix, List<String> operations) {
+        // Your code here
+        return null;
+    }
+}
+```
+
+```python
+class FlowResult:
+    def __init__(self, first_invalid: int, final_matrix: list[list[int]] = None):
+        self.first_invalid = first_invalid
+        self.final_matrix = final_matrix
+
+class Solution:
+    def processMoves(self, n: int, m: int, q: int, initial_matrix: list[list[int]], operations: list[str]) -> FlowResult:
+        # Your code here
+        return None
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+struct FlowResult {
+    int firstInvalid;
+    vector<vector<long long>> finalMatrix;
+};
+
+class Solution {
+public:
+    FlowResult processMoves(int n, int m, int q, vector<vector<long long>>& initialMatrix, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class FlowResult {
+  constructor(firstInvalid, finalMatrix) {
+    this.firstInvalid = firstInvalid;
+    this.finalMatrix = finalMatrix;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} q
+   * @param {number[][]} initialMatrix
+   * @param {string[]} operations
+   * @returns {FlowResult}
+   */
+  processMoves(n, m, q, initialMatrix, operations) {
+    // Your code here
+    return null;
+  }
+}
+```

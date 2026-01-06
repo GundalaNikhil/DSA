@@ -76,3 +76,56 @@ You start in state `0`. Count how many times each state is visited (including th
 ```
 2 2 2
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int[] simulateStateMachine(int n, int s, int b, int[] a, int[][] transitions) {
+        // Implement here
+        return new int[0];
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def simulateStateMachine(self, n: int, s: int, base: int, a: list[int], transitions: list[list[int]]) -> list[int]:
+        # Implement here
+        return []
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    vector<int> simulateStateMachine(int n, int s, int b, vector<int>& a, vector<vector<int>>& transitions) {
+        // Implement here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} s
+   * @param {number} b
+   * @param {number[]} a
+   * @param {number[][]} transitions
+   * @return {number[]}
+   */
+  simulateStateMachine(n, s, b, a, transitions) {
+    // Implement here
+    return [];
+  }
+}
+```

@@ -74,3 +74,80 @@ Compute the number of active cells and output the active grid as `1` (active) or
 1 1 0
 1 1 0
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public static class EnergyResult {
+        public int activeCount;
+        public int[][] activeGrid;
+        public EnergyResult(int activeCount, int[][] activeGrid) {
+            this.activeCount = activeCount;
+            this.activeGrid = activeGrid;
+        }
+    }
+
+    public EnergyResult calculateActiveCells(int n, int m, int[] rowRecharge, int[] colDrain, int[][] baseEnergy) {
+        // Your code here
+        return null;
+    }
+}
+```
+
+```python
+class EnergyResult:
+    def __init__(self, active_count: int, active_grid: list[list[int]]):
+        self.active_count = active_count
+        self.active_grid = active_grid
+
+class Solution:
+    def calculateActiveCells(self, n: int, m: int, row_recharge: list[int], col_drain: list[int], base_energy: list[list[int]]) -> EnergyResult:
+        # Your code here
+        return None
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+struct EnergyResult {
+    int activeCount;
+    vector<vector<int>> activeGrid;
+};
+
+class Solution {
+public:
+    EnergyResult calculateActiveCells(int n, int m, vector<int>& rowRecharge, vector<int>& colDrain, vector<vector<int>>& baseEnergy) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class EnergyResult {
+  constructor(activeCount, activeGrid) {
+    this.activeCount = activeCount;
+    this.activeGrid = activeGrid;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number[]} rowRecharge
+   * @param {number[]} colDrain
+   * @param {number[][]} baseEnergy
+   * @returns {EnergyResult}
+   */
+  calculateActiveCells(n, m, rowRecharge, colDrain, baseEnergy) {
+    // Your code here
+    return null;
+  }
+}
+```

@@ -63,3 +63,53 @@ Find the rule `(a, b)` with the highest count. Break ties by smaller `a`, then s
 ```
 1 2
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int[] findMostFrequentRule(int n, int W, int m, int[] log) {
+        // Your code here
+        return new int[2];
+    }
+}
+```
+
+```python
+class Solution:
+    def findMostFrequentRule(self, n: int, W: int, m: int, log: list[int]) -> list[int]:
+        # Your code here
+        return [0, 0]
+```
+
+```cpp
+#include <vector>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<int> findMostFrequentRule(int n, int W, int m, vector<int>& log) {
+        // Your code here
+        return {0, 0};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} W
+   * @param {number} m
+   * @param {number[]} log
+   * @returns {number[]}
+   */
+  findMostFrequentRule(n, W, m, log) {
+    // Your code here
+    return [0, 0];
+  }
+}
+```

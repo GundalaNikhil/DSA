@@ -74,3 +74,55 @@ ababab
 ```
 0
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int countHashCollisions(String s, int q, int[][] queries) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class Solution:
+    def countHashCollisions(self, s: str, q: int, queries: List[List[int]]) -> int:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+#include <vector>
+
+class Solution {
+public:
+    int countHashCollisions(std::string s, int q, std::vector<std::vector<int>>& queries) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  countHashCollisions(s, q, queries) {
+    // Your code here
+    return 0;
+  }
+}
+```

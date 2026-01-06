@@ -68,3 +68,40 @@ Minimize total energy cost over `n` steps.
 ```
 6
 ```
+
+## Solution Stub
+
+```java
+public class Solution {
+    public long minEnergyCost(int n, int s, int[] power, int[] performance, int[][] transitionCosts, int[] requirements) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+```python
+class Solution:
+    def minEnergyCost(self, n: int, s: int, power: list[int], performance: list[int], transitionCosts: list[list[int]], requirements: list[int]) -> int:
+        # Your code here
+        return 0
+```
+
+```cpp
+class Solution {
+public:
+    long long minEnergyCost(int n, int s, vector<int>& power, vector<int>& performance, vector<vector<int>>& transitionCosts, vector<int>& requirements) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+```javascript
+class Solution {
+  minEnergyCost(n, s, power, performance, transitionCosts, requirements) {
+    // Your code here
+    return 0;
+  }
+}
+```

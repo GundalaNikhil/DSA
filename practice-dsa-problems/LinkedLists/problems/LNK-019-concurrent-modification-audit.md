@@ -69,3 +69,54 @@ INS 4 9 1 3
 ```
 0
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int auditConcurrentModifications(int n, int q, int[] values, String[] operations) {
+        // Your code here
+        return -1;
+    }
+}
+```
+
+```python
+class Solution:
+    def auditConcurrentModifications(self, n: int, q: int, values: list[int], operations: list[str]) -> int:
+        # Your code here
+        return -1
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    int auditConcurrentModifications(int n, int q, vector<int>& values, vector<string>& operations) {
+        // Your code here
+        return -1;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} q
+   * @param {number[]} values
+   * @param {string[]} operations
+   * @returns {number}
+   */
+  auditConcurrentModifications(n, q, values, operations) {
+    // Your code here
+    return -1;
+  }
+}
+```

@@ -60,3 +60,52 @@ azcdef
 ```
 6
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int maxLcsWithOneEdit(String a, String b) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxLcsWithOneEdit(self, a: str, b: str) -> int:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    int maxLcsWithOneEdit(std::string a, std::string b) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  maxLcsWithOneEdit(a, b) {
+    // Your code here
+    return 0;
+  }
+}
+```

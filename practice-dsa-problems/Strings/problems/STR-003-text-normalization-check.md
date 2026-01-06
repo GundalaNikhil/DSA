@@ -62,3 +62,52 @@ A man, a plan, a canal: Panama
 ```
 true
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public boolean isNormalizedPalindrome(String s) {
+        // Your code here
+        return false;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def isNormalizedPalindrome(self, s: str) -> bool:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    bool isNormalizedPalindrome(std::string s) {
+        // Your code here
+        return false;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  isNormalizedPalindrome(s) {
+    // Your code here
+    return false;
+  }
+}
+```

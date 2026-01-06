@@ -64,3 +64,53 @@ Count how many rain buffer days exist.
 ```
 2
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int countRainBufferDays(int n, int[] a) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def countRainBufferDays(self, n: int, a: list[int]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    int countRainBufferDays(int n, vector<int>& a) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} a
+   * @return {number}
+   */
+  countRainBufferDays(n, a) {
+    // Implement here
+    return 0;
+  }
+}
+```

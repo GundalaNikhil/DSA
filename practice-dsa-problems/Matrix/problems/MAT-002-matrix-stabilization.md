@@ -71,3 +71,84 @@ STABLE 2
 000
 000
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public static class StabilizationResult {
+        public String type; // "STABLE" or "CYCLE"
+        public int value; // t or p
+        public int[][] matrix;
+        public StabilizationResult(String type, int value, int[][] matrix) {
+            this.type = type;
+            this.value = value;
+            this.matrix = matrix;
+        }
+    }
+
+    public StabilizationResult stabilizeMatrix(int n, int m, int[][] initialMatrix) {
+        // Your code here
+        return null;
+    }
+}
+```
+
+```python
+class StabilizationResult:
+    def __init__(self, type_str: str, value: int, matrix: list[list[int]]):
+        self.type = type_str
+        self.value = value
+        self.matrix = matrix
+
+class Solution:
+    def stabilizeMatrix(self, n: int, m: int, initial_matrix: list[list[int]]) -> StabilizationResult:
+        # Your code here
+        return None
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+struct StabilizationResult {
+    string type;
+    int value;
+    vector<vector<int>> matrix;
+};
+
+class Solution {
+public:
+    StabilizationResult stabilizeMatrix(int n, int m, vector<vector<int>>& initialMatrix) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class StabilizationResult {
+  constructor(type, value, matrix) {
+    this.type = type;
+    this.value = value;
+    this.matrix = matrix;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number[][]} initialMatrix
+   * @returns {StabilizationResult}
+   */
+  stabilizeMatrix(n, m, initialMatrix) {
+    // Your code here
+    return null;
+  }
+}
+```

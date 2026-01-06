@@ -76,3 +76,58 @@ For each `i`, output the `K`-th largest value within its active window. If the w
 ```
 -1 4 5 6 -1
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long[] findKthLargest(int n, int K, int W, int T, int[] a) {
+        // Your code here
+        return new long[0];
+    }
+}
+```
+
+```python
+import heapq
+
+class Solution:
+    def findKthLargest(self, n: int, K: int, W: int, T: int, a: list[int]) -> list[int]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<long long> findKthLargest(int n, int K, int W, int T, vector<int>& a) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} K
+   * @param {number} W
+   * @param {number} T
+   * @param {number[]} a
+   * @returns {number[]}
+   */
+  findKthLargest(n, K, W, T, a) {
+    // Your code here
+    return [];
+  }
+}
+```

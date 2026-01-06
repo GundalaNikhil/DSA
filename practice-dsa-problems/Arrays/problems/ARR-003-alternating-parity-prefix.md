@@ -60,3 +60,53 @@ Given an array `a1..an`, find the length of the longest prefix starting at index
 ```
 5
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public int alternatingParityPrefix(int n, int[] a) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def alternatingParityPrefix(self, n: int, a: list[int]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    int alternatingParityPrefix(int n, vector<int>& a) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number[]} a
+   * @return {number}
+   */
+  alternatingParityPrefix(n, a) {
+    // Implement here
+    return 0;
+  }
+}
+```

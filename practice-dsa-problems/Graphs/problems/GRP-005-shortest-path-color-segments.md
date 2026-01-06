@@ -85,3 +85,62 @@ Find the minimum-cost valid path from `S` to `T`.
 ```
 20
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public long minPathCost(int n, int m, int C, int K, int[] colors, int[][] edges, int[][] precedence, int S, int T) {
+        // Your code here
+        return -1;
+    }
+}
+```
+
+```python
+import heapq
+
+class Solution:
+    def minPathCost(self, n: int, m: int, C: int, K: int, colors: list[int], edges: list[list[int]], precedence: list[list[int]], S: int, T: int) -> int:
+        # Your code here
+        return -1
+```
+
+```cpp
+#include <vector>
+#include <queue>
+#include <algorithm>
+
+using namespace std;
+
+class Solution {
+public:
+    long long minPathCost(int n, int m, int C, int K, vector<int>& colors, vector<vector<int>>& edges, vector<vector<int>>& precedence, int S, int T) {
+        // Your code here
+        return -1;
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} C
+   * @param {number} K
+   * @param {number[]} colors
+   * @param {number[][]} edges
+   * @param {number[][]} precedence
+   * @param {number} S
+   * @param {number} T
+   * @returns {number}
+   */
+  minPathCost(n, m, C, K, colors, edges, precedence, S, T) {
+    // Your code here
+    return -1;
+  }
+}
+```

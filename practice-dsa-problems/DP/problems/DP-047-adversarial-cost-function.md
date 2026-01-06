@@ -63,3 +63,54 @@ Compute the minimum possible worst-case total cost.
 ```
 8
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long minWorstCaseCost(int n, int a, int[][] actionCosts) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def minWorstCaseCost(self, n: int, a: int, actionCosts: list[list[int]]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long minWorstCaseCost(int n, int a, vector<vector<int>>& actionCosts) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} a
+   * @param {number[][]} actionCosts
+   * @return {number}
+   */
+  minWorstCaseCost(n, a, actionCosts) {
+    // Implement here
+    return 0;
+  }
+}
+```

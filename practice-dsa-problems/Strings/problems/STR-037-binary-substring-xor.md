@@ -63,3 +63,55 @@ Given a binary string `s` and `q` queries, each query specifies a range `[l, r]`
 ```
 6
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<Integer> solveBinaryXorQueries(String s, int q, int[][] queries) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class Solution:
+    def solveBinaryXorQueries(self, s: str, q: int, queries: List[List[int]]) -> List[int]:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+#include <vector>
+
+class Solution {
+public:
+    std::vector<int> solveBinaryXorQueries(std::string s, int q, std::vector<std::pair<int, int>>& queries) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  solveBinaryXorQueries(s, q, queries) {
+    // Your code here
+    return [];
+  }
+}
+```

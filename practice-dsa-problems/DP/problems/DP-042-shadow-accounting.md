@@ -64,3 +64,54 @@ Maximize total primary reward over `n` steps.
 ```
 9
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxReward(int n, int a, int[][] actions) {
+        // Implement here
+        return -1;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxReward(self, n: int, a: int, actions: list[list[int]]) -> int:
+        # Implement here
+        return -1
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxReward(int n, int a, vector<vector<int>>& actions) {
+        // Implement here
+        return -1;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} a
+   * @param {number[][]} actions
+   * @return {number}
+   */
+  maxReward(n, a, actions) {
+    // Implement here
+    return -1;
+  }
+}
+```

@@ -56,3 +56,52 @@ abc
 ```
 1
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int minInsertionsForEvenLength(String s) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def minInsertionsForEvenLength(self, s: str) -> int:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+
+class Solution {
+public:
+    int minInsertionsForEvenLength(std::string s) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  minInsertionsForEvenLength(s) {
+    // Your code here
+    return 0;
+  }
+}
+```

@@ -68,3 +68,56 @@ Maximize the final amount of resource type 1 after `n` steps.
 ```
 10
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxResource(int n, int r, int[] initialQuantities, int c, int[][] conversions) {
+        // Implement here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxResource(self, n: int, r: int, initialQuantities: list[int], c: int, conversions: list[list[int]]) -> int:
+        # Implement here
+        return 0
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxResource(int n, int r, vector<int>& initialQuantities, int c, vector<vector<int>>& conversions) {
+        // Implement here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} r
+   * @param {number[]} initialQuantities
+   * @param {number} c
+   * @param {number[][]} conversions
+   * @return {number}
+   */
+  maxResource(n, r, initialQuantities, c, conversions) {
+    // Implement here
+    return 0;
+  }
+}
+```

@@ -64,3 +64,58 @@ Find the maximum reward among valid paths from `S` to `T`.
 ```
 9
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long maxReward(int n, int m, int b, int s, int t, int targetMask, int[][] edges) {
+        // Implement here
+        return -1;
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def maxReward(self, n: int, m: int, b: int, s: int, t: int, targetMask: int, edges: list[list[int]]) -> int:
+        # Implement here
+        return -1
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    long long maxReward(int n, int m, int b, int s, int t, int targetMask, vector<vector<int>>& edges) {
+        // Implement here
+        return -1;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} m
+   * @param {number} b
+   * @param {number} s
+   * @param {number} t
+   * @param {number} targetMask
+   * @param {number[][]} edges
+   * @return {number}
+   */
+  maxReward(n, m, b, s, t, targetMask, edges) {
+    // Implement here
+    return -1;
+  }
+}
+```

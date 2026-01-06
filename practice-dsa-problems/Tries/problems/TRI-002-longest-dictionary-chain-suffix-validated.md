@@ -83,3 +83,55 @@ abcd
 ```
 4
 ```
+
+## Solution Stubs
+
+### Java
+
+```java
+import java.util.*;
+
+public class Solution {
+    public int maxChainLength(int n, int m, String[] dictionary, String[] suffixRoots) {
+        // Your code here
+        return 0;
+    }
+}
+```
+
+### Python
+
+```python
+from typing import List
+
+class Solution:
+    def maxChainLength(self, n: int, m: int, dictionary: List[str], suffixRoots: List[str]) -> int:
+        # Your code here
+        pass
+```
+
+### C++
+
+```cpp
+#include <string>
+#include <vector>
+
+class Solution {
+public:
+    int maxChainLength(int n, int m, std::vector<std::string>& dictionary, std::vector<std::string>& suffixRoots) {
+        // Your code here
+        return 0;
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  maxChainLength(n, m, dictionary, suffixRoots) {
+    // Your code here
+    return 0;
+  }
+}
+```

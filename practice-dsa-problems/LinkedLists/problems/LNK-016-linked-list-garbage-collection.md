@@ -67,3 +67,81 @@ You are given `n` nodes with `next` pointers (forming a general directed graph).
 1 10
 2 20
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    static class NodeInfo {
+        int id;
+        long value;
+        NodeInfo(int id, long value) {
+            this.id = id;
+            this.value = value;
+        }
+    }
+
+    public List<NodeInfo> collectGarbage(int n, int r, long[] values, int[] nextIds, int[] roots) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class NodeInfo:
+    def __init__(self, id, value):
+        self.id = id
+        self.value = value
+
+class Solution:
+    def collectGarbage(self, n: int, r: int, values: list[int], next_ids: list[int], roots: list[int]) -> list[NodeInfo]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+struct NodeInfo {
+    int id;
+    long long value;
+};
+
+class Solution {
+public:
+    vector<NodeInfo> collectGarbage(int n, int r, vector<long long>& values, vector<int>& nextIds, vector<int>& roots) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class NodeInfo {
+  constructor(id, value) {
+    this.id = id;
+    this.value = value;
+  }
+}
+
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} r
+   * @param {number[]} values
+   * @param {number[]} nextIds
+   * @param {number[]} roots
+   * @returns {NodeInfo[]}
+   */
+  collectGarbage(n, r, values, nextIds, roots) {
+    // Your code here
+    return [];
+  }
+}
+```

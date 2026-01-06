@@ -72,3 +72,52 @@ Beta-reduction rule:
 ```
 y
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<String> processLambda(int K, String[] tokens) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def processLambda(self, K: int, tokens: list[str]) -> list[str]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> processLambda(int K, vector<string>& tokens) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} K
+   * @param {string[]} tokens
+   * @returns {string[]}
+   */
+  processLambda(K, tokens) {
+    // Your code here
+    return [];
+  }
+}
+```

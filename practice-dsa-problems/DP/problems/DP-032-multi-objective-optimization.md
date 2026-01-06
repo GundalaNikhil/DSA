@@ -64,3 +64,54 @@ Output both values.
 ```
 10 2
 ```
+
+## Solution Stub
+
+### Java
+
+```java
+class Solution {
+    public long[] optimize(int n, int a, int[][] actions) {
+        // Implement here
+        return new long[]{0, 0};
+    }
+}
+```
+
+### Python
+
+```python
+class Solution:
+    def optimize(self, n: int, a: int, actions: list[list[int]]) -> list[int]:
+        # Implement here
+        return [0, 0]
+```
+
+### C++
+
+```cpp
+class Solution {
+public:
+    vector<long long> optimize(int n, int a, vector<vector<int>>& actions) {
+        // Implement here
+        return {0, 0};
+    }
+};
+```
+
+### JavaScript
+
+```javascript
+class Solution {
+  /**
+   * @param {number} n
+   * @param {number} a
+   * @param {number[][]} actions
+   * @return {number[]}
+   */
+  optimize(n, a, actions) {
+    // Implement here
+    return [0, 0];
+  }
+}
+```

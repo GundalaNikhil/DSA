@@ -72,3 +72,52 @@ OK
 BLOCKED
 OK
 ```
+
+## Solution Stub
+
+```java
+import java.util.*;
+
+public class Solution {
+    public List<String> processBackpressure(int C, String[] operations) {
+        // Your code here
+        return new ArrayList<>();
+    }
+}
+```
+
+```python
+class Solution:
+    def processBackpressure(self, C: int, operations: list[str]) -> list[str]:
+        # Your code here
+        return []
+```
+
+```cpp
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    vector<string> processBackpressure(int C, vector<string>& operations) {
+        // Your code here
+        return {};
+    }
+};
+```
+
+```javascript
+class Solution {
+  /**
+   * @param {number} C
+   * @param {string[]} operations
+   * @returns {string[]}
+   */
+  processBackpressure(C, operations) {
+    // Your code here
+    return [];
+  }
+}
+```
