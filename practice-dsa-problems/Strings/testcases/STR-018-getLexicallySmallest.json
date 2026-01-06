@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_LEXICAL_MINIMIZER_ADJACENT_SWAPS__1606",
+  "publicTestCases": [
+    {
+      "input": ["dcba", 2],
+      "output": "bdca"
+    },
+    {
+      "input": ["ba", 1],
+      "output": "ab"
+    },
+    {
+      "input": ["ba", 0],
+      "output": "ba"
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["zyxwvutsrqponmlkjihgfedcba", 100],
+      "output": "abcdetzyxwvusrqponmlkjihgf"
+    },
+    {
+      "input": ["edcba", 10],
+      "output": "abcde"
+    },
+    {
+      "input": ["a", 10],
+      "output": "a"
+    },
+    {
+      "input": ["ab", 1],
+      "output": "ab"
+    },
+    {
+      "input": ["ba", 1],
+      "output": "ab"
+    },
+    {
+      "input": ["cba", 1],
+      "output": "bca"
+    },
+    {
+      "input": ["cba", 2],
+      "output": "abc"
+    },
+    {
+      "input": ["4321", 2],
+      "output": "2431"
+    },
+    {
+      "input": ["321", 1],
+      "output": "231"
+    },
+    {
+      "input": ["9876543210", 0],
+      "output": "9876543210"
+    }
+  ]
+}

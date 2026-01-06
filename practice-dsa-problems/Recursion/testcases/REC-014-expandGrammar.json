@@ -1,0 +1,59 @@
+{
+  "problemId": "REC_RECURSION_OVER_EVOLVING_GRAMMAR__9167",
+  "publicTestCases": [
+    {
+      "input": ["A", 1, "A", 2, "ab", "A", 10],
+      "output": "abab"
+    },
+    {
+      "input": ["S", 1, "S", 1, "abc", 5],
+      "output": "abc"
+    },
+    {
+      "input": ["A", 1, "A", 1, "AA", 5],
+      "output": "TOO_LONG"
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["A", 2, "A", 2, "B", "B", "B", 2, "x", "y", 10],
+      "output": "xy"
+    },
+    {
+      "input": ["A", 1, "A", 2, "a", "b", 10],
+      "output": "ab"
+    },
+    {
+      "input": ["S", 2, "S", 3, "A", "B", "C", "A", 1, "a", 10],
+      "output": "aBC"
+    },
+    {
+      "input": ["S", 3, "S", 1, "AB", "A", 2, "x", "y", "B", 2, "m", "n", 10],
+      "output": "xm"
+    },
+    {
+      "input": ["X", 1, "X", 2, "Y", "Z", 10],
+      "output": "YZ"
+    },
+    {
+      "input": ["A", 1, "A", 1, "aA", 5],
+      "output": "TOO_LONG"
+    },
+    {
+      "input": ["S", 1, "S", 3, "a", "b", "c", 10],
+      "output": "abc"
+    },
+    {
+      "input": ["A", 2, "A", 2, "B", "C", "B", 1, "b", 10],
+      "output": "bC"
+    },
+    {
+      "input": ["S", 1, "S", 1, "a", 1],
+      "output": "a"
+    },
+    {
+      "input": ["A", 1, "A", 2, "AA", "a", 3],
+      "output": "aa"
+    }
+  ]
+}

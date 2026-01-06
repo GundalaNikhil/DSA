@@ -1,0 +1,12 @@
+[
+  {
+    "input": "3\nINT 5\nINT 7\nEQ 1 2",
+    "output": "BOOL",
+    "isHidden": false
+  },
+  {
+    "input": "3\nINT 5\nBOOL 1\nADD 1 2",
+    "output": "TYPE_ERROR",
+    "isHidden": false
+  }
+]

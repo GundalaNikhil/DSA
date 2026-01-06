@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_CHARACTER_COVERAGE_WINDOW__7899",
+  "publicTestCases": [
+    {
+      "input": ["ADOBECODEBANC", "ABC", 1],
+      "output": "BANC"
+    },
+    {
+      "input": ["AAABBBCCC", "ABC", 2],
+      "output": "ABBBCC"
+    },
+    {
+      "input": ["a", "a", 1],
+      "output": "a"
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["ADOBECODEBANC", "ABC", 2],
+      "output": "-1"
+    },
+    {
+      "input": ["ADOBECODEBANC", "X", 1],
+      "output": "-1"
+    },
+    {
+      "input": ["AAAAAA", "A", 3],
+      "output": "AAA"
+    },
+    {
+      "input": ["ABCDEF", "ABC", 1],
+      "output": "ABC"
+    },
+    {
+      "input": ["ABCDEF", "F", 1],
+      "output": "F"
+    },
+    {
+      "input": ["aaabbbccc", "abc", 3],
+      "output": "aaabbbccc"
+    },
+    {
+      "input": ["xyz", "xy", 2],
+      "output": "-1"
+    },
+    {
+      "input": ["abacadaeaf", "a", 4],
+      "output": "abacada"
+    },
+    {
+      "input": ["zzzzzzzzzz", "z", 5],
+      "output": "zzzzz"
+    },
+    {
+      "input": ["abcdefghijklmnopqrstuvwxyz", "az", 1],
+      "output": "abcdefghijklmnopqrstuvwxyz"
+    }
+  ]
+}

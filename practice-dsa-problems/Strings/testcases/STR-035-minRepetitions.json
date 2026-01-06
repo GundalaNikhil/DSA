@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_BOUNDED_STRING_REPETITION__9233",
+  "publicTestCases": [
+    {
+      "input": ["abc", "cabcabca", 4],
+      "output": 3
+    },
+    {
+      "input": ["a", "aa", 5],
+      "output": 2
+    },
+    {
+      "input": ["abc", "def", 10],
+      "output": -1
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["abcd", "cdabcdab", 3],
+      "output": 3
+    },
+    {
+      "input": ["a", "a", 1],
+      "output": 1
+    },
+    {
+      "input": ["abc", "c", 1],
+      "output": 1
+    },
+    {
+      "input": ["abcd", "cdabcdab", 2],
+      "output": -1
+    },
+    {
+      "input": ["aaaaa", "aaaaaaaaaa", 1],
+      "output": -1
+    },
+    {
+      "input": ["aaaaa", "aaaaaaaaaa", 2],
+      "output": 2
+    },
+    {
+      "input": ["abc", "abcabcabc", 3],
+      "output": 3
+    },
+    {
+      "input": ["abc", "abcabcabc", 2],
+      "output": -1
+    },
+    {
+      "input": ["x", "x", 1],
+      "output": 1
+    },
+    {
+      "input": ["xyz", "zxy", 2],
+      "output": 2
+    }
+  ]
+}

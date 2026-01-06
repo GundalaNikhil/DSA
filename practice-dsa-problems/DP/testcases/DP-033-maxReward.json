@@ -1,0 +1,59 @@
+{
+  "problemId": "DP_LIMITED_REWRITES__6142",
+  "publicTestCases": [
+    {
+      "input": [3, 2, 2, 1, [5, 1]],
+      "output": 15
+    },
+    {
+      "input": [2, 1, 1, 0, [10]],
+      "output": 20
+    },
+    {
+      "input": [4, 2, 2, 2, [1, 10]],
+      "output": 40
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [5, 2, 2, 1, [10, 5]],
+      "output": 50
+    },
+    {
+      "input": [4, 3, 1, 1, [1, 2, 3]],
+      "output": 12
+    },
+    {
+      "input": [6, 2, 3, 2, [5, 1]],
+      "output": 30
+    },
+    {
+      "input": [3, 2, 3, 3, [100, 1]],
+      "output": 300
+    },
+    {
+      "input": [10, 1, 5, 5, [10]],
+      "output": 100
+    },
+    {
+      "input": [5, 2, 1, 0, [10, 20]],
+      "output": 100
+    },
+    {
+      "input": [2, 2, 1, 1, [1, 100]],
+      "output": 200
+    },
+    {
+      "input": [4, 2, 4, 1, [1, 2]],
+      "output": 8
+    },
+    {
+      "input": [3, 2, 1, 2, [10, 5]],
+      "output": 30
+    },
+    {
+      "input": [5, 2, 2, 10, [5, 5]],
+      "output": 25
+    }
+  ]
+}

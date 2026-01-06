@@ -1,0 +1,94 @@
+{
+  "problemId": "LNK_LIST_WITH_SOFT_DELETES__6416",
+  "publicTestCases": [
+    {
+      "input": [
+        5,
+        [10, 20, 30, 40, 50],
+        5,
+        ["DEL 2", "KTH 2 0", "KTH 2 1", "RESTORE 2", "KTH 2 0"]
+      ],
+      "output": [30, 20, 20]
+    },
+    {
+      "input": [2, [1, 2], 3, ["DEL 1", "KTH 1 0", "KTH 1 1"]],
+      "output": [2, 1]
+    },
+    {
+      "input": [3, [10, 20, 30], 3, ["DEL 1", "DEL 2", "KTH 1 0"]],
+      "output": [30]
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [
+        5,
+        [1, 2, 3, 4, 5],
+        6,
+        ["DEL 1", "DEL 2", "DEL 3", "DEL 4", "DEL 5", "KTH 1 0"]
+      ],
+      "output": [-1]
+    },
+    {
+      "input": [
+        5,
+        [1, 2, 3, 4, 5],
+        5,
+        ["DEL 3", "RESTORE 3", "DEL 3", "KTH 3 0", "KTH 3 1"]
+      ],
+      "output": [4, 3]
+    },
+    {
+      "input": [4, [10, 20, 30, 40], 4, ["DEL 4", "DEL 3", "DEL 2", "KTH 1 0"]],
+      "output": [10]
+    },
+    {
+      "input": [1, [100], 3, ["DEL 1", "KTH 1 0", "KTH 1 1"]],
+      "output": [-1, 100]
+    },
+    {
+      "input": [
+        3,
+        [5, 10, 15],
+        6,
+        ["DEL 1", "RESTORE 1", "DEL 2", "RESTORE 2", "DEL 3", "KTH 3 1"]
+      ],
+      "output": [15]
+    },
+    {
+      "input": [
+        6,
+        [1, 2, 3, 4, 5, 6],
+        5,
+        ["DEL 2", "DEL 4", "DEL 6", "KTH 2 0", "KTH 3 0"]
+      ],
+      "output": [3, 5]
+    },
+    {
+      "input": [2, [10, 20], 4, ["DEL 1", "DEL 2", "RESTORE 1", "KTH 1 0"]],
+      "output": [10]
+    },
+    {
+      "input": [
+        10,
+        [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        5,
+        ["DEL 1", "DEL 3", "DEL 5", "DEL 7", "KTH 4 0"]
+      ],
+      "output": [8]
+    },
+    {
+      "input": [3, [1, 2, 3], 2, ["KTH 4 0", "KTH 4 1"]],
+      "output": [-1, -1]
+    },
+    {
+      "input": [
+        5,
+        [10, 20, 30, 40, 50],
+        4,
+        ["DEL 1", "DEL 5", "KTH 1 0", "KTH 3 0"]
+      ],
+      "output": [20, 40]
+    }
+  ]
+}

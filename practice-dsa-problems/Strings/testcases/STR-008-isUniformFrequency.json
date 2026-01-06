@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_UNIFORM_FREQUENCY_TEXT__7803",
+  "publicTestCases": [
+    {
+      "input": ["aabbcc"],
+      "output": true
+    },
+    {
+      "input": ["abc"],
+      "output": true
+    },
+    {
+      "input": ["abbc"],
+      "output": false
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["aaaaaa"],
+      "output": true
+    },
+    {
+      "input": ["aaabbbccc"],
+      "output": true
+    },
+    {
+      "input": ["aaabbbcccd"],
+      "output": false
+    },
+    {
+      "input": ["abcdefghijklmnopqrstuvwxyz"],
+      "output": true
+    },
+    {
+      "input": ["aabbccddeeff"],
+      "output": true
+    },
+    {
+      "input": ["zxy"],
+      "output": true
+    },
+    {
+      "input": ["zzxxxyyy"],
+      "output": false
+    },
+    {
+      "input": ["a"],
+      "output": true
+    },
+    {
+      "input": ["leetcode"],
+      "output": false
+    },
+    {
+      "input": ["abacaba"],
+      "output": false
+    }
+  ]
+}

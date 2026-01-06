@@ -1,0 +1,12 @@
+[
+  {
+    "input": "4\n5 8 3 0\n2 3 4 1\n1 5 2 1\n6 6 1 2",
+    "output": "4",
+    "isHidden": false
+  },
+  {
+    "input": "1\n10 100 5 0",
+    "output": "IMPOSSIBLE",
+    "isHidden": false
+  }
+]

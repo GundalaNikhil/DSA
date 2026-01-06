@@ -1,0 +1,61 @@
+{
+  "problemId": "STR_SINGLE_EDIT_SYMMETRY__4328",
+  "publicTestCases": [
+    {
+      "input": ["abcda"],
+      "output": true
+    },
+    {
+      "input": ["racecar"],
+      "output": true
+    },
+    {
+      "input": ["abcdef"],
+      "output": false
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["aba"],
+      "output": true
+    },
+    {
+      "input": ["abca"],
+      "output": true
+    },
+    {
+      "input": ["abc"],
+      "output": false
+    },
+    {
+      "input": ["tebbem"],
+      "output": false
+    },
+    {
+      "input": ["a"],
+      "output": true
+    },
+    {
+      "input": ["aa"],
+      "output": true
+    },
+    {
+      "input": ["ab"],
+      "output": true
+    },
+    {
+      "input": ["cupuuc"],
+      "output": true
+    },
+    {
+      "input": [
+        "aguokepatgbnvfqmgmlcupuufxoohdfpgjdmysgvhmvffcnqxjjxqncffvmhvgsymdjgpfdhooxfuupuculmgmqfvnbgtapekouga"
+      ],
+      "output": true
+    },
+    {
+      "input": ["ebcbbececabbacecbbcbe"],
+      "output": true
+    }
+  ]
+}

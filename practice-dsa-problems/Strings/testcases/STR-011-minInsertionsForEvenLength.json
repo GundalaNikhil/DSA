@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_LENGTH_NORMALIZER__6268",
+  "publicTestCases": [
+    {
+      "input": ["abc"],
+      "output": 1
+    },
+    {
+      "input": ["ab"],
+      "output": 0
+    },
+    {
+      "input": ["a"],
+      "output": 1
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["aaaaa"],
+      "output": 1
+    },
+    {
+      "input": ["aaaaaa"],
+      "output": 0
+    },
+    {
+      "input": ["abcdefghijklmnopqrstuvwxyz"],
+      "output": 0
+    },
+    {
+      "input": ["12345"],
+      "output": 1
+    },
+    {
+      "input": ["x"],
+      "output": 1
+    },
+    {
+      "input": ["xy"],
+      "output": 0
+    },
+    {
+      "input": ["HelloWorld"],
+      "output": 0
+    },
+    {
+      "input": ["OddLength"],
+      "output": 1
+    },
+    {
+      "input": ["EvenLength"],
+      "output": 0
+    },
+    {
+      "input": ["1"],
+      "output": 1
+    }
+  ]
+}

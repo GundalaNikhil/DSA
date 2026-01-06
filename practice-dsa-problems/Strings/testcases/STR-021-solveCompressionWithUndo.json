@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_COMPRESSION_WITH_UNDO__3581",
+  "publicTestCases": [
+    {
+      "input": ["aaa", 3, ["C"], ["C"], ["U", 1]],
+      "output": ["a3", "a13", "a3"]
+    },
+    {
+      "input": ["abc", 1, ["C"]],
+      "output": ["a1b1c1"]
+    },
+    {
+      "input": ["aabbcc", 2, ["C"], ["U", 1]],
+      "output": ["a2b2c2", "aabbcc"]
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["aaaaaaaaaa", 1, ["C"]],
+      "output": ["a10"]
+    },
+    {
+      "input": ["a", 2, ["C"], ["C"]],
+      "output": ["a1", "a11"]
+    },
+    {
+      "input": ["aaabbbaaa", 3, ["C"], ["U", 1], ["C"]],
+      "output": ["a3b3a3", "aaabbbaaa", "a3b3a3"]
+    },
+    {
+      "input": ["x", 4, ["C"], ["C"], ["U", 1], ["U", 1]],
+      "output": ["x1", "x11", "x1", "x"]
+    },
+    {
+      "input": ["abab", 2, ["C"], ["C"]],
+      "output": ["a1b1a1b1", "a1b1a1b1a1b1a1b1"]
+    },
+    {
+      "input": ["aaaa", 3, ["C"], ["C"], ["U", 2]],
+      "output": ["a4", "a14", "aaaa"]
+    },
+    {
+      "input": ["zzz", 1, ["U", 0]],
+      "output": ["zzz"]
+    },
+    {
+      "input": ["moooo", 2, ["C"], ["C"]],
+      "output": ["m1o4", "m11o14"]
+    },
+    {
+      "input": ["abcde", 1, ["C"]],
+      "output": ["a1b1c1d1e1"]
+    },
+    {
+      "input": ["test", 2, ["C"], ["U", 1]],
+      "output": ["t1e1s1t1", "test"]
+    }
+  ]
+}

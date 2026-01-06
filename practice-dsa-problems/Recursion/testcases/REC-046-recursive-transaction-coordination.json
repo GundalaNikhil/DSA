@@ -1,0 +1,12 @@
+[
+  {
+    "input": "3\n5 -10 10 0\n4 0 20 1\n-8 -5 5 1",
+    "output": "1",
+    "isHidden": false
+  },
+  {
+    "input": "1\n10 0 5 0",
+    "output": "0",
+    "isHidden": false
+  }
+]

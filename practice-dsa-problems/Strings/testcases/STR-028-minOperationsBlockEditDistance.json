@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_BLOCK_EDIT_DISTANCE__8104",
+  "publicTestCases": [
+    {
+      "input": ["abcdef", "azef", 3],
+      "output": 1
+    },
+    {
+      "input": ["abc", "abc", 1],
+      "output": 0
+    },
+    {
+      "input": ["aaaaaa", "bbbbbb", 6],
+      "output": 1
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["a", "b", 1],
+      "output": 1
+    },
+    {
+      "input": ["abc", "def", 2],
+      "output": 2
+    },
+    {
+      "input": ["abcde", "fghij", 5],
+      "output": 1
+    },
+    {
+      "input": ["abc", "axc", 1],
+      "output": 1
+    },
+    {
+      "input": ["hello", "hallo", 1],
+      "output": 1
+    },
+    {
+      "input": ["testing", "test", 5],
+      "output": 3
+    },
+    {
+      "input": ["longstring", "long", 10],
+      "output": 6
+    },
+    {
+      "input": ["a", "", 1],
+      "output": 1
+    },
+    {
+      "input": ["", "b", 1],
+      "output": 1
+    },
+    {
+      "input": ["ababab", "bababa", 2],
+      "output": 2
+    }
+  ]
+}

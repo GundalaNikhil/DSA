@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_FLEXIBLE_BRACKET_VALIDATOR__7588",
+  "publicTestCases": [
+    {
+      "input": ["(*)"],
+      "output": true
+    },
+    {
+      "input": ["(*))"],
+      "output": true
+    },
+    {
+      "input": ["((*)"],
+      "output": true
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["*"],
+      "output": true
+    },
+    {
+      "input": ["***"],
+      "output": true
+    },
+    {
+      "input": ["())"],
+      "output": false
+    },
+    {
+      "input": ["(*"],
+      "output": true
+    },
+    {
+      "input": ["*)"],
+      "output": true
+    },
+    {
+      "input": ["(((((*"],
+      "output": false
+    },
+    {
+      "input": ["((((*))))"],
+      "output": true
+    },
+    {
+      "input": [")*("],
+      "output": false
+    },
+    {
+      "input": ["*(*)"],
+      "output": true
+    },
+    {
+      "input": ["(*))"],
+      "output": true
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "problemId": "LNK_LINKED_LIST_QUORUM_READS__2933",
+  "publicTestCases": [
+    {
+      "input": [
+        3,
+        3,
+        4,
+        [1, 2, 3],
+        ["SET 1 2 9", "SET 2 2 9", "READ 2 2", "READ 2 3"]
+      ],
+      "output": ["9", "CONFLICT"]
+    },
+    {
+      "input": [2, 2, 3, [10, 20], ["SET 1 1 50", "READ 1 2", "READ 1 1"]],
+      "output": ["CONFLICT", "10"]
+    },
+    {
+      "input": [1, 1, 2, [100], ["SET 1 1 200", "READ 1 1"]],
+      "output": ["200"]
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [
+        5,
+        5,
+        5,
+        [1, 2, 3, 4, 5],
+        ["SET 1 3 10", "SET 2 3 10", "SET 3 3 10", "READ 3 3", "READ 3 4"]
+      ],
+      "output": ["10", "CONFLICT"]
+    },
+    {
+      "input": [
+        3,
+        3,
+        4,
+        [1, 2, 3],
+        ["SET 1 1 5", "SET 2 1 6", "SET 3 1 7", "READ 1 1"]
+      ],
+      "output": ["CONFLICT"]
+    },
+    {
+      "input": [2, 4, 3, [10, 20], ["SET 1 1 50", "SET 2 1 50", "READ 1 2"]],
+      "output": ["50"]
+    },
+    {
+      "input": [4, 5, 2, [1, 2, 3, 4], ["SET 1 2 100", "READ 2 3"]],
+      "output": ["CONFLICT"]
+    },
+    {
+      "input": [
+        1,
+        3,
+        4,
+        [5],
+        ["SET 1 1 10", "SET 2 1 10", "READ 1 2", "READ 1 3"]
+      ],
+      "output": ["10", "CONFLICT"]
+    },
+    {
+      "input": [
+        2,
+        2,
+        4,
+        [100, 200],
+        ["SET 1 1 50", "SET 2 1 60", "READ 1 2", "READ 2 1"]
+      ],
+      "output": ["CONFLICT", "CONFLICT"]
+    },
+    {
+      "input": [
+        5,
+        3,
+        3,
+        [1, 2, 3, 4, 5],
+        ["SET 1 5 10", "SET 2 5 10", "READ 5 2"]
+      ],
+      "output": ["10"]
+    },
+    {
+      "input": [3, 3, 3, [1, 1, 1], ["SET 1 2 2", "SET 2 2 2", "READ 2 2"]],
+      "output": ["2"]
+    },
+    {
+      "input": [1, 10, 2, [10], ["SET 1 1 20", "READ 1 2"]],
+      "output": ["CONFLICT"]
+    },
+    {
+      "input": [2, 2, 2, [1, 2], ["SET 1 1 5", "READ 1 2"]],
+      "output": ["CONFLICT"]
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_SINGLE_EDIT_LCS__7729",
+  "publicTestCases": [
+    {
+      "input": ["abcdef", "azcdef"],
+      "output": 6
+    },
+    {
+      "input": ["abc", "abd"],
+      "output": 3
+    },
+    {
+      "input": ["abc", "def"],
+      "output": 1
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["aaaaa", "aaaaa"],
+      "output": 5
+    },
+    {
+      "input": ["aaaaa", "bbbbb"],
+      "output": 1
+    },
+    {
+      "input": ["abcde", "abxde"],
+      "output": 5
+    },
+    {
+      "input": ["abcde", "axcde"],
+      "output": 5
+    },
+    {
+      "input": ["abcde", "abcyy"],
+      "output": 4
+    },
+    {
+      "input": ["x", "y"],
+      "output": 1
+    },
+    {
+      "input": ["xy", "yx"],
+      "output": 2
+    },
+    {
+      "input": ["programming", "programmer"],
+      "output": 10
+    },
+    {
+      "input": ["test", "tast"],
+      "output": 4
+    },
+    {
+      "input": ["abc", "abc"],
+      "output": 3
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+[
+  {
+    "input": "5\n0 0\n0 1\n1 1\n1 0\n50 50",
+    "output": "4\n0 0\n1 0\n50 50\n0 1\n1\n5 50 50",
+    "isHidden": false
+  },
+  {
+    "input": "4\n0 0\n10 0\n10 10\n0 10",
+    "output": "4\n0 0\n10 0\n10 10\n0 10\n0",
+    "isHidden": false
+  },
+  {
+    "input": "4\n0 0\n1 1\n2 2\n3 3",
+    "output": "2\n0 0\n3 3\n0",
+    "isHidden": false
+  },
+  {
+    "input": "4\n0 0\n10 0\n0 10\n1 1",
+    "output": "3\n0 0\n10 0\n0 10\n0",
+    "isHidden": false
+  },
+  {
+    "input": "5\n0 0\n2 0\n0 2\n2 2\n100 100",
+    "output": "4\n0 0\n2 0\n100 100\n0 2\n1\n5 100 100",
+    "isHidden": false
+  }
+]

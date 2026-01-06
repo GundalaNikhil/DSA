@@ -1,0 +1,110 @@
+{
+  "problemId": "LNK_MULTI_HEAD_LINKED_LIST__8801",
+  "publicTestCases": [
+    {
+      "input": [
+        4,
+        2,
+        [1, 2, 3, 4],
+        4,
+        ["HEAD 2 3", "PRINT 1", "DEL 2", "PRINT 1"]
+      ],
+      "output": [
+        [1, 2, 3, 4],
+        [1, 2, 4]
+      ]
+    },
+    {
+      "input": [2, 1, [10, 20], 2, ["PRINT 1", "HEAD 1 2"]],
+      "output": [[10, 20]]
+    },
+    {
+      "input": [3, 2, [1, 2, 3], 3, ["HEAD 2 2", "INS 2 5", "PRINT 1"]],
+      "output": [[1, 5, 2, 3]]
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [
+        5,
+        3,
+        [1, 2, 3, 4, 5],
+        5,
+        ["HEAD 2 3", "HEAD 3 5", "INS 2 100", "PRINT 1", "PRINT 2"]
+      ],
+      "output": [
+        [1, 2, 100, 3, 4, 5],
+        [100, 3, 4, 5]
+      ]
+    },
+    {
+      "input": [
+        3,
+        2,
+        [10, 20, 30],
+        4,
+        ["HEAD 2 1", "DEL 1", "PRINT 2", "DEL 2"]
+      ],
+      "output": [[20, 30]]
+    },
+    {
+      "input": [
+        4,
+        2,
+        [1, 2, 3, 4],
+        5,
+        ["HEAD 2 4", "DEL 2", "PRINT 1", "PRINT 2", "INS 1 5"]
+      ],
+      "output": [[1, 2, 3], []]
+    },
+    {
+      "input": [1, 1, [100], 3, ["DEL 1", "PRINT 1", "INS 1 200"]],
+      "output": [[]]
+    },
+    {
+      "input": [
+        5,
+        2,
+        [1, 2, 3, 4, 5],
+        4,
+        ["HEAD 2 3", "DEL 1", "DEL 1", "PRINT 2"]
+      ],
+      "output": [[3, 4, 5]]
+    },
+    {
+      "input": [
+        3,
+        3,
+        [1, 2, 3],
+        4,
+        ["HEAD 2 2", "HEAD 3 3", "DEL 2", "PRINT 1"]
+      ],
+      "output": [[1, 3]]
+    },
+    {
+      "input": [2, 2, [10, 20], 3, ["HEAD 2 2", "INS 2 15", "PRINT 1"]],
+      "output": [[10, 15, 20]]
+    },
+    {
+      "input": [
+        4,
+        2,
+        [1, 2, 3, 4],
+        4,
+        ["HEAD 2 1", "DEL 2", "PRINT 1", "PRINT 2"]
+      ],
+      "output": [
+        [2, 3, 4],
+        [2, 3, 4]
+      ]
+    },
+    {
+      "input": [1, 2, [1], 2, ["HEAD 2 1", "PRINT 1"]],
+      "output": [[1]]
+    },
+    {
+      "input": [2, 2, [1, 2], 3, ["DEL 1", "DEL 1", "PRINT 1"]],
+      "output": [[]]
+    }
+  ]
+}

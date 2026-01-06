@@ -1,0 +1,79 @@
+{
+  "problemId": "LNK_LINKED_LIST_TTL__6640",
+  "publicTestCases": [
+    {
+      "input": [
+        6,
+        ["PUSH 5 2", "COUNT", "PUSH 7 1", "FRONT", "COUNT", "FRONT"]
+      ],
+      "output": [1, 5, 1, -1]
+    },
+    {
+      "input": [4, ["PUSH 10 0", "COUNT", "PUSH 20 10", "FRONT"]],
+      "output": [0, 20]
+    },
+    {
+      "input": [3, ["PUSH 1 1", "PUSH 2 1", "COUNT"]],
+      "output": [0]
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [5, ["PUSH 10 10", "PUSH 20 10", "POP", "FRONT", "COUNT"]],
+      "output": [20, 1]
+    },
+    {
+      "input": [5, ["PUSH 1 2", "PUSH 2 3", "PUSH 3 4", "COUNT", "FRONT"]],
+      "output": [3, 1]
+    },
+    {
+      "input": [5, ["PUSH 1 1", "PUSH 2 1", "PUSH 3 1", "PUSH 4 1", "COUNT"]],
+      "output": [0]
+    },
+    {
+      "input": [
+        6,
+        ["PUSH 10 5", "COUNT", "POP", "COUNT", "FRONT", "PUSH 20 100"]
+      ],
+      "output": [1, 0, -1]
+    },
+    {
+      "input": [5, ["PUSH 100 0", "FRONT", "COUNT", "PUSH 200 1", "FRONT"]],
+      "output": [-1, 0, 200]
+    },
+    {
+      "input": [
+        10,
+        [
+          "PUSH 1 5",
+          "PUSH 2 5",
+          "PUSH 3 5",
+          "PUSH 4 5",
+          "PUSH 5 5",
+          "COUNT",
+          "POP",
+          "POP",
+          "COUNT",
+          "FRONT"
+        ]
+      ],
+      "output": [5, 3, 3]
+    },
+    {
+      "input": [4, ["PUSH 1 2", "COUNT", "COUNT", "COUNT"]],
+      "output": [1, 1, 0]
+    },
+    {
+      "input": [5, ["PUSH 1 100", "PUSH 2 0", "PUSH 3 100", "POP", "FRONT"]],
+      "output": [3]
+    },
+    {
+      "input": [4, ["PUSH 50 2", "PUSH 60 4", "COUNT", "COUNT"]],
+      "output": [2, 1]
+    },
+    {
+      "input": [3, ["PUSH 1 2", "POP", "COUNT"]],
+      "output": [0]
+    }
+  ]
+}

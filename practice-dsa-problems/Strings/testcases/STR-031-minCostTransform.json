@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_MULTI_OPERATION_STRING_TRANSFORM__8837",
+  "publicTestCases": [
+    {
+      "input": ["horse", "ros", 1, 2, 1, 1],
+      "output": 3
+    },
+    {
+      "input": ["intention", "execution", 2, 2, 2, 2],
+      "output": 10
+    },
+    {
+      "input": ["abc", "acb", 1, 10, 10, 10],
+      "output": 1
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["abc", "def", 1, 1, 1, 1],
+      "output": 3
+    },
+    {
+      "input": ["abc", "abc", 10, 10, 10, 10],
+      "output": 0
+    },
+    {
+      "input": ["a", "b", 100, 100, 1, 1],
+      "output": 2
+    },
+    {
+      "input": ["aaaaa", "aaaaa", 1, 1, 1, 1],
+      "output": 0
+    },
+    {
+      "input": ["polynomial", "exponential", 2, 3, 2, 3],
+      "output": 19
+    },
+    {
+      "input": ["kitten", "sitting", 1, 1, 1, 1],
+      "output": 3
+    },
+    {
+      "input": ["saturday", "sunday", 1, 1, 1, 1],
+      "output": 3
+    },
+    {
+      "input": ["ab", "ba", 10, 1, 1, 1],
+      "output": 2
+    },
+    {
+      "input": ["empty", "", 1, 1, 1, 1],
+      "output": 5
+    },
+    {
+      "input": ["", "empty", 1, 1, 1, 1],
+      "output": 5
+    }
+  ]
+}

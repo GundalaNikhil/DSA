@@ -1,0 +1,59 @@
+{
+  "problemId": "DP_HIDDEN_STATE_REVEAL__5958",
+  "publicTestCases": [
+    {
+      "input": [3, 2, [5, 2]],
+      "output": 7
+    },
+    {
+      "input": [2, 1, [10]],
+      "output": 10
+    },
+    {
+      "input": [4, 2, [1, 100]],
+      "output": 201
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [5, 3, [10, 20, 30]],
+      "output": 100
+    },
+    {
+      "input": [4, 4, [1, 1, 1, 1]],
+      "output": 0
+    },
+    {
+      "input": [4, 4, [10, 10, 10, 10]],
+      "output": 0
+    },
+    {
+      "input": [10, 1, [10]],
+      "output": 90
+    },
+    {
+      "input": [5, 1, [0]],
+      "output": 0
+    },
+    {
+      "input": [6, 2, [5, 10]],
+      "output": 65
+    },
+    {
+      "input": [5, 5, [1, 2, 3, 4, 5]],
+      "output": 0
+    },
+    {
+      "input": [3, 1, [100]],
+      "output": 200
+    },
+    {
+      "input": [5, 2, [50, 50]],
+      "output": 200
+    },
+    {
+      "input": [4, 2, [10, 5]],
+      "output": 40
+    }
+  ]
+}

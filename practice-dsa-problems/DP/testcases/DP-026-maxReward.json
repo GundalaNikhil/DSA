@@ -1,0 +1,59 @@
+{
+  "problemId": "DP_OPPORTUNITY_COST_TRACKING__1624",
+  "publicTestCases": [
+    {
+      "input": [3, 3, 2, [5, 4, 1]],
+      "output": 14
+    },
+    {
+      "input": [2, 2, 0, [10, 5]],
+      "output": 20
+    },
+    {
+      "input": [5, 1, 100, [1]],
+      "output": 5
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [5, 2, 2, [10, 9]],
+      "output": 48
+    },
+    {
+      "input": [4, 3, 10, [1, 5, 10]],
+      "output": 40
+    },
+    {
+      "input": [3, 2, 0, [100, 1]],
+      "output": 300
+    },
+    {
+      "input": [10, 1, 0, [5]],
+      "output": 50
+    },
+    {
+      "input": [2, 5, 5, [10, 8, 6, 4, 2]],
+      "output": 18
+    },
+    {
+      "input": [5, 2, 0, [-5, -10]],
+      "output": -25
+    },
+    {
+      "input": [3, 3, 1, [10, 9, 8]],
+      "output": 29
+    },
+    {
+      "input": [4, 2, 100, [1, 1000]],
+      "output": 4000
+    },
+    {
+      "input": [6, 1, 5, [0]],
+      "output": 0
+    },
+    {
+      "input": [2, 2, 1, [10, 9]],
+      "output": 19
+    }
+  ]
+}

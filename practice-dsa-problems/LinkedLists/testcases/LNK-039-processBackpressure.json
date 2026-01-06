@@ -1,0 +1,63 @@
+{
+  "problemId": "LNK_LINKED_LIST_BACKPRESSURE__2215",
+  "publicTestCases": [
+    {
+      "input": [2, 5, ["PUSH 1", "PUSH 2", "PUSH 3", "POP", "PUSH 3"]],
+      "output": ["OK", "OK", "BLOCKED", "OK"]
+    },
+    {
+      "input": [1, 3, ["PUSH 10", "PUSH 20", "SIZE"]],
+      "output": ["OK", "BLOCKED", "1"]
+    },
+    {
+      "input": [5, 2, ["POP", "SIZE"]],
+      "output": ["0"]
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [
+        3,
+        6,
+        ["PUSH 1", "PUSH 2", "PUSH 3", "PUSH 4", "POP", "PUSH 4"]
+      ],
+      "output": ["OK", "OK", "OK", "BLOCKED", "OK"]
+    },
+    {
+      "input": [10, 5, ["PUSH 1", "PUSH 2", "PUSH 3", "PUSH 4", "SIZE"]],
+      "output": ["OK", "OK", "OK", "OK", "4"]
+    },
+    {
+      "input": [2, 5, ["PUSH 1", "POP", "POP", "PUSH 2", "SIZE"]],
+      "output": ["OK", "OK", "1"]
+    },
+    {
+      "input": [1, 4, ["PUSH 10", "PUSH 20", "POP", "PUSH 30"]],
+      "output": ["OK", "BLOCKED", "OK"]
+    },
+    {
+      "input": [5, 5, ["PUSH 1", "PUSH 2", "POP", "SIZE", "PUSH 3"]],
+      "output": ["OK", "OK", "1", "OK"]
+    },
+    {
+      "input": [2, 6, ["PUSH 10", "PUSH 20", "PUSH 30", "POP", "POP", "SIZE"]],
+      "output": ["OK", "OK", "BLOCKED", "0"]
+    },
+    {
+      "input": [4, 4, ["PUSH 1", "PUSH 1", "PUSH 1", "SIZE"]],
+      "output": ["OK", "OK", "OK", "3"]
+    },
+    {
+      "input": [3, 5, ["PUSH 1", "PUSH 2", "PUSH 3", "PUSH 4", "SIZE"]],
+      "output": ["OK", "OK", "OK", "BLOCKED", "3"]
+    },
+    {
+      "input": [1, 2, ["PUSH 100", "PUSH 200"]],
+      "output": ["OK", "BLOCKED"]
+    },
+    {
+      "input": [2, 3, ["POP", "PUSH 1", "SIZE"]],
+      "output": ["OK", "1"]
+    }
+  ]
+}

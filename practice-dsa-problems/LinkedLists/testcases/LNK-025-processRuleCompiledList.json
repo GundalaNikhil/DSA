@@ -1,0 +1,95 @@
+{
+  "problemId": "LNK_RULE_COMPILED_LINKED_LIST__1956",
+  "publicTestCases": [
+    {
+      "input": [
+        4,
+        [1, 2, 3, 2],
+        3,
+        ["FILTER_LT 2", "FILTER_EQ 3", "INSERT_AFTER 2 9"]
+      ],
+      "output": [2, 9, 2, 9]
+    },
+    {
+      "input": [3, [10, 20, 30], 2, ["FILTER_EQ 20", "INSERT_AFTER 10 5"]],
+      "output": [10, 5, 30]
+    },
+    {
+      "input": [2, [1, 2], 1, ["FILTER_LT 10"]],
+      "output": []
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [
+        5,
+        [1, 2, 3, 4, 5],
+        3,
+        ["FILTER_LT 3", "FILTER_EQ 5", "INSERT_AFTER 3 10"]
+      ],
+      "output": [3, 10, 4]
+    },
+    {
+      "input": [4, [10, 20, 10, 20], 2, ["INSERT_AFTER 10 5", "FILTER_EQ 20"]],
+      "output": [10, 5, 10, 5]
+    },
+    {
+      "input": [3, [5, 5, 5], 2, ["INSERT_AFTER 5 6", "INSERT_AFTER 6 7"]],
+      "output": [5, 6, 7, 5, 6, 7, 5, 6, 7]
+    },
+    {
+      "input": [
+        5,
+        [1, 2, 3, 4, 5],
+        5,
+        [
+          "FILTER_LT 2",
+          "FILTER_EQ 3",
+          "FILTER_EQ 4",
+          "INSERT_AFTER 2 100",
+          "INSERT_AFTER 5 200"
+        ]
+      ],
+      "output": [2, 100, 5, 200]
+    },
+    {
+      "input": [
+        1,
+        [10],
+        3,
+        ["INSERT_AFTER 10 20", "FILTER_LT 15", "INSERT_AFTER 20 30"]
+      ],
+      "output": [20, 30]
+    },
+    {
+      "input": [
+        2,
+        [1, 2],
+        3,
+        ["FILTER_LT 5", "INSERT_AFTER 1 10", "INSERT_AFTER 2 20"]
+      ],
+      "output": []
+    },
+    {
+      "input": [3, [10, 20, 30], 1, ["INSERT_AFTER 40 50"]],
+      "output": [10, 20, 30]
+    },
+    {
+      "input": [4, [1, 1, 1, 1], 2, ["FILTER_EQ 1", "INSERT_AFTER 1 2"]],
+      "output": []
+    },
+    {
+      "input": [
+        3,
+        [10, 20, 10],
+        3,
+        ["INSERT_AFTER 10 15", "FILTER_LT 15", "INSERT_AFTER 15 20"]
+      ],
+      "output": [15, 20, 20, 15, 20]
+    },
+    {
+      "input": [5, [1, 2, 3, 2, 1], 2, ["FILTER_EQ 2", "INSERT_AFTER 1 10"]],
+      "output": [1, 10, 3, 1, 10]
+    }
+  ]
+}

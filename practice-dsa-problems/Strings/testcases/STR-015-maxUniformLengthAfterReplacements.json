@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_UNIFORM_STRING_BUILDER__2349",
+  "publicTestCases": [
+    {
+      "input": ["AABABBA", 1],
+      "output": 4
+    },
+    {
+      "input": ["AAAA", 2],
+      "output": 4
+    },
+    {
+      "input": ["ABCD", 2],
+      "output": 3
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["AABABBA", 0],
+      "output": 2
+    },
+    {
+      "input": ["AABBCC", 1],
+      "output": 3
+    },
+    {
+      "input": ["ABABAB", 2],
+      "output": 5
+    },
+    {
+      "input": ["XYZ", 10],
+      "output": 3
+    },
+    {
+      "input": ["A", 0],
+      "output": 1
+    },
+    {
+      "input": ["ABCDE", 0],
+      "output": 1
+    },
+    {
+      "input": ["AAAAABBBBB", 2],
+      "output": 7
+    },
+    {
+      "input": ["K", 1],
+      "output": 1
+    },
+    {
+      "input": ["ABBB", 2],
+      "output": 4
+    },
+    {
+      "input": ["BAAA", 2],
+      "output": 4
+    }
+  ]
+}

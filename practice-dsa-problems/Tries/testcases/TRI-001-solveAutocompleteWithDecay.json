@@ -1,0 +1,224 @@
+{
+  "problemId": "TRI_AUTOCOMPLETE_SCORE_DECAY__4055",
+  "publicTestCases": [
+    {
+      "input": [
+        3,
+        10,
+        [
+          ["car", 100],
+          ["cat", 80],
+          ["dog", 90]
+        ],
+        3,
+        [
+          ["Q", "ca"],
+          ["Q", "d"],
+          ["Q", "ca"]
+        ]
+      ],
+      "output": ["car cat", "dog", "car cat"]
+    },
+    {
+      "input": [
+        2,
+        0,
+        [
+          ["apple", 100],
+          ["app", 90]
+        ],
+        2,
+        [
+          ["Q", "app"],
+          ["Q", "a"]
+        ]
+      ],
+      "output": ["apple app", "apple app"]
+    },
+    {
+      "input": [
+        3,
+        50,
+        [
+          ["a", 100],
+          ["ab", 50],
+          ["abc", 20]
+        ],
+        2,
+        [
+          ["Q", "a"],
+          ["Q", "ab"]
+        ]
+      ],
+      "output": ["a ab abc", "ab abc"]
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [
+        1,
+        100,
+        [["test", 100]],
+        3,
+        [
+          ["Q", "te"],
+          ["Q", "x"],
+          ["Q", "te"]
+        ]
+      ],
+      "output": ["test", "", "test"]
+    },
+    {
+      "input": [
+        2,
+        10,
+        [
+          ["a", 10],
+          ["b", 10]
+        ],
+        2,
+        [
+          ["Q", "a"],
+          ["Q", "b"]
+        ]
+      ],
+      "output": ["a", "b"]
+    },
+    {
+      "input": [
+        3,
+        0,
+        [
+          ["cat", 50],
+          ["car", 50],
+          ["cap", 50]
+        ],
+        1,
+        [["Q", "ca"]]
+      ],
+      "output": ["cap car cat"]
+    },
+    {
+      "input": [
+        5,
+        20,
+        [
+          ["apple", 100],
+          ["apply", 90],
+          ["apex", 80],
+          ["axe", 70],
+          ["apricot", 60]
+        ],
+        3,
+        [
+          ["Q", "ap"],
+          ["Q", "ap"],
+          ["Q", "ap"]
+        ]
+      ],
+      "output": [
+        "apple apply apex apricot",
+        "apple apply apex apricot",
+        "apple apply apex apricot"
+      ]
+    },
+    {
+      "input": [
+        3,
+        50,
+        [
+          ["a", 100],
+          ["b", 100],
+          ["c", 100]
+        ],
+        4,
+        [
+          ["Q", "a"],
+          ["Q", "b"],
+          ["Q", "c"],
+          ["Q", ""]
+        ]
+      ],
+      "output": ["a", "b", "c", "a b c"]
+    },
+    {
+      "input": [
+        2,
+        10,
+        [
+          ["dog", 100],
+          ["day", 50]
+        ],
+        3,
+        [
+          ["I", "dog", 90],
+          ["Q", "d"],
+          ["I", "day", 110]
+        ]
+      ],
+      "output": ["dog day"]
+    },
+    {
+      "input": [
+        4,
+        50,
+        [
+          ["a", 10],
+          ["aa", 10],
+          ["aaa", 10],
+          ["aaaa", 10]
+        ],
+        1,
+        [["Q", "a"]]
+      ],
+      "output": ["a aa aaa aaaa"]
+    },
+    {
+      "input": [
+        1,
+        10,
+        [["hello", 100]],
+        5,
+        [
+          ["Q", "z"],
+          ["Q", "z"],
+          ["Q", "he"],
+          ["Q", "he"],
+          ["Q", "he"]
+        ]
+      ],
+      "output": ["", "", "hello", "hello", "hello"]
+    },
+    {
+      "input": [
+        3,
+        100,
+        [
+          ["x", 100],
+          ["y", 100],
+          ["z", 100]
+        ],
+        2,
+        [
+          ["Q", "x"],
+          ["Q", "y"]
+        ]
+      ],
+      "output": ["x", "y"]
+    },
+    {
+      "input": [
+        1,
+        0,
+        [["abc", 100]],
+        3,
+        [
+          ["I", "abc", 50],
+          ["Q", "abc"],
+          ["I", "abc", 10]
+        ]
+      ],
+      "output": ["abc"]
+    }
+  ]
+}

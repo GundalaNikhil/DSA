@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_SENTENCE_REORDERING__9520",
+  "publicTestCases": [
+    {
+      "input": ["the quick brown fox"],
+      "output": "fox brown quick the"
+    },
+    {
+      "input": ["  hello world  "],
+      "output": "world hello"
+    },
+    {
+      "input": ["a good   example"],
+      "output": "example good a"
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["Bob Loves Alice"],
+      "output": "Alice Loves Bob"
+    },
+    {
+      "input": ["Alice does not like Bob"],
+      "output": "Bob like not does Alice"
+    },
+    {
+      "input": ["coding is fun"],
+      "output": "fun is coding"
+    },
+    {
+      "input": ["   test   "],
+      "output": "test"
+    },
+    {
+      "input": ["multiple    spaces    between"],
+      "output": "between spaces multiple"
+    },
+    {
+      "input": ["one"],
+      "output": "one"
+    },
+    {
+      "input": ["1 2 3 4"],
+      "output": "4 3 2 1"
+    },
+    {
+      "input": ["camelCase works too"],
+      "output": "too works camelCase"
+    },
+    {
+      "input": ["word1 word2"],
+      "output": "word2 word1"
+    },
+    {
+      "input": [" This IS a TEST "],
+      "output": "TEST a IS This"
+    }
+  ]
+}

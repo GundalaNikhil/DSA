@@ -1,0 +1,84 @@
+{
+  "problemId": "TRI_LONGEST_DICTIONARY_CHAIN_SUFFIX_VALIDATED__2116",
+  "publicTestCases": [
+    {
+      "input": [
+        5,
+        10,
+        ["a", "ab", "abc", "abcd", "bcd"],
+        ["a", "b", "c", "d", "ab", "bc", "cd", "abc", "bcd", "abcd"]
+      ],
+      "output": 4
+    },
+    {
+      "input": [3, 3, ["x", "xy", "xyz"], ["x", "y", "z"]],
+      "output": 1
+    },
+    {
+      "input": [3, 4, ["x", "xy", "xyz"], ["x", "y", "z", "xy"]],
+      "output": 1
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [3, 6, ["a", "ab", "abc"], ["a", "b", "c", "ab", "bc", "abc"]],
+      "output": 3
+    },
+    {
+      "input": [1, 1, ["a"], ["a"]],
+      "output": 1
+    },
+    {
+      "input": [5, 0, ["a", "ab", "abc", "abcd", "abcde"], []],
+      "output": 0
+    },
+    {
+      "input": [
+        5,
+        10,
+        ["a", "ab", "abc", "abcd", "abcde"],
+        ["a", "b", "c", "d", "e", "ab", "bc", "cd", "de", "abc"]
+      ],
+      "output": 3
+    },
+    {
+      "input": [5, 5, ["a", "b", "c", "d", "e"], ["a", "b", "c", "d", "e"]],
+      "output": 1
+    },
+    {
+      "input": [4, 5, ["a", "at", "ate", "ates"], ["a", "t", "e", "s", "ate"]],
+      "output": 1
+    },
+    {
+      "input": [
+        3,
+        6,
+        ["a", "aa", "aaa"],
+        ["a", "aa", "aaa", "aaaa", "aaaaa", "aaaaaa"]
+      ],
+      "output": 3
+    },
+    {
+      "input": [2, 2, ["x", "ax"], ["x", "ax"]],
+      "output": 2
+    },
+    {
+      "input": [
+        4,
+        4,
+        ["dog", "dogs", "cat", "cats"],
+        ["dog", "dogs", "cat", "cats"]
+      ],
+      "output": 1
+    },
+    {
+      "input": [
+        5,
+        12,
+        ["a", "ab", "abc", "abd", "abce"],
+        ["a", "b", "c", "d", "e", "ab", "bc", "bd", "ce", "abc", "abd", "abce"]
+      ],
+      "output": 4
+    }
+  ]
+}

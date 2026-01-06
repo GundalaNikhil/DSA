@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_BOUNDARY_MATCH_COUNTER__9781",
+  "publicTestCases": [
+    {
+      "input": ["abcab"],
+      "output": 7
+    },
+    {
+      "input": ["aba"],
+      "output": 4
+    },
+    {
+      "input": ["aaa"],
+      "output": 6
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["aaaaa"],
+      "output": 15
+    },
+    {
+      "input": ["abcde"],
+      "output": 5
+    },
+    {
+      "input": ["ababab"],
+      "output": 12
+    },
+    {
+      "input": ["z"],
+      "output": 1
+    },
+    {
+      "input": ["zz"],
+      "output": 3
+    },
+    {
+      "input": ["racecar"],
+      "output": 10
+    },
+    {
+      "input": ["mississippi"],
+      "output": 18
+    },
+    {
+      "input": ["aaabbbccc"],
+      "output": 18
+    },
+    {
+      "input": ["abacabadabacaba"],
+      "output": 61
+    },
+    {
+      "input": ["abcdefghijklmnopqrstuvwxyz"],
+      "output": 26
+    }
+  ]
+}

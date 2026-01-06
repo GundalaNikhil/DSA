@@ -1,0 +1,135 @@
+{
+  "problemId": "LNK_GIT_LIKE_LINKED_LIST__5204",
+  "publicTestCases": [
+    {
+      "input": [
+        2,
+        [1, 2],
+        4,
+        ["BRANCH dev 0", "COMMIT dev 2 9", "MERGE main dev 0", "GET 3 2"]
+      ],
+      "output": [1, 9]
+    },
+    {
+      "input": [
+        1,
+        [10],
+        3,
+        ["BRANCH feature 0", "COMMIT feature 1 20", "GET 2 1"]
+      ],
+      "output": [20]
+    },
+    {
+      "input": [2, [5, 10], 3, ["COMMIT main 2 15", "GET 1 2", "GET 0 2"]],
+      "output": [15, 10]
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [
+        3,
+        [1, 2, 3],
+        6,
+        [
+          "BRANCH b1 0",
+          "COMMIT b1 2 10",
+          "BRANCH b2 0",
+          "COMMIT b2 2 20",
+          "MERGE b1 b2 0",
+          "GET 5 2"
+        ]
+      ],
+      "output": [1, 10]
+    },
+    {
+      "input": [
+        5,
+        [1, 2, 3, 4, 5],
+        5,
+        [
+          "BRANCH test 0",
+          "COMMIT test 1 100",
+          "COMMIT test 3 300",
+          "MERGE main test 0",
+          "GET 4 6"
+        ]
+      ],
+      "output": [0, 300]
+    },
+    {
+      "input": [
+        2,
+        [10, 20],
+        6,
+        [
+          "BRANCH dev 0",
+          "COMMIT dev 1 5",
+          "COMMIT main 1 6",
+          "MERGE main dev 0",
+          "GET 4 1",
+          "GET 4 2"
+        ]
+      ],
+      "output": [1, 5, 20]
+    },
+    {
+      "input": [
+        4,
+        [1, 2, 3, 4],
+        4,
+        ["COMMIT main 4 100", "GET 1 4", "GET 0 4", "GET 1 5"]
+      ],
+      "output": [100, 4, 4]
+    },
+    {
+      "input": [1, [100], 3, ["BRANCH b1 0", "COMMIT b1 1 50", "GET 0 1"]],
+      "output": [100]
+    },
+    {
+      "input": [
+        2,
+        [1, 2],
+        5,
+        [
+          "BRANCH b1 0",
+          "COMMIT b1 2 3",
+          "BRANCH b2 2",
+          "COMMIT b2 2 4",
+          "GET 4 2"
+        ]
+      ],
+      "output": [4]
+    },
+    {
+      "input": [
+        3,
+        [10, 20, 30],
+        4,
+        ["COMMIT main 1 5", "COMMIT main 1 6", "GET 2 1", "GET 1 1"]
+      ],
+      "output": [6, 5]
+    },
+    {
+      "input": [2, [10, 20], 2, ["COMMIT main 1 30", "MERGE main main 0"]],
+      "output": [0]
+    },
+    {
+      "input": [
+        5,
+        [1, 2, 3, 4, 5],
+        3,
+        ["COMMIT main 5 6", "GET 1 5", "GET 1 6"]
+      ],
+      "output": [6, 5]
+    },
+    {
+      "input": [
+        1,
+        [1],
+        4,
+        ["BRANCH b1 0", "COMMIT b1 1 2", "COMMIT b1 1 3", "GET 3 1"]
+      ],
+      "output": [3]
+    }
+  ]
+}

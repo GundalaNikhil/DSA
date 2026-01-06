@@ -1,0 +1,12 @@
+[
+  {
+    "input": "4 3\nSUM MIN MAX\n5 0\n2 1\n7 1\n1 2",
+    "output": "12",
+    "isHidden": false
+  },
+  {
+    "input": "1 1\nSUM\n10 0",
+    "output": "10",
+    "isHidden": false
+  }
+]

@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_FIXED_LENGTH_FREQUENCY_RANKING__2012",
+  "publicTestCases": [
+    {
+      "input": ["ababcabc", 2, 2],
+      "output": ["ab 2", "bc 2"]
+    },
+    {
+      "input": ["aaaaa", 2, 1],
+      "output": ["aa 4"]
+    },
+    {
+      "input": ["abcde", 1, 5],
+      "output": ["a 1", "b 1", "c 1", "d 1", "e 1"]
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["banana", 3, 2],
+      "output": ["ana 2", "ban 1"]
+    },
+    {
+      "input": ["mississippi", 4, 2],
+      "output": ["issi 2", "ssip 2"]
+    },
+    {
+      "input": ["abc", 3, 1],
+      "output": ["abc 1"]
+    },
+    {
+      "input": ["abcabcabc", 3, 1],
+      "output": ["abc 3"]
+    },
+    {
+      "input": ["aaaaaa", 1, 1],
+      "output": ["a 6"]
+    },
+    {
+      "input": ["ababab", 2, 2],
+      "output": ["ab 3", "ba 2"]
+    },
+    {
+      "input": ["abcdef", 2, 10],
+      "output": ["ab 1", "bc 1", "cd 1", "de 1", "ef 1"]
+    },
+    {
+      "input": ["zzzzzz", 2, 1],
+      "output": ["zz 5"]
+    },
+    {
+      "input": ["aaabbbaaa", 2, 3],
+      "output": ["aa 4", "ba 2", "ab 1"]
+    },
+    {
+      "input": ["x", 1, 1],
+      "output": ["x 1"]
+    }
+  ]
+}

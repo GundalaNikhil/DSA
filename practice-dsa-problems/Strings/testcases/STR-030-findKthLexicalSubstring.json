@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_KTH_LEXICAL_SUBSTRING__3764",
+  "publicTestCases": [
+    {
+      "input": ["abc", 4],
+      "output": "b"
+    },
+    {
+      "input": ["aaa", 1],
+      "output": "a"
+    },
+    {
+      "input": ["abc", 6],
+      "output": "c"
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["abc", 7],
+      "output": "-1"
+    },
+    {
+      "input": ["banana", 1],
+      "output": "a"
+    },
+    {
+      "input": ["banana", 5],
+      "output": "anana"
+    },
+    {
+      "input": ["mississippi", 10],
+      "output": "ipsi"
+    },
+    {
+      "input": ["a", 1],
+      "output": "a"
+    },
+    {
+      "input": ["a", 2],
+      "output": "-1"
+    },
+    {
+      "input": ["ab", 3],
+      "output": "b"
+    },
+    {
+      "input": ["ba", 1],
+      "output": "a"
+    },
+    {
+      "input": ["ba", 3],
+      "output": "ba"
+    },
+    {
+      "input": ["aaaaa", 3],
+      "output": "aaa"
+    }
+  ]
+}

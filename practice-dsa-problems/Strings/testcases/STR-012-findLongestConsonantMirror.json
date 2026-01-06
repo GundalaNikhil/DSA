@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_CONSONANT_MIRROR_FINDER__4872",
+  "publicTestCases": [
+    {
+      "input": ["raceacar"],
+      "output": "raceacar"
+    },
+    {
+      "input": ["banana"],
+      "output": "n"
+    },
+    {
+      "input": ["apple"],
+      "output": "pp"
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["aeiou"],
+      "output": "aeiou"
+    },
+    {
+      "input": ["bcd"],
+      "output": "b"
+    },
+    {
+      "input": ["level"],
+      "output": "level"
+    },
+    {
+      "input": ["rotator"],
+      "output": "rotator"
+    },
+    {
+      "input": ["madam"],
+      "output": "madam"
+    },
+    {
+      "input": ["xyzyx"],
+      "output": "xyzyx"
+    },
+    {
+      "input": ["bcdfghjklmnpqrstvwxyz"],
+      "output": "b"
+    },
+    {
+      "input": ["aaaaabbbaaaa"],
+      "output": "aaaaabbbaaaa"
+    },
+    {
+      "input": ["abcde"],
+      "output": "b"
+    },
+    {
+      "input": ["cac"],
+      "output": "cac"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_SPACED_REPETITION_FINDER__4697",
+  "publicTestCases": [
+    {
+      "input": ["abcabc", 3],
+      "output": "abc"
+    },
+    {
+      "input": ["aaaaa", 2],
+      "output": "aaa"
+    },
+    {
+      "input": ["abcdef", 1],
+      "output": ""
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["banana", 2],
+      "output": "ana"
+    },
+    {
+      "input": ["banana", 3],
+      "output": "na"
+    },
+    {
+      "input": ["aaaaa", 0],
+      "output": "aaaa"
+    },
+    {
+      "input": ["abcdeabcde", 5],
+      "output": "abcde"
+    },
+    {
+      "input": ["mississippi", 4],
+      "output": "issi"
+    },
+    {
+      "input": ["abbbbba", 4],
+      "output": "b"
+    },
+    {
+      "input": ["x", 0],
+      "output": ""
+    },
+    {
+      "input": ["ababab", 2],
+      "output": "abab"
+    },
+    {
+      "input": ["ababab", 3],
+      "output": "aba"
+    },
+    {
+      "input": ["abcabcabc", 3],
+      "output": "abcabc"
+    }
+  ]
+}

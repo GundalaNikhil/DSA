@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_MAXIMUM_COMMON_SPAN__8165",
+  "publicTestCases": [
+    {
+      "input": ["abcdef", "xbcdy"],
+      "output": "bcd"
+    },
+    {
+      "input": ["abc", "def"],
+      "output": ""
+    },
+    {
+      "input": ["abacaba", "abacaba"],
+      "output": "abacaba"
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["banana", "ciana"],
+      "output": "ana"
+    },
+    {
+      "input": ["abcde", "abfde"],
+      "output": "ab"
+    },
+    {
+      "input": ["cool", "lock"],
+      "output": "o"
+    },
+    {
+      "input": ["test", "team"],
+      "output": "te"
+    },
+    {
+      "input": ["programming", "programmer"],
+      "output": "programm"
+    },
+    {
+      "input": ["abcd", "dcba"],
+      "output": "a"
+    },
+    {
+      "input": ["aaaaa", "aa"],
+      "output": "aa"
+    },
+    {
+      "input": ["mississippi", "iss"],
+      "output": "iss"
+    },
+    {
+      "input": ["abcdef", "bcdefg"],
+      "output": "bcdef"
+    },
+    {
+      "input": ["x", "x"],
+      "output": "x"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "problemId": "LNK_BIDIRECTIONAL_SYNC_LIST__4877",
+  "publicTestCases": [
+    {
+      "input": [
+        3,
+        5,
+        [1, 2, 3],
+        4,
+        ["GET B 2", "INS A 2 10", "GET B 2", "DEL B 3"]
+      ],
+      "output": [7, 15]
+    },
+    {
+      "input": [1, 10, [10], 2, ["INS B 1 20", "GET A 1"]],
+      "output": [10]
+    },
+    {
+      "input": [2, 0, [1, 2], 2, ["DEL A 1", "GET B 1"]],
+      "output": [2]
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [
+        3,
+        2,
+        [1, 2, 3],
+        5,
+        ["INS A 3 10", "GET B 3", "DEL B 2", "GET A 2", "GET B 2"]
+      ],
+      "output": [12, 10, 12]
+    },
+    {
+      "input": [1, 100, [0], 3, ["INS B 1 500", "GET A 1", "GET B 1"]],
+      "output": [400, 500]
+    },
+    {
+      "input": [5, 5, [1, 2, 3, 4, 5], 2, ["DEL B 1", "GET A 2"]],
+      "output": [3]
+    },
+    {
+      "input": [
+        2,
+        1,
+        [10, 20],
+        4,
+        ["INS A 1 5", "INS B 1 100", "GET A 1", "GET B 2"]
+      ],
+      "output": [99, 6]
+    },
+    {
+      "input": [4, 2, [10, 20, 30, 40], 3, ["DEL A 2", "DEL B 1", "GET B 1"]],
+      "output": [32]
+    },
+    {
+      "input": [1, 0, [1], 2, ["INS B 1 5", "GET A 1"]],
+      "output": [5]
+    },
+    {
+      "input": [3, 10, [10, 20, 30], 3, ["INS A 4 100", "GET B 4", "GET A 3"]],
+      "output": [110, 30]
+    },
+    {
+      "input": [2, 5, [0, 0], 2, ["INS B 2 100", "GET A 2"]],
+      "output": [95]
+    },
+    {
+      "input": [3, 1, [1, 2, 3], 3, ["DEL B 3", "GET A 2", "GET B 1"]],
+      "output": [2, 2]
+    },
+    {
+      "input": [4, 2, [1, 2, 3, 4], 2, ["INS A 5 5", "GET B 5"]],
+      "output": [7]
+    }
+  ]
+}

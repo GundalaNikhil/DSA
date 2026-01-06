@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_WORD_FAMILY_CLUSTERING_OVERFLOW__8241",
+  "publicTestCases": [
+    {
+      "input": [6, 2, ["eat", "tea", "tan", "ate", "nat", "bat"]],
+      "output": [4, "eat tea", "ate", "tan nat", "bat"]
+    },
+    {
+      "input": [3, 3, ["abc", "bca", "cab"]],
+      "output": [1, "abc bca cab"]
+    },
+    {
+      "input": [3, 4, ["abc", "bca", "cab"]],
+      "output": [1, "abcbcacab"]
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [5, 2, ["a", "b", "a", "b", "c"]],
+      "output": [3, "a a", "b b", "c"]
+    },
+    {
+      "input": [4, 1, ["abc", "def", "ghi", "jkl"]],
+      "output": [4, "abc", "def", "ghi", "jkl"]
+    },
+    {
+      "input": [6, 2, ["cat", "dog", "tac", "god", "act", "odg"]],
+      "output": [4, "cat tac", "act", "dog god", "odg"]
+    },
+    {
+      "input": [2, 5, ["hello", "olleh"]],
+      "output": [1, "helloolleh"]
+    },
+    {
+      "input": [1, 1, ["only"]],
+      "output": [1, "only"]
+    },
+    {
+      "input": [5, 2, ["a", "a", "a", "a", "a"]],
+      "output": [3, "a a", "a a", "a"]
+    },
+    {
+      "input": [4, 3, ["xy", "yx", "xy", "yx"]],
+      "output": [2, "xy yx xy", "yx"]
+    },
+    {
+      "input": [3, 10, ["one", "two", "three"]],
+      "output": [3, "one", "two", "three"]
+    },
+    {
+      "input": [6, 2, ["stop", "pots", "tops", "opt", "pot", "top"]],
+      "output": [4, "stop pots", "tops", "opt pot", "top"]
+    },
+    {
+      "input": [4, 2, ["abc", "abd", "abe", "abf"]],
+      "output": [4, "abc", "abd", "abe", "abf"]
+    }
+  ]
+}

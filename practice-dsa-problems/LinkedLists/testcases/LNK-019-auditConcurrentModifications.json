@@ -1,0 +1,69 @@
+{
+  "problemId": "LNK_CONCURRENT_MODIFICATION_AUDIT__5859",
+  "publicTestCases": [
+    {
+      "input": [3, 2, [1, 2, 3], ["DEL 2 1 3", "INS 4 9 1 3"]],
+      "output": 0
+    },
+    {
+      "input": [2, 1, [10, 20], ["DEL 1 0 2"]],
+      "output": 0
+    },
+    {
+      "input": [2, 1, [10, 20], ["DEL 1 2 0"]],
+      "output": 1
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [4, 2, [1, 2, 3, 4], ["DEL 2 1 3", "DEL 3 1 4"]],
+      "output": 0
+    },
+    {
+      "input": [3, 2, [1, 2, 3], ["INS 4 100 1 2", "DEL 2 4 3"]],
+      "output": 0
+    },
+    {
+      "input": [
+        5,
+        3,
+        [1, 2, 3, 4, 5],
+        ["DEL 3 2 4", "INS 6 10 2 4", "DEL 4 2 5"]
+      ],
+      "output": 3
+    },
+    {
+      "input": [2, 2, [10, 20], ["DEL 1 0 2", "INS 3 30 0 2"]],
+      "output": 0
+    },
+    {
+      "input": [3, 1, [1, 2, 3], ["DEL 2 0 3"]],
+      "output": 1
+    },
+    {
+      "input": [4, 2, [1, 2, 3, 4], ["DEL 4 3 0", "INS 5 5 3 0"]],
+      "output": 0
+    },
+    {
+      "input": [2, 2, [1, 2], ["INS 3 3 1 2", "INS 4 4 1 2"]],
+      "output": 2
+    },
+    {
+      "input": [3, 2, [10, 20, 30], ["DEL 1 0 2", "DEL 2 0 3"]],
+      "output": 2
+    },
+    {
+      "input": [1, 1, [10], ["DEL 1 0 0"]],
+      "output": 0
+    },
+    {
+      "input": [
+        5,
+        4,
+        [1, 2, 3, 4, 5],
+        ["INS 6 10 1 2", "INS 7 20 6 2", "DEL 6 1 7", "DEL 7 1 2"]
+      ],
+      "output": 0
+    }
+  ]
+}

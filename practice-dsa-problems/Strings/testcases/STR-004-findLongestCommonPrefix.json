@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_PREFIX_EXTRACTION_NUMERIC_TRIM__7647",
+  "publicTestCases": [
+    {
+      "input": [3, ["function123", "function456", "function789"]],
+      "output": "function"
+    },
+    {
+      "input": [2, ["apple", "apricot"]],
+      "output": "ap"
+    },
+    {
+      "input": [2, ["123", "456"]],
+      "output": ""
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [3, ["file1", "file20", "file300"]],
+      "output": "file"
+    },
+    {
+      "input": [2, ["test", "team"]],
+      "output": "te"
+    },
+    {
+      "input": [3, ["a100", "a200", "a"]],
+      "output": "a"
+    },
+    {
+      "input": [2, ["version2.0", "version2.5"]],
+      "output": "version2."
+    },
+    {
+      "input": [3, ["data10", "date20", "datum30"]],
+      "output": "dat"
+    },
+    {
+      "input": [2, ["abc123def", "abc456def"]],
+      "output": "abc"
+    },
+    {
+      "input": [4, ["common", "common1", "common22", "common333"]],
+      "output": "common"
+    },
+    {
+      "input": [2, ["prefix", "prefixed"]],
+      "output": "prefix"
+    },
+    {
+      "input": [1, ["single10"]],
+      "output": "single"
+    },
+    {
+      "input": [2, ["123abc", "123def"]],
+      "output": "123"
+    }
+  ]
+}

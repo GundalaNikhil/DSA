@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_RABIN_KARP_COLLISION_DETECTION__2313",
+  "publicTestCases": [
+    {
+      "input": ["ababa", "aba"],
+      "output": [2, 0]
+    },
+    {
+      "input": ["hello", "ll"],
+      "output": [1, 0]
+    },
+    {
+      "input": ["abc", "def"],
+      "output": [0, 0]
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["aaaaa", "aa"],
+      "output": [4, 0]
+    },
+    {
+      "input": ["abcdefg", "abc"],
+      "output": [1, 0]
+    },
+    {
+      "input": ["abc", "abcdef"],
+      "output": [0, 0]
+    },
+    {
+      "input": ["mississippi", "issi"],
+      "output": [2, 0]
+    },
+    {
+      "input": ["abababab", "abab"],
+      "output": [3, 0]
+    },
+    {
+      "input": ["xyz", "x"],
+      "output": [1, 0]
+    },
+    {
+      "input": ["programming", "gram"],
+      "output": [1, 0]
+    },
+    {
+      "input": ["testtesttest", "test"],
+      "output": [3, 0]
+    },
+    {
+      "input": ["abacabadabacaba", "abacaba"],
+      "output": [3, 0]
+    },
+    {
+      "input": ["a", "a"],
+      "output": [1, 0]
+    }
+  ]
+}

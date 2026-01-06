@@ -1,0 +1,141 @@
+{
+  "problemId": "LNK_DEFERRED_OPERATIONS_LIST__2124",
+  "publicTestCases": [
+    {
+      "input": [
+        3,
+        [1, 2, 3],
+        4,
+        ["QUEUE INS 2 9 1", "QUEUE DEL 2 2", "APPLY", "PRINT"]
+      ],
+      "output": [[1, 3]]
+    },
+    {
+      "input": [2, [10, 20], 3, ["QUEUE INS 1 5 2", "APPLY", "PRINT"]],
+      "output": [[5, 10, 20]]
+    },
+    {
+      "input": [
+        1,
+        [100],
+        4,
+        ["QUEUE DEL 1 1", "QUEUE INS 1 50 1", "APPLY", "PRINT"]
+      ],
+      "output": [[50, 100]]
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [
+        3,
+        [1, 2, 3],
+        5,
+        [
+          "QUEUE INS 1 10 1",
+          "QUEUE DEL 1 2",
+          "QUEUE INS 1 20 1",
+          "APPLY",
+          "PRINT"
+        ]
+      ],
+      "output": [[2, 3]]
+    },
+    {
+      "input": [
+        5,
+        [1, 2, 3, 4, 5],
+        5,
+        [
+          "QUEUE DEL 2 1",
+          "QUEUE DEL 2 1",
+          "QUEUE INS 2 9 1",
+          "QUEUE DEL 2 2",
+          "APPLY",
+          "PRINT"
+        ]
+      ],
+      "output": [[1, 3, 4, 5]]
+    },
+    {
+      "input": [
+        3,
+        [10, 20, 30],
+        5,
+        [
+          "QUEUE INS 1 4 2",
+          "QUEUE INS 1 5 1",
+          "QUEUE INS 2 6 2",
+          "APPLY",
+          "PRINT"
+        ]
+      ],
+      "output": [[4, 10, 6, 20, 30]]
+    },
+    {
+      "input": [
+        2,
+        [1, 2],
+        4,
+        ["QUEUE DEL 2 1", "QUEUE DEL 2 1", "APPLY", "PRINT"]
+      ],
+      "output": [[1]]
+    },
+    {
+      "input": [
+        4,
+        [10, 20, 30, 40],
+        4,
+        ["QUEUE INS 5 50 1", "QUEUE DEL 5 2", "APPLY", "PRINT"]
+      ],
+      "output": [[10, 20, 30, 40]]
+    },
+    {
+      "input": [1, [100], 3, ["QUEUE DEL 1 1", "APPLY", "PRINT"]],
+      "output": [[]]
+    },
+    {
+      "input": [
+        2,
+        [5, 5],
+        6,
+        [
+          "QUEUE INS 1 4 1",
+          "QUEUE DEL 1 1",
+          "APPLY",
+          "QUEUE DEL 1 1",
+          "APPLY",
+          "PRINT"
+        ]
+      ],
+      "output": [[5, 5]]
+    },
+    {
+      "input": [
+        3,
+        [1, 2, 3],
+        5,
+        [
+          "QUEUE INS 2 4 1",
+          "QUEUE INS 2 5 1",
+          "APPLY",
+          "PRINT",
+          "QUEUE DEL 2 1"
+        ]
+      ],
+      "output": [[1, 4, 2, 3]]
+    },
+    {
+      "input": [
+        5,
+        [1, 2, 3, 4, 5],
+        5,
+        ["QUEUE DEL 1 1", "QUEUE DEL 3 1", "QUEUE DEL 5 1", "APPLY", "PRINT"]
+      ],
+      "output": [[2, 4]]
+    },
+    {
+      "input": [2, [1, 2], 3, ["QUEUE INS 2 3 0", "APPLY", "PRINT"]],
+      "output": [[1, 3, 2]]
+    }
+  ]
+}

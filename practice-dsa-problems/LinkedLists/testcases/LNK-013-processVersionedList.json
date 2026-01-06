@@ -1,0 +1,84 @@
+{
+  "problemId": "LNK_VERSIONED_LINKED_LIST__6990",
+  "publicTestCases": [
+    {
+      "input": [
+        3,
+        [1, 2, 3],
+        4,
+        ["INS 0 2 9", "GET 1 2", "DEL 1 3", "GET 2 3"]
+      ],
+      "output": [9, 3]
+    },
+    {
+      "input": [1, [10], 3, ["INS 0 2 20", "GET 0 1", "GET 1 2"]],
+      "output": [10, 20]
+    },
+    {
+      "input": [2, [5, 10], 2, ["DEL 0 1", "GET 1 1"]],
+      "output": [10]
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [
+        3,
+        [1, 2, 3],
+        5,
+        ["INS 0 1 0", "INS 1 1 -1", "GET 0 1", "GET 1 1", "GET 2 1"]
+      ],
+      "output": [1, 0, -1]
+    },
+    {
+      "input": [
+        5,
+        [1, 2, 3, 4, 5],
+        4,
+        ["DEL 0 1", "DEL 1 1", "DEL 2 1", "GET 3 1"]
+      ],
+      "output": [4]
+    },
+    {
+      "input": [1, [100], 3, ["DEL 0 1", "GET 1 1", "INS 1 1 50"]],
+      "output": [-1]
+    },
+    {
+      "input": [
+        2,
+        [10, 20],
+        4,
+        ["INS 0 3 30", "DEL 1 1", "GET 2 1", "GET 2 2"]
+      ],
+      "output": [20, 30]
+    },
+    {
+      "input": [4, [1, 2, 3, 4], 3, ["DEL 0 4", "DEL 0 3", "GET 1 3"]],
+      "output": [3]
+    },
+    {
+      "input": [1, [1], 3, ["INS 0 1 0", "GET 1 1", "GET 1 2"]],
+      "output": [0, 1]
+    },
+    {
+      "input": [
+        3,
+        [1, 2, 3],
+        5,
+        ["DEL 0 2", "INS 1 1 100", "GET 2 1", "GET 2 2", "GET 1 2"]
+      ],
+      "output": [100, 1, 3]
+    },
+    {
+      "input": [2, [5, 5], 3, ["INS 0 1 1", "INS 0 1 2", "GET 1 1"]],
+      "output": [1]
+    },
+    {
+      "input": [1, [10], 2, ["DEL 0 1", "GET 1 1"]],
+      "output": [-1]
+    },
+    {
+      "input": [5, [1, 2, 3, 4, 5], 3, ["INS 0 6 6", "DEL 1 1", "GET 2 5"]],
+      "output": [6]
+    }
+  ]
+}

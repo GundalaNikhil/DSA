@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_EXACT_K_DISTINCT_WINDOW__2213",
+  "publicTestCases": [
+    {
+      "input": ["abcabc", 2],
+      "output": 8
+    },
+    {
+      "input": ["abacaba", 3],
+      "output": 16
+    },
+    {
+      "input": ["aaaa", 1],
+      "output": 10
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["abcde", 5],
+      "output": 1
+    },
+    {
+      "input": ["abcde", 1],
+      "output": 5
+    },
+    {
+      "input": ["banana", 2],
+      "output": 9
+    },
+    {
+      "input": ["banana", 3],
+      "output": 4
+    },
+    {
+      "input": ["mississippi", 2],
+      "output": 29
+    },
+    {
+      "input": ["mississippi", 3],
+      "output": 19
+    },
+    {
+      "input": ["mississippi", 4],
+      "output": 2
+    },
+    {
+      "input": ["a", 1],
+      "output": 1
+    },
+    {
+      "input": ["abcdefghijklmnopqrstuvwxyz", 26],
+      "output": 1
+    },
+    {
+      "input": ["zzzzzzz", 1],
+      "output": 28
+    }
+  ]
+}

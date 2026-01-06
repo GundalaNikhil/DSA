@@ -1,0 +1,77 @@
+{
+  "problemId": "STR_DYNAMIC_SUBSTRING_COUNT_QUERIES__4248",
+  "publicTestCases": [
+    {
+      "input": ["aba", 3, ["QUERY", 1, 3], ["UPDATE", 2, "c"], ["QUERY", 1, 3]],
+      "output": [5, 6]
+    },
+    {
+      "input": ["abc", 1, ["QUERY", 1, 3]],
+      "output": [6]
+    },
+    {
+      "input": ["aaa", 2, ["QUERY", 1, 3], ["UPDATE", 2, "b"]],
+      "output": [3]
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [
+        "aaaaa",
+        3,
+        ["QUERY", 1, 5],
+        ["UPDATE", 3, "b"],
+        ["QUERY", 1, 5]
+      ],
+      "output": [5, 13]
+    },
+    {
+      "input": ["abcde", 2, ["QUERY", 1, 2], ["QUERY", 2, 4]],
+      "output": [3, 6]
+    },
+    {
+      "input": [
+        "abacaba",
+        3,
+        ["QUERY", 1, 7],
+        ["UPDATE", 4, "x"],
+        ["QUERY", 1, 7]
+      ],
+      "output": [21, 28]
+    },
+    {
+      "input": ["x", 3, ["QUERY", 1, 1], ["UPDATE", 1, "y"], ["QUERY", 1, 1]],
+      "output": [1, 1]
+    },
+    {
+      "input": ["mississippi", 1, ["QUERY", 1, 11]],
+      "output": [53]
+    },
+    {
+      "input": ["ababab", 2, ["UPDATE", 1, "c"], ["QUERY", 1, 6]],
+      "output": [18]
+    },
+    {
+      "input": ["a", 2, ["UPDATE", 1, "a"], ["QUERY", 1, 1]],
+      "output": [1]
+    },
+    {
+      "input": ["abc", 2, ["UPDATE", 1, "d"], ["QUERY", 1, 3]],
+      "output": [6]
+    },
+    {
+      "input": [
+        "aaaa",
+        3,
+        ["QUERY", 1, 4],
+        ["UPDATE", 2, "b"],
+        ["QUERY", 1, 4]
+      ],
+      "output": [4, 9]
+    },
+    {
+      "input": ["xyz", 1, ["QUERY", 2, 2]],
+      "output": [1]
+    }
+  ]
+}

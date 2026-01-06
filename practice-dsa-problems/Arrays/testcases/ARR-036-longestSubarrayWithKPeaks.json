@@ -1,0 +1,59 @@
+{
+  "problemId": "ARR_LONGEST_SUBARRAY_DISTINCT_PEAKS__7875",
+  "publicTestCases": [
+    {
+      "input": [7, 1, [1, 3, 1, 2, 5, 1, 2]],
+      "output": 5
+    },
+    {
+      "input": [3, 0, [1, 2, 3]],
+      "output": 3
+    },
+    {
+      "input": [3, 0, [1, 5, 1]],
+      "output": 2
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [5, 2, [1, 5, 1, 5, 1]],
+      "output": 5
+    },
+    {
+      "input": [9, 1, [1, 2, 1, 2, 1, 2, 1, 2, 1]],
+      "output": 4
+    },
+    {
+      "input": [4, 10, [1, 2, 3, 4]],
+      "output": 4
+    },
+    {
+      "input": [1, 0, [100]],
+      "output": 1
+    },
+    {
+      "input": [6, 1, [1, 10, 5, 10, 5, 10]],
+      "output": 4
+    },
+    {
+      "input": [5, 0, [1, 2, 3, 2, 1]],
+      "output": 3
+    },
+    {
+      "input": [5, 5, [10, 5, 10, 5, 10]],
+      "output": 5
+    },
+    {
+      "input": [3, 1, [10, 20, 10]],
+      "output": 3
+    },
+    {
+      "input": [4, 0, [5, 5, 5, 5]],
+      "output": 4
+    },
+    {
+      "input": [5, 0, [1, 5, 2, 6, 3]],
+      "output": 2
+    }
+  ]
+}

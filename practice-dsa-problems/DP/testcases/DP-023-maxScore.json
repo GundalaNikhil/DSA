@@ -1,0 +1,59 @@
+{
+  "problemId": "DP_PRECOMMITMENT_PENALTIES__5004",
+  "publicTestCases": [
+    {
+      "input": [3, 2, 2, [5, 4]],
+      "output": 13
+    },
+    {
+      "input": [2, 1, 10, [5]],
+      "output": 10
+    },
+    {
+      "input": [2, 2, 1, [10, 10]],
+      "output": 20
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [4, 2, 5, [10, 1]],
+      "output": 40
+    },
+    {
+      "input": [5, 3, 2, [5, 5, 5]],
+      "output": 25
+    },
+    {
+      "input": [3, 2, 100, [1, 100]],
+      "output": 300
+    },
+    {
+      "input": [6, 1, 10, [0]],
+      "output": 0
+    },
+    {
+      "input": [2, 2, 0, [10, 20]],
+      "output": 40
+    },
+    {
+      "input": [5, 4, 1, [1, 2, 3, 4]],
+      "output": 20
+    },
+    {
+      "input": [10, 2, 1, [-5, 5]],
+      "output": 50
+    },
+    {
+      "input": [3, 2, 10, [10, 10]],
+      "output": 30
+    },
+    {
+      "input": [4, 3, 5, [1, 10, 100]],
+      "output": 400
+    },
+    {
+      "input": [5, 1, 1000, [1]],
+      "output": 5
+    }
+  ]
+}

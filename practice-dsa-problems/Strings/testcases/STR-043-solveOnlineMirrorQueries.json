@@ -1,0 +1,122 @@
+{
+  "problemId": "STR_ONLINE_MIRROR_QUERY_SYSTEM__5996",
+  "publicTestCases": [
+    {
+      "input": [
+        5,
+        ["ADD", "a", 0, 0],
+        ["ADD", "b", 0, 0],
+        ["ASK", " ", 1, 2],
+        ["ADD", "a", 0, 0],
+        ["ASK", " ", 1, 3]
+      ],
+      "output": [false, true]
+    },
+    {
+      "input": [3, ["ADD", "a", 0, 0], ["ASK", " ", 1, 1], ["ASK", " ", 1, 1]],
+      "output": [true, true]
+    },
+    {
+      "input": [
+        4,
+        ["ADD", "a", 0, 0],
+        ["ADD", "a", 0, 0],
+        ["ADD", "a", 0, 0],
+        ["ASK", " ", 1, 3]
+      ],
+      "output": [true]
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [
+        6,
+        ["ADD", "a", 0, 0],
+        ["ADD", "b", 0, 0],
+        ["ADD", "a", 0, 0],
+        ["ADD", "c", 0, 0],
+        ["ADD", "a", 0, 0],
+        ["ASK", " ", 1, 5]
+      ],
+      "output": [true]
+    },
+    {
+      "input": [
+        4,
+        ["ADD", "x", 0, 0],
+        ["ADD", "y", 0, 0],
+        ["ADD", "z", 0, 0],
+        ["ASK", " ", 1, 3]
+      ],
+      "output": [false]
+    },
+    {
+      "input": [2, ["ADD", "a", 0, 0], ["ASK", " ", 1, 1]],
+      "output": [true]
+    },
+    {
+      "input": [
+        5,
+        ["ADD", "r", 0, 0],
+        ["ADD", "a", 0, 0],
+        ["ADD", "c", 0, 0],
+        ["ADD", "e", 0, 0],
+        ["ASK", " ", 1, 4]
+      ],
+      "output": [false]
+    },
+    {
+      "input": [
+        6,
+        ["ADD", "a", 0, 0],
+        ["ADD", "a", 0, 0],
+        ["ADD", "a", 0, 0],
+        ["ADD", "a", 0, 0],
+        ["ASK", " ", 1, 4],
+        ["ASK", " ", 2, 3]
+      ],
+      "output": [true, true]
+    },
+    {
+      "input": [
+        4,
+        ["ADD", "a", 0, 0],
+        ["ADD", "b", 0, 0],
+        ["ASK", " ", 1, 2],
+        ["ASK", " ", 2, 2]
+      ],
+      "output": [false, true]
+    },
+    {
+      "input": [3, ["ADD", "x", 0, 0], ["ADD", "y", 0, 0], ["ASK", " ", 1, 2]],
+      "output": [false]
+    },
+    {
+      "input": [
+        5,
+        ["ADD", "l", 0, 0],
+        ["ADD", "e", 0, 0],
+        ["ADD", "v", 0, 0],
+        ["ADD", "e", 0, 0],
+        ["ADD", "l", 0, 0]
+      ],
+      "output": []
+    },
+    {
+      "input": [
+        6,
+        ["ADD", "l", 0, 0],
+        ["ADD", "e", 0, 0],
+        ["ADD", "v", 0, 0],
+        ["ADD", "e", 0, 0],
+        ["ADD", "l", 0, 0],
+        ["ASK", " ", 1, 5]
+      ],
+      "output": [true]
+    },
+    {
+      "input": [2, ["ADD", "a", 0, 0], ["ASK", " ", 1, 1]],
+      "output": [true]
+    }
+  ]
+}

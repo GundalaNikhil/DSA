@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_MAXIMUM_UNIQUE_PARTITIONING__4090",
+  "publicTestCases": [
+    {
+      "input": ["ababccc"],
+      "output": [5, "a b ab c cc"]
+    },
+    {
+      "input": ["abc"],
+      "output": [3, "a b c"]
+    },
+    {
+      "input": ["aaaaaa"],
+      "output": [3, "a aa aaa"]
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["aaaaaaaaaa"],
+      "output": [4, "a aa aaa aaaa"]
+    },
+    {
+      "input": ["abacaba"],
+      "output": [5, "a b ac ab c"]
+    },
+    {
+      "input": ["zzzz"],
+      "output": [2, "z zz"]
+    },
+    {
+      "input": ["aabbccddeeff"],
+      "output": [8, "a ab b c cd d e ef"]
+    },
+    {
+      "input": ["x"],
+      "output": [1, "x"]
+    },
+    {
+      "input": ["xy"],
+      "output": [2, "x y"]
+    },
+    {
+      "input": ["abcabcabc"],
+      "output": [5, "a b c ab ca"]
+    },
+    {
+      "input": ["racecar"],
+      "output": [5, "r a c e car"]
+    },
+    {
+      "input": ["banana"],
+      "output": [4, "b a n ana"]
+    },
+    {
+      "input": ["mississippi"],
+      "output": [7, "m i s si ss ip pi"]
+    }
+  ]
+}

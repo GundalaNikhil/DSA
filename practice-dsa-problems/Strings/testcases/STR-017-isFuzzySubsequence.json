@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_FUZZY_SUBSEQUENCE_MATCH__6771",
+  "publicTestCases": [
+    {
+      "input": ["abcdefg", "ace", 1],
+      "output": true
+    },
+    {
+      "input": ["abcdefg", "ace", 0],
+      "output": true
+    },
+    {
+      "input": ["abc", "def", 0],
+      "output": false
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["abc", "axc", 1],
+      "output": true
+    },
+    {
+      "input": ["abc", "xyz", 3],
+      "output": true
+    },
+    {
+      "input": ["abc", "xyz", 2],
+      "output": false
+    },
+    {
+      "input": ["aaaaa", "aa", 0],
+      "output": true
+    },
+    {
+      "input": ["aaaaa", "aaa", 1],
+      "output": true
+    },
+    {
+      "input": ["abc", "abcd", 1],
+      "output": false
+    },
+    {
+      "input": ["abcdefgh", "ah", 0],
+      "output": true
+    },
+    {
+      "input": ["abcdefgh", "az", 1],
+      "output": true
+    },
+    {
+      "input": ["hello", "hlo", 0],
+      "output": true
+    },
+    {
+      "input": ["hello", "help", 1],
+      "output": true
+    }
+  ]
+}

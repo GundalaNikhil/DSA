@@ -1,0 +1,94 @@
+{
+  "problemId": "LNK_ACCESS_PATTERN_OPTIMIZED_LIST__5388",
+  "publicTestCases": [
+    {
+      "input": [
+        4,
+        [10, 20, 30, 40],
+        5,
+        ["ACCESS 2", "ACCESS 2", "ACCESS 4", "REORDER", "ACCESS 1"]
+      ],
+      "output": [20, 40, 10, 30]
+    },
+    {
+      "input": [2, [1, 2], 3, ["ACCESS 2", "REORDER", "ACCESS 1"]],
+      "output": [2, 1]
+    },
+    {
+      "input": [3, [1, 1, 1], 2, ["ACCESS 3", "REORDER"]],
+      "output": [1, 1, 1]
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [
+        5,
+        [1, 2, 3, 4, 5],
+        6,
+        ["ACCESS 5", "ACCESS 5", "ACCESS 4", "ACCESS 3", "ACCESS 2", "REORDER"]
+      ],
+      "output": [5, 4, 3, 2, 1]
+    },
+    {
+      "input": [
+        4,
+        [10, 20, 30, 40],
+        5,
+        ["ACCESS 4", "ACCESS 4", "ACCESS 3", "ACCESS 3", "REORDER"]
+      ],
+      "output": [30, 40, 10, 20]
+    },
+    {
+      "input": [
+        3,
+        [1, 2, 3],
+        4,
+        ["ACCESS 3", "ACCESS 2", "ACCESS 1", "REORDER"]
+      ],
+      "output": [1, 2, 3]
+    },
+    {
+      "input": [2, [100, 200], 3, ["ACCESS 1", "ACCESS 1", "REORDER"]],
+      "output": [100, 200]
+    },
+    {
+      "input": [
+        5,
+        [1, 2, 3, 4, 5],
+        5,
+        ["ACCESS 1", "ACCESS 2", "ACCESS 3", "ACCESS 4", "REORDER"]
+      ],
+      "output": [1, 2, 3, 4, 5]
+    },
+    {
+      "input": [
+        4,
+        [1, 2, 3, 4],
+        4,
+        ["ACCESS 2", "ACCESS 4", "ACCESS 2", "REORDER"]
+      ],
+      "output": [2, 4, 1, 3]
+    },
+    {
+      "input": [3, [10, 20, 30], 3, ["ACCESS 3", "ACCESS 3", "REORDER"]],
+      "output": [30, 10, 20]
+    },
+    {
+      "input": [2, [1, 2], 4, ["ACCESS 2", "ACCESS 2", "ACCESS 1", "REORDER"]],
+      "output": [2, 1]
+    },
+    {
+      "input": [1, [100], 2, ["ACCESS 1", "REORDER"]],
+      "output": [100]
+    },
+    {
+      "input": [
+        5,
+        [1, 2, 3, 4, 5],
+        6,
+        ["ACCESS 1", "ACCESS 5", "ACCESS 1", "ACCESS 5", "ACCESS 3", "REORDER"]
+      ],
+      "output": [1, 5, 3, 2, 4]
+    }
+  ]
+}

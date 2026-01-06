@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_TEXT_NORMALIZATION_CHECK__4303",
+  "publicTestCases": [
+    {
+      "input": ["A man, a plan, a canal: Panama"],
+      "output": true
+    },
+    {
+      "input": ["race a car"],
+      "output": false
+    },
+    {
+      "input": [" "],
+      "output": true
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["No 'x' in Nixon"],
+      "output": true
+    },
+    {
+      "input": ["Was it a car or a cat I saw?"],
+      "output": true
+    },
+    {
+      "input": ["Madam, I'm Adam"],
+      "output": true
+    },
+    {
+      "input": ["12321"],
+      "output": true
+    },
+    {
+      "input": ["123456"],
+      "output": false
+    },
+    {
+      "input": ["!!!,,..."],
+      "output": true
+    },
+    {
+      "input": ["AbBc...CbBa"],
+      "output": true
+    },
+    {
+      "input": ["not a palindrome"],
+      "output": false
+    },
+    {
+      "input": ["a."],
+      "output": true
+    },
+    {
+      "input": ["0P"],
+      "output": false
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "problemId": "STR_SUFFIX_AUTOMATON_FREQUENCY__3193",
+  "publicTestCases": [
+    {
+      "input": [
+        "abracadabra",
+        3,
+        ["EXISTS", "abra", 0],
+        ["COUNT", "abra", 0],
+        ["KTH", "abra", 2]
+      ],
+      "output": ["true", "2", "8"]
+    },
+    {
+      "input": ["aaaaa", 2, ["COUNT", "aa", 0], ["KTH", "aa", 3]],
+      "output": ["4", "3"]
+    },
+    {
+      "input": ["abc", 1, ["EXISTS", "d", 0]],
+      "output": ["false"]
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [
+        "banana",
+        3,
+        ["COUNT", "ana", 0],
+        ["KTH", "ana", 1],
+        ["KTH", "ana", 2]
+      ],
+      "output": ["2", "2", "4"]
+    },
+    {
+      "input": [
+        "mississippi",
+        4,
+        ["COUNT", "iss", 0],
+        ["COUNT", "ipp", 0],
+        ["KTH", "iss", 1],
+        ["KTH", "iss", 2]
+      ],
+      "output": ["2", "1", "2", "5"]
+    },
+    {
+      "input": ["abcde", 1, ["KTH", "a", 2]],
+      "output": ["-1"]
+    },
+    {
+      "input": ["aaaaaa", 1, ["COUNT", "a", 0]],
+      "output": ["6"]
+    },
+    {
+      "input": [
+        "ababab",
+        3,
+        ["COUNT", "ab", 0],
+        ["KTH", "ab", 1],
+        ["KTH", "ab", 3]
+      ],
+      "output": ["3", "1", "5"]
+    },
+    {
+      "input": ["x", 1, ["EXISTS", "x", 0]],
+      "output": ["true"]
+    },
+    {
+      "input": ["x", 1, ["EXISTS", "y", 0]],
+      "output": ["false"]
+    },
+    {
+      "input": ["abcabcabc", 1, ["COUNT", "abc", 0]],
+      "output": ["3"]
+    },
+    {
+      "input": ["abcdefghijklmnopqrstuvwxyz", 1, ["COUNT", "z", 0]],
+      "output": ["1"]
+    },
+    {
+      "input": ["aaabbbaaa", 2, ["COUNT", "aaa", 0], ["KTH", "aaa", 2]],
+      "output": ["2", "7"]
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_CIRCULAR_TEXT_MATCH__7892",
+  "publicTestCases": [
+    {
+      "input": ["abcde", "cdeab"],
+      "output": true
+    },
+    {
+      "input": ["abcde", "abced"],
+      "output": false
+    },
+    {
+      "input": ["aa", "a"],
+      "output": false
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["waterbottle", "erbottlewat"],
+      "output": true
+    },
+    {
+      "input": ["rotation", "tionrota"],
+      "output": true
+    },
+    {
+      "input": ["abc", "def"],
+      "output": false
+    },
+    {
+      "input": ["abc", "acb"],
+      "output": false
+    },
+    {
+      "input": ["v", "v"],
+      "output": true
+    },
+    {
+      "input": ["aaaaa", "aaaaa"],
+      "output": true
+    },
+    {
+      "input": ["abcdef", "fedcba"],
+      "output": false
+    },
+    {
+      "input": ["match", "tchma"],
+      "output": true
+    },
+    {
+      "input": ["mississippi", "issippimiss"],
+      "output": true
+    },
+    {
+      "input": ["abcdefgh", "fghabcde"],
+      "output": true
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_PATTERN_WITH_REVERSAL__6674",
+  "publicTestCases": [
+    {
+      "input": ["abcdefghi", "fed"],
+      "output": true
+    },
+    {
+      "input": ["abcdef", "abc"],
+      "output": true
+    },
+    {
+      "input": ["abcdef", "ace"],
+      "output": false
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["banana", "anan"],
+      "output": true
+    },
+    {
+      "input": ["banana", "nana"],
+      "output": true
+    },
+    {
+      "input": ["banana", "az"],
+      "output": false
+    },
+    {
+      "input": ["racecar", "ace"],
+      "output": true
+    },
+    {
+      "input": ["racecar", "eca"],
+      "output": true
+    },
+    {
+      "input": ["abcdefghijklmnopqrstuvwxyz", "zyx"],
+      "output": true
+    },
+    {
+      "input": ["abcdefghijklmnopqrstuvwxyz", "yxz"],
+      "output": false
+    },
+    {
+      "input": ["aaaaa", "aa"],
+      "output": true
+    },
+    {
+      "input": ["abacabadabacaba", "bad"],
+      "output": true
+    },
+    {
+      "input": ["hello", "olleh"],
+      "output": true
+    }
+  ]
+}

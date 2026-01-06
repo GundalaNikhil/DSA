@@ -1,0 +1,61 @@
+{
+  "problemId": "STR_BLOCK_COMPRESSION_ENCODING__1411",
+  "publicTestCases": [
+    {
+      "input": ["ababababcdcd"],
+      "output": "4(ab)2(cd)"
+    },
+    {
+      "input": ["aaaaa"],
+      "output": "5(a)"
+    },
+    {
+      "input": ["abcde"],
+      "output": "abcde"
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["aaaaaaaaaa"],
+      "output": "10(a)"
+    },
+    {
+      "input": ["ababab"],
+      "output": "3(ab)"
+    },
+    {
+      "input": ["abcabcabcabc"],
+      "output": "4(abc)"
+    },
+    {
+      "input": ["aabcaabcd"],
+      "output": "2(aabc)d"
+    },
+    {
+      "input": ["abbbabbbcabbbabbbc"],
+      "output": "2(2(abbb)c)"
+    },
+    {
+      "input": ["x"],
+      "output": "x"
+    },
+    {
+      "input": ["xyzxyz"],
+      "output": "2(xyz)"
+    },
+    {
+      "input": ["aaabbbaaabbb"],
+      "output": "2(3(a)3(b))"
+    },
+    {
+      "input": [
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      ],
+      "output": "100(a)"
+    },
+    {
+      "input": ["sixsixsix"],
+      "output": "3(six)"
+    }
+  ]
+}

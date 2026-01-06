@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_BOUNDED_RUN_ENCODING__1535",
+  "publicTestCases": [
+    {
+      "input": ["aaaaaaaaaaaabbb"],
+      "output": "a9a3b3"
+    },
+    {
+      "input": ["abc"],
+      "output": "a1b1c1"
+    },
+    {
+      "input": ["aabbccddee"],
+      "output": "a2b2c2d2e2"
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["aaaaaaaaa"],
+      "output": "a9"
+    },
+    {
+      "input": ["aaaaaaaaaa"],
+      "output": "a9a1"
+    },
+    {
+      "input": ["aaaaaaaaaaaaaaaaaa"],
+      "output": "a9a9"
+    },
+    {
+      "input": ["aaaaaaaaaaaaaaaaaaa"],
+      "output": "a9a9a1"
+    },
+    {
+      "input": ["bbbbbbbbbbccccc"],
+      "output": "b9b1c5"
+    },
+    {
+      "input": ["z"],
+      "output": "z1"
+    },
+    {
+      "input": ["aaabbbaaa"],
+      "output": "a3b3a3"
+    },
+    {
+      "input": ["aaaaabbbbbcccccdddddeeeee"],
+      "output": "a5b5c5d5e5"
+    },
+    {
+      "input": ["ababab"],
+      "output": "a1b1a1b1a1b1"
+    },
+    {
+      "input": ["zzzzzzzzzz"],
+      "output": "z9z1"
+    }
+  ]
+}

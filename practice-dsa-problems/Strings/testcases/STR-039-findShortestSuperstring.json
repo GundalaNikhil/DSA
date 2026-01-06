@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_OVERLAP_GRAPH_ASSEMBLY__6006",
+  "publicTestCases": [
+    {
+      "input": [5, ["catg", "ctaagt", "gcta", "ttca", "atgcatc"]],
+      "output": "ctaagttcatgcatc"
+    },
+    {
+      "input": [3, ["abc", "bca", "cab"]],
+      "output": "abcab"
+    },
+    {
+      "input": [2, ["ab", "ba"]],
+      "output": "aba"
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [3, ["a", "b", "c"]],
+      "output": "abc"
+    },
+    {
+      "input": [4, ["aaaa", "aaaa", "aaaa", "aaaa"]],
+      "output": "aaaa"
+    },
+    {
+      "input": [3, ["alex", "loves", "leetcode"]],
+      "output": "alexlovesleetcode"
+    },
+    {
+      "input": [2, ["cool", "lock"]],
+      "output": "coolock"
+    },
+    {
+      "input": [5, ["abc", "bcd", "cde", "def", "efg"]],
+      "output": "abcdefg"
+    },
+    {
+      "input": [2, ["x", "y"]],
+      "output": "xy"
+    },
+    {
+      "input": [3, ["software", "banner", "areban"]],
+      "output": "softwarebanner"
+    },
+    {
+      "input": [4, ["ab", "ac", "ad", "ae"]],
+      "output": "abacadae"
+    },
+    {
+      "input": [2, ["overlapping", "lapping"]],
+      "output": "overlapping"
+    },
+    {
+      "input": [2, ["overlap", "lapover"]],
+      "output": "lapoverlapover"
+    }
+  ]
+}

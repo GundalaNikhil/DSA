@@ -1,0 +1,59 @@
+{
+  "problemId": "REC_RECURSIVE_PHASE_TRANSITIONS__3225",
+  "publicTestCases": [
+    {
+      "input": [4, 1, [1, 2, 3, 4]],
+      "output": 20
+    },
+    {
+      "input": [1, 0, [10]],
+      "output": 10
+    },
+    {
+      "input": [3, 5, [1, 1, 1]],
+      "output": 9
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": [6, 1, [1, 1, 1, 1, 1, 1]],
+      "output": 24
+    },
+    {
+      "input": [6, 0, [1, 1, 1, 1, 1, 1]],
+      "output": 24
+    },
+    {
+      "input": [2, 1, [5, 5]],
+      "output": 20
+    },
+    {
+      "input": [2, 0, [5, 5]],
+      "output": 20
+    },
+    {
+      "input": [5, 2, [1, 2, 3, 4, 5]],
+      "output": 43
+    },
+    {
+      "input": [3, 0, [10, 10, 10]],
+      "output": 60
+    },
+    {
+      "input": [4, 10, [1, 2, 3, 4]],
+      "output": 24
+    },
+    {
+      "input": [1, 10, [100]],
+      "output": 100
+    },
+    {
+      "input": [5, 1, [1, 1, 1, 1, 1]],
+      "output": 17
+    },
+    {
+      "input": [7, 1, [1, 1, 1, 1, 1, 1, 1]],
+      "output": 31
+    }
+  ]
+}

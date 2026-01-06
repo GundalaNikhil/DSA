@@ -1,0 +1,12 @@
+[
+  {
+    "input": "5\nA 0 0\nB 0 1\nL 1 2\nL 0 2\nL 1 1",
+    "output": "WIN\n2",
+    "isHidden": false
+  },
+  {
+    "input": "1\nL 0 0",
+    "output": "LOSE",
+    "isHidden": false
+  }
+]

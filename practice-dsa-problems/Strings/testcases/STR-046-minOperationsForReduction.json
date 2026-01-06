@@ -1,0 +1,76 @@
+{
+  "problemId": "STR_GRAMMAR_BASED_REDUCTION__5482",
+  "publicTestCases": [
+    {
+      "input": ["ABCD", 3, ["AB", "X"], ["XC", "Y"], ["YD", "Z"], "Z"],
+      "output": 3
+    },
+    {
+      "input": ["AA", 1, ["AA", "A"], "A"],
+      "output": 1
+    },
+    {
+      "input": ["AB", 1, ["BA", "C"], "C"],
+      "output": -1
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["AAAAA", 1, ["AA", "A"], "A"],
+      "output": 4
+    },
+    {
+      "input": [
+        "ABCDE",
+        4,
+        ["AB", "X"],
+        ["XC", "Y"],
+        ["YD", "Z"],
+        ["ZE", "T"],
+        "T"
+      ],
+      "output": 4
+    },
+    {
+      "input": ["XYZ", 2, ["XY", "A"], ["AZ", "B"], "B"],
+      "output": 2
+    },
+    {
+      "input": ["TEST", 1, ["TE", "A"], "B"],
+      "output": -1
+    },
+    {
+      "input": ["X", 0, [], "X"],
+      "output": 0
+    },
+    {
+      "input": ["X", 0, [], "Y"],
+      "output": -1
+    },
+    {
+      "input": ["ABAB", 2, ["AB", "A"], ["AA", "A"], "A"],
+      "output": 3
+    },
+    {
+      "input": [
+        "QWERTY",
+        5,
+        ["QW", "A"],
+        ["AE", "B"],
+        ["BR", "C"],
+        ["CT", "D"],
+        ["DY", "E"],
+        "E"
+      ],
+      "output": 5
+    },
+    {
+      "input": ["AAA", 2, ["AA", "B"], ["BA", "C"], "C"],
+      "output": 2
+    },
+    {
+      "input": ["ABC", 3, ["AB", "X"], ["BC", "Y"], ["XC", "Z"], "Z"],
+      "output": 2
+    }
+  ]
+}

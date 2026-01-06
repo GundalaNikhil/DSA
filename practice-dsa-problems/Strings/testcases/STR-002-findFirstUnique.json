@@ -1,0 +1,59 @@
+{
+  "problemId": "STR_UNIQUE_CHARACTER_LOCATOR__7709",
+  "publicTestCases": [
+    {
+      "input": ["message"],
+      "output": "m"
+    },
+    {
+      "input": ["aabbcc"],
+      "output": "-1"
+    },
+    {
+      "input": ["abcde"],
+      "output": "a"
+    }
+  ],
+  "hiddenTestCases": [
+    {
+      "input": ["leetcode"],
+      "output": "l"
+    },
+    {
+      "input": ["loveleetcode"],
+      "output": "v"
+    },
+    {
+      "input": ["aabbc"],
+      "output": "c"
+    },
+    {
+      "input": ["abcabc"],
+      "output": "-1"
+    },
+    {
+      "input": ["x"],
+      "output": "x"
+    },
+    {
+      "input": ["aaabbbcccdddde"],
+      "output": "e"
+    },
+    {
+      "input": ["zxyzyx"],
+      "output": "-1"
+    },
+    {
+      "input": ["aAbBcCdD"],
+      "output": "a"
+    },
+    {
+      "input": ["repeatrepeat"],
+      "output": "-1"
+    },
+    {
+      "input": ["banana"],
+      "output": "b"
+    }
+  ]
+}
